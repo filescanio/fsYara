@@ -3,6 +3,8 @@
 
 */
 
+// source: https://github.com/Yara-Rules/rules/blob/master/maldocs/maldoc_somerules.yar
+
 rule maldoc_API_hashing : maldoc
 {
     meta:
@@ -205,8 +207,8 @@ rule Embedded_EXE_Cloaking : maldoc {
         for any i in (1..#mz): ( @a1 < ( @mz[i] + 200 ) or @a2 < ( @mz[i] + 200 ) )
 }
 
-// This rule have beed improved by Javier Rascon
-rule RTF_Shellcode : maldoc
+
+rule RTF_Shellcode : maldoc refined
 {
     meta:
 
@@ -218,7 +220,7 @@ rule RTF_Shellcode : maldoc
     strings:
         $rtfmagic={7B 5C 72 74 66}
         /* $scregex=/[39 30]{2,20}/ */
-        $scregex=/(90){2,20}/
+        $scregex=/(90){4,20}/
 
     condition:
 
