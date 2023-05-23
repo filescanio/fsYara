@@ -46,6 +46,16 @@ rule maldoc_indirect_function_call_3 : maldoc
         $a
 }
 
+rule maldoc_find_kernel32_base_method_1 : maldoc
+{
+    meta:
+        author = "Didier Stevens (https://DidierStevens.com)"
+    strings:
+        $a1 = {64 8B (05|0D|15|1D|25|2D|35|3D) 30 00 00 00}
+        $a2 = {64 A1 30 00 00 00}
+    condition:
+        any of them
+}
 
 rule maldoc_find_kernel32_base_method_2 : maldoc
 {
@@ -87,34 +97,6 @@ rule maldoc_getEIP_method_4 : maldoc
     condition:
         any of them
 }
-
-// 20150909 - Issue #39 - Commented because of High FP rate
-/*
-rule maldoc_suspicious_strings : maldoc
-{
-    meta:
-        author = "Didier Stevens (https://DidierStevens.com)"
-    strings:
-        $a01 = "CloseHandle"
-        $a02 = "CreateFile"
-        $a03 = "GetProcAddr"
-        $a04 = "GetSystemDirectory"
-        $a05 = "GetTempPath"
-        $a06 = "GetWindowsDirectory"
-        $a07 = "IsBadReadPtr"
-        $a08 = "IsBadWritePtr"
-        $a09 = "LoadLibrary"
-        $a10 = "ReadFile"
-        $a11 = "SetFilePointer"
-        $a12 = "ShellExecute"
-        $a13 = "UrlDownloadToFile"
-        $a14 = "VirtualAlloc"
-        $a15 = "WinExec"
-        $a16 = "WriteFile"
-    condition:
-        any of them
-}
-*/
 
 rule mwi_document: exploitdoc maldoc
 {
