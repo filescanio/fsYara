@@ -14,36 +14,7 @@ rule maldoc_API_hashing : maldoc
         any of them
 }
 
-// 20150909 - Issue #39 - Commented because of High FP rate
-/*
-rule maldoc_function_prolog_signature : maldoc
-{
-    meta:
-        author = "Didier Stevens (https://DidierStevens.com)"
-    strings:
-        $a1 = {55 8B EC 81 EC}
-        $a2 = {55 8B EC 83 C4}
-        $a3 = {55 8B EC E8}
-        $a4 = {55 8B EC E9}
-        $a5 = {55 8B EC EB}
-    condition:
-        any of them
-}
-*/
 
-// 20150909 - Issue #39 - Commented because of High FP rate
-/*
-rule maldoc_structured_exception_handling : maldoc
-{
-    meta:
-        author = "Didier Stevens (https://DidierStevens.com)"
-    strings:
-        $a1 = {64 8B (05|0D|15|1D|25|2D|35|3D) 00 00 00 00}
-        $a2 = {64 A1 00 00 00 00}
-    condition:
-        any of them
-}
-*/
 
 rule maldoc_indirect_function_call_1 : maldoc
 {
@@ -75,16 +46,6 @@ rule maldoc_indirect_function_call_3 : maldoc
         $a
 }
 
-rule maldoc_find_kernel32_base_method_1 : maldoc
-{
-    meta:
-        author = "Didier Stevens (https://DidierStevens.com)"
-    strings:
-        $a1 = {64 8B (05|0D|15|1D|25|2D|35|3D) 30 00 00 00}
-        $a2 = {64 A1 30 00 00 00}
-    condition:
-        any of them
-}
 
 rule maldoc_find_kernel32_base_method_2 : maldoc
 {
