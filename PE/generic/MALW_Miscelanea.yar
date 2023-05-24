@@ -455,7 +455,7 @@ rule potential_banker : refined
     $spyeye or (2 of ($a,$b,$c,$d,$e,$f,$g,$h,$i,$j,$k,$l,$m,$n))
 }
 
-rule spyeye_plugins : banker
+rule spyeye_plugins : banker refined
 {
 	meta:
 		author = "Jean-Philippe Teissier / @Jipe_"
@@ -466,7 +466,7 @@ rule spyeye_plugins : banker
 
 	strings:
 		$a = "webfakes.dll"
-		$b = "config.dat"			//may raise some FP
+		//$b = "config.dat"			//may raise some FP
 		$c = "collectors.txt"
 		$d = "webinjects.txt"
 		$e = "screenshots.txt"
@@ -481,7 +481,7 @@ rule spyeye_plugins : banker
 		$n = "ftpbc.dll"
 		$o = "rdp.dll"				//may raise some FP
 		$p = "rt_2_4.dll"
-		$q = "socks5.dll"			//may raise some FP
+		//$q = "socks5.dll"			//may raise some FP
 		$r = "spySpread.dll"
 		$s = "w2chek4_4.dll"
 		$t = "w2chek4_6.dll"
