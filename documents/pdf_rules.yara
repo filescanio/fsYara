@@ -1,7 +1,13 @@
 
 // source: https://github.com/hiddenillusion/AnalyzePDF/blob/master/pdf_rules.yara
+// source: https://github.com/Yara-Rules/rules/blob/master/maldocs/Maldoc_PDF.yar
 
-rule malicious_author : PDF
+/*
+    This Yara ruleset is under the GNU-GPLv2 license (http://www.gnu.org/licenses/gpl-2.0.html) and open to any user or organization, as    long as you use it under this license.
+
+*/
+
+rule malicious_author : PDF raw
 {
 	meta:
 		author = "Glenn Edwards (@hiddenillusion)"
@@ -15,10 +21,10 @@ rule malicious_author : PDF
 		$reg1 = /Title.?\(who cis\)/
 		$reg2 = /Author.?\(ser pes\)/
 	condition:
-		$magic at 0 and all of ($reg*)
+		$magic in (0..1024) and all of ($reg*)
 }
 
-rule suspicious_version : PDF
+rule suspicious_version : PDF raw
 {
 	meta:
 		author = "Glenn Edwards (@hiddenillusion)"
@@ -29,10 +35,10 @@ rule suspicious_version : PDF
 		$magic = { 25 50 44 46 }
 		$ver = /%PDF-1.\d{1}/
 	condition:
-		$magic at 0 and not $ver
+		$magic in (0..1024) and not $ver
 }
 
-rule suspicious_creation : PDF
+rule suspicious_creation : PDF raw
 {
 	meta:
 		author = "Glenn Edwards (@hiddenillusion)"
@@ -46,10 +52,26 @@ rule suspicious_creation : PDF
 		$create0 = /CreationDate \(D:20101015142358\)/
 		$create1 = /CreationDate \(2008312053854\)/
 	condition:
-		$magic at 0 and $header and 1 of ($create*)
+		$magic in (0..1024) and $header and 1 of ($create*)
 }
 
-rule suspicious_title : PDF
+rule multiple_filtering : PDF raw
+{
+meta: 
+author = "Glenn Edwards (@hiddenillusion)"
+version = "0.2"
+weight = 3
+
+    strings:
+            $magic = { 25 50 44 46 }
+            $attrib = /\/Filter.*(\/ASCIIHexDecode\W+|\/LZWDecode\W+|\/ASCII85Decode\W+|\/FlateDecode\W+|\/RunLengthDecode){2}/ 
+            // left out: /CCITTFaxDecode, JBIG2Decode, DCTDecode, JPXDecode, Crypt
+
+    condition: 
+            $magic in (0..1024) and $attrib
+}
+
+rule suspicious_title : PDF raw
 {
 	meta:
 		author = "Glenn Edwards (@hiddenillusion)"
@@ -64,10 +86,10 @@ rule suspicious_title : PDF
 		$title1 = "P66N7FF"
 		$title2 = "Fohcirya"
 	condition:
-		$magic at 0 and $header and 1 of ($title*)
+		$magic in (0..1024) and $header and 1 of ($title*)
 }
 
-rule suspicious_author : PDF
+rule suspicious_author : PDF raw
 {
 	meta:
 		author = "Glenn Edwards (@hiddenillusion)"
@@ -83,10 +105,10 @@ rule suspicious_author : PDF
 		$author2 = "Miekiemoes"
 		$author3 = "Nsarkolke"
 	condition:
-		$magic at 0 and $header and 1 of ($author*)
+		$magic in (0..1024) and $header and 1 of ($author*)
 }
 
-rule suspicious_producer : PDF
+rule suspicious_producer : PDF raw 
 {
 	meta:
 		author = "Glenn Edwards (@hiddenillusion)"
@@ -100,10 +122,10 @@ rule suspicious_producer : PDF
 		$producer0 = /Producer \(Scribus PDF Library/
 		$producer1 = "Notepad"
 	condition:
-		$magic at 0 and $header and 1 of ($producer*)
+		$magic in (0..1024) and $header and 1 of ($producer*)
 }
 
-rule suspicious_creator : PDF
+rule suspicious_creator : PDF raw
 {
 	meta:
 		author = "Glenn Edwards (@hiddenillusion)"
@@ -118,10 +140,10 @@ rule suspicious_creator : PDF
 		$creator1 = "Scribus"
 		$creator2 = "Viraciregavi"
 	condition:
-		$magic at 0 and $header and 1 of ($creator*)
+		$magic in (0..1024) and $header and 1 of ($creator*)
 }
 
-rule possible_exploit : PDF
+rule possible_exploit : PDF raw
 {
 	meta:
 		author = "Glenn Edwards (@hiddenillusion)"
@@ -143,10 +165,10 @@ rule possible_exploit : PDF
 		
 		$nop = "%u9090%u9090"
 	condition:
-		$magic at 0 and (2 of ($attrib*)) or ($action0 and #shell > 10 and 1 of ($cond*)) or ($action1 and $cond0 and $nop)
+		$magic in (0..1024) and (2 of ($attrib*)) or ($action0 and #shell > 10 and 1 of ($cond*)) or ($action1 and $cond0 and $nop)
 }
 
-rule shellcode_blob_metadata : PDF
+rule shellcode_blob_metadata : PDF raw
 {
         meta:
                 author = "Glenn Edwards (@hiddenillusion)"
@@ -164,26 +186,10 @@ rule shellcode_blob_metadata : PDF
                 $reg_create = /\/CreationDate.?\(([a-zA-Z0-9]{200,})/
 
         condition:
-                $magic at 0 and 1 of ($reg*)
+                $magic in (0..1024) and 1 of ($reg*)
 }
 
-rule multiple_filtering : PDF 
-{
-        meta: 
-                author = "Glenn Edwards (@hiddenillusion)"
-                version = "0.2"
-                weight = 3
-                
-        strings:
-                $magic = { 25 50 44 46 }
-                $attrib = /\/Filter.*?(\/ASCIIHexDecode\W+|\/LZWDecode\W+|\/ASCII85Decode\W+|\/FlateDecode\W+|\/RunLengthDecode){2}/           
-				// left out: /CCITTFaxDecode, JBIG2Decode, DCTDecode, JPXDecode, Crypt
-
-        condition: 
-                $magic at 0 and $attrib
-}
-
-rule suspicious_js : PDF
+rule suspicious_js : PDF raw
 {
 	meta:
 		author = "Glenn Edwards (@hiddenillusion)"
@@ -201,10 +207,10 @@ rule suspicious_js : PDF
 		$js2 = "String.fromCharCode"
 		
 	condition:
-		$magic at 0 and all of ($attrib*) and 2 of ($js*)
+		$magic in (0..1024) and all of ($attrib*) and 2 of ($js*)
 }
 
-rule suspicious_launch_action : PDF
+rule suspicious_launch_action : PDF raw
 {
 	meta:
 		author = "Glenn Edwards (@hiddenillusion)"
@@ -217,13 +223,14 @@ rule suspicious_launch_action : PDF
 		$attrib0 = /\/Launch/
 		$attrib1 = /\/URL /
 		$attrib2 = /\/Action/
-		$attrib3 = /\/F /
+		$attrib3 = /\/OpenAction/
+		$attrib4 = /\/F /
 
 	condition:
-		$magic at 0 and 3 of ($attrib*)
+		$magic in (0..1024) and 3 of ($attrib*)
 }
 
-rule suspicious_embed : PDF
+rule suspicious_embed : PDF raw
 {
 	meta:
 		author = "Glenn Edwards (@hiddenillusion)"
@@ -241,10 +248,10 @@ rule suspicious_embed : PDF
 		$attrib2 = /\/Filespec/
 		
 	condition:
-		$magic at 0 and 1 of ($meth*) and 2 of ($attrib*)
+		$magic in (0..1024) and 1 of ($meth*) and 2 of ($attrib*)
 }
 
-rule suspicious_obfuscation : PDF
+rule suspicious_obfuscation : PDF raw
 {
 	meta:
 		author = "Glenn Edwards (@hiddenillusion)"
@@ -256,10 +263,10 @@ rule suspicious_obfuscation : PDF
 		$reg = /\/\w#[a-zA-Z0-9]{2}#[a-zA-Z0-9]{2}/
 		
 	condition:
-		$magic at 0 and #reg > 5
+		$magic in (0..1024) and #reg > 5
 }
 
-rule invalid_XObject_js : PDF
+rule invalid_XObject_js : PDF raw
 {
 	meta:
 		author = "Glenn Edwards (@hiddenillusion)"
@@ -276,10 +283,10 @@ rule invalid_XObject_js : PDF
 		$attrib1 = /\/JavaScript/
 		
 	condition:
-		$magic at 0 and not $ver and all of ($attrib*)
+		$magic in (0..1024) and not $ver and all of ($attrib*)
 }
 
-rule invalid_trailer_structure : PDF
+rule invalid_trailer_structure : PDF raw
 {
 	meta:
 		author = "Glenn Edwards (@hiddenillusion)"
@@ -293,16 +300,16 @@ rule invalid_trailer_structure : PDF
                 $reg1 = /\/Root.*\r?\n?.*startxref\r?\n?.*\r?\n?%%EOF/
 
         condition:
-                $magic at 0 and not $reg0 and not $reg1
+                $magic in (0..1024) and not $reg0 and not $reg1
 }
 
-rule multiple_versions : PDF
+rule multiple_versions : PDF raw
 {
 	meta:
 		author = "Glenn Edwards (@hiddenillusion)"
 		version = "0.1"
         description = "Written very generically and doesn't hold any weight - just something that might be useful to know about to help show incremental updates to the file being analyzed"		
-		weight = 0
+		weight = 1
 		
         strings:
                 $magic = { 25 50 44 46 }
@@ -310,10 +317,10 @@ rule multiple_versions : PDF
                 $s1 = "%%EOF"
 
         condition:
-                $magic at 0 and #s0 > 1 and #s1 > 1
+                $magic in (0..1024) and #s0 > 1 and #s1 > 1
 }
 
-rule js_wrong_version : PDF
+rule js_wrong_version : PDF raw
 {
 	meta:
 		author = "Glenn Edwards (@hiddenillusion)"
@@ -328,10 +335,10 @@ rule js_wrong_version : PDF
 				$ver = /%PDF-1\.[3-9]/
 
         condition:
-                $magic at 0 and $js and not $ver
+                $magic in (0..1024) and $js and not $ver
 }
 
-rule JBIG2_wrong_version : PDF
+rule JBIG2_wrong_version : PDF raw
 {
 	meta:
 		author = "Glenn Edwards (@hiddenillusion)"
@@ -346,10 +353,10 @@ rule JBIG2_wrong_version : PDF
 				$ver = /%PDF-1\.[4-9]/
 
         condition:
-                $magic at 0 and $js and not $ver
+                $magic in (0..1024) and $js and not $ver
 }
 
-rule FlateDecode_wrong_version : PDF
+rule FlateDecode_wrong_version : PDF raw
 {
 	meta:
 		author = "Glenn Edwards (@hiddenillusion)"
@@ -364,10 +371,10 @@ rule FlateDecode_wrong_version : PDF
 				$ver = /%PDF-1\.[2-9]/
 
         condition:
-                $magic at 0 and $js and not $ver
+                $magic in (0..1024) and $js and not $ver
 }
 
-rule embed_wrong_version : PDF
+rule embed_wrong_version : PDF raw
 {
 	meta:
 		author = "Glenn Edwards (@hiddenillusion)"
@@ -382,10 +389,10 @@ rule embed_wrong_version : PDF
 				$ver = /%PDF-1\.[3-9]/
 
         condition:
-                $magic at 0 and $embed and not $ver
+                $magic in (0..1024) and $embed and not $ver
 }
 
-rule invalid_xref_numbers : PDF
+rule invalid_xref_numbers : PDF raw
 {
         meta:
 			author = "Glenn Edwards (@hiddenillusion)"
@@ -397,12 +404,12 @@ rule invalid_xref_numbers : PDF
         strings:
                 $magic = { 25 50 44 46 }
                 $reg0 = /xref\r?\n?.*\r?\n?.*65535\sf/
-                $reg1 = /endstream.*?\r?\n?endobj.*?\r?\n?startxref/
+                $reg1 = /endstream.*\r?\n?endobj.*\r?\n?startxref/
         condition:
-                $magic at 0 and not $reg0 and not $reg1
+                $magic in (0..1024) and not $reg0 and not $reg1
 }
 
-rule js_splitting : PDF
+rule js_splitting : PDF raw
 {
         meta:
                 author = "Glenn Edwards (@hiddenillusion)"
@@ -419,10 +426,10 @@ rule js_splitting : PDF
                 $s3 = "this.info"
                                 
         condition:
-                $magic at 0 and $js and 1 of ($s*)
+                $magic in (0..1024) and $js and 1 of ($s*)
 }
 
-rule header_evasion : PDF
+rule header_evasion : PDF raw
 {
         meta:
                 author = "Glenn Edwards (@hiddenillusion)"
@@ -437,7 +444,7 @@ rule header_evasion : PDF
                 $magic in (5..1024) and #magic == 1
 }
 
-rule BlackHole_v2 : PDF
+rule BlackHole_v2 : PDF raw
 {
 	meta:
 		author = "Glenn Edwards (@hiddenillusion)"
@@ -450,11 +457,11 @@ rule BlackHole_v2 : PDF
 		$content = "Index[5 1 7 1 9 4 23 4 50"
 		
 	condition:
-		$magic at 0 and $content
+		$magic in (0..1024) and $content
 }
 
 
-rule XDP_embedded_PDF : PDF
+rule XDP_embedded_PDF : PDF raw
 {
 	meta:
 		author = "Glenn Edwards (@hiddenillusion)"
@@ -471,4 +478,16 @@ rule XDP_embedded_PDF : PDF
 
 	condition:
 		all of ($s*) and 1 of ($header*)
+}
+
+rule PDF_Embedded_Exe : PDF
+{
+	meta:
+		ref = "https://github.com/jacobsoo/Yara-Rules/blob/master/PDF_Embedded_Exe.yar"
+	strings:
+    	$header = {25 50 44 46}
+    	$Launch_Action = {3C 3C 2F 53 2F 4C 61 75 6E 63 68 2F 54 79 70 65 2F 41 63 74 69 6F 6E 2F 57 69 6E 3C 3C 2F 46}
+        $exe = {3C 3C 2F 45 6D 62 65 64 64 65 64 46 69 6C 65 73}
+    condition:
+    	$header at 0 and $Launch_Action and $exe
 }
