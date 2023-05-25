@@ -3,7 +3,6 @@
 
 */
 
-import "pe"
 
 rule Cerberus : RAT memory
 {
