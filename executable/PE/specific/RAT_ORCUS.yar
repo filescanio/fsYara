@@ -8,6 +8,7 @@ rule RAT_Orcus
         version = 1
         maltype = "RAT"
         filetype = "memory"
+        vetted_family = "OrcusRAT"
 
     strings:
         $text01 = "Orcus.CommandManagement"

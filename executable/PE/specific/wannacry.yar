@@ -306,7 +306,8 @@ rule wannacry_wrapper {
     meta:
         description = "Matches one or more wannacry yara rules"
         author = "Filescan"
-        date = "2023-0525" 
+        date = "2023-0525"
+        vetted_family = "Wannacry"
 
     condition:
         MS17_010_WanaCry_worm or NHS_Strain_Wanna or worm_ms17_010 or wannacry_static_ransom or WannaCry_Ransomware_Dropper or ransom_telefonica or Wanna_Cry_Ransomware_Generic

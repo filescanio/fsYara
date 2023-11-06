@@ -9,7 +9,8 @@ rule Njrat: RAT
 {
     meta:
         description = "Njrat"
-    author = "botherder https://github.com/botherder"
+        author = "botherder https://github.com/botherder"
+        vetted_family = "NjRAT"
 
     strings:
         $string1 = /(F)romBase64String/
@@ -75,6 +76,7 @@ rule win_exe_njRAT {
         ref2 = "http://www.fidelissecurity.com/threatadvisory"
         ref3 = "http://www.threatgeek.com/2013/06/fidelis-threat-advisory-1009-njratuncovered.html"
         ref4 = "http://threatgeek.typepad.com/files/fta-1009---njrat-uncovered.pdf"
+        vetted_family = "NjRAT"
 
     strings:
         $magic = "MZ"

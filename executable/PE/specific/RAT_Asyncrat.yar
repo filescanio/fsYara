@@ -12,6 +12,7 @@ rule win_asyncrat_j1 {
         description = "detects AsyncRAT"
         references  = "https://github.com/NYAN-x-CAT/AsyncRAT-C-Sharp"
         tlp         = "white"
+        vetted_family = "AsyncRAT"
 
     strings:
         $str_anti_1 = "VIRTUAL" wide

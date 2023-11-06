@@ -12,6 +12,7 @@ rule IceID_Bank_trojan {
 		author = "unixfreaxjp"
 		org = "MalwareMustDie"
 		date = "2018-01-14"
+		vetted_family = "IceID"
     
 	strings:
 		$header = { 4D 5A }

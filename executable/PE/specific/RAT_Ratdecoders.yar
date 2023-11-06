@@ -371,6 +371,7 @@ rule NanoCore_strs : RAT refined {
         ref = "http://malwareconfig.com/stats/NanoCore"
         maltype = "Remote Access Trojan"
         filetype = "exe"
+        vetted_family = "NanoCore"
 
     strings:
         $a = "NanoCore"

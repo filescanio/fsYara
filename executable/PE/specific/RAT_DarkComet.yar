@@ -9,7 +9,8 @@ rule DarkComet_1 : RAT
 {
     meta:
         description = "DarkComet RAT"
-    author = "botherder https://github.com/botherder"
+        author = "botherder https://github.com/botherder"
+        vetted_family = "DarkComet"
 
     strings:
         $bot1 = /(#)BOT#OpenUrl/ wide ascii
