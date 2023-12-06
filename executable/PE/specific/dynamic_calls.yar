@@ -3,7 +3,8 @@ rule HellsGate_Dynamic_Syscalls
    {   
    	meta:   
    		description = "Hell's Gate: Dynamic system call invocation "   
-   		reference = "https://github.com/am0nsec/HellsGate/blob/master/HellsGate/hellsgate.asm"   
+   		reference = "https://github.com/am0nsec/HellsGate/blob/master/HellsGate/hellsgate.asm"
+         score = 75
       
    	strings:         
    		/*   
