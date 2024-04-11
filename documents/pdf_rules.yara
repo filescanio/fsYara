@@ -210,7 +210,7 @@ rule suspicious_js : PDF raw
 		$magic in (0..1024) and all of ($attrib*) and 2 of ($js*)
 }
 
-rule suspicious_launch_action : PDF raw
+/* rule suspicious_launch_action : PDF raw
 {
 	meta:
 		author = "Glenn Edwards (@hiddenillusion)"
@@ -228,7 +228,7 @@ rule suspicious_launch_action : PDF raw
 
 	condition:
 		$magic in (0..1024) and 3 of ($attrib*)
-}
+} */
 
 rule suspicious_embed : PDF raw
 {
