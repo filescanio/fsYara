@@ -70,13 +70,13 @@ private rule MSI {
       uint16(0) == 0xCFD0 and $r1
 }
 
-rule Certutil_Decode_OR_Download {
+rule Certutil_Decode_OR_Download : score {
    meta:
       description = "Certutil Decode"
       license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
       author = "Florian Roth (Nextron Systems)"
       reference = "Internal Research"
-      score = 40
+      score = 65
       date = "2017-08-29"
    strings:
       $a1 = "certutil -decode " ascii wide
