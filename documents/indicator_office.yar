@@ -69,7 +69,7 @@ rule INDICATOR_RTF_EXPLOIT_CVE_2017_0199_1 {
     condition:
         uint32(0) == 0x74725c7b and 1 of ($urlmoniker*) and 1 of ($ole*) and 1 of ($obj*)
 }
-
+/*
 rule INDICATOR_RTF_EXPLOIT_CVE_2017_11882_1 {
     meta:
         description = "Detects RTF documents potentially exploiting CVE-2017-11882"
@@ -97,6 +97,7 @@ rule INDICATOR_RTF_EXPLOIT_CVE_2017_11882_1 {
     condition:
       uint32(0) == 0x74725c7b and all of ($s*) and 1 of ($ole*) and 2 of ($obj*)
 }
+*/
 
 rule INDICATOR_RTF_EXPLOIT_CVE_2017_11882_2 {
     meta:
