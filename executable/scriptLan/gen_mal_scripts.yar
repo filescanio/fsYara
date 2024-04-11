@@ -1,4 +1,6 @@
 
+// source: https://github.com/Neo23x0/signature-base/blob/1b9069ac3d8d5b6dd2b61d3c934bf19b70323011/yara/gen_mal_scripts.yar
+
 /* Various rules - see the references */
 
 rule PS_AMSI_Bypass : FILE {
