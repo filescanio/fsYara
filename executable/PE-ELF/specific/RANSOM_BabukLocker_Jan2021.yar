@@ -1,3 +1,5 @@
+//source: https://github.com/advanced-threat-research/Yara-Rules/tree/master/ransomware/RANSOM_BabukLocker_Jan2021.yar
+
 rule Ransom_Babuk {
     meta:
         description = "Rule to detect Babuk Locker"
