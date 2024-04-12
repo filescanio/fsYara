@@ -151,6 +151,7 @@ private rule Wanna_Cry_Ransomware_Generic : refined{
 
 rule WannaCry_Ransomware: refined {
    meta:
+      //covers WannaCry_Ransomware_Gen, WannaCry_Ransomware_Dropper
       description = "Detects WannaCry Ransomware"
       author = "Florian Roth (with the help of binar.ly)"
       reference = "https://goo.gl/HG2j5T"
