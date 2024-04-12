@@ -1,4 +1,4 @@
-// source: https://github.com/Neo23x0/signature-base/blob/1b9069ac3d8d5b6dd2b61d3c934bf19b70323011/yara/gen_suspicious_strings.yar
+// source: https://github.com/Neo23x0/signature-base/blob/1b9069ac3d8d5b6dd2b61d3c934bf19b70323011/yara/gen_suspicious_strings.yar  
 
 
 rule Ping_Command_in_EXE {
