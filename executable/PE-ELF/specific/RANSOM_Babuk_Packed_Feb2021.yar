@@ -1,3 +1,5 @@
+//source: https://github.com/advanced-threat-research/Yara-Rules/tree/master/ransomware/
+
 rule RANSOM_Babuk_Packed_Feb2021 {
 
     meta:
