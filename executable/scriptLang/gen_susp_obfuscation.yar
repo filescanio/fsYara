@@ -1,3 +1,4 @@
+// source: https://github.com/Neo23x0/signature-base/blob/1b9069ac3d8d5b6dd2b61d3c934bf19b70323011/yara/gen_susp_obfuscation.yar
 
 rule SUSP_Base64_Encoded_Hex_Encoded_Code {
    meta:

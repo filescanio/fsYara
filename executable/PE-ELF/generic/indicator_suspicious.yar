@@ -1,3 +1,5 @@
+// source: https://github.com/ditekshen/detection/blob/c37b067259715d4c93ac274a0830c54b355556a1/yara/indicator_suspicious.yar
+
 import "pe"
 import "time"
 
@@ -230,6 +232,7 @@ rule INDICATOR_SUSPICIOUS_Binary_References_Browsers {
     meta:
         description = "Detects binaries (Windows and macOS) referencing many web browsers. Observed in information stealers."
         author = "ditekSHen"
+        score = 50
     strings:
         $s1 = "Uran\\User Data" nocase ascii wide
         $s2 = "Amigo\\User Data" nocase ascii wide
