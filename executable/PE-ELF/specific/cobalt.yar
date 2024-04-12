@@ -33,7 +33,7 @@ rule CobaltStrike_Resources_Artifact32_and_Resources_Dropper_v1_49_to_v3_14
 		
 		id = "243e3761-cbea-561c-97da-f6ba12ebc7ee"
 		score = 80
-
+		vetted_family = "cobalt"
 	strings:
   // Decoder function for the embedded payload
 	$payloadDecoder = { 8B [2] 89 ?? 03 [2] 8B [2] 03 [2] 0F B6 18 8B [2] 89 ?? C1 ?? 1F C1 ?? 1E 01 ?? 83 ?? 03 29 ?? 03 [2] 0F B6 00 31 ?? 88 ?? 8B [2] 89 ?? 03 [2] 8B [2] 03 [2] 0F B6 12 }
@@ -50,10 +50,10 @@ rule CobaltStrike_Resources_Artifact32_v3_1_and_v3_2
 		author = "gssincla@google.com"
 		reference = "https://cloud.google.com/blog/products/identity-security/making-cobalt-strike-harder-for-threat-actors-to-abuse"
 		date = "2022-11-18"
-		
+
 		id = "4fff7f42-9f50-5945-8ec0-2438ac5c7000"
 		score = 80
-
+		vetted_family = "cobalt"
 	strings:
 	/*
 		89 ??           mov     eax, ecx
@@ -81,10 +81,10 @@ rule CobaltStrike_Resources_Artifact32_v3_14_to_v4_x
 		author = "gssincla@google.com"
 		reference = "https://cloud.google.com/blog/products/identity-security/making-cobalt-strike-harder-for-threat-actors-to-abuse"
 		date = "2022-11-18"
-		
+
 		id = "8a010305-dce5-55f4-b2dd-a736721efe22"
 		score = 80
-
+		vetted_family = "cobalt"
 	strings:
 	/*
 		C7 [3] 5C 00 00 00  mov     dword ptr [esp+28h], 5Ch ; '\'
@@ -100,7 +100,7 @@ rule CobaltStrike_Resources_Artifact32_v3_14_to_v4_x
 
 	$pushFmtStr = {	C7 [3] 5C 00 00 00 C7 [3] 65 00 00 00 C7 [3] 70 00 00 00 C7 [3] 69 00 00 00 C7 [3] 70 00 00 00 F7 F1 C7 [3] 5C 00 00 00  C7 [3] 2E 00 00 00 C7 [3] 5C 00 00 00 }
   $fmtStr = "%c%c%c%c%c%c%c%c%cMSSE-%d-server"
-		
+
 	condition:
 		all of them
 }
@@ -129,9 +129,9 @@ rule CobaltStrike_Resources_Artifact32_v3_14_to_v4_x
 // 		author = "gssincla@google.com"
 // 		reference = "https://cloud.google.com/blog/products/identity-security/making-cobalt-strike-harder-for-threat-actors-to-abuse"
 // 		date = "2022-11-18"
-		
-// 		score = 80
 
+// 		score = 80
+//		vetted_family = "cobalt"
 //	strings:
 // 	/*
 // 		8B [2]   mov     eax, [ebp+var_C]
@@ -154,7 +154,7 @@ rule CobaltStrike_Resources_Artifact32_v3_14_to_v4_x
 // 	*/
 
 // 	$decoderFunc = { 8B [2] 89 ?? 03 [2] 8B [2] 03 [5] 8B [2] 89 ?? C1 [2] C1 [2] 01 ?? 83 [2] 29 ?? 03 [5] 31 ?? 88 }
-	
+
 // 	condition:
 // 		any of them
 // }
@@ -167,10 +167,10 @@ rule CobaltStrike_Resources_Artifact32svc_Exe_v3_1_v3_2_v3_14_and_v4_x
 		author = "gssincla@google.com"
 		reference = "https://cloud.google.com/blog/products/identity-security/making-cobalt-strike-harder-for-threat-actors-to-abuse"
 		date = "2022-11-18"
-		
+
 		id = "732169be-e334-5774-b0ac-54b217a8b681"
 		score = 80
-
+		vetted_family = "cobalt"
 	strings:
 	/*
 		89 ??           mov     eax, ecx
@@ -211,10 +211,10 @@ rule CobaltStrike_Resources_Artifact64_v1_49_v2_x_v3_0_v3_3_thru_v3_14
 		author = "gssincla@google.com"
 		reference = "https://cloud.google.com/blog/products/identity-security/making-cobalt-strike-harder-for-threat-actors-to-abuse"
 		date = "2022-11-18"
-		
+
 		id = "67902782-500e-5a89-8b2a-59ee21bcba3e"
 		score = 80
-
+		vetted_family = "cobalt"
 	strings:
 	/*
 		8B [2]      mov     eax, [rbp+var_4]
@@ -240,7 +240,7 @@ rule CobaltStrike_Resources_Artifact64_v1_49_v2_x_v3_0_v3_3_thru_v3_14
 	*/
 
 	$a = { 8B [2] 48 98 48 [2] 48 [3] 8B [2] 48 98 48 [3] 44 [3] 8B [2] 89 ?? C1 ?? 1F C1 ?? 1E 01 ?? 83 ?? 03 29 ?? 48 98 48 [3] 0F B6 00 44 [2] 88 }
-		
+
 	condition:
 		$a
 }
@@ -253,10 +253,10 @@ rule CobaltStrike_Resources_Artifact64_v3_1_v3_2_v3_14_and_v4_0
 		author = "gssincla@google.com"
 		reference = "https://cloud.google.com/blog/products/identity-security/making-cobalt-strike-harder-for-threat-actors-to-abuse"
 		date = "2022-11-18"
-		
+
 		id = "c9e9b8e0-16fe-5abc-b1fe-0e3e586f6db6"
 		score = 80
-
+		vetted_family = "cobalt"
 	strings:
 	/*
 		31 C0                xor     eax, eax
@@ -286,10 +286,10 @@ rule CobaltStrike_Resources_Artifact64_v3_14_to_v4_x
 		author = "gssincla@google.com"
 		reference = "https://cloud.google.com/blog/products/identity-security/making-cobalt-strike-harder-for-threat-actors-to-abuse"
 		date = "2022-11-18"
-		
+
 		id = "1c7731d3-429b-57aa-9c17-8de7d0841b1e"
 		score = 80
-
+		vetted_family = "cobalt"
 	strings:
 	/*
 		41 B8 5C 00 00 00       mov     r8d, 5Ch ; '\'
@@ -320,7 +320,7 @@ rule CobaltStrike_Resources_Artifact64_v3_14_to_v4_x
 		}
 
   $fmtString = "%c%c%c%c%c%c%c%c%cMSSE-%d-server"
-		
+
 	condition:
 		all of them
 }
@@ -351,7 +351,7 @@ rule CobaltStrike_Resources_Beacon_Dll_v1_44
 
     id = "935ee27f-ce1b-5491-b4a3-cb78f199ab1b"
   	score = 80
-
+		vetted_family = "cobalt"
 	strings:
     /*
       0F B7 D2  movzx   edx, dx
@@ -363,7 +363,7 @@ rule CobaltStrike_Resources_Beacon_Dll_v1_44
       FF 24 ??  jmp     ds:jpt_1000106C[edx*4]; switch jump
     */
     $version_sig = { 0F B7 D2 4A 53 8B D9 83 FA 04 77 36 FF 24 }
-    
+
     /*
       B1 69          mov     cl, 69h ; 'i'
       30 88 [4]      xor     byte ptr word_10018F20[eax], cl
@@ -371,8 +371,8 @@ rule CobaltStrike_Resources_Beacon_Dll_v1_44
       3D 28 01 00 00 cmp     eax, 128h
       7C F2          jl      short loc_10001AD4
     */
-    $decode = { B1 ?? 30 88 [4] 40 3D 28 01 00 00 7C F2 }    
-  
+    $decode = { B1 ?? 30 88 [4] 40 3D 28 01 00 00 7C F2 }
+
   condition:
     all of them
 }
@@ -388,7 +388,7 @@ rule CobaltStrike_Resources_Beacon_Dll_v1_45
 
     id = "04d4d0ee-f1ee-5888-8108-ca55243c770a"
   	score = 80
-
+		vetted_family = "cobalt"
 	strings:
     /*
       51        push    ecx
@@ -410,7 +410,7 @@ rule CobaltStrike_Resources_Beacon_Dll_v1_45
       7C F2          jl      short loc_10002664
     */
     $decode = { B1 ?? 30 88 [4] 40 3D 28 01 00 00 7C F2 }
-  
+
   condition:
     all of them
 }
@@ -426,14 +426,14 @@ rule CobaltStrike_Resources_Beacon_Dll_v1_46
 
     id = "79715042-1963-5e48-8b64-7d915da58d84"
   	score = 80
-
+		vetted_family = "cobalt"
 	strings:
     /*
       8B F2             mov     esi, edx
       83 F9 0C          cmp     ecx, 0Ch
       0F 87 8E 00 00 00 ja      def_1000107F; jumptable 1000107F default case, case 8
       FF 24 ??          jmp     ds:jpt_1000107F[ecx*4]; switch jump
-    */   
+    */
     $version_sig = { 8B F2 83 F9 0C 0F 87 8E 00 00 00 FF 24 }
 
     /*
@@ -444,7 +444,7 @@ rule CobaltStrike_Resources_Beacon_Dll_v1_46
       7C F2          jl      short loc_10002A04
     */
     $decode = { B1 ?? 30 88 [4] 40 3D A8 01 00 00 7C F2 }
-  
+
   condition:
     all of them
 }
@@ -460,7 +460,7 @@ rule CobaltStrike_Resources_Beacon_Dll_v1_47
 
     id = "ac2249a9-210c-581f-8dd1-7619356dca7d"
   	score = 80
-
+		vetted_family = "cobalt"
 	strings:
     /*
       83 F8 12  cmp     eax, 12h
@@ -476,7 +476,7 @@ rule CobaltStrike_Resources_Beacon_Dll_v1_47
       3D A8 01 00 00 cmp     eax, 1A8h
     */
     $decode = { B1 ?? 30 88 [4] 40 3D A8 01 00 00 }
-  
+
   condition:
     all of them
 }
@@ -492,7 +492,7 @@ rule CobaltStrike_Resources_Beacon_Dll_v1_48
 
     id = "dd15099f-ad19-58df-9ed4-ce66d7ee8540"
   	score = 80
-
+		vetted_family = "cobalt"
 	strings:
     /*
       48        dec     eax; switch 24 cases
@@ -504,7 +504,7 @@ rule CobaltStrike_Resources_Beacon_Dll_v1_48
       FF 24 ??  jmp     ds:jpt_1000115D[eax*4]; switch jump
     */
     $version_sig = { 48 57 8B F1 8B DA 83 F8 17 77 12 FF 24 }
-    
+
     /*
       B1 69          mov     cl, 69h ; 'i'
       30 88 [4]      xor     byte ptr word_1001F048[eax], cl
@@ -513,7 +513,7 @@ rule CobaltStrike_Resources_Beacon_Dll_v1_48
       7C F2          jl      short loc_100047B4
     */
     $decode = { B1 ?? 30 88 [4] 40 3D A8 01 00 00 7C F2 }
-  
+
   condition:
     all of them
 }
@@ -529,7 +529,7 @@ rule CobaltStrike_Resources_Beacon_Dll_v1_49
 
     id = "871e28c9-b580-5a32-8529-2290ded1a1b6"
   	score = 80
-
+		vetted_family = "cobalt"
 	strings:
     /*
       48                   dec     eax; switch 31 cases
@@ -539,7 +539,7 @@ rule CobaltStrike_Resources_Beacon_Dll_v1_49
       FF 24 85 80 12 00 10 jmp     ds:jpt_1000115B[eax*4]; switch jump
     */
     $version_sig = { 48 56 83 F8 1E 0F 87 23 01 00 00 FF 24 }
-    
+
     /*
       B1 69            mov     cl, 69h ; 'i'
       90               nop
@@ -547,9 +547,9 @@ rule CobaltStrike_Resources_Beacon_Dll_v1_49
       40               inc     eax
       3D A8 01 00 00   cmp     eax, 1A8h
       7C F2            jl      short loc_10005940
-    */    
+    */
     $decoder = { B1 ?? 90 30 88 [4] 40 3D A8 01 00 00 7C F2 }
-      
+
   condition:
     all of them
 }
@@ -565,7 +565,7 @@ rule CobaltStrike_Resources_Beacon_Dll_v2_0_49
 
     id = "087c584a-5ceb-536a-8842-53fbd668df54"
   	score = 80
-
+		vetted_family = "cobalt"
 	strings:
     /*
       83 F8 22          cmp     eax, 22h
@@ -584,7 +584,7 @@ rule CobaltStrike_Resources_Beacon_Dll_v2_0_49
       72 F2            jb      short loc_10006930
     */
     $decoder = { B1 ?? EB 03 8D 49 00 30 88 [4] 40 3D 30 05 00 00 72 F2  }
-  
+
   condition:
     all of them
 }
@@ -598,10 +598,10 @@ rule CobaltStrike_Resources_Beacon_Dll_v2_1_and_v2_2
 		author = "gssincla@google.com"
 		reference = "https://cloud.google.com/blog/products/identity-security/making-cobalt-strike-harder-for-threat-actors-to-abuse"
 		date = "2022-11-18"
-    
+
     id = "384fb247-aae7-52e1-a45d-6bda0f80a04e"
   	score = 80
-
+		vetted_family = "cobalt"
 	strings:
     /*
       49                dec     ecx; switch 37 cases
@@ -636,7 +636,7 @@ rule CobaltStrike_Resources_Beacon_Dll_v2_3
 
     id = "aed092f1-fbb1-5efe-be8d-fb7c5aba1cde"
   	score = 80
-
+		vetted_family = "cobalt"
 	strings:
     /*
       49                dec     ecx; switch 39 cases
@@ -671,7 +671,7 @@ rule CobaltStrike_Resources_Beacon_Dll_v2_4
 
     id = "347a6b06-84a8-53ff-80a1-05fa1a48a412"
   	score = 80
-
+		vetted_family = "cobalt"
 	strings:
     /*
       4A                dec     edx; switch 48 cases
@@ -706,7 +706,7 @@ rule CobaltStrike_Resources_Beacon_Dll_v2_5
 
     id = "a89f9239-099c-5b97-b1df-e8ce2b95ea52"
   	score = 80
-
+		vetted_family = "cobalt"
 	strings:
     /*
       48                dec     eax; switch 59 cases
@@ -741,7 +741,7 @@ rule CobaltStrike_Resources_Beacon_Dll_v3_0
 
     id = "132a1be8-f529-5141-ba03-fdf6df3d55d4"
   	score = 80
-
+		vetted_family = "cobalt"
 	strings:
     /*
       48                dec     eax; switch 61 cases
@@ -779,7 +779,7 @@ rule CobaltStrike_Resources_Beacon_Dll_v3_1
   // which allows us to narrow in on only v3.1 samples
     id = "aa511dee-69ea-53bd-be90-d2d03d08c550"
   	score = 80
-
+		vetted_family = "cobalt"
 	strings:
     /*
       55             push    ebp
@@ -837,7 +837,7 @@ rule CobaltStrike_Resources_Beacon_Dll_v3_2
 
     id = "3ccbc0f2-241c-5c10-8930-4a3d264d3b57"
   	score = 80
-
+		vetted_family = "cobalt"
 	strings:
     /*
       48                dec     eax; switch 62 cases
@@ -906,7 +906,7 @@ rule CobaltStrike_Resources_Beacon_Dll_v3_3
 
     id = "7cce26c9-1403-535f-bd9d-19667c7e313c"
   	score = 80
-
+		vetted_family = "cobalt"
 	strings:
     /*
       48                dec     eax; switch 66 cases
@@ -941,7 +941,7 @@ rule CobaltStrike_Resources_Beacon_Dll_v3_4
 
     id = "58a34ab6-c061-59a2-b929-8519d3d844e7"
   	score = 80
-
+		vetted_family = "cobalt"
 	strings:
     /*
       48                dec     eax; switch 67 cases
@@ -977,7 +977,7 @@ rule CobaltStrike_Resources_Beacon_Dll_v3_5_hf1_and_3_5_1
 
     id = "1532596e-be0e-58c2-8d3b-5120c793d677"
   	score = 80
-
+		vetted_family = "cobalt"
 	strings:
     /*
       48                dec     eax; switch 68 cases
@@ -1012,7 +1012,7 @@ rule CobaltStrike_Resources_Beacon_Dll_v3_6
 
     id = "7e7b5c22-82b3-5298-b794-b06d94a668d5"
   	score = 80
-
+		vetted_family = "cobalt"
 	strings:
     /*
       48                dec     eax; switch 72 cases
@@ -1047,7 +1047,7 @@ rule CobaltStrike_Resources_Beacon_Dll_v3_7
 
     id = "6352a31c-34b8-5886-8e34-ef9221c22e6e"
   	score = 80
-
+		vetted_family = "cobalt"
 	strings:
     /*
       48                dec     eax; switch 74 cases
@@ -1056,7 +1056,7 @@ rule CobaltStrike_Resources_Beacon_Dll_v3_7
       83 F8 49          cmp     eax, 49h
       0F 87 47 03 00 00 ja      def_1000100F; jumptable 1000100F default case, cases 6-8,26,30
       FF 24 ??          jmp     ds:jpt_1000100F[eax*4]; switch jump
-    */   
+    */
     $version_sig = { 48 57 8B F9 83 F8 49 0F 87 47 03 00 00 FF 24 }
 
     /*
@@ -1082,7 +1082,7 @@ rule CobaltStrike_Resources_Beacon_Dll_v3_8
 
     id = "6c65cbf8-2c60-5315-b3b2-48dfcee75733"
   	score = 80
-
+		vetted_family = "cobalt"
 	strings:
     /*
       48                dec     eax; switch 76 cases
@@ -1102,7 +1102,7 @@ rule CobaltStrike_Resources_Beacon_Dll_v3_8
     */
     $decoder = { 80 B0 [4] ?? 40 3D 00 10 00 00 7C F1 }
 
-    // XMRig uses a v3.8 sample to trick sandboxes into running their code. 
+    // XMRig uses a v3.8 sample to trick sandboxes into running their code.
     // These samples are the same and useless. This string removes many
     // of them from our detection
     $xmrig_srcpath = "C:/Users/SKOL-NOTE/Desktop/Loader/script.go"
@@ -1111,7 +1111,7 @@ rule CobaltStrike_Resources_Beacon_Dll_v3_8
     $c2_2 = "ns8.softline.top" xor
     $c2_3 = "ns9.softline.top" xor
     //$a = /[A-Za-z]{1020}.{4}$/
-    
+
   condition:
     $version_sig and $decoder and (2 of ($c2_*) or $xmrig_srcpath)
 }
@@ -1134,7 +1134,7 @@ rule CobaltStrike_Resources_Beacon_Dll_v3_11
   // Original version from April 9, 2018
     id = "00e42396-db81-5d43-90ee-5a97b379019e"
   	score = 80
-
+		vetted_family = "cobalt"
 	strings:
     /*
       48                dec     eax; switch 81 cases
@@ -1167,11 +1167,11 @@ rule CobaltStrike_Resources_Beacon_Dll_v3_11_bugfix_and_v3_12
 		author = "gssincla@google.com"
 		reference = "https://cloud.google.com/blog/products/identity-security/making-cobalt-strike-harder-for-threat-actors-to-abuse"
 		date = "2022-11-18"
-    
+
   // Covers both 3.11 (bug fix form May 25, 2018) and v3.12
     id = "08ff2a2f-97bd-5839-b414-d67fbf2cdb0f"
   	score = 80
-
+		vetted_family = "cobalt"
 	strings:
     /*
       48                dec     eax; switch 81 cases
@@ -1206,7 +1206,7 @@ rule CobaltStrike_Resources_Beacon_Dll_v3_13
 
     id = "98dd32e6-9bb5-57b2-a5e5-1c74a0d1e6d3"
   	score = 80
-
+		vetted_family = "cobalt"
 	strings:
     /*
       4A                dec     edx; switch 91 cases
@@ -1242,7 +1242,7 @@ rule CobaltStrike_Resources_Beacon_Dll_v3_14
 
     id = "00edfc72-c7b8-5100-8275-ae3548b96e49"
   	score = 80
-
+		vetted_family = "cobalt"
 	strings:
     /*
       83 FA 5B  cmp     edx, 5Bh
@@ -1271,10 +1271,10 @@ rule CobaltStrike_Sleeve_Beacon_Dll_v4_0_suspected
 		author = "gssincla@google.com"
 		reference = "https://cloud.google.com/blog/products/identity-security/making-cobalt-strike-harder-for-threat-actors-to-abuse"
 		date = "2022-11-18"
-    
+
     id = "50ff6e44-ebc0-5000-a816-b385a6675768"
   	score = 80
-
+		vetted_family = "cobalt"
 	strings:
     /*
       51                   push    ecx
@@ -1296,7 +1296,7 @@ rule CobaltStrike_Sleeve_Beacon_Dll_v4_0_suspected
     */
 
     $decoder = { 80 B0 [4] ?? 40 3D 00 10 00 00 7C F1 }
-    
+
   condition:
     all of them
 }
@@ -1313,7 +1313,7 @@ rule CobaltStrike_Sleeve_Beacon_Dll_v4_1_and_v4_2
 
     id = "793df916-bdf7-5743-b008-0113caf38bae"
   	score = 80
-
+		vetted_family = "cobalt"
 	strings:
     /*
       48                dec     eax; switch 100 cases
@@ -1349,7 +1349,7 @@ rule CobaltStrike_Sleeve_Beacon_Dll_v4_3_v4_4_v4_5_and_v4_6
 
     id = "976e087c-f371-5fc6-85f8-9c803a91f549"
   	score = 80
-
+		vetted_family = "cobalt"
 	strings:
     /*
       48                dec     eax; switch 102 cases
@@ -1381,10 +1381,10 @@ rule CobaltStrike_Sleeve_Beacon_Dll_v4_7_suspected
 		author = "gssincla@google.com"
 		reference = "https://cloud.google.com/blog/products/identity-security/making-cobalt-strike-harder-for-threat-actors-to-abuse"
 		date = "2022-11-18"
-    
+
     id = "4b6f90dd-69f3-5555-9195-6a0aed0fff58"
   	score = 80
-
+		vetted_family = "cobalt"
 	strings:
 
     /*
@@ -1414,15 +1414,15 @@ rule CobaltStrike_Sleeve_Beacon_Dll_v4_7_suspected
 /*
 
  64-bit Beacons.
- 
+
  These signatures are a bit different. The decoders are all identical in the 4.x
  series and the command processor doesn't use a switch/case idiom, but rather
  an expanded set of if/then/else branches. This invalidates our method for
  detecting the versions of the beacons by looking at the case count check
  used by the 32-bit versions. As such, we are locking in on "random",
- non-overlapping between version, sections of code in the command processor. 
+ non-overlapping between version, sections of code in the command processor.
  While a reasonable method is to look for blocks of Jcc which will have specific
- address offsets per version, this generally is insufficient due to the lack of 
+ address offsets per version, this generally is insufficient due to the lack of
  code changes. As such, the best method appears to be to look for specific
  function call offsets
 
@@ -1430,9 +1430,9 @@ rule CobaltStrike_Sleeve_Beacon_Dll_v4_7_suspected
   * 3.2 and 3.3
   * 3.4 and 3.5-hf1/3.5.1
   * 3.12, 3.13 and 3.14
-  * 4.3 and 4.4-4.6 . 
-  
- Be very careful if you modify the $version_sig field for either of those rules. 
+  * 4.3 and 4.4-4.6 .
+
+ Be very careful if you modify the $version_sig field for either of those rules.
 */
 
 
@@ -1444,10 +1444,10 @@ rule CobaltStrike_Resources_Beacon_x64_v3_2
 		author = "gssincla@google.com"
 		reference = "https://cloud.google.com/blog/products/identity-security/making-cobalt-strike-harder-for-threat-actors-to-abuse"
 		date = "2022-11-18"
-    
+
     id = "61188243-0b90-5bff-bcc8-50f10ed941f6"
   	score = 80
-
+		vetted_family = "cobalt"
 	strings:
     /*
       4C 8D 05 9F F8 FF FF lea     r8, sub_18000C4B0
@@ -1465,7 +1465,7 @@ rule CobaltStrike_Resources_Beacon_x64_v3_2
     $version_sig = { 4C 8D 05 9F F8 FF FF 8B D3 48 8B CF E8 05 1A 00 00
                      EB 0A 8B D3 48 8B CF E8 41 21 00 00 48 8B 5C 24 30
                      48 83 C4 20 }
-    
+
     /*
       80 31 ??          xor     byte ptr [rcx], 69h
       FF C2             inc     edx
@@ -1475,7 +1475,7 @@ rule CobaltStrike_Resources_Beacon_x64_v3_2
     */
 
     $decoder = { 80 31 ?? FF C2 48 FF C1 48 63 C2 48 3D 10 06 00 00 }
-    
+
   condition:
     all of them
 }
@@ -1488,10 +1488,10 @@ rule CobaltStrike_Resources_Beacon_x64_v3_3
 		author = "gssincla@google.com"
 		reference = "https://cloud.google.com/blog/products/identity-security/making-cobalt-strike-harder-for-threat-actors-to-abuse"
 		date = "2022-11-18"
-    
+
     id = "fb96ecff-809e-5704-974e-a2d8ef022daa"
   	score = 80
-
+		vetted_family = "cobalt"
 	strings:
     /*
       8B D3                mov     edx, ebx
@@ -1506,7 +1506,7 @@ rule CobaltStrike_Resources_Beacon_x64_v3_3
       48 83 C4 20          add     rsp, 20h
     */
 
-    $version_sig = { 8B D3 48 8B CF E8 89 66 00 00 E9 23 FB FF FF 
+    $version_sig = { 8B D3 48 8B CF E8 89 66 00 00 E9 23 FB FF FF
                      41 B8 01 00 00 00 E9 F3 FD FF FF 48 8D 0D 2A F8 FF FF
                      E8 8D 2B 00 00 48 8B 5C 24 30 48 83 C4 20 }
 
@@ -1519,7 +1519,7 @@ rule CobaltStrike_Resources_Beacon_x64_v3_3
     */
 
     $decoder = { 80 31 ?? FF C2 48 FF C1 48 63 C2 48 3D 10 06 00 00 }
-    
+
   condition:
     all of them
 }
@@ -1532,10 +1532,10 @@ rule CobaltStrike_Resources_Beacon_x64_v3_4
 		author = "gssincla@google.com"
 		reference = "https://cloud.google.com/blog/products/identity-security/making-cobalt-strike-harder-for-threat-actors-to-abuse"
 		date = "2022-11-18"
-    
+
     id = "97ef152c-86c7-513c-a881-e7d594d38dcf"
   	score = 80
-
+		vetted_family = "cobalt"
 	strings:
     /*
       8B D3             mov     edx, ebx
@@ -1559,9 +1559,9 @@ rule CobaltStrike_Resources_Beacon_x64_v3_4
       48 3D 00 10 00 00 cmp     rax, 1000h
       7C F1             jl      short loc_18001600E
     */
-    
+
     $decoder = { 80 34 28 ?? 48 FF C0 48 3D 00 10 00 00 7C F1 }
-    
+
   condition:
     all of them
 }
@@ -1574,10 +1574,10 @@ rule CobaltStrike_Resources_Beacon_x64_v3_5_hf1_and_v3_5_1
 		author = "gssincla@google.com"
 		reference = "https://cloud.google.com/blog/products/identity-security/making-cobalt-strike-harder-for-threat-actors-to-abuse"
 		date = "2022-11-18"
-    
+
     id = "0c0e87d3-e0e2-5ddc-9d89-5e56443da4b8"
   	score = 80
-
+		vetted_family = "cobalt"
 	strings:
     /*
       8B D3             mov     edx, ebx
@@ -1593,8 +1593,8 @@ rule CobaltStrike_Resources_Beacon_x64_v3_5_hf1_and_v3_5_1
       5F                pop     rdi
     */
 
-    $version_sig = { 8B D3 48 8B CF E8 38 70 00 00 E9 FD FA FF FF 
-                     41 B8 01 00 00 00 8B D3 48 8B CF E8 3F 4D 00 00 
+    $version_sig = { 8B D3 48 8B CF E8 38 70 00 00 E9 FD FA FF FF
+                     41 B8 01 00 00 00 8B D3 48 8B CF E8 3F 4D 00 00
                      48 8B 5C 24 30 48 83 C4 20 5F }
 
     /*
@@ -1605,7 +1605,7 @@ rule CobaltStrike_Resources_Beacon_x64_v3_5_hf1_and_v3_5_1
     */
 
     $decoder = { 80 34 28 ?? 48 FF C0 48 3D 00 10 00 00 7C F1 }
-    
+
   condition:
     all of them
 }
@@ -1618,10 +1618,10 @@ rule CobaltStrike_Resources_Beacon_x64_v3_6
 		author = "gssincla@google.com"
 		reference = "https://cloud.google.com/blog/products/identity-security/making-cobalt-strike-harder-for-threat-actors-to-abuse"
 		date = "2022-11-18"
-    
+
     id = "9651a1ca-d8ea-5b0b-bcba-a850c2e07791"
   	score = 80
-
+		vetted_family = "cobalt"
 	strings:
     /*
       48 89 5C 24 08    mov     [rsp+arg_0], rbx
@@ -1652,7 +1652,7 @@ rule CobaltStrike_Resources_Beacon_x64_v3_6
     */
 
     $decoder = { 80 34 28 ?? 48 FF C0 48 3D 00 10 00 00 7C F1 }
-    
+
   condition:
     all of them
 }
@@ -1665,10 +1665,10 @@ rule CobaltStrike_Resources_Beacon_x64_v3_7
 		author = "gssincla@google.com"
 		reference = "https://cloud.google.com/blog/products/identity-security/making-cobalt-strike-harder-for-threat-actors-to-abuse"
 		date = "2022-11-18"
-    
+
     id = "27fad98a-2882-5c52-af6e-c7dcf5559624"
   	score = 80
-
+		vetted_family = "cobalt"
 	strings:
     /*
       48 89 5C 24 08    mov     [rsp+arg_0], rbx
@@ -1696,7 +1696,7 @@ rule CobaltStrike_Resources_Beacon_x64_v3_7
     */
 
     $decoder = { 80 34 28 ?? 48 FF C0 48 3D 00 10 00 00 7C F1 }
-    
+
   condition:
     all of them
 }
@@ -1709,10 +1709,10 @@ rule CobaltStrike_Resources_Beacon_x64_v3_8
 		author = "gssincla@google.com"
 		reference = "https://cloud.google.com/blog/products/identity-security/making-cobalt-strike-harder-for-threat-actors-to-abuse"
 		date = "2022-11-18"
-    
+
     id = "89809d81-9a8b-5cf3-a251-689bf52e98e0"
   	score = 80
-
+		vetted_family = "cobalt"
 	strings:
     /*
       8B D3          mov     edx, ebx
@@ -1727,7 +1727,7 @@ rule CobaltStrike_Resources_Beacon_x64_v3_8
 
     $version_sig = { 8B D3 48 8B CF E8 7A 52 00 00 EB 0D 45 33 C0 8B D3 48 8B CF
                      E8 8F 55 00 00 }
-    
+
     /*
       80 34 28 ??       xor     byte ptr [rax+rbp], 69h
       48 FF C0          inc     rax
@@ -1749,12 +1749,12 @@ rule CobaltStrike_Resources_Beacon_x64_v3_11
 		author = "gssincla@google.com"
 		reference = "https://cloud.google.com/blog/products/identity-security/making-cobalt-strike-harder-for-threat-actors-to-abuse"
 		date = "2022-11-18"
-    
+
     id = "bf0c7661-2583-5fca-beb5-abb2b50c860d"
   	score = 80
-
+		vetted_family = "cobalt"
 	strings:
-	
+
     /*
       48 83 EC 20       sub     rsp, 20h
       41 8B D8          mov     ebx, r8d
@@ -1780,7 +1780,7 @@ rule CobaltStrike_Resources_Beacon_x64_v3_11
                      0F 84 DC 01 00 00 83 F9 0E 0F 87 F9 00 00 00
                      0F 84 DD 00 00 00 FF C9 0F 84 C0 00 00 00 83 E9 02
                      0F 84 A6 00 00 00 FF C9 }
-    
+
     /*
       80 34 28 ??       xor     byte ptr [rax+rbp], 69h
       48 FF C0          inc     rax
@@ -1789,12 +1789,12 @@ rule CobaltStrike_Resources_Beacon_x64_v3_11
     */
 
     $decoder = {
-      80 34 28 ?? 
+      80 34 28 ??
       48 FF C0
       48 3D 00 10 00 00
       7C F1
     }
-    
+
   condition:
     all of them
 }
@@ -1807,10 +1807,10 @@ rule CobaltStrike_Resources_Beacon_x64_v3_12
 		author = "gssincla@google.com"
 		reference = "https://cloud.google.com/blog/products/identity-security/making-cobalt-strike-harder-for-threat-actors-to-abuse"
 		date = "2022-11-18"
-    
+
     id = "6eeae9f4-96e0-5a98-a8dc-779c916cd968"
   	score = 80
-
+		vetted_family = "cobalt"
 	strings:
     /*
       8B D3          mov     edx, ebx
@@ -1827,7 +1827,7 @@ rule CobaltStrike_Resources_Beacon_x64_v3_12
     */
     $version_sig = { 8B D3 48 8B CF E8 F8 2E 00 00 EB 16 8B D3 48 8B CF
                      E8 00 5C 00 00 EB 0A 8B D3 48 8B CF E8 64 4F 00 00 }
-    
+
     /*
       80 34 28 ??       xor     byte ptr [rax+rbp], 69h
       48 FF C0          inc     rax
@@ -1849,10 +1849,10 @@ rule CobaltStrike_Resources_Beacon_x64_v3_13
 		author = "gssincla@google.com"
 		reference = "https://cloud.google.com/blog/products/identity-security/making-cobalt-strike-harder-for-threat-actors-to-abuse"
 		date = "2022-11-18"
-    
+
     id = "202eb8ea-7afb-515b-9306-67514abf5e55"
   	score = 80
-
+		vetted_family = "cobalt"
 	strings:
     /*
       48 8D 0D 01 5B FF FF lea     rcx, f_NET__ExfiltrateData
@@ -1865,7 +1865,7 @@ rule CobaltStrike_Resources_Beacon_x64_v3_13
 
     $version_sig = { 48 8D 0D 01 5B FF FF 48 83 C4 28 E9 A8 54 FF FF 8B D0
                      49 8B CA E8 22 55 FF FF }
-      
+
     /*
       80 34 28 ??       xor     byte ptr [rax+rbp], 69h
       48 FF C0          inc     rax
@@ -1874,7 +1874,7 @@ rule CobaltStrike_Resources_Beacon_x64_v3_13
     */
 
     $decoder = { 80 34 28 ?? 48 FF C0 48 3D 00 10 00 00 7C F1 }
-    
+
   condition:
     all of them
 }
@@ -1891,7 +1891,7 @@ rule CobaltStrike_Resources_Beacon_x64_v3_14
 
     id = "d69171e3-86f4-5187-8874-5eee2045f746"
   	score = 80
-
+		vetted_family = "cobalt"
 	strings:
 
     /*
@@ -1906,7 +1906,7 @@ rule CobaltStrike_Resources_Beacon_x64_v3_14
 
     $version_sig = { 8B D0 49 8B CA 48 83 C4 28 E9 B1 1F 00 00 8B D0 49 8B CA
                      48 83 C4 28 }
-    
+
     /*
       80 34 28 ??       xor     byte ptr [rax+rbp], 69h
       48 FF C0          inc     rax
@@ -1928,10 +1928,10 @@ rule CobaltStrike_Sleeve_Beacon_Dll_x86_v4_0_suspected
 		author = "gssincla@google.com"
 		reference = "https://cloud.google.com/blog/products/identity-security/making-cobalt-strike-harder-for-threat-actors-to-abuse"
 		date = "2022-11-18"
-    
+
     id = "28a735c4-87d1-5e14-9379-46a6fd0cdd2a"
   	score = 80
-
+		vetted_family = "cobalt"
 	strings:
     /*
       41 B8 01 00 00 00    mov     r8d, 1
@@ -1955,7 +1955,7 @@ rule CobaltStrike_Sleeve_Beacon_Dll_x86_v4_0_suspected
                      4C 8D 0D 8D 70 FF FF 8B D0 49 8B CA E8 9B B0 FF FF }
 
     $decoder = { 80 34 28 ?? 48 FF C0 48 3D 00 10 00 00 7C F1 }
-    
+
   condition:
     all of them
 }
@@ -1968,10 +1968,10 @@ rule CobaltStrike_Sleeve_Beacon_x64_v4_1_and_v_4_2
 		author = "gssincla@google.com"
 		reference = "https://cloud.google.com/blog/products/identity-security/making-cobalt-strike-harder-for-threat-actors-to-abuse"
 		date = "2022-11-18"
-    
+
     id = "dc320d17-98fc-5df3-ba05-4d134129317e"
   	score = 80
-
+		vetted_family = "cobalt"
 	strings:
     /*
       83 F9 34          cmp     ecx, 34h ; '4'
@@ -2009,12 +2009,12 @@ rule CobaltStrike_Sleeve_Beacon_x64_v4_3
 		author = "gssincla@google.com"
 		reference = "https://cloud.google.com/blog/products/identity-security/making-cobalt-strike-harder-for-threat-actors-to-abuse"
 		date = "2022-11-18"
-    
+
     id = "572616c7-d1ec-5aa1-b142-4f2edf73737f"
   	score = 80
-
+		vetted_family = "cobalt"
 	strings:
-  
+
     /*
       8B D0                mov     edx, eax
       49 8B CA             mov     rcx, r10; Source
@@ -2028,7 +2028,7 @@ rule CobaltStrike_Sleeve_Beacon_x64_v4_3
 
     $version_sig = { 8B D0 49 8B CA 48 83 C4 28 E9 D3 88 FF FF
                      4C 8D 05 84 6E FF FF 8B D0 49 8B CA 48 83 C4 28 }
-  
+
     /*
       80 34 28 ??       xor     byte ptr [rax+rbp], 2Eh
       48 FF C0          inc     rax
@@ -2053,7 +2053,7 @@ rule CobaltStrike_Sleeve_Beacon_x64_v4_4_v_4_5_and_v4_6
 
     id = "79b6bfd4-1e45-5bd9-ac5c-19eb176ce698"
   	score = 80
-
+		vetted_family = "cobalt"
 	strings:
     /*
       8B D0                mov     edx, eax
@@ -2090,10 +2090,10 @@ rule CobaltStrike_Sleeve_Beacon_x64_v4_5_variant
 		author = "gssincla@google.com"
 		reference = "https://cloud.google.com/blog/products/identity-security/making-cobalt-strike-harder-for-threat-actors-to-abuse"
 		date = "2022-11-18"
-    
+
     id = "45715da9-8f16-5304-b216-1ca36c508c77"
   	score = 80
-
+		vetted_family = "cobalt"
 	strings:
     /*
       41 B8 01 00 00 00 mov     r8d, 1
@@ -2117,7 +2117,7 @@ rule CobaltStrike_Sleeve_Beacon_x64_v4_5_variant
     */
 
     $decoder = { 80 34 28 ?? 48 FF C0 48 3D 00 10 00 00 7C F1 }
-    
+
   condition:
     all of them
 }
@@ -2145,10 +2145,10 @@ rule CobaltStrike_Resources_Bind64_Bin_v2_5_through_v4_x
 		author = "gssincla@google.com"
 		reference = "https://cloud.google.com/blog/products/identity-security/making-cobalt-strike-harder-for-threat-actors-to-abuse"
 		date = "2022-11-18"
-		
+
 		id = "a01e7bc3-40e9-5f87-8fd6-926972be273b"
 		score = 80
-
+		vetted_family = "cobalt"
 	strings:
 	/*
 		48 31 C0       xor     rax, rax
@@ -2187,7 +2187,7 @@ rule CobaltStrike_Resources_Bind64_Bin_v2_5_through_v4_x
 			44 [2] 1C
 			49 [2]
 			41 [3]
-			48 
+			48
 		}
 
 
@@ -2229,7 +2229,7 @@ rule CobaltStrike_Resources_Bind64_Bin_v2_5_through_v4_x
 			48 [2]
 			41 BA 75 6E 4D 61
 		}
-		
+
 	condition:
 		$apiLocator and $calls
 }
@@ -2257,10 +2257,10 @@ rule CobaltStrike_Resources_Bind_Bin_v2_5_through_v4_x
 		author = "gssincla@google.com"
 		reference = "https://cloud.google.com/blog/products/identity-security/making-cobalt-strike-harder-for-threat-actors-to-abuse"
 		date = "2022-11-18"
-		
+
 		id = "32f129c1-9845-5843-9e16-7d9af217b8e2"
 		score = 80
-
+		vetted_family = "cobalt"
 	strings:
 	/*
 		31 ??     xor     eax, eax
@@ -2286,26 +2286,26 @@ rule CobaltStrike_Resources_Bind_Bin_v2_5_through_v4_x
 	*/
 
 	$apiLocator = {
-			31 ?? 
+			31 ??
 			AC
-			C1 ?? 0D 
-			01 ?? 
-			38 ?? 
-			75 ?? 
+			C1 ?? 0D
+			01 ??
+			38 ??
+			75 ??
 			03 [2]
 			3B [2]
-			75 ?? 
-			5? 
-			8B ?? 24 
-			01 ?? 
+			75 ??
+			5?
+			8B ?? 24
+			01 ??
 			66 8B [2]
-			8B ?? 1C 
-			01 ?? 
-			8B ?? 8B 
-			01 ?? 
+			8B ?? 1C
+			01 ??
+			8B ?? 8B
+			01 ??
 			89 [3]
-			5? 
-			5? 
+			5?
+			5?
 		}
 
     // the signature for the stagers overlap significantly. Looking for bind.bin specific bytes helps delineate sample types
@@ -2334,16 +2334,16 @@ rule CobaltStrike_Resources_Bind_Bin_v2_5_through_v4_x
 		68 74 EC 3B E1 push    accept
 	*/
 	$listenaccept = {
-			5? 
-			5? 
+			5?
+			5?
 			68 B7 E9 38 FF
-			FF ?? 
-			5? 
-			5? 
-			5? 
+			FF ??
+			5?
+			5?
+			5?
 			68 74 EC 3B E1
 		}
-	
+
 	condition:
 		$apiLocator and $ws2_32 and $listenaccept
 }
@@ -2371,10 +2371,10 @@ rule  CobaltStrike__Resources_Browserpivot_Bin_v1_48_to_v3_14_and_Sleeve_Browser
 		author = "gssincla@google.com"
 		reference = "https://cloud.google.com/blog/products/identity-security/making-cobalt-strike-harder-for-threat-actors-to-abuse"
 		date = "2022-11-18"
-		
+
 		id = "55086544-6684-526b-914f-505a562be458"
 		score = 80
-
+		vetted_family = "cobalt"
 	strings:
 	/*
 		FF [1-5]        call    ds:recv               // earlier versions (v1.x to 2.x) this is CALL EBP
@@ -2392,18 +2392,18 @@ rule  CobaltStrike__Resources_Browserpivot_Bin_v1_48_to_v3_14_and_Sleeve_Browser
 
 	$socket_recv = {
 			FF [1-5]
-			83 ?? FF 
-			74 ?? 
+			83 ?? FF
+			74 ??
 			85 C0
-			(74 | 76) ?? 
-			03 ?? 
-			83 ?? 02 
-			72 ?? 
-			80 ?? 3E FF 0A 
-			75 ?? 
-			80 ?? 3E FE 0D 
+			(74 | 76) ??
+			03 ??
+			83 ?? 02
+			72 ??
+			80 ?? 3E FF 0A
+			75 ??
+			80 ?? 3E FE 0D
 		}
-		
+
   // distinctive regex (sscanf) format string
   $fmt = "%1024[^ ] %8[^:]://%1016[^/]%7168[^ ] %1024[^ ]"
 
@@ -2433,10 +2433,10 @@ rule CobaltStrike_Resources_Browserpivot_x64_Bin_v1_48_to_v3_14_and_Sleeve_Brows
 		author = "gssincla@google.com"
 		reference = "https://cloud.google.com/blog/products/identity-security/making-cobalt-strike-harder-for-threat-actors-to-abuse"
 		date = "2022-11-18"
-		
+
 		id = "a5dfae85-ff9c-5ca5-9ac0-041c6108a6ed"
 		score = 80
-
+		vetted_family = "cobalt"
 	strings:
 	/*
 		FF 15 [4]         call    cs:recv
@@ -2472,7 +2472,7 @@ rule CobaltStrike_Resources_Browserpivot_x64_Bin_v1_48_to_v3_14_and_Sleeve_Brows
 
   // distinctive regex (sscanf) format string
   $fmt = "%1024[^ ] %8[^:]://%1016[^/]%7168[^ ] %1024[^ ]"
-		
+
 	condition:
 		all of them
 }
@@ -2500,10 +2500,10 @@ rule CobaltStrike_Resources_Bypassuac_Dll_v1_49_to_v3_14_and_Sleeve_Bypassuac_Dl
 		author = "gssincla@google.com"
 		reference = "https://cloud.google.com/blog/products/identity-security/making-cobalt-strike-harder-for-threat-actors-to-abuse"
 		date = "2022-11-18"
-		
+
 		id = "614046b5-cf81-56a5-8824-b3a7e14a8ed5"
 		score = 80
-
+		vetted_family = "cobalt"
 	strings:
 	/*
 		A1 [4]    mov     eax, fileop
@@ -2523,16 +2523,16 @@ rule CobaltStrike_Resources_Bypassuac_Dll_v1_49_to_v3_14_and_Sleeve_Bypassuac_Dl
 	$deleteFileCOM = {
 			A1 [4]
 			6A 00
-			8B ?? 
-			5? 
-			5? 
-			FF ?? 48 
-			85 ?? 
-			75 ?? 
+			8B ??
+			5?
+			5?
+			FF ?? 48
+			85 ??
+			75 ??
 			A1 [4]
-			5? 
-			8B ?? 
-			FF ?? 54 
+			5?
+			8B ??
+			FF ?? 54
 		}
 
 	/*
@@ -2556,20 +2556,20 @@ rule CobaltStrike_Resources_Bypassuac_Dll_v1_49_to_v3_14_and_Sleeve_Bypassuac_Dl
 			A1 [4]
 			6A 00
 			FF [2]
-			8B ?? 
+			8B ??
 			FF [5]
 			FF [5]
-			5? 
-			FF ?? 40 
-			85 ?? 
+			5?
+			FF ?? 40
+			85 ??
 			[2 - 6]
 			A1 [4]
-			5? 
-			8B ?? 
-			FF ?? 54 
+			5?
+			8B ??
+			FF ?? 54
 		}
-		
-				
+
+
 	condition:
 		all of them
 }
@@ -2597,10 +2597,10 @@ rule CobaltStrike_Resources_Bypassuac_x64_Dll_v3_3_to_v3_14_and_Sleeve_Bypassuac
 		author = "gssincla@google.com"
 		reference = "https://cloud.google.com/blog/products/identity-security/making-cobalt-strike-harder-for-threat-actors-to-abuse"
 		date = "2022-11-18"
-		
+
 		id = "eef83901-63d9-55a3-b115-03f420416177"
 		score = 80
-
+		vetted_family = "cobalt"
 	strings:
 	/*
 		48 8B 0D 07 A4 01 00 mov     rcx, cs:fileop
@@ -2626,9 +2626,9 @@ rule CobaltStrike_Resources_Bypassuac_x64_Dll_v3_3_to_v3_14_and_Sleeve_Bypassuac
 			48 8B ??
 			FF 92 A8 00 00 00
 			85 C0
-		}	
-	
-	
+		}
+
+
 	/*
 		48 8B 0D 32 A3 01 00 mov     rcx, cs:fileop
 		4C 8B 05 3B A3 01 00 mov     r8, cs:dstFile
@@ -2686,10 +2686,10 @@ rule CobaltStrike_Resources_Bypassuactoken_Dll_v3_11_to_v3_14
 		author = "gssincla@google.com"
 		reference = "https://cloud.google.com/blog/products/identity-security/making-cobalt-strike-harder-for-threat-actors-to-abuse"
 		date = "2022-11-18"
-		
+
 		id = "b9f25fa5-bd1d-5ba0-9b1d-bb97e1dbf76b"
 		score = 80
-
+		vetted_family = "cobalt"
 	strings:
 	/*
 		5?                 push    eax; ReturnLength
@@ -2731,42 +2731,42 @@ rule CobaltStrike_Resources_Bypassuactoken_Dll_v3_11_to_v3_14
 	*/
 
 	$isHighIntegrityProcess = {
-			5? 
-			5? 
-			5? 
-			8B ?? 
+			5?
+			5?
+			5?
+			8B ??
 			6A 19
-			5? 
+			5?
 			FF 15 [4]
 			85 C0
-			75 ?? 
+			75 ??
 			FF 15 [4]
-			83 ?? 7A 
-			75 ?? 
+			83 ?? 7A
+			75 ??
 			FF [2]
-			5? 
+			5?
 			FF 15 [4]
-			8B ?? 
+			8B ??
 			8D [2]
-			5? 
+			5?
 			FF [2]
-			5? 
+			5?
 			6A 19
-			5? 
+			5?
 			FF 15 [4]
 			85 C0
-			74 ?? 
-			FF ?? 
+			74 ??
+			FF ??
 			FF 15 [4]
-			8A ?? 
+			8A ??
 			FE C8
 			0F B6 C0
-			5? 
-			FF ?? 
+			5?
+			FF ??
 			FF 15 [4]
-			B? 01 00 00 00 
-			5? 
-			81 ?? 00 30 00 00 
+			B? 01 00 00 00
+			5?
+			81 ?? 00 30 00 00
 		}
 
 	/*
@@ -2793,26 +2793,26 @@ rule CobaltStrike_Resources_Bypassuactoken_Dll_v3_11_to_v3_14
 
 	$executeTaskmgr = {
 			6A 3C
-			8D ?? C4 
-			8B ?? 
+			8D ?? C4
+			8B ??
 			6A 00
-			5? 
-			8B ?? 
+			5?
+			8B ??
 			E8 [4]
 			83 C4 0C
-			C7 [2] 3C 00 00 00 
+			C7 [2] 3C 00 00 00
 			8D [2]
-			C7 [2] 40 00 00 00 
+			C7 [2] 40 00 00 00
 			C7 [6]
-			C7 [2] 00 00 00 00 
-			5? 
-			C7 [2] 00 00 00 00 
+			C7 [2] 00 00 00 00
+			5?
+			C7 [2] 00 00 00 00
 			C7 [6]
-			C7 [2] 00 00 00 00 
+			C7 [2] 00 00 00 00
 			FF 15 [4]
 			FF 75 FC
 		}
-		
+
 	condition:
 		all of them
 }/*
@@ -2839,10 +2839,10 @@ rule CobaltStrike_Resources_Bypassuactoken_x64_Dll_v3_11_to_v3_14
 		author = "gssincla@google.com"
 		reference = "https://cloud.google.com/blog/products/identity-security/making-cobalt-strike-harder-for-threat-actors-to-abuse"
 		date = "2022-11-18"
-		
+
 		id = "c89befcd-a622-5947-9ce3-a6031901a45a"
 		score = 80
-
+		vetted_family = "cobalt"
 	strings:
 	/*
 		83 F8 7A          cmp     eax, 7Ah ; 'z'
@@ -2929,7 +2929,7 @@ rule CobaltStrike_Resources_Bypassuactoken_x64_Dll_v3_11_to_v3_14
 			C7 [3] 70 00 00 00
 			C7 [3] 40 00 00 00
 			48 89 [3]
-			FF 15 
+			FF 15
 		}
 
 
@@ -2963,12 +2963,12 @@ rule CobaltStrike_Resources_Command_Ps1_v2_5_to_v3_7_and_Resources_Compress_Ps1_
 
 		id = "c0b81deb-ed20-5f7e-8e15-e6a9e9362594"
   	score = 80
-
-	strings:		
+		vetted_family = "cobalt"
+	strings:
     // the command.ps1 and compress.ps1 are the same file. Between v3.7 and v3.8 the file was renamed from command to compress.
     $ps1 = "$s=New-Object \x49O.MemoryStream(,[Convert]::\x46romBase64String(" nocase
     $ps2 ="));IEX (New-Object IO.StreamReader(New-Object IO.Compression.GzipStream($s,[IO.Compression.CompressionMode]::Decompress))).ReadToEnd();" nocase
-  
+
   condition:
     all of them
 }/*
@@ -2995,10 +2995,10 @@ rule CobaltStrike_Resources_Covertvpn_Dll_v2_1_to_v4_x
 		author = "gssincla@google.com"
 		reference = "https://cloud.google.com/blog/products/identity-security/making-cobalt-strike-harder-for-threat-actors-to-abuse"
 		date = "2022-11-18"
-		
+
 		id = "a65b855c-5703-5b9f-bb57-da8ebf898f9b"
 		score = 80
-
+		vetted_family = "cobalt"
 	strings:
 	/*
 		5?                  push    esi
@@ -3018,18 +3018,18 @@ rule CobaltStrike_Resources_Covertvpn_Dll_v2_1_to_v4_x
 	*/
 
 	$dropComponentsAndActivateDriver_prologue = {
-			5? 
+			5?
 			68 [4]
 			68 [4]
-			C7 [3-5] 00 00 00 00 
+			C7 [3-5] 00 00 00 00
 			FF 15 [4]
 			50
 			FF 15 [4]
-			8B ?? 
-			85 ?? 
+			8B ??
+			85 ??
 			74 ??
 			8D [3-5]
-			5? 
+			5?
 			FF 15 [4]
 			50
 		}
@@ -3063,12 +3063,12 @@ rule CobaltStrike_Resources_Covertvpn_Dll_v2_1_to_v4_x
 
 	$dropFile = {
 			6A 00
-			5? 
+			5?
 			E8 [4]
 			83 C4 08
 			83 F8 FF
-			74 ?? 
-			5? 
+			74 ??
+			5?
 			[0-5]
 			E8 [4]
 			83 C4 ??
@@ -3079,15 +3079,15 @@ rule CobaltStrike_Resources_Covertvpn_Dll_v2_1_to_v4_x
 			6A 00
 			6A 05
 			68 00 00 00 40
-			5? 
+			5?
 			FF 15 [4]
-			8B ?? 
-			83 ?? FF 
-			75 ?? 
+			8B ??
+			83 ?? FF
+			75 ??
 			FF 15 [4]
-			5? 
+			5?
 		}
-	
+
 	$nfp = "npf.sys" nocase
 	$wpcap = "wpcap.dll" nocase
 
@@ -3117,10 +3117,10 @@ rule CobaltStrike_Resources_Covertvpn_injector_Exe_v1_44_to_v2_0_49
 		author = "gssincla@google.com"
 		reference = "https://cloud.google.com/blog/products/identity-security/making-cobalt-strike-harder-for-threat-actors-to-abuse"
 		date = "2022-11-18"
-		
+
 		id = "48485ae2-1d99-5fa8-b8e8-0047e92ef447"
 		score = 80
-
+		vetted_family = "cobalt"
 	strings:
 	/*
 		C7 04 24 [4]    mov     dword ptr [esp], offset aKernel32; "kernel32"
@@ -3147,9 +3147,9 @@ rule CobaltStrike_Resources_Covertvpn_injector_Exe_v1_44_to_v2_0_49
 			89 04 24
 			E8 59 14 00 00
 			83 EC 08
-			89 45 ?? 
-			83 7D ?? 00 
-			74 ?? 
+			89 45 ??
+			83 7D ?? 00
+			74 ??
 			E8 [4]
 			8D [2]
 			89 [3]
@@ -3184,12 +3184,12 @@ rule CobaltStrike_Resources_Covertvpn_injector_Exe_v1_44_to_v2_0_49
 	$dropFile = {
 			C7 44 24 04 00 00 00 00
 			8B [2]
-			89 ?? 24 
+			89 ?? 24
 			E8 [4]
 			83 F8 FF
-			74 ?? 
+			74 ??
 			8B [2]
-			89 ?? 24 04 
+			89 ?? 24 04
 			C7 04 24 [4]
 			E8 [4]
 			E9 [4]
@@ -3203,12 +3203,12 @@ rule CobaltStrike_Resources_Covertvpn_injector_Exe_v1_44_to_v2_0_49
 			89 04 24
 			E8 [4]
 			83 EC 1C
-			89 45 ?? 
+			89 45 ??
 		}
 
 	$nfp = "npf.sys" nocase
 	$wpcap = "wpcap.dll" nocase
-			
+
 	condition:
 		all of them
 }
@@ -3236,10 +3236,10 @@ rule CobaltStrike_Resources_Dnsstager_Bin_v1_47_through_v4_x
 		author = "gssincla@google.com"
 		reference = "https://cloud.google.com/blog/products/identity-security/making-cobalt-strike-harder-for-threat-actors-to-abuse"
 		date = "2022-11-18"
-		
+
 		id = "e1b0e368-9bcf-5d9b-b2b3-8414742f213e"
 		score = 80
-
+		vetted_family = "cobalt"
 	strings:
 	/*
 		31 ??     xor     eax, eax
@@ -3265,31 +3265,31 @@ rule CobaltStrike_Resources_Dnsstager_Bin_v1_47_through_v4_x
 	*/
 
 	$apiLocator = {
-			31 ?? 
+			31 ??
 			AC
-			C1 ?? 0D 
-			01 ?? 
-			38 ?? 
-			75 ?? 
+			C1 ?? 0D
+			01 ??
+			38 ??
+			75 ??
 			03 [2]
 			3B [2]
-			75 ?? 
-			5? 
-			8B ?? 24 
-			01 ?? 
+			75 ??
+			5?
+			8B ?? 24
+			01 ??
 			66 8B [2]
-			8B ?? 1C 
-			01 ?? 
-			8B ?? 8B 
-			01 ?? 
+			8B ?? 1C
+			01 ??
+			8B ?? 8B
+			01 ??
 			89 [3]
-			5? 
-			5? 
+			5?
+			5?
 		}
 
     // the signature for the stagers overlap significantly. Looking for dnsstager.bin specific bytes helps delineate sample types
-	  $dnsapi = { 68 64 6E 73 61 }	
-	
+	  $dnsapi = { 68 64 6E 73 61 }
+
 	condition:
 		$apiLocator and $dnsapi
 }
@@ -3317,10 +3317,10 @@ rule CobaltStrike_Resources_Elevate_Dll_v3_0_to_v3_14_and_Sleeve_Elevate_Dll_v4_
 		author = "gssincla@google.com"
 		reference = "https://cloud.google.com/blog/products/identity-security/making-cobalt-strike-harder-for-threat-actors-to-abuse"
 		date = "2022-11-18"
-		
+
 		id = "170f62a2-ba4f-5be8-9ec5-402eb7bbde4e"
 		score = 80
-
+		vetted_family = "cobalt"
 	strings:
 	/*
 		6A 00               push    0; lParam
@@ -3345,22 +3345,22 @@ rule CobaltStrike_Resources_Elevate_Dll_v3_0_to_v3_14_and_Sleeve_Elevate_Dll_v4_
 			6A 00
 			6A 28
 			68 00 01 00 00
-			5? 
-			C7 [5] 01 00 00 00 
-			FF ?? 
+			5?
+			C7 [5] 01 00 00 00
+			FF ??
 			6A 00
 			6A 27
 			68 00 01 00 00
-			5? 
-			FF ?? 
+			5?
+			FF ??
 			6A 00
 			6A 00
 			68 01 02 00 00
-			5? 
-			FF ?? 
+			5?
+			FF ??
 		}
 
-		
+
 	condition:
 		$wnd_proc
 }
@@ -3388,10 +3388,10 @@ rule CobaltStrike_Resources_Elevate_X64_Dll_v3_0_to_v3_14_and_Sleeve_Elevate_X64
 		author = "gssincla@google.com"
 		reference = "https://cloud.google.com/blog/products/identity-security/making-cobalt-strike-harder-for-threat-actors-to-abuse"
 		date = "2022-11-18"
-		
+
 		id = "91d5c343-1084-5cfc-9dfa-46f530eb9625"
 		score = 80
-
+		vetted_family = "cobalt"
 	strings:
 	/*
 		81 FA 21 01 00 00             cmp     edx, 121h
@@ -3432,7 +3432,7 @@ rule CobaltStrike_Resources_Elevate_X64_Dll_v3_0_to_v3_14_and_Sleeve_Elevate_X64
 			45 33 ??
 			45 33 ??
 			BA 01 02 00 00
-			48 
+			48
 		}
 
 	condition:
@@ -3462,10 +3462,10 @@ rule CobaltStrike_Resources_Httpsstager64_Bin_v3_2_through_v4_x
 		author = "gssincla@google.com"
 		reference = "https://cloud.google.com/blog/products/identity-security/making-cobalt-strike-harder-for-threat-actors-to-abuse"
 		date = "2022-11-18"
-		
+
 		id = "c16e73fc-484a-5f7e-8127-d85a0254d842"
 		score = 80
-
+		vetted_family = "cobalt"
 	strings:
 	/*
 		48 31 C0       xor     rax, rax
@@ -3504,7 +3504,7 @@ rule CobaltStrike_Resources_Httpsstager64_Bin_v3_2_through_v4_x
 			44 [2] 1C
 			49 [2]
 			41 [3]
-			48 
+			48
 		}
 
 
@@ -3526,8 +3526,8 @@ rule CobaltStrike_Resources_Httpsstager64_Bin_v3_2_through_v4_x
 			49 [2]
 			41 ?? 04 00 00 00
 			41 ?? 75 46 9E 86
-		}	
-	
+		}
+
 	condition:
 		$apiLocator and $InternetSetOptionA
 }
@@ -3555,10 +3555,10 @@ rule CobaltStrike_Resources_Httpsstager_Bin_v2_5_through_v4_x
 		author = "gssincla@google.com"
 		reference = "https://cloud.google.com/blog/products/identity-security/making-cobalt-strike-harder-for-threat-actors-to-abuse"
 		date = "2022-11-18"
-		
+
 		id = "f45aa40a-3936-50f9-a60e-de7181862d19"
 		score = 80
-
+		vetted_family = "cobalt"
 	strings:
 	/*
 		31 ??     xor     eax, eax
@@ -3584,26 +3584,26 @@ rule CobaltStrike_Resources_Httpsstager_Bin_v2_5_through_v4_x
 	*/
 
 	$apiLocator = {
-			31 ?? 
+			31 ??
 			AC
-			C1 ?? 0D 
-			01 ?? 
-			38 ?? 
-			75 ?? 
+			C1 ?? 0D
+			01 ??
+			38 ??
+			75 ??
 			03 [2]
 			3B [2]
-			75 ?? 
-			5? 
-			8B ?? 24 
-			01 ?? 
+			75 ??
+			5?
+			8B ?? 24
+			01 ??
 			66 8B [2]
-			8B ?? 1C 
-			01 ?? 
-			8B ?? 8B 
-			01 ?? 
+			8B ?? 1C
+			01 ??
+			8B ?? 8B
+			01 ??
 			89 [3]
-			5? 
-			5? 
+			5?
+			5?
 		}
 
   // the signature for httpstager and httpsstager really only differ by the flags passed to WinInet API
@@ -3619,13 +3619,13 @@ rule CobaltStrike_Resources_Httpsstager_Bin_v2_5_through_v4_x
 
 	$InternetSetOptionA = {
 			6A 04
-			5? 
+			5?
 			6A 1F
-			5? 
+			5?
 			68 75 46 9E 86
-			FF  
+			FF
 		}
-	
+
 	condition:
 		$apiLocator and $InternetSetOptionA
 }
@@ -3653,10 +3653,10 @@ rule CobaltStrike_Resources_Httpstager64_Bin_v3_2_through_v4_x
 		author = "gssincla@google.com"
 		reference = "https://cloud.google.com/blog/products/identity-security/making-cobalt-strike-harder-for-threat-actors-to-abuse"
 		date = "2022-11-18"
-		
+
 		id = "5530dce8-e5a1-5133-9b05-464e3397084a"
 		score = 80
-
+		vetted_family = "cobalt"
 	strings:
 	/*
 		48 31 C0       xor     rax, rax
@@ -3695,7 +3695,7 @@ rule CobaltStrike_Resources_Httpstager64_Bin_v3_2_through_v4_x
 			44 [2] 1C
 			49 [2]
 			41 [3]
-			48 
+			48
 		}
 
 
@@ -3710,10 +3710,10 @@ rule CobaltStrike_Resources_Httpstager64_Bin_v3_2_through_v4_x
 	$postInternetOpenJmp = {
 			41 ?? 3A 56 79 A7
 			FF ??
-			EB 
+			EB
 		}
 
-	
+
 	condition:
 		$apiLocator and $postInternetOpenJmp
 }
@@ -3741,10 +3741,10 @@ rule CobaltStrike_Resources_Httpstager_Bin_v2_5_through_v4_x
 		author = "gssincla@google.com"
 		reference = "https://cloud.google.com/blog/products/identity-security/making-cobalt-strike-harder-for-threat-actors-to-abuse"
 		date = "2022-11-18"
-		
+
 		id = "86109485-c26c-5c51-8d04-dd1add9a8c57"
 		score = 80
-
+		vetted_family = "cobalt"
 	strings:
 	/*
 		31 ??     xor     eax, eax
@@ -3770,26 +3770,26 @@ rule CobaltStrike_Resources_Httpstager_Bin_v2_5_through_v4_x
 	*/
 
 	$apiLocator = {
-			31 ?? 
+			31 ??
 			AC
-			C1 ?? 0D 
-			01 ?? 
-			38 ?? 
-			75 ?? 
+			C1 ?? 0D
+			01 ??
+			38 ??
+			75 ??
 			03 [2]
 			3B [2]
-			75 ?? 
-			5? 
-			8B ?? 24 
-			01 ?? 
+			75 ??
+			5?
+			8B ?? 24
+			01 ??
 			66 8B [2]
-			8B ?? 1C 
-			01 ?? 
-			8B ?? 8B 
-			01 ?? 
+			8B ?? 1C
+			01 ??
+			8B ?? 8B
+			01 ??
 			89 [3]
-			5? 
-			5? 
+			5?
+			5?
 		}
 
   // the signature for httpstager and httpsstager really only differ by the flags passed to WinInet API
@@ -3803,10 +3803,10 @@ rule CobaltStrike_Resources_Httpstager_Bin_v2_5_through_v4_x
 	*/
 
 	$downloaderLoop = {
-			B? 00 2F 00 00 
-			39 ?? 
-			74 ?? 
-			31 ?? 
+			B? 00 2F 00 00
+			39 ??
+			74 ??
+			31 ??
 			( E9 | EB )
 		}
 
@@ -3837,10 +3837,10 @@ rule CobaltStrike_Resources_Reverse64_Bin_v2_5_through_v4_x
 		author = "gssincla@google.com"
 		reference = "https://cloud.google.com/blog/products/identity-security/making-cobalt-strike-harder-for-threat-actors-to-abuse"
 		date = "2022-11-18"
-		
+
 		id = "966e6e4c-85e2-5c94-8245-25367802b7d2"
 		score = 80
-
+		vetted_family = "cobalt"
 	strings:
 	/*
 		48 31 C0       xor     rax, rax
@@ -3879,7 +3879,7 @@ rule CobaltStrike_Resources_Reverse64_Bin_v2_5_through_v4_x
 			44 [2] 1C
 			49 [2]
 			41 [3]
-			48 
+			48
 		}
 
 
@@ -3939,10 +3939,10 @@ rule CobaltStrike_Resources_Reverse_Bin_v2_5_through_v4_x
 		author = "gssincla@google.com"
 		reference = "https://cloud.google.com/blog/products/identity-security/making-cobalt-strike-harder-for-threat-actors-to-abuse"
 		date = "2022-11-18"
-		
+
 		id = "182dbcd0-1180-5516-abe3-cf2eebbd0e39"
 		score = 80
-
+		vetted_family = "cobalt"
 	strings:
 	/*
 		31 ??     xor     eax, eax
@@ -3968,26 +3968,26 @@ rule CobaltStrike_Resources_Reverse_Bin_v2_5_through_v4_x
 	*/
 
 	$apiLocator = {
-			31 ?? 
+			31 ??
 			AC
-			C1 ?? 0D 
-			01 ?? 
-			38 ?? 
-			75 ?? 
+			C1 ?? 0D
+			01 ??
+			38 ??
+			75 ??
 			03 [2]
 			3B [2]
-			75 ?? 
-			5? 
-			8B ?? 24 
-			01 ?? 
+			75 ??
+			5?
+			8B ?? 24
+			01 ??
 			66 8B [2]
-			8B ?? 1C 
-			01 ?? 
-			8B ?? 8B 
-			01 ?? 
+			8B ?? 1C
+			01 ??
+			8B ?? 8B
+			01 ??
 			89 [3]
-			5? 
-			5? 
+			5?
+			5?
 		}
 
     // the signature for the stagers overlap significantly. Looking for reverse.bin specific bytes helps delineate sample types
@@ -4014,11 +4014,11 @@ rule CobaltStrike_Resources_Reverse_Bin_v2_5_through_v4_x
 	*/
 	$connect = {
 			6A 10
-			5? 
-			5? 
+			5?
+			5?
 			68 99 A5 74 61
 		}
-	
+
 	condition:
 		$apiLocator and $ws2_32 and $connect
 }
@@ -4046,10 +4046,10 @@ rule CobaltStrike_Resources_Smbstager_Bin_v2_5_through_v4_x
 		author = "gssincla@google.com"
 		reference = "https://cloud.google.com/blog/products/identity-security/making-cobalt-strike-harder-for-threat-actors-to-abuse"
 		date = "2022-11-18"
-		
+
 		id = "074b7d83-e3d8-541c-804b-2417c21f54d5"
 		score = 80
-
+		vetted_family = "cobalt"
 	strings:
 	/*
 		31 ??     xor     eax, eax
@@ -4075,31 +4075,31 @@ rule CobaltStrike_Resources_Smbstager_Bin_v2_5_through_v4_x
 	*/
 
 	$apiLocator = {
-			31 ?? 
+			31 ??
 			AC
-			C1 ?? 0D 
-			01 ?? 
-			38 ?? 
-			75 ?? 
+			C1 ?? 0D
+			01 ??
+			38 ??
+			75 ??
 			03 [2]
 			3B [2]
-			75 ?? 
-			5? 
-			8B ?? 24 
-			01 ?? 
+			75 ??
+			5?
+			8B ?? 24
+			01 ??
 			66 8B [2]
-			8B ?? 1C 
-			01 ?? 
-			8B ?? 8B 
-			01 ?? 
+			8B ?? 1C
+			01 ??
+			8B ?? 8B
+			01 ??
 			89 [3]
-			5? 
-			5? 
+			5?
+			5?
 		}
 
     // the signature for the stagers overlap significantly. Looking for smbstager.bin specific bytes helps delineate sample types
-	  $smb = { 68 C6 96 87 52 }	
-	  
+	  $smb = { 68 C6 96 87 52 }
+
 	  // This code block helps differentiate between smbstager.bin and metasploit's engine which has reasonable level of overlap
 	  	/*
 		6A 40          push    40h ; '@'
@@ -4116,7 +4116,7 @@ rule CobaltStrike_Resources_Smbstager_Bin_v2_5_through_v4_x
 			6A 00
 			68 58 A4 53 E5
 		}
-	
+
 	condition:
 		$apiLocator and $smb and $smbstart
 }
@@ -4147,8 +4147,8 @@ rule CobaltStrike_Resources_Template_Py_v3_3_to_v4_x
 
 		id = "16aef9a9-b217-5462-93dc-f6273c99ddd0"
   	score = 80
-
-	strings:   
+		vetted_family = "cobalt"
+	strings:
     $arch = "platform.architecture()"
     $nope = "WindowsPE"
     $alloc = "ctypes.windll.kernel32.VirtualAlloc"
@@ -4185,7 +4185,7 @@ rule CobaltStrike_Resources_Template_Sct_v3_3_to_v4_x
 
 		id = "9d2b1dfa-5f76-503f-9198-6ed0d039e0cb"
 		score = 80
-
+		vetted_family = "cobalt"
 	strings:
     $scriptletstart = "<scriptlet>" nocase
     $registration = "<registration progid=" nocase
@@ -4222,10 +4222,10 @@ rule CobaltStrike_Resources__Template_Vbs_v3_3_to_v4_x
 		author = "gssincla@google.com"
 		reference = "https://cloud.google.com/blog/products/identity-security/making-cobalt-strike-harder-for-threat-actors-to-abuse"
 		date = "2022-11-18"
-		
+
 		id = "62f35d02-1e4e-5651-b575-888ce06b8bdd"
 		score = 80
-
+		vetted_family = "cobalt"
 	strings:
 	  $ea = "Excel.Application" nocase
     $vis = "Visible = False" nocase
@@ -4265,12 +4265,12 @@ rule CobaltStrike_Resources_Template__x32_x64_Ps1_v1_45_to_v2_5_and_v3_11_to_v3_
 		author = "gssincla@google.com"
 		reference = "https://cloud.google.com/blog/products/identity-security/making-cobalt-strike-harder-for-threat-actors-to-abuse"
 		date = "2022-11-18"
-		
+
 		id = "c9fa6a39-0098-5dde-9762-94bc6b2df299"
 		score = 80
-
+		vetted_family = "cobalt"
 	strings:
-	
+
 		$importVA = "[DllImport(\"kernel32.dll\")] public static extern IntPtr VirtualAlloc" nocase
 		$importCT = "[DllImport(\"kernel32.dll\")] public static extern IntPtr CreateThread" nocase
 		$importWFSO = "[DllImport(\"kernel32.dll\")] public static extern int WaitForSingleObject" nocase
@@ -4282,8 +4282,8 @@ rule CobaltStrike_Resources_Template__x32_x64_Ps1_v1_45_to_v2_5_and_v3_11_to_v3_
     //$data = "[Byte[]]$var_code = [System.Convert]::FromBase64String(" nocase
 
     //$64bitSpecific = "[IntPtr]::size -eq 8"
-    
-    
+
+
   condition:
     all of them
 }/*
@@ -4310,10 +4310,10 @@ rule CobaltStrike_Resources_Template_x64_Ps1_v3_0_to_v4_x_excluding_3_12_3_13
 		author = "gssincla@google.com"
 		reference = "https://cloud.google.com/blog/products/identity-security/making-cobalt-strike-harder-for-threat-actors-to-abuse"
 		date = "2022-11-18"
-		
+
 		id = "5a808113-aacb-56ca-b3ec-166c73c54b85"
 		score = 80
-
+		vetted_family = "cobalt"
 	strings:
     $dda = "[AppDomain]::CurrentDomain.DefineDynamicAssembly" nocase
     $imm = "InMemoryModule" nocase
@@ -4322,7 +4322,7 @@ rule CobaltStrike_Resources_Template_x64_Ps1_v3_0_to_v4_x_excluding_3_12_3_13
     $data = "[Byte[]]$var_code = [System.Convert]::FromBase64String(" nocase
     $64bitSpecific = "[IntPtr]::size -eq 8"
     $mandatory = "Mandatory = $True"
-    
+
   condition:
     all of them
 }/*
@@ -4352,7 +4352,7 @@ rule CobaltStrike_Resources_Template_x86_Vba_v3_8_to_v4_x
 
 		id = "11c7758e-93b2-5fe3-873d-b98de579d2b4"
 		score = 80
-
+		vetted_family = "cobalt"
 	strings:
     $createstuff = "Function CreateStuff Lib \"kernel32\" Alias \"CreateRemoteThread\"" nocase
     $allocstuff = "Function AllocStuff Lib \"kernel32\" Alias \"VirtualAllocEx\"" nocase
@@ -4388,13 +4388,13 @@ rule CobaltStrike_Resources_Xor_Bin_v2_x_to_v4_x
 		author = "gssincla@google.com"
 		reference = "https://cloud.google.com/blog/products/identity-security/making-cobalt-strike-harder-for-threat-actors-to-abuse"
 		date = "2022-11-18"
-		
+
 		id = "1754746c-3a42-5f7d-808a-ba2e1c0a270e"
 		score = 80
-
+		vetted_family = "cobalt"
 	strings:
 	  /* The method for making this signatures consists of extracting each stub from the various resources/xor.bin files
-	     in the cobaltstrike.jar files. For each stub found, sort them by byte count (size). Then for all entries in the 
+	     in the cobaltstrike.jar files. For each stub found, sort them by byte count (size). Then for all entries in the
 	     same size category, compare them nibble by nibble. Any mismatched nibbles get 0'd. After all stubs have been
 	     compared to each other thereby creating a mask, any 0 nibbles are turned to ? wildcards. The results are seen below */
     $stub52 = {fc e8 ?? ?? ?? ?? [1-32] eb 27 5? 8b ??    83 c? ?4 8b ??    31 ?? 83 c? ?4 5? 8b ??    31 ?? 89 ??    31 ?? 83 c? ?4 83 e? ?4 31 ?? 39 ?? 74 ?2 eb ea 5? ff e? e8 d4 ff ff ff}
@@ -4429,20 +4429,20 @@ rule CobaltStrike_Resources_Xor_Bin__64bit_v3_12_to_v4_x
 		author = "gssincla@google.com"
 		reference = "https://cloud.google.com/blog/products/identity-security/making-cobalt-strike-harder-for-threat-actors-to-abuse"
 		date = "2022-11-18"
-		
+
 		id = "5bb465ee-3bbd-5bfe-8b63-1f243de217bc"
 		score = 80
-
+		vetted_family = "cobalt"
 	strings:
 	  /* The method for making this signatures consists of extracting each stub from the various resources/xor64.bin files
-	     in the cobaltstrike.jar files. For each stub found, sort them by byte count (size). Then for all entries in the 
+	     in the cobaltstrike.jar files. For each stub found, sort them by byte count (size). Then for all entries in the
 	     same size category, compare them nibble by nibble. Any mismatched nibbles get 0'd. After all stubs have been
 	     compared to each other thereby creating a mask, any 0 nibbles are turned to ? wildcards. The results are seen below */
 
     $stub58 = {fc e8 ?? ?? ?? ?? [1-32] eb 33 5? 8b ?? 00 4? 83 ?? ?4 8b ?? 00 31 ?? 4? 83 ?? ?4 5? 8b ?? 00 31 ?? 89 ?? 00 31 ?? 4? 83 ?? ?4 83 ?? ?4 31 ?? 39 ?? 74 ?2 eb e7 5? fc 4? 83 ?? f0 ff}
     $stub59 = {fc e8 ?? ?? ?? ?? [1-32] eb 2e 5? 8b ??    48 83 c? ?4 8b ??    31 ?? 48 83 c? ?4 5? 8b ??    31 ?? 89 ??    31 ?? 48 83 c? ?4 83 e? ?4 31 ?? 39 ?? 74 ?2 eb e9 5?    48 83 ec ?8 ff e? e8 cd ff ff ff}
     $stub63 = {fc e8 ?? ?? ?? ?? [1-32] eb 32 5d 8b ?? ?? 48 83 c5 ?4 8b ?? ?? 31 ?? 48 83 c5 ?4 55 8b ?? ?? 31 ?? 89 ?? ?? 31 ?? 48 83 c5 ?4 83 e? ?4 31 ?? 39 ?? 74 ?2 eb e7 5?    48 83 ec ?8 ff e? e8 c9 ff ff ff}
-  
+
   condition:
     any of them
 }
@@ -4470,10 +4470,10 @@ rule CobaltStrike_Sleeve_BeaconLoader_HA_x86_o_v4_3_v4_4_v4_5_and_v4_6
     author = "gssincla@google.com"
     reference = "https://cloud.google.com/blog/products/identity-security/making-cobalt-strike-harder-for-threat-actors-to-abuse"
     date = "2022-11-18"
-   
+
     id = "0ee3fa6f-367c-596f-a3bc-3bcfa61b97aa"
   	score = 80
-
+		vetted_family = "cobalt"
 	strings:
     /*
       C6 45 F0 48 mov     [ebp+var_10], 48h ; 'H'
@@ -4504,7 +4504,7 @@ rule CobaltStrike_Sleeve_BeaconLoader_HA_x86_o_v4_3_v4_4_v4_5_and_v4_6
     // These strings can narrow down the specific version
     //$ver_43 = { 9B 2C 3E 60 }         // Version 4.3
     //$ver_44_45_46 = { 55 F8 86 5F }   // Versions 4.4, 4.5, and 4.6
-    
+
   condition:
     all of them
 }
@@ -4517,10 +4517,10 @@ rule CobaltStrike_Sleeve_BeaconLoader_MVF_x86_o_v4_3_v4_4_v4_5_and_v4_6
 		author = "gssincla@google.com"
 		reference = "https://cloud.google.com/blog/products/identity-security/making-cobalt-strike-harder-for-threat-actors-to-abuse"
 		date = "2022-11-18"
-    
+
     id = "3f7c0553-989e-53e7-87a9-3fa1c47f4b62"
   	score = 80
-
+		vetted_family = "cobalt"
 	strings:
     /*
       C6 45 EC 4D mov     [ebp+var_14], 4Dh ; 'M'
@@ -4559,7 +4559,7 @@ rule CobaltStrike_Sleeve_BeaconLoader_MVF_x86_o_v4_3_v4_4_v4_5_and_v4_6
     // These strings can narrow down the specific version
     //$ver_43 = { 9C 2C 3E 60 }         // Version 4.3
     //$ver_44_45_46 = { 55 F8 86 5F }   // Versions 4.4, 4.5, and 4.6
-    
+
   condition:
     all of them
 }
@@ -4573,10 +4573,10 @@ rule CobaltStrike_Sleeve_BeaconLoader_VA_x86_o_v4_3_v4_4_v4_5_and_v4_6
 		author = "gssincla@google.com"
 		reference = "https://cloud.google.com/blog/products/identity-security/making-cobalt-strike-harder-for-threat-actors-to-abuse"
 		date = "2022-11-18"
-    
+
     id = "5f89c4be-f4c5-54d3-b923-d125de53902f"
   	score = 80
-
+		vetted_family = "cobalt"
 	strings:
     /*
       C6 45 B0 56 mov     [ebp+var_50], 56h ; 'V'
@@ -4645,7 +4645,7 @@ rule CobaltStrike_Sleeve_BeaconLoader_VA_x86_o_v4_3_v4_4_v4_5_and_v4_6
       88 10
       EB D6
     }
-    
+
   condition:
     all of them
 }
@@ -4658,10 +4658,10 @@ rule CobaltStrike_Sleeve_BeaconLoader_x86_o_v4_3_v4_4_v4_5_and_v4_6
 		author = "gssincla@google.com"
 		reference = "https://cloud.google.com/blog/products/identity-security/making-cobalt-strike-harder-for-threat-actors-to-abuse"
 		date = "2022-11-18"
-    
+
     id = "32a47966-f3bb-52c3-a977-82a1b09ddf2c"
   	score = 80
-
+		vetted_family = "cobalt"
 	strings:
     /*
       C6 45 B0 56 mov     [ebp+var_50], 56h ; 'V'
@@ -4730,7 +4730,7 @@ rule CobaltStrike_Sleeve_BeaconLoader_x86_o_v4_3_v4_4_v4_5_and_v4_6
       88 10
       EB D6
     }
-    
+
   condition:
     $core_sig and not $deobfuscator
 }
@@ -4746,10 +4746,10 @@ rule CobaltStrike_Sleeve_BeaconLoader_HA_x64_o_v4_3_v4_4_v4_5_and_v4_6
 		author = "gssincla@google.com"
 		reference = "https://cloud.google.com/blog/products/identity-security/making-cobalt-strike-harder-for-threat-actors-to-abuse"
 		date = "2022-11-18"
-    
+
     id = "9b16ff13-2d8e-51dc-9f99-6c45eff76feb"
   	score = 80
-
+		vetted_family = "cobalt"
 	strings:
     /*
       C6 44 24 38 48 mov     [rsp+78h+var_40], 48h ; 'H'
@@ -4780,7 +4780,7 @@ rule CobaltStrike_Sleeve_BeaconLoader_HA_x64_o_v4_3_v4_4_v4_5_and_v4_6
     // These strings can narrow down the specific version
     //$ver_43 = { 96 2C 3E 60 }         // Version 4.3
     //$ver_44_45_46 = { D1 56 86 5F }   // Versions 4.4, 4.5, and 4.6
-    
+
   condition:
     all of them
 }
@@ -4794,10 +4794,10 @@ rule CobaltStrike_Sleeve_BeaconLoader_MVF_x64_o_v4_3_v4_4_v4_5_and_v4_6
 		author = "gssincla@google.com"
 		reference = "https://cloud.google.com/blog/products/identity-security/making-cobalt-strike-harder-for-threat-actors-to-abuse"
 		date = "2022-11-18"
-    
+
     id = "38e063db-3d76-5a94-812a-945fcf46a232"
   	score = 80
-
+		vetted_family = "cobalt"
 	strings:
     /*
       C6 44 24 58 4D mov     [rsp+98h+var_40], 4Dh ; 'M'
@@ -4834,7 +4834,7 @@ rule CobaltStrike_Sleeve_BeaconLoader_MVF_x64_o_v4_3_v4_4_v4_5_and_v4_6
     // These strings can narrow down the specific version
     //$ver_43 = { 96 2C 3E 60 }         // Version 4.3
     //$ver_44_45_46 = { D2 57 86 5F }   // Versions 4.4, 4.5, and 4.6
-    
+
   condition:
     all of them
 }
@@ -4847,10 +4847,10 @@ rule CobaltStrike_Sleeve_BeaconLoader_VA_x64_o_v4_3_v4_4_v4_5_and_v4_6
 		author = "gssincla@google.com"
 		reference = "https://cloud.google.com/blog/products/identity-security/making-cobalt-strike-harder-for-threat-actors-to-abuse"
 		date = "2022-11-18"
-    
+
     id = "8ca04f82-a8a8-5162-8b0c-8a7bce678a85"
   	score = 80
-
+		vetted_family = "cobalt"
 	strings:
     /*
       C6 44 24 48 56 mov     [rsp+88h+var_40], 56h ; 'V'
@@ -4919,7 +4919,7 @@ rule CobaltStrike_Sleeve_BeaconLoader_VA_x64_o_v4_3_v4_4_v4_5_and_v4_6
       88 04 0A
     }
 
-    
+
   condition:
     all of them
 }
@@ -4932,10 +4932,10 @@ rule CobaltStrike_Sleeve_BeaconLoader_x64_o_v4_3_v4_4_v4_5_and_v4_6
 		author = "gssincla@google.com"
 		reference = "https://cloud.google.com/blog/products/identity-security/making-cobalt-strike-harder-for-threat-actors-to-abuse"
 		date = "2022-11-18"
-    
+
     id = "07f751e4-f001-5b95-b229-31fbaa867cea"
   	score = 80
-
+		vetted_family = "cobalt"
 	strings:
     /*
       33 C0                      xor     eax, eax
