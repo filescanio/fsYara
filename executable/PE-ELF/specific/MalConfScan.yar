@@ -378,7 +378,8 @@ rule Nanocore {
           condition: all of them
 }
 
-rule Formbook {
+// Removed due to scanning only based on a not too trustable heuristic
+/*rule Formbook {
           meta:
             description = "detect Formbook in memory"
             author = "JPCERT/CC Incident Response Group"
@@ -391,7 +392,7 @@ rule Formbook {
             $sqlite3blob = { 68 53 d8 7f 8c }
 
           condition: all of them
-}
+}*/
 
 rule Agenttesla_type1 {
           meta:
