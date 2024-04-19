@@ -692,6 +692,7 @@ rule INDICATOR_SUSPICIOUS_EXE_SQLQuery_ConfidentialDataStore {
     meta:
         author = "ditekSHen"
         description = "Detects executables containing SQL queries to confidential data stores. Observed in infostealers"
+	score = 30
     strings:
         $select = "select " ascii wide nocase
         $table1 = " from credit_cards" ascii wide nocase
