@@ -846,10 +846,11 @@ rule INDICATOR_SUSPICIOUS_EXE_Embedded_Gzip_B64Encoded_File {
         uint16(0) == 0x5a4d and 1 of them
 }
 
-rule INDICATOR_SUSPICIOUS_EXE_RawGitHub_URL {
+rule INDICATOR_SUSPICIOUS_EXE_RawGitHub_URL : refined {
      meta:
         author = "ditekSHen"
         description = "Detects executables containing URLs to raw contents of a Github gist"
+        score = 10
     strings:
         $url1 = "https://gist.githubusercontent.com/" ascii wide
         $url2 = "https://raw.githubusercontent.com/" ascii wide
