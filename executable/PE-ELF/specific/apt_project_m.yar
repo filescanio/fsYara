@@ -1,3 +1,5 @@
+// source: https://github.com/Neo23x0/signature-base/blob/master/yara/apt_project_m.yar
+
 /*
 	Yara Rule Set
 	Author: Florian Roth

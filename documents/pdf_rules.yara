@@ -429,20 +429,6 @@ rule js_splitting : PDF raw
                 $magic in (0..1024) and $js and 1 of ($s*)
 }
 
-rule header_evasion : PDF raw
-{
-        meta:
-                author = "Glenn Edwards (@hiddenillusion)"
-                description = "3.4.1, 'File Header' of Appendix H states that ' Acrobat viewers require only that the header appear somewhere within the first 1024 bytes of the file.'  Therefore, if you see this trigger then any other rule looking to match the magic at 0 won't be applicable"
-                ref = "http://wwwimages.adobe.com/www.adobe.com/content/dam/Adobe/en/devnet/pdf/pdfs/pdf_reference_1-7.pdf"
-                version = "0.1"
-                weight = 3
-
-        strings:
-                $magic = { 25 50 44 46 }
-        condition:
-                $magic in (5..1024) and #magic == 1
-}
 
 rule BlackHole_v2 : PDF raw
 {
@@ -480,14 +466,3 @@ rule XDP_embedded_PDF : PDF raw
 		all of ($s*) and 1 of ($header*)
 }
 
-rule PDF_Embedded_Exe : PDF
-{
-	meta:
-		ref = "https://github.com/jacobsoo/Yara-Rules/blob/master/PDF_Embedded_Exe.yar"
-	strings:
-    	$header = {25 50 44 46}
-    	$Launch_Action = {3C 3C 2F 53 2F 4C 61 75 6E 63 68 2F 54 79 70 65 2F 41 63 74 69 6F 6E 2F 57 69 6E 3C 3C 2F 46}
-        $exe = {3C 3C 2F 45 6D 62 65 64 64 65 64 46 69 6C 65 73}
-    condition:
-    	$header at 0 and $Launch_Action and $exe
-}

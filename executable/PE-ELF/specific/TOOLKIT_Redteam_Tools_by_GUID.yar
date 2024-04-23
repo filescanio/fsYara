@@ -1,3 +1,5 @@
+// source: https://github.com/Yara-Rules/rules/blob/master/malware/TOOLKIT_Redteam_Tools_by_GUID.yar
+
 /*
     This Yara ruleset is under the GNU-GPLv2 license (http://www.gnu.org/licenses/gpl-2.0.html) and open to any user or
     organization, as long as you use it under this license.

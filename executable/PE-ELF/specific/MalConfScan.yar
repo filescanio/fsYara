@@ -1,3 +1,5 @@
+// source: https://github.com/Yara-Rules/rules/blob/master/malware/MalConfScan.yar
+
 /*
     YARA Rule Set for MalConfScan
     Author: JPCERT/CC Incident Response Group

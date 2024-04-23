@@ -1,3 +1,5 @@
+// source: https://github.com/advanced-threat-research/Yara-Rules/blob/master/ransomware/RANSOM_Lockbit2.yar
+
 rule Lockbit2_Jul21 {
    meta:
       description = "simple rule to detect latest Lockbit ransomware Jul 2021"
