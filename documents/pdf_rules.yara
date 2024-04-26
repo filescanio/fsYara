@@ -363,7 +363,7 @@ rule FlateDecode_wrong_version : PDF raw
 		description = "Flate was introduced in v1.2"
 		ref = "http://wwwimages.adobe.com/www.adobe.com/content/dam/Adobe/en/devnet/pdf/pdfs/pdf_reference_1-7.pdf"
 		version = "0.1"
-		weight = 1
+		score = 40
 		
         strings:
                 $magic = { 25 50 44 46 }
