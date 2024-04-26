@@ -40,5 +40,18 @@ rule WimmieStrings : Wimmie Family
         
     condition:
         any of them
-
 }
+
+
+//rule Wimmie : Family
+//{
+//    meta:
+//        description = "Wimmie family"
+//        author = "Seth Hardy"
+//        last_modified = "2014-07-17"
+//        vetted_family = "Wimmie"
+//
+//    condition:
+//        WimmieShellcodes or WimmieStrings
+//
+//}

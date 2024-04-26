@@ -125,23 +125,23 @@ rule suspicious_producer : PDF raw
 		$magic in (0..1024) and $header and 1 of ($producer*)
 }
 
-rule suspicious_creator : PDF raw
-{
-	meta:
-		author = "Glenn Edwards (@hiddenillusion)"
-		version = "0.1"
-		weight = 3
-		
-	strings:
-		$magic = { 25 50 44 46 }
-		$header = /%PDF-1\.(3|4|6)/
-		
-		$creator0 = "yen vaw"
-		$creator1 = "Scribus"
-		$creator2 = "Viraciregavi"
-	condition:
-		$magic in (0..1024) and $header and 1 of ($creator*)
-}
+//rule suspicious_creator : PDF raw
+//{
+//	meta:
+//		author = "Glenn Edwards (@hiddenillusion)"
+//		version = "0.1"
+//		weight = 3
+//
+//	strings:
+//		$magic = { 25 50 44 46 }
+//		$header = /%PDF-1\.(3|4|6)/
+//
+//		$creator0 = "yen vaw"
+//		$creator1 = "Scribus"
+//		$creator2 = "Viraciregavi"
+//	condition:
+//		$magic in (0..1024) and $header and 1 of ($creator*)
+//}
 
 rule possible_exploit : PDF raw
 {
@@ -230,26 +230,26 @@ rule suspicious_js : PDF raw
 		$magic in (0..1024) and 3 of ($attrib*)
 } */
 
-rule suspicious_embed : PDF raw
-{
-	meta:
-		author = "Glenn Edwards (@hiddenillusion)"
-		version = "0.1"
-		ref = "https://feliam.wordpress.com/2010/01/13/generic-pdf-exploit-hider-embedpdf-py-and-goodbye-av-detection-012010/"
-		weight = 2
-		
-	strings:
-		$magic = { 25 50 44 46 }
-		
-		$meth0 = /\/Launch/
-		$meth1 = /\/GoTo(E|R)/ //means go to embedded or remote
-		$attrib0 = /\/URL /
-		$attrib1 = /\/Action/
-		$attrib2 = /\/Filespec/
-		
-	condition:
-		$magic in (0..1024) and 1 of ($meth*) and 2 of ($attrib*)
-}
+//rule suspicious_embed : PDF raw
+//{
+//	meta:
+//		author = "Glenn Edwards (@hiddenillusion)"
+//		version = "0.1"
+//		ref = "https://feliam.wordpress.com/2010/01/13/generic-pdf-exploit-hider-embedpdf-py-and-goodbye-av-detection-012010/"
+//		weight = 2
+//
+//	strings:
+//		$magic = { 25 50 44 46 }
+//
+//		$meth0 = /\/Launch/
+//		$meth1 = /\/GoTo(E|R)/ //means go to embedded or remote
+//		$attrib0 = /\/URL /
+//		$attrib1 = /\/Action/
+//		$attrib2 = /\/Filespec/
+//
+//	condition:
+//		$magic in (0..1024) and 1 of ($meth*) and 2 of ($attrib*)
+//}
 
 rule suspicious_obfuscation : PDF raw
 {

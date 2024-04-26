@@ -583,17 +583,17 @@ rule INDICATOR_EXE_Packed_nBinder {
         uint16(0) == 0x5a4d and 2 of them
 }
 
-rule INDICATOR_EXE_Packed_SmartAssembly {
-    meta:
-        author = "ditekSHen"
-        description = "Detects executables packed with SmartAssembly"
-    strings:
-        $s1 = "PoweredByAttribute" fullword ascii
-        $s2 = "SmartAssembly.Attributes" fullword ascii
-        $s3 = "Powered by SmartAssembly" ascii
-    condition:
-        uint16(0) == 0x5a4d and 2 of them
-}
+//rule INDICATOR_EXE_Packed_SmartAssembly {
+//    meta:
+//        author = "ditekSHen"
+//        description = "Detects executables packed with SmartAssembly"
+//    strings:
+//        $s1 = "PoweredByAttribute" fullword ascii
+//        $s2 = "SmartAssembly.Attributes" fullword ascii
+//        $s3 = "Powered by SmartAssembly" ascii
+//    condition:
+//        uint16(0) == 0x5a4d and 2 of them
+//}
 
 rule INDICATOR_EXE_Packed_AgileDotNet {
     meta:
@@ -618,15 +618,15 @@ rule INDICATOR_EXE_Packed_AgileDotNet {
         uint16(0) == 0x5a4d and (2 of ($x*) or (1 of ($x*) and 2 of ($s*)) or all of ($s*))
 }
 
-rule INDICATOR_EXE_Packed_Fody {
-    meta:
-        author = "ditekSHen"
-        description = "Detects executables manipulated with Fody"
-    strings:
-        $s1 = "ProcessedByFody" fullword ascii wide
-    condition:
-        uint16(0) == 0x5a4d and all of them
-}
+//rule INDICATOR_EXE_Packed_Fody {
+//    meta:
+//        author = "ditekSHen"
+//        description = "Detects executables manipulated with Fody"
+//    strings:
+//        $s1 = "ProcessedByFody" fullword ascii wide
+//    condition:
+//        uint16(0) == 0x5a4d and all of them
+//}
 
 rule INDICATOR_EXE_Packed_Costura {
     meta:
