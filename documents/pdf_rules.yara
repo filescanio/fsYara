@@ -356,22 +356,23 @@ rule JBIG2_wrong_version : PDF raw
                 $magic in (0..1024) and $js and not $ver
 }
 
-rule FlateDecode_wrong_version : PDF raw
+rule FlateDecode_wrong_version : PDF raw refined
 {
 	meta:
 		author = "Glenn Edwards (@hiddenillusion)"
 		description = "Flate was introduced in v1.2"
 		ref = "http://wwwimages.adobe.com/www.adobe.com/content/dam/Adobe/en/devnet/pdf/pdfs/pdf_reference_1-7.pdf"
 		version = "0.1"
-		weight = 1
+		score = 40
 		
         strings:
                 $magic = { 25 50 44 46 }
 				$js = /\/FlateDecode/
 				$ver = /%PDF-1\.[2-9]/
+				$ver2 = /%PDF-2/
 
         condition:
-                $magic in (0..1024) and $js and not $ver
+                $magic in (0..1024) and $js and not $ver and not $ver2
 }
 
 rule embed_wrong_version : PDF raw

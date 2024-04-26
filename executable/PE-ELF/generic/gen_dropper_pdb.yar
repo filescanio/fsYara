@@ -1,4 +1,4 @@
-# original source https://github.com/Neo23x0/signature-base/blob/master/yara/gen_dropper_pdb.yar
+// original source https://github.com/Neo23x0/signature-base/blob/master/yara/gen_dropper_pdb.yar
 
 rule Generic_Dropper  {
    meta:
