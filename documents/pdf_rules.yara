@@ -369,9 +369,10 @@ rule FlateDecode_wrong_version : PDF raw
                 $magic = { 25 50 44 46 }
 				$js = /\/FlateDecode/
 				$ver = /%PDF-1\.[2-9]/
+				$ver2 = /%PDF-2/
 
         condition:
-                $magic in (0..1024) and $js and not $ver
+                $magic in (0..1024) and $js and not $ver and not $ver2
 }
 
 rule embed_wrong_version : PDF raw
