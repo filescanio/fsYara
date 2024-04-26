@@ -663,6 +663,7 @@ rule INDICATOR_SUSPICIOUS_EXE_ASEP_REG_Reverse {
     meta:
         author = "ditekSHen"
         description = "Detects file containing reversed ASEP Autorun registry keys"
+        score = 60
     strings:
         $s1 = "nuR\\noisreVtnerruC\\swodniW\\tfosorciM" ascii wide nocase
         $s2 = "ecnOnuR\\noisreVtnerruC\\swodniW\\tfosorciM" ascii wide nocase
@@ -1104,6 +1105,7 @@ rule INDICATOR_SUSPICIOUS_EXE_TelegramChatBot {
     meta:
         author = "ditekSHen"
         description = "Detects executables using Telegram Chat Bot"
+        score = 60
     strings:
         $s1 = "https://api.telegram.org/bot" ascii wide
         $s2 = "/sendMessage?chat_id=" fullword ascii wide
@@ -1134,6 +1136,7 @@ rule INDICATOR_SUSPICIOUS_EXE_DiscordURL {
     meta:
         author = "ditekSHen"
         description = "Detects executables Discord URL observed in first stage droppers"
+        score = 60
     strings:
         $s1 = "https://discord.com/api/webhooks/" ascii wide nocase
         $s2 = "https://cdn.discordapp.com/attachments/" ascii wide nocase

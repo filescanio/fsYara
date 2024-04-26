@@ -261,6 +261,7 @@ rule Msfpayloads_msf_10 {
       date = "2017-02-09"
       hash1 = "3cd74fa28323c0d64f45507675ac08fb09bae4dd6b7e11f2832a4fbc70bb7082"
       id = "3bc3b66a-9f8a-55c2-ae2a-00faa778cef7"
+      score = 70
    strings:
       $s1 = { 0c 8b 52 14 8b 72 28 0f b7 4a 26 31 ff ac 3c 61 }
       $s2 = { 01 c7 38 e0 75 f6 03 7d f8 3b 7d 24 75 e4 58 8b }
