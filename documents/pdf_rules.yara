@@ -356,7 +356,7 @@ rule JBIG2_wrong_version : PDF raw
                 $magic in (0..1024) and $js and not $ver
 }
 
-rule FlateDecode_wrong_version : PDF raw
+rule FlateDecode_wrong_version : PDF raw refined
 {
 	meta:
 		author = "Glenn Edwards (@hiddenillusion)"
