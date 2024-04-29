@@ -1,3 +1,4 @@
+//source: https://github.com/Neo23x0/signature-base/blob/e2471126858160b1c64e146d3e5756367fbf3a88/yara/apt_cobaltstrike_evasive.yar
 rule CobaltStrike_C2_Host_Indicator {
 	meta:
 		description = "Detects CobaltStrike C2 host artifacts"
@@ -312,6 +313,7 @@ rule CobaltStrike_Unmodifed_Beacon {
 		author = "yara@s3c.za.net"
 		date = "2019-08-16"
 		id = "8eeb03f9-9698-5a46-b45b-224d5c3f3df7"
+		score = 60
 	strings:
 		$loader_export = "ReflectiveLoader"
 		$exportname = "beacon.dll"

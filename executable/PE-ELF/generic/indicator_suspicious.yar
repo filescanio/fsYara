@@ -342,6 +342,7 @@ rule INDICATOR_SUSPICIOUS_EXE_References_Messaging_Clients {
     meta:
         description = "Detects executables referencing many email and collaboration clients. Observed in information stealers"
         author = "ditekSHen"
+        score = 65
     strings:
         $s1 = "Software\\Microsoft\\Office\\15.0\\Outlook\\Profiles\\Outlook" fullword ascii wide
         $s2 = "Software\\Microsoft\\Windows NT\\CurrentVersion\\Windows Messaging Subsystem\\Profiles\\Outlook" fullword ascii wide
