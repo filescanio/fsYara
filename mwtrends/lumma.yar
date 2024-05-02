@@ -251,7 +251,7 @@ private rule Trojan_BAT_Lumma_RDB_MTB {
 		$a_01_1 = {7b 00 7d 00 64 00 7b 00 7d 00 6f 00 7b 00 7d 00 68 00 7b 00 7d 00 74 00 7b 00 7d 00 65 00 7b 00 7d 00 4d 00 7b 00 7d 00 74 00 7b 00 7d 00 65 00 7b 00 7d 00 47 00 7b 00 7d 00 } //01 00  {}d{}o{}h{}t{}e{}M{}t{}e{}G{}
 		$a_01_2 = {3d 00 2f 00 2a 00 2d 00 54 00 3d 00 79 00 3d 00 70 00 3d 00 65 00 3d 00 } //00 00  =/*-T=y=p=e=
 	condition:
-		any of ($a_*)
+		all of them
 
 }
 

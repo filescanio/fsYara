@@ -390,7 +390,7 @@ private rule Trojan_BAT_FormBook_Y_MTB {
 		$a_01_2 = {46 72 6f 6d 42 61 73 65 36 34 53 74 72 69 6e 67 } //01 00  FromBase64String
 		$a_01_3 = {52 65 70 6c 61 63 65 } //00 00  Replace
 	condition:
-		any of ($a_*)
+		all of them
 
 }
 
@@ -418,7 +418,7 @@ private rule Trojan_BAT_FormBook_N_MTB {
 		$a_01_1 = {44 65 62 75 67 67 61 62 6c 65 41 74 74 72 69 62 75 74 65 } //01 00  DebuggableAttribute
 		$a_01_2 = {44 65 62 75 67 67 65 72 4e 6f 6e 55 73 65 72 43 6f 64 65 41 74 74 72 69 62 75 74 65 } //00 00  DebuggerNonUserCodeAttribute
 	condition:
-		any of ($a_*)
+		all of them
 
 }
 

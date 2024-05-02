@@ -527,7 +527,7 @@ private rule PWS_BAT_RedLine_GA_MTB {
 		$a_80_13 = {4e 6f 72 64 56 50 4e } //NordVPN  f6 ff
 		$a_80_14 = {4d 69 63 72 6f 73 6f 66 74 2e } //Microsoft.  00 00
 	condition:
-		any of ($a_*)
+		7 of them
 
 }
 

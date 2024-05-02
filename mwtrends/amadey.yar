@@ -357,7 +357,7 @@ private rule PWS_Win32_Amadey_GG_MTB {
 		$a_80_7 = {43 6f 6e 6e 65 63 74 69 6f 6e 3a 20 4b 65 65 70 2d 41 6c 69 76 65 } //Connection: Keep-Alive  01 00
 		$a_80_8 = {43 6f 6e 74 65 6e 74 2d 4c 65 6e 67 74 68 3a } //Content-Length:  00 00
 	condition:
-		any of ($a_*)
+		4 of them
 
 }
 private rule PWS_Win32_Amadey_GG_MTB_2 {
@@ -380,7 +380,7 @@ private rule PWS_Win32_Amadey_GG_MTB_2 {
 		$a_80_12 = {50 61 73 73 77 6f 72 64 3d } //Password=  01 00
 		$a_80_13 = {43 6f 6e 74 65 6e 74 2d 4c 65 6e 67 74 68 3a } //Content-Length:  00 00
 	condition:
-		any of ($a_*)
+		5 of them
 
 }
 private rule PWS_Win32_Amadey_GG_MTB_3 {

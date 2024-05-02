@@ -142,7 +142,7 @@ private rule Trojan_BAT_LimeRAT_A_MTB {
 		$a_01_4 = {44 6f 77 6e 6c 6f 61 64 44 61 74 61 } //01 00  DownloadData
 		$a_01_5 = {47 65 74 54 65 6d 70 50 61 74 68 } //00 00  GetTempPath
 	condition:
-		any of ($a_*)
+		5 of them
 
 }
 

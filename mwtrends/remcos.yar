@@ -281,7 +281,7 @@ private rule PWS_BAT_Remcos_AA_MTB {
 		$a_01_8 = {63 00 6f 00 6e 00 66 00 69 00 67 00 5c 00 6e 00 61 00 6d 00 65 00 2d 00 6c 00 69 00 73 00 74 00 2e 00 78 00 6d 00 6c 00 } //01 00  config\name-list.xml
 		$a_01_9 = {63 00 6f 00 6e 00 66 00 69 00 67 00 5c 00 6a 00 6f 00 62 00 2d 00 6c 00 69 00 73 00 74 00 2e 00 78 00 6d 00 6c 00 } //00 00  config\job-list.xml
 	condition:
-		any of ($a_*)
+		5 of them
 
 }
 
