@@ -1,4 +1,11 @@
-private rule Windows_Trojan_HijackLoader_a8444812 {
+////////////////////////////////////////////////////////
+// YARA ruleset: Windows_Trojan_HijackLoader.yar
+// license: Other
+// repository: elastic/protections-artifacts
+// url: https://github.com/elastic/protections-artifacts/blob/f98777756fcfbe5ab05a296388044a2dbb962557/yara/rules/Windows_Trojan_HijackLoader.yar
+
+// original YARA name: Windows_Trojan_HijackLoader_a8444812
+private rule HijackLoader0 {
     meta:
         author = "Elastic Security"
         id = "a8444812-6aef-4ed7-a44b-b147301544c8"
@@ -23,11 +30,13 @@ private rule Windows_Trojan_HijackLoader_a8444812 {
         3 of them
 }
 
+
+////////////////////////////////////////////////////////
+
 rule fsHijackLoader {
     meta:
         description = "FsYARA - Malware Trends"
         vetted_family = "hijackloader"
-
-    condition:
-        Windows_Trojan_HijackLoader_a8444812
+	condition:
+		HijackLoader0
 }

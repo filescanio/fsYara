@@ -1,83 +1,11 @@
-private rule win_agent_tesla_w0 {
-    meta:
-        author = "InQuest Labs"
-        source = "https://www.inquest.net"
-        created = "05/18/2018"
-        malpedia_reference = "https://malpedia.caad.fkie.fraunhofer.de/details/win.agent_tesla"
-        malpedia_version = "20190731"
-        malpedia_license = "CC BY-NC-SA 4.0"
-        malpedia_sharing = "TLP:WHITE"
-    strings:
-        $s0 = "SecretId1" ascii
-        $s1 = "#GUID" ascii
-        $s2 = "#Strings" ascii
-        $s3 = "#Blob" ascii
-        $s4 = "get_URL" ascii
-        $s5 = "set_URL" ascii
-        $s6 = "DecryptIePassword" ascii
-        $s8 = "GetURLHashString" ascii
-        $s9 = "DoesURLMatchWithHash" ascii
+////////////////////////////////////////////////////////
+// YARA ruleset: AgentTesla.yar
+// license: GNU GENERAL PUBLIC LICENSE
+// repository: kevoreilly/CAPEv2
+// url: https://github.com/kevoreilly/CAPEv2/blob/506e7a568d65d1beede5b8bf5ae74576f505d2ad/data/yara/CAPE/AgentTesla.yar
 
-        $f0 = "GetSavedPasswords" ascii
-        $f1 = "IESecretHeader" ascii
-        $f2 = "RecoveredBrowserAccount" ascii
-        $f4 = "PasswordDerivedBytes" ascii
-        $f5 = "get_ASCII" ascii
-        $f6 = "get_ComputerName" ascii
-        $f7 = "get_WebServices" ascii
-        $f8 = "get_UserName" ascii
-        $f9 = "get_OSFullName" ascii
-        $f10 = "ComputerInfo" ascii
-        $f11 = "set_Sendwebcam" ascii
-        $f12 = "get_Clipboard" ascii
-        $f13 = "get_TotalFreeSpace" ascii
-        $f14 = "get_IsAttached" ascii
-
-        $x0 = "IELibrary.dll" ascii wide
-        $x1 = "webpanel" ascii wide nocase
-        $x2 = "smtp" ascii wide nocase
-
-        $v5 = "vmware" ascii wide nocase
-        $v6 = "VirtualBox" ascii wide nocase
-        $v7 = "vbox" ascii wide nocase
-        $v9 = "avghookx.dll" ascii wide nocase
-
-        $pdb = "IELibrary.pdb" ascii
-    condition:
-        (
-            (
-                5 of ($s*) or
-                7 of ($f*)
-            ) and
-            all of ($x*) and
-            all of ($v*) and
-            $pdb
-        )
-}
-
-private rule win_agent_tesla_w1 {
-    meta:
-        description = "Detect Agent Tesla based on common .NET code sequences"
-        author = "govcert_ch"
-        date = "20200429"
-        hash = "2b68a3f88fbd394d572081397e3d8d349746a88e3e67a2ffbfac974dd4c27c6a"
-        hash = "abadca4d00c0dc4636e382991e070847077c1d19d50153487da791d3be9cc401"
-        malpedia_reference = "https://malpedia.caad.fkie.fraunhofer.de/details/win.agent_tesla"
-        malpedia_version = "20200506"
-        malpedia_license = "CC BY-NC-SA 4.0"
-        malpedia_sharing = "TLP:WHITE"
-
-    strings:
-        $sequence_0 = { 20 ?? ?? ?? ?? 61 25 FE 0E 01 00 20 05 00 00 00 5E 45 ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? 38 51 00 00 00}
-        $sequence_1 = { 20 ?? ?? ?? ?? 61 25 FE 0E 06 00 20 03 00 00 00 5E 45 ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? 38 1C 00 00 00 }
-        $sequence_2 = { 04 02 7B 33 04 00 04 03 8F 36 00 00 02 7B 38 04 00 04 8E B7 3F 21 00 00 00 20 ?? ?? ?? ?? 38 97 FF FF FF }
-
-    condition:
-        any of them
-}
-
-private rule agent_tesla
- {
+// original YARA name: agent_tesla
+private rule AgentTesla0 {
     meta:
         description = "Detecting HTML strings used by Agent Tesla malware"
         author = "Stormshield"
@@ -94,8 +22,8 @@ private rule agent_tesla
         3 of them
 }
 
-private rule AgentTesla
- {
+// original YARA name: AgentTesla
+private rule AgentTesla1 {
     meta:
         author = "kevoreilly"
         description = "AgentTesla Payload"
@@ -118,7 +46,8 @@ private rule AgentTesla
         uint16(0) == 0x5A4D and (all of ($string*) or 3 of ($agt*))
 }
 
-private rule AgentTeslaV2 {
+// original YARA name: AgentTeslaV2
+private rule AgentTesla2 {
     meta:
         author = "ditekshen"
         description = "AgenetTesla Type 2 Keylogger payload"
@@ -144,7 +73,8 @@ private rule AgentTeslaV2 {
         (uint16(0) == 0x5a4d and 6 of ($s*)) or (6 of ($s*) and 2 of ($cl*))
 }
 
-private rule AgentTeslaV3 {
+// original YARA name: AgentTeslaV3
+private rule AgentTesla3 {
     meta:
       author = "ditekshen"
       description = "AgentTeslaV3 infostealer payload"
@@ -188,8 +118,8 @@ private rule AgentTeslaV3 {
         (uint16(0) == 0x5a4d and (8 of ($s*) or (6 of ($s*) and 4 of ($g*)))) or (2 of ($m*))
 }
 
-private rule AgentTeslaXor
- {
+// original YARA name: AgentTeslaXor
+private rule AgentTesla4 {
     meta:
         author = "kevoreilly"
         description = "AgentTesla xor-based config decoding"
@@ -200,8 +130,8 @@ private rule AgentTeslaXor
         uint16(0) == 0x5A4D and any of them
 }
 
-private rule AgentTeslaV4
- {
+// original YARA name: AgentTeslaV4
+private rule AgentTesla5 {
     meta:
         author = "kevoreilly"
         description = "AgentTesla Payload"
@@ -215,8 +145,8 @@ private rule AgentTeslaV4
         uint16(0) == 0x5A4D and all of them
 }
 
-private rule AgentTeslaV4JIT
- {
+// original YARA name: AgentTeslaV4JIT
+private rule AgentTesla6 {
     meta:
         author = "kevoreilly"
         description = "AgentTesla JIT-compiled native code"
@@ -230,7 +160,8 @@ private rule AgentTeslaV4JIT
         2 of them
 }
 
-private rule AgentTeslaV5 {
+// original YARA name: AgentTeslaV5
+private rule AgentTesla7 {
     meta:
       author = "ClaudioWayne"
       description = "AgentTeslaV5 infostealer payload"
@@ -284,7 +215,16 @@ private rule AgentTeslaV5 {
         uint16(0) == 0x5a4d and 4 of ($template*) and 3 of ($chromium_browser*) and 3 of ($mozilla_browser*) and 3 of ($database*) and 5 of ($software*)
 }
 
-private rule Windows_Trojan_AgentTesla_d3ac2b2f {
+////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////
+// YARA ruleset: Windows_Trojan_AgentTesla.yar
+// license: Elastic License 2.0
+// repository: elastic/protections-artifacts
+// url: https://github.com/elastic/protections-artifacts/blob/f98777756fcfbe5ab05a296388044a2dbb962557/yara/rules/Windows_Trojan_AgentTesla.yar
+
+// original YARA name: Windows_Trojan_AgentTesla_d3ac2b2f
+private rule AgentTesla8 {
     meta:
         author = "Elastic Security"
         id = "d3ac2b2f-14fc-4851-8a57-41032e386aeb"
@@ -343,7 +283,8 @@ private rule Windows_Trojan_AgentTesla_d3ac2b2f {
         8 of ($a*)
 }
 
-private rule Windows_Trojan_AgentTesla_e577e17e {
+// original YARA name: Windows_Trojan_AgentTesla_e577e17e
+private rule AgentTesla9 {
     meta:
         author = "Elastic Security"
         id = "e577e17e-5c42-4431-8c2d-0c1153128226"
@@ -364,7 +305,8 @@ private rule Windows_Trojan_AgentTesla_e577e17e {
         all of them
 }
 
-private rule Windows_Trojan_AgentTesla_f2a90d14 {
+// original YARA name: Windows_Trojan_AgentTesla_f2a90d14
+private rule AgentTesla10 {
     meta:
         author = "Elastic Security"
         id = "f2a90d14-7212-41a5-a2cd-a6a6dedce96e"
@@ -385,7 +327,8 @@ private rule Windows_Trojan_AgentTesla_f2a90d14 {
         all of them
 }
 
-private rule Windows_Trojan_AgentTesla_a2d69e48 {
+// original YARA name: Windows_Trojan_AgentTesla_a2d69e48
+private rule AgentTesla11 {
     meta:
         author = "Elastic Security"
         id = "a2d69e48-b114-4128-8c2f-6fabee49e152"
@@ -407,7 +350,8 @@ private rule Windows_Trojan_AgentTesla_a2d69e48 {
         all of them
 }
 
-private rule Windows_Trojan_AgentTesla_ebf431a8 {
+// original YARA name: Windows_Trojan_AgentTesla_ebf431a8
+private rule AgentTesla12 {
     meta:
         author = "Elastic Security"
         id = "ebf431a8-45e8-416c-a355-4ac1db2d133a"
@@ -433,7 +377,103 @@ private rule Windows_Trojan_AgentTesla_ebf431a8 {
         4 of them
 }
 
-private rule malware_Agenttesla_type1 {
+
+////////////////////////////////////////////////////////
+
+
+////////////////////////////////////////////////////////
+// YARA ruleset: Win32_Trojan_AgentTesla.yar
+// license: MIT License
+// repository: netskopeoss/NetskopeThreatLabsIOCs
+// url: https://github.com/netskopeoss/NetskopeThreatLabsIOCs/blob/52c780db6106d0c0e8deb04653e036cdd4408e56/Malware/AgentTesla/Yara/Win32_Trojan_AgentTesla.yar
+
+// original YARA name: Win32_Trojan_AgentTesla
+private rule AgentTesla13 {
+	meta:
+		description = "Identifies AgentTesla samples."
+		author = "Netskope Threat Labs"
+
+	strings:
+		$bin00 = "#Blob"
+		$bin01 = "#GUID"
+		$bin02 = "#Strings"
+
+		$str00 = "get_AccountCredential"
+		$str01 = "get_accountName"
+		$str02 = "get_Address"
+		$str03 = "get_AltKeyDown"
+		$str04 = "get_Assembly"
+		$str05 = "get_Attachments"
+		$str06 = "get_Clipboard"
+		$str07 = "get_Computer"
+		$str08 = "get_ComputerName"
+		$str09 = "get_Connected"
+		$str10 = "get_ExecutablePath"
+		$str11 = "get_Host"
+		$str12 = "get_Key"
+		$str13 = "get_Keyboard"
+		$str14 = "get_ProcessName"
+		$str15 = "set_UserAgent"
+		$str16 = "set_UserName"
+		$str17 = "set_IsBodyHtml"
+		$str18 = "set_IV"
+
+	condition:
+		uint16(0) == 0x5a4d
+		and all of ($bin*) and 10 of ($str*)
+}
+
+////////////////////////////////////////////////////////
+
+
+////////////////////////////////////////////////////////
+// YARA ruleset: MALW_AgentTesla_SMTP.yar
+// license: GNU General Public License v2.0
+// repository: Yara-Rules/rules
+// url: https://github.com/Yara-Rules/rules/blob/0f93570194a80d2f2032869055808b0ddcdfb360/malware/MALW_AgentTesla_SMTP.yar
+
+// original YARA name: agenttesla_smtp_variant
+private rule AgentTesla14 {
+
+    meta:
+        author = "J from THL <j@techhelplist.com> with thx to @Fumik0_ !!1!"
+        date = "2018/2"
+	reference1 = "https://www.virustotal.com/#/file/1198865bc928a7a4f7977aaa36af5a2b9d5a949328b89dd87c541758516ad417/detection"
+	reference2 = "https://www.trendmicro.com/vinfo/us/threat-encyclopedia/malware/tspy_negasteal.a"
+	reference3 = "Agent Tesla == negasteal -- @coldshell"
+	version = 1
+    maltype = "Stealer"
+    filetype = "memory"
+
+    strings:
+		$a = "type={"
+		$b = "hwid={"
+		$c = "time={"
+		$d = "pcname={"
+		$e = "logdata={"
+		$f = "screen={"
+		$g = "ipadd={"
+		$h = "webcam_link={"
+		$i = "screen_link={"
+		$j = "site_username={"
+		$k = "[passwords]"
+
+    condition:
+        6 of them
+}
+
+////////////////////////////////////////////////////////
+
+
+
+////////////////////////////////////////////////////////
+// YARA ruleset: agenttesla.yara
+// license: Other
+// repository: JPCERTCC/jpcert-yara
+// url: https://github.com/JPCERTCC/jpcert-yara/blob/0722a9365ec6bc969c517c623cd166743d1bc473/other/agenttesla.yara
+
+// original YARA name: malware_Agenttesla_type1
+private rule AgentTesla15 {
           meta:
             description = "detect Agenttesla in memory"
             author = "JPCERT/CC Incident Response Group"
@@ -449,7 +489,8 @@ private rule malware_Agenttesla_type1 {
             all of them
 }
 
-private rule malware_Agenttesla_type2 {
+// original YARA name: malware_Agenttesla_type2
+private rule AgentTesla16 {
           meta:
             description = "detect Agenttesla in memory"
             author = "JPCERT/CC Incident Response Group"
@@ -467,11 +508,13 @@ private rule malware_Agenttesla_type2 {
             (uint16(0) == 0x5A4D) and 3 of them
 }
 
+////////////////////////////////////////////////////////
+
+
 rule fsAgentTesla {
     meta:
         description = "FsYARA - Malware Trends"
         vetted_family = "agenttesla"
-
-    condition:
-        win_agent_tesla_w0 or win_agent_tesla_w1 or agent_tesla or AgentTesla or AgentTeslaV2 or AgentTeslaV3 or AgentTeslaXor or AgentTeslaV4 or AgentTeslaV4JIT or AgentTeslaV5 or Windows_Trojan_AgentTesla_d3ac2b2f or Windows_Trojan_AgentTesla_e577e17e or Windows_Trojan_AgentTesla_f2a90d14 or Windows_Trojan_AgentTesla_a2d69e48 or Windows_Trojan_AgentTesla_ebf431a8 or malware_Agenttesla_type1 or malware_Agenttesla_type2
+	condition:
+		AgentTesla0 or AgentTesla1 or AgentTesla2 or AgentTesla3 or AgentTesla4 or AgentTesla5 or AgentTesla6 or AgentTesla7 or AgentTesla8 or AgentTesla9 or AgentTesla10 or AgentTesla11 or AgentTesla12 or AgentTesla13 or AgentTesla14 or AgentTesla15 or AgentTesla16
 }

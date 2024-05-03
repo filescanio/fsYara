@@ -1,23 +1,11 @@
-private rule LimeRAT {
-    meta:
-        author = "ditekshen"
-        description = "LimeRAT payload"
-        cape_type = "LimeRAT Payload"
-    strings:
-        $s1 = "schtasks /create /f /sc ONLOGON /RL HIGHEST /tn LimeRAT-Admin /tr" wide
-        $s2 = "\\vboxhook.dll" fullword wide
-        $s3 = "Win32_Processor.deviceid=\"CPU0\"" fullword wide
-        $s4 = "select CommandLine from Win32_Process where Name='{0}'" wide
-        $s5 = "Minning..." fullword wide
-        $s6 = "Regasm.exe" fullword wide
-        $s7 = "Flood!" fullword wide
-        $s8 = "Rans-Status" fullword wide
-        $s9 = "cmd.exe /c ping 0"  wide
-    condition:
-        uint16(0) == 0x5a4d and 5 of them
-}
+////////////////////////////////////////////////////////
+// YARA ruleset: Windows_Trojan_Limerat.yar
+// license: Elastic License 2.0
+// repository: elastic/protections-artifacts
+// url: https://github.com/elastic/protections-artifacts/blob/f98777756fcfbe5ab05a296388044a2dbb962557/yara/rules/Windows_Trojan_Limerat.yar
 
-private rule Windows_Trojan_Limerat_24269a79 {
+// original YARA name: Windows_Trojan_Limerat_24269a79
+private rule LimeRAT0 {
     meta:
         author = "Elastic Security"
         id = "24269a79-0172-4da5-9b4d-f61327072bf0"
@@ -37,8 +25,17 @@ private rule Windows_Trojan_Limerat_24269a79 {
         all of them
 }
 
-rule ByteCode_MSIL_Backdoor_LimeRAT : tc_detection malicious
-{
+
+////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////
+// YARA ruleset: ByteCode.MSIL.Backdoor.LimeRAT.yara
+// license: MIT License
+// repository: reversinglabs/reversinglabs-yara-rules
+// url: https://github.com/reversinglabs/reversinglabs-yara-rules/blob/d5a78f30a1669a3dc576d45a77eeba9476795155/yara/backdoor/ByteCode.MSIL.Backdoor.LimeRAT.yara
+
+// original YARA name: ByteCode_MSIL_Backdoor_LimeRAT : tc_detection malicious
+rule LimeRAT1 {
     meta:
 
         author              = "ReversingLabs"
@@ -128,43 +125,41 @@ rule ByteCode_MSIL_Backdoor_LimeRAT : tc_detection malicious
             all of ($network_communication_p*)
         )
 }
+////////////////////////////////////////////////////////
 
+////////////////////////////////////////////////////////
+// YARA ruleset: LimeRAT.yar
+// repository: CAPESandbox/community
+// url: https://github.com/CAPESandbox/community/blob/ed71b5eb9179e25174c1a2d0fe451e25cbf97dd1/data/yara/CAPE/LimeRAT.yar
 
-private rule Trojan_BAT_LimeRAT_A_MTB {
-	meta:
-		description = "Trojan:BAT/LimeRAT.A!MTB,SIGNATURE_TYPE_PEHSTR_EXT,09 00 09 00 06 00 00 02 00 "
-
-	strings :
-		$a_03_0 = {06 0a 06 02 7d 90 01 01 00 00 04 06 7b 90 01 01 00 00 04 17 6f 90 01 01 00 00 0a 06 fe 90 00 } //02 00
-		$a_03_1 = {01 0a 02 16 06 16 1f 10 28 90 01 01 00 00 0a 28 90 01 01 00 00 0a 0b 07 07 06 25 13 04 6f 90 01 01 00 00 0a 11 04 6f 90 01 01 00 00 0a 73 90 01 01 00 00 0a 0c 08 07 6f 90 01 01 00 00 0a 17 73 90 01 01 00 00 0a 0d 09 02 1f 10 02 8e 69 1f 10 59 6f 90 01 01 00 00 0a 09 6f 90 01 01 00 00 0a 08 6f 90 00 } //02 00
-		$a_03_2 = {0a 0a 02 16 28 90 01 01 00 00 0a 0b 06 02 1a 02 8e 69 1a 59 6f 90 01 01 00 00 0a 07 8d 90 01 01 00 00 01 0c 06 16 6a 6f 90 01 01 00 00 0a 06 16 73 90 01 01 00 00 0a 08 16 08 8e 69 6f 90 00 } //01 00
-		$a_01_3 = {57 72 69 74 65 41 6c 6c 42 79 74 65 73 } //01 00  WriteAllBytes
-		$a_01_4 = {44 6f 77 6e 6c 6f 61 64 44 61 74 61 } //01 00  DownloadData
-		$a_01_5 = {47 65 74 54 65 6d 70 50 61 74 68 } //00 00  GetTempPath
-	condition:
-		5 of them
-
+// original YARA name: LimeRAT
+private rule LimeRAT2 {
+    meta:
+        author = "ditekshen"
+        description = "LimeRAT payload"
+        cape_type = "LimeRAT Payload"
+    strings:
+        $s1 = "schtasks /create /f /sc ONLOGON /RL HIGHEST /tn LimeRAT-Admin /tr" wide
+        $s2 = "\\vboxhook.dll" fullword wide
+        $s3 = "Win32_Processor.deviceid=\"CPU0\"" fullword wide
+        $s4 = "select CommandLine from Win32_Process where Name='{0}'" wide
+        $s5 = "Minning..." fullword wide
+        $s6 = "Regasm.exe" fullword wide
+        $s7 = "Flood!" fullword wide
+        $s8 = "Rans-Status" fullword wide
+        $s9 = "cmd.exe /c ping 0"  wide
+    condition:
+        uint16(0) == 0x5a4d and 5 of them
 }
 
+////////////////////////////////////////////////////////
 
-private rule Trojan_BAT_LimeRAT_NEA_MTB {
-	meta:
-		description = "Trojan:BAT/LimeRAT.NEA!MTB,SIGNATURE_TYPE_PEHSTR_EXT,01 00 01 00 01 00 00 01 00 "
-
-	strings :
-		$a_03_0 = {70 18 18 28 90 01 01 00 00 06 0b 28 90 01 01 00 00 0a 07 6f 90 01 01 00 00 0a 6f 90 01 01 00 00 0a 14 14 6f 90 01 01 00 00 0a 74 90 01 01 00 00 01 0c 2a 90 00 } //00 00
-	condition:
-		any of ($a_*)
-
-}
 
 
 rule fsLimeRAT {
     meta:
         description = "FsYARA - Malware Trends"
         vetted_family = "limerat"
-
-    condition:
-        LimeRAT or Windows_Trojan_Limerat_24269a79 or ByteCode_MSIL_Backdoor_LimeRAT or Trojan_BAT_LimeRAT_A_MTB or Trojan_BAT_LimeRAT_NEA_MTB
-
+	condition:
+		LimeRAT0 or LimeRAT1 or LimeRAT2
 }

@@ -1,4 +1,128 @@
-private rule win_smokeloader_auto {
+////////////////////////////////////////////////////////
+// YARA ruleset: SmokeLoader.yar
+// license: GNU GENERAL PUBLIC LICENSE
+// repository: kevoreilly/CAPEv2
+// url: https://github.com/kevoreilly/CAPEv2/blob/3cff06445d2f56ba1cea2846e79a7df06ac39c46/data/yara/CAPE/SmokeLoader.yar
+
+// original YARA name: SmokeLoader
+private rule SmokeLoader0 {
+    meta:
+        author = "kevoreilly"
+        description = "SmokeLoader Payload"
+        cape_type = "SmokeLoader Payload"
+    strings:
+        $rc4_decrypt64 = {41 8D 41 01 44 0F B6 C8 42 0F B6 [2] 41 8D 04 12 44 0F B6 D0 42 8A [2] 42 88 [2] 42 88 [2] 42 0F B6 [2] 03 CA 0F B6 C1 8A [2] 30 0F 48 FF C7 49 FF CB 75}
+        $rc4_decrypt32 = {47 B9 FF 00 00 00 23 F9 8A 54 [2] 0F B6 C2 03 F0 23 F1 8A 44 [2] 88 44 [2] 88 54 [2] 0F B6 4C [2] 0F B6 C2 03 C8 81 E1 FF 00 00 00 8A 44 [2] 30 04 2B 43 3B 9C 24 [4] 72 C0}
+        $fetch_c2_64 = {00 48 8D 05 [3] FF 48 8B CB 48 8B 14 D0 48 8B 5C 24 ?? 48 83 C4 20 5F E9}
+        $fetch_c2_32 = {8B 96 [2] (00|01) 00 8B CE 5E 8B 14 95 [4] E9}
+    condition:
+        2 of them
+}
+
+////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////
+// YARA ruleset: Windows_Trojan_Smokeloader.yar
+// license: Elastic License 2.0
+// repository: elastic/protections-artifacts
+// url: https://github.com/elastic/protections-artifacts/blob/f98777756fcfbe5ab05a296388044a2dbb962557/yara/rules/Windows_Trojan_Smokeloader.yar
+
+// original YARA name: Windows_Trojan_Smokeloader_4e31426e
+private rule SmokeLoader1 {
+    meta:
+        author = "Elastic Security"
+        id = "4e31426e-d62e-4b6d-911b-4223e1f6adef"
+        fingerprint = "cf6d8615643198bc53527cb9581e217f8a39760c2e695980f808269ebe791277"
+        creation_date = "2021-07-21"
+        last_modified = "2021-08-23"
+        threat_name = "Windows.Trojan.Smokeloader"
+        reference_sample = "1ce643981821b185b8ad73b798ab5c71c6c40e1f547b8e5b19afdaa4ca2a5174"
+        severity = 100
+        arch_context = "x86"
+        scan_context = "file, memory"
+        license = "Elastic License v2"
+        os = "windows"
+    strings:
+        $a = { 5B 81 EB 34 10 00 00 6A 30 58 64 8B 00 8B 40 0C 8B 40 1C 8B 40 08 89 85 C0 }
+    condition:
+        all of them
+}
+
+// original YARA name: Windows_Trojan_Smokeloader_4ee15b92
+private rule SmokeLoader2 {
+    meta:
+        author = "Elastic Security"
+        id = "4ee15b92-c62f-42d2-bbba-1dac2fa5644f"
+        fingerprint = "5d2ed385c76dbb4c1c755ae88b68306086a199a25a29317ae132bc874b253580"
+        creation_date = "2022-02-17"
+        last_modified = "2022-04-12"
+        threat_name = "Windows.Trojan.Smokeloader"
+        reference_sample = "09b9283286463b35ea2d5abfa869110eb124eb8c1788eb2630480d058e82abf2"
+        severity = 100
+        arch_context = "x86"
+        scan_context = "file, memory"
+        license = "Elastic License v2"
+        os = "windows"
+    strings:
+        $a = { 24 34 30 33 33 8B 45 F4 5F 5E 5B C9 C2 10 00 55 89 E5 83 EC }
+    condition:
+        all of them
+}
+
+// original YARA name: Windows_Trojan_Smokeloader_ea14b2a5
+private rule SmokeLoader3 {
+    meta:
+        author = "Elastic Security"
+        id = "ea14b2a5-ea0d-4da2-8190-dbfcda7330d9"
+        fingerprint = "950ce9826fdff209b6e03c70a4f78b812d211a2a9de84bec0e5efe336323001b"
+        creation_date = "2023-05-03"
+        last_modified = "2023-06-13"
+        threat_name = "Windows.Trojan.Smokeloader"
+        reference_sample = "15fe237276b9c2c6ceae405c0739479d165b406321891c8a31883023e7b15d54"
+        severity = 100
+        arch_context = "x86"
+        scan_context = "file, memory"
+        license = "Elastic License v2"
+        os = "windows"
+    strings:
+        $a1 = { AC 41 80 01 AC 41 80 00 AC 41 80 00 AC 41 C0 00 AC 41 80 01 }
+        $a2 = { AC 41 80 00 AC 41 80 07 AC 41 80 00 AC 41 80 00 AC 41 80 00 }
+    condition:
+        all of them
+}
+
+// original YARA name: Windows_Trojan_Smokeloader_de52ed44
+private rule SmokeLoader4 {
+    meta:
+        author = "Elastic Security"
+        id = "de52ed44-062c-4b0d-9a41-1bfc31a8daa9"
+        fingerprint = "950db8f87a81ef05cc2ecbfa174432ab31a3060c464836f3b38448bd8e5801be"
+        creation_date = "2023-05-04"
+        last_modified = "2023-06-13"
+        threat_name = "Windows.Trojan.Smokeloader"
+        reference_sample = "c689a384f626616005d37a94e6a5a713b9eead1b819a238e4e586452871f6718"
+        severity = 100
+        arch_context = "x86"
+        scan_context = "file, memory"
+        license = "Elastic License v2"
+        os = "windows"
+    strings:
+        $a1 = { 08 31 FF 89 7D CC 66 8C E8 66 85 C0 74 03 FF 45 CC FF 53 48 }
+        $a2 = { B0 8F 45 C8 8D 45 B8 89 38 8D 4D C8 6A 04 57 6A 01 51 57 57 }
+    condition:
+        all of them
+}
+
+
+////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////
+// YARA ruleset: win.smokeloader_auto.yar
+// repository: malpedia/signator-rules
+// url: https://github.com/malpedia/signator-rules/blob/fbacfc09b84d53d410385e66a8e56f25016c588a/rules/win.smokeloader_auto.yar
+
+// original YARA name: win_smokeloader_auto
+private rule SmokeLoader5 {
 
     meta:
         author = "Felix Bilstein - yara-signator at cocacoding dot com"
@@ -31,7 +155,7 @@ private rule win_smokeloader_auto {
     strings:
         $sequence_0 = { ff15???????? 8d45f0 50 8d45e8 50 8d45e0 50 }
             // n = 7, score = 1300
-            //   ff15????????         |
+            //   ff15????????         |                     
             //   8d45f0               | lea                 eax, [ebp - 0x10]
             //   50                   | push                eax
             //   8d45e8               | lea                 eax, [ebp - 0x18]
@@ -42,7 +166,7 @@ private rule win_smokeloader_auto {
         $sequence_1 = { 57 ff15???????? 6a00 6800000002 6a03 6a00 6a03 }
             // n = 7, score = 1100
             //   57                   | push                edi
-            //   ff15????????         |
+            //   ff15????????         |                     
             //   6a00                 | push                0
             //   6800000002           | push                0x2000000
             //   6a03                 | push                3
@@ -55,9 +179,9 @@ private rule win_smokeloader_auto {
             //   8d45e0               | lea                 eax, [ebp - 0x20]
             //   50                   | push                eax
             //   56                   | push                esi
-            //   ff15????????         |
+            //   ff15????????         |                     
             //   56                   | push                esi
-            //   ff15????????         |
+            //   ff15????????         |                     
 
         $sequence_3 = { 8bf0 8d45dc 50 6a00 53 ff15???????? }
             // n = 6, score = 1100
@@ -66,7 +190,7 @@ private rule win_smokeloader_auto {
             //   50                   | push                eax
             //   6a00                 | push                0
             //   53                   | push                ebx
-            //   ff15????????         |
+            //   ff15????????         |                     
 
         $sequence_4 = { 740a 83c104 83f920 72f0 }
             // n = 4, score = 900
@@ -77,7 +201,7 @@ private rule win_smokeloader_auto {
 
         $sequence_5 = { e8???????? 8bf0 8d45fc 50 ff75fc 56 6a19 }
             // n = 7, score = 900
-            //   e8????????           |
+            //   e8????????           |                     
             //   8bf0                 | mov                 esi, eax
             //   8d45fc               | lea                 eax, [ebp - 4]
             //   50                   | push                eax
@@ -87,10 +211,10 @@ private rule win_smokeloader_auto {
 
         $sequence_6 = { ff15???????? bf90010000 8bcf e8???????? }
             // n = 4, score = 900
-            //   ff15????????         |
+            //   ff15????????         |                     
             //   bf90010000           | mov                 edi, 0x190
             //   8bcf                 | mov                 ecx, edi
-            //   e8????????           |
+            //   e8????????           |                     
 
         $sequence_7 = { 0fb64405dc 50 8d45ec 50 }
             // n = 4, score = 900
@@ -120,29 +244,29 @@ private rule win_smokeloader_auto {
             //   668ce8               | push                0
             //   6685c0               | push                ebx
             //   7406                 | push                eax
-            //   fe05????????         |
+            //   fe05????????         |                     
 
         $sequence_11 = { 8b07 03c3 50 ff15???????? }
             // n = 4, score = 800
             //   8b07                 | lea                 eax, [ebp - 0x20]
             //   03c3                 | push                eax
             //   50                   | push                esi
-            //   ff15????????         |
+            //   ff15????????         |                     
 
         $sequence_12 = { 56 ff15???????? 50 56 6a00 ff15???????? }
             // n = 6, score = 800
             //   56                   | push                eax
-            //   ff15????????         |
+            //   ff15????????         |                     
             //   50                   | push                0
             //   56                   | push                ebx
             //   6a00                 | lea                 eax, [ebp - 0x10]
-            //   ff15????????         |
+            //   ff15????????         |                     
 
         $sequence_13 = { 33c0 e9???????? e8???????? b904010000 }
             // n = 4, score = 800
             //   33c0                 | xor                 eax, eax
-            //   e9????????           |
-            //   e8????????           |
+            //   e9????????           |                     
+            //   e8????????           |                     
             //   b904010000           | mov                 ecx, 0x104
 
         $sequence_14 = { 88443c18 88543418 0fb64c3c18 0fb6c2 03c8 81e1ff000000 }
@@ -163,10 +287,10 @@ private rule win_smokeloader_auto {
 
         $sequence_16 = { e8???????? 8bf8 68???????? ff15???????? }
             // n = 4, score = 700
-            //   e8????????           |
+            //   e8????????           |                     
             //   8bf8                 | push                0
-            //   68????????           |
-            //   ff15????????         |
+            //   68????????           |                     
+            //   ff15????????         |                     
 
         $sequence_17 = { ebf5 55 8bec 83ec24 8d45f4 53 }
             // n = 6, score = 700
@@ -181,7 +305,7 @@ private rule win_smokeloader_auto {
             // n = 5, score = 700
             //   50                   | push                ebx
             //   57                   | lea                 eax, [ebp - 0x10]
-            //   ff15????????         |
+            //   ff15????????         |                     
             //   43                   | push                eax
             //   83fb0f               | push                0
 
@@ -192,7 +316,7 @@ private rule win_smokeloader_auto {
             //   57                   | push                edi
             //   56                   | push                esi
             //   53                   | push                ebx
-            //   e8????????           |
+            //   e8????????           |                     
 
         $sequence_20 = { 8d8de8fdffff 50 50 50 }
             // n = 4, score = 500
@@ -216,12 +340,12 @@ private rule win_smokeloader_auto {
             //   ffb5f0fdffff         | push                dword ptr [ebp - 0x210]
             //   50                   | push                eax
             //   53                   | push                ebx
-            //   e8????????           |
+            //   e8????????           |                     
             //   8d8decfdffff         | lea                 ecx, [ebp - 0x214]
 
         $sequence_23 = { e8???????? 2500300038 005800 2500300038 }
             // n = 4, score = 500
-            //   e8????????           |
+            //   e8????????           |                     
             //   2500300038           | and                 eax, 0x38003000
             //   005800               | add                 byte ptr [eax], bl
             //   2500300038           | and                 eax, 0x38003000
@@ -282,14 +406,14 @@ private rule win_smokeloader_auto {
 
         $sequence_31 = { 60 89c6 89cf fc }
             // n = 4, score = 400
-            //   60                   | cdq
-            //   89c6                 | into
-            //   89cf                 | stc
+            //   60                   | cdq                 
+            //   89c6                 | into                
+            //   89cf                 | stc                 
             //   fc                   | pop                 ebp
 
         $sequence_32 = { ff15???????? 85c0 747c 488b4c2448 4533c9 488d442440 }
             // n = 6, score = 300
-            //   ff15????????         |
+            //   ff15????????         |                     
             //   85c0                 | mov                 dword ptr [esp + 0x20], 0xfa000
             //   747c                 | test                eax, eax
             //   488b4c2448           | je                  0x7e
@@ -309,7 +433,7 @@ private rule win_smokeloader_auto {
         $sequence_34 = { 33c9 e8???????? 488bd8 4584ff 7411 41b101 }
             // n = 6, score = 300
             //   33c9                 | inc                 ebp
-            //   e8????????           |
+            //   e8????????           |                     
             //   488bd8               | xor                 ecx, ecx
             //   4584ff               | dec                 eax
             //   7411                 | lea                 eax, [esp + 0x40]
@@ -350,7 +474,7 @@ private rule win_smokeloader_auto {
             //   41b104               | dec                 eax
             //   448bc7               | mov                 eax, dword ptr [ebp + 0x47]
             //   488bcb               | dec                 eax
-            //   e8????????           |
+            //   e8????????           |                     
             //   488b742440           | mov                 dword ptr [edi], eax
             //   488bc3               | dec                 eax
             //   488b5c2430           | test                ecx, ecx
@@ -367,7 +491,7 @@ private rule win_smokeloader_auto {
             //   33c9                 | xor                 ecx, ecx
             //   4c897c2428           | dec                 esp
             //   c744242000a00f00     | mov                 dword ptr [esp + 0x28], edi
-            //   ff15????????         |
+            //   ff15????????         |                     
 
         $sequence_42 = { 8b4b18 45 8b6320 4d }
             // n = 4, score = 300
@@ -398,7 +522,7 @@ private rule win_smokeloader_auto {
         $sequence_45 = { 8946fc ad 85c0 75f3 c3 56 }
             // n = 6, score = 200
             //   8946fc               | mov                 edi, ecx
-            //   ad                   | cld
+            //   ad                   | cld                 
             //   85c0                 | mov                 dl, 0x80
             //   75f3                 | xor                 ebx, ebx
             //   c3                   | movsb               byte ptr es:[edi], byte ptr [esi]
@@ -410,7 +534,7 @@ private rule win_smokeloader_auto {
             //   ad                   | xor                 ebx, ebx
             //   01e8                 | movsb               byte ptr es:[edi], byte ptr [esi]
             //   31c9                 | mov                 bl, 2
-            //   c1c108               | pushal
+            //   c1c108               | pushal              
             //   3208                 | mov                 esi, eax
 
         $sequence_47 = { 8b4da0 8b55a4 895148 689d1e6b63 8b45e4 50 }
@@ -435,7 +559,7 @@ private rule win_smokeloader_auto {
         $sequence_49 = { 03471c 8b0428 01e8 5e c3 }
             // n = 5, score = 200
             //   03471c               | mov                 edi, ecx
-            //   8b0428               | cld
+            //   8b0428               | cld                 
             //   01e8                 | mov                 dl, 0x80
             //   5e                   | xor                 ebx, ebx
             //   c3                   | movsb               byte ptr es:[edi], byte ptr [esi]
@@ -451,7 +575,7 @@ private rule win_smokeloader_auto {
 
         $sequence_51 = { e8???????? 8945ac 6a00 6a04 8d45b4 50 }
             // n = 6, score = 200
-            //   e8????????           |
+            //   e8????????           |                     
             //   8945ac               | mov                 eax, dword ptr [ebp - 0x4c]
             //   6a00                 | mov                 dword ptr [edx + 0x20], eax
             //   6a04                 | jmp                 0x18
@@ -468,9 +592,9 @@ private rule win_smokeloader_auto {
         $sequence_53 = { 55 8bec 83c4d0 1e 53 }
             // n = 5, score = 200
             //   55                   | mov                 edi, ecx
-            //   8bec                 | cld
+            //   8bec                 | cld                 
             //   83c4d0               | mov                 dl, 0x80
-            //   1e                   | pushal
+            //   1e                   | pushal              
             //   53                   | mov                 esi, eax
 
         $sequence_54 = { 684a0dce09 8b45e4 50 e8???????? 8945a8 8b4da0 8b55a8 }
@@ -478,7 +602,7 @@ private rule win_smokeloader_auto {
             //   684a0dce09           | mov                 dword ptr [ebp - 0x54], eax
             //   8b45e4               | push                0
             //   50                   | push                4
-            //   e8????????           |
+            //   e8????????           |                     
             //   8945a8               | lea                 eax, [ebp - 0x4c]
             //   8b4da0               | push                eax
             //   8b55a8               | sub                 esp, 0xc
@@ -486,7 +610,7 @@ private rule win_smokeloader_auto {
         $sequence_55 = { 83ec0c e8???????? 8945f8 8b45f8 8b4860 894df4 ff7518 }
             // n = 7, score = 200
             //   83ec0c               | mov                 dword ptr [ebp - 0x88], edx
-            //   e8????????           |
+            //   e8????????           |                     
             //   8945f8               | jmp                 0xffffffc6
             //   8b45f8               | mov                 ecx, dword ptr [ebp - 0x60]
             //   8b4860               | mov                 edx, dword ptr [ebp - 0x5c]
@@ -561,110 +685,21 @@ private rule win_smokeloader_auto {
             //   5d                   | loop                0xfffffff6
             //   285829               | jne                 0xb
             //   5e                   | pop                 ebx
-            //   cb                   | leave
+            //   cb                   | leave               
 
     condition:
         7 of them and filesize < 245760
 }
+////////////////////////////////////////////////////////
 
-private rule SmokeLoader
- {
-    meta:
-        author = "kevoreilly"
-        description = "SmokeLoader Payload"
-        cape_type = "SmokeLoader Payload"
-    strings:
-        $rc4_decrypt64 = {41 8D 41 01 44 0F B6 C8 42 0F B6 [2] 41 8D 04 12 44 0F B6 D0 42 8A [2] 42 88 [2] 42 88 [2] 42 0F B6 [2] 03 CA 0F B6 C1 8A [2] 30 0F 48 FF C7 49 FF CB 75}
-        $rc4_decrypt32 = {47 B9 FF 00 00 00 23 F9 8A 54 [2] 0F B6 C2 03 F0 23 F1 8A 44 [2] 88 44 [2] 88 54 [2] 0F B6 4C [2] 0F B6 C2 03 C8 81 E1 FF 00 00 00 8A 44 [2] 30 04 2B 43 3B 9C 24 [4] 72 C0}
-        $fetch_c2_64 = {00 48 8D 05 [3] FF 48 8B CB 48 8B 14 D0 48 8B 5C 24 ?? 48 83 C4 20 5F E9}
-        $fetch_c2_32 = {8B 96 [2] (00|01) 00 8B CE 5E 8B 14 95 [4] E9}
-    condition:
-        2 of them
-}
+////////////////////////////////////////////////////////
+// YARA ruleset: smokeloader.yara
+// license: The 3-Clause BSD License
+// repository: JPCERTCC/jpcert-yara
+// url: https://github.com/JPCERTCC/jpcert-yara/blob/0722a9365ec6bc969c517c623cd166743d1bc473/other/smokeloader.yara
 
-private rule Windows_Trojan_Smokeloader_4e31426e {
-    meta:
-        author = "Elastic Security"
-        id = "4e31426e-d62e-4b6d-911b-4223e1f6adef"
-        fingerprint = "cf6d8615643198bc53527cb9581e217f8a39760c2e695980f808269ebe791277"
-        creation_date = "2021-07-21"
-        last_modified = "2021-08-23"
-        threat_name = "Windows.Trojan.Smokeloader"
-        reference_sample = "1ce643981821b185b8ad73b798ab5c71c6c40e1f547b8e5b19afdaa4ca2a5174"
-        severity = 100
-        arch_context = "x86"
-        scan_context = "file, memory"
-        license = "Elastic License v2"
-        os = "windows"
-    strings:
-        $a = { 5B 81 EB 34 10 00 00 6A 30 58 64 8B 00 8B 40 0C 8B 40 1C 8B 40 08 89 85 C0 }
-    condition:
-        all of them
-}
-
-private rule Windows_Trojan_Smokeloader_4ee15b92 {
-    meta:
-        author = "Elastic Security"
-        id = "4ee15b92-c62f-42d2-bbba-1dac2fa5644f"
-        fingerprint = "5d2ed385c76dbb4c1c755ae88b68306086a199a25a29317ae132bc874b253580"
-        creation_date = "2022-02-17"
-        last_modified = "2022-04-12"
-        threat_name = "Windows.Trojan.Smokeloader"
-        reference_sample = "09b9283286463b35ea2d5abfa869110eb124eb8c1788eb2630480d058e82abf2"
-        severity = 100
-        arch_context = "x86"
-        scan_context = "file, memory"
-        license = "Elastic License v2"
-        os = "windows"
-    strings:
-        $a = { 24 34 30 33 33 8B 45 F4 5F 5E 5B C9 C2 10 00 55 89 E5 83 EC }
-    condition:
-        all of them
-}
-
-private rule Windows_Trojan_Smokeloader_ea14b2a5 {
-    meta:
-        author = "Elastic Security"
-        id = "ea14b2a5-ea0d-4da2-8190-dbfcda7330d9"
-        fingerprint = "950ce9826fdff209b6e03c70a4f78b812d211a2a9de84bec0e5efe336323001b"
-        creation_date = "2023-05-03"
-        last_modified = "2023-06-13"
-        threat_name = "Windows.Trojan.Smokeloader"
-        reference_sample = "15fe237276b9c2c6ceae405c0739479d165b406321891c8a31883023e7b15d54"
-        severity = 100
-        arch_context = "x86"
-        scan_context = "file, memory"
-        license = "Elastic License v2"
-        os = "windows"
-    strings:
-        $a1 = { AC 41 80 01 AC 41 80 00 AC 41 80 00 AC 41 C0 00 AC 41 80 01 }
-        $a2 = { AC 41 80 00 AC 41 80 07 AC 41 80 00 AC 41 80 00 AC 41 80 00 }
-    condition:
-        all of them
-}
-
-private rule Windows_Trojan_Smokeloader_de52ed44 {
-    meta:
-        author = "Elastic Security"
-        id = "de52ed44-062c-4b0d-9a41-1bfc31a8daa9"
-        fingerprint = "950db8f87a81ef05cc2ecbfa174432ab31a3060c464836f3b38448bd8e5801be"
-        creation_date = "2023-05-04"
-        last_modified = "2023-06-13"
-        threat_name = "Windows.Trojan.Smokeloader"
-        reference_sample = "c689a384f626616005d37a94e6a5a713b9eead1b819a238e4e586452871f6718"
-        severity = 100
-        arch_context = "x86"
-        scan_context = "file, memory"
-        license = "Elastic License v2"
-        os = "windows"
-    strings:
-        $a1 = { 08 31 FF 89 7D CC 66 8C E8 66 85 C0 74 03 FF 45 CC FF 53 48 }
-        $a2 = { B0 8F 45 C8 8D 45 B8 89 38 8D 4D C8 6A 04 57 6A 01 51 57 57 }
-    condition:
-        all of them
-}
-
-private rule malware_SmokeLoader {
+// original YARA name: malware_SmokeLoader
+private rule SmokeLoader6 {
           meta:
             description = "detect SmokeLoader in memory"
             author = "JPCERT/CC Incident Response Group"
@@ -680,60 +715,16 @@ private rule malware_SmokeLoader {
             $a1 and $b1 and $c1
 }
 
-
-private rule Trojan_BAT_SmokeLoader_RS_MTB {
-	meta:
-		description = "Trojan:BAT/SmokeLoader.RS!MTB,SIGNATURE_TYPE_PEHSTR,05 00 05 00 01 00 00 05 00 "
-
-	strings :
-		$a_01_0 = {11 02 13 04 38 1e 00 00 00 38 45 00 00 00 38 8f 00 00 00 11 01 8e 69 17 da 17 d6 8d 7e 00 00 01 13 02 38 73 } //00 00
-	condition:
-		any of ($a_*)
-
-}
+////////////////////////////////////////////////////////
 
 
-/*
-   YARA Rule Set
-   Author: resteex
-   Identifier: vx_underground2_SmokeLoader
-   /
-/* Rule Set ----------------------------------------------------------------- */
+////////////////////////////////////////////////////////
+// YARA ruleset: SmokeLoader.yar
+// repository: ctxis/CAPE
+// url: https://github.com/ctxis/CAPE/blob/dae9fa6a254ecdbabeb7eb0d2389fa63722c1e82/data/yara/CAPE/SmokeLoader.yar
 
-private rule resteex_vx_underground2_SmokeLoader {
-	meta:
-		 description= "vx_underground2_SmokeLoader Group"
-		 author = "Resteex Generator"
-		 date = "2022-01-20_22-17-20"
-		 license = "https://github.com/resteex0/yarex"
-		 hash1= "66a2a7f0d83b797068895f9fcd2c886c"
-		 hash2= "96428fec8fcdc425c07cb6874bfdfa74"
-		 hash3= "d5efb3fa1e49790e1ab38141b089e379"
-		 hash4= "e2d17019baf2d59634af4c4c219bcfc3"
-
-	strings:
-
-
- 		 $s1= "podofomiwuxofaluzetigijenowucos" fullword wide
-		 $s2= "SEJUWUSIZABUTUXAKAYUPIGIGEYOKAHA" fullword wide
-		 $s3= "Tilonodagokolul roduvacexir" fullword wide
-		 $s4= "tixetusepobirabuxawevomepenetis" fullword wide
-		 $a1= "cahenokejocijugujinugacokimugizirafehewisamiwetutonuwacogohatudo" fullword ascii
-		 $a2= "C:juxisemiv6sefehoy-foyifugew36tadimoviyoruzwosal1.pdb" fullword ascii
-
-		 $hex1= {2461313d2022636168}
-		 $hex2= {2461323d2022433a6a}
-		 $hex3= {2473313d2022706f64}
-		 $hex4= {2473323d202253454a}
-		 $hex5= {2473333d202254696c}
-		 $hex6= {2473343d2022746978}
-
-	condition:
-		4 of them
-}
-
-private rule SmokeLoader2
- {
+// original YARA name: SmokeLoader
+private rule SmokeLoader7 {
     meta:
         author = "kev"
         description = "SmokeLoader C2 decryption function"
@@ -745,13 +736,14 @@ private rule SmokeLoader2
     condition:
         any of ($decrypt*)
 }
+////////////////////////////////////////////////////////
+
 
 
 rule fsSmokeLoader {
     meta:
         description = "FsYARA - Malware Trends"
         vetted_family = "smokeloader"
-
-    condition:
-        win_smokeloader_auto or SmokeLoader or Windows_Trojan_Smokeloader_4e31426e or Windows_Trojan_Smokeloader_4ee15b92 or Windows_Trojan_Smokeloader_ea14b2a5 or Windows_Trojan_Smokeloader_de52ed44 or malware_SmokeLoader or Trojan_BAT_SmokeLoader_RS_MTB or resteex_vx_underground2_SmokeLoader or SmokeLoader2
+	condition:
+		SmokeLoader0 or SmokeLoader1 or SmokeLoader2 or SmokeLoader3 or SmokeLoader4 or SmokeLoader5 or SmokeLoader6 or SmokeLoader7
 }

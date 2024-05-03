@@ -1,4 +1,163 @@
-private rule win_qakbot_auto {
+////////////////////////////////////////////////////////
+// YARA ruleset: gen_qakbot_uninstaller.yar
+// license: Other
+// repository: Neo23x0/signature-base
+// url: https://github.com/Neo23x0/signature-base/blob/007d9ddee386f68aca3a3aac5e1514782f02ed2d/yara/gen_qakbot_uninstaller.yar
+
+
+// original YARA name: SUSP_Qakbot_Uninstaller_ShellCode_Aug23
+private rule Qakbot0 {
+   meta:
+      description = "Detects Qakbot Uninstaller files used by the FBI and Dutch National Police in a disruption operation against the Qakbot in August 2023"
+      author = "Florian Roth"
+      reference = "https://www.justice.gov/usao-cdca/divisions/national-security-division/qakbot-resources"
+      date = "2023-08-30"
+      score = 60
+      id = "860796ab-689f-5c5f-bc40-3e2ef7fd1d5d"
+   strings:
+      $xc1 = { E8 00 00 00 00 58 55 89 E5 89 C2 68 03 00 00 00 68 00 2C 00 00 05 20 0A 00 00 50 E8 05 00 00 00 83 C4 04 C9 C3 81 EC 08 01 00 00 53 55 56 57 6A 6B 58 6A 65 5B 6A 72 66 89 84 24 D4 00 00 00 33 }
+   condition:
+      $xc1
+}
+
+// original YARA name: SUSP_QakBot_Uninstaller_FBI_Aug23
+private rule Qakbot1 {
+   meta:
+      description = "Detects Qakbot uninstaller used by the FBI / Dutch Police"
+      author = "Florian Roth"
+      reference = "https://www.justice.gov/usao-cdca/divisions/national-security-division/qakbot-resources"
+      date = "2023-08-31"
+      score = 60
+      hash1 = "559cae635f0d870652b9482ef436b31d4bb1a5a0f51750836f328d749291d0b6"
+      hash2 = "855eb5481f77dde5ad8fa6e9d953d4aebc280dddf9461144b16ed62817cc5071"
+      hash3 = "fab408536aa37c4abc8be97ab9c1f86cb33b63923d423fdc2859eb9d63fa8ea0"
+      id = "499bff56-ff49-53df-9922-227b816c0a36"
+   strings:
+      $op1 = { 69 c1 65 89 07 6c 03 c2 89 84 95 24 f6 ff ff 8b 55 e4 42 89 55 e4 81 fa 70 02 00 00 7c d4 }
+      $op2 = { 42 89 55 e4 81 fa 70 02 00 00 7c d4 f2 0f 10 0d a0 31 00 10 33 f6 f2 0f 10 15 a8 31 00 10 66 90 }
+      $op5 = { 68 48 31 00 10 6a 28 57 e8 e4 fd ff ff 8b 4d fc 83 c4 4c 33 cd 33 c0 }
+      $op6 = { 33 c0 66 39 06 74 0f 0f 1f 80 00 00 00 00 40 66 83 3c 46 00 75 f8 8d 3c 00 }
+   condition:
+      all of them
+}
+
+////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////
+// YARA ruleset: QakBot.yar
+// license: Other
+// repository: kevoreilly/CAPEv2
+// url: https://github.com/kevoreilly/CAPEv2/blob/3cff06445d2f56ba1cea2846e79a7df06ac39c46/data/yara/CAPE/QakBot.yar
+
+// original YARA name: QakBot5
+private rule Qakbot2 {
+    meta:
+        author = "kevoreilly, enzok"
+        description = "QakBot v5 Payload"
+        cape_type = "QakBot Payload"
+        packed = "f4bb0089dcf3629b1570fda839ef2f06c29cbf846c5134755d22d419015c8bd2"
+        hash = "59559e97962e40a15adb2237c4d01cfead03623aff1725616caeaa5a8d273a35"
+    strings:
+        $loop = {8B 75 ?? 48 8B 4C [2] FF 15 [4] 48 8B 4C [2] 48 8B 01 FF 50 ?? 8B DE 48 8B 4C [2] 48 85 C9 0F 85 [4] EB 4E}
+        $c2list = {0F B7 1D [4] B? [2] 00 00 E8 [4] 8B D3 4? 89 45 ?? 4? 33 C9 4? 8D 0D [4] 4? 8B C0 4? 8B F8 E8}
+        $campaign = {0F B7 1D [4] B? [2] 00 00 E8 [4] 8B D3 4? 89 44 24 ?? 4? 33 C9 4? 8D 0D [4] 4? 8B C0 4? 8B F8 E8}
+    condition:
+        uint16(0) == 0x5A4D and 2 of them
+}
+
+// original YARA name: QakBot4
+private rule Qakbot3 {
+    meta:
+        author = "kevoreilly"
+        description = "QakBot v4 Payload"
+        cape_type = "QakBot Payload"
+    strings:
+        $crypto1 = {8B 5D 08 0F B6 C2 8A 16 0F B6 1C 18 88 55 13 0F B6 D2 03 CB 03 CA 81 E1 FF 00 00 80 79 08 49 81 C9 00 FF FF FF 41}
+        $sha1_1 = {5? 33 F? [0-9] 89 7? 24 ?? 89 7? 24 ?? 8? [1-3] 24 [1-4] C7 44 24 ?0 01 23 45 67 C7 44 24 ?4 89 AB CD EF C7 44 24 ?8 FE DC BA 98 C7 44 24 ?C 76 54 32 10 C7 44 24 ?0 F0 E1 D2 C3}
+        $sha1_2 = {33 C0 C7 01 01 23 45 67 89 41 14 89 41 18 89 41 5C C7 41 04 89 AB CD EF C7 41 08 FE DC BA 98 C7 41 0C 76 54 32 10 C7 41 10 F0 E1 D2 C3 89 41 60 89 41 64 C3}
+        $anti_sandbox1 = {8D 4? FC [0-1] E8 [4-7] E8 [4] 85 C0 7E (04|07) [4-7] 33 (C0|D2) 74 02 EB FA}
+        $anti_sandbox2 = {8D 45 ?? 50 E8 [2] 00 00 59 68 [4] FF 15 [4] 89 45 ?? 83 7D ?? 0F 76 0C}
+        $decrypt_config1 = {FF 37 83 C3 EC 53 8B 5D 0C 8D 43 14 50 6A 14 53 E8 ?? ?? ?? ?? 83 C4 14 85 C0 ?? 26 ?? ?? 86 20 02 00 00 66 85 C0 ?? ?? FF 37 FF 75 10 53}
+        $decrypt_config2 = {8B 45 08 8B 88 24 04 00 00 51 8B 55 10 83 EA 14 52 8B 45 0C 83 C0 14 50 6A 14 8B 4D 0C 51 E8 6C 08 00 00}
+        $decrypt_config3 = {6A 13 8B CE 8B C3 5A 8A 18 3A 19 75 05 40 41 4A 75 F5 0F B6 00 0F B6 09 2B C1 74 05 83 C8 FF EB 0E}
+        $call_decrypt = {83 7D ?? 00 56 74 0B FF 75 10 8B F3 E8 [4] 59 8B 45 0C 83 F8 28 72 19 8B 55 08 8B 37 8D 48 EC 6A 14 8D 42 14 52 E8}
+    condition:
+        uint16(0) == 0x5A4D and any of ($*)
+}
+
+////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////
+// YARA ruleset: QakBot_OneNote_Loader.yara
+// license: GNU General Public License v3.0
+// repository: CYB3RMX/Qu1cksc0pe
+// url: https://github.com/CYB3RMX/Qu1cksc0pe/blob/b169586bc84601f9614d32520c7e97b964135dee/Systems/Multiple/YaraRules_Multiple/QakBot_OneNote_Loader.yara
+
+// original YARA name: QakBot_OneNote_Loader
+private rule Qakbot4 {
+
+  meta:
+      author = "Ankit Anubhav - ankitanubhav.info"
+      description = "Detects a OneNote malicious loader mostly used by QBot (TA570/TA577)"
+      date = "2023-02-04"
+      yarahub_author_twitter = "@ankit_anubhav"
+      yarahub_author_email = "ankit.yara@inbox.ru"
+      yarahub_reference_link = "https://twitter.com/ankit_anubhav"
+      yarahub_reference_md5 = "b6c8d82a4ec67398c756fc1f36e32511"
+      yarahub_uuid = "cbbe7ec6-1658-4f4b-b229-8ade27bff9f4"
+      yarahub_license = "CC0 1.0"
+      yarahub_rule_matching_tlp = "TLP:WHITE"
+      yarahub_rule_sharing_tlp = "TLP:WHITE"
+      malpedia_family = "win.qakbot"
+
+strings:
+
+  $x = { E4 52 5C 7B 8C D8 A7 4D AE B1 53 78 D0 29 96 D3 } // OneNote header
+
+// Variant 1
+// Looking for evidence of onenote containing vbs/js/ and code to write data in registry and execute it.
+// Some of these might be obfuscated so looking for a 3/5 match.
+  $a = "javascript" nocase
+  $b = "vbscript" nocase
+  $c = "regread" nocase
+  $d = "regwrite" nocase
+  $e = "RegDelete" nocase
+
+// Variant 2
+// Instead of hta abuses batch and powershell to download and run the DLL
+
+  $f = ".cmd&&start /min" nocase //edit 07.02.22 for batch file vector
+  $f2 = "&&cmd /c start /min" nocase // edit 14.02.22 run command and then exit
+  $g = "powershell" nocase
+
+// Variant 3
+// Involves powershell as well but obfuscation is different.
+// The string powershell can not be found because it is partially hidden by environment variables.
+
+  $tok1 = "rundll32 C:\\ProgramData\\" nocase // tok1 botnet ID
+
+// Some cases they are obfuscating a lot by breaking all in set
+
+$h = "set" // Look for several of these
+$i = "start /min"
+
+
+
+condition:
+	$x and ((3 of ($a,$b,$c,$d,$e)) or (($f or $f2) and $g) or $tok1 or (#h > 15 and $i))
+
+
+}
+
+////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////
+// YARA ruleset: win.qakbot_auto.yar
+// repository: malpedia/signator-rules
+// url: https://github.com/malpedia/signator-rules/blob/fbacfc09b84d53d410385e66a8e56f25016c588a/rules/win.qakbot_auto.yar
+
+// original YARA name: win_qakbot_auto
+private rule Qakbot5 {
 
     meta:
         author = "Felix Bilstein - yara-signator at cocacoding dot com"
@@ -31,8 +190,8 @@ private rule win_qakbot_auto {
     strings:
         $sequence_0 = { c9 c3 55 8bec 81ecc4090000 }
             // n = 5, score = 15700
-            //   c9                   | leave
-            //   c3                   | ret
+            //   c9                   | leave               
+            //   c3                   | ret                 
             //   55                   | push                ebp
             //   8bec                 | mov                 ebp, esp
             //   81ecc4090000         | sub                 esp, 0x9c4
@@ -42,7 +201,7 @@ private rule win_qakbot_auto {
             //   33c0                 | xor                 eax, eax
             //   7402                 | je                  4
             //   ebfa                 | jmp                 0xfffffffc
-            //   e8????????           |
+            //   e8????????           |                     
 
         $sequence_2 = { 7402 ebfa 33c0 7402 }
             // n = 4, score = 15400
@@ -60,7 +219,7 @@ private rule win_qakbot_auto {
 
         $sequence_4 = { e8???????? 33c9 85c0 0f9fc1 41 }
             // n = 5, score = 14800
-            //   e8????????           |
+            //   e8????????           |                     
             //   33c9                 | xor                 ecx, ecx
             //   85c0                 | test                eax, eax
             //   0f9fc1               | setg                cl
@@ -69,7 +228,7 @@ private rule win_qakbot_auto {
         $sequence_5 = { 50 e8???????? 8b06 47 59 }
             // n = 5, score = 14400
             //   50                   | push                eax
-            //   e8????????           |
+            //   e8????????           |                     
             //   8b06                 | mov                 eax, dword ptr [esi]
             //   47                   | inc                 edi
             //   59                   | pop                 ecx
@@ -79,7 +238,7 @@ private rule win_qakbot_auto {
             //   8d45fc               | lea                 eax, [ebp - 4]
             //   6aff                 | push                -1
             //   50                   | push                eax
-            //   e8????????           |
+            //   e8????????           |                     
 
         $sequence_7 = { 59 59 33c0 7402 }
             // n = 4, score = 13900
@@ -90,11 +249,11 @@ private rule win_qakbot_auto {
 
         $sequence_8 = { e8???????? 59 59 6afb e9???????? }
             // n = 5, score = 13800
-            //   e8????????           |
+            //   e8????????           |                     
             //   59                   | pop                 ecx
             //   59                   | pop                 ecx
             //   6afb                 | push                -5
-            //   e9????????           |
+            //   e9????????           |                     
 
         $sequence_9 = { 740d 8d45fc 6a00 50 }
             // n = 4, score = 13700
@@ -109,21 +268,21 @@ private rule win_qakbot_auto {
             //   8d8534f6ffff         | lea                 eax, [ebp - 0x9cc]
             //   6a00                 | push                0
             //   50                   | push                eax
-            //   e8????????           |
+            //   e8????????           |                     
 
         $sequence_11 = { 8945fc e8???????? 8bf0 8d45fc 50 e8???????? }
             // n = 6, score = 13500
             //   8945fc               | mov                 dword ptr [ebp - 4], eax
-            //   e8????????           |
+            //   e8????????           |                     
             //   8bf0                 | mov                 esi, eax
             //   8d45fc               | lea                 eax, [ebp - 4]
             //   50                   | push                eax
-            //   e8????????           |
+            //   e8????????           |                     
 
         $sequence_12 = { 33c0 e9???????? 33c0 7402 }
             // n = 4, score = 13400
             //   33c0                 | xor                 eax, eax
-            //   e9????????           |
+            //   e9????????           |                     
             //   33c0                 | xor                 eax, eax
             //   7402                 | je                  4
 
@@ -131,7 +290,7 @@ private rule win_qakbot_auto {
             // n = 4, score = 13200
             //   7402                 | je                  4
             //   ebfa                 | jmp                 0xfffffffc
-            //   e9????????           |
+            //   e9????????           |                     
             //   6a00                 | push                0
 
         $sequence_14 = { 8975f8 8975f0 8975f4 e8???????? }
@@ -139,7 +298,7 @@ private rule win_qakbot_auto {
             //   8975f8               | mov                 dword ptr [ebp - 8], esi
             //   8975f0               | mov                 dword ptr [ebp - 0x10], esi
             //   8975f4               | mov                 dword ptr [ebp - 0xc], esi
-            //   e8????????           |
+            //   e8????????           |                     
 
         $sequence_15 = { eb0b c644301c00 ff465c 8b465c 83f840 7cf0 }
             // n = 6, score = 13000
@@ -161,7 +320,7 @@ private rule win_qakbot_auto {
 
         $sequence_17 = { e8???????? 83c410 33c0 7402 }
             // n = 4, score = 12800
-            //   e8????????           |
+            //   e8????????           |                     
             //   83c410               | add                 esp, 0x10
             //   33c0                 | xor                 eax, eax
             //   7402                 | je                  4
@@ -198,14 +357,14 @@ private rule win_qakbot_auto {
 
         $sequence_22 = { e8???????? e8???????? 33c0 7402 }
             // n = 4, score = 12300
-            //   e8????????           |
-            //   e8????????           |
+            //   e8????????           |                     
+            //   e8????????           |                     
             //   33c0                 | xor                 eax, eax
             //   7402                 | je                  4
 
         $sequence_23 = { 833d????????00 7508 33c0 7402 }
             // n = 4, score = 12100
-            //   833d????????00       |
+            //   833d????????00       |                     
             //   7508                 | jne                 0xa
             //   33c0                 | xor                 eax, eax
             //   7402                 | je                  4
@@ -228,7 +387,7 @@ private rule win_qakbot_auto {
             // n = 4, score = 11600
             //   80ea80               | sub                 dl, 0x80
             //   8855f0               | mov                 byte ptr [ebp - 0x10], dl
-            //   e8????????           |
+            //   e8????????           |                     
             //   0fb64df7             | movzx               ecx, byte ptr [ebp - 9]
 
         $sequence_27 = { 50 8d45d8 50 8d45d4 50 8d45ec }
@@ -243,7 +402,7 @@ private rule win_qakbot_auto {
         $sequence_28 = { 56 e8???????? 8b45fc 83c40c 40 }
             // n = 5, score = 9500
             //   56                   | push                esi
-            //   e8????????           |
+            //   e8????????           |                     
             //   8b45fc               | mov                 eax, dword ptr [ebp - 4]
             //   83c40c               | add                 esp, 0xc
             //   40                   | inc                 eax
@@ -253,7 +412,7 @@ private rule win_qakbot_auto {
             //   6a00                 | push                0
             //   6800600900           | push                0x96000
             //   6a00                 | push                0
-            //   ff15????????         |
+            //   ff15????????         |                     
 
         $sequence_30 = { 50 ff5508 8bf0 59 }
             // n = 4, score = 6300
@@ -273,7 +432,7 @@ private rule win_qakbot_auto {
         $sequence_32 = { 57 ff15???????? 33c0 85f6 0f94c0 }
             // n = 5, score = 5200
             //   57                   | push                edi
-            //   ff15????????         |
+            //   ff15????????         |                     
             //   33c0                 | xor                 eax, eax
             //   85f6                 | test                esi, esi
             //   0f94c0               | sete                al
@@ -282,13 +441,13 @@ private rule win_qakbot_auto {
             // n = 5, score = 5200
             //   750c                 | jne                 0xe
             //   57                   | push                edi
-            //   ff15????????         |
+            //   ff15????????         |                     
             //   6afe                 | push                -2
             //   58                   | pop                 eax
 
         $sequence_34 = { c3 33c9 3d80000000 0f94c1 }
             // n = 4, score = 5200
-            //   c3                   | ret
+            //   c3                   | ret                 
             //   33c9                 | xor                 ecx, ecx
             //   3d80000000           | cmp                 eax, 0x80
             //   0f94c1               | sete                cl
@@ -296,14 +455,14 @@ private rule win_qakbot_auto {
         $sequence_35 = { 6a02 ff15???????? 8bf8 83c8ff }
             // n = 4, score = 5000
             //   6a02                 | push                2
-            //   ff15????????         |
+            //   ff15????????         |                     
             //   8bf8                 | mov                 edi, eax
             //   83c8ff               | or                  eax, 0xffffffff
 
         $sequence_36 = { 50 e8???????? 6a40 8d4590 }
             // n = 4, score = 4500
             //   50                   | push                eax
-            //   e8????????           |
+            //   e8????????           |                     
             //   6a40                 | push                0x40
             //   8d4590               | lea                 eax, [ebp - 0x70]
 
@@ -317,23 +476,23 @@ private rule win_qakbot_auto {
         $sequence_38 = { 56 e8???????? 83c40c 8d4514 50 }
             // n = 5, score = 4000
             //   56                   | push                esi
-            //   e8????????           |
+            //   e8????????           |                     
             //   83c40c               | add                 esp, 0xc
             //   8d4514               | lea                 eax, [ebp + 0x14]
             //   50                   | push                eax
 
         $sequence_39 = { e8???????? 6a00 8d45d4 50 68???????? }
             // n = 5, score = 500
-            //   e8????????           |
+            //   e8????????           |                     
             //   6a00                 | push                0
             //   8d45d4               | lea                 eax, [ebp - 0x2c]
             //   50                   | push                eax
-            //   68????????           |
+            //   68????????           |                     
 
         $sequence_40 = { 5d c3 33c9 66890c46 }
             // n = 4, score = 300
             //   5d                   | pop                 ebp
-            //   c3                   | ret
+            //   c3                   | ret                 
             //   33c9                 | xor                 ecx, ecx
             //   66890c46             | mov                 word ptr [esi + eax*2], cx
 
@@ -376,7 +535,7 @@ private rule win_qakbot_auto {
             //   88442401             | mov                 byte ptr [esp + 1], al
             //   894c245c             | mov                 dword ptr [esp + 0x5c], ecx
             //   0f847afdffff         | je                  0xfffffd80
-            //   e9????????           |
+            //   e9????????           |                     
 
         $sequence_46 = { 89442410 884c2417 eb94 55 89e5 31c0 }
             // n = 6, score = 100
@@ -442,370 +601,92 @@ private rule win_qakbot_auto {
             //   83c40c               | add                 esp, 0xc
             //   85f6                 | test                esi, esi
             //   0f84f8000000         | je                  0xfe
-            //   a1????????           |
+            //   a1????????           |                     
 
     condition:
         7 of them and filesize < 4883456
 }
+////////////////////////////////////////////////////////
 
-private rule QakBot5
- {
-    meta:
-        author = "kevoreilly, enzok"
-        description = "QakBot v5 Payload"
-        cape_type = "QakBot Payload"
-        packed = "f4bb0089dcf3629b1570fda839ef2f06c29cbf846c5134755d22d419015c8bd2"
-        hash = "59559e97962e40a15adb2237c4d01cfead03623aff1725616caeaa5a8d273a35"
-    strings:
-        $loop = {8B 75 ?? 48 8B 4C [2] FF 15 [4] 48 8B 4C [2] 48 8B 01 FF 50 ?? 8B DE 48 8B 4C [2] 48 85 C9 0F 85 [4] EB 4E}
-        $c2list = {0F B7 1D [4] B? [2] 00 00 E8 [4] 8B D3 4? 89 45 ?? 4? 33 C9 4? 8D 0D [4] 4? 8B C0 4? 8B F8 E8}
-        $campaign = {0F B7 1D [4] B? [2] 00 00 E8 [4] 8B D3 4? 89 44 24 ?? 4? 33 C9 4? 8D 0D [4] 4? 8B C0 4? 8B F8 E8}
-    condition:
-        uint16(0) == 0x5A4D and 2 of them
+////////////////////////////////////////////////////////
+// YARA ruleset: win_qakbot_api_hashing_oct_2022.yar
+// repository: embee-research/Yara-detection-rules
+// url: https://github.com/embee-research/Yara-detection-rules/blob/ac56d6f6fd2a30c8cb6e5c0455d6519210a8b0f4/Rules/2022/win_qakbot_api_hashing_oct_2022.yar
+
+
+// original YARA name: win_qakbot_api_hashing_oct_2022
+private rule Qakbot6 {
+	meta:
+		author = "@Embee_Research"
+		vendor = "Huntress Labs"
+		created = "2022/11/14"
+		updated = "2022/12/01"
+		reference =  "@Embee_Research @HuntressLabs"
+		reference = "https://twitter.com/embee_research/status/1592067841154756610"
+	strings:
+		
+		//Qakbot string hashing routine extracted from Ghidra
+		//This is unique to qakbot samples
+		$qakbot_hashing = {0f b6 04 39 33 f0 8b c6 c1 ee 04 83 e0 0f 33 34 85 ?? ?? ?? ?? 8b c6 c1 ee 04 83 e0 0f 33 34 85 ?? ?? ?? ?? 41 3b ca} 
+
+		
+	condition:
+		uint16(0) == 0x5a4d and any of them
 }
 
-private rule QakBot4
- {
-    meta:
-        author = "kevoreilly"
-        description = "QakBot v4 Payload"
-        cape_type = "QakBot Payload"
-    strings:
-        $crypto1 = {8B 5D 08 0F B6 C2 8A 16 0F B6 1C 18 88 55 13 0F B6 D2 03 CB 03 CA 81 E1 FF 00 00 80 79 08 49 81 C9 00 FF FF FF 41}
-        $sha1_1 = {5? 33 F? [0-9] 89 7? 24 ?? 89 7? 24 ?? 8? [1-3] 24 [1-4] C7 44 24 ?0 01 23 45 67 C7 44 24 ?4 89 AB CD EF C7 44 24 ?8 FE DC BA 98 C7 44 24 ?C 76 54 32 10 C7 44 24 ?0 F0 E1 D2 C3}
-        $sha1_2 = {33 C0 C7 01 01 23 45 67 89 41 14 89 41 18 89 41 5C C7 41 04 89 AB CD EF C7 41 08 FE DC BA 98 C7 41 0C 76 54 32 10 C7 41 10 F0 E1 D2 C3 89 41 60 89 41 64 C3}
-        $anti_sandbox1 = {8D 4? FC [0-1] E8 [4-7] E8 [4] 85 C0 7E (04|07) [4-7] 33 (C0|D2) 74 02 EB FA}
-        $anti_sandbox2 = {8D 45 ?? 50 E8 [2] 00 00 59 68 [4] FF 15 [4] 89 45 ?? 83 7D ?? 0F 76 0C}
-        $decrypt_config1 = {FF 37 83 C3 EC 53 8B 5D 0C 8D 43 14 50 6A 14 53 E8 ?? ?? ?? ?? 83 C4 14 85 C0 ?? 26 ?? ?? 86 20 02 00 00 66 85 C0 ?? ?? FF 37 FF 75 10 53}
-        $decrypt_config2 = {8B 45 08 8B 88 24 04 00 00 51 8B 55 10 83 EA 14 52 8B 45 0C 83 C0 14 50 6A 14 8B 4D 0C 51 E8 6C 08 00 00}
-        $decrypt_config3 = {6A 13 8B CE 8B C3 5A 8A 18 3A 19 75 05 40 41 4A 75 F5 0F B6 00 0F B6 09 2B C1 74 05 83 C8 FF EB 0E}
-        $call_decrypt = {83 7D ?? 00 56 74 0B FF 75 10 8B F3 E8 [4] 59 8B 45 0C 83 F8 28 72 19 8B 55 08 8B 37 8D 48 EC 6A 14 8D 42 14 52 E8}
-    condition:
-        uint16(0) == 0x5A4D and any of ($*)
-}
-
-private rule QakBot_OneNote_Loader {
-
-  meta:
-      author = "Ankit Anubhav - ankitanubhav.info"
-      description = "Detects a OneNote malicious loader mostly used by QBot (TA570/TA577)"
-      date = "2023-02-04"
-      yarahub_author_twitter = "@ankit_anubhav"
-      yarahub_author_email = "ankit.yara@inbox.ru"
-      yarahub_reference_link = "https://twitter.com/ankit_anubhav"
-      yarahub_reference_md5 = "b6c8d82a4ec67398c756fc1f36e32511"
-      yarahub_uuid = "cbbe7ec6-1658-4f4b-b229-8ade27bff9f4"
-      yarahub_license = "CC0 1.0"
-      yarahub_rule_matching_tlp = "TLP:WHITE"
-      yarahub_rule_sharing_tlp = "TLP:WHITE"
-      malpedia_family = "win.qakbot"
-
-strings:
-
-  $x = { E4 52 5C 7B 8C D8 A7 4D AE B1 53 78 D0 29 96 D3 } // OneNote header
-
-// Variant 1
-// Looking for evidence of onenote containing vbs/js/ and code to write data in registry and execute it.
-// Some of these might be obfuscated so looking for a 3/5 match.
-  $a = "javascript" nocase
-  $b = "vbscript" nocase
-  $c = "regread" nocase
-  $d = "regwrite" nocase
-  $e = "RegDelete" nocase
-
-// Variant 2
-// Instead of hta abuses batch and powershell to download and run the DLL
-
-  $f = ".cmd&&start /min" nocase //edit 07.02.22 for batch file vector
-  $f2 = "&&cmd /c start /min" nocase // edit 14.02.22 run command and then exit
-  $g = "powershell" nocase
-
-// Variant 3
-// Involves powershell as well but obfuscation is different.
-// The string powershell can not be found because it is partially hidden by environment variables.
-
-  $tok1 = "rundll32 C:\\ProgramData\\" nocase // tok1 botnet ID
-
-// Some cases they are obfuscating a lot by breaking all in set
-
-$h = "set" // Look for several of these
-$i = "start /min"
+////////////////////////////////////////////////////////
 
 
 
-condition:
-	$x and ((3 of ($a,$b,$c,$d,$e)) or (($f or $f2) and $g) or $tok1 or (#h > 15 and $i))
+////////////////////////////////////////////////////////
+// YARA ruleset: QakBot.yar
+// repository: ctxis/CAPE
+// url: https://github.com/ctxis/CAPE/blob/dae9fa6a254ecdbabeb7eb0d2389fa63722c1e82/data/yara/CAPE/QakBot.yar
 
-
-}
-
-private rule Qakbot_WSF_loader {
-
-  meta:
-      author = "Ankit Anubhav -ankitanubhav.info"
-      description = "Detects a WSF loader used to deploy Qakbot DLL"
-      date = "2023-02-15"
-      yarahub_author_twitter = "@ankit_anubhav"
-      yarahub_author_email = "ankit.yara@inbox.ru"
-      yarahub_reference_link = "https://twitter.com/ankit_anubhav"
-      yarahub_reference_md5 = "ff19670725eaf5df6f3d2ca656d3db27"
-      yarahub_uuid = "211e3eac-1acf-45af-bac9-e0a4c353560c"
-      yarahub_license = "CC0 1.0"
-      yarahub_rule_matching_tlp = "TLP:WHITE"
-      yarahub_rule_sharing_tlp = "TLP:WHITE"
-      malpedia_family = "win.qakbot"
-
-   strings:
-    $x = "gnirtSot." nocase
-    $y = "noitcnuf" nocase
-    $z = "BEGIN CERTIFICATE REQUEST" nocase
-
-    condition:
-    $x and $y and $z and filesize < 20000
-
-}
-
-private rule malware_QakBot {
-    meta:
-      description = "detect QakBot(a.k.a. Qbot, Quakbot, Pinkslipbot) in memory"
-      author = "JPCERT/CC Incident Response Group"
-      rule_usage = "memory scan"
-      hash1 = "d766cd76c93dcc47d0d02e073216d792d1b377e31a4bae74969ab8076e286db3"
-      hash2 = "717298e663d574444b63bb152063795326ac7c04edc9873a4ac2e407e1f550a1"
-
-    strings:
-      $cryptFunc1 = { 33 D2 6A ?? 5B F7 F3 }  /* xor edx, edx; push 5Ah; pop ebx; div ebx */
-      $cryptFunc2 = { 32 04 37 } /* xor al, [edi+esi] */
-      /*  .rdata:1001B258 dd 0, 1DB71064h, 3B6E20C8h, 26D930ACh
-          .rdata:1001B258 dd 76DC4190h, 6B6B51F4h, 4DB26158h, 5005713Ch   */
-      $hashFunc = { 64 10 B7 1D C8 20 6E 3B AC 30 D9 26  90 41 DC 76 F4 51 6B 6B}
-
-    condition:
-      uint16(0) == 0x5A4D and
-      uint32(uint32(0x3c)) == 0x00004550 and
-      $cryptFunc1 and $cryptFunc2 and
-      $hashFunc
-}
-
-private rule QakBot
- {
+// original YARA name: QakBot
+private rule Qakbot7 {
     meta:
         author = "kevoreilly"
         description = "QakBot Payload"
         cape_type = "QakBot Payload"
-
     strings:
-        $crypto1 = {8B 5D 08 0F B6 C2 8A 16 0F B6 1C 18 88 55 13 0F B6 D2 03 CB 03 CA 81 E1 FF 00 00 80 79 08 49 81 C9 00 FF FF FF 41}
-        $crypto2 = {5? 33 F? [0-9] 89 7? 24 ?? 89 7? 24 ?? 8? [1-3] 24 [1-4] C7 44 24 ?0 01 23 45 67 C7 44 24 ?4 89 AB CD EF C7 44 24 ?8 FE DC BA 98 C7 44 24 ?C 76 54 32 10 C7 44 24 ?0 F0 E1 D2 C3}
-        $anti_sandbox1 = {8D 4? FC [0-1] E8 [4-7] E8 [4] 85 C0 7E (04|07) [4-7] 33 (C0|D2) 74 02 EB FA}
-        $anti_sandbox2 = {8D 45 ?? 50 E8 [2] 00 00 59 68 [4] FF 15 [4] 89 45 ?? 83 7D ?? 0F 76 0C}
+        $crypto = {8B 5D 08 0F B6 C2 8A 16 0F B6 1C 18 88 55 13 0F B6 D2 03 CB 03 CA 81 E1 FF 00 00 80 79 08 49 81 C9 00 FF FF FF 41}
+        $anti_sandbox = {8D 4D FC 51 E8 ?? ?? ?? ?? 83 C4 04 E8 ?? ?? ?? ?? 85 C0 7E 07 C7 45 F8 00 00 00 00 33 D2 74 02 EB FA 8B 45 F8 EB 08 33 C0 74 02 EB FA 33 C0 8B E5 5D C3}
         $decrypt_config1 = {FF 37 83 C3 EC 53 8B 5D 0C 8D 43 14 50 6A 14 53 E8 ?? ?? ?? ?? 83 C4 14 85 C0 ?? 26 ?? ?? 86 20 02 00 00 66 85 C0 ?? ?? FF 37 FF 75 10 53}
         $decrypt_config2 = {8B 45 08 8B 88 24 04 00 00 51 8B 55 10 83 EA 14 52 8B 45 0C 83 C0 14 50 6A 14 8B 4D 0C 51 E8 6C 08 00 00}
-        $decrypt_config3 = {6A 13 8B CE 8B C3 5A 8A 18 3A 19 75 05 40 41 4A 75 F5 0F B6 00 0F B6 09 2B C1 74 05 83 C8 FF EB 0E}
-        $call_decrypt = {83 7D ?? 00 56 74 0B FF 75 10 8B F3 E8 [4] 59 8B 45 0C 83 F8 28 72 19 8B 55 08 8B 37 8D 48 EC 6A 14 8D 42 14 52 E8}
     condition:
         uint16(0) == 0x5A4D and any of ($*)
 }
 
+////////////////////////////////////////////////////////
 
-private rule MAL_QBot_HTML_Smuggling_Indicators_Oct22_1 {
-   meta:
-      description = "Detects double encoded PKZIP headers as seen in HTML files used by QBot"
-      author = "Florian Roth (Nextron Systems)"
-      reference = "https://twitter.com/ankit_anubhav/status/1578257383133876225?s=20&t=Bu3CCJCzImpTGOQX_KGsdA"
-      date = "2022-10-07"
-      hash1 = "4f384bcba31fda53e504d0a6c85cee0ce3ea9586226633d063f34c53ddeaca3f"
-      hash2 = "8e61c2b751682becb4c0337f5a79b2da0f5f19c128b162ec8058104b894cae9b"
-      hash3 = "c5d23d991ce3fbcf73b177bc6136d26a501ded318ccf409ca16f7c664727755a"
-      hash4 = "5072d91ee0d162c28452123a4d9986f3df6b3244e48bf87444ce88add29dd8ed"
-      hash5 = "ff4e21f788c36aabe6ba870cf3b10e258c2ba6f28a2d359a25d5a684c92a0cad"
-      id = "8034d6af-4dae-5ff6-b635-efb5175fe4d1"
-   strings:
-      /* Double base64 encoded - as seen in HTML */
-      $sd1 = "VUVzREJCUUFBUUFJQ"
-      $sd2 = "VFc0RCQlFBQVFBSU"
-      $sd3 = "VRXNEQkJRQUFRQUlB"
-      /* reversed */
-      $sdr1 = "QJFUUBFUUCJERzVUV"
-      $sdr2 = "USBFVQBFlQCR0cFV"
-      $sdr3 = "BlUQRFUQRJkQENXRV"
+////////////////////////////////////////////////////////
+// YARA ruleset: win_qakbot_string_decrypt_nov_2022.yar
+// repository: embee-research/Yara-detection-rules
+// url: https://github.com/embee-research/Yara-detection-rules/blob/ac56d6f6fd2a30c8cb6e5c0455d6519210a8b0f4/Rules/2022/win_qakbot_string_decrypt_nov_2022.yar
 
-      /* Triple base64 encoded - to detect the double encoded versions in email attachments */
-      $st1 = "VlVWelJFSkNVVUZCVVVGSl"
-      $st2 = "ZVVnpSRUpDVVVGQlVVRkpR"
-      $st3 = "WVVZ6UkVKQ1VVRkJVVUZKU"
-      $st4 = "VkZjMFJDUWxGQlFWRkJTV"
-      $st5 = "ZGYzBSQ1FsRkJRVkZCU1"
-      $st6 = "WRmMwUkNRbEZCUVZGQlNV"
-      $st7 = "VlJYTkVRa0pSUVVGUlFVbE"
-      $st8 = "ZSWE5FUWtKUlFVRlJRVWxC"
-      $st9 = "WUlhORVFrSlJRVUZSUVVsQ"
-      /* reversed */
-      $str1 = "UUpGVVVCRlVVQ0pFUnpWVV"
-      $str2 = "FKRlVVQkZVVUNKRVJ6VlVW"
-      $str3 = "RSkZVVUJGVVVDSkVSelZVV"
-      $str4 = "VVNCRlZRQkZsUUNSMGNGV"
-      $str5 = "VTQkZWUUJGbFFDUjBjRl"
-      $str6 = "VU0JGVlFCRmxRQ1IwY0ZW"
-      $str7 = "QmxVUVJGVVFSSmtRRU5YUl"
-      $str8 = "JsVVFSRlVRUkprUUVOWFJW"
-      $str9 = "CbFVRUkZVUVJKa1FFTlhSV"
-
-      /* HTML */
-      $htm = "<html" ascii
-      /* avoid matches in emails with double encoding - because email attachments get base64 encoded */
-      $eml = "Content-Transfer-Encoding:" ascii
-   condition:
-      filesize < 10MB and (
-         ( 1 of ($sd*) and $htm and not $eml ) /* double encoded in HTML */
-         or ( 1 of ($st*) and $eml )           /* triple encoded in EML */
-      )
+// original YARA name: win_qakbot_string_decrypt_nov_2022
+private rule Qakbot8 {
+	meta:
+		author = "Embee_Research @ Huntress"
+		created = "2022/11/14"
+	strings:
+		
+		//Qakbot string hashing routine extracted from Ghidra
+		$qakbot_decrypt = {33 d2 8b c7 f7 75 10 8a 04 1a 8b 55 fc 32 04 17 88 04 39 47 83 ee 01} 
+	
+		
+	condition:
+		uint16(0) == 0x5a4d and 
+		$qakbot_decrypt 
 }
-
-private rule Windows_Trojan_Qbot_d91c1384 {
-    meta:
-        author = "Elastic Security"
-        id = "d91c1384-839f-4062-8a8d-5cda931029ae"
-        fingerprint = "1b47ede902b6abfd356236e91ed3e741cf1744c68b6bb566f0d346ea07fee49a"
-        creation_date = "2021-07-08"
-        last_modified = "2021-08-23"
-        threat_name = "Windows.Trojan.Qbot"
-        reference = "https://www.elastic.co/security-labs/exploring-the-qbot-attack-pattern"
-        reference_sample = "18ac3870aaa9aaaf6f4a5c0118daa4b43ad93d71c38bf42cb600db3d786c6dda"
-        severity = 100
-        arch_context = "x86"
-        scan_context = "file, memory"
-        license = "Elastic License v2"
-        os = "windows"
-    strings:
-        $a = { FE 8A 14 06 88 50 FF 8A 54 BC 11 88 10 8A 54 BC 10 88 50 01 47 83 }
-    condition:
-        all of them
-}
-
-private rule Windows_Trojan_Qbot_7d5dc64a {
-    meta:
-        author = "Elastic Security"
-        id = "7d5dc64a-a597-44ac-a0fd-cefffc5e9cff"
-        fingerprint = "ab80d96a454e0aad56621e70be4d55f099c41b538a380feb09192d252b4db5aa"
-        creation_date = "2021-10-04"
-        last_modified = "2022-01-13"
-        threat_name = "Windows.Trojan.Qbot"
-        reference = "https://www.elastic.co/security-labs/exploring-the-qbot-attack-pattern"
-        reference_sample = "a2bacde7210d88675564106406d9c2f3b738e2b1993737cb8bf621b78a9ebf56"
-        severity = 100
-        arch_context = "x86"
-        scan_context = "file, memory"
-        license = "Elastic License v2"
-        os = "windows"
-    strings:
-        $a1 = "%u.%u.%u.%u.%u.%u.%04x" ascii fullword
-        $a2 = "stager_1.dll" ascii fullword
-    condition:
-        all of them
-}
-
-private rule Windows_Trojan_Qbot_6fd34691 {
-    meta:
-        author = "Elastic Security"
-        id = "6fd34691-10e4-4a66-85ff-1b67ed3da4dd"
-        fingerprint = "187fc04abcba81a2cbbe839adf99b8ab823cbf65993c8780d25e7874ac185695"
-        creation_date = "2022-03-07"
-        last_modified = "2022-04-12"
-        threat_name = "Windows.Trojan.Qbot"
-        reference = "https://www.elastic.co/security-labs/exploring-the-qbot-attack-pattern"
-        reference_sample = "0838cd11d6f504203ea98f78cac8f066eb2096a2af16d27fb9903484e7e6a689"
-        severity = 100
-        arch_context = "x86"
-        scan_context = "file, memory"
-        license = "Elastic License v2"
-        os = "windows"
-    strings:
-        $a1 = { 75 C9 8B 45 1C 89 45 A4 8B 45 18 89 45 A8 8B 45 14 89 45 AC 8B }
-        $a2 = "\\stager_1.obf\\Benign\\mfc\\" wide
-    condition:
-        any of them
-}
-
-private rule Windows_Trojan_Qbot_3074a8d4 {
-    meta:
-        author = "Elastic Security"
-        id = "3074a8d4-d93c-4987-9031-9ecd3881730d"
-        fingerprint = "c233a0c24576450ce286d96126379b6b28d537619e853d860e2812f521b810ac"
-        creation_date = "2022-06-07"
-        last_modified = "2022-07-18"
-        threat_name = "Windows.Trojan.Qbot"
-        reference = "https://www.elastic.co/security-labs/exploring-the-qbot-attack-pattern"
-        reference_sample = "c2ba065654f13612ae63bca7f972ea91c6fe97291caeaaa3a28a180fb1912b3a"
-        severity = 100
-        arch_context = "x86"
-        scan_context = "file, memory"
-        license = "Elastic License v2"
-        os = "windows"
-    strings:
-        $a1 = "qbot" wide
-        $a2 = "stager_1.obf\\Benign\\mfc" wide
-        $a3 = "common.obf\\Benign\\mfc" wide
-        $a4 = "%u;%u;%u;"
-        $a5 = "%u.%u.%u.%u.%u.%u.%04x"
-        $a6 = "%u&%s&%u"
-        $get_string1 = { 33 D2 8B ?? 6A 5A 5? F7 ?? 8B ?? 08 8A 04 ?? 8B 55 ?? 8B ?? 10 3A 04 ?? }
-        $get_string2 = { 33 D2 8B ?? F7 75 F4 8B 45 08 8A 04 02 32 04 ?? 88 04 ?? ?? 83 ?? 01 }
-        $set_key = { 8D 87 00 04 00 00 50 56 E8 ?? ?? ?? ?? 59 8B D0 8B CE E8 }
-        $do_computer_use_russian_like_keyboard = { B9 FF 03 00 00 66 23 C1 33 C9 0F B7 F8 66 3B 7C 4D }
-        $execute_each_tasks = { 8B 44 0E ?? 85 C0 74 ?? FF D0 EB ?? 6A 00 6A 00 6A 00 FF 74 0E ?? E8 ?? ?? ?? ?? 83 C4 10 }
-        $generate_random_alpha_num_string = { 57 E8 ?? ?? ?? ?? 48 50 8D 85 ?? ?? ?? ?? 6A 00 50 E8 ?? ?? ?? ?? 8B 4D ?? 83 C4 10 8A 04 38 88 04 0E 46 83 FE 0C }
-        $load_base64_dll_from_file_and_inject_into_targets = { 10 C7 45 F0 50 00 00 00 83 65 E8 00 83 7D F0 0B 73 08 8B 45 F0 89 }
-    condition:
-        6 of them
-}
-
-private rule Windows_Trojan_Qbot_1ac22a26 {
-    meta:
-        author = "Elastic Security"
-        id = "1ac22a26-ec88-4e88-8fe6-a092bbb61904"
-        fingerprint = "22436c48bc775284d1f682eaeb650fd998302021342efc322c4ca40dd30f1a0d"
-        creation_date = "2022-12-29"
-        last_modified = "2023-02-01"
-        threat_name = "Windows.Trojan.Qbot"
-        reference = "https://www.elastic.co/security-labs/exploring-the-qbot-attack-pattern"
-        reference_sample = "c2ba065654f13612ae63bca7f972ea91c6fe97291caeaaa3a28a180fb1912b3a"
-        severity = 100
-        arch_context = "x86"
-        scan_context = "file, memory"
-        license = "Elastic License v2"
-        os = "windows"
-    strings:
-        $a1 = "qbot" wide
-        $a2 = "stager_1.obf\\Benign\\mfc" wide
-        $a3 = "common.obf\\Benign\\mfc" wide
-        $a4 = "%u;%u;%u"
-        $a5 = "%u.%u.%u.%u.%u.%u.%04x"
-        $a6 = "%u&%s&%u"
-        $a7 = "mnjhuiv40"
-        $a8 = "\\u%04X"
-        $get_string1 = { 33 D2 8B ?? 6A ?? 5? F7 ?? 8B ?? 08 8A 04 ?? 8B 55 ?? 8B ?? 10 3A 04 }
-        $get_string2 = { 8B C6 83 E0 ?? 8A 04 08 3A 04 1E 74 ?? 46 3B F2 72 }
-        $get_string3 = { 8A 04 ?? 32 04 ?? 88 04 ?? 4? 83 ?? 01 }
-        $set_key_1 = { 8D 87 00 04 00 00 50 56 E8 [4] 59 8B D0 8B CE E8 }
-        $set_key_2 = { 59 6A 14 58 6A 0B 66 89 87 [0-1] 20 04 00 00 }
-        $cccp_keyboard_0 = { 6A ?? 66 89 45 E? 58 6A ?? 66 89 45 E? 58 }
-        $cccp_keyboard_1 = { 66 8B 84 9? ?? FE FF FF B9 FF 03 00 00 66 23 C1 33 ?? 0F B7 }
-        $execute_each_tasks = { 8B 0D [4] 83 7C 0E 04 00 74 ?? 83 7C 0E 1C 00 74 ?? 8B 04 0E 85 C0 7E ?? 6B C0 3C }
-        $generate_random_alpha_num_string = { 57 E8 [4] 48 50 8D 85 [4] 6A 00 50 E8 [4] 8B 4D ?? 83 C4 10 8A 04 38 88 04 0E 46 83 FE 0C }
-        $load_and_inject_b64_dll_from_file = { 6B 45 FC 18 8B 4D F8 83 7C 01 04 00 76 ?? 6A 00 6B 45 FC 18 8B 4D F8 FF 74 01 10 6B 45 FC 18 }
-        $decipher_rsrc_data = { F6 86 38 04 00 00 04 89 BE 2C 04 00 00 89 BE 28 04 00 00 [2-6] 8B 0B 8D 45 F? 83 65 F? 00 8B D7 50 E8 }
-    condition:
-        6 of them
-}
+////////////////////////////////////////////////////////
 
 
 rule fsQakbot {
     meta:
         description = "FsYARA - Malware Trends"
         vetted_family = "qakbot"
-
-    condition:
-        win_qakbot_auto or QakBot5 or QakBot4 or QakBot_OneNote_Loader or Qakbot_WSF_loader or malware_QakBot or QakBot or MAL_QBot_HTML_Smuggling_Indicators_Oct22_1 or Windows_Trojan_Qbot_d91c1384 or Windows_Trojan_Qbot_7d5dc64a or Windows_Trojan_Qbot_6fd34691 or Windows_Trojan_Qbot_3074a8d4 or Windows_Trojan_Qbot_1ac22a26
-
+	condition:
+		Qakbot0 or Qakbot1 or Qakbot2 or Qakbot3 or Qakbot4 or Qakbot5 or Qakbot6 or Qakbot7 or Qakbot8
 }

@@ -1,4 +1,33 @@
-private rule win_lumma_auto {
+////////////////////////////////////////////////////////
+// YARA ruleset: Lumma.yar
+// license: Other
+// repository: kevoreilly/CAPEv2
+// url: https://github.com/kevoreilly/CAPEv2/blob/3cff06445d2f56ba1cea2846e79a7df06ac39c46/data/yara/CAPE/Lumma.yar
+
+// original YARA name: Lumma
+private rule Lumma0 {
+    meta:
+        author = "kevoreilly"
+        description = "Lumma Payload"
+        cape_type = "Lumma Payload"
+        packed = "0ee580f0127b821f4f1e7c032cf76475df9724a9fade2e153a69849f652045f8"
+    strings:
+        $c2 = {8D 44 24 ?? 50 89 4C 24 ?? FF 31 E8 [4] 83 C4 08 B8 FF FF FF FF}
+        $peb = {8B 44 24 04 85 C0 74 13 64 8B 0D 30 00 00 00 50 6A 00 FF 71 18 FF 15}
+        $remap = {C6 44 24 20 00 C7 44 24 1C C2 00 00 90 C7 44 24 18 00 00 FF D2 C7 44 24 14 00 BA 00 00 C7 44 24 10 B8 00 00 00 8B ?? 89 44 24 11}
+    condition:
+        uint16(0) == 0x5a4d and any of them
+}
+
+////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////
+// YARA ruleset: win.lumma_auto.yar
+// repository: malpedia/signator-rules
+// url: https://github.com/malpedia/signator-rules/blob/fbacfc09b84d53d410385e66a8e56f25016c588a/rules/win.lumma_auto.yar
+
+// original YARA name: win_lumma_auto
+private rule Lumma1 {
 
     meta:
         author = "Felix Bilstein - yara-signator at cocacoding dot com"
@@ -82,7 +111,7 @@ private rule win_lumma_auto {
             // n = 4, score = 1000
             //   833800               | cmp                 dword ptr [eax], 0
             //   740a                 | je                  0xc
-            //   e8????????           |
+            //   e8????????           |                     
             //   833822               | cmp                 dword ptr [eax], 0x22
 
         $sequence_8 = { 83c40c 6a02 6804010000 e8???????? }
@@ -90,7 +119,7 @@ private rule win_lumma_auto {
             //   83c40c               | add                 esp, 0xc
             //   6a02                 | push                2
             //   6804010000           | push                0x104
-            //   e8????????           |
+            //   e8????????           |                     
 
         $sequence_9 = { 017e78 83567c00 017e68 83566c00 }
             // n = 4, score = 800
@@ -119,7 +148,7 @@ private rule win_lumma_auto {
             // n = 6, score = 700
             //   48                   | dec                 eax
             //   83ec28               | sub                 esp, 0x28
-            //   0f05                 | syscall
+            //   0f05                 | syscall             
             //   48                   | dec                 eax
             //   83c428               | add                 esp, 0x28
             //   49                   | dec                 ecx
@@ -127,97 +156,18 @@ private rule win_lumma_auto {
     condition:
         7 of them and filesize < 1115136
 }
+////////////////////////////////////////////////////////
 
-private rule win_lumma_w0 {
-	meta:
-		description = "detect_Lumma_stealer"
-		author = "@malgamy12"
-		date = "2022-11-3"
-		license = "DRL 1.1"
-		hunting = "https://www.hybrid-analysis.com/sample/f18d0cd673fd0bd3b071987b53b5f97391a56f6e4f0c309a6c1cee6160f671c0"
-		hash1 = "19b937654065f5ee8baee95026f6ea7466ee2322"
-        hash2 = "987f93e6fa93c0daa0ef2cf4a781ca53a02b65fe"
-        hash3 = "70517a53551269d68b969a9328842cea2e1f975c"
-        hash4 = "9b7b72c653d07a611ce49457c73ee56ed4c4756e"
-        hash5 = "4992ebda2b069281c924288122f76556ceb5ae02"
-        hash6 = "5c67078819246f45ff37d6db81328be12f8fc192"
-        hash7 = "87fe98a00e1c3ed433e7ba6a6eedee49eb7a9cf9"
-        malpedia_reference = "https://malpedia.caad.fkie.fraunhofer.de/details/win.lumma"
-        malpedia_rule_date = "20230118"
-        malpedia_hash = ""
-        malpedia_version = "20230118"
-        malpedia_license = "DRL 1.1"
-        malpedia_sharing = "TLP:WHITE"
+////////////////////////////////////////////////////////
+// YARA ruleset: lumma.yara
+// license: Other
+// repository: MalGamy/YARA_Rules
+// url: https://github.com/MalGamy/YARA_Rules/blob/1f538fcd5fe6d8aeec6c8a8394a785b69872b7a7/lumma.yara
 
-    strings:
-        $m1 = "LummaC\\Release\\LummaC.pdb" ascii fullword
-
-        $s1 = "Cookies.txt" ascii
-        $s2 = "Autofills.txt" ascii
-        $s3 = "ProgramData\\config.txt" ascii
-        $s4 = "ProgramData\\softokn3.dll" ascii
-        $s5 = "ProgramData\\winrarupd.zip" ascii
-
-
-        $chunk_1 = {C1 E8 ?? 33 C6 69 C8 ?? ?? ?? ?? 5F 5E 8B C1 C1 E8 ??}
-
-    condition:
-        $m1 or (4 of ($s*) and $chunk_1 )
-}
-
-private rule win_lumma_w1 {
-	meta:
-		author = "Matthew @ Embee_Research"
-		yarahub_author_twitter = "@embee_research"
-		desc = "Detects obfuscation methods observed in Lumma Stealer Payloads"
-		sha_256 = "277d7f450268aeb4e7fe942f70a9df63aa429d703e9400370f0621a438e918bf"
-		sha_256 = "7f18cf601b818b11068bb8743283ae378f547a1581682ea3cc163186aae7c55d"
-		sha_256 = "03796740db48a98a4438c36d7b8c14b0a871bf8c692e787f1bf093b2d584999f"
-		date = "2023-09-13"
-		source = "https://github.com/embee-research/Yara-detection-rules/blob/main/Rules/win_lumma%20_simple.yar"
-        yarahub_uuid = "39c32477-9a80-485b-b17a-4adf05f66cf8"
-       	yarahub_license = "CC BY-NC 4.0"
-        malpedia_family = "win.lumma"
-        malpedia_reference = "https://malpedia.caad.fkie.fraunhofer.de/details/win.lumma"
-        malpedia_version = "20230918"
-        malpedia_license = ""
-        malpedia_sharing = "TLP:WHITE"
-	strings:
-
-		$o1 = {57 00 ?? 00 ?? 00 ?? 00 ?? 00 ?? 00 ?? 00 65 00 62 00 20 00 44 00 61 00 ?? 00 ?? 00 ?? 00 ?? 00 ?? 00 ?? 00 74 00 61 00}
-		$o2 = {4f 00 70 00 ?? 00 ?? 00 ?? 00 ?? 00 ?? 00 ?? 00 65 00 72 00 61 00 20 00 4e 00 65 00 6f 00 ?? 00 ?? 00 ?? 00 ?? 00 ?? 00 ?? 00 6e 00}
-		$o3 = {4c 00 6f 00 ?? 00 ?? 00 ?? 00 ?? 00 ?? 00 ?? 00 67 00 69 00 6e 00 20 00 44 00 61 00 ?? 00 ?? 00 ?? 00 ?? 00 ?? 00 ?? 00 74 00 61 00}
-
-	condition:
-		uint16(0) == 0x5a4d
-		and
-		filesize < 5000KB
-		and
-		(all of ($o*))
-
-
-}
-
-
-private rule Lumma
- {
+// original YARA name: Detect_lumma_stealer
+private rule Lumma2 {
     meta:
-        author = "kevoreilly"
-        description = "Lumma Payload"
-        cape_type = "Lumma Payload"
-        packed = "0ee580f0127b821f4f1e7c032cf76475df9724a9fade2e153a69849f652045f8"
-    strings:
-        $c2 = {8D 44 24 ?? 50 89 4C 24 ?? FF 31 E8 [4] 83 C4 08 B8 FF FF FF FF}
-        $peb = {8B 44 24 04 85 C0 74 13 64 8B 0D 30 00 00 00 50 6A 00 FF 71 18 FF 15}
-        $remap = {C6 44 24 20 00 C7 44 24 1C C2 00 00 90 C7 44 24 18 00 00 FF D2 C7 44 24 14 00 BA 00 00 C7 44 24 10 B8 00 00 00 8B ?? 89 44 24 11}
-    condition:
-        uint16(0) == 0x5a4d and any of them
-}
-
-rule Detect_lumma_stealer: lumma
-{
-    meta:
-
+    
 	description = "Detect_lumma_stealer"
 	author = "@malgamy12"
 	date = "2023/1/7"
@@ -226,14 +176,14 @@ rule Detect_lumma_stealer: lumma
         hash = "277d7f450268aeb4e7fe942f70a9df63aa429d703e9400370f0621a438e918bf"
         hash = "9b742a890aff9c7a2b54b620fe5e1fcfa553648695d79c892564de09b850c92b"
         hash = "60247d4ddd08204818b60ade4bfc32d6c31756c574a5fe2cd521381385a0f868"
-
+                
     strings:
-
-        $s1 = "- PC:" ascii
+         
+        $s1 = "- PC:" ascii 
         $s2 = "- User:" ascii
         $s3 = "- Screen Resoluton:" ascii
         $s4 = "- Language:" ascii
-
+        
         $op = {0B C8 69 F6 [4] 0F B6 47 ?? C1 E1 ?? 0B C8 0F B6 07 C1 E1 ?? 83 C7 ?? 0B C8 69 C9 [4] 8B C1 C1 E8 ?? 33 C1 69 C8 [4] 33 F1}
 
     condition:
@@ -242,32 +192,30 @@ rule Detect_lumma_stealer: lumma
 
 
 
-private rule Trojan_BAT_Lumma_RDB_MTB {
-	meta:
-		description = "Trojan:BAT/Lumma.RDB!MTB,SIGNATURE_TYPE_PEHSTR_EXT,03 00 03 00 03 00 00 01 00 "
 
-	strings :
-		$a_01_0 = {6c 61 6e 67 75 61 67 65 5f 73 75 70 70 6f 72 74 5f 61 6e 64 5f 6c 6f 63 61 6c 69 7a 61 74 69 6f 6e } //01 00  language_support_and_localization
-		$a_01_1 = {7b 00 7d 00 64 00 7b 00 7d 00 6f 00 7b 00 7d 00 68 00 7b 00 7d 00 74 00 7b 00 7d 00 65 00 7b 00 7d 00 4d 00 7b 00 7d 00 74 00 7b 00 7d 00 65 00 7b 00 7d 00 47 00 7b 00 7d 00 } //01 00  {}d{}o{}h{}t{}e{}M{}t{}e{}G{}
-		$a_01_2 = {3d 00 2f 00 2a 00 2d 00 54 00 3d 00 79 00 3d 00 70 00 3d 00 65 00 3d 00 } //00 00  =/*-T=y=p=e=
-	condition:
-		all of them
 
-}
 
-private rule win_lumma_simple_strings
- {
+
+////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////
+// YARA ruleset: win_lumma _simple_sep_2023.yar
+// repository: embee-research/Yara-detection-rules
+// url: https://github.com/embee-research/Yara-detection-rules/blob/ac56d6f6fd2a30c8cb6e5c0455d6519210a8b0f4/Rules/win_lumma%20_simple_sep_2023.yar
+
+// original YARA name: win_lumma_simple_strings
+private rule Lumma3 {
 	meta:
 		author = "Matthew @ Embee_Research"
 		created = "2023/09/13"
 		description = ""
 		sha_256 = "277d7f450268aeb4e7fe942f70a9df63aa429d703e9400370f0621a438e918bf"
-
+		
 	strings:
-
+		
 		$s1 = "Binedx765ance Chaedx765in Waledx765let" wide
 		$s2 = "%appdaedx765ta%\\Moedx765zilla\\Firedx765efox\\Profedx765iles"
-		$s3 = "\\Locedx765al Extensedx765ion Settinedx765gs\\"
+		$s3 = "\\Locedx765al Extensedx765ion Settinedx765gs\\" 
 		$s4 = "%appdedx765ata%\\Opedx765era Softwedx765are\\Opedx765era GX Staedx765ble"
 
 
@@ -295,13 +243,21 @@ private rule win_lumma_simple_strings
 
 
 }
+////////////////////////////////////////////////////////
 
-rule detect_Lumma_stealer: Lumma
-{
+////////////////////////////////////////////////////////
+// YARA ruleset: lumma_stealer.yara
+// license: Other
+// repository: MalGamy/YARA_Rules
+// url: https://github.com/MalGamy/YARA_Rules/blob/1f538fcd5fe6d8aeec6c8a8394a785b69872b7a7/lumma_stealer.yara
+
+// original YARA name: detect_Lumma_stealer
+private rule Lumma4 {
 	meta:
 		description = "detect_Lumma_stealer"
 		author = "@malgamy12"
 		date = "2022-11-3"
+		license = "DRL 1.1"
 		hunting = "https://www.hybrid-analysis.com/sample/f18d0cd673fd0bd3b071987b53b5f97391a56f6e4f0c309a6c1cee6160f671c0"
 		hash1 = "19b937654065f5ee8baee95026f6ea7466ee2322"
                 hash2 = "987f93e6fa93c0daa0ef2cf4a781ca53a02b65fe"
@@ -319,7 +275,7 @@ rule detect_Lumma_stealer: Lumma
         $s3 = "ProgramData\\config.txt" ascii
         $s4 = "ProgramData\\softokn3.dll" ascii
         $s5 = "ProgramData\\winrarupd.zip" ascii
-
+        
 
         $chunk_1 = {C1 E8 ?? 33 C6 69 C8 ?? ?? ?? ?? 5F 5E 8B C1 C1 E8 ??}
 
@@ -329,22 +285,49 @@ rule detect_Lumma_stealer: Lumma
 
 
 
-private rule LummaC2 {
-
-       meta:
-           author = "RussianPanda"
-           description = "LummaC2 Detection"
-
-       strings:
-           $p1="lid=%s&j=%s&ver"
-           $p2= {89 ca 83 e2 03 8a 54 14 08 32 54 0d 04}
-
-       condition:
-           all of them and filesize <= 500KB
-   }
 
 
-private rule LummaStealer {
+////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////
+// YARA ruleset: win_lumma_updated_sep_2023.yar
+// repository: embee-research/Yara-detection-rules
+// url: https://github.com/embee-research/Yara-detection-rules/blob/ac56d6f6fd2a30c8cb6e5c0455d6519210a8b0f4/Rules/win_lumma_updated_sep_2023.yar
+
+// original YARA name: win_lumma_update_simple_strings_sep_2023
+private rule Lumma5 {
+	meta:
+		author = "Matthew @ Embee_Research"
+		created = "2023/09/13"
+		description = ""
+		sha_256 = "898a2bdbbb33ccd63b038c67d217554a668a52e9642874bd0f57e08153e6e5be"
+		
+	strings:
+		
+		$s1 = "Do you want to run a malware ?" wide
+		$s2 = "c2sock" wide
+		$s3 = "TeslaBrowser/5" wide
+		$s4 = "Crypt build to disable this message" wide
+
+	condition:
+		uint16(0) == 0x5a4d
+		and
+		filesize < 5000KB
+		and
+		(all of ($s*))
+
+
+
+}
+////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////
+// YARA ruleset: LummaStealer.yar
+// repository: CAPESandbox/community
+// url: https://github.com/CAPESandbox/community/blob/ed71b5eb9179e25174c1a2d0fe451e25cbf97dd1/data/yara/CAPE/deprecated/LummaStealer.yar
+
+// original YARA name: LummaStealer
+private rule Lumma6 {
     meta:
         author = "ditekSHen"
         description = "Detects Lumma Stealer"
@@ -369,12 +352,12 @@ private rule LummaStealer {
         uint16(0) == 0x5a4d and (all of ($x*) or (1 of ($x*) and 2 of ($s*)) or 5 of ($s*) or 7 of them)
 }
 
+////////////////////////////////////////////////////////
 
 rule fsLumma {
     meta:
         description = "FsYARA - Malware Trends"
         vetted_family = "lumma"
-
-    condition:
-        win_lumma_auto or win_lumma_w0 or win_lumma_w1 or Lumma or Detect_lumma_stealer or Trojan_BAT_Lumma_RDB_MTB or win_lumma_simple_strings or detect_Lumma_stealer or LummaC2 or LummaStealer
+	condition:
+		Lumma0 or Lumma1 or Lumma2 or Lumma3 or Lumma4 or Lumma6
 }
