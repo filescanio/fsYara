@@ -333,9 +333,10 @@ rule js_wrong_version : PDF raw
                 $magic = { 25 50 44 46 }
 				$js = /\/JavaScript/
 				$ver = /%PDF-1\.[3-9]/
+				$ver2 = /%PDF-2/
 
         condition:
-                $magic in (0..1024) and $js and not $ver
+                $magic in (0..1024) and $js and not $ver and not $ver2
 }
 
 rule JBIG2_wrong_version : PDF raw
@@ -388,9 +389,10 @@ rule embed_wrong_version : PDF raw
                 $magic = { 25 50 44 46 }
 				$embed = /\/EmbeddedFiles/
 				$ver = /%PDF-1\.[3-9]/
+				$ver2 = /%PDF-2/
 
         condition:
-                $magic in (0..1024) and $embed and not $ver
+                $magic in (0..1024) and $embed and not $ver and not $ver2
 }
 
 rule invalid_xref_numbers : PDF raw
