@@ -1,20 +1,22 @@
-rule SUSP_Office_Dropper_Strings {
-   meta:
-      description = "Detects Office droppers that include a notice to enable active content"
-      author = "Florian Roth (Nextron Systems)"
-      reference = "Internal Research"
-      date = "2018-09-13"
-      id = "6560fdf7-46e8-5c16-8263-a36f1dec7868"
-   strings:
-      $a1 = "_VBA_PROJECT" wide
+// source: https://github.com/Neo23x0/signature-base/blob/007d9ddee386f68aca3a3aac5e1514782f02ed2d/yara/gen_susp_office_dropper.yar
 
-      $s1 = "click enable editing" fullword ascii
-      $s2 = "click enable content" fullword ascii
-      $s3 = "\"Enable Editing\"" fullword ascii
-      $s4 = "\"Enable Content\"" fullword ascii
-   condition:
-      uint16(0) == 0xcfd0 and filesize < 500KB and $a1 and 1 of ($s*)
-}
+//rule SUSP_Office_Dropper_Strings {
+//   meta:
+//      description = "Detects Office droppers that include a notice to enable active content"
+//      author = "Florian Roth (Nextron Systems)"
+//      reference = "Internal Research"
+//      date = "2018-09-13"
+//      id = "6560fdf7-46e8-5c16-8263-a36f1dec7868"
+//   strings:
+//      $a1 = "_VBA_PROJECT" wide
+//
+//      $s1 = "click enable editing" fullword ascii
+//      $s2 = "click enable content" fullword ascii
+//      $s3 = "\"Enable Editing\"" fullword ascii
+//      $s4 = "\"Enable Content\"" fullword ascii
+//   condition:
+//      uint16(0) == 0xcfd0 and filesize < 500KB and $a1 and 1 of ($s*)
+//}
 
 rule SUSP_EnableContent_String_Gen {
    meta:

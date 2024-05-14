@@ -1645,6 +1645,7 @@ rule INDICATOR_SUSPICIOUS_EXE_CC_Regex {
     meta:
         author = "ditekSHen"
         description = "Detects executables referencing credit card regular expressions"
+        score = 60
     strings:
         // Amex / Express Card
         $s1 = "^3[47][0-9]{13}$" ascii wide nocase
