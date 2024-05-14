@@ -1,422 +1,188 @@
-////////////////////////////////////////////////////////
-// YARA ruleset: Amadey.yar
-// license: Other
-// repository: kevoreilly/CAPEv2
-// url: https://github.com/kevoreilly/CAPEv2/blob/3cff06445d2f56ba1cea2846e79a7df06ac39c46/data/yara/CAPE/Amadey.yar
+private rule Amadey
+{
+	meta:
+		author = "kevoreilly"
+		description = "Amadey Payload"
+		cape_type = "Amadey Payload"
+		hash = "988258716d5296c1323303e8fe4efd7f4642c87bfdbe970fe9a3bb3f410f70a4"
+		ruleset = "Amadey.yar"
+		repository = "kevoreilly/CAPEv2"
+		source_url = "https://github.com/kevoreilly/CAPEv2/blob/9c8d6da44b595f8140a5cd76edd8101f6812c3b0/data/yara/CAPE/Amadey.yar"
+		license = "Other"
 
-// original YARA name: Amadey
-private rule Amadey0 {
-    meta:
-        author = "kevoreilly"
-        description = "Amadey Payload"
-        cape_type = "Amadey Payload"
-        hash = "988258716d5296c1323303e8fe4efd7f4642c87bfdbe970fe9a3bb3f410f70a4"
-    strings:
-        $decode1 = {8B D1 B8 FF FF FF 7F D1 EA 2B C2 3B C8 76 07 BB FF FF FF 7F EB 08 8D 04 0A 3B D8 0F 42 D8}
-        $decode2 = {33 D2 8B 4D ?? 8B C7 F7 F6 8A 84 3B [4] 2A 44 0A 01 88 87 [4] 47 8B 45 ?? 8D 50 01}
-        $decode3 = {8A 04 02 88 04 0F 41 8B 7D ?? 8D 42 01 3B CB 7C}
-    condition:
-        uint16(0) == 0x5A4D and 2 of them
+	strings:
+		$decode1 = {8B D1 B8 FF FF FF 7F D1 EA 2B C2 3B C8 76 07 BB FF FF FF 7F EB 08 8D 04 0A 3B D8 0F 42 D8}
+		$decode2 = {33 D2 8B 4D ?? 8B C7 F7 F6 8A 84 3B [4] 2A 44 0A 01 88 87 [4] 47 8B 45 ?? 8D 50 01}
+		$decode3 = {8A 04 02 88 04 0F 41 8B 7D ?? 8D 42 01 3B CB 7C}
+
+	condition:
+		uint16(0)==0x5A4D and 2 of them
 }
 
 ////////////////////////////////////////////////////////
 
-////////////////////////////////////////////////////////
-// YARA ruleset: Windows_Trojan_Amadey.yar
-// license: Other
-// repository: elastic/protections-artifacts
-// url: https://github.com/elastic/protections-artifacts/blob/f98777756fcfbe5ab05a296388044a2dbb962557/yara/rules/Windows_Trojan_Amadey.yar
+private rule Windows_Trojan_Amadey_7abb059b
+{
+	meta:
+		author = "Elastic Security"
+		id = "7abb059b-4001-4eec-8185-1e0497e15062"
+		fingerprint = "686ae7cf62941d7db051fa8c45f0f7a27440fa0fdc5f0919c9667dfeca46ca1f"
+		creation_date = "2021-06-28"
+		last_modified = "2021-08-23"
+		threat_name = "Windows.Trojan.Amadey"
+		reference_sample = "33e6b58ce9571ca7208d1c98610005acd439f3e37d2329dae8eb871a2c4c297e"
+		severity = 100
+		arch_context = "x86"
+		scan_context = "file, memory"
+		license = "Elastic License v2"
+		os = "windows"
+		ruleset = "Windows_Trojan_Amadey.yar"
+		repository = "elastic/protections-artifacts"
+		source_url = "https://github.com/elastic/protections-artifacts/blob/3bbef930abab9814b2fdb4704be075ab1daf2ea0/yara/rules/Windows_Trojan_Amadey.yar"
 
-// original YARA name: Windows_Trojan_Amadey_7abb059b
-private rule Amadey1 {
-    meta:
-        author = "Elastic Security"
-        id = "7abb059b-4001-4eec-8185-1e0497e15062"
-        fingerprint = "686ae7cf62941d7db051fa8c45f0f7a27440fa0fdc5f0919c9667dfeca46ca1f"
-        creation_date = "2021-06-28"
-        last_modified = "2021-08-23"
-        threat_name = "Windows.Trojan.Amadey"
-        reference_sample = "33e6b58ce9571ca7208d1c98610005acd439f3e37d2329dae8eb871a2c4c297e"
-        severity = 100
-        arch_context = "x86"
-        scan_context = "file, memory"
-        license = "Elastic License v2"
-        os = "windows"
-    strings:
-        $a = { 18 83 78 14 10 72 02 8B 00 6A 01 6A 00 6A 00 6A 00 6A 00 56 }
-    condition:
-        all of them
+	strings:
+		$a = { 18 83 78 14 10 72 02 8B 00 6A 01 6A 00 6A 00 6A 00 6A 00 56 }
+
+	condition:
+		all of them
 }
 
-// original YARA name: Windows_Trojan_Amadey_c4df8d4a
-private rule Amadey2 {
-    meta:
-        author = "Elastic Security"
-        id = "c4df8d4a-01f4-466f-8225-7c7f462b29e7"
-        fingerprint = "4623c591ea465e23f041db77dc68ddfd45034a8bde0f20fd5fbcec060851200c"
-        creation_date = "2021-06-28"
-        last_modified = "2021-08-23"
-        threat_name = "Windows.Trojan.Amadey"
-        reference_sample = "9039d31d0bd88d0c15ee9074a84f8d14e13f5447439ba80dd759bf937ed20bf2"
-        severity = 100
-        arch_context = "x86"
-        scan_context = "file, memory"
-        license = "Elastic License v2"
-        os = "windows"
-    strings:
-        $a1 = "D:\\Mktmp\\NL1\\Release\\NL1.pdb" fullword
-    condition:
-        all of them
-}
+private rule Windows_Trojan_Amadey_c4df8d4a
+{
+	meta:
+		author = "Elastic Security"
+		id = "c4df8d4a-01f4-466f-8225-7c7f462b29e7"
+		fingerprint = "4623c591ea465e23f041db77dc68ddfd45034a8bde0f20fd5fbcec060851200c"
+		creation_date = "2021-06-28"
+		last_modified = "2021-08-23"
+		threat_name = "Windows.Trojan.Amadey"
+		reference_sample = "9039d31d0bd88d0c15ee9074a84f8d14e13f5447439ba80dd759bf937ed20bf2"
+		severity = 100
+		arch_context = "x86"
+		scan_context = "file, memory"
+		license = "Elastic License v2"
+		os = "windows"
+		ruleset = "Windows_Trojan_Amadey.yar"
+		repository = "elastic/protections-artifacts"
+		source_url = "https://github.com/elastic/protections-artifacts/blob/3bbef930abab9814b2fdb4704be075ab1daf2ea0/yara/rules/Windows_Trojan_Amadey.yar"
 
+	strings:
+		$a1 = "D:\\Mktmp\\NL1\\Release\\NL1.pdb" fullword
 
-////////////////////////////////////////////////////////
-
-////////////////////////////////////////////////////////
-// YARA ruleset: win_amadey_a9f4.yara
-// license: GNU General Public License v3.0
-// repository: CYB3RMX/Qu1cksc0pe
-// url: https://github.com/CYB3RMX/Qu1cksc0pe/blob/b169586bc84601f9614d32520c7e97b964135dee/Systems/Windows/YaraRules_Windows/win_amadey_a9f4.yara
-
-// original YARA name: win_amadey_a9f4
-private rule Amadey3 {
-
-    meta:
-        author                    = "Johannes Bader"
-        date                      = "2022-11-17"
-        description               = "matches unpacked Amadey samples"
-        hash_md5                  = "25cfcfdb6d73d9cfd88a5247d4038727"
-        hash_sha1                 = "912d1ef61750bc622ee069cdeed2adbfe208c54d"
-        hash_sha256               = "03effd3f94517b08061db014de12f8bf01166a04e93adc2f240a6616bb3bd29a"
-        malpedia_family           = "win.amadey"
-        tlp                       = "TLP:WHITE"
-        version                   = "v1.0"
-        yarahub_author_email      = "yara@bin.re"
-        yarahub_author_twitter    = "@viql"
-        yarahub_license           = "CC BY-SA 4.0"
-        yarahub_reference_md5     = "25cfcfdb6d73d9cfd88a5247d4038727"
-        yarahub_rule_matching_tlp = "TLP:WHITE"
-        yarahub_rule_sharing_tlp  = "TLP:WHITE"
-        yarahub_uuid              = "a9f41cd4-3f67-42fc-b310-e9b251c95fe4"
-
-    strings:
-        $pdb  = "\\Amadey\\Release\\Amadey.pdb"
-        /*  Amadey uses multiple hex strings to decrypt the strings, C2 traffic
-            and as identification. The preceeding string 'stoi ...' is added to
-            improve performance.
-        */
-        $keys = /stoi argument out of range\x00\x00[a-f0-9]{32}\x00{1,16}[a-f0-9]{32}\x00{1,4}[a-f0-9]{6}\x00{1,4}[a-f0-9]{32}\x00/
-
-    condition:
-        uint16(0) == 0x5A4D and
-        (
-            $pdb or $keys
-        )
+	condition:
+		all of them
 }
 
 ////////////////////////////////////////////////////////
 
+private rule win_amadey_a9f4
+{
+	meta:
+		author = "Johannes Bader"
+		date = "2022-11-17"
+		description = "matches unpacked Amadey samples"
+		hash_md5 = "25cfcfdb6d73d9cfd88a5247d4038727"
+		hash_sha1 = "912d1ef61750bc622ee069cdeed2adbfe208c54d"
+		hash_sha256 = "03effd3f94517b08061db014de12f8bf01166a04e93adc2f240a6616bb3bd29a"
+		malpedia_family = "win.amadey"
+		tlp = "TLP:WHITE"
+		version = "v1.0"
+		yarahub_author_email = "yara@bin.re"
+		yarahub_author_twitter = "@viql"
+		yarahub_license = "CC BY-SA 4.0"
+		yarahub_reference_md5 = "25cfcfdb6d73d9cfd88a5247d4038727"
+		yarahub_rule_matching_tlp = "TLP:WHITE"
+		yarahub_rule_sharing_tlp = "TLP:WHITE"
+		yarahub_uuid = "a9f41cd4-3f67-42fc-b310-e9b251c95fe4"
+		ruleset = "win_amadey_a9f4.yara"
+		repository = "CYB3RMX/Qu1cksc0pe"
+		source_url = "https://github.com/CYB3RMX/Qu1cksc0pe/blob/8d74a4116951b46b9284102850f28f1082c17c04/Systems/Windows/YaraRules_Windows/win_amadey_a9f4.yara"
+		license = "GNU General Public License v3.0"
 
+	strings:
+		$pdb = "\\Amadey\\Release\\Amadey.pdb"
+		$keys = /stoi argument out of range\x00\x00[a-f0-9]{32}\x00{1,16}[a-f0-9]{32}\x00{1,4}[a-f0-9]{6}\x00{1,4}[a-f0-9]{32}\x00/
 
-////////////////////////////////////////////////////////
-// YARA ruleset: win.amadey_auto.yar
-// repository: malpedia/signator-rules
-// url: https://github.com/malpedia/signator-rules/blob/fbacfc09b84d53d410385e66a8e56f25016c588a/rules/win.amadey_auto.yar
-
-// original YARA name: win_amadey_auto
-private rule Amadey4 {
-
-    meta:
-        author = "Felix Bilstein - yara-signator at cocacoding dot com"
-        date = "2023-12-06"
-        version = "1"
-        description = "Detects win.amadey."
-        info = "autogenerated rule brought to you by yara-signator"
-        tool = "yara-signator v0.6.0"
-        signator_config = "callsandjumps;datarefs;binvalue"
-        malpedia_reference = "https://malpedia.caad.fkie.fraunhofer.de/details/win.amadey"
-        malpedia_rule_date = "20231130"
-        malpedia_hash = "fc8a0e9f343f6d6ded9e7df1a64dac0cc68d7351"
-        malpedia_version = "20230808"
-        malpedia_license = "CC BY-SA 4.0"
-        malpedia_sharing = "TLP:WHITE"
-
-    /* DISCLAIMER
-     * The strings used in this rule have been automatically selected from the
-     * disassembly of memory dumps and unpacked files, using YARA-Signator.
-     * The code and documentation is published here:
-     * https://github.com/fxb-cocacoding/yara-signator
-     * As Malpedia is used as data source, please note that for a given
-     * number of families, only single samples are documented.
-     * This likely impacts the degree of generalization these rules will offer.
-     * Take the described generation method also into consideration when you
-     * apply the rules in your use cases and assign them confidence levels.
-     */
-
-
-    strings:
-        $sequence_0 = { ebb0 b8???????? 83c410 5b }
-            // n = 4, score = 700
-            //   ebb0                 | jmp                 0xffffffb2
-            //   b8????????           |                     
-            //   83c410               | add                 esp, 0x10
-            //   5b                   | pop                 ebx
-
-        $sequence_1 = { e8???????? 89c2 8b45f4 89d1 ba00000000 f7f1 }
-            // n = 6, score = 700
-            //   e8????????           |                     
-            //   89c2                 | mov                 edx, eax
-            //   8b45f4               | mov                 eax, dword ptr [ebp - 0xc]
-            //   89d1                 | mov                 ecx, edx
-            //   ba00000000           | mov                 edx, 0
-            //   f7f1                 | div                 ecx
-
-        $sequence_2 = { c744240805000000 c744240402000000 890424 e8???????? }
-            // n = 4, score = 700
-            //   c744240805000000     | mov                 dword ptr [esp + 8], 5
-            //   c744240402000000     | mov                 dword ptr [esp + 4], 2
-            //   890424               | mov                 dword ptr [esp], eax
-            //   e8????????           |                     
-
-        $sequence_3 = { c9 c3 55 89e5 81ecc8010000 }
-            // n = 5, score = 700
-            //   c9                   | leave               
-            //   c3                   | ret                 
-            //   55                   | push                ebp
-            //   89e5                 | mov                 ebp, esp
-            //   81ecc8010000         | sub                 esp, 0x1c8
-
-        $sequence_4 = { c70424???????? e8???????? 8b45fc 89442408 c7442404???????? 8b4508 890424 }
-            // n = 7, score = 700
-            //   c70424????????       |                     
-            //   e8????????           |                     
-            //   8b45fc               | mov                 eax, dword ptr [ebp - 4]
-            //   89442408             | mov                 dword ptr [esp + 8], eax
-            //   c7442404????????     |                     
-            //   8b4508               | mov                 eax, dword ptr [ebp + 8]
-            //   890424               | mov                 dword ptr [esp], eax
-
-        $sequence_5 = { c744240800020000 8d85f8fdffff 89442404 891424 e8???????? 83ec20 }
-            // n = 6, score = 700
-            //   c744240800020000     | mov                 dword ptr [esp + 8], 0x200
-            //   8d85f8fdffff         | lea                 eax, [ebp - 0x208]
-            //   89442404             | mov                 dword ptr [esp + 4], eax
-            //   891424               | mov                 dword ptr [esp], edx
-            //   e8????????           |                     
-            //   83ec20               | sub                 esp, 0x20
-
-        $sequence_6 = { c70424???????? e8???????? 890424 e8???????? 84c0 7407 c745fc05000000 }
-            // n = 7, score = 700
-            //   c70424????????       |                     
-            //   e8????????           |                     
-            //   890424               | mov                 dword ptr [esp], eax
-            //   e8????????           |                     
-            //   84c0                 | test                al, al
-            //   7407                 | je                  9
-            //   c745fc05000000       | mov                 dword ptr [ebp - 4], 5
-
-        $sequence_7 = { 83ec04 8945f4 837df400 7454 8b4508 890424 }
-            // n = 6, score = 700
-            //   83ec04               | sub                 esp, 4
-            //   8945f4               | mov                 dword ptr [ebp - 0xc], eax
-            //   837df400             | cmp                 dword ptr [ebp - 0xc], 0
-            //   7454                 | je                  0x56
-            //   8b4508               | mov                 eax, dword ptr [ebp + 8]
-            //   890424               | mov                 dword ptr [esp], eax
-
-        $sequence_8 = { 83fa10 722f 8b8d78feffff 42 }
-            // n = 4, score = 600
-            //   83fa10               | cmp                 edx, 0x10
-            //   722f                 | jb                  0x31
-            //   8b8d78feffff         | mov                 ecx, dword ptr [ebp - 0x188]
-            //   42                   | inc                 edx
-
-        $sequence_9 = { 8b8d78feffff 42 8bc1 81fa00100000 7214 8b49fc }
-            // n = 6, score = 600
-            //   8b8d78feffff         | mov                 ecx, dword ptr [ebp - 0x188]
-            //   42                   | inc                 edx
-            //   8bc1                 | mov                 eax, ecx
-            //   81fa00100000         | cmp                 edx, 0x1000
-            //   7214                 | jb                  0x16
-            //   8b49fc               | mov                 ecx, dword ptr [ecx - 4]
-
-        $sequence_10 = { 68???????? e8???????? 8d4dcc e8???????? 83c418 }
-            // n = 5, score = 600
-            //   68????????           |                     
-            //   e8????????           |                     
-            //   8d4dcc               | lea                 ecx, [ebp - 0x34]
-            //   e8????????           |                     
-            //   83c418               | add                 esp, 0x18
-
-        $sequence_11 = { 68???????? e8???????? 8d4db4 e8???????? 83c418 }
-            // n = 5, score = 500
-            //   68????????           |                     
-            //   e8????????           |                     
-            //   8d4db4               | lea                 ecx, [ebp - 0x4c]
-            //   e8????????           |                     
-            //   83c418               | add                 esp, 0x18
-
-        $sequence_12 = { 52 6a02 6a00 51 ff75f8 ff15???????? ff75f8 }
-            // n = 7, score = 500
-            //   52                   | push                edx
-            //   6a02                 | push                2
-            //   6a00                 | push                0
-            //   51                   | push                ecx
-            //   ff75f8               | push                dword ptr [ebp - 8]
-            //   ff15????????         |                     
-            //   ff75f8               | push                dword ptr [ebp - 8]
-
-        $sequence_13 = { 8bce e8???????? e8???????? 83c418 e8???????? e9???????? 52 }
-            // n = 7, score = 500
-            //   8bce                 | mov                 ecx, esi
-            //   e8????????           |                     
-            //   e8????????           |                     
-            //   83c418               | add                 esp, 0x18
-            //   e8????????           |                     
-            //   e9????????           |                     
-            //   52                   | push                edx
-
-        $sequence_14 = { c705????????0c000000 eb31 c705????????0d000000 eb25 83f901 750c }
-            // n = 6, score = 500
-            //   c705????????0c000000     |     
-            //   eb31                 | jmp                 0x33
-            //   c705????????0d000000     |     
-            //   eb25                 | jmp                 0x27
-            //   83f901               | cmp                 ecx, 1
-            //   750c                 | jne                 0xe
-
-        $sequence_15 = { 50 68???????? 83ec18 8bcc 68???????? e8???????? }
-            // n = 6, score = 500
-            //   50                   | push                eax
-            //   68????????           |                     
-            //   83ec18               | sub                 esp, 0x18
-            //   8bcc                 | mov                 ecx, esp
-            //   68????????           |                     
-            //   e8????????           |                     
-
-        $sequence_16 = { 8bcc 68???????? e8???????? 8d8d78feffff e8???????? 83c418 }
-            // n = 6, score = 500
-            //   8bcc                 | mov                 ecx, esp
-            //   68????????           |                     
-            //   e8????????           |                     
-            //   8d8d78feffff         | lea                 ecx, [ebp - 0x188]
-            //   e8????????           |                     
-            //   83c418               | add                 esp, 0x18
-
-        $sequence_17 = { c78584fdffff0f000000 c68570fdffff00 83fa10 722f 8b8d58fdffff 42 }
-            // n = 6, score = 400
-            //   c78584fdffff0f000000     | mov    dword ptr [ebp - 0x27c], 0xf
-            //   c68570fdffff00       | mov                 byte ptr [ebp - 0x290], 0
-            //   83fa10               | cmp                 edx, 0x10
-            //   722f                 | jb                  0x31
-            //   8b8d58fdffff         | mov                 ecx, dword ptr [ebp - 0x2a8]
-            //   42                   | inc                 edx
-
-        $sequence_18 = { c78520fdffff00000000 c78524fdffff0f000000 c68510fdffff00 83fa10 722f }
-            // n = 5, score = 400
-            //   c78520fdffff00000000     | mov    dword ptr [ebp - 0x2e0], 0
-            //   c78524fdffff0f000000     | mov    dword ptr [ebp - 0x2dc], 0xf
-            //   c68510fdffff00       | mov                 byte ptr [ebp - 0x2f0], 0
-            //   83fa10               | cmp                 edx, 0x10
-            //   722f                 | jb                  0x31
-
-        $sequence_19 = { 51 e8???????? 83c408 8b950cfdffff c78520fdffff00000000 c78524fdffff0f000000 }
-            // n = 6, score = 400
-            //   51                   | push                ecx
-            //   e8????????           |                     
-            //   83c408               | add                 esp, 8
-            //   8b950cfdffff         | mov                 edx, dword ptr [ebp - 0x2f4]
-            //   c78520fdffff00000000     | mov    dword ptr [ebp - 0x2e0], 0
-            //   c78524fdffff0f000000     | mov    dword ptr [ebp - 0x2dc], 0xf
-
-    condition:
-        7 of them and filesize < 529408
+	condition:
+		uint16(0)==0x5A4D and ($pdb or $keys)
 }
-////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////
-// YARA ruleset: win_amadey_bytecodes_oct_2023.yar
-// repository: embee-research/Yara-detection-rules
-// url: https://github.com/embee-research/Yara-detection-rules/blob/ac56d6f6fd2a30c8cb6e5c0455d6519210a8b0f4/Rules/win_amadey_bytecodes_oct_2023.yar
 
+private rule win_amadey_auto
+{
+	meta:
+		author = "Felix Bilstein - yara-signator at cocacoding dot com"
+		date = "2023-12-06"
+		version = "1"
+		description = "Detects win.amadey."
+		info = "autogenerated rule brought to you by yara-signator"
+		tool = "yara-signator v0.6.0"
+		signator_config = "callsandjumps;datarefs;binvalue"
+		malpedia_reference = "https://malpedia.caad.fkie.fraunhofer.de/details/win.amadey"
+		malpedia_rule_date = "20231130"
+		malpedia_hash = "fc8a0e9f343f6d6ded9e7df1a64dac0cc68d7351"
+		malpedia_version = "20230808"
+		malpedia_license = "CC BY-SA 4.0"
+		malpedia_sharing = "TLP:WHITE"
+		ruleset = "win.amadey_auto.yar"
+		repository = "malpedia/signator-rules"
+		source_url = "https://github.com/malpedia/signator-rules/blob/fbacfc09b84d53d410385e66a8e56f25016c588a/rules/win.amadey_auto.yar"
 
-// original YARA name: win_amadey_bytecodes_oct_2023
-private rule Amadey5 {
+	strings:
+		$sequence_0 = { ebb0 b8???????? 83c410 5b }
+		$sequence_1 = { e8???????? 89c2 8b45f4 89d1 ba00000000 f7f1 }
+		$sequence_2 = { c744240805000000 c744240402000000 890424 e8???????? }
+		$sequence_3 = { c9 c3 55 89e5 81ecc8010000 }
+		$sequence_4 = { c70424???????? e8???????? 8b45fc 89442408 c7442404???????? 8b4508 890424 }
+		$sequence_5 = { c744240800020000 8d85f8fdffff 89442404 891424 e8???????? 83ec20 }
+		$sequence_6 = { c70424???????? e8???????? 890424 e8???????? 84c0 7407 c745fc05000000 }
+		$sequence_7 = { 83ec04 8945f4 837df400 7454 8b4508 890424 }
+		$sequence_8 = { 83fa10 722f 8b8d78feffff 42 }
+		$sequence_9 = { 8b8d78feffff 42 8bc1 81fa00100000 7214 8b49fc }
+		$sequence_10 = { 68???????? e8???????? 8d4dcc e8???????? 83c418 }
+		$sequence_11 = { 68???????? e8???????? 8d4db4 e8???????? 83c418 }
+		$sequence_12 = { 52 6a02 6a00 51 ff75f8 ff15???????? ff75f8 }
+		$sequence_13 = { 8bce e8???????? e8???????? 83c418 e8???????? e9???????? 52 }
+		$sequence_14 = { c705????????0c000000 eb31 c705????????0d000000 eb25 83f901 750c }
+		$sequence_15 = { 50 68???????? 83ec18 8bcc 68???????? e8???????? }
+		$sequence_16 = { 8bcc 68???????? e8???????? 8d8d78feffff e8???????? 83c418 }
+		$sequence_17 = { c78584fdffff0f000000 c68570fdffff00 83fa10 722f 8b8d58fdffff 42 }
+		$sequence_18 = { c78520fdffff00000000 c78524fdffff0f000000 c68510fdffff00 83fa10 722f }
+		$sequence_19 = { 51 e8???????? 83c408 8b950cfdffff c78520fdffff00000000 c78524fdffff0f000000 }
+
+	condition:
+		7 of them and filesize <529408
+}
+
+////////////////////////////////////////////////////////
+
+private rule win_amadey_bytecodes_oct_2023
+{
 	meta:
 		author = "Matthew @ Embee_Research"
 		created = "2023/10/15"
 		description = "Detects bytecodes present in Amadey Bot malware"
 		sha256 = "4165190e60ad5abd437c7768174b12748d391b8b97c874b5bdf8d025c5e17f43"
-		
+		ruleset = "win_amadey_bytecodes_oct_2023.yar"
+		repository = "embee-research/Yara-detection-rules"
+		source_url = "https://github.com/embee-research/Yara-detection-rules/blob/ac56d6f6fd2a30c8cb6e5c0455d6519210a8b0f4/Rules/win_amadey_bytecodes_oct_2023.yar"
+
 	strings:
 		$s1 = {8b ?? fc 83 c1 23 2b c2 83 c0 fc 83 f8 1f 77}
 		$s2 = {80 ?? ?? ?? 3d 75 }
 		$s3 = {8b c1 c1 f8 10 88 ?? ?? 8b c1 c1 f8 08}
-		
+
 	condition:
-		
 		$s1 and $s2 and $s3
-		
-
-}
-////////////////////////////////////////////////////////
-
-////////////////////////////////////////////////////////
-// YARA ruleset: Amadey.yar
-// repository: CAPESandbox/community
-// url: https://github.com/CAPESandbox/community/blob/ed71b5eb9179e25174c1a2d0fe451e25cbf97dd1/data/yara/deprecated/Amadey.yar
-
-// original YARA name: Amadey
-private rule Amadey6 {
-    meta:
-        author = "ditekSHen"
-        description = "Amadey downloader payload"
-        cape_type = "Amadey Payload"
-    strings:
-        $s1 = "_ZZ14aGetProgramDirvE11UsersDirRes" fullword ascii
-        $s2 = "_libshell32_a" ascii
-        $s3 = "_ShellExecuteExA@4" ascii
-        $s4 = "aGetTempDirvE10TempDirRes" ascii
-        $s5 = "aGetHostNamevE7InfoBuf" ascii
-        $s6 = "aCreateProcessPc" ascii
-        $s7 = "aGetHostNamev" ascii
-        $s8 = "aGetSelfDestinationiE22aGetSelfDestinationRes" ascii
-        $s9 = "aGetSelfPathvE15aGetSelfPathRes" ascii
-        $s10 = "aResolveHostPcE15aResolveHostRes" ascii
-        $s11 = "aUrlMonDownloadPcS" ascii
-        $s12 = "aWinSockPostPcS_S_" ascii
-        $s13 = "aCreateProcessPc" ascii
-
-        $v1 = "hii^" fullword ascii
-        $v2 = "plugins/" fullword ascii
-        $v3 = "ProgramData\\" fullword ascii
-        $v4 = "&unit=" fullword ascii
-        $v5 = "runas" fullword ascii wide
-        $v6 = "Microsoft Internet Explorer" fullword wide
-        $v7 = "stoi argument" ascii
-
-        $av1 = "AVAST Software" fullword ascii
-        $av2 = "Avira" fullword ascii
-        $av3 = "Kaspersky Lab" fullword ascii
-        $av4 = "ESET" fullword ascii
-        $av5 = "Panda Security" fullword ascii
-        $av6 = "Doctor Web" fullword ascii
-        $av7 = "360TotalSecurity" fullword ascii
-        $av8 = "Bitdefender" fullword ascii
-        $av9 = "Norton" fullword ascii
-        $av10 = "Sophos" fullword ascii
-        $av11 = "Comodo" fullword ascii
-    condition:
-        uint16(0) == 0x5a4d and (7 of ($s*) or (6 of ($v*) and 2 of ($av*)))
 }
 
 ////////////////////////////////////////////////////////
-
 
 rule fsAmadey {
-    meta:
-        description = "FsYARA - Malware Trends"
-        vetted_family = "amadey"
+	meta:
+		description = "FsYARA - Malware Trends"
+		vetted_family = "amadey"
 	condition:
-		Amadey0 or Amadey1 or Amadey2 or Amadey3 or Amadey4 or Amadey5 or Amadey6
+		Amadey or Windows_Trojan_Amadey_7abb059b or Windows_Trojan_Amadey_c4df8d4a or win_amadey_a9f4 or win_amadey_auto or win_amadey_bytecodes_oct_2023
 }

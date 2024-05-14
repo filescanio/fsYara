@@ -1,66 +1,57 @@
-////////////////////////////////////////////////////////
-// YARA ruleset: Windows_Trojan_Limerat.yar
-// license: Elastic License 2.0
-// repository: elastic/protections-artifacts
-// url: https://github.com/elastic/protections-artifacts/blob/f98777756fcfbe5ab05a296388044a2dbb962557/yara/rules/Windows_Trojan_Limerat.yar
+private rule Windows_Trojan_Limerat_24269a79
+{
+	meta:
+		author = "Elastic Security"
+		id = "24269a79-0172-4da5-9b4d-f61327072bf0"
+		fingerprint = "cb714cd787519216d25edaad9f89a9c0ce1b8fbbbcdf90bda4c79f5d85fdf381"
+		creation_date = "2021-08-17"
+		last_modified = "2021-10-04"
+		threat_name = "Windows.Trojan.Limerat"
+		reference_sample = "ec781a714d6bc6fac48d59890d9ae594ffd4dbc95710f2da1f1aa3d5b87b9e01"
+		severity = 100
+		arch_context = "x86"
+		scan_context = "file, memory"
+		license = "Elastic License v2"
+		os = "windows"
+		ruleset = "Windows_Trojan_Limerat.yar"
+		repository = "elastic/protections-artifacts"
+		source_url = "https://github.com/elastic/protections-artifacts/blob/f98777756fcfbe5ab05a296388044a2dbb962557/yara/rules/Windows_Trojan_Limerat.yar"
 
-// original YARA name: Windows_Trojan_Limerat_24269a79
-private rule LimeRAT0 {
-    meta:
-        author = "Elastic Security"
-        id = "24269a79-0172-4da5-9b4d-f61327072bf0"
-        fingerprint = "cb714cd787519216d25edaad9f89a9c0ce1b8fbbbcdf90bda4c79f5d85fdf381"
-        creation_date = "2021-08-17"
-        last_modified = "2021-10-04"
-        threat_name = "Windows.Trojan.Limerat"
-        reference_sample = "ec781a714d6bc6fac48d59890d9ae594ffd4dbc95710f2da1f1aa3d5b87b9e01"
-        severity = 100
-        arch_context = "x86"
-        scan_context = "file, memory"
-        license = "Elastic License v2"
-        os = "windows"
-    strings:
-        $a1 = "schtasks /create /f /sc ONLOGON /RL HIGHEST /tn LimeRAT-Admin /tr \"'" wide fullword
-    condition:
-        all of them
+	strings:
+		$a1 = "schtasks /create /f /sc ONLOGON /RL HIGHEST /tn LimeRAT-Admin /tr \"'" wide fullword
+
+	condition:
+		all of them
 }
 
-
 ////////////////////////////////////////////////////////
 
-////////////////////////////////////////////////////////
-// YARA ruleset: ByteCode.MSIL.Backdoor.LimeRAT.yara
-// license: MIT License
-// repository: reversinglabs/reversinglabs-yara-rules
-// url: https://github.com/reversinglabs/reversinglabs-yara-rules/blob/d5a78f30a1669a3dc576d45a77eeba9476795155/yara/backdoor/ByteCode.MSIL.Backdoor.LimeRAT.yara
+private rule ByteCode_MSIL_Backdoor_LimeRAT : tc_detection malicious
+{
+	meta:
+		author = "ReversingLabs"
+		source = "ReversingLabs"
+		status = "RELEASED"
+		sharing = "TLP:WHITE"
+		category = "MALWARE"
+		malware = "LIMERAT"
+		description = "Yara rule that detects LimeRAT backdoor."
+		tc_detection_type = "Backdoor"
+		tc_detection_name = "LimeRAT"
+		tc_detection_factor = 5
+		ruleset = "ByteCode.MSIL.Backdoor.LimeRAT.yara"
+		repository = "reversinglabs/reversinglabs-yara-rules"
+		source_url = "https://github.com/reversinglabs/reversinglabs-yara-rules/blob/d5a78f30a1669a3dc576d45a77eeba9476795155/yara/backdoor/ByteCode.MSIL.Backdoor.LimeRAT.yara"
+		license = "MIT License"
 
-// original YARA name: ByteCode_MSIL_Backdoor_LimeRAT : tc_detection malicious
-rule LimeRAT1 {
-    meta:
-
-        author              = "ReversingLabs"
-
-        source              = "ReversingLabs"
-        status              = "RELEASED"
-        sharing             = "TLP:WHITE"
-        category            = "MALWARE"
-        malware             = "LIMERAT"
-        description         = "Yara rule that detects LimeRAT backdoor."
-
-        tc_detection_type   = "Backdoor"
-        tc_detection_name   = "LimeRAT"
-        tc_detection_factor = 5
-
-    strings:
-
-        $persistence_mechanism = {
+	strings:
+		$persistence_mechanism = {
             02 2C ?? 72 ?? ?? ?? ?? 7E ?? ?? ?? ?? 28 ?? ?? ?? ?? 72 ?? ?? ?? ?? 28 ?? ?? ?? ??
             28 ?? ?? ?? ?? 16 16 15 28 ?? ?? ?? ?? 26 2B ?? 7E ?? ?? ?? ?? 72 ?? ?? ?? ?? 6F ??
             ?? ?? ?? 7E ?? ?? ?? ?? 7E ?? ?? ?? ?? 28 ?? ?? ?? ?? 6F ?? ?? ?? ?? DE ?? 28 ?? ??
             ?? ?? 28 ?? ?? ?? ?? DE
         }
-
-        $crypto_miner = {
+		$crypto_miner = {
             72 ?? ?? ?? ?? 28 ?? ?? ?? ?? 8E 69 16 31 ?? 72 ?? ?? ?? ?? 72 ?? ?? ?? ?? 28 ?? ??
             ?? ?? 0B 07 73 ?? ?? ?? ?? 6F ?? ?? ?? ?? 0C 08 6F ?? ?? ?? ?? 0D 2B ?? 09 6F ?? ??
             ?? ?? 74 ?? ?? ?? ?? 72 ?? ?? ?? ?? 6F ?? ?? ?? ?? 6F ?? ?? ?? ?? 72 ?? ?? ?? ?? 6F
@@ -68,8 +59,7 @@ rule LimeRAT1 {
             6F ?? ?? ?? ?? DC DE ?? 25 28 ?? ?? ?? ?? 13 ?? 28 ?? ?? ?? ?? DE ?? 28 ?? ?? ?? ??
             0A DE ?? 25 28 ?? ?? ?? ?? 13 ?? 28 ?? ?? ?? ?? DE ?? 06
         }
-
-        $downloader = {
+		$downloader = {
             73 ?? ?? ?? ?? 0A 28 ?? ?? ?? ?? 7E ?? ?? ?? ?? 28 ?? ?? ?? ?? 28 ?? ?? ?? ?? 0B 7E
             ?? ?? ?? ?? 72 ?? ?? ?? ?? 16 28 ?? ?? ?? ?? 2C ?? 7E ?? ?? ?? ?? 2C ?? 72 ?? ?? ??
             ?? 28 ?? ?? ?? ?? 72 ?? ?? ?? ?? 16 28 ?? ?? ?? ?? 2C ?? 06 7E ?? ?? ?? ?? 07 6F ??
@@ -78,8 +68,7 @@ rule LimeRAT1 {
             DE ?? 25 28 ?? ?? ?? ?? 0C 28 ?? ?? ?? ?? DE ?? DE ?? 25 28 ?? ?? ?? ?? 0D 28 ?? ??
             ?? ?? DE
         }
-
-        $network_communication_p1 = {
+		$network_communication_p1 = {
             16 80 ?? ?? ?? ?? 7E ?? ?? ?? ?? 6F ?? ?? ?? ?? DE ?? 25 28 ?? ?? ?? ?? 0B 28 ?? ??
             ?? ?? DE ?? 00 7E ?? ?? ?? ?? 6F ?? ?? ?? ?? DE ?? 25 28 ?? ?? ?? ?? 0C 28 ?? ?? ??
             ?? DE ?? 00 7E ?? ?? ?? ?? 6F ?? ?? ?? ?? DE ?? 25 28 ?? ?? ?? ?? 0D 28 ?? ?? ?? ??
@@ -95,8 +84,7 @@ rule LimeRAT1 {
             ?? 17 80 ?? ?? ?? ?? 73 ?? ?? ?? ?? 80 ?? ?? ?? ?? 1F ?? 8D ?? ?? ?? ?? 25 16 72 ??
             ?? ?? ?? A2 25 17 7E ?? ?? ?? ?? A2 25 18 28 ?? ?? ?? ?? A2 25 19 7E ?? ?? ?? ?? A2
         }
-
-        $network_communication_p2 = {
+		$network_communication_p2 = {
             25 1A 28 ?? ?? ?? ?? A2 25 1B 7E ?? ?? ?? ?? A2 25 1C 72 ?? ?? ?? ?? A2 25 1D 7E ??
             ?? ?? ?? A2 25 1E 28 ?? ?? ?? ?? A2 25 1F ?? 72 ?? ?? ?? ?? A2 25 1F ?? 28 ?? ?? ??
             ?? A2 25 1F ?? 7E ?? ?? ?? ?? A2 25 1F ?? 28 ?? ?? ?? ?? A2 25 1F ?? 7E ?? ?? ?? ??
@@ -110,56 +98,105 @@ rule LimeRAT1 {
             7E ?? ?? ?? ?? 2C ?? 7E ?? ?? ?? ?? 2B ?? 7E
         }
 
-    condition:
-        uint16(0) == 0x5A4D and
-        (
-            $persistence_mechanism
-        ) and
-        (
-            $crypto_miner
-        ) and
-        (
-            $downloader
-        ) and
-        (
-            all of ($network_communication_p*)
-        )
-}
-////////////////////////////////////////////////////////
-
-////////////////////////////////////////////////////////
-// YARA ruleset: LimeRAT.yar
-// repository: CAPESandbox/community
-// url: https://github.com/CAPESandbox/community/blob/ed71b5eb9179e25174c1a2d0fe451e25cbf97dd1/data/yara/CAPE/LimeRAT.yar
-
-// original YARA name: LimeRAT
-private rule LimeRAT2 {
-    meta:
-        author = "ditekshen"
-        description = "LimeRAT payload"
-        cape_type = "LimeRAT Payload"
-    strings:
-        $s1 = "schtasks /create /f /sc ONLOGON /RL HIGHEST /tn LimeRAT-Admin /tr" wide
-        $s2 = "\\vboxhook.dll" fullword wide
-        $s3 = "Win32_Processor.deviceid=\"CPU0\"" fullword wide
-        $s4 = "select CommandLine from Win32_Process where Name='{0}'" wide
-        $s5 = "Minning..." fullword wide
-        $s6 = "Regasm.exe" fullword wide
-        $s7 = "Flood!" fullword wide
-        $s8 = "Rans-Status" fullword wide
-        $s9 = "cmd.exe /c ping 0"  wide
-    condition:
-        uint16(0) == 0x5a4d and 5 of them
+	condition:
+		uint16(0)==0x5A4D and ($persistence_mechanism) and ($crypto_miner) and ($downloader) and ( all of ($network_communication_p*))
 }
 
 ////////////////////////////////////////////////////////
 
+private rule LimeRAT
+{
+	meta:
+		author = "ditekshen"
+		description = "LimeRAT payload"
+		cape_type = "LimeRAT Payload"
+		ruleset = "LimeRAT.yar"
+		repository = "CAPESandbox/community"
+		source_url = "https://github.com/CAPESandbox/community/blob/ed71b5eb9179e25174c1a2d0fe451e25cbf97dd1/data/yara/CAPE/LimeRAT.yar"
+
+	strings:
+		$s1 = "schtasks /create /f /sc ONLOGON /RL HIGHEST /tn LimeRAT-Admin /tr" wide
+		$s2 = "\\vboxhook.dll" fullword wide
+		$s3 = "Win32_Processor.deviceid=\"CPU0\"" fullword wide
+		$s4 = "select CommandLine from Win32_Process where Name='{0}'" wide
+		$s5 = "Minning..." fullword wide
+		$s6 = "Regasm.exe" fullword wide
+		$s7 = "Flood!" fullword wide
+		$s8 = "Rans-Status" fullword wide
+		$s9 = "cmd.exe /c ping 0" wide
+
+	condition:
+		uint16(0)==0x5a4d and 5 of them
+}
+
+////////////////////////////////////////////////////////
+
+private rule win_limerat_j1_00cfd931
+{
+	meta:
+		author = "Johannes Bader"
+		date = "2021-10-01"
+		description = "detects the lime rat"
+		hash = "2a0575b66a700edb40a07434895bf7a9"
+		malpedia_family = "win.limerat"
+		tlp = "TLP:WHITE"
+		version = "v1.1"
+		yarahub_author_email = "yara@bin.re"
+		yarahub_author_twitter = "@viql"
+		yarahub_license = "CC BY-SA 4.0"
+		yarahub_reference_md5 = "2a0575b66a700edb40a07434895bf7a9"
+		yarahub_rule_matching_tlp = "TLP:WHITE"
+		yarahub_rule_sharing_tlp = "TLP:WHITE"
+		yarahub_uuid = "00cfd931-3e03-4e32-b0d7-ca8f6bbfe062"
+		ruleset = "win_limerat_j1_00cfd931.yar"
+		repository = "LeakIX/yara-repo-abusech"
+		source_url = "https://github.com/LeakIX/yara-repo-abusech/blob/5a4620d4d41697fb8d9e1303c0aba2ced8f6932a/win_limerat_j1_00cfd931.yar"
+
+	strings:
+		$str_1 = "Y21kLmV4ZSAvYyBwaW5nIDAgLW4gMiAmIGRlbCA=" wide
+		$str_2 = "schtasks /create /f /sc ONLOGON /RL HIGHEST /tn LimeRAT-Admin" wide
+		$str_3 = "Minning..." wide
+		$str_4 = "--donate-level=" wide
+
+	condition:
+		uint16(0)==0x5A4D and 3 of them
+}
+
+////////////////////////////////////////////////////////
+
+private rule LimeRAT_1
+{
+	meta:
+		description = "Detects Lime RAT malware samples based on the strings matched"
+		author = "RustyNoob619"
+		source = "https://valhalla.nextron-systems.com/info/rule/MAL_LimeRAT_Mar23"
+		hash = "b62f72df91cffe7861b84a38070e25834ca32334bea0a0e25274a60a242ea669"
+		original_yara_name = "LimeRAT"
+		ruleset = "EXE_RAT_LimeRAT.yara"
+		repository = "RustyNoob-619/YARA"
+		source_url = "https://github.com/RustyNoob-619/YARA/blob/b4d14356c117458127705ab545de47cef2769a78/Rules/EXE_RAT_LimeRAT.yara"
+
+	strings:
+		$main = "schtasks /create /f /sc ONLOGON /RL HIGHEST /tn LimeRAT-Admin /tr" wide
+		$cmd1 = "Flood!" wide
+		$cmd2 = "!PSend" wide
+		$cmd3 = "!PStart" wide
+		$cmd4 = "SELECT * FROM AntivirusProduct" wide
+		$cmd5 = "Select * from Win32_ComputerSystem" wide
+		$cmd6 = "_USB Error!" wide
+		$cmd7 = "_PIN Error!" wide
+
+	condition:
+		uint16(0)==0x5A4D and $main and 4 of ($cmd*)
+}
+
+////////////////////////////////////////////////////////
 
 
 rule fsLimeRAT {
-    meta:
-        description = "FsYARA - Malware Trends"
-        vetted_family = "limerat"
+	meta:
+		description = "FsYARA - Malware Trends"
+		vetted_family = "limerat"
 	condition:
-		LimeRAT0 or LimeRAT1 or LimeRAT2
+		Windows_Trojan_Limerat_24269a79 or ByteCode_MSIL_Backdoor_LimeRAT or LimeRAT or win_limerat_j1_00cfd931 or LimeRAT_1
 }
