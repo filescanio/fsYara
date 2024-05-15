@@ -108,7 +108,7 @@ rule WiltedTulip_Windows_UM_Task {
       1 of ($c*)
 }
 
-rule WiltedTulip_WindowsTask {
+rule WiltedTulip_WindowsTask : refined {
    meta:
       description = "Detects hack tool used in Operation Wilted Tulip - Windows Tasks"
       license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -124,7 +124,7 @@ rule WiltedTulip_WindowsTask {
    strings:
       $x1 = "<Command>C:\\Windows\\svchost.exe</Command>" fullword wide
       $x2 = "<Arguments>-nop -w hidden -encodedcommand" wide
-      $x3 = "-encodedcommand JABzAD0ATgBlAHcALQBPAGIAagBlAGMAdAAgAEkATwAuAE0AZQBtAG8AcgB5AFMAdAByAGUAYQBtACgA"
+      //$x3 = "-encodedcommand JABzAD0ATgBlAHcALQBPAGIAagBlAGMAdAAgAEkATwAuAE0AZQBtAG8AcgB5AFMAdAByAGUAYQBtACgA"
    condition:
       1 of them
 }

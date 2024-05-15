@@ -19,6 +19,7 @@ rule HKTL_NET_NAME_FakeFileMaker {
         (uint16(0) == 0x5A4D and uint32(uint32(0x3C)) == 0x00004550) and all of them
 }
 
+/*
 rule HKTL_NET_NAME_Aggressor {
     meta:
         description = "Detects .NET red/black-team tools via name"
@@ -31,6 +32,7 @@ rule HKTL_NET_NAME_Aggressor {
     condition:
         (uint16(0) == 0x5A4D and uint32(uint32(0x3C)) == 0x00004550) and all of them
 }
+*/
 
 rule HKTL_NET_NAME_pentestscripts {
     meta:
