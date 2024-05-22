@@ -1,3 +1,5 @@
+//source: https://github.com/Neo23x0/signature-base/blob/007d9ddee386f68aca3a3aac5e1514782f02ed2d/yara/apt_winnti_ms_report_201701.yar
+
 /*
    Yara Rule Set
    Author: Florian Roth
