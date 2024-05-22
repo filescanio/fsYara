@@ -1,3 +1,4 @@
+// source: https://github.com/Neo23x0/signature-base/blob/007d9ddee386f68aca3a3aac5e1514782f02ed2d/yara/crime_emotet.yar#L4
 
 rule MAL_Emotet_JS_Dropper_Oct19_1 {
    meta:
