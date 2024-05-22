@@ -270,6 +270,7 @@ rule Hawkeye {
           condition: all of them
 }
 
+/* moved to specific lokibot ruleset
 rule Lokibot {
           meta:
             description = "detect Lokibot in memory"
@@ -285,6 +286,7 @@ rule Lokibot {
 
           condition: all of them
 }
+*/
 
 rule Bebloh {
           meta:
