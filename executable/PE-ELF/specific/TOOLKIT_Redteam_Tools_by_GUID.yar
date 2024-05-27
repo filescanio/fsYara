@@ -330,6 +330,7 @@ rule HKTL_NET_GUID_Disable_Windows_Defender {
     meta:
         description = "Detects c# red/black-team tools via typelibguid"
         reference = "https://github.com/NYAN-x-CAT/Disable-Windows-Defender"
+        score = 40
         author = "Arnim Rupp"
         date = "2020-12-13"
     strings:
