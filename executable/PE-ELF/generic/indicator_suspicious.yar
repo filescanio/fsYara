@@ -327,6 +327,7 @@ rule INDICATOR_SUSPICIOUS_EXE_References_Confidential_Data_Store {
     meta:
         description = "Detects executables referencing many confidential data stores found in browsers, mail clients, cryptocurreny wallets, etc. Observed in information stealers"
         author = "ditekSHen"
+        score = 60
     strings:
         $s1 = "key3.db" nocase ascii wide     // Firefox private keys
         $s2 = "key4.db" nocase ascii wide     // Firefox private keys
@@ -1263,6 +1264,7 @@ rule INDICATOR_SUSPICIOUS_EXE_RegKeyComb_DisableWinDefender {
     meta:
         author = "ditekSHen"
         description = "Detects executables embedding registry key / value combination indicative of disabling Windows Defender features"
+        score = 60
     strings:
         $r1 = "SOFTWARE\\Policies\\Microsoft\\Windows Defender" ascii wide nocase
         $k1 = "DisableAntiSpyware" ascii wide
