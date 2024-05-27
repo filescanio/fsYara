@@ -256,7 +256,7 @@ rule suspicious_obfuscation : PDF raw
 	meta:
 		author = "Glenn Edwards (@hiddenillusion)"
 		version = "0.1"
-		weight = 2
+		weight = 5
 		
 	strings:
 		$magic = { 25 50 44 46 }
