@@ -74,6 +74,8 @@ rule INDICATOR_RTF_EXPLOIT_CVE_2017_11882_1 {
     meta:
         description = "Detects RTF documents potentially exploiting CVE-2017-11882"
         author = "ditekSHen"
+        score = 80
+
     strings:
         // 0002CE02-0000-0000-C000-000000000046: Equation
         // CVE-2017-11882 or CVE-2018-0802
