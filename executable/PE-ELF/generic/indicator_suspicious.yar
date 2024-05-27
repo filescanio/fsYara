@@ -178,6 +178,7 @@ rule INDICATOR_SUSPICIOUS_EXE_UACBypass_CMSTPCOM {
     meta:
         description = "Detects Windows exceutables bypassing UAC using CMSTP COM interfaces. MITRE (T1218.003)"
         author = "ditekSHen"
+        score = 75
     strings:
         // CMSTPLUA
         $guid1 = "{3E5FC7F9-9A51-4367-9063-A120244FBEC7}" ascii wide nocase

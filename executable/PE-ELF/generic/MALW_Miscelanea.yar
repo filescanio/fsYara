@@ -40,6 +40,7 @@ rule malicious_LNK_files
 {
 meta:
 	author = "@patrickrolsen"
+	score = 60
 strings:
 	$magic = {4C 00 00 00 01 14 02 00} // L.......
 	$s1 = "\\RECYCLER\\" wide
@@ -51,9 +52,9 @@ strings:
 	$s7 = "csrss.exe" wide
 	$s8 = "winlogon.exe" wide
 	//$s9 = "%cd%" wide
-	$s10 = "%appdata%" wide
-	$s11 = "%programdata%" wide
-	$s12 = "%localappdata%" wide
+	//$s10 = "%appdata%" wide
+	//$s11 = "%programdata%" wide
+	//$s12 = "%localappdata%" wide
 	$s13 = ".cpl" wide
 condition:
 	($magic at 0) and any of ($s*)
