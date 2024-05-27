@@ -1305,6 +1305,7 @@ rule INDICATOR_SUSPICIOUS_EXE_WMI_EnumerateVideoDevice {
     meta:
         author = "ditekSHen"
         description = "Detects executables attemping to enumerate video devices using WMI"
+        score = 50
     strings:
         $q1 = "Select * from Win32_CacheMemory" ascii wide nocase
         $d1 = "{860BB310-5D01-11d0-BD3B-00A0C911CE86}" ascii wide
