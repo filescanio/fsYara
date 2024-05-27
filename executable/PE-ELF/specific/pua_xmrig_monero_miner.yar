@@ -23,6 +23,7 @@ rule XMRIG_Monero_Miner : HIGHVOL {
       hash3 = "f3f2703a7959183b010d808521b531559650f6f347a5830e47f8e3831b10bad5"
       hash4 = "0972ea3a41655968f063c91a6dbd31788b20e64ff272b27961d12c681e40b2d2"
       id = "71bf1b9c-c806-5737-83a9-d6013872b11d"
+      score = 70
    strings:
       $s1 = "'h' hashrate, 'p' pause, 'r' resume" fullword ascii
       $s2 = "--cpu-affinity" ascii
@@ -61,6 +62,7 @@ rule PUA_LNX_XMRIG_CryptoMiner {
       modified = "2023-01-06"
       hash1 = "10a72f9882fc0ca141e39277222a8d33aab7f7a4b524c109506a407cd10d738c"
       id = "bbdeff2e-68cc-5bbe-b843-3cba9c8c7ea8"
+      score = 70
    strings:
       $x1 = "number of hash blocks to process at a time (don't set or 0 enables automatic selection o" fullword ascii
       $s2 = "'h' hashrate, 'p' pause, 'r' resume, 'q' shutdown" fullword ascii

@@ -66,7 +66,7 @@ rule SUSP_PDB_CN_Threat_Actor_May19_1 {
       uint16(0) == 0x5a4d and filesize < 400KB and 1 of them
 }
 
-rule MAL_Ramnit_May19_1 {
+/*rule MAL_Ramnit_May19_1 {
    meta:
       description = "Detects Ramnit malware"
       author = "Florian Roth (Nextron Systems)"
@@ -77,7 +77,7 @@ rule MAL_Ramnit_May19_1 {
    condition:
       uint16(0) == 0x5a4d and filesize < 300KB
       and pe.imphash() == "500cd02578808f964519eb2c85153046"
-}
+}*/
 
 rule MAL_Parite_Malware_May19_1 {
    meta:
