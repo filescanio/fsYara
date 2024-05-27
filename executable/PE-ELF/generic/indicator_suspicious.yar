@@ -1692,6 +1692,7 @@ rule INDICATOR_SUSPICIOUS_EXE_Discord_Regex {
     meta:
         author = "ditekSHen"
         description = "Detects executables referencing Discord tokens regular expressions"
+        score = 40
     strings:
         $s1 = "[a-zA-Z0-9]{24}\\.[a-zA-Z0-9]{6}\\.[a-zA-Z0-9_\\-]{27}|mfa\\.[a-zA-Z0-9_\\-]{84}" ascii wide nocase
     condition:
