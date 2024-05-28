@@ -526,7 +526,8 @@ private rule AgentTeslaV3_1
 
 ////////////////////////////////////////////////////////
 
-private rule Agenttesla_type1
+// Duplicated is fsAgentTesla.yar
+/*private rule Agenttesla_type1
 {
 	meta:
 		description = "detect Agenttesla in memory"
@@ -547,7 +548,7 @@ private rule Agenttesla_type1
 		all of them
 }
 
-private rule Agenttesla_type2
+//private rule Agenttesla_type2
 {
 	meta:
 		description = "detect Agenttesla in memory"
@@ -568,7 +569,7 @@ private rule Agenttesla_type2
 
 	condition:
 		( uint16(0)==0x5A4D) and 3 of them
-}
+}*/
 
 ////////////////////////////////////////////////////////
 

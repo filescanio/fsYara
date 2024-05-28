@@ -175,7 +175,8 @@ rule Ursnif {
 //          condition: ($v4a and $v4b) or $v5a or $v5b
 //}
 
-rule SmokeLoader {
+// Renamed due to a name clash with fsSmokeLoader.yar
+rule SmokeLoader__ {
           meta:
             description = "detect SmokeLoader in memory"
             author = "JPCERT/CC Incident Response Group"
@@ -271,8 +272,8 @@ rule Hawkeye {
           condition: all of them
 }
 
-/* moved to specific lokibot ruleset
-rule Lokibot {
+// moved to specific lokibot ruleset
+/*rule Lokibot {
           meta:
             description = "detect Lokibot in memory"
             author = "JPCERT/CC Incident Response Group"
@@ -286,8 +287,7 @@ rule Lokibot {
             $string = { 2d 00 75 00 00 00 46 75 63 6b 61 76 2e 72 75 00 00}
 
           condition: all of them
-}
-*/
+}*/
 
 rule Bebloh {
           meta:
@@ -479,7 +479,8 @@ rule Trickbot {
           condition: all of ($tagm*) or all of ($tagc*) or all of ($tagi*) or all of ($tags*) or all of ($tagl*)
 }
 
-rule Remcos {
+// Renamed due to a collision with fsRemcos
+rule Remcos__ {
           meta:
             description = "detect Remcos in memory"
             author = "JPCERT/CC Incident Response Group"

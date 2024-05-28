@@ -5,7 +5,8 @@
 
 import "pe"
 
-rule Njrat: RAT
+// Already present in fsnjRAT.yar
+/*rule Njrat: RAT
 {
     meta:
         description = "Njrat"
@@ -35,7 +36,7 @@ rule Njrat: RAT
         10 of them
 }
 
-rule njrat1: RAT {
+//rule njrat1: RAT {
     meta:
         author = "Brian Wallace @botnet_hunter"
         author_email = "bwall@ballastsecurity.net"
@@ -55,7 +56,7 @@ rule njrat1: RAT {
         1 of ($a*) and 1 of ($b*) and 1 of ($c*)
 }
 
-rule win_exe_njRAT {
+//rule win_exe_njRAT {
     meta:
         author = "info@fidelissecurity.com"
         descripion = "njRAT - Remote Access Trojan"
@@ -99,7 +100,7 @@ rule win_exe_njRAT {
 
     condition:
         ($magic at 0) and ( all of ($string_setA*) or all of ($string_setB*) ) 
-}
+}*/
 
 rule network_traffic_njRAT {
     meta:
