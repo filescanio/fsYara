@@ -1,3 +1,4 @@
+// source: https://github.com/Neo23x0/signature-base/blob/6b8e2a00e5aafcfcfc767f3f53ae986cf81f968a/yara/apt_sednit_delphidownloader.yar
 /*
    Yara Rule Set
    Author: Florian Roth
