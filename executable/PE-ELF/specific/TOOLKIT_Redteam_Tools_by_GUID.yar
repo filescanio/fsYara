@@ -3205,6 +3205,7 @@ rule HKTL_NET_GUID_Lime_RAT {
         reference = "https://github.com/NYAN-x-CAT/Lime-RAT"
         author = "Arnim Rupp"
         date = "2020-12-30"
+        score = 70
     strings:
         $typelibguid0 = "e58ac447-ab07-402a-9c96-95e284a76a8d" ascii nocase wide
         $typelibguid1 = "8fb35dab-73cd-4163-8868-c4dbcbdf0c17" ascii nocase wide
