@@ -17,6 +17,7 @@ rule BadRabbit_Gen {
       author = "Florian Roth (Nextron Systems)"
       reference = "https://pastebin.com/Y7pJv3tK"
       date = "2017-10-25"
+      score = 70
       hash1 = "8ebc97e05c8e1073bda2efb6f4d00ad7e789260afa2c276f0c72740b838a0a93"
       hash2 = "579fd8a0385482fb4c789561a30b09f25671e86422f40ef5cca2036b28f99648"
       hash3 = "630325cac09ac3fab908f903e3b00d0dadd5fdaa0875ed8496fcbb97a558d0da"

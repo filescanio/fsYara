@@ -8,6 +8,7 @@ rule MAL_Nitol_Malware_Jan19_1 {
       author = "Florian Roth (Nextron Systems)"
       reference = "https://twitter.com/shotgunner101/status/1084602413691166721"
       date = "2019-01-14"
+      score = 60
       hash1 = "fe65f6a79528802cb61effc064476f7b48233fb0f245ddb7de5b7cc8bb45362e"
       id = "5b9968a8-31ba-593b-9e01-b69a4e31fe65"
    strings:

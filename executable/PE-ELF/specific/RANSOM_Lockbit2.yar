@@ -5,6 +5,7 @@ rule Lockbit2_Jul21 {
       description = "simple rule to detect latest Lockbit ransomware Jul 2021"
       author = "CB @ ATR"
       date = "2021-07-28"
+      score = 60
       version = "v1"
       hash1 = "f32e9fb8b1ea73f0a71f3edaebb7f2b242e72d2a4826d6b2744ad3d830671202"
       hash2 = "dd8fe3966ab4d2d6215c63b3ac7abf4673d9c19f2d9f35a6bf247922c642ec2d"

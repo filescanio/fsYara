@@ -261,6 +261,7 @@ rule Hawkeye {
             author = "JPCERT/CC Incident Response Group"
             rule_usage = "memory scan"
             reference = "internal research"
+            score = 70
 
           strings:
             $hawkstr1 = "HawkEye Keylogger" wide
@@ -325,6 +326,7 @@ rule Azorult {
             author = "JPCERT/CC Incident Response Group"
             rule_usage = "memory scan"
             reference = "internal research"
+            score = 60
 
           strings:
             $v1 = "Mozilla/4.0 (compatible; MSIE 6.0b; Windows NT 5.1)"
@@ -497,6 +499,7 @@ rule Quasar {
             description = "detect Quasar RAT in memory"
             author = "JPCERT/CC Incident Response Group"
             rule_usage = "memory scan"
+            score = 60
             hash1 = "390c1530ff62d8f4eddff0ac13bc264cbf4183e7e3d6accf8f721ffc5250e724"
 
           strings:

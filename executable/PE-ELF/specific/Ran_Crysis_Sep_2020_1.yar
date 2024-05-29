@@ -6,6 +6,7 @@ rule Ran_Crysis_Sep_2020_1 {
       author = "Arkbird_SOLG"
       reference = "Internal Research"
       date = "2020-10-16"
+      score = 80
       hash1 = "34c485ad11076ede709ff409c0e1867dc50fd40311ae6e7318ddf50679fa4049"
       hash2 = "4708750c9a6fdeaec5f499a3cd26bb5f61db4f82e66484dc7b44118effbb246f"
       hash3 = "b565c8e1e81796db13409f37e4bd28877272b5e54ab5c0a3d9b6a024e7f5a039"

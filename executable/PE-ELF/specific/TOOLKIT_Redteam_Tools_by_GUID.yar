@@ -3238,6 +3238,7 @@ rule HKTL_NET_GUID_njRAT {
         reference = "https://github.com/mwsrc/njRAT"
         author = "Arnim Rupp"
         date = "2020-12-30"
+        score = 60
     strings:
         $typelibguid0 = "5a542c1b-2d36-4c31-b039-26a88d3967da" ascii nocase wide
         $typelibguid1 = "6b07082a-9256-42c3-999a-665e9de49f33" ascii nocase wide

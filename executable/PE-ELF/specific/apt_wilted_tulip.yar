@@ -115,6 +115,7 @@ rule WiltedTulip_WindowsTask : refined {
       author = "Florian Roth (Nextron Systems)"
       reference = "http://www.clearskysec.com/tulip"
       date = "2017-07-23"
+      score = 60
       hash1 = "c3cbe88b82cd0ea46868fb4f2e8ed226f3419fc6d4d6b5f7561e70f4cd33822c"
       hash2 = "340cbbffbb7685133fc318fa20e4620ddf15e56c0e65d4cf1b2d606790d4425d"
       hash3 = "b6f515b3f713b70b808fc6578232901ffdeadeb419c9c4219fbfba417bba9f01"
@@ -250,6 +251,7 @@ rule WiltedTulip_ReflectiveLoader {
       author = "Florian Roth (Nextron Systems)"
       reference = "http://www.clearskysec.com/tulip"
       date = "2017-07-23"
+      score = 70
       hash1 = "1097bf8f5b832b54c81c1708327a54a88ca09f7bdab4571f1a335cc26bbd7904"
       hash2 = "1f52d643e8e633026db73db55eb1848580de00a203ee46263418f02c6bdb8c7a"
       hash3 = "a159a9bfb938de686f6aced37a2f7fa62d6ff5e702586448884b70804882b32f"

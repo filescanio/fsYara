@@ -9,6 +9,7 @@ rule Bozok : RAT
 	meta:
 		author = " Kevin Breen <kevin@techanarchy.net>"
 		date = "2014/04"
+		score = 60
 		ref = "http://malwareconfig.com/stats/Bozok"
 		maltype = "Remote Access Trojan"
 		filetype = "exe"

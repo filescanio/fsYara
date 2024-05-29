@@ -7,6 +7,7 @@ rule INDICATOR_SUSPICIOUS_GENRansomware {
     meta:
         description = "Detects command variations typically used by ransomware"
         author = "ditekSHen"
+        score = 50
     strings:
         $cmd1 = "cmd /c \"WMIC.exe shadowcopy delet\"" ascii wide nocase
         $cmd2 = "vssadmin.exe Delete Shadows /all" ascii wide nocase

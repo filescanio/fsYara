@@ -36,6 +36,7 @@ rule APT_MAL_REvil_Kaseya_Jul21_2 {
       description = "Detects malware used in the Kaseya supply chain attack"
       author = "Florian Roth (Nextron Systems)"
       reference = "https://doublepulsar.com/kaseya-supply-chain-attack-delivers-mass-ransomware-event-to-us-companies-76e4ec6ec64b"
+      score = 70
       date = "2021-07-02"
       hash1 = "0496ca57e387b10dfdac809de8a4e039f68e8d66535d5d19ec76d39f7d0a4402"
       hash2 = "8dd620d9aeb35960bb766458c8890ede987c33d239cf730f93fe49d90ae759dd"

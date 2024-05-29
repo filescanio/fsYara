@@ -18,6 +18,7 @@ rule Andromeda_MalBot_Jun_1A {
       reference = "http://blog.trendmicro.com/trendlabs-security-intelligence/information-stealer-found-hitting-israeli-hospitals/"
       date = "2017-06-30"
       modified = "2022-12-21"
+      score = 50
       hash1 = "3c223bbf83ac2f91c79383a53ed15b0c8ffe2caa1bf52b26c17fd72278dc7ef9"
       hash2 = "73cecc67bb12cf5a837af9fba15b7792a6f1a746b246b34f8ed251c4372f1a98"
       hash3 = "66035cc81e811735beab573013950153749b02703eae58b90430646f6e3e3eb4"

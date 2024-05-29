@@ -48,6 +48,7 @@ rule SUSP_PowerShell_Caret_Obfuscation_2 : refined {
       author = "Florian Roth (Nextron Systems)"
       reference = "Internal Research"
       date = "2019-07-20"
+      score = 50
       id = "976e261a-029c-5703-835f-a235c5657471"
       modified = "2024-04-04"
    strings:
