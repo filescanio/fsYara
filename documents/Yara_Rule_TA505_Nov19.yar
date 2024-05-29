@@ -82,7 +82,7 @@ rule TA505_bin_21Nov_2 {
    condition:
       uint16(0) == 0xcfd0 and filesize < 3000KB and
       1 of ($x*) and 4 of them
-}*//
+}*/
 
 rule TA505_Maldoc_21Nov_2 {
    meta:

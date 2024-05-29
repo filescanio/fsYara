@@ -2,14 +2,19 @@ repos:
 -   repo: local
     hooks:
     -   id: dupcheck
-        name: Rule duplication check
+        name: Rule duplication
         entry: python3 tools/ci/dup.py
         language: system
         always_run: true
         pass_filenames: false
-    -   id: Rule score & weight check
-        name: sevcheck
+    -   id: sevcheck
+        name: Invalid score & weight
         entry: python3 tools/ci/severity.py
         language: system
         always_run: true
         pass_filenames: false
+    -   id: compile
+        name: Compile rules
+        entry: python3 tools/ci/compile.py
+        language: system
+        files: .yara?

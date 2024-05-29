@@ -400,7 +400,8 @@ rule Nanocore {
           condition: all of them
 }*/
 
-rule Agenttesla_type1 {
+// Duplicated is fsAgentTesla.yar
+/*rule Agenttesla_type1 {
           meta:
             description = "detect Agenttesla in memory"
             author = "JPCERT/CC Incident Response Group"
@@ -412,9 +413,10 @@ rule Agenttesla_type1 {
             $atstr = "C:\\\\Users\\\\Admin\\\\Desktop\\\\ConsoleApp1\\\\ConsoleApp1\\\\obj\\\\Debug\\\\ConsoleApp1.pdb"
             $sqlitestr = "Not a valid SQLite 3 Database File" wide
           condition: all of them
-}
+}*/
 
-rule Agenttesla_type2 {
+// Duplicated is fsAgentTesla.yar
+/*rule Agenttesla_type2 {
           meta:
             description = "detect Agenttesla in memory"
             author = "JPCERT/CC Incident Response Group"
@@ -427,7 +429,7 @@ rule Agenttesla_type2 {
             $type2db2 = "Unknow database format" wide
             $type2db3 = "SQLite format 3" wide
           condition: all of them
-}
+}*/
 
 rule Noderat {
           meta:

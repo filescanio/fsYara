@@ -1,5 +1,4 @@
-# source AlienVaultLabs/malware_analysis/CommentCrew/apt1.yara
-#
+// source AlienVaultLabs/malware_analysis/CommentCrew/apt1.yara
 
 rule LIGHTDART_APT1 {
     meta:
