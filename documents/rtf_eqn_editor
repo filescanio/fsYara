@@ -1,0 +1,17 @@
+rule RTF_Equation_Editor_unk_CVE {
+	meta:
+	author = "OPSWAT"
+	description = "Detects RTF documents potentially exploting equation editor vulnerabilities"
+	score = 80
+	strings:
+		$objup = "\\objupdate-'"
+		$bin0 = "\\bin0"
+		$pad = {
+			(09|20|0d|0a) (09|20|0d|0a) (09|20|0d|0a) (09|20|0d|0a) (09|20|0d|0a) (09|20|0d|0a) (09|20|0d|0a) (09|20|0d|0a) [0-1]
+			(09|20|0d|0a) (09|20|0d|0a) (09|20|0d|0a) (09|20|0d|0a) (09|20|0d|0a) (09|20|0d|0a) (09|20|0d|0a) (09|20|0d|0a) [0-1]
+			(09|20|0d|0a) (09|20|0d|0a) (09|20|0d|0a) (09|20|0d|0a) (09|20|0d|0a) (09|20|0d|0a) (09|20|0d|0a) (09|20|0d|0a)
+		}
+
+	condition:
+		uint32(0) == 0x74725c7b and $objup and #bin0 > 1 and #pad > 1
+} 
