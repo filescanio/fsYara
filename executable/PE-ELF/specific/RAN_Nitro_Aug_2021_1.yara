@@ -1,3 +1,5 @@
+// source: https://github.com/StrangerealIntel/DailyIOC/blob/master/2021-08-13/Nitro/RAN_Nitro_Aug_2021_1.yara
+
 rule RAN_Nitro_Aug_2021_1
 {
     meta:
