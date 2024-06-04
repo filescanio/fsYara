@@ -161,7 +161,7 @@ rule Susp_PowerShell_Sep17_2 {
       )
 }
 
-rule WScript_Shell_PowerShell_Combo {
+rule WScript_Shell_PowerShell_Combo : refined {
    meta:
       description = "Detects malware from Middle Eastern campaign reported by Talos"
       license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -180,7 +180,7 @@ rule WScript_Shell_PowerShell_Combo {
 
       $fp1 = "Copyright: Microsoft Corp." ascii
    condition:
-      filesize < 400KB and $s1 and 1 of ($p*)
+      filesize < 400KB and $s1 and 2 of ($p*)
       and not 1 of ($fp*)
 }
 

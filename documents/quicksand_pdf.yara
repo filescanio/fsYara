@@ -1055,7 +1055,7 @@ rule suspicious_flash_addFrameScript {
 	condition: filesize < 1MB and any of them
 }
 
-rule suspicious_flash_Adobe_Shockwave_Flash_in_a_PDF_define_obj_type {
+/*rule suspicious_flash_Adobe_Shockwave_Flash_in_a_PDF_define_obj_type {
 	meta:
 		is_exploit = false
 		is_warning = true
@@ -1071,7 +1071,7 @@ rule suspicious_flash_Adobe_Shockwave_Flash_in_a_PDF_define_obj_type {
 		$h_hex1 = { (52|233532) (69|233639) (63|233633) (68|233638) (4D|233444|233464) (65|233635) (64|233634) (69|233639)(61|233631) }
 
 	condition: any of them
-}
+}*/
 
 rule suspicious_flash_obfuscated_name {
 	meta:

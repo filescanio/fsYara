@@ -639,7 +639,7 @@ rule Vertex : RAT {
         all of them
 }
 
-rule VirusRat : RAT {
+/*rule VirusRat : RAT {
     meta:
         author = " Kevin Breen <kevin@techanarchy.net>"
         date = "2014/04"
@@ -663,7 +663,7 @@ rule VirusRat : RAT {
 
     condition:
         all of them
-}
+}*/
 
 rule unrecom : RAT {
     meta:
