@@ -844,6 +844,7 @@ rule INDICATOR_SUSPICIOUS_EXE_Embedded_Gzip_B64Encoded_File {
      meta:
         author = "ditekSHen"
         description = "Detects executables containing bas64 encoded gzip files"
+        score = 40
     strings:
         $s1 = "H4sIAAAAAAA" ascii wide
         $s2 = "AAAAAAAIs4H" ascii wide
