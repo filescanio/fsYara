@@ -1709,6 +1709,7 @@ rule INDICATOR_SUSPICIOUS_EXE_References_VPN {
     meta:
         author = "ditekSHen"
         description = "Detects executables referencing many VPN software clients. Observed in infosteslers"
+        score = 40
     strings:
         $s1 = "\\VPN\\NordVPN" ascii wide nocase
         $s2 = "\\VPN\\OpenVPN" ascii wide nocase
