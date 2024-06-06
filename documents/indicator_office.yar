@@ -840,6 +840,7 @@ rule INDICATOR_DOC_PhishingPatterns {
     meta:
         author = "ditekSHen"
         description = "Detects OLE, RTF, PDF and OOXML (decompressed) documents with common phishing strings"
+        score = 40
     strings:
         $s1 = "PERFORM THE FOLLOWING STEPS TO PERFORM DECRYPTION" ascii nocase
         $s2 = "Enable Editing" ascii nocase
