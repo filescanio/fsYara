@@ -1,3 +1,6 @@
+// source : https://github.com/Yara-Rules/rules/blob/0f93570194a80d2f2032869055808b0ddcdfb360/malware/MALW_Miscelanea.yar
+// SPECIFIC rules have moved from this ruleset 
+
 /*
     This Yara ruleset is under the GNU-GPLv2 license (http://www.gnu.org/licenses/gpl-2.0.html) and open to any user or organization, as    long as you use it under this license.
 
@@ -67,26 +70,6 @@ rule memory_pivy
 	  author = "https://github.com/jackcr/"
    strings:
       $a = {00 00 00 00 00 00 00 00 00 00 00 53 74 75 62 50 61 74 68 00} // presence of pivy in memory
-
-   condition: 
-      any of them
-
-}
-
-rule memory_shylock
-
-{
-   meta:
-	  author = "https://github.com/jackcr/"
-
-   strings:
-      $a = /pipe\\[A-F0-9]{32}/     //Named pipe created by the malware
-      $b = /id=[A-F0-9]{32}/     //Portion or the uri beacon
-      $c = /MASTER_[A-F0-9]{32}/     //Mutex created by the malware
-      $d = "***Load injects by PIPE (%s)" //String found in binary
-      $e = "***Load injects url=%s (%s)" //String found in binary
-      $f = "*********************** Ping Ok ************************" //String found in binary
-      $g = "*** LOG INJECTS *** %s"     //String found in binary
 
    condition: 
       any of them
