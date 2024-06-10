@@ -296,6 +296,7 @@ rule INDICATOR_EXE_DotNET_Encrypted {
     meta:
         author = "ditekSHen"
         description = "Detects encrypted or obfuscated .NET executables"
+        score = 65
     strings:
         $s1 = "FromBase64String" fullword ascii
         $s2 = "ToCharArray" fullword ascii

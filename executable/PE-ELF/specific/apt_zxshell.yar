@@ -19,6 +19,7 @@ rule ZxShell_Related_Malware_CN_Group_Jul17_1 {
       date = "2017-07-08"
       hash1 = "ef56c2609bc1b90f3e04745890235e6052a4be94e35e38b6f69b64fb17a7064e"
       id = "a91e39bb-1bb3-54a8-b684-d673c445375c"
+      score = 75
    strings:
       $x1 = "CMD.EXE /C NET USER GUEST /ACTIVE:yes && NET USER GUEST ++++++" ascii
       $x2 = "system\\cURRENTcONTROLSET\\sERVICES\\tERMSERVICE" fullword ascii

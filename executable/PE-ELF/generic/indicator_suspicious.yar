@@ -545,6 +545,7 @@ rule INDICATOR_SUSPICIOUS_ClearWinLogs {
     meta:
         author = "ditekSHen"
         description = "Detects executables containing commands for clearing Windows Event Logs"
+        score = 50
     strings:
         $cmd1 = "wevtutil.exe clear-log" ascii wide nocase
         $cmd2 = "wevtutil.exe cl " ascii wide nocase
@@ -597,6 +598,7 @@ rule INDICATOR_SUSPICIOUS_USNDeleteJournal {
     meta:
         author = "ditekSHen"
         description = "Detects executables containing anti-forensic artifacts of deleting USN change journal. Observed in ransomware"
+        score = 60
     strings:
         $cmd1 = "fsutil.exe" ascii wide nocase
         $s1 = "usn deletejournal /D C:" ascii wide nocase
