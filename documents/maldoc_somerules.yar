@@ -17,16 +17,18 @@ rule maldoc_API_hashing : maldoc
 }
 
 
-
 rule maldoc_indirect_function_call_1 : maldoc
 {
     meta:
         author = "Didier Stevens (https://DidierStevens.com)"
     strings:
         $a = {FF 75 ?? FF 55 ??}
+	$pdf = "%PDF"
     condition:
-        for any i in (1..#a): (uint8(@a[i] + 2) == uint8(@a[i] + 5))
+        not $pdf in (0..100)
+	and for any i in (1..#a): (uint8(@a[i] + 2) == uint8(@a[i] + 5))
 }
+
 
 rule maldoc_indirect_function_call_2 : maldoc
 {
@@ -34,8 +36,10 @@ rule maldoc_indirect_function_call_2 : maldoc
         author = "Didier Stevens (https://DidierStevens.com)"
     strings:
         $a = {FF B5 ?? ?? ?? ?? FF 95 ?? ?? ?? ??}
+	$pdf = "%PDF"
     condition:
-        for any i in (1..#a): ((uint8(@a[i] + 2) == uint8(@a[i] + 8)) and (uint8(@a[i] + 3) == uint8(@a[i] + 9)) and (uint8(@a[i] + 4) == uint8(@a[i] + 10)) and (uint8(@a[i] + 5) == uint8(@a[i] + 11)))
+        not $pdf in (0..100)
+        and for any i in (1..#a): ((uint8(@a[i] + 2) == uint8(@a[i] + 8)) and (uint8(@a[i] + 3) == uint8(@a[i] + 9)) and (uint8(@a[i] + 4) == uint8(@a[i] + 10)) and (uint8(@a[i] + 5) == uint8(@a[i] + 11)))
 }
 
 rule maldoc_indirect_function_call_3 : maldoc
@@ -44,8 +48,10 @@ rule maldoc_indirect_function_call_3 : maldoc
         author = "Didier Stevens (https://DidierStevens.com)"
     strings:
         $a = {FF B7 ?? ?? ?? ?? FF 57 ??}
+	$pdf = "%PDF"
     condition:
-        $a
+        not $pdf in (0..100)
+	and $a
 }
 
 rule maldoc_find_kernel32_base_method_1 : maldoc
