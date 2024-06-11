@@ -550,6 +550,7 @@ rule hacktool_windows_mimikatz_errors
         description = "Mimikatz credential dump tool: Error messages"
         reference = "https://github.com/gentilkiwi/mimikatz"
         author = "@fusionrace"
+        score = 75
         md5_1 = "09054be3cc568f57321be32e769ae3ccaf21653e5d1e3db85b5af4421c200669"
         md5_2 = "004c07dcd04b4e81f73aacd99c7351337f894e4dac6c91dcfaadb4a1510a967c"
     strings:
@@ -610,6 +611,7 @@ rule hacktool_windows_mimikatz_sekurlsa
         description = "Mimikatz credential dump tool"
         reference = "https://github.com/gentilkiwi/mimikatz"
         author = "@fusionrace"
+        score = 75
         SHA256_1 = "09054be3cc568f57321be32e769ae3ccaf21653e5d1e3db85b5af4421c200669"
         SHA256_2 = "004c07dcd04b4e81f73aacd99c7351337f894e4dac6c91dcfaadb4a1510a967c"
     strings:

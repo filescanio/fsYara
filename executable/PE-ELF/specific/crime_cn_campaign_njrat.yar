@@ -18,6 +18,7 @@ rule CN_disclosed_20180208_lsls {
       author = "Florian Roth (Nextron Systems)"
       reference = "https://twitter.com/cyberintproject/status/961714165550342146"
       date = "2018-02-08"
+      score = 45
       hash1 = "94c6a92984df9ed255f4c644261b01c4e255acbe32ddfd0debe38b558f29a6c9"
       id = "c6c4aa72-1a84-552f-bea0-38b332a74233"
    strings:

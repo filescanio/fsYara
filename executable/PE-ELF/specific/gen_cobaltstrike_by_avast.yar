@@ -689,6 +689,7 @@ rule Cobaltbaltstrike_Beacon_x64
     author = "Avast Threat Intel Team"
     description = "Detects CobaltStrike payloads"
     reference = "https://github.com/avast/ioc"
+    score = 75
     id = "5d6d86ec-9e05-5596-b623-30f44c6f44db"
   strings:
     // x64 default MZ header

@@ -1078,6 +1078,7 @@ rule INDICATOR_SUSPICIOUS_EXE_WindDefender_AntiEmaulation {
 rule INDICATOR_SUSPICIOUS_EXE_attrib {
     meta:
         author = "ditekSHen"
+        score = 50
         description = "Detects executables using attrib with suspicious attributes attributes"
     strings:
         $s1 = "attrib +h +r +s" ascii wide
