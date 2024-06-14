@@ -99,6 +99,8 @@ private rule MALW_cobaltrike
 		repository = "advanced-threat-research/Yara-Rules"
 		source_url = "https://github.com/advanced-threat-research/Yara-Rules/blob/fc51a3fe3b450838614a5a5aa327c6bd8689cbb2/malware/MALW_cobaltstrike.yar"
 		license = "Apache License 2.0"
+		score = 75
+		vetted_family = "cobalt"
 
 	strings:
 		$pattern_0 = { e9???????? eb0a b801000000 e9???????? }

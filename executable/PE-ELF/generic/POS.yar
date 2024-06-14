@@ -163,7 +163,7 @@ condition:
 	uint16(0) == 0x5A4D and 7 of ($s*)
 }
 
-rule pstgdump
+rule pstgdump_2
 {
 meta:
 	author = "@patrickrolsen"
