@@ -627,18 +627,18 @@ rule ccrewDownloader3
 }
 
 
-rule ccrewQAZ
-{
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
-
-  strings:
-    $a = "!QAZ@WSX" wide ascii
-
-  condition:
-    $a
-}
+//rule ccrewQAZ
+//{
+//    meta:
+//        author = "AlienVault Labs"
+//        info = "CommentCrew-threat-apt1"
+//
+//  strings:
+//    $a = "!QAZ@WSX" wide ascii
+//
+//  condition:
+//    $a
+//}
 
 rule metaxcd
 {

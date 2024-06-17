@@ -56,7 +56,7 @@ rule DarkComet_2 : rat
         $k2 = "#KCMDDC51#-890"
 
     condition:
-        any of them
+        2 of them
 }
 
 rule DarkComet_3 : RAT
