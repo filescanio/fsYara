@@ -10,7 +10,7 @@ rule SUSP_XORed_Mozilla {
       score = 65
       id = "af7fc551-0d4e-589e-9152-95d9c4ab03bf"
    strings:
-      $xo1 = "Mozilla/5.0" xor ascii wide
+      $xo1 = "Mozilla/5.0" xor(0x01-0xff) ascii wide
 
       $fp1 = "Sentinel Labs" wide
       $fp2 = "<filter object at" ascii /* Norton Security */
@@ -30,8 +30,8 @@ rule SUSP_XORed_MSDOS_Stub_Message {
       score = 55
       id = "9ab52434-9162-5fd5-bf34-8b163f6aeec4"
    strings:
-      $xo1 = "This program cannot be run in DOS mode" xor ascii wide
-      $xo2 = "This program must be run under Win32" xor ascii wide
+      $xo1 = "This program cannot be run in DOS mode" xor(0x01-0xff) ascii wide
+      $xo2 = "This program must be run under Win32" xor(0x01-0xff) ascii wide
 
       $fp1 = "AVAST Software" fullword wide ascii
       $fp2 = "AVG Netherlands" fullword wide ascii
