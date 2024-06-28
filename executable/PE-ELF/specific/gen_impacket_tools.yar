@@ -394,6 +394,7 @@ rule Impacket_Tools_Generic_1 {
       reference = "https://github.com/maaaaz/impacket-examples-windows"
       date = "2017-04-07"
       super_rule = 1
+      score = 60
       hash1 = "4f7fad0676d3c3d2d89e8d4e74b6ec40af731b1ddf5499a0b81fc3b1cd797ee3"
       hash2 = "d256d1e05695d62a86d9e76830fcbb856ba7bd578165a561edd43b9f7fdb18a3"
       hash3 = "2d8d500bcb3ffd22ddd8bd68b5b2ce935c958304f03729442a20a28b2c0328c1"
