@@ -137,6 +137,7 @@ rule VBS_Obfuscated_Mal_Feb18_1  {
       hash1 = "06960cb721609fe5a857fe9ca3696a84baba88d06c20920370ddba1b0952a8ab"
       hash2 = "c5c0e28093e133d03c3806da0061a35776eed47d351e817709d2235b95d3a036"
       hash3 = "e1765a2b10e2ff10235762b9c65e9f5a4b3b47d292933f1a710e241fe0417a74"
+      score = 50
    strings:
       $x1 = "A( Array( (1* 2^1 )+" ascii
       $x2 = ".addcode(A( Array(" ascii
