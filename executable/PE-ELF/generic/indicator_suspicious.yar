@@ -198,6 +198,7 @@ rule INDICATOR_SUSPICOUS_EXE_References_VEEAM {
     meta:
         author = "ditekSHen"
         description = "Detects executables containing many references to VEEAM. Observed in ransomware"
+        score = 40
     strings:
         $s1 = "VeeamNFSSvc" ascii wide nocase
         $s2 = "VeeamRESTSvc" ascii wide nocase
