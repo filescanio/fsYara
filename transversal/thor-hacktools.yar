@@ -1,4 +1,5 @@
 // source: https://github.com/Neo23x0/signature-base/blob/master/yara/thor-hacktools.yar
+// source: https://github.com/Yara-Rules/rules/blob/0f93570194a80d2f2032869055808b0ddcdfb360/malware/TOOLKIT_THOR_HackTools.yar
 
 /*
 
