@@ -11,7 +11,7 @@ rule Exp_CVE_2021_40444_Sep_2021_1 {
         hash3 = "5b85dbe49b8bc1e65e01414a0508329dc41dc13c92c08a4f14c71e3044b06185"
         hash4 = "938545f7bbe40738908a95da8cdeabb2a11ce2ca36b0f6a74deda9378d380a52"
         tlp = "White"
-        level = "experimental"mal_emotet_nov_2021_1
+        level = "experimental"
         adversary = "-"
         score = 75
     strings:

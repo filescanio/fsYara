@@ -11,7 +11,7 @@ rule MIME_MSO_ActiveMime_base64 : maldoc
 		author = "Martin Willing (https://evild3ad.com)"
 		description = "Detect MIME MSO Base64 encoded ActiveMime file"
 		date = "2016-02-28"
-		filetype = "Office documents"\
+		filetype = "Office documents"
 		score = 40
 		
 	strings:
