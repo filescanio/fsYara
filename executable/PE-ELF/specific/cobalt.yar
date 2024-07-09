@@ -2960,6 +2960,7 @@ rule CobaltStrike_Resources_Command_Ps1_v2_5_to_v3_7_and_Resources_Compress_Ps1_
 		author = "gssincla@google.com"
 		reference = "https://cloud.google.com/blog/products/identity-security/making-cobalt-strike-harder-for-threat-actors-to-abuse"
 		date = "2022-11-18"
+		score = 75
 
 		id = "c0b81deb-ed20-5f7e-8e15-e6a9e9362594"
   	score = 80
