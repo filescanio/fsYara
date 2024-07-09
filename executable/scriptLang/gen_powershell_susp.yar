@@ -142,6 +142,7 @@ rule Susp_PowerShell_Sep17_1 {
 rule Susp_PowerShell_Sep17_2 {
    meta:
       description = "Detects suspicious PowerShell script in combo with VBS or JS "
+      score = 40
       license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
       author = "Florian Roth (Nextron Systems)"
       reference = "Internal Research"
