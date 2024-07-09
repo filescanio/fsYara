@@ -6,6 +6,7 @@ rule wineggdrop : portscanner toolkit
         author = "Christian Rebischke (@sh1bumi)"
         date = "2015-09-05"
         description = "Rules for TCP Portscanner VX.X by WinEggDrop"
+        score = 75
         in_the_wild = true
         family = "Hackingtool/Portscanner"
 
