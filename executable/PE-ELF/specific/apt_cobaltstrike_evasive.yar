@@ -1,4 +1,5 @@
 //source: https://github.com/Neo23x0/signature-base/blob/e2471126858160b1c64e146d3e5756367fbf3a88/yara/apt_cobaltstrike_evasive.yar
+
 rule CobaltStrike_C2_Host_Indicator {
 	meta:
 		description = "Detects CobaltStrike C2 host artifacts"
@@ -18,6 +19,7 @@ rule CobaltStrike_Sleep_Decoder_Indicator {
 	meta:
 		description = "Detects CobaltStrike sleep_mask decoder"
 		author = "yara@s3c.za.net"
+		score = 75 
 		date = "2021-07-19"
 		id = "d5b53d68-55f9-5837-9b0c-e7be2f3bd072"
 	strings:
