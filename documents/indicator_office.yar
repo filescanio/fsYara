@@ -69,12 +69,12 @@ rule INDICATOR_RTF_EXPLOIT_CVE_2017_0199_1 {
     condition:
         uint32(0) == 0x74725c7b and 1 of ($urlmoniker*) and 1 of ($ole*) and 1 of ($obj*)
 }
-/*
+
 rule INDICATOR_RTF_EXPLOIT_CVE_2017_11882_1 {
     meta:
         description = "Detects RTF documents potentially exploiting CVE-2017-11882"
         author = "ditekSHen"
-        score = 80
+        score = 70
 
     strings:
         // 0002CE02-0000-0000-C000-000000000046: Equation
@@ -99,7 +99,7 @@ rule INDICATOR_RTF_EXPLOIT_CVE_2017_11882_1 {
     condition:
       uint32(0) == 0x74725c7b and all of ($s*) and 1 of ($ole*) and 2 of ($obj*)
 }
-*/
+
 
 rule INDICATOR_RTF_EXPLOIT_CVE_2017_11882_2 {
     meta:
@@ -159,6 +159,7 @@ rule INDICATOR_RTF_EXPLOIT_CVE_2017_11882_4 {
     meta:
         description = "detects RTF variant documents potentially exploiting CVE-2018-0802 or CVE-2017-11882"
         author = "ditekSHen"
+        score = 70
     strings:
         // equation.3 manipulated
         // is slowing down scanning, but good detection rate
