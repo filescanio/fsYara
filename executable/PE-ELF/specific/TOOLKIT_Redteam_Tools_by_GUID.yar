@@ -1643,6 +1643,7 @@ rule HKTL_NET_GUID_StormKitty {
     meta:
         description = "Detects c# red/black-team tools via typelibguid"
         reference = "https://github.com/LimerBoy/StormKitty"
+        score = 70
         license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
         author = "Arnim Rupp (https://github.com/ruppde)"
         date = "2020-12-13"
