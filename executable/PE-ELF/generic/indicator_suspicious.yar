@@ -1744,6 +1744,7 @@ rule INDICATOR_SUSPICIOUS_EXE_VaultSchemaGUID {
     meta:
         author = "ditekSHen"
         description = "Detects executables referencing Windows vault credential objects. Observed in infostealers"
+        score = 50
     strings:
         // Windows Secure Note
         $s1 = "2F1A6504-0641-44CF-8BB5-3612D865F2E5" ascii wide
