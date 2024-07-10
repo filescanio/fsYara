@@ -573,6 +573,7 @@ rule INDICATOR_SUSPICIOUS_DisableWinDefender {
     meta:
         author = "ditekSHen"
         description = "Detects executables containing artifacts associated with disabling Widnows Defender"
+        score = 75
     strings:
         $reg1 = "SOFTWARE\\Microsoft\\Windows Defender\\Features" ascii wide nocase
         $reg2 = "SOFTWARE\\Policies\\Microsoft\\Windows Defender" ascii wide nocase
