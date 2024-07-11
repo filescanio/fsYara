@@ -27,6 +27,7 @@ rule MAL_Ransomware_Win_DARKSIDE_v1_1 {
     meta:
         author = "FireEye"
         date = "2021-03-22"
+        score = 75
         description = "Detection for early versions of DARKSIDE ransomware samples based on the encryption mode configuration values."
         hash = "1a700f845849e573ab3148daef1a3b0b"
         reference = "https://www.fireeye.com/blog/threat-research/2021/05/shining-a-light-on-darkside-ransomware-operations.html"
