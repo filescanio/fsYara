@@ -1,3 +1,5 @@
+// source: https://github.com/Yara-Rules/rules/blob/0f93570194a80d2f2032869055808b0ddcdfb360/malware/RAT_BlackShades.yar#
+
 /*
     This Yara ruleset is under the GNU-GPLv2 license (http://www.gnu.org/licenses/gpl-2.0.html) and open to any user or organization, as    long as you use it under this license.
 
@@ -125,7 +127,7 @@ rule BlackShades_25052015
         ref = "http://malwareconfig.com/stats/PoisonIvy"
         ref = "http://blog.cylance.com/a-study-in-bots-blackshades-net"
         family = "blackshades"
-
+        score = 50
     strings:
         $string1 = "bss_server"
         $string2 = "txtChat"
