@@ -18,7 +18,7 @@ rule Regin_APT_KernelDriver_Generic_A
         hash1 = "187044596bc1328efa0ed636d8aa4a5c"
         hash2 = "06665b96e293b23acc80451abb413e50"
         hash3 = "d240f06e98c8d3e647cbf4d442d79475"
-
+        score = 75
     strings:
         $m0 = { 4d 5a 90 00 03 00 00 00 04 00 00 00 ff ff 00 00 b8 } 
         $m1 = { 0e 1f ba 0e 00 b4 09 cd 21 b8 01 4c cd 21 54 68 69 73 20 70 72 6f 67 72 61 6d 20 63 61 6e 6e 6f 74 20 62 65 20 72 75 6e 20 69 6e 20 44 4f 53 20 6d 6f 64 65 2e }    
@@ -57,6 +57,7 @@ rule Regin_APT_KernelDriver_Generic_B
         hash11 = "ba7bb65634ce1e30c1e5415be3d1db1d"
         hash12 = "b505d65721bb2453d5039a389113b566"
         hash13 = "b269894f434657db2b15949641a67532"
+        score = 75
 
     strings:
         $m0 = { 4d 5a 90 00 03 00 00 00 04 00 00 00 ff ff 00 00 b8 } 
@@ -94,7 +95,7 @@ rule Regin_APT_KernelDriver_Generic_C
         date = "23.11.14"
         hash1 = "e0895336617e0b45b312383814ec6783556d7635"
         hash2 = "732298fa025ed48179a3a2555b45be96f7079712"      
-
+        score = 75
     strings:
         $m0 = { 4d 5a 90 00 03 00 00 00 04 00 00 00 ff ff 00 00 b8 }    
         $s0 = "KeGetCurrentIrql" fullword ascii
