@@ -6584,7 +6584,7 @@ rule WEBSHELL_In_Image
         hash = "52b918a64afc55d28cd491de451bb89c57bce424f8696d6a94ec31fb99b17c11"
         date = "2021/02/27"
         modified = "2023-04-05"
-        score = 55
+        score = 75
 
         id = "b1185b69-9b08-5925-823a-829fee6fa4cf"
     strings:
