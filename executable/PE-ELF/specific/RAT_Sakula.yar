@@ -65,6 +65,7 @@ rule sakula_v1_3: RAT
     meta:
         description = "Sakula v1.3"
         date = "2015-10-13"
+        score = 70
         author = "Airbus Defence and Space Cybersecurity CSIRT - Yoann Francou"
     strings:
         $m1 = "%d_of_%d_for_%s_on_%s"
