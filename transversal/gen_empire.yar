@@ -570,6 +570,7 @@ rule Empire_Invoke_Gen {
       hash2 = "61e5ca9c1e8759a78e2c2764169b425b673b500facaca43a26c69ff7e09f62c4"
       hash3 = "eaff29dd0da4ac258d85ecf8b042d73edb01b4db48c68bded2a8b8418dc688b5"
       id = "913f971d-e4e3-55e9-904b-82b25a4e6f0f"
+      score = 70
    strings:
       $s1 = "$Shellcode1 += 0x48" fullword ascii
       $s2 = "$PEHandle = [IntPtr]::Zero" fullword ascii
