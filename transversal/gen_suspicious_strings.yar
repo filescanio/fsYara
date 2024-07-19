@@ -41,6 +41,7 @@ rule Gen_Net_LocalGroup_Administrators_Add_Command {
       reference = "Internal Research"
       date = "2017-07-08"
       id = "9f6095fc-6d9f-5814-b407-f320191fd912"
+      score = 70
    strings:
       $x1 = /net localgroup administrators [a-zA-Z0-9]{1,16} \/add/ nocase ascii
    condition:
