@@ -80,6 +80,7 @@ rule ScanBox_Malware_Generic {
 	meta:
 		description = "Scanbox Chinese Deep Panda APT Malware http://goo.gl/MUUfjv and http://goo.gl/WXUQcP"
 		author = "Florian Roth"
+		score = 75
 		reference1 = "http://goo.gl/MUUfjv"
 		reference2 = "http://goo.gl/WXUQcP"
 		date = "2015/02/28"
