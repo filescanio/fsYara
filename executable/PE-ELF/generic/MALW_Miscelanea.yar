@@ -8,64 +8,59 @@
 
 import "pe"
 
-rule tran_duy_linh
-{
-meta:
-	author = "@patrickrolsen"
-	maltype = "Misc."
-	version = "0.2"
-	reference = "8fa804105b1e514e1998e543cd2ca4ea, 872876cfc9c1535cd2a5977568716ae1, etc." 
-	date = "01/03/2014"
-strings:
-	$doc = {D0 CF 11 E0} //DOCFILE0
-	$string1 = "Tran Duy Linh" fullword
-	$string2 = "DLC Corporation" fullword
-condition:
-    ($doc at 0) and (all of ($string*))
+rule tran_duy_linh {
+	meta:
+		author = "@patrickrolsen"
+		maltype = "Misc."
+		version = "0.2"
+		reference = "8fa804105b1e514e1998e543cd2ca4ea, 872876cfc9c1535cd2a5977568716ae1, etc." 
+		date = "01/03/2014"
+	strings:
+		$doc = {D0 CF 11 E0} //DOCFILE0
+		$string1 = "Tran Duy Linh" fullword
+		$string2 = "DLC Corporation" fullword
+	condition:
+	    ($doc at 0) and (all of ($string*))
 }
 
-rule misc_iocs
-{
-meta:
-	author = "@patrickrolsen"
-	maltype = "Misc."
-	version = "0.1"
-	reference = "N/A" 
-strings:
-	$doc = {D0 CF 11 E0} //DOCFILE0
-	$s1 = "dw20.exe"
-	$s2 = "cmd /"
-condition:
-    ($doc at 0) and (1 of ($s*))
+rule misc_iocs {
+	meta:
+		author = "@patrickrolsen"
+		maltype = "Misc."
+		version = "0.1"
+		reference = "N/A" 
+	strings:
+		$doc = {D0 CF 11 E0} //DOCFILE0
+		$s1 = "dw20.exe"
+		$s2 = "cmd /"
+	condition:
+	    ($doc at 0) and (1 of ($s*))
 }
 
-rule malicious_LNK_files
-{
-meta:
-	author = "@patrickrolsen"
-	score = 60
-strings:
-	$magic = {4C 00 00 00 01 14 02 00} // L.......
-	$s1 = "\\RECYCLER\\" wide
-	$s2 = "%temp%" wide
-	$s3 = "%systemroot%\\system32\\cmd.exe" wide
-	//$s4 = "./start" wide
-	$s5 = "svchost.exe" wide
-	$s6 = "lsass.exe" wide
-	$s7 = "csrss.exe" wide
-	$s8 = "winlogon.exe" wide
-	//$s9 = "%cd%" wide
-	//$s10 = "%appdata%" wide
-	//$s11 = "%programdata%" wide
-	//$s12 = "%localappdata%" wide
-	$s13 = ".cpl" wide
-condition:
-	($magic at 0) and any of ($s*)
+rule malicious_LNK_files {
+	meta:
+		author = "@patrickrolsen"
+		score = 60
+	strings:
+		$magic = {4C 00 00 00 01 14 02 00} // L.......
+		$s1 = "\\RECYCLER\\" wide
+		$s2 = "%temp%" wide
+		$s3 = "%systemroot%\\system32\\cmd.exe" wide
+		//$s4 = "./start" wide
+		$s5 = "svchost.exe" wide
+		$s6 = "lsass.exe" wide
+		$s7 = "csrss.exe" wide
+		$s8 = "winlogon.exe" wide
+		//$s9 = "%cd%" wide
+		//$s10 = "%appdata%" wide
+		//$s11 = "%programdata%" wide
+		//$s12 = "%localappdata%" wide
+		$s13 = ".cpl" wide
+	condition:
+		($magic at 0) and any of ($s*)
 }
 
-rule memory_pivy
-
-{
+rule memory_pivy {
    meta:
 	  author = "https://github.com/jackcr/"
    strings:
@@ -73,7 +68,6 @@ rule memory_pivy
 
    condition: 
       any of them
-
 }
 
 rule ScanBox_Malware_Generic {
@@ -202,8 +196,7 @@ rule EmiratesStatement
 }
 
 
-rule callTogether_certificate
-{
+rule callTogether_certificate {
     meta:
         Author      = "Fireeye Labs"
         Date        = "2014/11/03" 
@@ -218,8 +211,7 @@ rule callTogether_certificate
         $serial and $o
 }
 
-rule qti_certificate
-{
+rule qti_certificate {
     meta:
         Author      = "Fireeye Labs"
         Date        = "2014/11/03" 
@@ -234,8 +226,7 @@ rule qti_certificate
         $cn and $serial
 }
 
-rule DownExecute_A
-{
+rule DownExecute_A {
 	meta:
         Author      = "PwC Cyber Threat Operations :: @tlansec"
         Date        = "2015/04/27"
@@ -316,17 +307,16 @@ rule Base64_encoded_Executable {
 	condition:
 		1 of them
 }
-rule CredStealESY : For CredStealer
-{
- meta:
-description = "Generic Rule to detect the CredStealer Malware"
-author = "IsecG – McAfee Labs"
-date = "2015/05/08"
-strings:
-$my_hex_string = "CurrentControlSet\\Control\\Keyboard Layouts\\" wide //malware trying to get keyboard layout
-$my_hex_string2 = {89 45 E8 3B 7D E8 7C 0F 8B 45 E8 05 FF 00 00 00 2B C7 89 45 E8} //specific decryption module
- condition:
-$my_hex_string and $my_hex_string2
+rule CredStealESY : For CredStealer {
+	 meta:
+		description = "Generic Rule to detect the CredStealer Malware"
+		author = "IsecG – McAfee Labs"
+		date = "2015/05/08"
+		strings:
+		$my_hex_string = "CurrentControlSet\\Control\\Keyboard Layouts\\" wide //malware trying to get keyboard layout
+		$my_hex_string2 = {89 45 E8 3B 7D E8 7C 0F 8B 45 E8 05 FF 00 00 00 2B C7 89 45 E8} //specific decryption module
+	 condition:
+		$my_hex_string and $my_hex_string2
 }
 
 
