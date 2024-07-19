@@ -9,6 +9,7 @@ rule nefilim_ransomware {
       description = "Rule to detect Nefilim ransomware"
       author = "Marc Rivero | McAfee ATR Team"
       date = "2020-03-17"
+      score = 75
       last_update = "2020-04-03"
       rule_version = "v1"
       malware_type = "ransomware"
