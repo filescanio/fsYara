@@ -1784,7 +1784,7 @@ private rule Windows_Trojan_CobaltStrike_1787eef5
 ////////////////////////////////////////////////////////
 
 
-private rule HKTL_CobaltStrike_SleepMask_Jul22
+rule HKTL_CobaltStrike_SleepMask_Jul22
 {
 	meta:
 		description = "Detects static bytes in Cobalt Strike 4.5 sleep mask function that are not obfuscated"
