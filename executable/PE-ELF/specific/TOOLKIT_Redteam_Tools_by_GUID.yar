@@ -1096,6 +1096,7 @@ rule HKTL_NET_GUID_SafetyKatz {
 rule HKTL_NET_GUID_Dropless_Malware {
     meta:
         description = "Detects c# red/black-team tools via typelibguid"
+        score = 75
         reference = "https://github.com/NYAN-x-CAT/Dropless-Malware"
         license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
         author = "Arnim Rupp (https://github.com/ruppde)"
