@@ -69,6 +69,7 @@ rule CrowdStrike_CSA_240838_01 : daolpu stealer
         last_modified = "2024-07-22"
         malware_family = "Daolpu"
         score = 75
+	reference = "https://www.crowdstrike.com/blog/fake-recovery-manual-used-to-deliver-unidentified-stealer/"
     strings:
         $ = "C:\\Windows\\Temp\\result.txt"
         $ = "D:\\c++\\Mal_Cookie_x64\\x64\\Release\\mscorsvc.pdb"
