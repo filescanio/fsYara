@@ -149,6 +149,7 @@ rule Cobaltbaltstrike_RAW_Payload_TCP_Reverse_x86
   meta:
     author = "Avast Threat Intel Team"
     description = "Detects CobaltStrike payloads"
+    score = 75
     reference = "https://github.com/avast/ioc"
     id = "ac824189-614d-5bff-9bbb-a4244cace563"
   strings:
@@ -667,6 +668,7 @@ rule Cobaltbaltstrike_Beacon_x86
   meta:
     author = "Avast Threat Intel Team"
     description = "Detects CobaltStrike payloads"
+    score = 75
     reference = "https://github.com/avast/ioc"
     id = "6ffaafe6-2758-53e4-b5b8-6d8350baf428"
   strings:
