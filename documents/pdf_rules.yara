@@ -439,7 +439,7 @@ rule BlackHole_v2 : PDF raw
 		author = "Glenn Edwards (@hiddenillusion)"
 		version = "0.1"
 		ref = "http://fortknoxnetworks.blogspot.no/2012/10/blackhhole-exploit-kit-v-20-url-pattern.html"
-		weight = 3
+		weight = 5
 		
 	strings:
 		$magic = { 25 50 44 46 }
