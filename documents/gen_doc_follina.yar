@@ -102,7 +102,7 @@ rule SUSP_Doc_RTF_OLE2Link_Jun22 {
       date = "2022-06-01"
       reference = "Internal Research"
       hash = "4abc20e5130b59639e20bd6b8ad759af18eb284f46e99a5cc6b4f16f09456a68"
-      score = 75
+      score = 60
       id = "e9c83d58-6214-51d5-882a-4bd2ed6acc9a"
    strings:
       $sa = "\\objdata" ascii nocase

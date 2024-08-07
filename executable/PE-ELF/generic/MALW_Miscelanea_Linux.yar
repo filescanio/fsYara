@@ -32,6 +32,7 @@ rule LinuxBillGates
        Date        = "2014/08/11"
        Description = "Strings inside"
        Reference   = "http://www.kernelmode.info/forum/viewtopic.php?f=16&t=3429"
+       score = 60
 
     strings:
         $a= "12CUpdateGates"

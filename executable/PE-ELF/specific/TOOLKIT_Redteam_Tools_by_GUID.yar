@@ -4623,6 +4623,7 @@ rule HKTL_NET_GUID_DInvoke {
         date = "2021-01-21"
         modified = "2023-04-06"
         id = "f3b0ef47-a92c-5c5d-a9e2-09579fcb438e"
+        score = 75
     strings:
         $typelibguid0lo = "b77fdab5-207c-4cdb-b1aa-348505c54229" ascii wide
         $typelibguid0up = "B77FDAB5-207C-4CDB-B1AA-348505C54229" ascii wide

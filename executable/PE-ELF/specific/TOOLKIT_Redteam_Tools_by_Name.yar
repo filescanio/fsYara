@@ -173,6 +173,7 @@ rule HKTL_NET_NAME_DotNetInject {
         reference = "https://github.com/dtrizna/DotNetInject"
         author = "Arnim Rupp"
         date = "2021-01-22"
+
     strings:
         $name = "DotNetInject" ascii wide
         $compile = "AssemblyTitle" ascii wide

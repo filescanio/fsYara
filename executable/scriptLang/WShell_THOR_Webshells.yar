@@ -4363,7 +4363,7 @@ rule telnet_cgi {
 		$s2 = "print \"Set-Cookie: SAVEDPWD=;\\n\"; # remove password cookie"
 		$s3 = "$Prompt = $WinNT ? \"$CurrentDir> \" : \"[admin\\@$ServerName $C"
 	condition:
-		1 of them
+		2 of them
 }
 rule ironshell_php {
 	meta:

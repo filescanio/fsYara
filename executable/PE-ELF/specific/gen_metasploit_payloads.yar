@@ -86,6 +86,7 @@ rule Msfpayloads_msf_3 {
       date = "2017-02-09"
       hash1 = "335cfb85e11e7fb20cddc87e743b9e777dc4ab4e18a39c2a2da1aa61efdbd054"
       id = "ad09167f-a12a-5f07-940b-df679fa8e6c0"
+      score = 80
    strings:
       $s1 = "[DllImport(\"kernel32.dll\")] public static extern int WaitForSingleObject(" ascii
       $s2 = "public enum MemoryProtection { ExecuteReadWrite = 0x40 }" fullword ascii

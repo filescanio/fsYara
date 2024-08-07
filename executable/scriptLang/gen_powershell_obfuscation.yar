@@ -71,7 +71,7 @@ rule SUSP_OBFUSC_PowerShell_True_Jun20_1 {
       author = "Florian Roth (Nextron Systems)"
       reference = "https://github.com/corneacristian/mimikatz-bypass/"
       date = "2020-06-27"
-      score = 75
+      score = 60
       id = "e9bb870b-ad72-57d3-beff-2f84a81490eb"
    strings:
       $ = "${t`rue}" ascii nocase

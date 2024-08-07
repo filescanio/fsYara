@@ -1133,6 +1133,7 @@ rule INDICATOR_SUSPICIOUS_EXE_B64_Artifacts {
     meta:
         author = "ditekSHen"
         description = "Detects executables embedding bas64-encoded APIs, command lines, registry keys, etc."
+        score = 60
     strings:
         $s1 = "U09GVFdBUkVcTWljcm9zb2Z0XFdpbmRvd3NcQ3VycmVudFZlcnNpb25cUnVuXA" ascii wide
         $s2 = "L2Mgc2NodGFza3MgL2" ascii wide
@@ -1297,6 +1298,7 @@ rule INDICATOR_SUSPICIOUS_EXE_RegKeyComb_IExecuteCommandCOM {
     meta:
         author = "ditekSHen"
         description = "Detects executables embedding command execution via IExecuteCommand COM object"
+        score = 60
     strings:
         $r1 = "Classes\\Folder\\shell\\open\\command" ascii wide nocase
         $k1 = "DelegateExecute" ascii wide

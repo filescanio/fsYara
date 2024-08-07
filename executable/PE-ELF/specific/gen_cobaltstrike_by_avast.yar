@@ -258,6 +258,7 @@ rule Cobaltbaltstrike_RAW_Payload_http_stager_x64
     description = "Detects CobaltStrike payloads"
     reference = "https://github.com/avast/ioc"
     id = "7eeeb2a1-4903-5649-ae30-fd43367ab468"
+    score = 75
   strings:
     // x64 default eop
     $h01 = { FC 48 83 E4 F0 E8 C8 00 00 00 41 51 41 50 52 51 56 48 31 D2 65 48 8B 52 }
