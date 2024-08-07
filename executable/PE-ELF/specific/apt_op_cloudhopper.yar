@@ -120,6 +120,7 @@ rule OpCloudHopper_Malware_5 {
       author = "Florian Roth (Nextron Systems)"
       reference = "https://www.pwc.co.uk/issues/cyber-security-data-privacy/insights/operation-cloud-hopper.html"
       date = "2017-04-03"
+      score = 70
       hash1 = "beb1bc03bb0fba7b0624f8b2330226f8a7da6344afd68c5bc526f9d43838ef01"
       id = "1ad189f8-a4c2-5f56-beec-a55bd516ad8d"
    strings:

@@ -59,6 +59,7 @@ rule misc_pos
 meta:
 	author = "@patrickrolsen"
 	reference = "POS Malware"
+	score = 40
 strings:
 	$s1 = "KAPTOXA"
 	$s2 = "cmd /c net start %s"

@@ -223,6 +223,7 @@ rule Msfpayloads_msf_cmd {
       author = "Florian Roth (Nextron Systems)"
       reference = "Internal Research"
       date = "2017-02-09"
+      score = 60
       hash1 = "9f41932afc9b6b4938ee7a2559067f4df34a5c8eae73558a3959dd677cb5867f"
       id = "71d42c34-a0b0-5173-8f2f-f48a7af0e4ff"
    strings:
