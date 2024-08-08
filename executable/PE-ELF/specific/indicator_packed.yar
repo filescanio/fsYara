@@ -447,17 +447,17 @@ rule INDICATOR_EXE_Packed_SilentInstallBuilder {
         uint16(0) == 0x5a4d and 1 of them
 }
 
-rule INDICATOR_EXE_Packed_NyanXCat_CSharpLoader {
-    meta:
-        author = "ditekSHen"
-        description = "Detects .NET executables utilizing NyanX-CAT C# Loader"
-        snort2_sid = "930073-930075"
-        snort3_sid = "930026"
-    strings:
-        $s1 = { 00 50 72 6f 67 72 61 6d 00 4c 6f 61 64 65 72 00 4e 79 61 6e 00 }
-    condition:
-        uint16(0) == 0x5a4d and all of them
-}
+//rule INDICATOR_EXE_Packed_NyanXCat_CSharpLoader {
+//    meta:
+//        author = "ditekSHen"
+//        description = "Detects .NET executables utilizing NyanX-CAT C# Loader"
+//        snort2_sid = "930073-930075"
+//        snort3_sid = "930026"
+//    strings:
+//        $s1 = { 00 50 72 6f 67 72 61 6d 00 4c 6f 61 64 65 72 00 4e 79 61 6e 00 }
+//    condition:
+//        uint16(0) == 0x5a4d and all of them
+//}
 
 rule INDICATOR_EXE_Packed_Loader {
     meta:
@@ -653,15 +653,15 @@ rule INDICATOR_EXE_Packed_SimplePolyEngine {
         uint16(0) == 0x5a4d and (all of ($s*) or all of ($b*))
 }
 
-rule INDICATOR_EXE_Packed_dotNetProtector {
-    meta:
-        author = "ditekSHen"
-        description = "Detects executables packed with dotNetProtector"
-    strings:
-        $s1 = "dotNetProtector" fullword ascii
-    condition:
-        uint16(0) == 0x5a4d and all of them
-}
+//rule INDICATOR_EXE_Packed_dotNetProtector {
+//    meta:
+//        author = "ditekSHen"
+//        description = "Detects executables packed with dotNetProtector"
+//    strings:
+//        $s1 = "dotNetProtector" fullword ascii
+//    condition:
+//        uint16(0) == 0x5a4d and all of them
+//}
 
 rule INDICATOR_EXE_Packed_DotNetReactor {
     meta:
@@ -674,15 +674,15 @@ rule INDICATOR_EXE_Packed_DotNetReactor {
         uint16(0) == 0x5a4d and 1 of them
 }
 
-rule INDICATOR_EXE_Packed_Dotfuscator {
-    meta:
-        author = "ditekSHen"
-        description = "Detects executables packed with Dotfuscator"
-    strings:
-        $s1 = "DotfuscatorAttribute" fullword ascii
-    condition:
-        uint16(0) == 0x5a4d and 1 of them
-}
+//rule INDICATOR_EXE_Packed_Dotfuscator {
+//    meta:
+//        author = "ditekSHen"
+//        description = "Detects executables packed with Dotfuscator"
+//    strings:
+//        $s1 = "DotfuscatorAttribute" fullword ascii
+//    condition:
+//        uint16(0) == 0x5a4d and 1 of them
+//}
 
 rule INDICATOR_EXE_Packed_DNGuard {
     meta:

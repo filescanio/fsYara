@@ -38,16 +38,16 @@ rule Insta11Strings : Insta11 Family
         $ = "B12AE898-D056-4378-A844-6D393FE37956"
         
     condition:
-       any of them
+       3 of them
 }
 
-rule Insta11 : Family
-{
-    meta:
-        description = "Insta11"
-        author = "Seth Hardy"
-        last_modified = "2014-06-23"
-        
-    condition:
-        Insta11Code or Insta11Strings
-}
+//rule Insta11 : Family
+//{
+//    meta:
+//        description = "Insta11"
+//        author = "Seth Hardy"
+//        last_modified = "2014-06-23"
+//
+//    condition:
+//        Insta11Code or Insta11Strings
+//}

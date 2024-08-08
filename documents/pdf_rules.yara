@@ -347,6 +347,7 @@ rule JBIG2_wrong_version : PDF raw
 		ref = "http://wwwimages.adobe.com/www.adobe.com/content/dam/Adobe/en/devnet/pdf/pdfs/pdf_reference_1-7.pdf"
 		version = "0.1"
 		weight = 1
+		score = 60
 		
         strings:
                 $magic = { 25 50 44 46 }

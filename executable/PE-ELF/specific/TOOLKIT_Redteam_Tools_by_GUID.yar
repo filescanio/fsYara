@@ -856,6 +856,7 @@ rule HKTL_NET_GUID_PowerShdll {
         date = "2020-12-13"
         modified = "2023-04-06"
         id = "3f582a47-078e-525f-9d02-4ee7a455a3b2"
+        score = 60
     strings:
         $typelibguid0lo = "36ebf9aa-2f37-4f1d-a2f1-f2a45deeaf21" ascii wide
         $typelibguid0up = "36EBF9AA-2F37-4F1D-A2F1-F2A45DEEAF21" ascii wide

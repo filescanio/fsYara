@@ -197,6 +197,7 @@ rule Equation_Kaspersky_EquationDrugInstaller {
 		date = "2015/02/16"
 		hash = "61fab1b8451275c7fd580895d9c68e152ff46417"
 		id = "fa549e6e-f0d8-55ea-9ec9-c8ec53b55dec"
+		score = 75
 	strings:
 		$s0 = "\\system32\\win32k.sys" wide
 		$s1 = "ALL_FIREWALLS" fullword ascii

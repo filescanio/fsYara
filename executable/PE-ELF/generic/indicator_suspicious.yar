@@ -112,6 +112,7 @@ rule INDICATOR_SUSPICIOUS_EXE_SandboxProductID {
     meta:
         description = "Detects binaries and memory artifacts referencing sandbox product IDs"
         author = "ditekSHen"
+        score = 60
     strings:
         $id1 = "76487-337-8429955-22614" fullword ascii wide // Anubis Sandbox
         $id2 = "76487-644-3177037-23510" fullword ascii wide // CW Sandbox

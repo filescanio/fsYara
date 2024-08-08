@@ -1750,6 +1750,7 @@ rule HackTool_MSIL_SEATBELT_2
         reference = "https://www.fireeye.com/blog/products-and-services/2020/12/fireeye-shares-details-of-recent-cyber-attack-actions-to-protect-community.html"
         author = "FireEye"
         id = "225b42fe-c73a-59c0-a1f4-1d6dff6e76e1"
+        score = 60
     strings:
         $typelibguid1 = "AEC32155-D589-4150-8FE7-2900DF4554C8" ascii nocase wide
     condition:

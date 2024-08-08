@@ -4792,6 +4792,7 @@ rule multiple_php_webshells {
 		hash6 = "817671e1bdc85e04cc3440bbd9288800"
 		hash7 = "7101fe72421402029e2629f3aaed6de7"
 		hash8 = "f618f41f7ebeb5e5076986a66593afd1"
+		score = 75
 	strings:
 		$s0 = "kVycm9yOiAkIVxuIik7DQpjb25uZWN0KFNPQ0tFVCwgJHBhZGRyKSB8fCBkaWUoIkVycm9yOiAkIVxuI"
 		$s2 = "sNCiRwcm90bz1nZXRwcm90b2J5bmFtZSgndGNwJyk7DQpzb2NrZXQoU09DS0VULCBQRl9JTkVULCBTT0"

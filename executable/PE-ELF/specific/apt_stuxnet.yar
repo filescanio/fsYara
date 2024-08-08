@@ -97,6 +97,7 @@ rule Stuxnet_Malware_3 {
 		hash1 = "6bcf88251c876ef00b2f32cf97456a3e306c2a263d487b0a50216c6e3cc07c6a"
 		hash2 = "70f8789b03e38d07584f57581363afa848dd5c3a197f2483c6dfa4f3e7f78b9b"
 		id = "1b0b301a-bf29-5080-a7d6-4d5f389bdf50"
+		score = 75
 	strings:
 		$x1 = "SHELL32.DLL.ASLR." fullword wide
 

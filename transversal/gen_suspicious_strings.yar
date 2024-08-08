@@ -89,7 +89,7 @@ rule ReconCommands_in_File : FILE {
 
 rule VBS_dropper_script_Dec17_1 {
    meta:
-      description = "Detects a supicious VBS script that drops an executable"
+      description = "Detects a VBS script that drops an executable"
       license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
       author = "Florian Roth (Nextron Systems)"
       reference = "Internal Research"
