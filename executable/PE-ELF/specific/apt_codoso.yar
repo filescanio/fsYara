@@ -350,6 +350,7 @@ rule Codoso_PGV_PVID_1 {
       hash4 = "ce91ea20aa2e6af79508dd0a40ab0981f463b4d2714de55e66d228c579578266"
       hash5 = "e770a298ae819bba1c70d0c9a2e02e4680d3cdba22d558d21caaa74e3970adf1"
       id = "9487773a-01d9-558e-8866-b8a8650996ba"
+      score = 75
    strings:
       $x1 = "DRIVERS\\ipinip.sys" fullword wide
 

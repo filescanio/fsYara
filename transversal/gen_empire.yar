@@ -90,6 +90,7 @@ rule Empire_Invoke_ShellcodeMSIL {
       date = "2016-11-05"
       hash1 = "9a9c6c9eb67bde4a8ce2c0858e353e19627b17ee2a7215fa04a19010d3ef153f"
       id = "06011b51-bad7-5656-ac37-e49f9b6d0498"
+      score = 75
    strings:
       $s1 = "$FinalShellcode.Length" fullword ascii
       $s2 = "@(0x60,0xE8,0x04,0,0,0,0x61,0x31,0xC0,0xC3)" fullword ascii
@@ -321,10 +322,11 @@ rule Empire_Invoke_DllInjection {
       date = "2016-11-05"
       hash1 = "304031aa9eca5a83bdf1f654285d86df79cb3bba4aa8fe1eb680bd5b2878ebf0"
       id = "6aa14e8f-9801-5cd3-beb0-955e19d25503"
+      score = 75
    strings:
       $s1 = "-Dll evil.dll" fullword ascii
    condition:
-      ( uint16(0) == 0x7566 and filesize < 40KB and 1 of them ) or all of them
+      uint16(0) == 0x7566 and filesize < 40KB and 1 of them
 }
 
 rule Empire_KeePassConfig {

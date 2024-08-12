@@ -54,6 +54,7 @@ rule HKTL_NET_GUID_LimeUSB_Csharp {
         date = "2020-12-13"
         modified = "2023-04-06"
         id = "dfa96b36-e84c-510b-b16b-bd686777b83d"
+        score = 60
     strings:
         $typelibguid0lo = "94ea43ab-7878-4048-a64e-2b21b3b4366d" ascii wide
         $typelibguid0up = "94EA43AB-7878-4048-A64E-2B21B3B4366D" ascii wide

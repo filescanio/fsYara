@@ -44,6 +44,7 @@ rule suspicious_creation : PDF raw
 		author = "Glenn Edwards (@hiddenillusion)"
 		version = "0.1"
 		weight = 2
+		score = 60
 		
 	strings:
 		$magic = { 25 50 44 46 }
