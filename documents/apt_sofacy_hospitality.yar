@@ -1,7 +1,5 @@
 // source: https://github.com/Neo23x0/signature-base/blob/master/yara/apt_sofacy_hospitality.yar
 
-import "pe"
-
 rule APT28_HospitalityMalware_document {
    meta:
       description = "Yara Rule for APT28_Hospitality_Malware document identification"
@@ -21,7 +19,6 @@ rule APT28_HospitalityMalware_document {
 
 
 // pe category
-
 //rule APT28_HospitalityMalware_mvtband_file {
 //   meta:
 //      description = "Yara Rule for mvtband.dll malware"
