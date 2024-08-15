@@ -62,6 +62,7 @@ rule SocGholish_JS_22_02_2022 {
         hash = "d08a2350df5abbd8fd530cff8339373e"
     
         id = "68d2dbb7-0079-527a-92c7-450c3dd953b3"
+        score = 60
     strings:
         $s1 = "encodeURIComponent(''+" ascii
         $s2 = "['open']('POST'," ascii 
