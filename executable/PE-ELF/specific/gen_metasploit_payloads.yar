@@ -166,6 +166,7 @@ rule Msfpayloads_msf_6 {
       date = "2017-02-09"
       hash1 = "8d6f55c6715c4a2023087c3d0d7abfa21e31a629393e4dc179d31bb25b166b3f"
       id = "5485102b-e709-5111-814a-e6878b4bd889"
+      score = 50
    strings:
       $s1 = "= CreateObject(\"Wscript.Shell\")" fullword ascii
       $s2 = "= CreateObject(\"Scripting.FileSystemObject\")" fullword ascii
