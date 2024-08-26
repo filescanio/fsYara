@@ -222,6 +222,7 @@ rule INDICATOR_RTF_EXPLOIT_CVE_2017_8759_2 {
     meta:
         description = "detects CVE-2017-8759 weaponized RTF documents."
         author = "ditekSHen"
+        score = 80
     strings:
         // Msxml2.SAXXMLReader.
         // 88D96A0C-F192-11D4-A65F-0040963251E5: Msxml2.SAXXMLReader.6

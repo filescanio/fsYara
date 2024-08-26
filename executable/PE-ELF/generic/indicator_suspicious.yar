@@ -983,6 +983,7 @@ rule INDICATOR_SUSPICIOUS_EXE_SandboxUserNames {
     meta:
         author = "ditekSHen"
         description = "Detects executables containing possible sandbox analysis VM usernames"
+        score = 60
     strings:
         $s1 = "15pb" fullword ascii wide nocase
         $s2 = "7man2" fullword ascii wide nocase

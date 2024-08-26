@@ -18,6 +18,7 @@ rule Backdoor_Redosdru_Jun17 : HIGHVOL {
       date = "2017-06-04"
       hash1 = "4f49e17b457ef202ab0be905691ef2b2d2b0a086a7caddd1e70dd45e5ed3b309"
       id = "ea038142-6903-5d08-ac89-70c1bbef716c"
+      score = 90
    strings:
       $x1 = "%s\\%d.gho" fullword ascii
       $x2 = "%s\\nt%s.dll" fullword ascii

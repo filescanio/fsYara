@@ -8,7 +8,7 @@ rule Ping_Command_in_EXE {
       author = "Florian Roth (Nextron Systems)"
       reference = "Internal Research"
       date = "2016-11-03"
-      score = 60
+      score = 40
       id = "937ab622-fbcf-5a31-a3ff-af2584484140"
    strings:
       $x1 = "cmd /c ping 127.0.0.1 -n " ascii
