@@ -8,7 +8,7 @@
 
 import "pe"
 
-rule tran_duy_linh {
+/*rule tran_duy_linh {
 	meta:
 		author = "@patrickrolsen"
 		maltype = "Misc."
@@ -21,7 +21,7 @@ rule tran_duy_linh {
 		$string2 = "DLC Corporation" fullword
 	condition:
 	    ($doc at 0) and (all of ($string*))
-}
+}*/
 
 rule misc_iocs {
 	meta:

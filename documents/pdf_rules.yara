@@ -190,7 +190,7 @@ rule shellcode_blob_metadata : PDF raw
                 $magic in (0..1024) and 1 of ($reg*)
 }
 
-rule suspicious_js : PDF raw
+/*rule suspicious_js : PDF raw
 {
 	meta:
 		author = "Glenn Edwards (@hiddenillusion)"
@@ -209,7 +209,7 @@ rule suspicious_js : PDF raw
 		
 	condition:
 		$magic in (0..1024) and all of ($attrib*) and 2 of ($js*)
-}
+}*/
 
 /* rule suspicious_launch_action : PDF raw
 {

@@ -134,6 +134,7 @@ rule INDICATOR_SUSPICIOUS_EXE_SandboxHookingDLL {
     meta:
         description = "Detects binaries and memory artifacts referencing sandbox DLLs typically observed in sandbox evasion"
         author = "ditekSHen"
+        score = 80
     strings:
         $dll1 = "sbiedll.dll" nocase fullword ascii wide 
         //$dll2 = "dbghelp.dll" nocase fullword ascii wide  
@@ -982,6 +983,7 @@ rule INDICATOR_SUSPICIOUS_EXE_SandboxUserNames {
     meta:
         author = "ditekSHen"
         description = "Detects executables containing possible sandbox analysis VM usernames"
+        score = 60
     strings:
         $s1 = "15pb" fullword ascii wide nocase
         $s2 = "7man2" fullword ascii wide nocase

@@ -84,6 +84,7 @@ rule ZxShell_Jul17 {
       date = "2017-07-08"
       hash1 = "5d2a4cde9fa7c2fdbf39b2e2ffd23378d0c50701a3095d1e91e3cf922d7b0b16"
       id = "1b009b20-5a19-5cac-aaaf-ca61310eab9f"
+      score = 80
    strings:
       $x1 = "zxplug -add" fullword ascii
       $x2 = "getxxx c:\\xyz.dll" fullword ascii

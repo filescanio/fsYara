@@ -337,6 +337,7 @@ rule hacktool_multi_masscan
         description = "masscan is a performant port scanner, it produces results similar to nmap"
         reference = "https://github.com/robertdavidgraham/masscan"
         author = "@mimeframe"
+        score = 90
     strings:
         $a1 = "EHLO masscan" fullword wide ascii
         $a2 = "User-Agent: masscan/" wide ascii

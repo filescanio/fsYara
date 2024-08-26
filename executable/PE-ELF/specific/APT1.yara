@@ -362,6 +362,7 @@ rule STARSYPOUND_APT1 {
     meta:
         author = "AlienVault Labs"
         info = "CommentCrew-threat-apt1"
+        score = 60
 
         strings:
                 $s1 = "*(SY)# cmd" wide ascii

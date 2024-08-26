@@ -69,7 +69,7 @@ rule Anthem_DeepPanda_htran_exe
         author = "Florian Roth"
         date = "2015/02/08"
         hash = "38e21f0b87b3052b536408fdf59185f8b3d210b9"
-
+        score = 100
     strings:
         $s0 = "%s -<listen|tran|slave> <option> [-log logfile]" fullword ascii
         $s1 = "[-] Gethostbyname(%s) error:%s" fullword ascii

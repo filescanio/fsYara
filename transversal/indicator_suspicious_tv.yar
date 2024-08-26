@@ -5,6 +5,7 @@ rule INDICATOR_SUSPICIOUS_IMG_Embedded_Archive {
     meta:
         description = "Detects images embedding archives. Observed in TheRat RAT."
         author = "ditekSHen"
+        score = 60
     strings:
         $sevenzip1 = { 37 7a bc af 27 1c 00 04 } // 7ZIP, regardless of password-protection
         $sevenzip2 = { 37 e4 53 96 c9 db d6 07 } // 7ZIP zisofs compression format    
@@ -28,6 +29,7 @@ rule INDICATOR_SUSPICIOUS_NTLM_Exfiltration_IPPattern {
     meta:
         author = "ditekSHen"
         description = "Detects NTLM hashes exfiltration patterns in command line and various file types"
+        score = 60
     strings:
         // Example (CMD): net use \\1.2.3.4@80\t
         $s1 = /net\suse\s\\\\([0-9]{1,3}\.){3}[0-9]{1,3}@(80|443|445)/ ascii wide
@@ -95,6 +97,7 @@ rule INDICATOR_SUSPICIOUS_JS_Hex_B64Encoded_EXE {
     meta:
         author = "ditekSHen"
         description = "Detects JavaScript files hex and base64 encoded executables"
+        score = 60
     strings:
         $s1 = ".SaveToFile" ascii
         $s2 = ".Run" ascii
@@ -107,28 +110,28 @@ rule INDICATOR_SUSPICIOUS_JS_Hex_B64Encoded_EXE {
         $binary and $pattern and 2 of ($s*) and filesize < 2500KB
 }
 
-rule INDICATOR_SUSPICIOUS_JS_LocalPersistence {
-    meta:
-        author = "ditekSHen"
-        description = "Detects JavaScript files used for persistence and executable or script execution"
-    strings:
-        $s1 = "ActiveXObject" ascii
-        $s2 = "Shell.Application" ascii
-        $s3 = "ShellExecute" ascii
-
-        $ext1 = ".exe" ascii
-        $ext2 = ".ps1" ascii
-        $ext3 = ".lnk" ascii
-        $ext4 = ".hta" ascii
-        $ext5 = ".dll" ascii
-        $ext6 = ".vb" ascii
-        $ext7 = ".com" ascii
-        $ext8 = ".js" ascii
-
-        $action = "\"Open\"" ascii
-    condition:
-       $action and 2 of ($s*) and 1 of ($ext*) and filesize < 500KB
-}
+// rule INDICATOR_SUSPICIOUS_JS_LocalPersistence {
+//     meta:
+//         author = "ditekSHen"
+//         description = "Detects JavaScript files used for persistence and executable or script execution"
+//     strings:
+//         $s1 = "ActiveXObject" ascii
+//         $s2 = "Shell.Application" ascii
+//         $s3 = "ShellExecute" ascii
+// 
+//         $ext1 = ".exe" ascii
+//         $ext2 = ".ps1" ascii
+//         $ext3 = ".lnk" ascii
+//         $ext4 = ".hta" ascii
+//         $ext5 = ".dll" ascii
+//         $ext6 = ".vb" ascii
+//         $ext7 = ".com" ascii
+//         $ext8 = ".js" ascii
+// 
+//         $action = "\"Open\"" ascii
+//     condition:
+//        $action and 2 of ($s*) and 1 of ($ext*) and filesize < 500KB
+// }
 
 
 rule INDICATOR_SUSPICIOUS_AMSI_Bypass {

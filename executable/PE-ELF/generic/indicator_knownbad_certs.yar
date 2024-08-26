@@ -4549,13 +4549,13 @@ rule INDICATOR_KB_CERT_010000000001302693cb45 {
         )
 }
 
-/*
 rule INDICATOR_KB_CERT_0407abb64e9990180789eacb81f5f914 {
     meta:
         author = "ditekSHen"
         description = "Detects executables signed with stolen, revoked or invalid certificates"
         thumbprint = "bcb40c7d23c9db41766c780b5388fb70f3d570bf"
         hash = "f1fdac82e4e4da91ba2a9d8122a5f27e11a8342308b18376b189d2cc7468557b"
+        score = 60
     condition:
         uint16(0) == 0x5a4d and
         for any i in (0..pe.number_of_signatures): (
@@ -4563,7 +4563,6 @@ rule INDICATOR_KB_CERT_0407abb64e9990180789eacb81f5f914 {
             pe.signatures[i].serial == "04:07:ab:b6:4e:99:90:18:07:89:ea:cb:81:f5:f9:14"
         )
 }
-*/
 
 rule INDICATOR_KB_CERT_3f8d23c136ae9cbeeac7605b24ec0391 {
     meta:
@@ -6050,6 +6049,7 @@ rule INDICATOR_KB_CERT_02fa994d660de659ee9037ecb437d766 {
         description = "Detects executables signed with stolen, revoked or invalid certificates"
         thumbprint = "0cb6bde041b58dbd4ec64bd5a3be38c50f17bb3d"
         hash = "0868a2a7b5e276d3a4a40cdef994de934d33d62a689d7207a31fd57d012ef948"
+        score = 100
     condition:
         uint16(0) == 0x5a4d and
         for any i in (0..pe.number_of_signatures): (

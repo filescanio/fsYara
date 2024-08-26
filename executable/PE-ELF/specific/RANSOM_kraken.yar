@@ -14,6 +14,7 @@ rule kraken_cryptor_ransomware_loader {
       actor_group = "Unknown"
       reference = "https://www.mcafee.com/blogs/other-blogs/mcafee-labs/fallout-exploit-kit-releases-the-kraken-ransomware-on-its-victims/"
       hash = "564154a2e3647318ca40a5ffa68d06b1bd40b606cae1d15985e3d15097b512cd"
+      score = 90
 
    strings:
 
