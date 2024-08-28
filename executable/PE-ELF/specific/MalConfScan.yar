@@ -175,21 +175,21 @@ rule Ursnif {
 //          condition: ($v4a and $v4b) or $v5a or $v5b
 //}
 
-// Renamed due to a name clash with fsSmokeLoader.yar
-rule SmokeLoader__ {
-          meta:
-            description = "detect SmokeLoader in memory"
-            author = "JPCERT/CC Incident Response Group"
-            rule_usage = "memory scan"
-            reference = "https://www.cert.pl/en/news/single/dissecting-smoke-loader/"
-
-          strings:
-            $a1 = { B8 25 30 38 58 }
-            $b1 = { 81 3D ?? ?? ?? ?? 25 00 41 00 }
-            $c1 = { C7 ?? ?? ?? 25 73 25 73 }
-
-          condition: $a1 and $b1 and $c1
-}
+// same as malware_SmokeLoader in mwtrends/fsSmokeLoader.yar
+//rule SmokeLoader__ {
+//          meta:
+//            description = "detect SmokeLoader in memory"
+//            author = "JPCERT/CC Incident Response Group"
+//            rule_usage = "memory scan"
+//            reference = "https://www.cert.pl/en/news/single/dissecting-smoke-loader/"
+//
+//          strings:
+//            $a1 = { B8 25 30 38 58 }
+//            $b1 = { 81 3D ?? ?? ?? ?? 25 00 41 00 }
+//            $c1 = { C7 ?? ?? ?? 25 73 25 73 }
+//
+//          condition: $a1 and $b1 and $c1
+//}
 
 rule Datper {
           meta:
@@ -446,19 +446,20 @@ rule Noderat {
           condition: all of them
 }
 
-rule Njrat2 {
-          meta:
-            description = "detect njRAT in memory"
-            author = "JPCERT/CC Incident Response Group"
-            rule_usage = "memory scan"
-            hash1 = "d5f63213ce11798879520b0e9b0d1b68d55f7727758ec8c120e370699a41379d"
-
-          strings:
-            $reg = "SEE_MASK_NOZONECHECKS" wide fullword
-            $msg = "Execute ERROR" wide fullword
-            $ping = "cmd.exe /c ping 0 -n 2 & del" wide fullword
-          condition: all of them
-}
+// same as malware_Njrat_strings in mwtrends/fsnjRAT.yar
+//rule Njrat2 {
+//          meta:
+//            description = "detect njRAT in memory"
+//            author = "JPCERT/CC Incident Response Group"
+//            rule_usage = "memory scan"
+//            hash1 = "d5f63213ce11798879520b0e9b0d1b68d55f7727758ec8c120e370699a41379d"
+//
+//          strings:
+//            $reg = "SEE_MASK_NOZONECHECKS" wide fullword
+//            $msg = "Execute ERROR" wide fullword
+//            $ping = "cmd.exe /c ping 0 -n 2 & del" wide fullword
+//          condition: all of them
+//}
 
 rule Trickbot {
           meta:
@@ -481,21 +482,21 @@ rule Trickbot {
           condition: all of ($tagm*) or all of ($tagc*) or all of ($tagi*) or all of ($tags*) or all of ($tagl*)
 }
 
-// Renamed due to a collision with fsRemcos
-rule Remcos__ {
-          meta:
-            description = "detect Remcos in memory"
-            author = "JPCERT/CC Incident Response Group"
-            rule_usage = "memory scan"
-            hash1 = "7d5efb7e8b8947e5fe1fa12843a2faa0ebdfd7137582e5925a0b9c6a9350b0a5"
-            vetted_family = "Remcos"
-
-          strings:
-            $remcos = "Remcos" ascii fullword
-            $url = "Breaking-Security.Net" ascii fullword
-            $resource = "SETTINGS" wide fullword
-          condition:  all of them
-}
+// same as Remcos_2 in mwtrends/fsRemcos.yar
+//rule Remcos__ {
+//          meta:
+//            description = "detect Remcos in memory"
+//            author = "JPCERT/CC Incident Response Group"
+//            rule_usage = "memory scan"
+//            hash1 = "7d5efb7e8b8947e5fe1fa12843a2faa0ebdfd7137582e5925a0b9c6a9350b0a5"
+//            vetted_family = "Remcos"
+//
+//          strings:
+//            $remcos = "Remcos" ascii fullword
+//            $url = "Breaking-Security.Net" ascii fullword
+//            $resource = "SETTINGS" wide fullword
+//          condition:  all of them
+//}
 
 rule Quasar {
           meta:

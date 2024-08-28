@@ -1187,18 +1187,19 @@ rule webshell_asp_1d {
 	condition:
 		all of them
 }
-rule webshell_jsp_IXRbE {
-	meta:
-		description = "Web Shell - file IXRbE.jsp"
-		author = "Florian Roth"
-		date = "2014/01/28"
-		score = 70
-		hash = "e26e7e0ebc6e7662e1123452a939e2cd"
-	strings:
-		$s0 = "<%if(request.getParameter(\"f\")!=null)(new java.io.FileOutputStream(application"
-	condition:
-		all of them
-}
+// same as webshell_jsp_inback3
+//rule webshell_jsp_IXRbE {
+//	meta:
+//		description = "Web Shell - file IXRbE.jsp"
+//		author = "Florian Roth"
+//		date = "2014/01/28"
+//		score = 70
+//		hash = "e26e7e0ebc6e7662e1123452a939e2cd"
+//	strings:
+//		$s0 = "<%if(request.getParameter(\"f\")!=null)(new java.io.FileOutputStream(application"
+//	condition:
+//		all of them
+//}
 rule webshell_PHP_G5 {
 	meta:
 		description = "Web Shell - file G5.php"
@@ -1354,18 +1355,19 @@ rule webshell_PHPJackal_v1_5 {
 	condition:
 		all of them
 }
-rule webshell_customize {
-	meta:
-		description = "Web Shell - file customize.jsp"
-		author = "Florian Roth"
-		date = "2014/01/28"
-		score = 70
-		hash = "d55578eccad090f30f5d735b8ec530b1"
-	strings:
-		$s4 = "String cs = request.getParameter(\"z0\")==null?\"gbk\": request.getParameter(\"z"
-	condition:
-		all of them
-}
+// same as webshell_jsp_jdbc
+//rule webshell_customize {
+//	meta:
+//		description = "Web Shell - file customize.jsp"
+//		author = "Florian Roth"
+//		date = "2014/01/28"
+//		score = 70
+//		hash = "d55578eccad090f30f5d735b8ec530b1"
+//	strings:
+//		$s4 = "String cs = request.getParameter(\"z0\")==null?\"gbk\": request.getParameter(\"z"
+//	condition:
+//		all of them
+//}
 rule webshell_s72_Shell_v1_1_Coding {
 	meta:
 		description = "Web Shell - file s72 Shell v1.1 Coding.php"
@@ -1460,18 +1462,19 @@ rule webshell_r57_1_4_0 {
 	condition:
 		all of them
 }
-rule webshell_jsp_hsxa1 {
-	meta:
-		description = "Web Shell - file hsxa1.jsp"
-		author = "Florian Roth"
-		date = "2014/01/28"
-		score = 70
-		hash = "5686d5a38c6f5b8c55095af95c2b0244"
-	strings:
-		$s0 = "<%@ page language=\"java\" pageEncoding=\"gbk\"%><jsp:directive.page import=\"ja"
-	condition:
-		all of them
-}
+// same as webshell_jsp_hsxa
+//rule webshell_jsp_hsxa1 {
+//	meta:
+//		description = "Web Shell - file hsxa1.jsp"
+//		author = "Florian Roth"
+//		date = "2014/01/28"
+//		score = 70
+//		hash = "5686d5a38c6f5b8c55095af95c2b0244"
+//	strings:
+//		$s0 = "<%@ page language=\"java\" pageEncoding=\"gbk\"%><jsp:directive.page import=\"ja"
+//	condition:
+//		all of them
+//}
 rule webshell_asp_ajn {
 	meta:
 		description = "Web Shell - file ajn.asp"
@@ -3959,16 +3962,17 @@ rule s72_Shell_v1_1_Coding_html {
 	condition:
 		1 of them
 }
-rule hidshell_php_php {
-	meta:
-		description = "Semi-Auto-generated  - file hidshell.php.php.txt"
-		author = "Neo23x0 Yara BRG + customization by Stefan -dfate- Molls"
-		hash = "c2f3327d60884561970c63ffa09439a4"
-	strings:
-		$s0 = "<?$d='G7mHWQ9vvXiL/QX2oZ2VTDpo6g3FYAa6X+8DMIzcD0eHZaBZH7jFpZzUz7XNenxSYvBP2Wy36U"
-	condition:
-		all of them
-}
+// same as WebShell_hiddens_shell_v1
+//rule hidshell_php_php {
+//	meta:
+//		description = "Semi-Auto-generated  - file hidshell.php.php.txt"
+//		author = "Neo23x0 Yara BRG + customization by Stefan -dfate- Molls"
+//		hash = "c2f3327d60884561970c63ffa09439a4"
+//	strings:
+//		$s0 = "<?$d='G7mHWQ9vvXiL/QX2oZ2VTDpo6g3FYAa6X+8DMIzcD0eHZaBZH7jFpZzUz7XNenxSYvBP2Wy36U"
+//	condition:
+//		all of them
+//}
 rule kacak_asp {
 	meta:
 		description = "Semi-Auto-generated  - file kacak.asp.txt"
@@ -7932,17 +7936,18 @@ rule icyfox007v1_10_rar_Folder_asp {
 	condition:
 		all of them
 }
-rule FSO_s_EFSO_2_2 {
-	meta:
-		description = "Webshells Auto-generated - file EFSO_2.asp"
-		author = "Yara Bulk Rule Generator by Florian Roth"
-		hash = "a341270f9ebd01320a7490c12cb2e64c"
-	strings:
-		$s0 = ";!+/DRknD7+.\\mDrC(V+kcJznndm\\f|nzKuJb'r@!&0KUY@*Jb@#@&Xl\"dKVcJ\\CslU,),@!0KxD~mKV"
-		$s4 = "\\co!VV2CDtSJ'E*#@#@&mKx/DP14lM/nY{JC81N+6LtbL3^hUWa;M/OE-AXX\"b~/fAs!u&9|J\\grKp\"j"
-	condition:
-		all of them
-}
+// same as FSO_s_EFSO_2
+//rule FSO_s_EFSO_2_2 {
+//	meta:
+//		description = "Webshells Auto-generated - file EFSO_2.asp"
+//		author = "Yara Bulk Rule Generator by Florian Roth"
+//		hash = "a341270f9ebd01320a7490c12cb2e64c"
+//	strings:
+//		$s0 = ";!+/DRknD7+.\\mDrC(V+kcJznndm\\f|nzKuJb'r@!&0KUY@*Jb@#@&Xl\"dKVcJ\\CslU,),@!0KxD~mKV"
+//		$s4 = "\\co!VV2CDtSJ'E*#@#@&mKx/DP14lM/nY{JC81N+6LtbL3^hUWa;M/OE-AXX\"b~/fAs!u&9|J\\grKp\"j"
+//	condition:
+//		all of them
+//}
 rule byshell063_ntboot_2 {
 	meta:
 		description = "Webshells Auto-generated - file ntboot.dll"
