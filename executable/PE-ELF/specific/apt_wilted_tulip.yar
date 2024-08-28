@@ -55,6 +55,7 @@ rule WiltedTulip_powershell {
       date = "2017-07-23"
       hash1 = "e5ee1f45cbfdb54b02180e158c3c1f080d89bce6a7d1fe99dd0ff09d47a36787"
       id = "b6246508-a6ff-5a02-a0de-9cde139f0acc"
+      score = 80
    strings:
       $x1 = "powershell.exe -nop -w hidden -c if([IntPtr]::Size -eq 4){$b='powershell.exe'}else{$b=$env:windir+" ascii
    condition:
@@ -98,6 +99,7 @@ rule WiltedTulip_Windows_UM_Task {
       date = "2017-07-23"
       hash1 = "4c2fc21a4aab7686877ddd35d74a917f6156e48117920d45a3d2f21fb74fedd3"
       id = "d827584e-8298-56e4-8466-90950d1f286e"
+      score = 75
    strings:
       $r1 = "<Command>C:\\Windows\\syswow64\\rundll32.exe</Command>" fullword wide
       $p1 = "<Arguments>\"C:\\Users\\public\\" wide

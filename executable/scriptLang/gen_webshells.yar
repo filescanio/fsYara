@@ -3358,111 +3358,111 @@ rule WEBSHELL_ASP_OBFUSC
         and not any of ( $m_fp* )
 }
 
-rule WEBSHELL_ASP_Generic_Eval_On_Input
-{
-    meta:
-        description = "Generic ASP webshell which uses any eval/exec function directly on user input"
-        license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
-        author = "Arnim Rupp (https://github.com/ruppde)"
-        reference = "Internal Research"
-        score = 75
-        date = "2021/01/07"
-        modified = "2023-04-05"
-        hash = "d6b96d844ac395358ee38d4524105d331af42ede"
-        hash = "9be2088d5c3bfad9e8dfa2d7d7ba7834030c7407"
-        hash = "a1df4cfb978567c4d1c353e988915c25c19a0e4a"
-        hash = "069ea990d32fc980939fffdf1aed77384bf7806bc57c0a7faaff33bd1a3447f6"
-
-        id = "0904cefb-6e0f-5e5f-9986-cf83d409ce46"
-    strings:
-        $payload_and_input0 = /\beval_r\s{0,20}\(Request\(/ nocase wide ascii
-        $payload_and_input1 = /\beval[\s\(]{1,20}request[.\(\[]/ nocase wide ascii
-        $payload_and_input2 = /\bexecute[\s\(]{1,20}request\(/ nocase wide ascii
-        $payload_and_input4 = /\bExecuteGlobal\s{1,20}request\(/ nocase wide ascii
-
-        //strings from private rule capa_asp
-        $tagasp_short1 = /<%[^"]/ wide ascii
-        // also looking for %> to reduce fp (yeah, short atom but seldom since special chars)
-        $tagasp_short2 = "%>" wide ascii
-
-        // classids for scripting host etc
-        $tagasp_classid1 = "72C24DD5-D70A-438B-8A42-98424B88AFB8" nocase wide ascii
-        $tagasp_classid2 = "F935DC22-1CF0-11D0-ADB9-00C04FD58A0B" nocase wide ascii
-        $tagasp_classid3 = "093FF999-1EA0-4079-9525-9614C3504B74" nocase wide ascii
-        $tagasp_classid4 = "F935DC26-1CF0-11D0-ADB9-00C04FD58A0B" nocase wide ascii
-        $tagasp_classid5 = "0D43FE01-F093-11CF-8940-00A0C9054228" nocase wide ascii
-        $tagasp_long10 = "<%@ " wide ascii
-        // <% eval
-        $tagasp_long11 = /<% \w/ nocase wide ascii
-        $tagasp_long12 = "<%ex" nocase wide ascii
-        $tagasp_long13 = "<%ev" nocase wide ascii
-
-        // <%@ LANGUAGE = VBScript.encode%>
-        // <%@ Language = "JScript" %>
-
-        // <%@ WebHandler Language="C#" class="Handler" %>
-        // <%@ WebService Language="C#" Class="Service" %>
-
-        // <%@Page Language="Jscript"%>
-        // <%@ Page Language = Jscript %>
-        // <%@PAGE LANGUAGE=JSCRIPT%>
-        // <%@ Page Language="Jscript" validateRequest="false" %>
-        // <%@ Page Language = Jscript %>
-        // <%@ Page Language="C#" %>
-        // <%@ Page Language="VB" ContentType="text/html" validaterequest="false" AspCompat="true" Debug="true" %>
-        // <script runat="server" language="JScript">
-        // <SCRIPT RUNAT=SERVER LANGUAGE=JSCRIPT>
-        // <SCRIPT  RUNAT=SERVER  LANGUAGE=JSCRIPT>
-        // <msxsl:script language="JScript" ...
-        $tagasp_long20 = /<(%|script|msxsl:script).{0,60}language="?(vb|jscript|c#)/ nocase wide ascii
-
-        $tagasp_long32 = /<script\s{1,30}runat=/ wide ascii
-        $tagasp_long33 = /<SCRIPT\s{1,30}RUNAT=/ wide ascii
-
-        // avoid hitting php
-        $php1 = "<?php"
-        $php2 = "<?="
-
-        // avoid hitting jsp
-        $jsp1 = "=\"java." wide ascii
-        $jsp2 = "=\"javax." wide ascii
-        $jsp3 = "java.lang." wide ascii
-        $jsp4 = "public" fullword wide ascii
-        $jsp5 = "throws" fullword wide ascii
-        $jsp6 = "getValue" fullword wide ascii
-        $jsp7 = "getBytes" fullword wide ascii
-
-        $perl1 = "PerlScript" fullword
-
-
-    condition:
-        ( filesize < 1100KB and (
-        (
-            any of ( $tagasp_long* ) or
-            // TODO :  yara_push_private_rules.py doesn't do private rules in private rules yet
-            any of ( $tagasp_classid* ) or
-            (
-                $tagasp_short1 and
-                $tagasp_short2 in ( filesize-100..filesize )
-            ) or (
-                $tagasp_short2 and (
-                    $tagasp_short1 in ( 0..1000 ) or
-                    $tagasp_short1 in ( filesize-1000..filesize )
-                )
-            )
-        ) and not (
-            (
-                any of ( $perl* ) or
-                $php1 at 0 or
-                $php2 at 0
-            ) or (
-                ( #jsp1 + #jsp2 + #jsp3 ) > 0 and ( #jsp4 + #jsp5 + #jsp6 + #jsp7 ) > 0
-                )
-        )
-        )
-        and any of ( $payload_and_input* ) ) or
-        ( filesize < 100 and any of ( $payload_and_input* ) )
-}
+// rule WEBSHELL_ASP_Generic_Eval_On_Input
+// {
+//     meta:
+//         description = "Generic ASP webshell which uses any eval/exec function directly on user input"
+//         license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
+//         author = "Arnim Rupp (https://github.com/ruppde)"
+//         reference = "Internal Research"
+//         score = 75
+//         date = "2021/01/07"
+//         modified = "2023-04-05"
+//         hash = "d6b96d844ac395358ee38d4524105d331af42ede"
+//         hash = "9be2088d5c3bfad9e8dfa2d7d7ba7834030c7407"
+//         hash = "a1df4cfb978567c4d1c353e988915c25c19a0e4a"
+//         hash = "069ea990d32fc980939fffdf1aed77384bf7806bc57c0a7faaff33bd1a3447f6"
+// 
+//         id = "0904cefb-6e0f-5e5f-9986-cf83d409ce46"
+//     strings:
+//         $payload_and_input0 = /\beval_r\s{0,20}\(Request\(/ nocase wide ascii
+//         $payload_and_input1 = /\beval[\s\(]{1,20}request[.\(\[]/ nocase wide ascii
+//         $payload_and_input2 = /\bexecute[\s\(]{1,20}request\(/ nocase wide ascii
+//         $payload_and_input4 = /\bExecuteGlobal\s{1,20}request\(/ nocase wide ascii
+// 
+//         //strings from private rule capa_asp
+//         $tagasp_short1 = /<%[^"]/ wide ascii
+//         // also looking for %> to reduce fp (yeah, short atom but seldom since special chars)
+//         $tagasp_short2 = "%>" wide ascii
+// 
+//         // classids for scripting host etc
+//         $tagasp_classid1 = "72C24DD5-D70A-438B-8A42-98424B88AFB8" nocase wide ascii
+//         $tagasp_classid2 = "F935DC22-1CF0-11D0-ADB9-00C04FD58A0B" nocase wide ascii
+//         $tagasp_classid3 = "093FF999-1EA0-4079-9525-9614C3504B74" nocase wide ascii
+//         $tagasp_classid4 = "F935DC26-1CF0-11D0-ADB9-00C04FD58A0B" nocase wide ascii
+//         $tagasp_classid5 = "0D43FE01-F093-11CF-8940-00A0C9054228" nocase wide ascii
+//         $tagasp_long10 = "<%@ " wide ascii
+//         // <% eval
+//         $tagasp_long11 = /<% \w/ nocase wide ascii
+//         $tagasp_long12 = "<%ex" nocase wide ascii
+//         $tagasp_long13 = "<%ev" nocase wide ascii
+// 
+//         // <%@ LANGUAGE = VBScript.encode%>
+//         // <%@ Language = "JScript" %>
+// 
+//         // <%@ WebHandler Language="C#" class="Handler" %>
+//         // <%@ WebService Language="C#" Class="Service" %>
+// 
+//         // <%@Page Language="Jscript"%>
+//         // <%@ Page Language = Jscript %>
+//         // <%@PAGE LANGUAGE=JSCRIPT%>
+//         // <%@ Page Language="Jscript" validateRequest="false" %>
+//         // <%@ Page Language = Jscript %>
+//         // <%@ Page Language="C#" %>
+//         // <%@ Page Language="VB" ContentType="text/html" validaterequest="false" AspCompat="true" Debug="true" %>
+//         // <script runat="server" language="JScript">
+//         // <SCRIPT RUNAT=SERVER LANGUAGE=JSCRIPT>
+//         // <SCRIPT  RUNAT=SERVER  LANGUAGE=JSCRIPT>
+//         // <msxsl:script language="JScript" ...
+//         $tagasp_long20 = /<(%|script|msxsl:script).{0,60}language="?(vb|jscript|c#)/ nocase wide ascii
+// 
+//         $tagasp_long32 = /<script\s{1,30}runat=/ wide ascii
+//         $tagasp_long33 = /<SCRIPT\s{1,30}RUNAT=/ wide ascii
+// 
+//         // avoid hitting php
+//         $php1 = "<?php"
+//         $php2 = "<?="
+// 
+//         // avoid hitting jsp
+//         $jsp1 = "=\"java." wide ascii
+//         $jsp2 = "=\"javax." wide ascii
+//         $jsp3 = "java.lang." wide ascii
+//         $jsp4 = "public" fullword wide ascii
+//         $jsp5 = "throws" fullword wide ascii
+//         $jsp6 = "getValue" fullword wide ascii
+//         $jsp7 = "getBytes" fullword wide ascii
+// 
+//         $perl1 = "PerlScript" fullword
+// 
+// 
+//     condition:
+//         ( filesize < 1100KB and (
+//         (
+//             any of ( $tagasp_long* ) or
+//             // TODO :  yara_push_private_rules.py doesn't do private rules in private rules yet
+//             any of ( $tagasp_classid* ) or
+//             (
+//                 $tagasp_short1 and
+//                 $tagasp_short2 in ( filesize-100..filesize )
+//             ) or (
+//                 $tagasp_short2 and (
+//                     $tagasp_short1 in ( 0..1000 ) or
+//                     $tagasp_short1 in ( filesize-1000..filesize )
+//                 )
+//             )
+//         ) and not (
+//             (
+//                 any of ( $perl* ) or
+//                 $php1 at 0 or
+//                 $php2 at 0
+//             ) or (
+//                 ( #jsp1 + #jsp2 + #jsp3 ) > 0 and ( #jsp4 + #jsp5 + #jsp6 + #jsp7 ) > 0
+//                 )
+//         )
+//         )
+//         and any of ( $payload_and_input* ) ) or
+//         ( filesize < 100 and any of ( $payload_and_input* ) )
+// }
 
 rule WEBSHELL_ASP_Nano
 {
@@ -6065,84 +6065,84 @@ rule WEBSHELL_JSP_Generic_Reflection
 
 }
 
-rule WEBSHELL_JSP_Generic_Classloader
-{
-    meta:
-        description = "Generic JSP webshell which uses classloader to execute user input"
-        license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
-        author = "Arnim Rupp (https://github.com/ruppde)"
-        reference = "Internal Research"
-        score = 75
-        hash = "6b546e78cc7821b63192bb8e087c133e8702a377d17baaeb64b13f0dd61e2347"
-        date = "2021/01/07"
-        modified = "2023-04-05"
-        hash = "f3a7e28e1c38fa5d37811bdda1d6b0893ab876023d3bd696747a35c04141dcf0"
-        hash = "8ea2a25344e6094fa82dfc097bbec5f1675f6058f2b7560deb4390bcbce5a0e7"
-        hash = "b9ea1e9f91c70160ee29151aa35f23c236d220c72709b2b75123e6fa1da5c86c"
-        hash = "80211c97f5b5cd6c3ab23ae51003fd73409d273727ba502d052f6c2bd07046d6"
-        hash = "8e544a5f0c242d1f7be503e045738369405d39731fcd553a38b568e0889af1f2"
-
-        id = "037e6b24-9faf-569b-bb52-dbe671ab2e87"
-    strings:
-        $exec = "extends ClassLoader" wide ascii
-        $class = "defineClass" fullword wide ascii
-
-        //strings from private rule capa_jsp_safe
-        $cjsp_short1 = "<%" ascii wide
-        $cjsp_short2 = "%>" wide ascii
-        $cjsp_long1 = "<jsp:" ascii wide
-        $cjsp_long2 = /language=[\"']java[\"\']/ ascii wide
-        // JSF
-        $cjsp_long3 = "/jstl/core" ascii wide
-        $cjsp_long4 = "<%@p" nocase ascii wide
-        $cjsp_long5 = "<%@ " nocase ascii wide
-        $cjsp_long6 = "<% " ascii wide
-        $cjsp_long7 = "< %" ascii wide
-
-        //strings from private rule capa_jsp_input
-        // request.getParameter
-        $input1 = "getParameter" fullword ascii wide
-        // request.getHeaders
-        $input2 = "getHeaders" fullword ascii wide
-        $input3 = "getInputStream" fullword ascii wide
-        $input4 = "getReader" fullword ascii wide
-        $req1 = "request" fullword ascii wide
-        $req2 = "HttpServletRequest" fullword ascii wide
-        $req3 = "getRequest" fullword ascii wide
-
-    condition:
-        //any of them or
-        (
-            (
-                $cjsp_short1 at 0 or
-                    any of ( $cjsp_long* ) or
-                    $cjsp_short2 in ( filesize-100..filesize ) or
-                (
-                    $cjsp_short2 and (
-                        $cjsp_short1 in ( 0..1000 ) or
-                        $cjsp_short1 in ( filesize-1000..filesize )
-                    )
-                )
-            )
-            and (
-                any of ( $input* ) and
-                any of ( $req* )
-            )
-            and $exec and $class
-        ) and
-        (
-            filesize < 10KB or
-            (
-                filesize < 50KB and
-                (
-                    // filled with same characters
-                    math.entropy(500, filesize-500) <= 1 or
-                    // filled with random garbage
-                    math.entropy(500, filesize-500) >= 7.7
-                )
-            )
-        )
-}
+// rule WEBSHELL_JSP_Generic_Classloader
+// {
+//     meta:
+//         description = "Generic JSP webshell which uses classloader to execute user input"
+//         license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
+//         author = "Arnim Rupp (https://github.com/ruppde)"
+//         reference = "Internal Research"
+//         score = 75
+//         hash = "6b546e78cc7821b63192bb8e087c133e8702a377d17baaeb64b13f0dd61e2347"
+//         date = "2021/01/07"
+//         modified = "2023-04-05"
+//         hash = "f3a7e28e1c38fa5d37811bdda1d6b0893ab876023d3bd696747a35c04141dcf0"
+//         hash = "8ea2a25344e6094fa82dfc097bbec5f1675f6058f2b7560deb4390bcbce5a0e7"
+//         hash = "b9ea1e9f91c70160ee29151aa35f23c236d220c72709b2b75123e6fa1da5c86c"
+//         hash = "80211c97f5b5cd6c3ab23ae51003fd73409d273727ba502d052f6c2bd07046d6"
+//         hash = "8e544a5f0c242d1f7be503e045738369405d39731fcd553a38b568e0889af1f2"
+// 
+//         id = "037e6b24-9faf-569b-bb52-dbe671ab2e87"
+//     strings:
+//         $exec = "extends ClassLoader" wide ascii
+//         $class = "defineClass" fullword wide ascii
+// 
+//         //strings from private rule capa_jsp_safe
+//         $cjsp_short1 = "<%" ascii wide
+//         $cjsp_short2 = "%>" wide ascii
+//         $cjsp_long1 = "<jsp:" ascii wide
+//         $cjsp_long2 = /language=[\"']java[\"\']/ ascii wide
+//         // JSF
+//         $cjsp_long3 = "/jstl/core" ascii wide
+//         $cjsp_long4 = "<%@p" nocase ascii wide
+//         $cjsp_long5 = "<%@ " nocase ascii wide
+//         $cjsp_long6 = "<% " ascii wide
+//         $cjsp_long7 = "< %" ascii wide
+// 
+//         //strings from private rule capa_jsp_input
+//         // request.getParameter
+//         $input1 = "getParameter" fullword ascii wide
+//         // request.getHeaders
+//         $input2 = "getHeaders" fullword ascii wide
+//         $input3 = "getInputStream" fullword ascii wide
+//         $input4 = "getReader" fullword ascii wide
+//         $req1 = "request" fullword ascii wide
+//         $req2 = "HttpServletRequest" fullword ascii wide
+//         $req3 = "getRequest" fullword ascii wide
+// 
+//     condition:
+//         //any of them or
+//         (
+//             (
+//                 $cjsp_short1 at 0 or
+//                     any of ( $cjsp_long* ) or
+//                     $cjsp_short2 in ( filesize-100..filesize ) or
+//                 (
+//                     $cjsp_short2 and (
+//                         $cjsp_short1 in ( 0..1000 ) or
+//                         $cjsp_short1 in ( filesize-1000..filesize )
+//                     )
+//                 )
+//             )
+//             and (
+//                 any of ( $input* ) and
+//                 any of ( $req* )
+//             )
+//             and $exec and $class
+//         ) and
+//         (
+//             filesize < 10KB or
+//             (
+//                 filesize < 50KB and
+//                 (
+//                     // filled with same characters
+//                     math.entropy(500, filesize-500) <= 1 or
+//                     // filled with random garbage
+//                     math.entropy(500, filesize-500) >= 7.7
+//                 )
+//             )
+//         )
+// }
 
 rule WEBSHELL_JSP_Generic_Encoded_Shell
 {
@@ -6420,7 +6420,7 @@ rule WEBSHELL_Generic_OS_Strings : FILE {
     strings:
         $fp1 = "http://evil.com/" wide ascii
         $fp2 = "denormalize('/etc/shadow" wide ascii
-      $fp3 = "vim.org>"
+        $fp3 = "vim.org>"
 
         //strings from private rule capa_asp
         $tagasp_short1 = /<%[^"]/ wide ascii

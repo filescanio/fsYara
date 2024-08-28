@@ -170,6 +170,7 @@ rule Xtreme_Sep17_1 {
       date = "2017-09-27"
       hash1 = "93c89044e8850721d39e935acd3fb693de154b7580d62ed460256cabb75599a6"
       id = "7517e237-9cad-5619-9028-4c7ab5463040"
+      score = 100
    strings:
       $x1 = "ServerKeyloggerU" fullword ascii
       $x2 = "TServerKeylogger" fullword ascii

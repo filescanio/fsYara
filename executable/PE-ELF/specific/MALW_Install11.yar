@@ -8,7 +8,7 @@
 
 import "pe"
 
-rule Insta11Code : Insta11 Family 
+/*rule Insta11Code : Insta11 Family 
 {
     meta:
         description = "Insta11 code features"
@@ -21,7 +21,7 @@ rule Insta11Code : Insta11 Family
     
     condition:
         any of them
-}
+}*/
 
 rule Insta11Strings : Insta11 Family
 {

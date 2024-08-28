@@ -39,7 +39,7 @@ rule LinuxBillGates
         $b= "11CUpdateBill"
 
     condition:
-        $a and $b
+        uint16(0) == 0x457f and $a and $b
 }
 
 rule LinuxElknot
@@ -55,7 +55,7 @@ rule LinuxElknot
 	$b = "ZN13CThreadAttack5StartEP11CCmdMessage"
 
     condition:
-	all of them
+		uint16(0) == 0x457f and all of them
 }
 
 rule LinuxMrBlack
@@ -70,7 +70,7 @@ rule LinuxMrBlack
         $a = "Mr.Black"
 	$b = "VERS0NEX:%s|%d|%d|%s"
     condition:
-        $a and $b
+        uint16(0) == 0x457f and $a and $b
 }
 
 rule LinuxTsunami
@@ -87,7 +87,7 @@ rule LinuxTsunami
         $b = "NOTICE %s :TSUNAMI <target> <secs>"
         $c = "NOTICE %s :I'm having a problem resolving my host, someone will have to SPOOFS me manually."
     condition:
-        $a or $b or $c
+        uint16(0) == 0x457f and $a or $b or $c
 }
 
 rule rootkit
@@ -131,7 +131,7 @@ rule rootkit
 		$sys33 = "list_del_init" nocase ascii wide
 		$sys34 = "inet_ioctl" nocase ascii wide
 	condition:
-		9 of them
+		uint16(0) == 0x457f and 9 of them
 }
 
 rule exploit
@@ -155,6 +155,6 @@ rule exploit
 		$xpl13 = "ptmx_fops" nocase ascii wide
 		$xpl14 = "node_states" nocase ascii wide
 	condition:
-		7 of them
+		uint16(0) == 0x457f and 7 of them
 }
 

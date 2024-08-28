@@ -204,7 +204,7 @@ rule MAL_EXE_RoyalRansomware {
 		version = "1.0"
 		hash = "a8384c9e3689eb72fa737b570dbb53b2c3d103c62d46747a96e1e1becf14dfea"
 		DaysofYARA = "3/100"
-
+		score = 100
 		id = "f83316f7-b8c4-5907-a38e-80535215e7ef"
 	strings:
 		$x_ext = ".royal_" wide

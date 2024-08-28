@@ -530,6 +530,7 @@ rule Empire_PowerShell_Framework_Gen4 {
       hash8 = "61e5ca9c1e8759a78e2c2764169b425b673b500facaca43a26c69ff7e09f62c4"
       hash9 = "eaff29dd0da4ac258d85ecf8b042d73edb01b4db48c68bded2a8b8418dc688b5"
       hash10 = "fa75cfd57269fbe3ad6bdc545ee57eb19335b0048629c93f1dc1fe1059f60438"
+      score = 90
       id = "c390638a-0eb1-576d-a08c-203c31d414f3"
    strings:
       $s1 = "Where-Object { $_.GlobalAssemblyCache -And $_.Location.Split('\\\\')[-1].Equals('System.dll') }" fullword ascii
@@ -570,6 +571,7 @@ rule Empire_Invoke_Gen {
       hash2 = "61e5ca9c1e8759a78e2c2764169b425b673b500facaca43a26c69ff7e09f62c4"
       hash3 = "eaff29dd0da4ac258d85ecf8b042d73edb01b4db48c68bded2a8b8418dc688b5"
       id = "913f971d-e4e3-55e9-904b-82b25a4e6f0f"
+      score = 70
    strings:
       $s1 = "$Shellcode1 += 0x48" fullword ascii
       $s2 = "$PEHandle = [IntPtr]::Zero" fullword ascii
