@@ -1,4 +1,4 @@
-private rule Formbook
+rule Formbook
 {
 	meta:
 		author = "kevoreilly"
@@ -10,6 +10,7 @@ private rule Formbook
 		repository = "kevoreilly/CAPEv2"
 		source_url = "https://github.com/kevoreilly/CAPEv2/blob/9c8d6da44b595f8140a5cd76edd8101f6812c3b0/data/yara/CAPE/Formbook.yar"
 		license = "Other"
+		score = 75
 
 	strings:
 		$remap_ntdll = {33 56 0? 8D 86 [2] 00 00 68 F0 00 00 00 50 89 56 ?? E8 [4] 8B [1-5] 6A 00 6A 04 8D 4D ?? 51 6A 07 52 56 E8 [4] 8B 45 ?? 83 C4 20 3B}
@@ -23,9 +24,7 @@ private rule Formbook
 		2 of them
 }
 
-////////////////////////////////////////////////////////
-
-private rule Windows_Trojan_Formbook_1112e116
+rule Windows_Trojan_Formbook_1112e116
 {
 	meta:
 		author = "Elastic Security"
@@ -44,6 +43,7 @@ private rule Windows_Trojan_Formbook_1112e116
 		ruleset = "Windows_Trojan_Formbook.yar"
 		repository = "elastic/protections-artifacts"
 		source_url = "https://github.com/elastic/protections-artifacts/blob/3bbef930abab9814b2fdb4704be075ab1daf2ea0/yara/rules/Windows_Trojan_Formbook.yar"
+		score = 75
 
 	strings:
 		$a1 = { 3C 30 50 4F 53 54 74 09 40 }
@@ -55,7 +55,7 @@ private rule Windows_Trojan_Formbook_1112e116
 		any of them
 }
 
-private rule Windows_Trojan_Formbook_772cc62d
+rule Windows_Trojan_Formbook_772cc62d
 {
 	meta:
 		author = "Elastic Security"
@@ -73,6 +73,7 @@ private rule Windows_Trojan_Formbook_772cc62d
 		ruleset = "Windows_Trojan_Formbook.yar"
 		repository = "elastic/protections-artifacts"
 		source_url = "https://github.com/elastic/protections-artifacts/blob/3bbef930abab9814b2fdb4704be075ab1daf2ea0/yara/rules/Windows_Trojan_Formbook.yar"
+		score = 75
 
 	strings:
 		$a1 = "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; Trident/7.0; rv:11.0) like Gecko"
@@ -81,10 +82,11 @@ private rule Windows_Trojan_Formbook_772cc62d
 		$r1 = /.\:\\Users\\[^\\]{1,50}\\AppData\\Roaming\\[a-zA-Z0-9]{8}\\[a-zA-Z0-9]{3}log\.ini/ wide
 
 	condition:
-		2 of ($a*) and $r1
+		2 of ($a*) and 
+		$r1
 }
 
-private rule Windows_Trojan_Formbook_5799d1f2
+rule Windows_Trojan_Formbook_5799d1f2
 {
 	meta:
 		author = "Elastic Security"
@@ -103,6 +105,7 @@ private rule Windows_Trojan_Formbook_5799d1f2
 		ruleset = "Windows_Trojan_Formbook.yar"
 		repository = "elastic/protections-artifacts"
 		source_url = "https://github.com/elastic/protections-artifacts/blob/3bbef930abab9814b2fdb4704be075ab1daf2ea0/yara/rules/Windows_Trojan_Formbook.yar"
+		score = 75
 
 	strings:
 		$a = { E9 C5 9C FF FF C3 E8 00 00 00 00 58 C3 68 }
@@ -111,9 +114,7 @@ private rule Windows_Trojan_Formbook_5799d1f2
 		all of them
 }
 
-////////////////////////////////////////////////////////
-
-private rule malware_Formbook_strings
+rule malware_Formbook_strings
 {
 	meta:
 		description = "detect Formbook in memory"
@@ -124,6 +125,7 @@ private rule malware_Formbook_strings
 		repository = "JPCERTCC/jpcert-yara"
 		source_url = "https://github.com/JPCERTCC/jpcert-yara/blob/0722a9365ec6bc969c517c623cd166743d1bc473/other/formbook.yara"
 		license = "Other"
+		score = 75
 
 	strings:
 		$sqlite3step = { 68 34 1c 7b e1 }
@@ -134,9 +136,7 @@ private rule malware_Formbook_strings
 		all of them
 }
 
-////////////////////////////////////////////////////////
-
-private rule win_formbook_auto
+rule win_formbook_auto
 {
 	meta:
 		author = "Felix Bilstein - yara-signator at cocacoding dot com"
@@ -155,6 +155,7 @@ private rule win_formbook_auto
 		ruleset = "win.formbook_auto.yar"
 		repository = "malpedia/signator-rules"
 		source_url = "https://github.com/malpedia/signator-rules/blob/fbacfc09b84d53d410385e66a8e56f25016c588a/rules/win.formbook_auto.yar"
+		score = 75
 
 	strings:
 		$sequence_0 = { 5b 5f 5e 8be5 5d c3 8d0476 }
@@ -169,12 +170,11 @@ private rule win_formbook_auto
 		$sequence_9 = { 8d8df6f7ffff 51 c745fc00000000 668985f4f7ffff e8???????? 8b7508 }
 
 	condition:
-		7 of them and filesize <371712
+		7 of them and 
+		filesize <371712
 }
 
-////////////////////////////////////////////////////////
-
-private rule Formbook_1
+rule Formbook_1
 {
 	meta:
 		author = "Felix Bilstein - yara-signator at cocacoding dot com"
@@ -191,6 +191,7 @@ private rule Formbook_1
 		ruleset = "Formbook.yar"
 		repository = "ctxis/CAPE"
 		source_url = "https://github.com/ctxis/CAPE/blob/dae9fa6a254ecdbabeb7eb0d2389fa63722c1e82/data/yara/CAPE/Formbook.yar"
+		score = 75
 
 	strings:
 		$sequence_0 = { 03c8 0f31 2bc1 8945fc }
@@ -208,9 +209,7 @@ private rule Formbook_1
 		7 of them
 }
 
-////////////////////////////////////////////////////////
-
-private rule Windows_Trojan_Formbook : FormBook_malware
+rule Windows_Trojan_Formbook : FormBook_malware
 {
 	meta:
 		author = "@malgamy12"
@@ -228,6 +227,7 @@ private rule Windows_Trojan_Formbook : FormBook_malware
 		ruleset = "formbook.yara"
 		repository = "MalGamy/YARA_Rules"
 		source_url = "https://github.com/MalGamy/YARA_Rules/blob/1f538fcd5fe6d8aeec6c8a8394a785b69872b7a7/formbook.yara"
+		score = 75
 
 	strings:
 		$a1 = { 8B 45 ?? BA ?? [3] 8B CF D3 E2 84 14 03 74 ?? 8B 4D ?? 31 0E 8B 55 ?? 31 56 ?? 8B 4D ?? 8B 55 ?? 31 4E ?? 31 56 ?? }
@@ -239,12 +239,20 @@ private rule Windows_Trojan_Formbook : FormBook_malware
 		3 of them
 }
 
-////////////////////////////////////////////////////////
-
-rule fsFormbook {
+rule fsFormbook
+{
 	meta:
 		description = "FsYARA - Malware Trends"
 		vetted_family = "formbook"
+
 	condition:
-		Formbook or Windows_Trojan_Formbook_1112e116 or Windows_Trojan_Formbook_772cc62d or Windows_Trojan_Formbook_5799d1f2 or malware_Formbook_strings or win_formbook_auto or Formbook_1 or Windows_Trojan_Formbook
+		Formbook or 
+		Windows_Trojan_Formbook_1112e116 or 
+		Windows_Trojan_Formbook_772cc62d or 
+		Windows_Trojan_Formbook_5799d1f2 or 
+		malware_Formbook_strings or 
+		win_formbook_auto or 
+		Formbook_1 or 
+		Windows_Trojan_Formbook
 }
+

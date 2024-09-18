@@ -1,4 +1,4 @@
-private rule Amadey
+rule Amadey
 {
 	meta:
 		author = "kevoreilly"
@@ -9,6 +9,7 @@ private rule Amadey
 		repository = "kevoreilly/CAPEv2"
 		source_url = "https://github.com/kevoreilly/CAPEv2/blob/9c8d6da44b595f8140a5cd76edd8101f6812c3b0/data/yara/CAPE/Amadey.yar"
 		license = "Other"
+		score = 75
 
 	strings:
 		$decode1 = {8B D1 B8 FF FF FF 7F D1 EA 2B C2 3B C8 76 07 BB FF FF FF 7F EB 08 8D 04 0A 3B D8 0F 42 D8}
@@ -16,12 +17,11 @@ private rule Amadey
 		$decode3 = {8A 04 02 88 04 0F 41 8B 7D ?? 8D 42 01 3B CB 7C}
 
 	condition:
-		uint16(0)==0x5A4D and 2 of them
+		uint16(0)==0x5A4D and 
+		2 of them
 }
 
-////////////////////////////////////////////////////////
-
-private rule Windows_Trojan_Amadey_7abb059b
+rule Windows_Trojan_Amadey_7abb059b
 {
 	meta:
 		author = "Elastic Security"
@@ -39,6 +39,7 @@ private rule Windows_Trojan_Amadey_7abb059b
 		ruleset = "Windows_Trojan_Amadey.yar"
 		repository = "elastic/protections-artifacts"
 		source_url = "https://github.com/elastic/protections-artifacts/blob/3bbef930abab9814b2fdb4704be075ab1daf2ea0/yara/rules/Windows_Trojan_Amadey.yar"
+		score = 75
 
 	strings:
 		$a = { 18 83 78 14 10 72 02 8B 00 6A 01 6A 00 6A 00 6A 00 6A 00 56 }
@@ -47,7 +48,7 @@ private rule Windows_Trojan_Amadey_7abb059b
 		all of them
 }
 
-private rule Windows_Trojan_Amadey_c4df8d4a
+rule Windows_Trojan_Amadey_c4df8d4a
 {
 	meta:
 		author = "Elastic Security"
@@ -65,6 +66,7 @@ private rule Windows_Trojan_Amadey_c4df8d4a
 		ruleset = "Windows_Trojan_Amadey.yar"
 		repository = "elastic/protections-artifacts"
 		source_url = "https://github.com/elastic/protections-artifacts/blob/3bbef930abab9814b2fdb4704be075ab1daf2ea0/yara/rules/Windows_Trojan_Amadey.yar"
+		score = 75
 
 	strings:
 		$a1 = "D:\\Mktmp\\NL1\\Release\\NL1.pdb" fullword
@@ -73,9 +75,7 @@ private rule Windows_Trojan_Amadey_c4df8d4a
 		all of them
 }
 
-////////////////////////////////////////////////////////
-
-private rule win_amadey_a9f4
+rule win_amadey_a9f4
 {
 	meta:
 		author = "Johannes Bader"
@@ -98,18 +98,19 @@ private rule win_amadey_a9f4
 		repository = "CYB3RMX/Qu1cksc0pe"
 		source_url = "https://github.com/CYB3RMX/Qu1cksc0pe/blob/8d74a4116951b46b9284102850f28f1082c17c04/Systems/Windows/YaraRules_Windows/win_amadey_a9f4.yara"
 		license = "GNU General Public License v3.0"
+		score = 75
 
 	strings:
 		$pdb = "\\Amadey\\Release\\Amadey.pdb"
 		$keys = /stoi argument out of range\x00\x00[a-f0-9]{32}\x00{1,16}[a-f0-9]{32}\x00{1,4}[a-f0-9]{6}\x00{1,4}[a-f0-9]{32}\x00/
 
 	condition:
-		uint16(0)==0x5A4D and ($pdb or $keys)
+		uint16(0)==0x5A4D and 
+		($pdb or 
+			$keys)
 }
 
-////////////////////////////////////////////////////////
-
-private rule win_amadey_auto
+rule win_amadey_auto
 {
 	meta:
 		author = "Felix Bilstein - yara-signator at cocacoding dot com"
@@ -128,6 +129,7 @@ private rule win_amadey_auto
 		ruleset = "win.amadey_auto.yar"
 		repository = "malpedia/signator-rules"
 		source_url = "https://github.com/malpedia/signator-rules/blob/fbacfc09b84d53d410385e66a8e56f25016c588a/rules/win.amadey_auto.yar"
+		score = 75
 
 	strings:
 		$sequence_0 = { ebb0 b8???????? 83c410 5b }
@@ -152,12 +154,11 @@ private rule win_amadey_auto
 		$sequence_19 = { 51 e8???????? 83c408 8b950cfdffff c78520fdffff00000000 c78524fdffff0f000000 }
 
 	condition:
-		7 of them and filesize <529408
+		7 of them and 
+		filesize <529408
 }
 
-////////////////////////////////////////////////////////
-
-private rule win_amadey_bytecodes_oct_2023
+rule win_amadey_bytecodes_oct_2023
 {
 	meta:
 		author = "Matthew @ Embee_Research"
@@ -167,6 +168,7 @@ private rule win_amadey_bytecodes_oct_2023
 		ruleset = "win_amadey_bytecodes_oct_2023.yar"
 		repository = "embee-research/Yara-detection-rules"
 		source_url = "https://github.com/embee-research/Yara-detection-rules/blob/ac56d6f6fd2a30c8cb6e5c0455d6519210a8b0f4/Rules/win_amadey_bytecodes_oct_2023.yar"
+		score = 75
 
 	strings:
 		$s1 = {8b ?? fc 83 c1 23 2b c2 83 c0 fc 83 f8 1f 77}
@@ -174,15 +176,23 @@ private rule win_amadey_bytecodes_oct_2023
 		$s3 = {8b c1 c1 f8 10 88 ?? ?? 8b c1 c1 f8 08}
 
 	condition:
-		$s1 and $s2 and $s3
+		$s1 and 
+		$s2 and 
+		$s3
 }
 
-////////////////////////////////////////////////////////
-
-rule fsAmadey {
+rule fsAmadey
+{
 	meta:
 		description = "FsYARA - Malware Trends"
 		vetted_family = "amadey"
+
 	condition:
-		Amadey or Windows_Trojan_Amadey_7abb059b or Windows_Trojan_Amadey_c4df8d4a or win_amadey_a9f4 or win_amadey_auto or win_amadey_bytecodes_oct_2023
+		Amadey or 
+		Windows_Trojan_Amadey_7abb059b or 
+		Windows_Trojan_Amadey_c4df8d4a or 
+		win_amadey_a9f4 or 
+		win_amadey_auto or 
+		win_amadey_bytecodes_oct_2023
 }
+

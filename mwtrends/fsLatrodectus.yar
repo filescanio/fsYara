@@ -1,4 +1,4 @@
-private rule Latrodectus
+rule Latrodectus
 {
 	meta:
 		author = "enzok"
@@ -9,6 +9,7 @@ private rule Latrodectus
 		repository = "kevoreilly/CAPEv2"
 		source_url = "https://github.com/kevoreilly/CAPEv2/blob/3c6d7d4f232e43db68ca2dd711f5e9d8e9e033cb/data/yara/CAPE/Latrodectus.yar"
 		license = "Other"
+		score = 75
 
 	strings:
 		$fnvhash1 = {C7 04 24 C5 9D 1C 81 48 8B 44 24 20 48 89 44 24 08}
@@ -20,9 +21,7 @@ private rule Latrodectus
 		all of them
 }
 
-////////////////////////////////////////////////////////
-
-private rule Windows_Trojan_Latrodectus_841ff697
+rule Windows_Trojan_Latrodectus_841ff697
 {
 	meta:
 		author = "Elastic Security"
@@ -40,6 +39,7 @@ private rule Windows_Trojan_Latrodectus_841ff697
 		ruleset = "Windows_Trojan_Latrodectus.yar"
 		repository = "elastic/protections-artifacts"
 		source_url = "https://github.com/elastic/protections-artifacts/blob/f98777756fcfbe5ab05a296388044a2dbb962557/yara/rules/Windows_Trojan_Latrodectus.yar"
+		score = 75
 
 	strings:
 		$Str1 = { 48 83 EC 38 C6 44 24 20 73 C6 44 24 21 63 C6 44 24 22 75 C6 44 24 23 62 C6 44 24 24 }
@@ -50,15 +50,13 @@ private rule Windows_Trojan_Latrodectus_841ff697
 		any of them
 }
 
-////////////////////////////////////////////////////////
-
-private rule latrodectus_dll_str_decrypt
+rule latrodectus_dll_str_decrypt
 {
 	meta:
 		author = "0x0d4y"
 		description = "This rule detects the Latrodectus DLL Decrypt String Algorithm."
 		date = "2024-04-30"
-		score = 90
+		score = 75
 		yarahub_reference_link = "https://0x0d4y.blog/latrodectus-technical-analysis-of-the-new-icedid/"
 		yarahub_uuid = "2b40216b-25f4-48b7-9948-fe1bcd2f9f1e"
 		yarahub_reference_md5 = "277c879bba623c8829090015437e002b"
@@ -77,12 +75,11 @@ private rule latrodectus_dll_str_decrypt
       }
 
 	condition:
-		uint16(0)==0x5a4d and $str_decrypt
+		uint16(0)==0x5a4d and 
+		$str_decrypt
 }
 
-////////////////////////////////////////////////////////
-
-private rule Latrodectus_1
+rule Latrodectus_1
 {
 	meta:
 		author = "kevoreilly"
@@ -94,20 +91,26 @@ private rule Latrodectus_1
 		repository = "kevoreilly/CAPEv2"
 		source_url = "https://github.com/kevoreilly/CAPEv2/blob/3c6d7d4f232e43db68ca2dd711f5e9d8e9e033cb/analyzer/windows/data/yara/Latrodectus.yar"
 		license = "Other"
+		score = 75
 
 	strings:
 		$export = {48 8B C4 48 89 58 08 48 89 68 10 48 89 70 18 48 89 78 20 41 56 48 83 EC 30 4C 8B 05 [4] 33 D2 C7 40 [5] 88 50 ?? 49 63 40 3C 42 8B 8C 00 88 00 00 00 85 C9 0F 84}
 
 	condition:
-		uint16(0)==0x5A4D and all of them
+		uint16(0)==0x5A4D and 
+		all of them
 }
 
-////////////////////////////////////////////////////////
-
-rule fsLatrodectus {
+rule fsLatrodectus
+{
 	meta:
 		description = "FsYARA - Malware Trends"
 		vetted_family = "latrodectus"
+
 	condition:
-		Latrodectus or Windows_Trojan_Latrodectus_841ff697 or latrodectus_dll_str_decrypt or Latrodectus_1
+		Latrodectus or 
+		Windows_Trojan_Latrodectus_841ff697 or 
+		latrodectus_dll_str_decrypt or 
+		Latrodectus_1
 }
+

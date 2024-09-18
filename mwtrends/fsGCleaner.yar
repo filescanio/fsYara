@@ -1,4 +1,4 @@
-private rule win_gcleaner_auto
+rule win_gcleaner_auto
 {
 	meta:
 		author = "Felix Bilstein - yara-signator at cocacoding dot com"
@@ -17,6 +17,7 @@ private rule win_gcleaner_auto
 		ruleset = "win.gcleaner_auto.yar"
 		repository = "malpedia/signator-rules"
 		source_url = "https://github.com/malpedia/signator-rules/blob/fbacfc09b84d53d410385e66a8e56f25016c588a/rules/win.gcleaner_auto.yar"
+		score = 75
 
 	strings:
 		$sequence_0 = { 8d8d70feffff 8d45b0 0f4345b0 51 50 }
@@ -31,12 +32,11 @@ private rule win_gcleaner_auto
 		$sequence_9 = { c645fc02 83fa10 722c 8b4dc8 42 8bc1 }
 
 	condition:
-		7 of them and filesize <540672
+		7 of them and 
+		filesize <540672
 }
 
-////////////////////////////////////////////////////////
-
-private rule win_gcleaner
+rule win_gcleaner
 {
 	meta:
 		author = "Johannes Bader @viql"
@@ -57,6 +57,7 @@ private rule win_gcleaner
 		ruleset = "gcleaner.yar"
 		repository = "conexioninversa/WOPR"
 		source_url = "https://github.com/conexioninversa/WOPR/blob/65ab547df2afe8b013933bf9fa30fc3880827987/yara/gcleaner.yar"
+		score = 75
 
 	strings:
 		$accept = "Accept: text/html, application/xml;q=0.9, application/xhtml+xml, image/png, image/jpeg, image/gif, image/x-xbitmap, */*;q=0.1"
@@ -78,12 +79,11 @@ private rule win_gcleaner
 		$mix4 = "mixazed"
 
 	condition:
-		uint16(0)==0x5A4D and 15 of them
+		uint16(0)==0x5A4D and 
+		15 of them
 }
 
-////////////////////////////////////////////////////////
-
-private rule win_gcleaner_auto_1
+rule win_gcleaner_auto_1
 {
 	meta:
 		author = "Felix Bilstein - yara-signator at cocacoding dot com"
@@ -103,6 +103,7 @@ private rule win_gcleaner_auto_1
 		ruleset = "win.gcleaner_auto.yar"
 		repository = "linuxwellness/secure_linux"
 		source_url = "https://github.com/linuxwellness/secure_linux/blob/5dc90d8ad2493a08aebf2441c8b8ae8ae49a22e8/yara_rules/win.gcleaner_auto.yar"
+		score = 75
 
 	strings:
 		$sequence_0 = { c645c800 0f1100 f30f7e45d8 660fd64010 8345e418 eb10 8d4dc8 }
@@ -117,12 +118,11 @@ private rule win_gcleaner_auto_1
 		$sequence_9 = { f30f7e45d8 660fd64010 8345e418 eb10 8d4dc8 51 }
 
 	condition:
-		7 of them and filesize <540672
+		7 of them and 
+		filesize <540672
 }
 
-////////////////////////////////////////////////////////
-
-private rule win_gcleaner_auto_2
+rule win_gcleaner_auto_2
 {
 	meta:
 		author = "Felix Bilstein - yara-signator at cocacoding dot com"
@@ -144,6 +144,7 @@ private rule win_gcleaner_auto_2
 		ruleset = "a8d4b7ab284b5bff7a29395a1e40b384f560eb8e.yar"
 		repository = "kid0604/yara-rules"
 		source_url = "https://github.com/kid0604/yara-rules/blob/c081883d8387ba2a898b84bdbefd40fa910a2b31/executable_windows/a8d4b7ab284b5bff7a29395a1e40b384f560eb8e.yar"
+		score = 75
 
 	strings:
 		$sequence_0 = { 50 6a04 8d85f0feffff 50 56 ff15???????? 85c0 }
@@ -158,15 +159,20 @@ private rule win_gcleaner_auto_2
 		$sequence_9 = { 8d4dc8 837ddc10 8b75c8 8b55d8 0f43ce 50 51 }
 
 	condition:
-		7 of them and filesize <540672
+		7 of them and 
+		filesize <540672
 }
 
-////////////////////////////////////////////////////////
-
-rule fsGCleaner {
+rule fsGCleaner
+{
 	meta:
 		description = "FsYARA - Malware Trends"
 		vetted_family = "gcleaner"
+
 	condition:
-		win_gcleaner_auto or win_gcleaner or win_gcleaner_auto_1 or win_gcleaner_auto_2
+		win_gcleaner_auto or 
+		win_gcleaner or 
+		win_gcleaner_auto_1 or 
+		win_gcleaner_auto_2
 }
+

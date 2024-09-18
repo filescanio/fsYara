@@ -1,4 +1,4 @@
-private rule RisePro
+rule RisePro
 {
 	meta:
 		author = "kevoreilly"
@@ -8,6 +8,7 @@ private rule RisePro
 		repository = "kevoreilly/CAPEv2"
 		source_url = "https://github.com/kevoreilly/CAPEv2/blob/3c6d7d4f232e43db68ca2dd711f5e9d8e9e033cb/analyzer/windows/data/yara/RisePro.yar"
 		license = "Other"
+		score = 75
 
 	strings:
 		$decode1 = {8A 06 46 84 C0 75 F9 2B F1 B8 FF FF FF 7F 8B 4D ?? 8B 51 ?? 2B C2 3B C6 72 38 83 79 ?? 10 72 02 8B 09 52 51 56 53 51 FF 75 ?? 8B CF E8}
@@ -15,12 +16,11 @@ private rule RisePro
 		$c2 = {FF 75 30 83 3D [4] 10 BA [4] B9 [4] 0F 43 15 [4] 83 3D [4] 10 0F 43 0D [4] E8 [4] A3}
 
 	condition:
-		uint16(0)==0x5A4D and any of them
+		uint16(0)==0x5A4D and 
+		any of them
 }
 
-////////////////////////////////////////////////////////
-
-private rule win_risepro_auto
+rule win_risepro_auto
 {
 	meta:
 		author = "Felix Bilstein - yara-signator at cocacoding dot com"
@@ -39,6 +39,7 @@ private rule win_risepro_auto
 		ruleset = "win.risepro_auto.yar"
 		repository = "malpedia/signator-rules"
 		source_url = "https://github.com/malpedia/signator-rules/blob/fbacfc09b84d53d410385e66a8e56f25016c588a/rules/win.risepro_auto.yar"
+		score = 75
 
 	strings:
 		$sequence_0 = { 0fb645ff 50 8b4de8 e8???????? 8b4dec 83c901 894dec }
@@ -53,13 +54,11 @@ private rule win_risepro_auto
 		$sequence_9 = { 85ff 780f 3b3d???????? 7307 }
 
 	condition:
-		7 of them and filesize <280576
+		7 of them and 
+		filesize <280576
 }
 
-////////////////////////////////////////////////////////
-
-
-private rule risepro
+rule risepro
 {
 	meta:
 		author = "c3rb3ru5d3d53c"
@@ -73,6 +72,7 @@ private rule risepro
 		repository = "c3rb3ru5d3d53c/signatures"
 		source_url = "https://github.com/c3rb3ru5d3d53c/signatures/blob/edc52b6519f00b6ed1a7fdd3b1040e87df7dbad7/signatures/malware/risepro/risepro.yara-4.0.2.yara"
 		license = "The Unlicense"
+		score = 75
 
 	strings:
 		$trait_0 = {
@@ -212,12 +212,12 @@ private rule risepro
             45 ?? 81 fa 80 00 00 00 73 06}
 
 	condition:
-		uint16(0)==0x5a4d and uint32( uint32(0x3c))==0x00004550 and 7 of them
+		uint16(0)==0x5a4d and 
+		uint32( uint32(0x3c))==0x00004550 and 
+		7 of them
 }
 
-////////////////////////////////////////////////////////
-
-private rule RisePro_1
+rule RisePro_1
 {
 	meta:
 		author = "ditekShen"
@@ -227,6 +227,7 @@ private rule RisePro_1
 		ruleset = "RisePro.yar"
 		repository = "CAPESandbox/community"
 		source_url = "https://github.com/CAPESandbox/community/blob/ed71b5eb9179e25174c1a2d0fe451e25cbf97dd1/data/yara/CAPE/RisePro.yar"
+		score = 75
 
 	strings:
 		$x1 = "t.me/riseprosupport" ascii wide nocase
@@ -254,12 +255,12 @@ private rule RisePro_1
 		$s9 = /catch (save )?(windows cred|screen|pluginscrypto|historyCC|autofill|cookies|passwords|passwords sql|autofills sql|dwnlhistory sql|discordToken|quantum|isDropped)/ fullword wide
 
 	condition:
-		uint16(0)==0x5a4d and (1 of ($x*) or 6 of ($s*))
+		uint16(0)==0x5a4d and 
+		(1 of ($x*) or 
+			6 of ($s*))
 }
 
-////////////////////////////////////////////////////////
-
-private rule win_risepro_auto_1
+rule win_risepro_auto_1
 {
 	meta:
 		author = "Felix Bilstein - yara-signator at cocacoding dot com"
@@ -279,6 +280,7 @@ private rule win_risepro_auto_1
 		ruleset = "win.risepro_auto.yar"
 		repository = "linuxwellness/secure_linux"
 		source_url = "https://github.com/linuxwellness/secure_linux/blob/5dc90d8ad2493a08aebf2441c8b8ae8ae49a22e8/yara_rules/win.risepro_auto.yar"
+		score = 75
 
 	strings:
 		$sequence_0 = { 6a22 e8???????? 8bf0 83c410 85f6 7415 ff750c }
@@ -293,12 +295,11 @@ private rule win_risepro_auto_1
 		$sequence_9 = { 51 0fb655d0 52 0fb645cf 50 }
 
 	condition:
-		7 of them and filesize <280576
+		7 of them and 
+		filesize <280576
 }
 
-////////////////////////////////////////////////////////
-
-private rule RisePro_2
+rule RisePro_2
 {
 	meta:
 		author = "ANY.RUN"
@@ -309,6 +310,7 @@ private rule RisePro_2
 		ruleset = "RisePro.yar"
 		repository = "anyrun/YARA"
 		source_url = "https://github.com/anyrun/YARA/blob/9b9ff743b22b99c96c80d57462fc416576eaa6de/RisePro.yar"
+		score = 75
 
 	strings:
 		$ = { 74 2e 6d 65 2f 52 69 73 65 50 72 6f 53 55 50 50 4f 52 54 }
@@ -317,10 +319,7 @@ private rule RisePro_2
 		any of them
 }
 
-////////////////////////////////////////////////////////
-
-
-private rule RisePro_stealer
+rule RisePro_stealer
 {
 	meta:
 		version = "1.0"
@@ -331,6 +330,7 @@ private rule RisePro_stealer
 		ruleset = "994256c7d4affb121a5c4b28414789de95e141fd.yar"
 		repository = "LeakIX/yara-repo-otx"
 		source_url = "https://github.com/LeakIX/yara-repo-otx/blob/211ad0b9355b0b1aafc850494449a2603f012a07/994256c7d4affb121a5c4b28414789de95e141fd.yar"
+		score = 75
 
 	strings:
 		$pxor = {66 0f ef 85}
@@ -338,12 +338,13 @@ private rule RisePro_stealer
 		$mov_dword_ptr2 = {c7 45}
 
 	condition:
-		uint16be(0)==0x4d5a and #mov_dword_ptr1>5000 and #mov_dword_ptr2>800 and #pxor>1000
+		uint16be(0)==0x4d5a and 
+		#mov_dword_ptr1>5000 and 
+		#mov_dword_ptr2>800 and 
+		#pxor>1000
 }
 
-////////////////////////////////////////////////////////
-
-private rule win_risepro_auto_2
+rule win_risepro_auto_2
 {
 	meta:
 		author = "Felix Bilstein - yara-signator at cocacoding dot com"
@@ -365,6 +366,7 @@ private rule win_risepro_auto_2
 		ruleset = "d7bc489ee5282e48f381c69e3a1263fe171ced3f.yar"
 		repository = "kid0604/yara-rules"
 		source_url = "https://github.com/kid0604/yara-rules/blob/c081883d8387ba2a898b84bdbefd40fa910a2b31/executable_windows/d7bc489ee5282e48f381c69e3a1263fe171ced3f.yar"
+		score = 75
 
 	strings:
 		$sequence_0 = { 8d55f8 8b4df0 e8???????? 8b45ec }
@@ -379,16 +381,24 @@ private rule win_risepro_auto_2
 		$sequence_9 = { e8???????? 50 8d4dd4 e8???????? 8d5320 }
 
 	condition:
-		7 of them and filesize <280576
+		7 of them and 
+		filesize <280576
 }
 
-////////////////////////////////////////////////////////
-
-
-rule fsRisePro {
+rule fsRisePro
+{
 	meta:
 		description = "FsYARA - Malware Trends"
 		vetted_family = "risepro"
+
 	condition:
-		RisePro or win_risepro_auto or risepro or RisePro_1 or win_risepro_auto_1 or RisePro_2 or RisePro_stealer or win_risepro_auto_2
+		RisePro or 
+		win_risepro_auto or 
+		risepro or 
+		RisePro_1 or 
+		win_risepro_auto_1 or 
+		RisePro_2 or 
+		RisePro_stealer or 
+		win_risepro_auto_2
 }
+

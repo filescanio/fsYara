@@ -1,4 +1,4 @@
-private rule QakBot5
+rule QakBot5
 {
 	meta:
 		author = "kevoreilly, enzok"
@@ -10,6 +10,7 @@ private rule QakBot5
 		repository = "kevoreilly/CAPEv2"
 		source_url = "https://github.com/kevoreilly/CAPEv2/blob/9c8d6da44b595f8140a5cd76edd8101f6812c3b0/data/yara/CAPE/QakBot.yar"
 		license = "Other"
+		score = 75
 
 	strings:
 		$loop = {8B 75 ?? 48 8B 4C [2] FF 15 [4] 48 8B 4C [2] 48 8B 01 FF 50 ?? 8B DE 48 8B 4C [2] 48 85 C9 0F 85 [4] EB 4E}
@@ -17,10 +18,11 @@ private rule QakBot5
 		$campaign = {0F B7 1D [4] B? [2] 00 00 E8 [4] 8B D3 4? 89 44 24 ?? 4? 33 C9 4? 8D 0D [4] 4? 8B C0 4? 8B F8 E8}
 
 	condition:
-		uint16(0)==0x5A4D and 2 of them
+		uint16(0)==0x5A4D and 
+		2 of them
 }
 
-private rule QakBot4
+rule QakBot4
 {
 	meta:
 		author = "kevoreilly"
@@ -30,6 +32,7 @@ private rule QakBot4
 		repository = "kevoreilly/CAPEv2"
 		source_url = "https://github.com/kevoreilly/CAPEv2/blob/9c8d6da44b595f8140a5cd76edd8101f6812c3b0/data/yara/CAPE/QakBot.yar"
 		license = "Other"
+		score = 75
 
 	strings:
 		$crypto1 = {8B 5D 08 0F B6 C2 8A 16 0F B6 1C 18 88 55 13 0F B6 D2 03 CB 03 CA 81 E1 FF 00 00 80 79 08 49 81 C9 00 FF FF FF 41}
@@ -43,12 +46,11 @@ private rule QakBot4
 		$call_decrypt = {83 7D ?? 00 56 74 0B FF 75 10 8B F3 E8 [4] 59 8B 45 0C 83 F8 28 72 19 8B 55 08 8B 37 8D 48 EC 6A 14 8D 42 14 52 E8}
 
 	condition:
-		uint16(0)==0x5A4D and any of ($*)
+		uint16(0)==0x5A4D and 
+		any of ($*)
 }
 
-////////////////////////////////////////////////////////
-
-private rule QakBot_OneNote_Loader
+rule QakBot_OneNote_Loader
 {
 	meta:
 		author = "Ankit Anubhav - ankitanubhav.info"
@@ -67,6 +69,7 @@ private rule QakBot_OneNote_Loader
 		repository = "CYB3RMX/Qu1cksc0pe"
 		source_url = "https://github.com/CYB3RMX/Qu1cksc0pe/blob/8d74a4116951b46b9284102850f28f1082c17c04/Systems/Multiple/YaraRules_Multiple/QakBot_OneNote_Loader.yara"
 		license = "GNU General Public License v3.0"
+		score = 75
 
 	strings:
 		$x = { E4 52 5C 7B 8C D8 A7 4D AE B1 53 78 D0 29 96 D3 }
@@ -83,12 +86,17 @@ private rule QakBot_OneNote_Loader
 		$i = "start /min"
 
 	condition:
-		$x and ((3 of ($a,$b,$c,$d,$e)) or (($f or $f2) and $g) or $tok1 or (#h>15 and $i))
+		$x and 
+		((3 of ($a,$b,$c,$d,$e)) or 
+			(($f or 
+					$f2) and 
+				$g) or 
+			$tok1 or 
+			(#h>15 and 
+				$i))
 }
 
-////////////////////////////////////////////////////////
-
-private rule win_qakbot_auto
+rule win_qakbot_auto
 {
 	meta:
 		author = "Felix Bilstein - yara-signator at cocacoding dot com"
@@ -107,6 +115,7 @@ private rule win_qakbot_auto
 		ruleset = "win.qakbot_auto.yar"
 		repository = "malpedia/signator-rules"
 		source_url = "https://github.com/malpedia/signator-rules/blob/fbacfc09b84d53d410385e66a8e56f25016c588a/rules/win.qakbot_auto.yar"
+		score = 75
 
 	strings:
 		$sequence_0 = { c9 c3 55 8bec 81ecc4090000 }
@@ -164,12 +173,11 @@ private rule win_qakbot_auto
 		$sequence_52 = { 8bf0 83c40c 85f6 0f84f8000000 a1???????? }
 
 	condition:
-		7 of them and filesize <4883456
+		7 of them and 
+		filesize <4883456
 }
 
-////////////////////////////////////////////////////////
-
-private rule win_qakbot_api_hashing_oct_2022
+rule win_qakbot_api_hashing_oct_2022
 {
 	meta:
 		author = "@Embee_Research"
@@ -181,6 +189,7 @@ private rule win_qakbot_api_hashing_oct_2022
 		ruleset = "win_qakbot_api_hashing_oct_2022.yar"
 		repository = "embee-research/Yara-detection-rules"
 		source_url = "https://github.com/embee-research/Yara-detection-rules/blob/ac56d6f6fd2a30c8cb6e5c0455d6519210a8b0f4/Rules/2022/win_qakbot_api_hashing_oct_2022.yar"
+		score = 75
 
 	strings:
 		$qakbot_hashing = {0f b6 04 39 33 f0 8b c6 c1 ee 04 83 e0 0f 33 34 85 ?? ?? ?? ?? 8b c6 c1 ee 04 83 e0 0f 33 34 85 ?? ?? ?? ?? 41 3b ca}
@@ -189,10 +198,7 @@ private rule win_qakbot_api_hashing_oct_2022
 		any of them
 }
 
-////////////////////////////////////////////////////////
-
-
-private rule QakBot
+rule QakBot
 {
 	meta:
 		author = "kevoreilly"
@@ -201,6 +207,7 @@ private rule QakBot
 		ruleset = "QakBot.yar"
 		repository = "ctxis/CAPE"
 		source_url = "https://github.com/ctxis/CAPE/blob/dae9fa6a254ecdbabeb7eb0d2389fa63722c1e82/data/yara/CAPE/QakBot.yar"
+		score = 75
 
 	strings:
 		$crypto = {8B 5D 08 0F B6 C2 8A 16 0F B6 1C 18 88 55 13 0F B6 D2 03 CB 03 CA 81 E1 FF 00 00 80 79 08 49 81 C9 00 FF FF FF 41}
@@ -209,12 +216,11 @@ private rule QakBot
 		$decrypt_config2 = {8B 45 08 8B 88 24 04 00 00 51 8B 55 10 83 EA 14 52 8B 45 0C 83 C0 14 50 6A 14 8B 4D 0C 51 E8 6C 08 00 00}
 
 	condition:
-		uint16(0)==0x5A4D and any of ($*)
+		uint16(0)==0x5A4D and 
+		any of ($*)
 }
 
-////////////////////////////////////////////////////////
-
-private rule malware_QakBot
+rule malware_QakBot
 {
 	meta:
 		description = "detect QakBot(a.k.a. Qbot, Quakbot, Pinkslipbot) in memory"
@@ -226,6 +232,7 @@ private rule malware_QakBot
 		repository = "JPCERTCC/jpcert-yara"
 		source_url = "https://github.com/JPCERTCC/jpcert-yara/blob/0722a9365ec6bc969c517c623cd166743d1bc473/other/qbot.yara"
 		license = "Other"
+		score = 75
 
 	strings:
 		$cryptFunc1 = { 33 D2 6A ?? 5B F7 F3 }
@@ -233,15 +240,26 @@ private rule malware_QakBot
 		$hashFunc = { 64 10 B7 1D C8 20 6E 3B AC 30 D9 26  90 41 DC 76 F4 51 6B 6B}
 
 	condition:
-		uint16(0)==0x5A4D and uint32( uint32(0x3c))==0x00004550 and $cryptFunc1 and $cryptFunc2 and $hashFunc
+		uint16(0)==0x5A4D and 
+		uint32( uint32(0x3c))==0x00004550 and 
+		$cryptFunc1 and 
+		$cryptFunc2 and 
+		$hashFunc
 }
 
-////////////////////////////////////////////////////////
-
-rule fsQakbot {
+rule fsQakbot
+{
 	meta:
 		description = "FsYARA - Malware Trends"
 		vetted_family = "qakbot"
+
 	condition:
-		QakBot5 or QakBot4 or QakBot_OneNote_Loader or win_qakbot_auto or win_qakbot_api_hashing_oct_2022 or QakBot or malware_QakBot
+		QakBot5 or 
+		QakBot4 or 
+		QakBot_OneNote_Loader or 
+		win_qakbot_auto or 
+		win_qakbot_api_hashing_oct_2022 or 
+		QakBot or 
+		malware_QakBot
 }
+

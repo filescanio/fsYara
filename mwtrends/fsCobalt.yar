@@ -1,4 +1,4 @@
-private rule Cobalt_functions
+rule Cobalt_functions
 {
 	meta:
 		author = "@j0sm1"
@@ -8,6 +8,7 @@ private rule Cobalt_functions
 		repository = "Yara-Rules/rules"
 		source_url = "https://github.com/Yara-Rules/rules/blob/0f93570194a80d2f2032869055808b0ddcdfb360/malware/APT_Cobalt.yar"
 		license = "GNU General Public License v2.0"
+		score = 75
 
 	strings:
 		$h1 = {58 A4 53 E5}
@@ -20,10 +21,7 @@ private rule Cobalt_functions
 		2 of ($h*)
 }
 
-////////////////////////////////////////////////////////
-
-
-private rule cobalt_strike_indicator : high
+rule cobalt_strike_indicator : high
 {
 	meta:
 		description = "CobaltStrike indicator"
@@ -33,6 +31,7 @@ private rule cobalt_strike_indicator : high
 		repository = "chainguard-dev/bincapz"
 		source_url = "https://github.com/chainguard-dev/bincapz/blob/641688a57cdfb271ec78be8a931e69b336513074/rules/tools/backdoor/cobalt_strike.yara"
 		license = "Apache License 2.0"
+		score = 75
 
 	strings:
 		$ref = "%s as %s\\%s: %d" ascii xor
@@ -41,9 +40,7 @@ private rule cobalt_strike_indicator : high
 		any of them
 }
 
-////////////////////////////////////////////////////////
-
-private rule CobaltStrikeBeacon
+rule CobaltStrikeBeacon
 {
 	meta:
 		author = "ditekshen, enzo & Elastic"
@@ -53,6 +50,7 @@ private rule CobaltStrikeBeacon
 		repository = "kevoreilly/CAPEv2"
 		source_url = "https://github.com/kevoreilly/CAPEv2/blob/9c8d6da44b595f8140a5cd76edd8101f6812c3b0/data/yara/CAPE/CobaltStrikeBeacon.yar"
 		license = "Other"
+		score = 75
 
 	strings:
 		$s1 = "%%IMPORT%%" fullword ascii
@@ -77,12 +75,18 @@ private rule CobaltStrikeBeacon
 		$b_x86 = {8B 46 04 8B 08 8B 50 04 83 C0 08 89 55 08 89 45 0C 85 C9 75 04 85 D2 74 23 3B CA 73 E6 8B 06 8D 3C 08 33 D2}
 
 	condition:
-		all of ($ver3*) or all of ($ver4*) or 2 of ($a*) or any of ($b*) or 5 of ($s*) or ( all of ($pwsh*) and 2 of ($s*)) or (#s9>6 and 4 of them )
+		all of ($ver3*) or 
+		all of ($ver4*) or 
+		2 of ($a*) or 
+		any of ($b*) or 
+		5 of ($s*) or 
+		( all of ($pwsh*) and 
+			2 of ($s*)) or 
+		(#s9>6 and 
+			4 of them )
 }
 
-////////////////////////////////////////////////////////
-
-private rule MALW_cobaltrike
+rule MALW_cobaltrike
 {
 	meta:
 		description = "Rule to detect CobaltStrike beacon"
@@ -121,13 +125,15 @@ private rule MALW_cobaltrike
 		$pattern_15 = { 752c 4c8d45af 488d55af 488d4d27 }
 
 	condition:
-		7 of them and filesize <696320
+		7 of them and 
+		filesize <696320
 }
 
-////////////////////////////////////////////////////////
-
-private rule cobaltstrike_beacon_raw
+rule cobaltstrike_beacon_raw
 {
+	meta:
+		score = 75
+
 	strings:
 		$s1 = "%d is an x64 process (can't inject x86 content)" fullword
 		$s2 = "Failed to impersonate logged on user %d (%u)" fullword
@@ -142,11 +148,17 @@ private rule cobaltstrike_beacon_raw
 		$b3 = "beacon.x64.dll" fullword
 
 	condition:
-		uint16(0)==0x5a4d and filesize <1000KB and ( any of ($b*) or 5 of ($s*))
+		uint16(0)==0x5a4d and 
+		filesize <1000KB and 
+		( any of ($b*) or 
+			5 of ($s*))
 }
 
-private rule cobaltstrike_beacon_b64
+rule cobaltstrike_beacon_b64
 {
+	meta:
+		score = 75
+
 	strings:
 		$s1a = "JWQgaXMgYW4geDY0IHByb2Nlc3MgKGNhbid0IGluam"
 		$s1b = "ZCBpcyBhbiB4NjQgcHJvY2VzcyAoY2FuJ3QgaW5qZW"
@@ -162,12 +174,11 @@ private rule cobaltstrike_beacon_b64
 		$s4c = "WCAoTmV3LU9iamVjdCBOZXQuV2ViY2xpZW50KS5Eb3"
 
 	condition:
-		filesize <1000KB and 5 of ($s*)
+		filesize <1000KB and 
+		5 of ($s*)
 }
 
-////////////////////////////////////////////////////////
-
-private rule CobaltStrike_Sleeve_BeaconLoader_HA_x86_o_v4_3_v4_4_v4_5_and_v4_6
+rule CobaltStrike_Sleeve_BeaconLoader_HA_x86_o_v4_3_v4_4_v4_5_and_v4_6
 {
 	meta:
 		description = "Cobalt Strike's sleeve/BeaconLoader.HA.x86.o (HeapAlloc) Versions 4.3 through at least 4.6"
@@ -179,6 +190,7 @@ private rule CobaltStrike_Sleeve_BeaconLoader_HA_x86_o_v4_3_v4_4_v4_5_and_v4_6
 		repository = "chronicle/GCTI"
 		source_url = "https://github.com/chronicle/GCTI/blob/1c5fd42b1895098527fde00c2d9757edf6b303bb/YARA/CobaltStrike/CobaltStrike__Sleeve_BeaconLoader_all.yara"
 		license = "Apache License 2.0"
+		score = 75
 
 	strings:
 		$core_sig = {
@@ -198,7 +210,7 @@ private rule CobaltStrike_Sleeve_BeaconLoader_HA_x86_o_v4_3_v4_4_v4_5_and_v4_6
 		all of them
 }
 
-private rule CobaltStrike_Sleeve_BeaconLoader_MVF_x86_o_v4_3_v4_4_v4_5_and_v4_6
+rule CobaltStrike_Sleeve_BeaconLoader_MVF_x86_o_v4_3_v4_4_v4_5_and_v4_6
 {
 	meta:
 		description = "Cobalt Strike's sleeve/BeaconLoader.MVF.x86.o (MapViewOfFile) Versions 4.3 through at least 4.6"
@@ -210,6 +222,7 @@ private rule CobaltStrike_Sleeve_BeaconLoader_MVF_x86_o_v4_3_v4_4_v4_5_and_v4_6
 		repository = "chronicle/GCTI"
 		source_url = "https://github.com/chronicle/GCTI/blob/1c5fd42b1895098527fde00c2d9757edf6b303bb/YARA/CobaltStrike/CobaltStrike__Sleeve_BeaconLoader_all.yara"
 		license = "Apache License 2.0"
+		score = 75
 
 	strings:
 		$core_sig = {
@@ -233,7 +246,7 @@ private rule CobaltStrike_Sleeve_BeaconLoader_MVF_x86_o_v4_3_v4_4_v4_5_and_v4_6
 		all of them
 }
 
-private rule CobaltStrike_Sleeve_BeaconLoader_VA_x86_o_v4_3_v4_4_v4_5_and_v4_6
+rule CobaltStrike_Sleeve_BeaconLoader_VA_x86_o_v4_3_v4_4_v4_5_and_v4_6
 {
 	meta:
 		description = "Cobalt Strike's sleeve/BeaconLoader.VA.x86.o (VirtualAlloc) Versions 4.3 through at least 4.6"
@@ -245,6 +258,7 @@ private rule CobaltStrike_Sleeve_BeaconLoader_VA_x86_o_v4_3_v4_4_v4_5_and_v4_6
 		repository = "chronicle/GCTI"
 		source_url = "https://github.com/chronicle/GCTI/blob/1c5fd42b1895098527fde00c2d9757edf6b303bb/YARA/CobaltStrike/CobaltStrike__Sleeve_BeaconLoader_all.yara"
 		license = "Apache License 2.0"
+		score = 75
 
 	strings:
 		$core_sig = {
@@ -284,7 +298,7 @@ private rule CobaltStrike_Sleeve_BeaconLoader_VA_x86_o_v4_3_v4_4_v4_5_and_v4_6
 		all of them
 }
 
-private rule CobaltStrike_Sleeve_BeaconLoader_x86_o_v4_3_v4_4_v4_5_and_v4_6
+rule CobaltStrike_Sleeve_BeaconLoader_x86_o_v4_3_v4_4_v4_5_and_v4_6
 {
 	meta:
 		description = "Cobalt Strike's sleeve/BeaconLoader.x86.o Versions 4.3 through at least 4.6"
@@ -296,6 +310,7 @@ private rule CobaltStrike_Sleeve_BeaconLoader_x86_o_v4_3_v4_4_v4_5_and_v4_6
 		repository = "chronicle/GCTI"
 		source_url = "https://github.com/chronicle/GCTI/blob/1c5fd42b1895098527fde00c2d9757edf6b303bb/YARA/CobaltStrike/CobaltStrike__Sleeve_BeaconLoader_all.yara"
 		license = "Apache License 2.0"
+		score = 75
 
 	strings:
 		$core_sig = {
@@ -332,10 +347,11 @@ private rule CobaltStrike_Sleeve_BeaconLoader_x86_o_v4_3_v4_4_v4_5_and_v4_6
     }
 
 	condition:
-		$core_sig and not $deobfuscator
+		$core_sig and 
+		not $deobfuscator
 }
 
-private rule CobaltStrike_Sleeve_BeaconLoader_HA_x64_o_v4_3_v4_4_v4_5_and_v4_6
+rule CobaltStrike_Sleeve_BeaconLoader_HA_x64_o_v4_3_v4_4_v4_5_and_v4_6
 {
 	meta:
 		description = "Cobalt Strike's sleeve/BeaconLoader.HA.x64.o (HeapAlloc) Versions 4.3 through at least 4.6"
@@ -347,6 +363,7 @@ private rule CobaltStrike_Sleeve_BeaconLoader_HA_x64_o_v4_3_v4_4_v4_5_and_v4_6
 		repository = "chronicle/GCTI"
 		source_url = "https://github.com/chronicle/GCTI/blob/1c5fd42b1895098527fde00c2d9757edf6b303bb/YARA/CobaltStrike/CobaltStrike__Sleeve_BeaconLoader_all.yara"
 		license = "Apache License 2.0"
+		score = 75
 
 	strings:
 		$core_sig = {
@@ -366,7 +383,7 @@ private rule CobaltStrike_Sleeve_BeaconLoader_HA_x64_o_v4_3_v4_4_v4_5_and_v4_6
 		all of them
 }
 
-private rule CobaltStrike_Sleeve_BeaconLoader_MVF_x64_o_v4_3_v4_4_v4_5_and_v4_6
+rule CobaltStrike_Sleeve_BeaconLoader_MVF_x64_o_v4_3_v4_4_v4_5_and_v4_6
 {
 	meta:
 		description = "Cobalt Strike's sleeve/BeaconLoader.MVF.x64.o (MapViewOfFile) Versions 4.3 through at least 4.6"
@@ -378,6 +395,7 @@ private rule CobaltStrike_Sleeve_BeaconLoader_MVF_x64_o_v4_3_v4_4_v4_5_and_v4_6
 		repository = "chronicle/GCTI"
 		source_url = "https://github.com/chronicle/GCTI/blob/1c5fd42b1895098527fde00c2d9757edf6b303bb/YARA/CobaltStrike/CobaltStrike__Sleeve_BeaconLoader_all.yara"
 		license = "Apache License 2.0"
+		score = 75
 
 	strings:
 		$core_sig = {
@@ -400,7 +418,7 @@ private rule CobaltStrike_Sleeve_BeaconLoader_MVF_x64_o_v4_3_v4_4_v4_5_and_v4_6
 		all of them
 }
 
-private rule CobaltStrike_Sleeve_BeaconLoader_VA_x64_o_v4_3_v4_4_v4_5_and_v4_6
+rule CobaltStrike_Sleeve_BeaconLoader_VA_x64_o_v4_3_v4_4_v4_5_and_v4_6
 {
 	meta:
 		description = "Cobalt Strike's sleeve/BeaconLoader.VA.x64.o (VirtualAlloc) Versions 4.3 through at least 4.6"
@@ -412,6 +430,7 @@ private rule CobaltStrike_Sleeve_BeaconLoader_VA_x64_o_v4_3_v4_4_v4_5_and_v4_6
 		repository = "chronicle/GCTI"
 		source_url = "https://github.com/chronicle/GCTI/blob/1c5fd42b1895098527fde00c2d9757edf6b303bb/YARA/CobaltStrike/CobaltStrike__Sleeve_BeaconLoader_all.yara"
 		license = "Apache License 2.0"
+		score = 75
 
 	strings:
 		$core_sig = {
@@ -450,7 +469,7 @@ private rule CobaltStrike_Sleeve_BeaconLoader_VA_x64_o_v4_3_v4_4_v4_5_and_v4_6
 		all of them
 }
 
-private rule CobaltStrike_Sleeve_BeaconLoader_x64_o_v4_3_v4_4_v4_5_and_v4_6
+rule CobaltStrike_Sleeve_BeaconLoader_x64_o_v4_3_v4_4_v4_5_and_v4_6
 {
 	meta:
 		description = "Cobalt Strike's sleeve/BeaconLoader.x64.o (Base) Versions 4.3 through at least 4.6"
@@ -462,6 +481,7 @@ private rule CobaltStrike_Sleeve_BeaconLoader_x64_o_v4_3_v4_4_v4_5_and_v4_6
 		repository = "chronicle/GCTI"
 		source_url = "https://github.com/chronicle/GCTI/blob/1c5fd42b1895098527fde00c2d9757edf6b303bb/YARA/CobaltStrike/CobaltStrike__Sleeve_BeaconLoader_all.yara"
 		license = "Apache License 2.0"
+		score = 75
 
 	strings:
 		$core_sig = {
@@ -506,12 +526,11 @@ private rule CobaltStrike_Sleeve_BeaconLoader_x64_o_v4_3_v4_4_v4_5_and_v4_6
     }
 
 	condition:
-		$core_sig and not $deobfuscator
+		$core_sig and 
+		not $deobfuscator
 }
 
-////////////////////////////////////////////////////////
-
-private rule MAL_CobaltStrike_Oct_2021_1
+rule MAL_CobaltStrike_Oct_2021_1
 {
 	meta:
 		description = "Detect Cobalt Strike implant"
@@ -526,6 +545,7 @@ private rule MAL_CobaltStrike_Oct_2021_1
 		ruleset = "MAL_CobaltStrike_Oct_2021_1.yara"
 		repository = "StrangerealIntel/DailyIOC"
 		source_url = "https://github.com/StrangerealIntel/DailyIOC/blob/a873ff1298c43705e9c67286f3014f4300dd04f7/2021-10-29/Hive/MAL_CobaltStrike_Oct_2021_1.yara"
+		score = 75
 
 	strings:
 		$s1 = { 48 83 ec 10 4c 89 14 24 4c 89 5c 24 08 4d 33 db 4c 8d 54 24 18 4c 2b d0 4d 0f 42 d3 65 4c 8b 1c 25 10 00 00 00 4d 3b d3 f2 73 17 66 41 81 e2 00 f0 4d 8d 9b 00 f0 ff ff 41 c6 03 00 4d 3b d3 f2 75 ef 4c 8b 14 24 4c 8b 5c 24 08 48 83 c4 10 f2 c3 }
@@ -534,12 +554,12 @@ private rule MAL_CobaltStrike_Oct_2021_1
 		$s4 = { 48 83 ec 48 44 89 4c 24 44 4c 89 44 24 38 48 89 54 24 30 48 89 4c 24 28 c7 44 24 24 ?? 00 00 00 48 8b 05 [3] 00 48 05 [2] 00 00 44 8b 4c 24 44 4c 8b 44 24 38 48 8b 54 24 30 48 8b 4c 24 28 ff d0 90 48 83 c4 }
 
 	condition:
-		uint16(0)==0x5A4D and filesize >20KB and 3 of ($s*)
+		uint16(0)==0x5A4D and 
+		filesize >20KB and 
+		3 of ($s*)
 }
 
-////////////////////////////////////////////////////////
-
-private rule Windows_Trojan_CobaltStrike_c851687a
+rule Windows_Trojan_CobaltStrike_c851687a
 {
 	meta:
 		author = "Elastic Security"
@@ -557,6 +577,7 @@ private rule Windows_Trojan_CobaltStrike_c851687a
 		ruleset = "Windows_Trojan_CobaltStrike.yar"
 		repository = "WKL-Sec/Malleable-CS-Profiles"
 		source_url = "https://github.com/WKL-Sec/Malleable-CS-Profiles/blob/05beb83d46bd7f62cad317d7ae4fd579609fafe5/Windows_Trojan_CobaltStrike.yar"
+		score = 75
 
 	strings:
 		$a1 = "bypassuac.dll" ascii fullword
@@ -580,10 +601,11 @@ private rule Windows_Trojan_CobaltStrike_c851687a
 		$b16 = "[+] Privileged file copy success! %S" ascii fullword
 
 	condition:
-		2 of ($a*) or 10 of ($b*)
+		2 of ($a*) or 
+		10 of ($b*)
 }
 
-private rule Windows_Trojan_CobaltStrike_0b58325e
+rule Windows_Trojan_CobaltStrike_0b58325e
 {
 	meta:
 		author = "Elastic Security"
@@ -601,6 +623,7 @@ private rule Windows_Trojan_CobaltStrike_0b58325e
 		ruleset = "Windows_Trojan_CobaltStrike.yar"
 		repository = "WKL-Sec/Malleable-CS-Profiles"
 		source_url = "https://github.com/WKL-Sec/Malleable-CS-Profiles/blob/05beb83d46bd7f62cad317d7ae4fd579609fafe5/Windows_Trojan_CobaltStrike.yar"
+		score = 75
 
 	strings:
 		$a1 = "keylogger.dll" ascii fullword
@@ -626,10 +649,11 @@ private rule Windows_Trojan_CobaltStrike_0b58325e
 		$b16 = "[clear]" ascii fullword
 
 	condition:
-		1 of ($a*) and 14 of ($b*)
+		1 of ($a*) and 
+		14 of ($b*)
 }
 
-private rule Windows_Trojan_CobaltStrike_2b8cddf8
+rule Windows_Trojan_CobaltStrike_2b8cddf8
 {
 	meta:
 		author = "Elastic Security"
@@ -647,6 +671,7 @@ private rule Windows_Trojan_CobaltStrike_2b8cddf8
 		ruleset = "Windows_Trojan_CobaltStrike.yar"
 		repository = "WKL-Sec/Malleable-CS-Profiles"
 		source_url = "https://github.com/WKL-Sec/Malleable-CS-Profiles/blob/05beb83d46bd7f62cad317d7ae4fd579609fafe5/Windows_Trojan_CobaltStrike.yar"
+		score = 75
 
 	strings:
 		$a1 = "Z:\\devcenter\\aggressor\\external\\pxlib\\bin\\dllload.x64.o" ascii fullword
@@ -669,10 +694,12 @@ private rule Windows_Trojan_CobaltStrike_2b8cddf8
 		$c8 = "__imp__KERNEL32$VirtualAllocEx" ascii fullword
 
 	condition:
-		1 of ($a*) or 5 of ($b*) or 5 of ($c*)
+		1 of ($a*) or 
+		5 of ($b*) or 
+		5 of ($c*)
 }
 
-private rule Windows_Trojan_CobaltStrike_59b44767
+rule Windows_Trojan_CobaltStrike_59b44767
 {
 	meta:
 		author = "Elastic Security"
@@ -690,6 +717,7 @@ private rule Windows_Trojan_CobaltStrike_59b44767
 		ruleset = "Windows_Trojan_CobaltStrike.yar"
 		repository = "WKL-Sec/Malleable-CS-Profiles"
 		source_url = "https://github.com/WKL-Sec/Malleable-CS-Profiles/blob/05beb83d46bd7f62cad317d7ae4fd579609fafe5/Windows_Trojan_CobaltStrike.yar"
+		score = 75
 
 	strings:
 		$a1 = "Z:\\devcenter\\aggressor\\external\\pxlib\\bin\\getsystem.x86.o" ascii fullword
@@ -703,10 +731,12 @@ private rule Windows_Trojan_CobaltStrike_59b44767
 		$c4 = "__imp_NTDLL$NtQuerySystemInformation" ascii fullword
 
 	condition:
-		1 of ($a*) or 3 of ($b*) or 3 of ($c*)
+		1 of ($a*) or 
+		3 of ($b*) or 
+		3 of ($c*)
 }
 
-private rule Windows_Trojan_CobaltStrike_7efd3c3f
+rule Windows_Trojan_CobaltStrike_7efd3c3f
 {
 	meta:
 		author = "Elastic Security"
@@ -724,6 +754,7 @@ private rule Windows_Trojan_CobaltStrike_7efd3c3f
 		ruleset = "Windows_Trojan_CobaltStrike.yar"
 		repository = "WKL-Sec/Malleable-CS-Profiles"
 		source_url = "https://github.com/WKL-Sec/Malleable-CS-Profiles/blob/05beb83d46bd7f62cad317d7ae4fd579609fafe5/Windows_Trojan_CobaltStrike.yar"
+		score = 75
 
 	strings:
 		$a1 = "hashdump.dll" ascii fullword
@@ -738,7 +769,7 @@ private rule Windows_Trojan_CobaltStrike_7efd3c3f
 		4 of ($a*)
 }
 
-private rule Windows_Trojan_CobaltStrike_6e971281
+rule Windows_Trojan_CobaltStrike_6e971281
 {
 	meta:
 		author = "Elastic Security"
@@ -756,6 +787,7 @@ private rule Windows_Trojan_CobaltStrike_6e971281
 		ruleset = "Windows_Trojan_CobaltStrike.yar"
 		repository = "WKL-Sec/Malleable-CS-Profiles"
 		source_url = "https://github.com/WKL-Sec/Malleable-CS-Profiles/blob/05beb83d46bd7f62cad317d7ae4fd579609fafe5/Windows_Trojan_CobaltStrike.yar"
+		score = 75
 
 	strings:
 		$a1 = "Z:\\devcenter\\aggressor\\external\\pxlib\\bin\\interfaces.x64.o" ascii fullword
@@ -774,10 +806,12 @@ private rule Windows_Trojan_CobaltStrike_6e971281
 		$c6 = "__imp__LoadLibraryA" ascii fullword
 
 	condition:
-		1 of ($a*) or 4 of ($b*) or 4 of ($c*)
+		1 of ($a*) or 
+		4 of ($b*) or 
+		4 of ($c*)
 }
 
-private rule Windows_Trojan_CobaltStrike_09b79efa
+rule Windows_Trojan_CobaltStrike_09b79efa
 {
 	meta:
 		author = "Elastic Security"
@@ -795,6 +829,7 @@ private rule Windows_Trojan_CobaltStrike_09b79efa
 		ruleset = "Windows_Trojan_CobaltStrike.yar"
 		repository = "WKL-Sec/Malleable-CS-Profiles"
 		source_url = "https://github.com/WKL-Sec/Malleable-CS-Profiles/blob/05beb83d46bd7f62cad317d7ae4fd579609fafe5/Windows_Trojan_CobaltStrike.yar"
+		score = 75
 
 	strings:
 		$a1 = "invokeassembly.x64.dll" ascii fullword
@@ -811,10 +846,12 @@ private rule Windows_Trojan_CobaltStrike_09b79efa
 		$c1 = { FF 57 0C 85 C0 78 40 8B 45 F8 8D 55 F4 8B 08 52 50 }
 
 	condition:
-		1 of ($a*) or 3 of ($b*) or 1 of ($c*)
+		1 of ($a*) or 
+		3 of ($b*) or 
+		1 of ($c*)
 }
 
-private rule Windows_Trojan_CobaltStrike_6e77233e
+rule Windows_Trojan_CobaltStrike_6e77233e
 {
 	meta:
 		author = "Elastic Security"
@@ -832,6 +869,7 @@ private rule Windows_Trojan_CobaltStrike_6e77233e
 		ruleset = "Windows_Trojan_CobaltStrike.yar"
 		repository = "WKL-Sec/Malleable-CS-Profiles"
 		source_url = "https://github.com/WKL-Sec/Malleable-CS-Profiles/blob/05beb83d46bd7f62cad317d7ae4fd579609fafe5/Windows_Trojan_CobaltStrike.yar"
+		score = 75
 
 	strings:
 		$a1 = "Z:\\devcenter\\aggressor\\external\\pxlib\\bin\\kerberos.x64.o" ascii fullword
@@ -854,10 +892,11 @@ private rule Windows_Trojan_CobaltStrike_6e77233e
 		$b7 = "_LsaCallKerberosPackage" ascii fullword
 
 	condition:
-		5 of ($a*) or 3 of ($b*)
+		5 of ($a*) or 
+		3 of ($b*)
 }
 
-private rule Windows_Trojan_CobaltStrike_de42495a
+rule Windows_Trojan_CobaltStrike_de42495a
 {
 	meta:
 		author = "Elastic Security"
@@ -875,6 +914,7 @@ private rule Windows_Trojan_CobaltStrike_de42495a
 		ruleset = "Windows_Trojan_CobaltStrike.yar"
 		repository = "WKL-Sec/Malleable-CS-Profiles"
 		source_url = "https://github.com/WKL-Sec/Malleable-CS-Profiles/blob/05beb83d46bd7f62cad317d7ae4fd579609fafe5/Windows_Trojan_CobaltStrike.yar"
+		score = 75
 
 	strings:
 		$a1 = "\\\\.\\pipe\\mimikatz" ascii fullword
@@ -892,10 +932,11 @@ private rule Windows_Trojan_CobaltStrike_de42495a
 		$b12 = "mimikatz_x64.compressed" wide
 
 	condition:
-		1 of ($a*) and 7 of ($b*)
+		1 of ($a*) and 
+		7 of ($b*)
 }
 
-private rule Windows_Trojan_CobaltStrike_72f68375
+rule Windows_Trojan_CobaltStrike_72f68375
 {
 	meta:
 		author = "Elastic Security"
@@ -913,6 +954,7 @@ private rule Windows_Trojan_CobaltStrike_72f68375
 		ruleset = "Windows_Trojan_CobaltStrike.yar"
 		repository = "WKL-Sec/Malleable-CS-Profiles"
 		source_url = "https://github.com/WKL-Sec/Malleable-CS-Profiles/blob/05beb83d46bd7f62cad317d7ae4fd579609fafe5/Windows_Trojan_CobaltStrike.yar"
+		score = 75
 
 	strings:
 		$a1 = "Z:\\devcenter\\aggressor\\external\\pxlib\\bin\\net_domain.x64.o" ascii fullword
@@ -925,10 +967,12 @@ private rule Windows_Trojan_CobaltStrike_72f68375
 		$c3 = "__imp__NETAPI32$DsGetDcNameA" ascii fullword
 
 	condition:
-		1 of ($a*) or 2 of ($b*) or 2 of ($c*)
+		1 of ($a*) or 
+		2 of ($b*) or 
+		2 of ($c*)
 }
 
-private rule Windows_Trojan_CobaltStrike_15f680fb
+rule Windows_Trojan_CobaltStrike_15f680fb
 {
 	meta:
 		author = "Elastic Security"
@@ -946,6 +990,7 @@ private rule Windows_Trojan_CobaltStrike_15f680fb
 		ruleset = "Windows_Trojan_CobaltStrike.yar"
 		repository = "WKL-Sec/Malleable-CS-Profiles"
 		source_url = "https://github.com/WKL-Sec/Malleable-CS-Profiles/blob/05beb83d46bd7f62cad317d7ae4fd579609fafe5/Windows_Trojan_CobaltStrike.yar"
+		score = 75
 
 	strings:
 		$a1 = "netview.x64.dll" ascii fullword
@@ -963,10 +1008,11 @@ private rule Windows_Trojan_CobaltStrike_15f680fb
 		$b10 = "Logged on users at \\\\%s:" ascii fullword
 
 	condition:
-		2 of ($a*) or 6 of ($b*)
+		2 of ($a*) or 
+		6 of ($b*)
 }
 
-private rule Windows_Trojan_CobaltStrike_5b4383ec
+rule Windows_Trojan_CobaltStrike_5b4383ec
 {
 	meta:
 		author = "Elastic Security"
@@ -984,6 +1030,7 @@ private rule Windows_Trojan_CobaltStrike_5b4383ec
 		ruleset = "Windows_Trojan_CobaltStrike.yar"
 		repository = "WKL-Sec/Malleable-CS-Profiles"
 		source_url = "https://github.com/WKL-Sec/Malleable-CS-Profiles/blob/05beb83d46bd7f62cad317d7ae4fd579609fafe5/Windows_Trojan_CobaltStrike.yar"
+		score = 75
 
 	strings:
 		$a1 = "portscan.x64.dll" ascii fullword
@@ -1001,10 +1048,11 @@ private rule Windows_Trojan_CobaltStrike_5b4383ec
 		$b10 = "PREFERENCES!12345" ascii fullword
 
 	condition:
-		2 of ($a*) or 6 of ($b*)
+		2 of ($a*) or 
+		6 of ($b*)
 }
 
-private rule Windows_Trojan_CobaltStrike_91e08059
+rule Windows_Trojan_CobaltStrike_91e08059
 {
 	meta:
 		author = "Elastic Security"
@@ -1022,6 +1070,7 @@ private rule Windows_Trojan_CobaltStrike_91e08059
 		ruleset = "Windows_Trojan_CobaltStrike.yar"
 		repository = "WKL-Sec/Malleable-CS-Profiles"
 		source_url = "https://github.com/WKL-Sec/Malleable-CS-Profiles/blob/05beb83d46bd7f62cad317d7ae4fd579609fafe5/Windows_Trojan_CobaltStrike.yar"
+		score = 75
 
 	strings:
 		$a1 = "postex.x64.dll" ascii fullword
@@ -1036,10 +1085,11 @@ private rule Windows_Trojan_CobaltStrike_91e08059
 		$b6 = "NetDomain" ascii fullword
 
 	condition:
-		2 of ($a*) or 4 of ($b*)
+		2 of ($a*) or 
+		4 of ($b*)
 }
 
-private rule Windows_Trojan_CobaltStrike_ee756db7
+rule Windows_Trojan_CobaltStrike_ee756db7
 {
 	meta:
 		author = "Elastic Security"
@@ -1057,6 +1107,7 @@ private rule Windows_Trojan_CobaltStrike_ee756db7
 		ruleset = "Windows_Trojan_CobaltStrike.yar"
 		repository = "WKL-Sec/Malleable-CS-Profiles"
 		source_url = "https://github.com/WKL-Sec/Malleable-CS-Profiles/blob/05beb83d46bd7f62cad317d7ae4fd579609fafe5/Windows_Trojan_CobaltStrike.yar"
+		score = 75
 
 	strings:
 		$a1 = "%s.4%08x%08x%08x%08x%08x.%08x%08x%08x%08x%08x%08x%08x.%08x%08x%08x%08x%08x%08x%08x.%08x%08x%08x%08x%08x%08x%08x.%x%x.%s" ascii fullword
@@ -1115,7 +1166,7 @@ private rule Windows_Trojan_CobaltStrike_ee756db7
 		6 of ($a*)
 }
 
-private rule Windows_Trojan_CobaltStrike_9c0d5561
+rule Windows_Trojan_CobaltStrike_9c0d5561
 {
 	meta:
 		author = "Elastic Security"
@@ -1133,6 +1184,7 @@ private rule Windows_Trojan_CobaltStrike_9c0d5561
 		ruleset = "Windows_Trojan_CobaltStrike.yar"
 		repository = "WKL-Sec/Malleable-CS-Profiles"
 		source_url = "https://github.com/WKL-Sec/Malleable-CS-Profiles/blob/05beb83d46bd7f62cad317d7ae4fd579609fafe5/Windows_Trojan_CobaltStrike.yar"
+		score = 75
 
 	strings:
 		$a1 = "PowerShellRunner.dll" wide fullword
@@ -1150,10 +1202,12 @@ private rule Windows_Trojan_CobaltStrike_9c0d5561
 		$c2 = "z:\\devcenter\\aggressor\\external\\PowerShellRunner\\obj\\Release\\PowerShellRunner.pdb" ascii fullword
 
 	condition:
-		(1 of ($a*) and 4 of ($b*)) or 1 of ($c*)
+		(1 of ($a*) and 
+			4 of ($b*)) or 
+		1 of ($c*)
 }
 
-private rule Windows_Trojan_CobaltStrike_59ed9124
+rule Windows_Trojan_CobaltStrike_59ed9124
 {
 	meta:
 		author = "Elastic Security"
@@ -1171,6 +1225,7 @@ private rule Windows_Trojan_CobaltStrike_59ed9124
 		ruleset = "Windows_Trojan_CobaltStrike.yar"
 		repository = "WKL-Sec/Malleable-CS-Profiles"
 		source_url = "https://github.com/WKL-Sec/Malleable-CS-Profiles/blob/05beb83d46bd7f62cad317d7ae4fd579609fafe5/Windows_Trojan_CobaltStrike.yar"
+		score = 75
 
 	strings:
 		$a1 = "Z:\\devcenter\\aggressor\\external\\pxlib\\bin\\psexec_command.x64.o" ascii fullword
@@ -1193,10 +1248,12 @@ private rule Windows_Trojan_CobaltStrike_59ed9124
 		$c8 = "__imp__ADVAPI32$CloseServiceHandle" ascii fullword
 
 	condition:
-		1 of ($a*) or 5 of ($b*) or 5 of ($c*)
+		1 of ($a*) or 
+		5 of ($b*) or 
+		5 of ($c*)
 }
 
-private rule Windows_Trojan_CobaltStrike_8a791eb7
+rule Windows_Trojan_CobaltStrike_8a791eb7
 {
 	meta:
 		author = "Elastic Security"
@@ -1214,6 +1271,7 @@ private rule Windows_Trojan_CobaltStrike_8a791eb7
 		ruleset = "Windows_Trojan_CobaltStrike.yar"
 		repository = "WKL-Sec/Malleable-CS-Profiles"
 		source_url = "https://github.com/WKL-Sec/Malleable-CS-Profiles/blob/05beb83d46bd7f62cad317d7ae4fd579609fafe5/Windows_Trojan_CobaltStrike.yar"
+		score = 75
 
 	strings:
 		$a1 = "Z:\\devcenter\\aggressor\\external\\pxlib\\bin\\registry.x64.o" ascii fullword
@@ -1236,10 +1294,12 @@ private rule Windows_Trojan_CobaltStrike_8a791eb7
 		$c8 = "__imp__BeaconDataPtr" ascii fullword
 
 	condition:
-		1 of ($a*) or 5 of ($b*) or 5 of ($c*)
+		1 of ($a*) or 
+		5 of ($b*) or 
+		5 of ($c*)
 }
 
-private rule Windows_Trojan_CobaltStrike_d00573a3
+rule Windows_Trojan_CobaltStrike_d00573a3
 {
 	meta:
 		author = "Elastic Security"
@@ -1257,6 +1317,7 @@ private rule Windows_Trojan_CobaltStrike_d00573a3
 		ruleset = "Windows_Trojan_CobaltStrike.yar"
 		repository = "WKL-Sec/Malleable-CS-Profiles"
 		source_url = "https://github.com/WKL-Sec/Malleable-CS-Profiles/blob/05beb83d46bd7f62cad317d7ae4fd579609fafe5/Windows_Trojan_CobaltStrike.yar"
+		score = 75
 
 	strings:
 		$a1 = "screenshot.x64.dll" ascii fullword
@@ -1270,10 +1331,11 @@ private rule Windows_Trojan_CobaltStrike_d00573a3
 		$b6 = "Adobe APP14 marker: version %d, flags 0x%04x 0x%04x, transform %d" ascii fullword
 
 	condition:
-		2 of ($a*) or 5 of ($b*)
+		2 of ($a*) or 
+		5 of ($b*)
 }
 
-private rule Windows_Trojan_CobaltStrike_7bcd759c
+rule Windows_Trojan_CobaltStrike_7bcd759c
 {
 	meta:
 		author = "Elastic Security"
@@ -1291,6 +1353,7 @@ private rule Windows_Trojan_CobaltStrike_7bcd759c
 		ruleset = "Windows_Trojan_CobaltStrike.yar"
 		repository = "WKL-Sec/Malleable-CS-Profiles"
 		source_url = "https://github.com/WKL-Sec/Malleable-CS-Profiles/blob/05beb83d46bd7f62cad317d7ae4fd579609fafe5/Windows_Trojan_CobaltStrike.yar"
+		score = 75
 
 	strings:
 		$a1 = "sshagent.x64.dll" ascii fullword
@@ -1299,10 +1362,11 @@ private rule Windows_Trojan_CobaltStrike_7bcd759c
 		$b2 = "\\\\.\\pipe\\PIPEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" ascii fullword
 
 	condition:
-		1 of ($a*) and 1 of ($b*)
+		1 of ($a*) and 
+		1 of ($b*)
 }
 
-private rule Windows_Trojan_CobaltStrike_a56b820f
+rule Windows_Trojan_CobaltStrike_a56b820f
 {
 	meta:
 		author = "Elastic Security"
@@ -1320,6 +1384,7 @@ private rule Windows_Trojan_CobaltStrike_a56b820f
 		ruleset = "Windows_Trojan_CobaltStrike.yar"
 		repository = "WKL-Sec/Malleable-CS-Profiles"
 		source_url = "https://github.com/WKL-Sec/Malleable-CS-Profiles/blob/05beb83d46bd7f62cad317d7ae4fd579609fafe5/Windows_Trojan_CobaltStrike.yar"
+		score = 75
 
 	strings:
 		$a1 = "Z:\\devcenter\\aggressor\\external\\pxlib\\bin\\timestomp.x64.o" ascii fullword
@@ -1342,10 +1407,12 @@ private rule Windows_Trojan_CobaltStrike_a56b820f
 		$c8 = "__imp__BeaconDataExtract" ascii fullword
 
 	condition:
-		1 of ($a*) or 5 of ($b*) or 5 of ($c*)
+		1 of ($a*) or 
+		5 of ($b*) or 
+		5 of ($c*)
 }
 
-private rule Windows_Trojan_CobaltStrike_92f05172
+rule Windows_Trojan_CobaltStrike_92f05172
 {
 	meta:
 		author = "Elastic Security"
@@ -1363,6 +1430,7 @@ private rule Windows_Trojan_CobaltStrike_92f05172
 		ruleset = "Windows_Trojan_CobaltStrike.yar"
 		repository = "WKL-Sec/Malleable-CS-Profiles"
 		source_url = "https://github.com/WKL-Sec/Malleable-CS-Profiles/blob/05beb83d46bd7f62cad317d7ae4fd579609fafe5/Windows_Trojan_CobaltStrike.yar"
+		score = 75
 
 	strings:
 		$a1 = "Z:\\devcenter\\aggressor\\external\\pxlib\\bin\\uaccmstp.x64.o" ascii fullword
@@ -1379,10 +1447,12 @@ private rule Windows_Trojan_CobaltStrike_92f05172
 		$c7 = "_willAutoElevate" ascii fullword
 
 	condition:
-		1 of ($a*) or 3 of ($b*) or 4 of ($c*)
+		1 of ($a*) or 
+		3 of ($b*) or 
+		4 of ($c*)
 }
 
-private rule Windows_Trojan_CobaltStrike_417239b5
+rule Windows_Trojan_CobaltStrike_417239b5
 {
 	meta:
 		author = "Elastic Security"
@@ -1400,6 +1470,7 @@ private rule Windows_Trojan_CobaltStrike_417239b5
 		ruleset = "Windows_Trojan_CobaltStrike.yar"
 		repository = "WKL-Sec/Malleable-CS-Profiles"
 		source_url = "https://github.com/WKL-Sec/Malleable-CS-Profiles/blob/05beb83d46bd7f62cad317d7ae4fd579609fafe5/Windows_Trojan_CobaltStrike.yar"
+		score = 75
 
 	strings:
 		$a1 = "Z:\\devcenter\\aggressor\\external\\pxlib\\bin\\uactoken.x64.o" ascii fullword
@@ -1433,10 +1504,12 @@ private rule Windows_Trojan_CobaltStrike_417239b5
 		$c12 = "_SpawnAsAdminX64" ascii fullword
 
 	condition:
-		1 of ($a*) or 9 of ($b*) or 7 of ($c*)
+		1 of ($a*) or 
+		9 of ($b*) or 
+		7 of ($c*)
 }
 
-private rule Windows_Trojan_CobaltStrike_29374056
+rule Windows_Trojan_CobaltStrike_29374056
 {
 	meta:
 		author = "Elastic Security"
@@ -1454,6 +1527,7 @@ private rule Windows_Trojan_CobaltStrike_29374056
 		ruleset = "Windows_Trojan_CobaltStrike.yar"
 		repository = "WKL-Sec/Malleable-CS-Profiles"
 		source_url = "https://github.com/WKL-Sec/Malleable-CS-Profiles/blob/05beb83d46bd7f62cad317d7ae4fd579609fafe5/Windows_Trojan_CobaltStrike.yar"
+		score = 75
 
 	strings:
 		$a1 = { 4D 5A 41 52 55 48 89 E5 48 81 EC 20 00 00 00 48 8D 1D ?? FF FF FF 48 81 C3 ?? ?? 00 00 FF D3 }
@@ -1463,7 +1537,7 @@ private rule Windows_Trojan_CobaltStrike_29374056
 		1 of ($a*)
 }
 
-private rule Windows_Trojan_CobaltStrike_949f10e3
+rule Windows_Trojan_CobaltStrike_949f10e3
 {
 	meta:
 		author = "Elastic Security"
@@ -1481,6 +1555,7 @@ private rule Windows_Trojan_CobaltStrike_949f10e3
 		ruleset = "Windows_Trojan_CobaltStrike.yar"
 		repository = "WKL-Sec/Malleable-CS-Profiles"
 		source_url = "https://github.com/WKL-Sec/Malleable-CS-Profiles/blob/05beb83d46bd7f62cad317d7ae4fd579609fafe5/Windows_Trojan_CobaltStrike.yar"
+		score = 75
 
 	strings:
 		$a1 = { 89 E5 31 D2 64 8B 52 30 8B 52 0C 8B 52 14 8B 72 28 0F B7 4A 26 31 FF 31 C0 AC 3C 61 }
@@ -1490,7 +1565,7 @@ private rule Windows_Trojan_CobaltStrike_949f10e3
 		all of them
 }
 
-private rule Windows_Trojan_CobaltStrike_8751cdf9
+rule Windows_Trojan_CobaltStrike_8751cdf9
 {
 	meta:
 		author = "Elastic Security"
@@ -1508,6 +1583,7 @@ private rule Windows_Trojan_CobaltStrike_8751cdf9
 		ruleset = "Windows_Trojan_CobaltStrike.yar"
 		repository = "WKL-Sec/Malleable-CS-Profiles"
 		source_url = "https://github.com/WKL-Sec/Malleable-CS-Profiles/blob/05beb83d46bd7f62cad317d7ae4fd579609fafe5/Windows_Trojan_CobaltStrike.yar"
+		score = 75
 
 	strings:
 		$a1 = { 68 6E 65 74 00 68 77 69 6E 69 54 68 4C 77 26 07 }
@@ -1517,7 +1593,7 @@ private rule Windows_Trojan_CobaltStrike_8751cdf9
 		all of them
 }
 
-private rule Windows_Trojan_CobaltStrike_8519072e
+rule Windows_Trojan_CobaltStrike_8519072e
 {
 	meta:
 		author = "Elastic Security"
@@ -1535,18 +1611,18 @@ private rule Windows_Trojan_CobaltStrike_8519072e
 		ruleset = "Windows_Trojan_CobaltStrike.yar"
 		repository = "WKL-Sec/Malleable-CS-Profiles"
 		source_url = "https://github.com/WKL-Sec/Malleable-CS-Profiles/blob/05beb83d46bd7f62cad317d7ae4fd579609fafe5/Windows_Trojan_CobaltStrike.yar"
+		score = 75
 
 	strings:
 		$a1 = "User-Agent:"
 		$a2 = "wini"
 		$a3 = "5O!P%@AP[4\\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*" ascii fullword
-		//$a4 = /[^0-9";.\/]([0-9]{1,3}\.){3}[0-9]{1,3}[^0-9";.\/]/
 
 	condition:
 		all of them
 }
 
-private rule Windows_Trojan_CobaltStrike_663fc95d
+rule Windows_Trojan_CobaltStrike_663fc95d
 {
 	meta:
 		author = "Elastic Security"
@@ -1564,6 +1640,7 @@ private rule Windows_Trojan_CobaltStrike_663fc95d
 		ruleset = "Windows_Trojan_CobaltStrike.yar"
 		repository = "WKL-Sec/Malleable-CS-Profiles"
 		source_url = "https://github.com/WKL-Sec/Malleable-CS-Profiles/blob/05beb83d46bd7f62cad317d7ae4fd579609fafe5/Windows_Trojan_CobaltStrike.yar"
+		score = 75
 
 	strings:
 		$a = { 48 89 5C 24 08 57 48 83 EC 20 48 8B 59 10 48 8B F9 48 8B 49 08 FF 17 33 D2 41 B8 00 80 00 00 }
@@ -1572,7 +1649,7 @@ private rule Windows_Trojan_CobaltStrike_663fc95d
 		all of them
 }
 
-private rule Windows_Trojan_CobaltStrike_b54b94ac
+rule Windows_Trojan_CobaltStrike_b54b94ac
 {
 	meta:
 		author = "Elastic Security"
@@ -1591,6 +1668,7 @@ private rule Windows_Trojan_CobaltStrike_b54b94ac
 		ruleset = "Windows_Trojan_CobaltStrike.yar"
 		repository = "WKL-Sec/Malleable-CS-Profiles"
 		source_url = "https://github.com/WKL-Sec/Malleable-CS-Profiles/blob/05beb83d46bd7f62cad317d7ae4fd579609fafe5/Windows_Trojan_CobaltStrike.yar"
+		score = 75
 
 	strings:
 		$a_x64 = { 4C 8B 53 08 45 8B 0A 45 8B 5A 04 4D 8D 52 08 45 85 C9 75 05 45 85 DB 74 33 45 3B CB 73 E6 49 8B F9 4C 8B 03 }
@@ -1603,7 +1681,7 @@ private rule Windows_Trojan_CobaltStrike_b54b94ac
 		any of them
 }
 
-private rule Windows_Trojan_CobaltStrike_f0b627fc
+rule Windows_Trojan_CobaltStrike_f0b627fc
 {
 	meta:
 		author = "Elastic Security"
@@ -1622,6 +1700,7 @@ private rule Windows_Trojan_CobaltStrike_f0b627fc
 		ruleset = "Windows_Trojan_CobaltStrike.yar"
 		repository = "WKL-Sec/Malleable-CS-Profiles"
 		source_url = "https://github.com/WKL-Sec/Malleable-CS-Profiles/blob/05beb83d46bd7f62cad317d7ae4fd579609fafe5/Windows_Trojan_CobaltStrike.yar"
+		score = 75
 
 	strings:
 		$beacon_loader_x64 = { 25 FF FF FF 00 3D 41 41 41 00 75 [5-10] 25 FF FF FF 00 3D 42 42 42 00 75 }
@@ -1634,7 +1713,7 @@ private rule Windows_Trojan_CobaltStrike_f0b627fc
 		any of them
 }
 
-private rule Windows_Trojan_CobaltStrike_dcdcdd8c
+rule Windows_Trojan_CobaltStrike_dcdcdd8c
 {
 	meta:
 		author = "Elastic Security"
@@ -1653,6 +1732,7 @@ private rule Windows_Trojan_CobaltStrike_dcdcdd8c
 		ruleset = "Windows_Trojan_CobaltStrike.yar"
 		repository = "WKL-Sec/Malleable-CS-Profiles"
 		source_url = "https://github.com/WKL-Sec/Malleable-CS-Profiles/blob/05beb83d46bd7f62cad317d7ae4fd579609fafe5/Windows_Trojan_CobaltStrike.yar"
+		score = 75
 
 	strings:
 		$a1 = "Z:\\devcenter\\aggressor\\external\\sleepmask\\bin\\sleepmask.x64.o" ascii fullword
@@ -1666,7 +1746,7 @@ private rule Windows_Trojan_CobaltStrike_dcdcdd8c
 		any of them
 }
 
-private rule Windows_Trojan_CobaltStrike_a3fb2616
+rule Windows_Trojan_CobaltStrike_a3fb2616
 {
 	meta:
 		author = "Elastic Security"
@@ -1685,6 +1765,7 @@ private rule Windows_Trojan_CobaltStrike_a3fb2616
 		ruleset = "Windows_Trojan_CobaltStrike.yar"
 		repository = "WKL-Sec/Malleable-CS-Profiles"
 		source_url = "https://github.com/WKL-Sec/Malleable-CS-Profiles/blob/05beb83d46bd7f62cad317d7ae4fd579609fafe5/Windows_Trojan_CobaltStrike.yar"
+		score = 75
 
 	strings:
 		$a1 = "browserpivot.dll" ascii fullword
@@ -1693,10 +1774,11 @@ private rule Windows_Trojan_CobaltStrike_a3fb2616
 		$b2 = "COBALTSTRIKE" ascii fullword
 
 	condition:
-		1 of ($a*) and 2 of ($b*)
+		1 of ($a*) and 
+		2 of ($b*)
 }
 
-private rule Windows_Trojan_CobaltStrike_8ee55ee5
+rule Windows_Trojan_CobaltStrike_8ee55ee5
 {
 	meta:
 		author = "Elastic Security"
@@ -1715,6 +1797,7 @@ private rule Windows_Trojan_CobaltStrike_8ee55ee5
 		ruleset = "Windows_Trojan_CobaltStrike.yar"
 		repository = "WKL-Sec/Malleable-CS-Profiles"
 		source_url = "https://github.com/WKL-Sec/Malleable-CS-Profiles/blob/05beb83d46bd7f62cad317d7ae4fd579609fafe5/Windows_Trojan_CobaltStrike.yar"
+		score = 75
 
 	strings:
 		$a1 = "Z:\\devcenter\\aggressor\\external\\pxlib\\bin\\wmiexec.x64.o" ascii fullword
@@ -1724,7 +1807,7 @@ private rule Windows_Trojan_CobaltStrike_8ee55ee5
 		1 of ($a*)
 }
 
-private rule Windows_Trojan_CobaltStrike_8d5963a2
+rule Windows_Trojan_CobaltStrike_8d5963a2
 {
 	meta:
 		author = "Elastic Security"
@@ -1742,6 +1825,7 @@ private rule Windows_Trojan_CobaltStrike_8d5963a2
 		ruleset = "Windows_Trojan_CobaltStrike.yar"
 		repository = "WKL-Sec/Malleable-CS-Profiles"
 		source_url = "https://github.com/WKL-Sec/Malleable-CS-Profiles/blob/05beb83d46bd7f62cad317d7ae4fd579609fafe5/Windows_Trojan_CobaltStrike.yar"
+		score = 75
 
 	strings:
 		$a = { 40 55 53 56 57 41 54 41 55 41 56 41 57 48 8D 6C 24 D8 48 81 EC 28 01 00 00 45 33 F6 48 8B D9 48 }
@@ -1750,7 +1834,7 @@ private rule Windows_Trojan_CobaltStrike_8d5963a2
 		all of them
 }
 
-private rule Windows_Trojan_CobaltStrike_1787eef5
+rule Windows_Trojan_CobaltStrike_1787eef5
 {
 	meta:
 		author = "Elastic Security"
@@ -1769,6 +1853,7 @@ private rule Windows_Trojan_CobaltStrike_1787eef5
 		ruleset = "Windows_Trojan_CobaltStrike.yar"
 		repository = "WKL-Sec/Malleable-CS-Profiles"
 		source_url = "https://github.com/WKL-Sec/Malleable-CS-Profiles/blob/05beb83d46bd7f62cad317d7ae4fd579609fafe5/Windows_Trojan_CobaltStrike.yar"
+		score = 75
 
 	strings:
 		$a1 = { 55 89 E5 83 EC ?? A1 ?? ?? ?? ?? C7 04 24 ?? ?? ?? ?? 89 44 24 ?? E8 ?? ?? ?? ?? 31 C0 C9 C3 55 }
@@ -1780,9 +1865,6 @@ private rule Windows_Trojan_CobaltStrike_1787eef5
 	condition:
 		1 of ($a*)
 }
-
-////////////////////////////////////////////////////////
-
 
 rule HKTL_CobaltStrike_SleepMask_Jul22
 {
@@ -1805,10 +1887,7 @@ rule HKTL_CobaltStrike_SleepMask_Jul22
 		$sleep_mask
 }
 
-////////////////////////////////////////////////////////
-
-
-private rule Windows_Trojan_CobaltStrike_4106070a
+rule Windows_Trojan_CobaltStrike_4106070a
 {
 	meta:
 		author = "Elastic Security"
@@ -1826,6 +1905,7 @@ private rule Windows_Trojan_CobaltStrike_4106070a
 		ruleset = "Windows_Trojan_CobaltStrike.yar"
 		repository = "elastic/protections-artifacts"
 		source_url = "https://github.com/elastic/protections-artifacts/blob/3bbef930abab9814b2fdb4704be075ab1daf2ea0/yara/rules/Windows_Trojan_CobaltStrike.yar"
+		score = 75
 
 	strings:
 		$a1 = { 48 8B 44 24 48 0F B7 00 66 C1 E8 0C 66 83 E0 0F 0F B7 C0 83 }
@@ -1835,7 +1915,7 @@ private rule Windows_Trojan_CobaltStrike_4106070a
 		all of them
 }
 
-private rule Windows_Trojan_CobaltStrike_3dc22d14
+rule Windows_Trojan_CobaltStrike_3dc22d14
 {
 	meta:
 		author = "Elastic Security"
@@ -1853,6 +1933,7 @@ private rule Windows_Trojan_CobaltStrike_3dc22d14
 		ruleset = "Windows_Trojan_CobaltStrike.yar"
 		repository = "elastic/protections-artifacts"
 		source_url = "https://github.com/elastic/protections-artifacts/blob/3bbef930abab9814b2fdb4704be075ab1daf2ea0/yara/rules/Windows_Trojan_CobaltStrike.yar"
+		score = 75
 
 	strings:
 		$a1 = "%02d/%02d/%02d %02d:%02d:%02d" fullword
@@ -1862,7 +1943,7 @@ private rule Windows_Trojan_CobaltStrike_3dc22d14
 		all of them
 }
 
-private rule Windows_Trojan_CobaltStrike_7f8da98a
+rule Windows_Trojan_CobaltStrike_7f8da98a
 {
 	meta:
 		author = "Elastic Security"
@@ -1880,6 +1961,7 @@ private rule Windows_Trojan_CobaltStrike_7f8da98a
 		ruleset = "Windows_Trojan_CobaltStrike.yar"
 		repository = "elastic/protections-artifacts"
 		source_url = "https://github.com/elastic/protections-artifacts/blob/3bbef930abab9814b2fdb4704be075ab1daf2ea0/yara/rules/Windows_Trojan_CobaltStrike.yar"
+		score = 75
 
 	strings:
 		$a1 = { 25 63 25 63 25 63 25 63 25 63 25 63 25 63 25 63 25 63 4D 53 53 45 2D 25 64 2D 73 65 72 76 65 72 }
@@ -1888,9 +1970,7 @@ private rule Windows_Trojan_CobaltStrike_7f8da98a
 		all of them
 }
 
-////////////////////////////////////////////////////////
-
-private rule CobaltStrikeStager
+rule CobaltStrikeStager
 {
 	meta:
 		author = "@dan__mayer <daniel@stairwell.com>"
@@ -1900,6 +1980,7 @@ private rule CobaltStrikeStager
 		repository = "kevoreilly/CAPEv2"
 		source_url = "https://github.com/kevoreilly/CAPEv2/blob/9c8d6da44b595f8140a5cd76edd8101f6812c3b0/data/yara/CAPE/CobaltStrikeStager.yar"
 		license = "Other"
+		score = 75
 
 	strings:
 		$smb = { 68 00 B0 04 00 68 00 B0 04 00 6A 01 6A 06 6A 03 52 68 45 70 DF D4 }
@@ -1911,12 +1992,66 @@ private rule CobaltStrikeStager
 		any of them
 }
 
-////////////////////////////////////////////////////////
-
-rule fsCobalt {
+rule fsCobalt
+{
 	meta:
 		description = "FsYARA - Malware Trends"
 		vetted_family = "cobalt"
+
 	condition:
-		Cobalt_functions or cobalt_strike_indicator or CobaltStrikeBeacon or MALW_cobaltrike or cobaltstrike_beacon_raw or cobaltstrike_beacon_b64 or CobaltStrike_Sleeve_BeaconLoader_HA_x86_o_v4_3_v4_4_v4_5_and_v4_6 or CobaltStrike_Sleeve_BeaconLoader_MVF_x86_o_v4_3_v4_4_v4_5_and_v4_6 or CobaltStrike_Sleeve_BeaconLoader_VA_x86_o_v4_3_v4_4_v4_5_and_v4_6 or CobaltStrike_Sleeve_BeaconLoader_x86_o_v4_3_v4_4_v4_5_and_v4_6 or CobaltStrike_Sleeve_BeaconLoader_HA_x64_o_v4_3_v4_4_v4_5_and_v4_6 or CobaltStrike_Sleeve_BeaconLoader_MVF_x64_o_v4_3_v4_4_v4_5_and_v4_6 or CobaltStrike_Sleeve_BeaconLoader_VA_x64_o_v4_3_v4_4_v4_5_and_v4_6 or CobaltStrike_Sleeve_BeaconLoader_x64_o_v4_3_v4_4_v4_5_and_v4_6 or MAL_CobaltStrike_Oct_2021_1 or Windows_Trojan_CobaltStrike_c851687a or Windows_Trojan_CobaltStrike_0b58325e or Windows_Trojan_CobaltStrike_2b8cddf8 or Windows_Trojan_CobaltStrike_59b44767 or Windows_Trojan_CobaltStrike_7efd3c3f or Windows_Trojan_CobaltStrike_6e971281 or Windows_Trojan_CobaltStrike_09b79efa or Windows_Trojan_CobaltStrike_6e77233e or Windows_Trojan_CobaltStrike_de42495a or Windows_Trojan_CobaltStrike_72f68375 or Windows_Trojan_CobaltStrike_15f680fb or Windows_Trojan_CobaltStrike_5b4383ec or Windows_Trojan_CobaltStrike_91e08059 or Windows_Trojan_CobaltStrike_ee756db7 or Windows_Trojan_CobaltStrike_9c0d5561 or Windows_Trojan_CobaltStrike_59ed9124 or Windows_Trojan_CobaltStrike_8a791eb7 or Windows_Trojan_CobaltStrike_d00573a3 or Windows_Trojan_CobaltStrike_7bcd759c or Windows_Trojan_CobaltStrike_a56b820f or Windows_Trojan_CobaltStrike_92f05172 or Windows_Trojan_CobaltStrike_417239b5 or Windows_Trojan_CobaltStrike_29374056 or Windows_Trojan_CobaltStrike_949f10e3 or Windows_Trojan_CobaltStrike_8751cdf9 or Windows_Trojan_CobaltStrike_8519072e or Windows_Trojan_CobaltStrike_663fc95d or Windows_Trojan_CobaltStrike_b54b94ac or Windows_Trojan_CobaltStrike_f0b627fc or Windows_Trojan_CobaltStrike_dcdcdd8c or Windows_Trojan_CobaltStrike_a3fb2616 or Windows_Trojan_CobaltStrike_8ee55ee5 or Windows_Trojan_CobaltStrike_8d5963a2 or Windows_Trojan_CobaltStrike_1787eef5 or HKTL_CobaltStrike_SleepMask_Jul22 or Windows_Trojan_CobaltStrike_4106070a or Windows_Trojan_CobaltStrike_3dc22d14 or Windows_Trojan_CobaltStrike_7f8da98a or CobaltStrikeStager
+		Cobalt_functions or 
+		cobalt_strike_indicator or 
+		CobaltStrikeBeacon or 
+		MALW_cobaltrike or 
+		cobaltstrike_beacon_raw or 
+		cobaltstrike_beacon_b64 or 
+		CobaltStrike_Sleeve_BeaconLoader_HA_x86_o_v4_3_v4_4_v4_5_and_v4_6 or 
+		CobaltStrike_Sleeve_BeaconLoader_MVF_x86_o_v4_3_v4_4_v4_5_and_v4_6 or 
+		CobaltStrike_Sleeve_BeaconLoader_VA_x86_o_v4_3_v4_4_v4_5_and_v4_6 or 
+		CobaltStrike_Sleeve_BeaconLoader_x86_o_v4_3_v4_4_v4_5_and_v4_6 or 
+		CobaltStrike_Sleeve_BeaconLoader_HA_x64_o_v4_3_v4_4_v4_5_and_v4_6 or 
+		CobaltStrike_Sleeve_BeaconLoader_MVF_x64_o_v4_3_v4_4_v4_5_and_v4_6 or 
+		CobaltStrike_Sleeve_BeaconLoader_VA_x64_o_v4_3_v4_4_v4_5_and_v4_6 or 
+		CobaltStrike_Sleeve_BeaconLoader_x64_o_v4_3_v4_4_v4_5_and_v4_6 or 
+		MAL_CobaltStrike_Oct_2021_1 or 
+		Windows_Trojan_CobaltStrike_c851687a or 
+		Windows_Trojan_CobaltStrike_0b58325e or 
+		Windows_Trojan_CobaltStrike_2b8cddf8 or 
+		Windows_Trojan_CobaltStrike_59b44767 or 
+		Windows_Trojan_CobaltStrike_7efd3c3f or 
+		Windows_Trojan_CobaltStrike_6e971281 or 
+		Windows_Trojan_CobaltStrike_09b79efa or 
+		Windows_Trojan_CobaltStrike_6e77233e or 
+		Windows_Trojan_CobaltStrike_de42495a or 
+		Windows_Trojan_CobaltStrike_72f68375 or 
+		Windows_Trojan_CobaltStrike_15f680fb or 
+		Windows_Trojan_CobaltStrike_5b4383ec or 
+		Windows_Trojan_CobaltStrike_91e08059 or 
+		Windows_Trojan_CobaltStrike_ee756db7 or 
+		Windows_Trojan_CobaltStrike_9c0d5561 or 
+		Windows_Trojan_CobaltStrike_59ed9124 or 
+		Windows_Trojan_CobaltStrike_8a791eb7 or 
+		Windows_Trojan_CobaltStrike_d00573a3 or 
+		Windows_Trojan_CobaltStrike_7bcd759c or 
+		Windows_Trojan_CobaltStrike_a56b820f or 
+		Windows_Trojan_CobaltStrike_92f05172 or 
+		Windows_Trojan_CobaltStrike_417239b5 or 
+		Windows_Trojan_CobaltStrike_29374056 or 
+		Windows_Trojan_CobaltStrike_949f10e3 or 
+		Windows_Trojan_CobaltStrike_8751cdf9 or 
+		Windows_Trojan_CobaltStrike_8519072e or 
+		Windows_Trojan_CobaltStrike_663fc95d or 
+		Windows_Trojan_CobaltStrike_b54b94ac or 
+		Windows_Trojan_CobaltStrike_f0b627fc or 
+		Windows_Trojan_CobaltStrike_dcdcdd8c or 
+		Windows_Trojan_CobaltStrike_a3fb2616 or 
+		Windows_Trojan_CobaltStrike_8ee55ee5 or 
+		Windows_Trojan_CobaltStrike_8d5963a2 or 
+		Windows_Trojan_CobaltStrike_1787eef5 or 
+		HKTL_CobaltStrike_SleepMask_Jul22 or 
+		Windows_Trojan_CobaltStrike_4106070a or 
+		Windows_Trojan_CobaltStrike_3dc22d14 or 
+		Windows_Trojan_CobaltStrike_7f8da98a or 
+		CobaltStrikeStager
 }
+

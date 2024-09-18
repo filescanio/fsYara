@@ -1,4 +1,4 @@
-private rule Remcos
+rule Remcos
 {
 	meta:
 		author = "kevoreilly"
@@ -8,6 +8,7 @@ private rule Remcos
 		repository = "kevoreilly/CAPEv2"
 		source_url = "https://github.com/kevoreilly/CAPEv2/blob/9c8d6da44b595f8140a5cd76edd8101f6812c3b0/data/yara/CAPE/Remcos.yar"
 		license = "Other"
+		score = 75
 
 	strings:
 		$name = "Remcos" nocase
@@ -16,12 +17,13 @@ private rule Remcos
 		$crypto2 = {0F B6 [1-7] 8B 45 08 [0-2] 8D 34 07 8B 01 03 C2 8B CB 99 F7 F9 8A 84 95 ?? ?? FF FF 30 06 47 3B 7D 0C 72}
 
 	condition:
-		uint16(0)==0x5A4D and ($name) and ($time) and any of ($crypto*)
+		uint16(0)==0x5A4D and 
+		($name) and 
+		($time) and 
+		any of ($crypto*)
 }
 
-////////////////////////////////////////////////////////
-
-private rule Windows_Trojan_Remcos_b296e965
+rule Windows_Trojan_Remcos_b296e965
 {
 	meta:
 		author = "Elastic Security"
@@ -40,6 +42,7 @@ private rule Windows_Trojan_Remcos_b296e965
 		ruleset = "Windows_Trojan_Remcos.yar"
 		repository = "elastic/protections-artifacts"
 		source_url = "https://github.com/elastic/protections-artifacts/blob/3bbef930abab9814b2fdb4704be075ab1daf2ea0/yara/rules/Windows_Trojan_Remcos.yar"
+		score = 75
 
 	strings:
 		$a1 = "Remcos restarted by watchdog!" ascii fullword
@@ -51,7 +54,7 @@ private rule Windows_Trojan_Remcos_b296e965
 		2 of them
 }
 
-private rule Windows_Trojan_Remcos_7591e9f1
+rule Windows_Trojan_Remcos_7591e9f1
 {
 	meta:
 		author = "Elastic Security"
@@ -70,6 +73,7 @@ private rule Windows_Trojan_Remcos_7591e9f1
 		ruleset = "Windows_Trojan_Remcos.yar"
 		repository = "elastic/protections-artifacts"
 		source_url = "https://github.com/elastic/protections-artifacts/blob/3bbef930abab9814b2fdb4704be075ab1daf2ea0/yara/rules/Windows_Trojan_Remcos.yar"
+		score = 75
 
 	strings:
 		$a1 = "ServRem" ascii fullword
@@ -83,9 +87,7 @@ private rule Windows_Trojan_Remcos_7591e9f1
 		3 of them
 }
 
-////////////////////////////////////////////////////////
-
-private rule malware_Remcos_strings
+rule malware_Remcos_strings
 {
 	meta:
 		description = "detect Remcos in memory"
@@ -96,6 +98,7 @@ private rule malware_Remcos_strings
 		repository = "JPCERTCC/jpcert-yara"
 		source_url = "https://github.com/JPCERTCC/jpcert-yara/blob/0722a9365ec6bc969c517c623cd166743d1bc473/other/Remcos.yara"
 		license = "Other"
+		score = 75
 
 	strings:
 		$remcos = "Remcos" ascii fullword
@@ -104,13 +107,12 @@ private rule malware_Remcos_strings
 		$resource = "SETTINGS" ascii wide fullword
 
 	condition:
-		1 of ($url*) and $remcos and $resource
+		1 of ($url*) and 
+		$remcos and 
+		$resource
 }
 
-////////////////////////////////////////////////////////
-
-
-private rule win_remcos_auto
+rule win_remcos_auto
 {
 	meta:
 		author = "Felix Bilstein - yara-signator at cocacoding dot com"
@@ -129,6 +131,7 @@ private rule win_remcos_auto
 		ruleset = "win.remcos_auto.yar"
 		repository = "malpedia/signator-rules"
 		source_url = "https://github.com/malpedia/signator-rules/blob/fbacfc09b84d53d410385e66a8e56f25016c588a/rules/win.remcos_auto.yar"
+		score = 75
 
 	strings:
 		$sequence_0 = { 7410 6a00 ff35???????? ff15???????? }
@@ -143,12 +146,11 @@ private rule win_remcos_auto
 		$sequence_9 = { 85c0 7410 6a00 ff35???????? ff15???????? }
 
 	condition:
-		7 of them and filesize <1054720
+		7 of them and 
+		filesize <1054720
 }
 
-////////////////////////////////////////////////////////
-
-private rule Remcos_1
+rule Remcos_1
 {
 	meta:
 		author = "@neonprimetime"
@@ -158,6 +160,7 @@ private rule Remcos_1
 		repository = "kevthehermit/RATDecoders"
 		source_url = "https://github.com/kevthehermit/RATDecoders/blob/d675ba1c06e6dd8365149c9ee8a8db1a6e5e508e/malwareconfig/yaraRules/remcos.yar"
 		license = "MIT License"
+		score = 75
 
 	strings:
 		$a1 = "Software\\Remcos"
@@ -177,12 +180,11 @@ private rule Remcos_1
 		$b12 = "licence_code.txt"
 
 	condition:
-		1 of ($a*) or 3 of ($b*)
+		1 of ($a*) or 
+		3 of ($b*)
 }
 
-////////////////////////////////////////////////////////
-
-private rule MAL_Remcos_strings
+rule MAL_Remcos_strings
 {
 	meta:
 		description = "Matches strings found in Remcos RAT samples."
@@ -195,6 +197,7 @@ private rule MAL_Remcos_strings
 		repository = "100DaysofYARA/2024"
 		source_url = "https://github.com/100DaysofYARA/2024/blob/7df92fafb900e3f148d927ac8dd68bfeaea0c332/petermstewart/MAL_C2_Remcos.yar"
 		license = "MIT License"
+		score = 75
 
 	strings:
 		$a = "Remcos_Mutex_Inj"
@@ -213,12 +216,12 @@ private rule MAL_Remcos_strings
 		$b13 = "CloseCamera"
 
 	condition:
-		uint16(0)==0x5a4d and $a and 10 of ($b*)
+		uint16(0)==0x5a4d and 
+		$a and 
+		10 of ($b*)
 }
 
-////////////////////////////////////////////////////////
-
-private rule malware_windows_remcos_rat
+rule malware_windows_remcos_rat
 {
 	meta:
 		description = "https://blog.fortinet.com/2017/02/14/remcos-a-new-rat-in-the-wild-2"
@@ -229,6 +232,7 @@ private rule malware_windows_remcos_rat
 		repository = "airbnb/binaryalert"
 		source_url = "https://github.com/airbnb/binaryalert/blob/a9c0f06affc35e1f8e45bb77f835b92350c68a0b/rules/public/malware/windows/malware_windows_remcos_rat.yara"
 		license = "Apache License 2.0"
+		score = 75
 
 	strings:
 		$a1 = "[Following text has been pasted from clipboard:]" wide ascii
@@ -242,12 +246,12 @@ private rule malware_windows_remcos_rat
 		$c2 = "REMCOS v" wide ascii
 
 	condition:
-		any of ($a*) or 3 of ($b*) or all of ($c*)
+		any of ($a*) or 
+		3 of ($b*) or 
+		all of ($c*)
 }
 
-////////////////////////////////////////////////////////
-
-private rule win_remcos_rat_unpacked
+rule win_remcos_rat_unpacked
 {
 	meta:
 		author = "Matthew @ Embee_Research"
@@ -257,6 +261,7 @@ private rule win_remcos_rat_unpacked
 		ruleset = "win_remcos_rat_unpacked_aug_2023.yar"
 		repository = "embee-research/Yara-detection-rules"
 		source_url = "https://github.com/embee-research/Yara-detection-rules/blob/ac56d6f6fd2a30c8cb6e5c0455d6519210a8b0f4/Rules/win_remcos_rat_unpacked_aug_2023.yar"
+		score = 75
 
 	strings:
 		$r0 = " ______                              " ascii
@@ -270,12 +275,11 @@ private rule win_remcos_rat_unpacked
 		$s3 = " BreakingSecurity.net" ascii
 
 	condition:
-		(( all of ($r*)) or ( all of ($s*)))
+		(( all of ($r*)) or 
+			( all of ($s*)))
 }
 
-////////////////////////////////////////////////////////
-
-private rule Remcos_2
+rule Remcos_2
 {
 	meta:
 		description = "detect Remcos in memory"
@@ -287,6 +291,7 @@ private rule Remcos_2
 		repository = "Yara-Rules/rules"
 		source_url = "https://github.com/Yara-Rules/rules/blob/0f93570194a80d2f2032869055808b0ddcdfb360/malware/MalConfScan.yar"
 		license = "GNU General Public License v2.0"
+		score = 75
 
 	strings:
 		$remcos = "Remcos" ascii fullword
@@ -297,146 +302,71 @@ private rule Remcos_2
 		all of them
 }
 
-////////////////////////////////////////////////////////
-
 rule win_remcos : rat
 {
-    meta:
-        author = "CERT Polska"
-    strings:
-        $convenient1 = " * Breaking-Security.Net"
-        $convenient2 = " * REMCOS v"
-        $convenient3 = "SETTINGS"
-        $convenient4 = "Remcos_Mutex_Inj"
-        $convenient5 = "Online Keylogger Started"
-        $convenient6 = "Uploading file to C&C"
-        $convenient7 = "Remcos Agent initialized"
-    condition:
-        3 of ($convenient*)
+	meta:
+		author = "CERT Polska"
+
+	strings:
+		$convenient1 = " * Breaking-Security.Net"
+		$convenient2 = " * REMCOS v"
+		$convenient3 = "SETTINGS"
+		$convenient4 = "Remcos_Mutex_Inj"
+		$convenient5 = "Online Keylogger Started"
+		$convenient6 = "Uploading file to C&C"
+		$convenient7 = "Remcos Agent initialized"
+
+	condition:
+		3 of ($convenient*)
 }
 
 rule win_remcos_auto_1
 {
-    meta:
-        author = "Felix Bilstein - yara-signator at cocacoding dot com"
-        date = "2019-07-05"
-        version = "1"
-        description = "autogenerated rule brought to you by yara-signator"
-        tool = "yara-signator 0.2a"
-        malpedia_reference = "https://malpedia.caad.fkie.fraunhofer.de/details/win.remcos"
-        malpedia_version = "20190620"
-        malpedia_license = "CC BY-SA 4.0"
-        malpedia_sharing = "TLP:WHITE"
-    /* DISCLAIMER
-     * The strings used in this rule have been automatically selected from the
-     * disassembly of memory dumps and unpacked files, using yara-signator.
-     * The code and documentation / approach is published here:
-     * https://github.com/fxb-cocacoding/yara-signator
-     * As Malpedia is used as data source, please note that for a given
-     * number of families, only single samples are documented.
-     * This likely impacts the degree of generalization these rules will offer.
-     * Take the described generation method also into consideration when you
-     * apply the rules in your use cases and assign them confidence levels.
-     */
-    strings:
-        $sequence_0 = { 51 50 8bce e8???????? 8b4608 ff7510 2b4508 }
-            // n = 7, score = 1100
-            //   51                   | push                ecx
-            //   50                   | push                eax
-            //   8bce                 | mov                 ecx, esi
-            //   e8????????           |
-            //   8b4608               | mov                 eax, dword ptr [esi + 8]
-            //   ff7510               | push                dword ptr [ebp + 0x10]
-            //   2b4508               | sub                 eax, dword ptr [ebp + 8]
-        $sequence_1 = { ff35???????? ff15???????? eb?? 6a09 ff35???????? ff15???????? ff35???????? }
-            // n = 7, score = 1100
-            //   ff35????????         |
-            //   ff15????????         |
-            //   eb??                 |
-            //   6a09                 | push                9
-            //   ff35????????         |
-            //   ff15????????         |
-            //   ff35????????         |
-        $sequence_2 = { ff15???????? 57 57 57 8bd8 57 6a02 }
-            // n = 7, score = 1100
-            //   ff15????????         |
-            //   57                   | push                edi
-            //   57                   | push                edi
-            //   57                   | push                edi
-            //   8bd8                 | mov                 ebx, eax
-            //   57                   | push                edi
-            //   6a02                 | push                2
-        $sequence_3 = { ff7114 e8???????? 5d c3 55 8bec }
-            // n = 6, score = 1100
-            //   ff7114               | push                dword ptr [ecx + 0x14]
-            //   e8????????           |
-            //   5d                   | pop                 ebp
-            //   c3                   | ret
-            //   55                   | push                ebp
-            //   8bec                 | mov                 ebp, esp
-        $sequence_4 = { 75?? 6a01 58 5d c3 8b4028 6a00 }
-            // n = 7, score = 1100
-            //   75??                 |
-            //   6a01                 | push                1
-            //   58                   | pop                 eax
-            //   5d                   | pop                 ebp
-            //   c3                   | ret
-            //   8b4028               | mov                 eax, dword ptr [eax + 0x28]
-            //   6a00                 | push                0
-        $sequence_5 = { 8d45f0 50 ff15???????? 8d4df0 ff15???????? 8b4508 5e }
-            // n = 7, score = 1100
-            //   8d45f0               | lea                 eax, [ebp - 0x10]
-            //   50                   | push                eax
-            //   ff15????????         |
-            //   8d4df0               | lea                 ecx, [ebp - 0x10]
-            //   ff15????????         |
-            //   8b4508               | mov                 eax, dword ptr [ebp + 8]
-            //   5e                   | pop                 esi
-        $sequence_6 = { 50 e8???????? 834608f4 8bc7 5f 5e 5d }
-            // n = 7, score = 1100
-            //   50                   | push                eax
-            //   e8????????           |
-            //   834608f4             | add                 dword ptr [esi + 8], -0xc
-            //   8bc7                 | mov                 eax, edi
-            //   5f                   | pop                 edi
-            //   5e                   | pop                 esi
-            //   5d                   | pop                 ebp
-        $sequence_7 = { 6a00 ff7508 ffd6 50 ff15???????? 50 }
-            // n = 6, score = 1100
-            //   6a00                 | push                0
-            //   ff7508               | push                dword ptr [ebp + 8]
-            //   ffd6                 | call                esi
-            //   50                   | push                eax
-            //   ff15????????         |
-            //   50                   | push                eax
-        $sequence_8 = { c3 ff7510 ff750c ff15???????? f7d8 1ac0 fec0 }
-            // n = 7, score = 1100
-            //   c3                   | ret
-            //   ff7510               | push                dword ptr [ebp + 0x10]
-            //   ff750c               | push                dword ptr [ebp + 0xc]
-            //   ff15????????         |
-            //   f7d8                 | neg                 eax
-            //   1ac0                 | sbb                 al, al
-            //   fec0                 | inc                 al
-        $sequence_9 = { e9???????? 55 8bec 51 56 8bf1 8d45ff }
-            // n = 7, score = 1100
-            //   e9????????           |
-            //   55                   | push                ebp
-            //   8bec                 | mov                 ebp, esp
-            //   51                   | push                ecx
-            //   56                   | push                esi
-            //   8bf1                 | mov                 esi, ecx
-            //   8d45ff               | lea                 eax, [ebp - 1]
-    condition:
-        7 of them
+	meta:
+		author = "Felix Bilstein - yara-signator at cocacoding dot com"
+		date = "2019-07-05"
+		version = "1"
+		description = "autogenerated rule brought to you by yara-signator"
+		tool = "yara-signator 0.2a"
+		malpedia_reference = "https://malpedia.caad.fkie.fraunhofer.de/details/win.remcos"
+		malpedia_version = "20190620"
+		malpedia_license = "CC BY-SA 4.0"
+		malpedia_sharing = "TLP:WHITE"
+
+	strings:
+		$sequence_0 = { 51 50 8bce e8???????? 8b4608 ff7510 2b4508 }
+		$sequence_1 = { ff35???????? ff15???????? eb?? 6a09 ff35???????? ff15???????? ff35???????? }
+		$sequence_2 = { ff15???????? 57 57 57 8bd8 57 6a02 }
+		$sequence_3 = { ff7114 e8???????? 5d c3 55 8bec }
+		$sequence_4 = { 75?? 6a01 58 5d c3 8b4028 6a00 }
+		$sequence_5 = { 8d45f0 50 ff15???????? 8d4df0 ff15???????? 8b4508 5e }
+		$sequence_6 = { 50 e8???????? 834608f4 8bc7 5f 5e 5d }
+		$sequence_7 = { 6a00 ff7508 ffd6 50 ff15???????? 50 }
+		$sequence_8 = { c3 ff7510 ff750c ff15???????? f7d8 1ac0 fec0 }
+		$sequence_9 = { e9???????? 55 8bec 51 56 8bf1 8d45ff }
+
+	condition:
+		7 of them
 }
 
-////////////////////////////////////////////////////////
-
-rule fsRemcos {
+rule fsRemcos
+{
 	meta:
 		description = "FsYARA - Malware Trends"
 		vetted_family = "remcos"
+
 	condition:
-		Remcos or Windows_Trojan_Remcos_b296e965 or Windows_Trojan_Remcos_7591e9f1 or malware_Remcos_strings or win_remcos_auto or Remcos_1 or MAL_Remcos_strings or malware_windows_remcos_rat or win_remcos_rat_unpacked or Remcos_2 or win_remcos or win_remcos_auto_1
+		Remcos or 
+		Windows_Trojan_Remcos_b296e965 or 
+		Windows_Trojan_Remcos_7591e9f1 or 
+		malware_Remcos_strings or 
+		win_remcos_auto or 
+		Remcos_1 or 
+		MAL_Remcos_strings or 
+		malware_windows_remcos_rat or 
+		win_remcos_rat_unpacked or 
+		Remcos_2 or 
+		win_remcos or 
+		win_remcos_auto_1
 }
+

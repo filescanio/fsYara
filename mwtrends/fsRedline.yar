@@ -1,4 +1,6 @@
-private rule RedLine
+import "pe"
+
+rule RedLine
 {
 	meta:
 		description = "Identifies RedLine stealer."
@@ -9,6 +11,7 @@ private rule RedLine
 		repository = "kevthehermit/RATDecoders"
 		source_url = "https://github.com/kevthehermit/RATDecoders/blob/d675ba1c06e6dd8365149c9ee8a8db1a6e5e508e/malwareconfig/yaraRules/RedLine.yar"
 		license = "MIT License"
+		score = 75
 
 	strings:
 		$ = "Account" ascii wide
@@ -80,9 +83,9 @@ private rule RedLine
 		45 of them
 }
 
-////////////////////////////////////////////////////////
+import "pe"
 
-private rule redline_payload
+rule redline_payload
 {
 	meta:
 		description = "Rule to detect the RedLine payload"
@@ -99,6 +102,7 @@ private rule redline_payload
 		repository = "advanced-threat-research/Yara-Rules"
 		source_url = "https://github.com/advanced-threat-research/Yara-Rules/blob/fc51a3fe3b450838614a5a5aa327c6bd8689cbb2/malware/MALW_redline.yar"
 		license = "Apache License 2.0"
+		score = 75
 
 	strings:
 		$s1 = "Cambrel.exe" fullword ascii
@@ -111,13 +115,16 @@ private rule redline_payload
 		$p2 = { 03 00 c6 01 cd 06 13 03 79 }
 
 	condition:
-		uint16(0)==0x5a4d and filesize <60KB and all of ($s*) and all of ($op*) or all of ($p*)
+		uint16(0)==0x5a4d and 
+		filesize <60KB and 
+		all of ($s*) and 
+		all of ($op*) or 
+		all of ($p*)
 }
 
-////////////////////////////////////////////////////////
+import "pe"
 
-
-private rule Windows_Trojan_RedLineStealer_17ee6a17
+rule Windows_Trojan_RedLineStealer_17ee6a17
 {
 	meta:
 		author = "Elastic Security"
@@ -135,6 +142,7 @@ private rule Windows_Trojan_RedLineStealer_17ee6a17
 		ruleset = "Windows_Trojan_RedLineStealer.yar"
 		repository = "elastic/protections-artifacts"
 		source_url = "https://github.com/elastic/protections-artifacts/blob/3bbef930abab9814b2fdb4704be075ab1daf2ea0/yara/rules/Windows_Trojan_RedLineStealer.yar"
+		score = 75
 
 	strings:
 		$a1 = "RedLine.Logic.SQLite" ascii fullword
@@ -148,10 +156,13 @@ private rule Windows_Trojan_RedLineStealer_17ee6a17
 		$b6 = "<GrabUserAgent>k__BackingField" ascii fullword
 
 	condition:
-		1 of ($a*) or all of ($b*)
+		1 of ($a*) or 
+		all of ($b*)
 }
 
-private rule Windows_Trojan_RedLineStealer_f54632eb
+import "pe"
+
+rule Windows_Trojan_RedLineStealer_f54632eb
 {
 	meta:
 		author = "Elastic Security"
@@ -169,6 +180,7 @@ private rule Windows_Trojan_RedLineStealer_f54632eb
 		ruleset = "Windows_Trojan_RedLineStealer.yar"
 		repository = "elastic/protections-artifacts"
 		source_url = "https://github.com/elastic/protections-artifacts/blob/3bbef930abab9814b2fdb4704be075ab1daf2ea0/yara/rules/Windows_Trojan_RedLineStealer.yar"
+		score = 75
 
 	strings:
 		$a1 = "ttp://checkip.amazonaws.com/logins.json" wide fullword
@@ -186,7 +198,9 @@ private rule Windows_Trojan_RedLineStealer_f54632eb
 		6 of ($a*)
 }
 
-private rule Windows_Trojan_RedLineStealer_3d9371fd
+import "pe"
+
+rule Windows_Trojan_RedLineStealer_3d9371fd
 {
 	meta:
 		author = "Elastic Security"
@@ -204,6 +218,7 @@ private rule Windows_Trojan_RedLineStealer_3d9371fd
 		ruleset = "Windows_Trojan_RedLineStealer.yar"
 		repository = "elastic/protections-artifacts"
 		source_url = "https://github.com/elastic/protections-artifacts/blob/3bbef930abab9814b2fdb4704be075ab1daf2ea0/yara/rules/Windows_Trojan_RedLineStealer.yar"
+		score = 75
 
 	strings:
 		$a1 = "get_encrypted_key" ascii fullword
@@ -218,7 +233,9 @@ private rule Windows_Trojan_RedLineStealer_3d9371fd
 		all of them
 }
 
-private rule Windows_Trojan_RedLineStealer_63e7e006
+import "pe"
+
+rule Windows_Trojan_RedLineStealer_63e7e006
 {
 	meta:
 		author = "Elastic Security"
@@ -236,6 +253,7 @@ private rule Windows_Trojan_RedLineStealer_63e7e006
 		ruleset = "Windows_Trojan_RedLineStealer.yar"
 		repository = "elastic/protections-artifacts"
 		source_url = "https://github.com/elastic/protections-artifacts/blob/3bbef930abab9814b2fdb4704be075ab1daf2ea0/yara/rules/Windows_Trojan_RedLineStealer.yar"
+		score = 75
 
 	strings:
 		$a1 = { 30 68 44 27 25 5B 3D 79 21 54 3A }
@@ -246,7 +264,9 @@ private rule Windows_Trojan_RedLineStealer_63e7e006
 		all of them
 }
 
-private rule Windows_Trojan_RedLineStealer_f07b3cb4
+import "pe"
+
+rule Windows_Trojan_RedLineStealer_f07b3cb4
 {
 	meta:
 		author = "Elastic Security"
@@ -264,6 +284,7 @@ private rule Windows_Trojan_RedLineStealer_f07b3cb4
 		ruleset = "Windows_Trojan_RedLineStealer.yar"
 		repository = "elastic/protections-artifacts"
 		source_url = "https://github.com/elastic/protections-artifacts/blob/3bbef930abab9814b2fdb4704be075ab1daf2ea0/yara/rules/Windows_Trojan_RedLineStealer.yar"
+		score = 75
 
 	strings:
 		$a1 = { 3C 65 6E 63 72 79 70 74 65 64 5F 6B 65 79 3E 6B 5F 5F 42 61 63 6B 69 6E 67 46 69 65 6C 64 }
@@ -273,7 +294,9 @@ private rule Windows_Trojan_RedLineStealer_f07b3cb4
 		all of them
 }
 
-private rule Windows_Trojan_RedLineStealer_4df4bcb6
+import "pe"
+
+rule Windows_Trojan_RedLineStealer_4df4bcb6
 {
 	meta:
 		author = "Elastic Security"
@@ -291,6 +314,7 @@ private rule Windows_Trojan_RedLineStealer_4df4bcb6
 		ruleset = "Windows_Trojan_RedLineStealer.yar"
 		repository = "elastic/protections-artifacts"
 		source_url = "https://github.com/elastic/protections-artifacts/blob/3bbef930abab9814b2fdb4704be075ab1daf2ea0/yara/rules/Windows_Trojan_RedLineStealer.yar"
+		score = 75
 
 	strings:
 		$a1 = { 34 42 30 35 43 45 42 44 37 44 37 30 46 31 36 30 37 44 34 37 34 43 41 45 31 37 36 46 45 41 45 42 37 34 33 39 37 39 35 46 }
@@ -299,7 +323,9 @@ private rule Windows_Trojan_RedLineStealer_4df4bcb6
 		all of them
 }
 
-private rule Windows_Trojan_RedLineStealer_15ee6903
+import "pe"
+
+rule Windows_Trojan_RedLineStealer_15ee6903
 {
 	meta:
 		author = "Elastic Security"
@@ -317,6 +343,7 @@ private rule Windows_Trojan_RedLineStealer_15ee6903
 		ruleset = "Windows_Trojan_RedLineStealer.yar"
 		repository = "elastic/protections-artifacts"
 		source_url = "https://github.com/elastic/protections-artifacts/blob/3bbef930abab9814b2fdb4704be075ab1daf2ea0/yara/rules/Windows_Trojan_RedLineStealer.yar"
+		score = 75
 
 	strings:
 		$a1 = { 53 65 65 6E 42 65 66 6F 72 65 33 }
@@ -326,7 +353,9 @@ private rule Windows_Trojan_RedLineStealer_15ee6903
 		all of them
 }
 
-private rule Windows_Trojan_RedLineStealer_6dfafd7b
+import "pe"
+
+rule Windows_Trojan_RedLineStealer_6dfafd7b
 {
 	meta:
 		author = "Elastic Security"
@@ -344,6 +373,7 @@ private rule Windows_Trojan_RedLineStealer_6dfafd7b
 		ruleset = "Windows_Trojan_RedLineStealer.yar"
 		repository = "elastic/protections-artifacts"
 		source_url = "https://github.com/elastic/protections-artifacts/blob/3bbef930abab9814b2fdb4704be075ab1daf2ea0/yara/rules/Windows_Trojan_RedLineStealer.yar"
+		score = 75
 
 	strings:
 		$a = { 33 38 46 34 33 31 41 35 34 39 34 31 31 41 45 42 33 32 38 31 30 30 36 38 41 34 43 38 33 32 35 30 42 32 44 33 31 45 31 35 }
@@ -352,7 +382,9 @@ private rule Windows_Trojan_RedLineStealer_6dfafd7b
 		all of them
 }
 
-private rule Windows_Trojan_RedLineStealer_983cd7a7
+import "pe"
+
+rule Windows_Trojan_RedLineStealer_983cd7a7
 {
 	meta:
 		author = "Elastic Security"
@@ -370,6 +402,7 @@ private rule Windows_Trojan_RedLineStealer_983cd7a7
 		ruleset = "Windows_Trojan_RedLineStealer.yar"
 		repository = "elastic/protections-artifacts"
 		source_url = "https://github.com/elastic/protections-artifacts/blob/3bbef930abab9814b2fdb4704be075ab1daf2ea0/yara/rules/Windows_Trojan_RedLineStealer.yar"
+		score = 75
 
 	strings:
 		$decrypt_config_bytes = { 72 ?? ?? ?? 70 80 ?? ?? ?? 04 72 ?? ?? ?? 70 80 ?? ?? ?? 04 72 ?? ?? ?? 70 80 ?? ?? ?? 04 72 ?? ?? ?? 70 80 ?? ?? ?? 04 [0-6] 2A }
@@ -380,9 +413,9 @@ private rule Windows_Trojan_RedLineStealer_983cd7a7
 		all of them
 }
 
-////////////////////////////////////////////////////////
+import "pe"
 
-private rule win_redline_loader_dec_2023
+rule win_redline_loader_dec_2023
 {
 	meta:
 		author = "Matthew @ Embee_Research"
@@ -392,6 +425,7 @@ private rule win_redline_loader_dec_2023
 		ruleset = "win_redline_loader_dec_2023.yar"
 		repository = "embee-research/Yara-detection-rules"
 		source_url = "https://github.com/embee-research/Yara-detection-rules/blob/ac56d6f6fd2a30c8cb6e5c0455d6519210a8b0f4/Rules/win_redline_loader_dec_2023.yar"
+		score = 75
 
 	strings:
 		$s1 = {8b ?? ?? 0c 30 04 31 46 3b f7 7c ?? 5d 5b 5e 83 ?? ?? 75}
@@ -403,11 +437,9 @@ private rule win_redline_loader_dec_2023
 		all of them
 }
 
-////////////////////////////////////////////////////////
-
 import "pe"
 
-private rule RedLineDropperAHK
+rule RedLineDropperAHK
 {
 	meta:
 		author = "ditekshen"
@@ -416,6 +448,7 @@ private rule RedLineDropperAHK
 		ruleset = "RedLine.yar"
 		repository = "CAPESandbox/community"
 		source_url = "https://github.com/CAPESandbox/community/blob/30a130d01407ba0f0637fb44e8159131a0c4e1e5/data/yara/CAPE/RedLine.yar"
+		score = 75
 
 	strings:
 		$s1 = ".SetRequestHeader(\"User-Agent\",\" ( \" OSName \" | \" bit \" | \" CPUNAme \"\"" ascii
@@ -423,12 +456,13 @@ private rule RedLineDropperAHK
 		$s3 = "WindowSpy.ahk" wide
 
 	condition:
-		uint16(0)==0x5a4d and all of them
+		uint16(0)==0x5a4d and 
+		all of them
 }
 
 import "pe"
 
-private rule RedLineDropperEXE
+rule RedLineDropperEXE
 {
 	meta:
 		author = "ditekSHen"
@@ -437,6 +471,7 @@ private rule RedLineDropperEXE
 		ruleset = "RedLine.yar"
 		repository = "CAPESandbox/community"
 		source_url = "https://github.com/CAPESandbox/community/blob/30a130d01407ba0f0637fb44e8159131a0c4e1e5/data/yara/CAPE/RedLine.yar"
+		score = 75
 
 	strings:
 		$s1 = "Wizutezinod togeto0Rowadufevomuki futenujilazem jic lefogatenezinor" fullword wide
@@ -448,12 +483,16 @@ private rule RedLineDropperEXE
 		$s7 = "Yikezevavuzus gucajanesan#Rolapucededoxu xewulep fuwehofiwifi" wide
 
 	condition:
-		uint16(0)==0x5a4d and (pe.exports("_fgeek@8") and 2 of them ) or (2 of them and for any i in (0..pe.number_of_sections) : ((pe.sections[i].name==".rig")))
+		uint16(0)==0x5a4d and 
+		(pe.exports("_fgeek@8") and 
+			2 of them ) or 
+		(2 of them and 
+			for any i in (0..pe.number_of_sections) : ((pe.sections[i].name==".rig")))
 }
 
 import "pe"
 
-private rule RedLine_1
+rule RedLine_1
 {
 	meta:
 		author = "ditekSHen"
@@ -463,6 +502,7 @@ private rule RedLine_1
 		ruleset = "RedLine.yar"
 		repository = "CAPESandbox/community"
 		source_url = "https://github.com/CAPESandbox/community/blob/30a130d01407ba0f0637fb44e8159131a0c4e1e5/data/yara/CAPE/RedLine.yar"
+		score = 75
 
 	strings:
 		$s1 = { 23 00 2b 00 33 00 3b 00 43 00 53 00 63 00 73 00 }
@@ -550,12 +590,35 @@ private rule RedLine_1
 		$v6_6 = "net.tcp://" fullword wide
 
 	condition:
-		( uint16(0)==0x5a4d and ( all of ($s*) or 2 of ($x*) or 7 of ($u*) or 7 of ($pat*) or (1 of ($x*) and (5 of ($u*) or 2 of ($pat*))) or 5 of ($v2*) or 4 of ($v3*) or (3 of ($v2*) and (2 of ($pat*) or 2 of ($u*)) or (1 of ($vx4*) and 5 of ($v4*)) or 5 of ($v4*) or 6 of ($v5*)) or 5 of ($v6*) or (4 of ($v6*) and 3 of them ))) or (( all of ($x*) and 4 of ($s*)) or (4 of ($v6*) and 4 of them ))
+		( uint16(0)==0x5a4d and 
+			( all of ($s*) or 
+				2 of ($x*) or 
+				7 of ($u*) or 
+				7 of ($pat*) or 
+				(1 of ($x*) and 
+					(5 of ($u*) or 
+						2 of ($pat*))) or 
+				5 of ($v2*) or 
+				4 of ($v3*) or 
+				(3 of ($v2*) and 
+					(2 of ($pat*) or 
+						2 of ($u*)) or 
+					(1 of ($vx4*) and 
+						5 of ($v4*)) or 
+					5 of ($v4*) or 
+					6 of ($v5*)) or 
+				5 of ($v6*) or 
+				(4 of ($v6*) and 
+					3 of them ))) or 
+		(( all of ($x*) and 
+				4 of ($s*)) or 
+			(4 of ($v6*) and 
+				4 of them ))
 }
 
-////////////////////////////////////////////////////////
+import "pe"
 
-private rule Win32_Trojan_Packed_RedLineStealer
+rule Win32_Trojan_Packed_RedLineStealer
 {
 	meta:
 		description = "Identifies a loader used to deploy RedLine Stealer"
@@ -565,6 +628,7 @@ private rule Win32_Trojan_Packed_RedLineStealer
 		repository = "netskopeoss/NetskopeThreatLabsIOCs"
 		source_url = "https://github.com/netskopeoss/NetskopeThreatLabsIOCs/blob/52c780db6106d0c0e8deb04653e036cdd4408e56/Malware/RedLine%20Stealer/Yara/Win32_Trojan_RedLineStealer.yar"
 		license = "MIT License"
+		score = 75
 
 	strings:
 		$str00 = "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\RegSvcs.exe" wide
@@ -576,13 +640,15 @@ private rule Win32_Trojan_Packed_RedLineStealer
 		$asm01 = { 8a 8? ?? ?? ?? ?? 30 04 3e e8 }
 
 	condition:
-		uint16(0)==0x5a4d and 1 of ($str*) and 2 of ($api*) and 1 of ($asm*)
+		uint16(0)==0x5a4d and 
+		1 of ($str*) and 
+		2 of ($api*) and 
+		1 of ($asm*)
 }
 
+import "pe"
 
-////////////////////////////////////////////////////////
-
-private rule Mal_Stealer_NET_Redline_Aug_2020_1
+rule Mal_Stealer_NET_Redline_Aug_2020_1
 {
 	meta:
 		description = "Detect Redline Stealer (August 2020)"
@@ -593,6 +659,7 @@ private rule Mal_Stealer_NET_Redline_Aug_2020_1
 		ruleset = "Mal_Stealer_NET_Redline_Aug_2020_1.yar"
 		repository = "StrangerealIntel/DailyIOC"
 		source_url = "https://github.com/StrangerealIntel/DailyIOC/blob/a873ff1298c43705e9c67286f3014f4300dd04f7/2020-08-24/Redline/Mal_Stealer_NET_Redline_Aug_2020_1.yar"
+		score = 75
 
 	strings:
 		$s1 = { 53 00 45 00 4c 00 45 00 43 00 54 00 20 00 2a 00 20 00 46 00 52 00 4f 00 4d 00 20 00 57 00 69 00 6e 00 33 00 32 00 5f 00 50 00 72 00 6f 00 63 00 65 00 73 00 73 00 20 00 57 00 68 00 65 00 72 00 65 00 20 00 53 00 65 00 73 00 73 00 69 00 6f 00 6e 00 49 00 64 00 3d 00 27 00 7b 00 30 00 7d }
@@ -617,12 +684,14 @@ private rule Mal_Stealer_NET_Redline_Aug_2020_1
 		$s20 = "get_encryptedPassword" fullword ascii
 
 	condition:
-		uint16(0)==0x5a4d and filesize <90KB and 15 of them
+		uint16(0)==0x5a4d and 
+		filesize <90KB and 
+		15 of them
 }
 
-////////////////////////////////////////////////////////
+import "pe"
 
-private rule Windows_Trojan_RedLineStealer_d25e974b
+rule Windows_Trojan_RedLineStealer_d25e974b
 {
 	meta:
 		author = "Elastic Security"
@@ -640,6 +709,7 @@ private rule Windows_Trojan_RedLineStealer_d25e974b
 		ruleset = "Windows_Trojan_RedLineStealer.yar"
 		repository = "RoomaSec/RmTools"
 		source_url = "https://github.com/RoomaSec/RmTools/blob/fc4e0b5491bc699117804268d023467b0d047e87/yara_scanner/yara_rules/es_rules/Windows_Trojan_RedLineStealer.yar"
+		score = 75
 
 	strings:
 		$a = { 48 43 3F FF 48 42 3F FF 48 42 3F FF 48 42 3E FF 48 42 3E FF }
@@ -648,7 +718,9 @@ private rule Windows_Trojan_RedLineStealer_d25e974b
 		all of them
 }
 
-private rule Windows_Trojan_RedLineStealer_ed346e4c
+import "pe"
+
+rule Windows_Trojan_RedLineStealer_ed346e4c
 {
 	meta:
 		author = "Elastic Security"
@@ -666,6 +738,7 @@ private rule Windows_Trojan_RedLineStealer_ed346e4c
 		ruleset = "Windows_Trojan_RedLineStealer.yar"
 		repository = "RoomaSec/RmTools"
 		source_url = "https://github.com/RoomaSec/RmTools/blob/fc4e0b5491bc699117804268d023467b0d047e87/yara_scanner/yara_rules/es_rules/Windows_Trojan_RedLineStealer.yar"
+		score = 75
 
 	strings:
 		$a = { 55 8B EC 8B 45 14 56 57 8B 7D 08 33 F6 89 47 0C 39 75 10 76 15 8B }
@@ -674,9 +747,9 @@ private rule Windows_Trojan_RedLineStealer_ed346e4c
 		all of them
 }
 
-////////////////////////////////////////////////////////
+import "pe"
 
-private rule win_redline_payload_dec_2023
+rule win_redline_payload_dec_2023
 {
 	meta:
 		author = "Matthew @ Embee_Research"
@@ -686,6 +759,7 @@ private rule win_redline_payload_dec_2023
 		ruleset = "win_redline_payload_dec_2023.yar"
 		repository = "embee-research/Yara-detection-rules"
 		source_url = "https://github.com/embee-research/Yara-detection-rules/blob/ac56d6f6fd2a30c8cb6e5c0455d6519210a8b0f4/Rules/win_redline_payload_dec_2023.yar"
+		score = 75
 
 	strings:
 		$s1 = {16 72 ?? ?? ?? 70 A2 7E ?? ?? ?? 04 17 72 ?? ?? ?? 70 7E ?? ?? ?? 04 16 9A 28 ?? ?? ?? 06 A2 7E ?? ?? ?? 04 18 72 ?? ?? ?? 70 }
@@ -694,9 +768,9 @@ private rule win_redline_payload_dec_2023
 		all of them
 }
 
-////////////////////////////////////////////////////////
+import "pe"
 
-private rule RedLine_b
+rule RedLine_b
 {
 	meta:
 		id = "6Ds02SHJ9xqDC5ehVb5PEZ"
@@ -715,6 +789,7 @@ private rule RedLine_b
 		repository = "bartblaze/Yara-rules"
 		source_url = "https://github.com/bartblaze/Yara-rules/blob/2df95022135637808d2a1ff9a49043ffd7f58c5d/rules/crimeware/RedLine.yar"
 		license = "MIT License"
+		score = 75
 
 	strings:
 		$ = "Account" ascii wide
@@ -776,12 +851,35 @@ private rule RedLine_b
 		45 of them
 }
 
-////////////////////////////////////////////////////////
+import "pe"
 
-rule fsRedline {
+rule fsRedline
+{
 	meta:
 		description = "FsYARA - Malware Trends"
 		vetted_family = "redline"
+
 	condition:
-		RedLine or redline_payload or Windows_Trojan_RedLineStealer_17ee6a17 or Windows_Trojan_RedLineStealer_f54632eb or Windows_Trojan_RedLineStealer_3d9371fd or Windows_Trojan_RedLineStealer_63e7e006 or Windows_Trojan_RedLineStealer_f07b3cb4 or Windows_Trojan_RedLineStealer_4df4bcb6 or Windows_Trojan_RedLineStealer_15ee6903 or Windows_Trojan_RedLineStealer_6dfafd7b or Windows_Trojan_RedLineStealer_983cd7a7 or win_redline_loader_dec_2023 or RedLineDropperAHK or RedLineDropperEXE or RedLine_1 or Win32_Trojan_Packed_RedLineStealer or Mal_Stealer_NET_Redline_Aug_2020_1 or Windows_Trojan_RedLineStealer_d25e974b or Windows_Trojan_RedLineStealer_ed346e4c or win_redline_payload_dec_2023 or RedLine_b
+		RedLine or 
+		redline_payload or 
+		Windows_Trojan_RedLineStealer_17ee6a17 or 
+		Windows_Trojan_RedLineStealer_f54632eb or 
+		Windows_Trojan_RedLineStealer_3d9371fd or 
+		Windows_Trojan_RedLineStealer_63e7e006 or 
+		Windows_Trojan_RedLineStealer_f07b3cb4 or 
+		Windows_Trojan_RedLineStealer_4df4bcb6 or 
+		Windows_Trojan_RedLineStealer_15ee6903 or 
+		Windows_Trojan_RedLineStealer_6dfafd7b or 
+		Windows_Trojan_RedLineStealer_983cd7a7 or 
+		win_redline_loader_dec_2023 or 
+		RedLineDropperAHK or 
+		RedLineDropperEXE or 
+		RedLine_1 or 
+		Win32_Trojan_Packed_RedLineStealer or 
+		Mal_Stealer_NET_Redline_Aug_2020_1 or 
+		Windows_Trojan_RedLineStealer_d25e974b or 
+		Windows_Trojan_RedLineStealer_ed346e4c or 
+		win_redline_payload_dec_2023 or 
+		RedLine_b
 }
+

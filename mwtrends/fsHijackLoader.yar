@@ -1,4 +1,4 @@
-private rule Windows_Trojan_HijackLoader_a8444812
+rule Windows_Trojan_HijackLoader_a8444812
 {
 	meta:
 		author = "Elastic Security"
@@ -16,6 +16,7 @@ private rule Windows_Trojan_HijackLoader_a8444812
 		ruleset = "Windows_Trojan_HijackLoader.yar"
 		repository = "elastic/protections-artifacts"
 		source_url = "https://github.com/elastic/protections-artifacts/blob/3bbef930abab9814b2fdb4704be075ab1daf2ea0/yara/rules/Windows_Trojan_HijackLoader.yar"
+		score = 75
 
 	strings:
 		$a1 = { 8B 45 ?? 40 89 45 ?? 8B 45 ?? 3B 45 ?? 73 ?? 8B 45 ?? 03 45 ?? 66 0F BE 00 66 89 45 ?? FF 75 ?? FF 75 ?? 8D 45 ?? 50 E8 [4] 83 C4 0C EB ?? }
@@ -29,12 +30,13 @@ private rule Windows_Trojan_HijackLoader_a8444812
 		3 of them
 }
 
-////////////////////////////////////////////////////////
-
-rule fsHijackLoader {
+rule fsHijackLoader
+{
 	meta:
 		description = "FsYARA - Malware Trends"
 		vetted_family = "hijackloader"
+
 	condition:
 		Windows_Trojan_HijackLoader_a8444812
 }
+

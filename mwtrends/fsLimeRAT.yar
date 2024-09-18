@@ -1,4 +1,4 @@
-private rule Windows_Trojan_Limerat_24269a79
+rule Windows_Trojan_Limerat_24269a79
 {
 	meta:
 		author = "Elastic Security"
@@ -16,6 +16,7 @@ private rule Windows_Trojan_Limerat_24269a79
 		ruleset = "Windows_Trojan_Limerat.yar"
 		repository = "elastic/protections-artifacts"
 		source_url = "https://github.com/elastic/protections-artifacts/blob/f98777756fcfbe5ab05a296388044a2dbb962557/yara/rules/Windows_Trojan_Limerat.yar"
+		score = 75
 
 	strings:
 		$a1 = "schtasks /create /f /sc ONLOGON /RL HIGHEST /tn LimeRAT-Admin /tr \"'" wide fullword
@@ -24,9 +25,7 @@ private rule Windows_Trojan_Limerat_24269a79
 		all of them
 }
 
-////////////////////////////////////////////////////////
-
-private rule ByteCode_MSIL_Backdoor_LimeRAT : tc_detection malicious
+rule ByteCode_MSIL_Backdoor_LimeRAT : tc_detection malicious
 {
 	meta:
 		author = "ReversingLabs"
@@ -43,6 +42,7 @@ private rule ByteCode_MSIL_Backdoor_LimeRAT : tc_detection malicious
 		repository = "reversinglabs/reversinglabs-yara-rules"
 		source_url = "https://github.com/reversinglabs/reversinglabs-yara-rules/blob/d5a78f30a1669a3dc576d45a77eeba9476795155/yara/backdoor/ByteCode.MSIL.Backdoor.LimeRAT.yara"
 		license = "MIT License"
+		score = 75
 
 	strings:
 		$persistence_mechanism = {
@@ -99,12 +99,14 @@ private rule ByteCode_MSIL_Backdoor_LimeRAT : tc_detection malicious
         }
 
 	condition:
-		uint16(0)==0x5A4D and ($persistence_mechanism) and ($crypto_miner) and ($downloader) and ( all of ($network_communication_p*))
+		uint16(0)==0x5A4D and 
+		($persistence_mechanism) and 
+		($crypto_miner) and 
+		($downloader) and 
+		( all of ($network_communication_p*))
 }
 
-////////////////////////////////////////////////////////
-
-private rule LimeRAT
+rule LimeRAT
 {
 	meta:
 		author = "ditekshen"
@@ -113,6 +115,7 @@ private rule LimeRAT
 		ruleset = "LimeRAT.yar"
 		repository = "CAPESandbox/community"
 		source_url = "https://github.com/CAPESandbox/community/blob/ed71b5eb9179e25174c1a2d0fe451e25cbf97dd1/data/yara/CAPE/LimeRAT.yar"
+		score = 75
 
 	strings:
 		$s1 = "schtasks /create /f /sc ONLOGON /RL HIGHEST /tn LimeRAT-Admin /tr" wide
@@ -126,12 +129,11 @@ private rule LimeRAT
 		$s9 = "cmd.exe /c ping 0" wide
 
 	condition:
-		uint16(0)==0x5a4d and 5 of them
+		uint16(0)==0x5a4d and 
+		5 of them
 }
 
-////////////////////////////////////////////////////////
-
-private rule win_limerat_j1_00cfd931
+rule win_limerat_j1_00cfd931
 {
 	meta:
 		author = "Johannes Bader"
@@ -151,6 +153,7 @@ private rule win_limerat_j1_00cfd931
 		ruleset = "win_limerat_j1_00cfd931.yar"
 		repository = "LeakIX/yara-repo-abusech"
 		source_url = "https://github.com/LeakIX/yara-repo-abusech/blob/5a4620d4d41697fb8d9e1303c0aba2ced8f6932a/win_limerat_j1_00cfd931.yar"
+		score = 75
 
 	strings:
 		$str_1 = "Y21kLmV4ZSAvYyBwaW5nIDAgLW4gMiAmIGRlbCA=" wide
@@ -159,12 +162,11 @@ private rule win_limerat_j1_00cfd931
 		$str_4 = "--donate-level=" wide
 
 	condition:
-		uint16(0)==0x5A4D and 3 of them
+		uint16(0)==0x5A4D and 
+		3 of them
 }
 
-////////////////////////////////////////////////////////
-
-private rule LimeRAT_1
+rule LimeRAT_1
 {
 	meta:
 		description = "Detects Lime RAT malware samples based on the strings matched"
@@ -175,6 +177,7 @@ private rule LimeRAT_1
 		ruleset = "EXE_RAT_LimeRAT.yara"
 		repository = "RustyNoob-619/YARA"
 		source_url = "https://github.com/RustyNoob-619/YARA/blob/b4d14356c117458127705ab545de47cef2769a78/Rules/EXE_RAT_LimeRAT.yara"
+		score = 75
 
 	strings:
 		$main = "schtasks /create /f /sc ONLOGON /RL HIGHEST /tn LimeRAT-Admin /tr" wide
@@ -187,16 +190,22 @@ private rule LimeRAT_1
 		$cmd7 = "_PIN Error!" wide
 
 	condition:
-		uint16(0)==0x5A4D and $main and 4 of ($cmd*)
+		uint16(0)==0x5A4D and 
+		$main and 
+		4 of ($cmd*)
 }
 
-////////////////////////////////////////////////////////
-
-
-rule fsLimeRAT {
+rule fsLimeRAT
+{
 	meta:
 		description = "FsYARA - Malware Trends"
 		vetted_family = "limerat"
+
 	condition:
-		Windows_Trojan_Limerat_24269a79 or ByteCode_MSIL_Backdoor_LimeRAT or LimeRAT or win_limerat_j1_00cfd931 or LimeRAT_1
+		Windows_Trojan_Limerat_24269a79 or 
+		ByteCode_MSIL_Backdoor_LimeRAT or 
+		LimeRAT or 
+		win_limerat_j1_00cfd931 or 
+		LimeRAT_1
 }
+

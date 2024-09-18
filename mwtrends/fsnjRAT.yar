@@ -1,4 +1,4 @@
-private rule Njrat : RAT
+rule Njrat : RAT
 {
 	meta:
 		description = "Njrat"
@@ -7,6 +7,7 @@ private rule Njrat : RAT
 		repository = "Yara-Rules/rules"
 		source_url = "https://github.com/Yara-Rules/rules/blob/0f93570194a80d2f2032869055808b0ddcdfb360/malware/RAT_Njrat.yar"
 		license = "GNU General Public License v2.0"
+		score = 75
 
 	strings:
 		$string1 = /(F)romBase64String/
@@ -31,7 +32,7 @@ private rule Njrat : RAT
 		10 of them
 }
 
-private rule njrat1 : RAT
+rule njrat1 : RAT
 {
 	meta:
 		author = "Brian Wallace @botnet_hunter"
@@ -42,6 +43,7 @@ private rule njrat1 : RAT
 		repository = "Yara-Rules/rules"
 		source_url = "https://github.com/Yara-Rules/rules/blob/0f93570194a80d2f2032869055808b0ddcdfb360/malware/RAT_Njrat.yar"
 		license = "GNU General Public License v2.0"
+		score = 75
 
 	strings:
 		$a1 = "netsh firewall add allowedprogram " wide
@@ -53,11 +55,12 @@ private rule njrat1 : RAT
 		$c3 = "cmd.exe /c ping" wide
 
 	condition:
-		1 of ($a*) and 1 of ($b*) and 1 of ($c*)
+		1 of ($a*) and 
+		1 of ($b*) and 
+		1 of ($c*)
 }
 
-
-private rule win_exe_njRAT
+rule win_exe_njRAT
 {
 	meta:
 		author = "info@fidelissecurity.com"
@@ -83,6 +86,7 @@ private rule win_exe_njRAT
 		repository = "Yara-Rules/rules"
 		source_url = "https://github.com/Yara-Rules/rules/blob/0f93570194a80d2f2032869055808b0ddcdfb360/malware/RAT_Njrat.yar"
 		license = "GNU General Public License v2.0"
+		score = 75
 
 	strings:
 		$magic = "MZ"
@@ -103,13 +107,12 @@ private rule win_exe_njRAT
 		$string_setB_6 = "cmd.exe /k ping 0 & del" wide
 
 	condition:
-		($magic at 0) and ( all of ($string_setA*) or all of ($string_setB*))
+		($magic at 0) and 
+		( all of ($string_setA*) or 
+			all of ($string_setB*))
 }
 
-
-////////////////////////////////////////////////////////
-
-private rule njRat
+rule njRat
 {
 	meta:
 		author = " Kevin Breen <kevin@techanarchy.net>"
@@ -121,6 +124,7 @@ private rule njRat
 		repository = "kevthehermit/RATDecoders"
 		source_url = "https://github.com/kevthehermit/RATDecoders/blob/d675ba1c06e6dd8365149c9ee8a8db1a6e5e508e/malwareconfig/yaraRules/njRat.yar"
 		license = "MIT License"
+		score = 75
 
 	strings:
 		$s1 = {7C 00 27 00 7C 00 27 00 7C}
@@ -132,12 +136,11 @@ private rule njRat
 		$v3 = "cmd.exe /c ping 0 -n 2 & del" wide
 
 	condition:
-		all of ($s*) and any of ($v*)
+		all of ($s*) and 
+		any of ($v*)
 }
 
-////////////////////////////////////////////////////////
-
-private rule Windows_Trojan_Njrat_30f3c220
+rule Windows_Trojan_Njrat_30f3c220
 {
 	meta:
 		author = "Elastic Security"
@@ -155,6 +158,7 @@ private rule Windows_Trojan_Njrat_30f3c220
 		ruleset = "Windows_Trojan_Njrat.yar"
 		repository = "elastic/protections-artifacts"
 		source_url = "https://github.com/elastic/protections-artifacts/blob/3bbef930abab9814b2fdb4704be075ab1daf2ea0/yara/rules/Windows_Trojan_Njrat.yar"
+		score = 75
 
 	strings:
 		$a1 = "get_Registry" ascii fullword
@@ -168,7 +172,7 @@ private rule Windows_Trojan_Njrat_30f3c220
 		3 of them
 }
 
-private rule Windows_Trojan_Njrat_eb2698d2
+rule Windows_Trojan_Njrat_eb2698d2
 {
 	meta:
 		author = "Elastic Security"
@@ -186,6 +190,7 @@ private rule Windows_Trojan_Njrat_eb2698d2
 		ruleset = "Windows_Trojan_Njrat.yar"
 		repository = "elastic/protections-artifacts"
 		source_url = "https://github.com/elastic/protections-artifacts/blob/3bbef930abab9814b2fdb4704be075ab1daf2ea0/yara/rules/Windows_Trojan_Njrat.yar"
+		score = 75
 
 	strings:
 		$a1 = { 24 65 66 65 39 65 61 64 63 2D 64 34 61 65 2D 34 62 39 65 2D 62 38 61 62 2D 37 65 34 37 66 38 64 62 36 61 63 39 }
@@ -194,9 +199,7 @@ private rule Windows_Trojan_Njrat_eb2698d2
 		all of them
 }
 
-////////////////////////////////////////////////////////
-
-private rule malware_Njrat_strings
+rule malware_Njrat_strings
 {
 	meta:
 		description = "detect njRAT in memory"
@@ -207,6 +210,7 @@ private rule malware_Njrat_strings
 		repository = "JPCERTCC/jpcert-yara"
 		source_url = "https://github.com/JPCERTCC/jpcert-yara/blob/0722a9365ec6bc969c517c623cd166743d1bc473/other/njrat.yara"
 		license = "Other"
+		score = 75
 
 	strings:
 		$reg = "SEE_MASK_NOZONECHECKS" wide fullword
@@ -217,10 +221,7 @@ private rule malware_Njrat_strings
 		all of them
 }
 
-////////////////////////////////////////////////////////
-
-
-private rule njRat_1
+rule njRat_1
 {
 	meta:
 		author = " Kevin Breen <kevin@techanarchy.net>"
@@ -235,6 +236,7 @@ private rule njRat_1
 		repository = "opensourcesec/CIRTKit"
 		source_url = "https://github.com/opensourcesec/CIRTKit/blob/58b8793ada69320ffdbdd4ecdc04a3bb2fa83c37/data/yara/rats.yara"
 		license = "MIT License"
+		score = 75
 
 	strings:
 		$s1 = {7C 00 27 00 7C 00 27 00 7C}
@@ -246,12 +248,11 @@ private rule njRat_1
 		$v3 = "cmd.exe /c ping 0 -n 2 & del" wide
 
 	condition:
-		all of ($s*) and any of ($v*)
+		all of ($s*) and 
+		any of ($v*)
 }
 
-////////////////////////////////////////////////////////
-
-private rule Njrat_1
+rule Njrat_1
 {
 	meta:
 		author = " Kevin Breen <kevin@techanarchy.net> & ditekSHen"
@@ -263,6 +264,7 @@ private rule Njrat_1
 		ruleset = "Njrat.yar"
 		repository = "CAPESandbox/community"
 		source_url = "https://github.com/CAPESandbox/community/blob/30a130d01407ba0f0637fb44e8159131a0c4e1e5/data/yara/CAPE/Njrat.yar"
+		score = 75
 
 	strings:
 		$s1 = {7C 00 27 00 7C 00 27 00 7C}
@@ -280,14 +282,13 @@ private rule Njrat_1
 		$x6 = "[kl]" fullword wide
 
 	condition:
-		( all of ($s*) and any of ($v*)) or ( uint16(0)==0x5a4d and 4 of ($x*))
+		( all of ($s*) and 
+			any of ($v*)) or 
+		( uint16(0)==0x5a4d and 
+			4 of ($x*))
 }
 
-
-////////////////////////////////////////////////////////
-
-
-private rule njrat : rat
+rule njrat : rat
 {
 	meta:
 		rule_group = "implant"
@@ -317,6 +318,7 @@ private rule njrat : rat
 		repository = "CybercentreCanada/assemblyline-base"
 		source_url = "https://github.com/CybercentreCanada/assemblyline-base/blob/ecfbf3c5b391196e90687421031b44352febdf58/assemblyline/odm/random_data/sample_rules.yar"
 		license = "MIT License"
+		score = 75
 
 	strings:
 		$cnc_traffic_0 = {7C 00 27 00 7C 00 27 00 7C}
@@ -324,12 +326,11 @@ private rule njrat : rat
 		$rights_1 = "netsh firewall delete allowedprogram \"" wide
 
 	condition:
-		( all of ($cnc_traffic_*)) and ( all of ($rights_*))
+		( all of ($cnc_traffic_*)) and 
+		( all of ($rights_*))
 }
 
-////////////////////////////////////////////////////////
-
-private rule Windows_Trojan_Njrat_30f3c220_1
+rule Windows_Trojan_Njrat_30f3c220_1
 {
 	meta:
 		id = "30f3c220-b8dc-45a1-bcf0-027c2f76fa63"
@@ -351,6 +352,7 @@ private rule Windows_Trojan_Njrat_30f3c220_1
 		repository = "SpecterOps/Nemesis"
 		source_url = "https://github.com/SpecterOps/Nemesis/blob/84d5986f759161f60dc2e5b538ec88d95b289e43/cmd/enrichment/enrichment/lib/public_yara/elastic-agent-rules.yara"
 		license = "Other"
+		score = 75
 
 	strings:
 		$a1 = "get_Registry" ascii fullword
@@ -363,45 +365,51 @@ private rule Windows_Trojan_Njrat_30f3c220_1
 		all of them
 }
 
-////////////////////////////////////////////////////////
+rule win_njrat
+{
+	meta:
+		author = "CERT Polska"
+		date = "2020-07-20"
+		hash = "998b6ed5494b22e18d353fdd96226db3"
+		description = "Detects unpacked NjRAT malware."
+		reference = "https://malpedia.caad.fkie.fraunhofer.de/details/win.njrat"
 
+	strings:
+		$str_cmd1 = "md.exe /k ping 0 & del " wide
+		$str_cmd2 = "cmd.exe /c ping 127.0.0.1 & del" wide
+		$str_cmd3 = "cmd.exe /c ping" wide
+		$str_cmd4 = "cmd.exe /C Y /N /D Y /T 1 & Del" wide
+		$str_kl1 = "[kl]" wide
+		$str_kl2 = "[TAP]" wide
+		$str_kl3 = "[ENTER]" wide
+		$op_config_07d = { 46 69 78 00 6B 00 57 52 4B 00 6D 61 69 6E 00 00 00 }
+		$op_config_07d_indirect = { 54 00 45 00 4d 00 50 00 00 [1] 65 00 78 00 65 }
+		$op_config_07nc = { 63 00 6C 00 65 00 61 00 72 00 00 }
 
-rule win_njrat {
-    meta:
-        author = "CERT Polska"
-        date = "2020-07-20"
-        hash = "998b6ed5494b22e18d353fdd96226db3"
-        description = "Detects unpacked NjRAT malware."
-        reference = "https://malpedia.caad.fkie.fraunhofer.de/details/win.njrat"
-
-    strings:
-        $str_cmd1 = "md.exe /k ping 0 & del " wide
-        $str_cmd2 = "cmd.exe /c ping 127.0.0.1 & del" wide
-        $str_cmd3 = "cmd.exe /c ping" wide
-        $str_cmd4 = "cmd.exe /C Y /N /D Y /T 1 & Del" wide
-
-        $str_kl1 = "[kl]" wide
-        $str_kl2 = "[TAP]" wide
-        $str_kl3 = "[ENTER]" wide
-
-
-        $op_config_07d = { 46 69 78 00 6B 00 57 52 4B 00 6D 61 69 6E 00 00 00 }
-        $op_config_07d_indirect = { 54 00 45 00 4d 00 50 00 00 [1] 65 00 78 00 65 }
-
-        $op_config_07nc = { 63 00 6C 00 65 00 61 00 72 00 00 }
-
-    condition:
-        1 of ($str_cmd*) and
-        1 of ($str_kl*) and
-        1 of ($op_config*)
+	condition:
+		1 of ($str_cmd*) and 
+		1 of ($str_kl*) and 
+		1 of ($op_config*)
 }
 
-////////////////////////////////////////////////////////
-
-rule fsnjRAT {
+rule fsnjRAT
+{
 	meta:
 		description = "FsYARA - Malware Trends"
 		vetted_family = "njrat"
+
 	condition:
-		Njrat or njrat1 or win_exe_njRAT or njRat or Windows_Trojan_Njrat_30f3c220 or Windows_Trojan_Njrat_eb2698d2 or malware_Njrat_strings or njRat_1 or Njrat_1 or njrat or Windows_Trojan_Njrat_30f3c220_1 or win_njrat
+		Njrat or 
+		njrat1 or 
+		win_exe_njRAT or 
+		njRat or 
+		Windows_Trojan_Njrat_30f3c220 or 
+		Windows_Trojan_Njrat_eb2698d2 or 
+		malware_Njrat_strings or 
+		njRat_1 or 
+		Njrat_1 or 
+		njrat or 
+		Windows_Trojan_Njrat_30f3c220_1 or 
+		win_njrat
 }
+

@@ -1,4 +1,4 @@
-private rule AgentTesla
+rule AgentTesla
 {
 	meta:
 		author = "kevoreilly"
@@ -8,6 +8,7 @@ private rule AgentTesla
 		repository = "kevoreilly/CAPEv2"
 		source_url = "https://github.com/kevoreilly/CAPEv2/blob/9c8d6da44b595f8140a5cd76edd8101f6812c3b0/data/yara/CAPE/AgentTesla.yar"
 		license = "Other"
+		score = 75
 
 	strings:
 		$string1 = "smtp" wide
@@ -23,10 +24,12 @@ private rule AgentTesla
 		$agt4 = "GetSavedCookies" ascii
 
 	condition:
-		uint16(0)==0x5A4D and ( all of ($string*) or 3 of ($agt*))
+		uint16(0)==0x5A4D and 
+		( all of ($string*) or 
+			3 of ($agt*))
 }
 
-private rule AgentTeslaV2
+rule AgentTeslaV2
 {
 	meta:
 		author = "ditekshen"
@@ -36,6 +39,7 @@ private rule AgentTeslaV2
 		repository = "kevoreilly/CAPEv2"
 		source_url = "https://github.com/kevoreilly/CAPEv2/blob/9c8d6da44b595f8140a5cd76edd8101f6812c3b0/data/yara/CAPE/AgentTesla.yar"
 		license = "Other"
+		score = 75
 
 	strings:
 		$s1 = "get_kbHook" ascii
@@ -55,10 +59,13 @@ private rule AgentTeslaV2
 		$cl6 = "Thunderbird" fullword ascii
 
 	condition:
-		( uint16(0)==0x5a4d and 6 of ($s*)) or (6 of ($s*) and 2 of ($cl*))
+		( uint16(0)==0x5a4d and 
+			6 of ($s*)) or 
+		(6 of ($s*) and 
+			2 of ($cl*))
 }
 
-private rule AgentTeslaV3
+rule AgentTeslaV3
 {
 	meta:
 		author = "ditekshen"
@@ -68,6 +75,7 @@ private rule AgentTeslaV3
 		repository = "kevoreilly/CAPEv2"
 		source_url = "https://github.com/kevoreilly/CAPEv2/blob/9c8d6da44b595f8140a5cd76edd8101f6812c3b0/data/yara/CAPE/AgentTesla.yar"
 		license = "Other"
+		score = 75
 
 	strings:
 		$s1 = "get_kbok" fullword ascii
@@ -104,10 +112,14 @@ private rule AgentTeslaV3
 		$m5 = "\\WindowsLoad%ftphost%/%ftpuser%%ftppassword%STORLengthWriteCloseGetBytesOpera" ascii
 
 	condition:
-		( uint16(0)==0x5a4d and (8 of ($s*) or (6 of ($s*) and 4 of ($g*)))) or (2 of ($m*))
+		( uint16(0)==0x5a4d and 
+			(8 of ($s*) or 
+				(6 of ($s*) and 
+					4 of ($g*)))) or 
+		(2 of ($m*))
 }
 
-private rule AgentTeslaXor
+rule AgentTeslaXor
 {
 	meta:
 		author = "kevoreilly"
@@ -117,15 +129,17 @@ private rule AgentTeslaXor
 		repository = "kevoreilly/CAPEv2"
 		source_url = "https://github.com/kevoreilly/CAPEv2/blob/9c8d6da44b595f8140a5cd76edd8101f6812c3b0/data/yara/CAPE/AgentTesla.yar"
 		license = "Other"
+		score = 75
 
 	strings:
 		$decode = {06 91 06 61 20 [4] 61 D2 9C 06 17 58 0A 06 7E [4] 8E 69 FE 04 2D ?? 2A}
 
 	condition:
-		uint16(0)==0x5A4D and any of them
+		uint16(0)==0x5A4D and 
+		any of them
 }
 
-private rule AgentTeslaV4
+rule AgentTeslaV4
 {
 	meta:
 		author = "kevoreilly"
@@ -136,6 +150,7 @@ private rule AgentTeslaV4
 		repository = "kevoreilly/CAPEv2"
 		source_url = "https://github.com/kevoreilly/CAPEv2/blob/9c8d6da44b595f8140a5cd76edd8101f6812c3b0/data/yara/CAPE/AgentTesla.yar"
 		license = "Other"
+		score = 75
 
 	strings:
 		$decode1 = {(07|FE 0C 01 00) (07|FE 0C 01 00) 8E 69 (17|20 01 00 00 00) 63 8F ?? 00 00 01 25 47 (06|FE 0C 00 00) (1A|20 04 00 00 00) 58 4A D2 61 D2 52}
@@ -143,10 +158,11 @@ private rule AgentTeslaV4
 		$decode3 = {(07|FE 0C 01 00) (11 07|FE 0C 07 00) 8F ?? 00 00 01 25 47 (07|FE 0C 01 00) (08|FE 0C 02 00) 91 61 D2 52}
 
 	condition:
-		uint16(0)==0x5A4D and all of them
+		uint16(0)==0x5A4D and 
+		all of them
 }
 
-private rule AgentTeslaV4JIT
+rule AgentTeslaV4JIT
 {
 	meta:
 		author = "kevoreilly"
@@ -157,6 +173,7 @@ private rule AgentTeslaV4JIT
 		repository = "kevoreilly/CAPEv2"
 		source_url = "https://github.com/kevoreilly/CAPEv2/blob/9c8d6da44b595f8140a5cd76edd8101f6812c3b0/data/yara/CAPE/AgentTesla.yar"
 		license = "Other"
+		score = 75
 
 	strings:
 		$decode1 = {8B 01 8B 40 3C FF 50 10 8B C8 E8 [4] 89 45 CC B8 1A 00 00 00}
@@ -167,7 +184,7 @@ private rule AgentTeslaV4JIT
 		2 of them
 }
 
-private rule AgentTeslaV5
+rule AgentTeslaV5
 {
 	meta:
 		author = "ClaudioWayne"
@@ -178,6 +195,7 @@ private rule AgentTeslaV5
 		repository = "kevoreilly/CAPEv2"
 		source_url = "https://github.com/kevoreilly/CAPEv2/blob/9c8d6da44b595f8140a5cd76edd8101f6812c3b0/data/yara/CAPE/AgentTesla.yar"
 		license = "Other"
+		score = 75
 
 	strings:
 		$template1 = "<br>User Name: " fullword wide
@@ -221,12 +239,15 @@ private rule AgentTeslaV5
 		$software10 = "JDownloader 2.0\\cfg" fullword wide
 
 	condition:
-		uint16(0)==0x5a4d and 4 of ($template*) and 3 of ($chromium_browser*) and 3 of ($mozilla_browser*) and 3 of ($database*) and 5 of ($software*)
+		uint16(0)==0x5a4d and 
+		4 of ($template*) and 
+		3 of ($chromium_browser*) and 
+		3 of ($mozilla_browser*) and 
+		3 of ($database*) and 
+		5 of ($software*)
 }
 
-////////////////////////////////////////////////////////
-
-private rule Windows_Trojan_AgentTesla_d3ac2b2f
+rule Windows_Trojan_AgentTesla_d3ac2b2f
 {
 	meta:
 		author = "Elastic Security"
@@ -245,6 +266,7 @@ private rule Windows_Trojan_AgentTesla_d3ac2b2f
 		ruleset = "Windows_Trojan_AgentTesla.yar"
 		repository = "elastic/protections-artifacts"
 		source_url = "https://github.com/elastic/protections-artifacts/blob/3bbef930abab9814b2fdb4704be075ab1daf2ea0/yara/rules/Windows_Trojan_AgentTesla.yar"
+		score = 75
 
 	strings:
 		$a1 = "GetMozillaFromLogins" ascii fullword
@@ -291,7 +313,7 @@ private rule Windows_Trojan_AgentTesla_d3ac2b2f
 		8 of ($a*)
 }
 
-private rule Windows_Trojan_AgentTesla_e577e17e
+rule Windows_Trojan_AgentTesla_e577e17e
 {
 	meta:
 		author = "Elastic Security"
@@ -310,6 +332,7 @@ private rule Windows_Trojan_AgentTesla_e577e17e
 		ruleset = "Windows_Trojan_AgentTesla.yar"
 		repository = "elastic/protections-artifacts"
 		source_url = "https://github.com/elastic/protections-artifacts/blob/3bbef930abab9814b2fdb4704be075ab1daf2ea0/yara/rules/Windows_Trojan_AgentTesla.yar"
+		score = 75
 
 	strings:
 		$a = { 20 4D 27 00 00 33 DB 19 0B 00 07 17 FE 01 2C 02 18 0B 00 07 }
@@ -318,7 +341,7 @@ private rule Windows_Trojan_AgentTesla_e577e17e
 		all of them
 }
 
-private rule Windows_Trojan_AgentTesla_f2a90d14
+rule Windows_Trojan_AgentTesla_f2a90d14
 {
 	meta:
 		author = "Elastic Security"
@@ -337,6 +360,7 @@ private rule Windows_Trojan_AgentTesla_f2a90d14
 		ruleset = "Windows_Trojan_AgentTesla.yar"
 		repository = "elastic/protections-artifacts"
 		source_url = "https://github.com/elastic/protections-artifacts/blob/3bbef930abab9814b2fdb4704be075ab1daf2ea0/yara/rules/Windows_Trojan_AgentTesla.yar"
+		score = 75
 
 	strings:
 		$a = { 0B FE 01 2C 0B 07 16 7E 08 00 00 04 A2 1F 0C 0C 00 08 1F 09 FE 01 }
@@ -345,7 +369,7 @@ private rule Windows_Trojan_AgentTesla_f2a90d14
 		all of them
 }
 
-private rule Windows_Trojan_AgentTesla_a2d69e48
+rule Windows_Trojan_AgentTesla_a2d69e48
 {
 	meta:
 		author = "Elastic Security"
@@ -364,6 +388,7 @@ private rule Windows_Trojan_AgentTesla_a2d69e48
 		ruleset = "Windows_Trojan_AgentTesla.yar"
 		repository = "elastic/protections-artifacts"
 		source_url = "https://github.com/elastic/protections-artifacts/blob/3bbef930abab9814b2fdb4704be075ab1daf2ea0/yara/rules/Windows_Trojan_AgentTesla.yar"
+		score = 75
 
 	strings:
 		$a1 = { 00 03 08 08 10 08 10 18 09 00 04 08 18 08 10 08 10 18 0E 00 08 }
@@ -373,7 +398,7 @@ private rule Windows_Trojan_AgentTesla_a2d69e48
 		all of them
 }
 
-private rule Windows_Trojan_AgentTesla_ebf431a8
+rule Windows_Trojan_AgentTesla_ebf431a8
 {
 	meta:
 		author = "Elastic Security"
@@ -392,6 +417,7 @@ private rule Windows_Trojan_AgentTesla_ebf431a8
 		ruleset = "Windows_Trojan_AgentTesla.yar"
 		repository = "elastic/protections-artifacts"
 		source_url = "https://github.com/elastic/protections-artifacts/blob/3bbef930abab9814b2fdb4704be075ab1daf2ea0/yara/rules/Windows_Trojan_AgentTesla.yar"
+		score = 75
 
 	strings:
 		$a1 = "MozillaBrowserList"
@@ -405,9 +431,7 @@ private rule Windows_Trojan_AgentTesla_ebf431a8
 		4 of them
 }
 
-////////////////////////////////////////////////////////
-
-private rule Win32_Trojan_AgentTesla
+rule Win32_Trojan_AgentTesla
 {
 	meta:
 		description = "Identifies AgentTesla samples."
@@ -416,6 +440,7 @@ private rule Win32_Trojan_AgentTesla
 		repository = "netskopeoss/NetskopeThreatLabsIOCs"
 		source_url = "https://github.com/netskopeoss/NetskopeThreatLabsIOCs/blob/52c780db6106d0c0e8deb04653e036cdd4408e56/Malware/AgentTesla/Yara/Win32_Trojan_AgentTesla.yar"
 		license = "MIT License"
+		score = 75
 
 	strings:
 		$bin00 = "#Blob"
@@ -442,12 +467,12 @@ private rule Win32_Trojan_AgentTesla
 		$str18 = "set_IV"
 
 	condition:
-		uint16(0)==0x5a4d and all of ($bin*) and 10 of ($str*)
+		uint16(0)==0x5a4d and 
+		all of ($bin*) and 
+		10 of ($str*)
 }
 
-////////////////////////////////////////////////////////
-
-private rule agenttesla_smtp_variant
+rule agenttesla_smtp_variant
 {
 	meta:
 		author = "J from THL <j@techhelplist.com> with thx to @Fumik0_ !!1!"
@@ -462,6 +487,7 @@ private rule agenttesla_smtp_variant
 		repository = "Yara-Rules/rules"
 		source_url = "https://github.com/Yara-Rules/rules/blob/0f93570194a80d2f2032869055808b0ddcdfb360/malware/MALW_AgentTesla_SMTP.yar"
 		license = "GNU General Public License v2.0"
+		score = 75
 
 	strings:
 		$a = "type={"
@@ -480,9 +506,7 @@ private rule agenttesla_smtp_variant
 		6 of them
 }
 
-////////////////////////////////////////////////////////
-
-private rule AgentTeslaV3_1
+rule AgentTeslaV3_1
 {
 	meta:
 		author = "ditekshen"
@@ -493,6 +517,7 @@ private rule AgentTeslaV3_1
 		repository = "CYB3RMX/Qu1cksc0pe"
 		source_url = "https://github.com/CYB3RMX/Qu1cksc0pe/blob/8d74a4116951b46b9284102850f28f1082c17c04/Systems/Windows/YaraRules_Windows/CAPE_AgentTesla.yara"
 		license = "GNU General Public License v3.0"
+		score = 75
 
 	strings:
 		$s1 = "get_kbok" fullword ascii
@@ -521,13 +546,14 @@ private rule AgentTeslaV3_1
 		$m5 = "\\WindowsLoad%ftphost%/%ftpuser%%ftppassword%STORLengthWriteCloseGetBytesOpera" ascii
 
 	condition:
-		( uint16(0)==0x5a4d and (8 of ($s*) or (6 of ($s*) and all of ($g*)))) or (2 of ($m*))
+		( uint16(0)==0x5a4d and 
+			(8 of ($s*) or 
+				(6 of ($s*) and 
+					all of ($g*)))) or 
+		(2 of ($m*))
 }
 
-////////////////////////////////////////////////////////
-
-
-private rule Agenttesla_type1
+rule Agenttesla_type1
 {
 	meta:
 		description = "detect Agenttesla in memory"
@@ -538,6 +564,7 @@ private rule Agenttesla_type1
 		repository = "JPCERTCC/MalConfScan"
 		source_url = "https://github.com/JPCERTCC/MalConfScan/blob/19ec0d145535a6a4cfd37c0960114f455a8c343e/yara/rule.yara"
 		license = "Other"
+		score = 75
 
 	strings:
 		$iestr = "C:\\\\Users\\\\Admin\\\\Desktop\\\\IELibrary\\\\IELibrary\\\\obj\\\\Debug\\\\IELibrary.pdb"
@@ -548,7 +575,7 @@ private rule Agenttesla_type1
 		all of them
 }
 
-private rule Agenttesla_type2
+rule Agenttesla_type2
 {
 	meta:
 		description = "detect Agenttesla in memory"
@@ -560,6 +587,7 @@ private rule Agenttesla_type2
 		repository = "JPCERTCC/MalConfScan"
 		source_url = "https://github.com/JPCERTCC/MalConfScan/blob/19ec0d145535a6a4cfd37c0960114f455a8c343e/yara/rule.yara"
 		license = "Other"
+		score = 75
 
 	strings:
 		$type2db1 = "1.85 (Hash, version 2, native byte-order)" wide
@@ -568,12 +596,11 @@ private rule Agenttesla_type2
 		$type2db4 = "Berkelet DB" wide
 
 	condition:
-		( uint16(0)==0x5A4D) and 3 of them
+		( uint16(0)==0x5A4D) and 
+		3 of them
 }
 
-////////////////////////////////////////////////////////
-
-private rule Windows_Trojan_AgentTesla_d3ac2b2f_1
+rule Windows_Trojan_AgentTesla_d3ac2b2f_1
 {
 	meta:
 		id = "d3ac2b2f-14fc-4851-8a57-41032e386aeb"
@@ -595,6 +622,7 @@ private rule Windows_Trojan_AgentTesla_d3ac2b2f_1
 		repository = "SpecterOps/Nemesis"
 		source_url = "https://github.com/SpecterOps/Nemesis/blob/84d5986f759161f60dc2e5b538ec88d95b289e43/cmd/enrichment/enrichment/lib/public_yara/elastic-agent-rules.yara"
 		license = "Other"
+		score = 75
 
 	strings:
 		$a1 = "GetMozillaFromLogins" ascii fullword
@@ -638,12 +666,30 @@ private rule Windows_Trojan_AgentTesla_d3ac2b2f_1
 		8 of ($a*)
 }
 
-////////////////////////////////////////////////////////
-
-rule fsAgentTesla {
+rule fsAgentTesla
+{
 	meta:
 		description = "FsYARA - Malware Trends"
 		vetted_family = "agenttesla"
+
 	condition:
-		AgentTesla or AgentTeslaV2 or AgentTeslaV3 or AgentTeslaXor or AgentTeslaV4 or AgentTeslaV4JIT or AgentTeslaV5 or Windows_Trojan_AgentTesla_d3ac2b2f or Windows_Trojan_AgentTesla_e577e17e or Windows_Trojan_AgentTesla_f2a90d14 or Windows_Trojan_AgentTesla_a2d69e48 or Windows_Trojan_AgentTesla_ebf431a8 or Win32_Trojan_AgentTesla or agenttesla_smtp_variant or AgentTeslaV3_1 or Agenttesla_type1 or Agenttesla_type2 or Windows_Trojan_AgentTesla_d3ac2b2f_1
+		AgentTesla or 
+		AgentTeslaV2 or 
+		AgentTeslaV3 or 
+		AgentTeslaXor or 
+		AgentTeslaV4 or 
+		AgentTeslaV4JIT or 
+		AgentTeslaV5 or 
+		Windows_Trojan_AgentTesla_d3ac2b2f or 
+		Windows_Trojan_AgentTesla_e577e17e or 
+		Windows_Trojan_AgentTesla_f2a90d14 or 
+		Windows_Trojan_AgentTesla_a2d69e48 or 
+		Windows_Trojan_AgentTesla_ebf431a8 or 
+		Win32_Trojan_AgentTesla or 
+		agenttesla_smtp_variant or 
+		AgentTeslaV3_1 or 
+		Agenttesla_type1 or 
+		Agenttesla_type2 or 
+		Windows_Trojan_AgentTesla_d3ac2b2f_1
 }
+

@@ -1,4 +1,4 @@
-private rule SmokeLoader
+rule SmokeLoader
 {
 	meta:
 		author = "kevoreilly"
@@ -8,6 +8,7 @@ private rule SmokeLoader
 		repository = "kevoreilly/CAPEv2"
 		source_url = "https://github.com/kevoreilly/CAPEv2/blob/9c8d6da44b595f8140a5cd76edd8101f6812c3b0/data/yara/CAPE/SmokeLoader.yar"
 		license = "Other"
+		score = 75
 
 	strings:
 		$rc4_decrypt64 = {41 8D 41 01 44 0F B6 C8 42 0F B6 [2] 41 8D 04 12 44 0F B6 D0 42 8A [2] 42 88 [2] 42 88 [2] 42 0F B6 [2] 03 CA 0F B6 C1 8A [2] 30 0F 48 FF C7 49 FF CB 75}
@@ -19,9 +20,7 @@ private rule SmokeLoader
 		2 of them
 }
 
-////////////////////////////////////////////////////////
-
-private rule Windows_Trojan_Smokeloader_4e31426e
+rule Windows_Trojan_Smokeloader_4e31426e
 {
 	meta:
 		author = "Elastic Security"
@@ -39,6 +38,7 @@ private rule Windows_Trojan_Smokeloader_4e31426e
 		ruleset = "Windows_Trojan_Smokeloader.yar"
 		repository = "elastic/protections-artifacts"
 		source_url = "https://github.com/elastic/protections-artifacts/blob/3bbef930abab9814b2fdb4704be075ab1daf2ea0/yara/rules/Windows_Trojan_Smokeloader.yar"
+		score = 75
 
 	strings:
 		$a = { 5B 81 EB 34 10 00 00 6A 30 58 64 8B 00 8B 40 0C 8B 40 1C 8B 40 08 89 85 C0 }
@@ -47,7 +47,7 @@ private rule Windows_Trojan_Smokeloader_4e31426e
 		all of them
 }
 
-private rule Windows_Trojan_Smokeloader_4ee15b92
+rule Windows_Trojan_Smokeloader_4ee15b92
 {
 	meta:
 		author = "Elastic Security"
@@ -65,6 +65,7 @@ private rule Windows_Trojan_Smokeloader_4ee15b92
 		ruleset = "Windows_Trojan_Smokeloader.yar"
 		repository = "elastic/protections-artifacts"
 		source_url = "https://github.com/elastic/protections-artifacts/blob/3bbef930abab9814b2fdb4704be075ab1daf2ea0/yara/rules/Windows_Trojan_Smokeloader.yar"
+		score = 75
 
 	strings:
 		$a = { 24 34 30 33 33 8B 45 F4 5F 5E 5B C9 C2 10 00 55 89 E5 83 EC }
@@ -73,7 +74,7 @@ private rule Windows_Trojan_Smokeloader_4ee15b92
 		all of them
 }
 
-private rule Windows_Trojan_Smokeloader_ea14b2a5
+rule Windows_Trojan_Smokeloader_ea14b2a5
 {
 	meta:
 		author = "Elastic Security"
@@ -91,6 +92,7 @@ private rule Windows_Trojan_Smokeloader_ea14b2a5
 		ruleset = "Windows_Trojan_Smokeloader.yar"
 		repository = "elastic/protections-artifacts"
 		source_url = "https://github.com/elastic/protections-artifacts/blob/3bbef930abab9814b2fdb4704be075ab1daf2ea0/yara/rules/Windows_Trojan_Smokeloader.yar"
+		score = 75
 
 	strings:
 		$a1 = { AC 41 80 01 AC 41 80 00 AC 41 80 00 AC 41 C0 00 AC 41 80 01 }
@@ -100,7 +102,7 @@ private rule Windows_Trojan_Smokeloader_ea14b2a5
 		all of them
 }
 
-private rule Windows_Trojan_Smokeloader_de52ed44
+rule Windows_Trojan_Smokeloader_de52ed44
 {
 	meta:
 		author = "Elastic Security"
@@ -118,6 +120,7 @@ private rule Windows_Trojan_Smokeloader_de52ed44
 		ruleset = "Windows_Trojan_Smokeloader.yar"
 		repository = "elastic/protections-artifacts"
 		source_url = "https://github.com/elastic/protections-artifacts/blob/3bbef930abab9814b2fdb4704be075ab1daf2ea0/yara/rules/Windows_Trojan_Smokeloader.yar"
+		score = 75
 
 	strings:
 		$a1 = { 08 31 FF 89 7D CC 66 8C E8 66 85 C0 74 03 FF 45 CC FF 53 48 }
@@ -127,9 +130,7 @@ private rule Windows_Trojan_Smokeloader_de52ed44
 		all of them
 }
 
-////////////////////////////////////////////////////////
-
-private rule win_smokeloader_auto
+rule win_smokeloader_auto
 {
 	meta:
 		author = "Felix Bilstein - yara-signator at cocacoding dot com"
@@ -148,6 +149,7 @@ private rule win_smokeloader_auto
 		ruleset = "win.smokeloader_auto.yar"
 		repository = "malpedia/signator-rules"
 		source_url = "https://github.com/malpedia/signator-rules/blob/fbacfc09b84d53d410385e66a8e56f25016c588a/rules/win.smokeloader_auto.yar"
+		score = 75
 
 	strings:
 		$sequence_0 = { ff15???????? 8d45f0 50 8d45e8 50 8d45e0 50 }
@@ -217,12 +219,11 @@ private rule win_smokeloader_auto
 		$sequence_64 = { 5d 5d 285829 5e cb }
 
 	condition:
-		7 of them and filesize <245760
+		7 of them and 
+		filesize <245760
 }
 
-////////////////////////////////////////////////////////
-
-private rule malware_SmokeLoader
+rule malware_SmokeLoader
 {
 	meta:
 		description = "detect SmokeLoader in memory"
@@ -233,6 +234,7 @@ private rule malware_SmokeLoader
 		repository = "JPCERTCC/jpcert-yara"
 		source_url = "https://github.com/JPCERTCC/jpcert-yara/blob/0722a9365ec6bc969c517c623cd166743d1bc473/other/smokeloader.yara"
 		license = "Other"
+		score = 75
 
 	strings:
 		$a1 = { B8 25 30 38 58 }
@@ -240,12 +242,12 @@ private rule malware_SmokeLoader
 		$c1 = { C7 ?? ?? ?? 25 73 25 73 }
 
 	condition:
-		$a1 and $b1 and $c1
+		$a1 and 
+		$b1 and 
+		$c1
 }
 
-////////////////////////////////////////////////////////
-
-private rule Windows_Trojan_Smokeloader_3687686f
+rule Windows_Trojan_Smokeloader_3687686f
 {
 	meta:
 		author = "Elastic Security"
@@ -263,6 +265,7 @@ private rule Windows_Trojan_Smokeloader_3687686f
 		ruleset = "Windows_Trojan_Smokeloader.yar"
 		repository = "RoomaSec/RmTools"
 		source_url = "https://github.com/RoomaSec/RmTools/blob/fc4e0b5491bc699117804268d023467b0d047e87/yara_scanner/yara_rules/es_rules/Windows_Trojan_Smokeloader.yar"
+		score = 75
 
 	strings:
 		$a = { 0C 8B 45 F0 89 45 C8 8B 45 C8 8B 40 3C 8B 4D F0 8D 44 01 04 89 }
@@ -271,9 +274,7 @@ private rule Windows_Trojan_Smokeloader_3687686f
 		all of them
 }
 
-////////////////////////////////////////////////////////
-
-private rule SmokeLoader_1
+rule SmokeLoader_1
 {
 	meta:
 		author = "kev"
@@ -283,6 +284,7 @@ private rule SmokeLoader_1
 		ruleset = "SmokeLoader.yar"
 		repository = "ctxis/CAPE"
 		source_url = "https://github.com/ctxis/CAPE/blob/dae9fa6a254ecdbabeb7eb0d2389fa63722c1e82/data/yara/CAPE/SmokeLoader.yar"
+		score = 75
 
 	strings:
 		$decrypt64_1 = {44 0F B6 CF 48 8B D0 49 03 D9 4C 2B D8 8B 4B 01 41 8A 04 13 41 BA 04 00 00 00 0F C9 32 C1 C1 F9 08 49 FF CA 75 F6 F6 D0 88 02 48 FF C2 49 FF C9 75 DB 49 8B C0 48 8B 5C 24 30 48 83 C4 20 5F C3}
@@ -293,12 +295,21 @@ private rule SmokeLoader_1
 		any of ($decrypt*)
 }
 
-////////////////////////////////////////////////////////
-
-rule fsSmokeLoader {
+rule fsSmokeLoader
+{
 	meta:
 		description = "FsYARA - Malware Trends"
 		vetted_family = "smokeloader"
+
 	condition:
-		SmokeLoader or Windows_Trojan_Smokeloader_4e31426e or Windows_Trojan_Smokeloader_4ee15b92 or Windows_Trojan_Smokeloader_ea14b2a5 or Windows_Trojan_Smokeloader_de52ed44 or win_smokeloader_auto or malware_SmokeLoader or Windows_Trojan_Smokeloader_3687686f or SmokeLoader_1
+		SmokeLoader or 
+		Windows_Trojan_Smokeloader_4e31426e or 
+		Windows_Trojan_Smokeloader_4ee15b92 or 
+		Windows_Trojan_Smokeloader_ea14b2a5 or 
+		Windows_Trojan_Smokeloader_de52ed44 or 
+		win_smokeloader_auto or 
+		malware_SmokeLoader or 
+		Windows_Trojan_Smokeloader_3687686f or 
+		SmokeLoader_1
 }
+
