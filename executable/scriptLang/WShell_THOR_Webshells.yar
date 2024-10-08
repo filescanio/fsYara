@@ -1550,6 +1550,7 @@ rule webshell_asp_1d
 		all of them
 }
 
+/* duplicated
 rule webshell_jsp_IXRbE
 {
 	meta:
@@ -1564,7 +1565,7 @@ rule webshell_jsp_IXRbE
 
 	condition:
 		all of them
-}
+}*/
 
 rule webshell_PHP_G5
 {
@@ -1769,6 +1770,7 @@ rule webshell_PHPJackal_v1_5
 		all of them
 }
 
+/* duplicated
 rule webshell_customize
 {
 	meta:
@@ -1783,7 +1785,7 @@ rule webshell_customize
 
 	condition:
 		all of them
-}
+}*/
 
 rule webshell_s72_Shell_v1_1_Coding
 {
@@ -1907,6 +1909,8 @@ rule webshell_r57_1_4_0
 		all of them
 }
 
+
+/* duplicated
 rule webshell_jsp_hsxa1
 {
 	meta:
@@ -1921,7 +1925,8 @@ rule webshell_jsp_hsxa1
 
 	condition:
 		all of them
-}
+} */
+
 
 rule webshell_asp_ajn
 {
@@ -5053,6 +5058,7 @@ rule s72_Shell_v1_1_Coding_html
 		1 of them
 }
 
+/* duplicated
 rule hidshell_php_php
 {
 	meta:
@@ -5065,7 +5071,7 @@ rule hidshell_php_php
 
 	condition:
 		all of them
-}
+}*/
 
 rule kacak_asp
 {
@@ -8861,6 +8867,7 @@ rule phpshell
 		all of them
 }
 
+/* duplicated
 rule FSO_s_cmd
 {
 	meta:
@@ -8874,7 +8881,7 @@ rule FSO_s_cmd
 
 	condition:
 		all of them
-}
+}*/
 
 rule FeliksPack3___PHP_Shells_phpft
 {
@@ -9075,6 +9082,7 @@ rule installer
 		all of them
 }
 
+/* duplicated
 rule uploader
 {
 	meta:
@@ -9087,7 +9095,7 @@ rule uploader
 
 	condition:
 		all of them
-}
+}*/
 
 rule FSO_s_remview_2
 {
@@ -10192,6 +10200,7 @@ rule icyfox007v1_10_rar_Folder_asp
 		all of them
 }
 
+/* duplicated
 rule FSO_s_EFSO_2_2
 {
 	meta:
@@ -10205,7 +10214,7 @@ rule FSO_s_EFSO_2_2
 
 	condition:
 		all of them
-}
+}*/
 
 rule byshell063_ntboot_2
 {

@@ -2946,6 +2946,8 @@ rule mimikatz_lsass_mdmp
 		(uint32(0) == 0x504d444d) and $lsass
 }
 
+// fuplicated
+/*
 rule wce
 {
 	meta:
@@ -2960,7 +2962,7 @@ rule wce
 
 	condition:
 		any of them
-}
+}*/
 
 
 rule lsadump
@@ -2981,6 +2983,7 @@ rule lsadump
       and not uint16(0) == 0x5a4d
 }
 
+/* duplicated
 rule Mimikatz_Logfile
 {
 	meta:
@@ -2996,8 +2999,9 @@ rule Mimikatz_Logfile
 		$s4 = "wdigest :" ascii fullword
 	condition:
 		all of them
-}
+}*/
 
+/* duplicated
 rule AppInitHook {
 	meta:
 		description = "AppInitGlobalHooks-Mimikatz - Hide Mimikatz From Process Lists - file AppInitHook.dll"
@@ -3016,7 +3020,7 @@ rule AppInitHook {
 		$s6 = "VoidFunc" fullword ascii
 	condition:
 		uint16(0) == 0x5a4d and filesize < 500KB and 4 of them
-}
+}*/
 
 rule VSSown_VBS {
 	meta:
