@@ -4762,7 +4762,7 @@ condition:
 		$a0 at pe.entry_point
 }
 
-
+/* duplicated
 rule yodasCrypter13AshkbizDanehkar
 {
       meta:
@@ -4772,7 +4772,7 @@ strings:
 
 condition:
 		$a0 at pe.entry_point
-}
+}*/
 
 
 rule D1NS1GD1N

@@ -1,3 +1,5 @@
+
+/* duplicated
 rule apt_hiddencobra_rsakey {
 
 meta:
@@ -26,7 +28,7 @@ strings:
 
 condition: 
 	any of them
-}
+} */
 
 
 rule apt_hiddencobra_binaries {
@@ -50,6 +52,7 @@ condition:
 }
 
 
+/* duplicated
 rule apt_hiddencobra_urlbuilder {
 
 meta:
@@ -64,7 +67,7 @@ $randomUrlBuilder = { 83 EC 48 53 55 56 57 8B 3D ?? ?? ?? ?? 33 C0 C7 44 24 28 B
 
 condition: 
     $randomUrlBuilder
-}
+} */
 
 
 rule Malware_Updater
@@ -86,6 +89,7 @@ condition:
 	any of them
 } 
 
+/* duplicated
 rule Unauthorized_Proxy_Server_RAT
 {
 meta:
@@ -114,7 +118,7 @@ strings:
 	$s13 = {8A0A80F9627C2380F9797F1E80F9647C0A80F96D7F0580C10BEB0D80F96F7C0A80F9787F05}
 condition:
 	any of them
-} 
+} */
 
 rule NK_SSL_PROXY{
 meta:

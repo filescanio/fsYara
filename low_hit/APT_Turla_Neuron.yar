@@ -34,7 +34,7 @@ rule MW_neuron2_decryption_routine : Turla APT
         (uint16(0) == 0x5A4D and uint16(uint32(0x3c)) == 0x4550) and all of them
 }
 
-
+/* duplicated
 rule MW_neuron2_dotnet_strings : Turla APT
 {
     meta:
@@ -52,5 +52,5 @@ rule MW_neuron2_dotnet_strings : Turla APT
         $s4 = "D:\\Develop\\sps\\neuron2\\neuron2\\obj\\Release\\neuron2.pdb" ascii
     condition:
         (uint16(0) == 0x5A4D and uint16(uint32(0x3c)) == 0x4550) and $dotnetMagic and 2 of ($s*)
-}
+} */
 

@@ -951,6 +951,7 @@ rule BypassUacDll_6 {
 		all of them
 }
 
+/* duplicated
 rule BypassUacDll_7 {
 	meta:
 		description = "Auto-generated rule - file BypassUacDll.aps"
@@ -961,7 +962,7 @@ rule BypassUacDll_7 {
 		$s4 = "AFX_IDP_COMMAND_FAILURE" fullword ascii
 	condition:
 		all of them
-}
+} */
 
 rule BypassUac_EXE {
 	meta:

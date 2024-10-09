@@ -5,6 +5,7 @@
 
 import "pe"
 
+/* all of these are duplicated
 rule ZhoupinExploitCrew
 {
 
@@ -20,6 +21,7 @@ rule ZhoupinExploitCrew
   condition:
     1 of them
 }
+
 
 rule BackDoorLogger
 {
@@ -116,7 +118,7 @@ rule SmartCopy2
 
   condition:
     all of them
-}
+} */
 
 rule SynFlooder
 {
@@ -158,6 +160,7 @@ rule TinyZBot
     ($s1 and $s2) or ($s3 and $s4 and $s5) or ($s6 and $s7 and $s8) or ($s9)
 }
 
+/* all these duplicated
 rule antivirusdetector
 {
 
@@ -271,23 +274,8 @@ rule wndTest
 
   condition:
     all of them
-}
+} 
 
-rule zhCat
-{
-
-  meta:
-    author = "Cylance"
-    date = "2014-12-02"
-    description = "http://cylance.com/opcleaver"
-
-  strings:
-    $s1 = "zhCat -l -h -tp 1234"
-    $s2 = "ABC ( A Big Company )" wide
-
-  condition:
-    all of them
-}
 
 rule zhLookUp
 {
@@ -318,7 +306,24 @@ rule zhmimikatz
 
   condition:
     all of them
+} */
+
+rule zhCat
+{
+
+  meta:
+    author = "Cylance"
+    date = "2014-12-02"
+    description = "http://cylance.com/opcleaver"
+
+  strings:
+    $s1 = "zhCat -l -h -tp 1234"
+    $s2 = "ABC ( A Big Company )" wide
+
+  condition:
+    all of them
 }
+
 
 rule Zh0uSh311
 {

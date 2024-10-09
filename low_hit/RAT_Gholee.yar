@@ -5,6 +5,7 @@
 
 import "pe"
 
+/* duplicated rules
 rule gholeeV1
 {
     meta:
@@ -51,7 +52,7 @@ rule gholeeV2
 
     condition:
 	18 of them
-}
+} */
 
 rule MW_gholee_v1 : v1
 {
