@@ -1,3 +1,5 @@
+
+/* duplicated
 rule MW_neuron2_loader_strings : Turla APT loader
 {
     meta:
@@ -16,7 +18,7 @@ rule MW_neuron2_loader_strings : Turla APT loader
         $ = "D:\\Develop\\sps\\neuron2\\x64\\Release\\dcomnet.pdb" ascii
     condition:
         (uint16(0) == 0x5A4D and uint16(uint32(0x3c)) == 0x4550) and 2 of them
-}
+}*/
 
 
 rule MW_neuron2_decryption_routine : Turla APT
