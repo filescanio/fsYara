@@ -28,14 +28,21 @@ get_yara_files(repo.get_contents(""))
 
 print("rule1,ruleset1,rule2,ruleset2")
 for ruleset in rulesets:
-    yara_parser = plyara.Plyara()  # reset
-    yara_rules = yara_parser.parse_string(ruleset.decoded_content.decode())
-    for yara in yara_rules:
-        logic_hash = generate_hash(yara)
-        if logic_hash in logic_hash_dict:
-            print(f"{yara['rule_name']},{ruleset.path},{logic_hash_dict[logic_hash]['rule_name']},{logic_hash_dict[logic_hash]['ruleset']}")
-        else:
-            data = {}
-            data['rule_name'] = yara['rule_name']
-            data['ruleset'] = ruleset.path
-            logic_hash_dict[logic_hash] = data
+    try:
+        yara_parser = plyara.Plyara()  # reset
+        yara_rules = yara_parser.parse_string(ruleset.decoded_content.decode())
+        for yara in yara_rules:
+            try:
+                logic_hash = generate_hash(yara)
+                if logic_hash in logic_hash_dict:
+                    print(f"{yara['rule_name']},{ruleset.path},{logic_hash_dict[logic_hash]['rule_name']},{logic_hash_dict[logic_hash]['ruleset']}")
+                else:
+                    data = {}
+                    data['rule_name'] = yara['rule_name']
+                    data['ruleset'] = ruleset.path
+                    logic_hash_dict[logic_hash] = data
+            except:
+                print(f"Something wrong with yara rule:{yara} ({ruleset})")
+    except:
+        print(f"Something wrong with ruleset: {ruleset}")
+        
