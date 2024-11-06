@@ -26,13 +26,13 @@ for filepath in yara_files:
         print(f'Exception happened during parsing {filepath}... Exception: {str(e)}')
 
 
-ERROR = 0
+ERRORS = 0
 for rule_name, rule_files in RULE_NAMES.items():
     if len(rule_files) > 1:
         print(f'[ERROR] The rule "{rule_name}" is duplicated in the following files:')
         for file in rule_files:
             print(f'\t{file}')
         print()
-        ERROR += 1
+        ERRORS += 1
 
-sys.exit(ERROR)
+sys.exit(ERRORS)
