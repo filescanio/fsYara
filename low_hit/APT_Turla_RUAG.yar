@@ -4,8 +4,8 @@
 */
 
 
-/* duplicated
-rule Turla_APT_srsvc 
+// duplicated
+/* rule Turla_APT_srsvc 
 {
 
     meta:
@@ -29,8 +29,8 @@ rule Turla_APT_srsvc
 }*/
 
 
-/* duplicated
-rule Turla_APT_Malware_Gen1 
+// duplicated
+/* rule Turla_APT_Malware_Gen1 
 {
 
     meta:
@@ -108,8 +108,8 @@ rule Turla_APT_Malware_Gen2
 }
 
 
-/* duplicated
-rule Turla_APT_Malware_Gen3 
+// duplicated
+/*rule Turla_APT_Malware_Gen3 
 {
 
     meta:

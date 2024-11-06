@@ -3,7 +3,8 @@
 
 */
 
-rule Win32_Buzus_Softpulse
+// Duplicated
+/*rule Win32_Buzus_Softpulse
 {
 
     meta:
@@ -24,4 +25,4 @@ rule Win32_Buzus_Softpulse
     
     condition:
         uint16(0) == 0x5a4d and ( ( $x1 and 2 of ($s*) ) or all of ($s*) )
-}
+}*/

@@ -80,10 +80,8 @@ rule WaterBug_fa_malware {
 		uint16(0) == 0x5A4D  and (any of ($string*))
 }
 
-/* pe module memory leak problem
-
-
-rule WaterBug_turla_dll {
+// pe module memory leak problem
+/* rule WaterBug_turla_dll {
 	meta:
 		description = "Symantec Waterbug Attack - Trojan Turla DLL"
 		author = "Symantec Security Response"
@@ -93,9 +91,9 @@ rule WaterBug_turla_dll {
 		$a = /([A-Za-z0-9]{2,10}_){,2}Win32\.dll\x00/
 	condition:
 		pe.exports("ee") and $a
-}
+}*/
 
-rule WaterBug_sav_dropper {
+/*rule WaterBug_sav_dropper {
 	meta:
 		description = "Symantec Waterbug Attack - SAV Dropper"
 		author = "Symantec Security Response"
@@ -107,9 +105,7 @@ rule WaterBug_sav_dropper {
 		$a = /[a-z]{,10}_x64.sys\x00hMZ\x00/
 	condition:
 		($mz at 0) and uint32(0x400) == 0x000000c3 and pe.number_of_sections == 6 and $a
-}
-
-*/
+}*/
 
 rule WaterBug_sav {
 	meta:

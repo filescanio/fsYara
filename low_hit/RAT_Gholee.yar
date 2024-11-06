@@ -5,7 +5,8 @@
 
 import "pe"
 
-/* duplicated rules
+// duplicated
+/* rules
 rule gholeeV1
 {
     meta:

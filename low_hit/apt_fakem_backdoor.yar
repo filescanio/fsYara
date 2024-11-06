@@ -5,7 +5,8 @@
 	Identifier: FakeM
 */
 
-rule FakeM_Generic {
+// duplicated
+/*rule FakeM_Generic {
 	meta:
 		description = "Detects FakeM malware samples"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -29,7 +30,8 @@ rule FakeM_Generic {
 	strings:
 		$a1 = "\\system32\\kernel32.dll" ascii
 		$a2 = "\\boot.lnk" ascii
-		$a3 = "%USERPROFILE%" fullword ascii /* Goodware String - occured 16 times */
+		// Goodware String - occured 16 times
+		$a3 = "%USERPROFILE%" fullword ascii
 
 		$b1 = "Wizard.EXE" fullword wide
 		$b2 = "CommandLineA" fullword ascii
@@ -46,4 +48,4 @@ rule FakeM_Generic {
 	condition:
 		uint16(0) == 0x5a4d and filesize < 100KB and
 		( all of ($a*) or all of ($b*) or all of ($c*) or all of ($e*) or 1 of ($f*) )
-}
+}*/
