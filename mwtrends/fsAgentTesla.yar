@@ -671,6 +671,7 @@ rule fsAgentTesla
 	meta:
 		description = "FsYARA - Malware Trends"
 		vetted_family = "agenttesla"
+		score = 75
 
 	condition:
 		AgentTesla or 

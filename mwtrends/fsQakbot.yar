@@ -252,6 +252,7 @@ rule fsQakbot
 	meta:
 		description = "FsYARA - Malware Trends"
 		vetted_family = "qakbot"
+		score = 75
 
 	condition:
 		QakBot5 or 

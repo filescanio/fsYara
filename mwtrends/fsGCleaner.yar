@@ -168,6 +168,7 @@ rule fsGCleaner
 	meta:
 		description = "FsYARA - Malware Trends"
 		vetted_family = "gcleaner"
+		score = 75
 
 	condition:
 		win_gcleaner_auto or 

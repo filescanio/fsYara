@@ -244,6 +244,7 @@ rule fsFormbook
 	meta:
 		description = "FsYARA - Malware Trends"
 		vetted_family = "formbook"
+		score = 75
 
 	condition:
 		Formbook or 

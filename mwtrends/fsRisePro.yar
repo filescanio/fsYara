@@ -390,6 +390,7 @@ rule fsRisePro
 	meta:
 		description = "FsYARA - Malware Trends"
 		vetted_family = "risepro"
+		score = 75
 
 	condition:
 		RisePro or 

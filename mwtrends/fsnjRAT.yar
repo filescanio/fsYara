@@ -397,6 +397,7 @@ rule fsnjRAT
 	meta:
 		description = "FsYARA - Malware Trends"
 		vetted_family = "njrat"
+		score = 75
 
 	condition:
 		Njrat or 

@@ -300,6 +300,7 @@ rule fsSmokeLoader
 	meta:
 		description = "FsYARA - Malware Trends"
 		vetted_family = "smokeloader"
+		score = 75
 
 	condition:
 		SmokeLoader or 

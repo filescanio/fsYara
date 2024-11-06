@@ -1997,6 +1997,7 @@ rule fsCobalt
 	meta:
 		description = "FsYARA - Malware Trends"
 		vetted_family = "cobalt"
+		score = 75
 
 	condition:
 		Cobalt_functions or 

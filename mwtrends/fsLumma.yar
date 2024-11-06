@@ -424,6 +424,7 @@ rule fsLumma
 	meta:
 		description = "FsYARA - Malware Trends"
 		vetted_family = "lumma"
+		score = 75
 
 	condition:
 		Lumma or 

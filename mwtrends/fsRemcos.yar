@@ -332,6 +332,7 @@ rule win_remcos_auto_1
 		malpedia_version = "20190620"
 		malpedia_license = "CC BY-SA 4.0"
 		malpedia_sharing = "TLP:WHITE"
+		score = 75
 
 	strings:
 		$sequence_0 = { 51 50 8bce e8???????? 8b4608 ff7510 2b4508 }
@@ -354,6 +355,7 @@ rule fsRemcos
 	meta:
 		description = "FsYARA - Malware Trends"
 		vetted_family = "remcos"
+		score = 75
 
 	condition:
 		Remcos or 

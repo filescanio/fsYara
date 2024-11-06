@@ -858,6 +858,7 @@ rule fsRedline
 	meta:
 		description = "FsYARA - Malware Trends"
 		vetted_family = "redline"
+		score = 75
 
 	condition:
 		RedLine or 

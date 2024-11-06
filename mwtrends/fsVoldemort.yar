@@ -10,7 +10,7 @@ rule Win64_Backdoor_Voldemort
         category            = "MALWARE"
         malware             = "VOLDEMORT"
         description         = "Yara rule that detects Voldemort backdoor."
-	strength	    = 80
+	    strength	    = 75
 
     strings:
 
@@ -209,6 +209,7 @@ rule fsVoldemort
 	meta:
 		description = "FsYARA - Malware Trends"
 		vetted_family = "voldemort"
+		strength	    = 75
 
 	condition:
 		Win64_Backdoor_Voldemort

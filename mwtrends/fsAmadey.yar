@@ -186,6 +186,7 @@ rule fsAmadey
 	meta:
 		description = "FsYARA - Malware Trends"
 		vetted_family = "amadey"
+		score = 75
 
 	condition:
 		Amadey or 

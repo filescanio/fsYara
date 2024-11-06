@@ -106,6 +106,7 @@ rule fsLatrodectus
 	meta:
 		description = "FsYARA - Malware Trends"
 		vetted_family = "latrodectus"
+		score = 75
 
 	condition:
 		Latrodectus or 

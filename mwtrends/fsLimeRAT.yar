@@ -200,6 +200,7 @@ rule fsLimeRAT
 	meta:
 		description = "FsYARA - Malware Trends"
 		vetted_family = "limerat"
+		score = 75
 
 	condition:
 		Windows_Trojan_Limerat_24269a79 or 
