@@ -1,6 +1,6 @@
 
-/* duplicated
-rule apt_hiddencobra_rsakey {
+// duplicated
+/* rule apt_hiddencobra_rsakey {
 
 meta:
 
@@ -52,8 +52,8 @@ condition:
 }
 
 
-/* duplicated
-rule apt_hiddencobra_urlbuilder {
+// duplicated
+/* rule apt_hiddencobra_urlbuilder {
 
 meta:
 
@@ -89,8 +89,8 @@ condition:
 	any of them
 } 
 
-/* duplicated
-rule Unauthorized_Proxy_Server_RAT
+// duplicated
+/* rule Unauthorized_Proxy_Server_RAT
 {
 meta:
 	Author="US-CERT Code Analysis Team"

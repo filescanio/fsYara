@@ -1550,8 +1550,8 @@ rule webshell_asp_1d
 		all of them
 }
 
-/* duplicated
-rule webshell_jsp_IXRbE
+// duplicated
+/* rule webshell_jsp_IXRbE
 {
 	meta:
 		description = "Web Shell - file IXRbE.jsp"
@@ -1770,8 +1770,8 @@ rule webshell_PHPJackal_v1_5
 		all of them
 }
 
-/* duplicated
-rule webshell_customize
+// duplicated
+/* rule webshell_customize
 {
 	meta:
 		description = "Web Shell - file customize.jsp"
@@ -1910,8 +1910,8 @@ rule webshell_r57_1_4_0
 }
 
 
-/* duplicated
-rule webshell_jsp_hsxa1
+// duplicated
+/* rule webshell_jsp_hsxa1
 {
 	meta:
 		description = "Web Shell - file hsxa1.jsp"
@@ -5058,8 +5058,8 @@ rule s72_Shell_v1_1_Coding_html
 		1 of them
 }
 
-/* duplicated
-rule hidshell_php_php
+// duplicated
+/* rule hidshell_php_php
 {
 	meta:
 		description = "Semi-Auto-generated  - file hidshell.php.php.txt"
@@ -8867,8 +8867,8 @@ rule phpshell
 		all of them
 }
 
-/* duplicated
-rule FSO_s_cmd
+// duplicated
+/* rule FSO_s_cmd
 {
 	meta:
 		description = "Webshells Auto-generated - file cmd.asp"
@@ -9082,8 +9082,8 @@ rule installer
 		all of them
 }
 
-/* duplicated
-rule uploader
+// duplicated
+/* rule uploader
 {
 	meta:
 		description = "Webshells Auto-generated - file uploader.php"
@@ -10200,8 +10200,8 @@ rule icyfox007v1_10_rar_Folder_asp
 		all of them
 }
 
-/* duplicated
-rule FSO_s_EFSO_2_2
+// duplicated
+/* rule FSO_s_EFSO_2_2
 {
 	meta:
 		description = "Webshells Auto-generated - file EFSO_2.asp"

@@ -1,6 +1,6 @@
 
-/* duplicated
-rule MW_neuron2_loader_strings : Turla APT loader
+// duplicated
+/* rule MW_neuron2_loader_strings : Turla APT loader
 {
     meta:
         description = "Rule for detection of Neuron2 based on strings within the loader"
@@ -36,8 +36,8 @@ rule MW_neuron2_decryption_routine : Turla APT
         (uint16(0) == 0x5A4D and uint16(uint32(0x3c)) == 0x4550) and all of them
 }
 
-/* duplicated
-rule MW_neuron2_dotnet_strings : Turla APT
+// duplicated
+/* rule MW_neuron2_dotnet_strings : Turla APT
 {
     meta:
         description = "Rule for detection of the .NET payload for Neuron2 based on strings used"
