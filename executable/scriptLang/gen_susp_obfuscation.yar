@@ -25,6 +25,7 @@ rule SUSP_Double_Base64_Encoded_Executable {
       date = "2019-10-29"
       hash1 = "1a172d92638e6fdb2858dcca7a78d4b03c424b7f14be75c2fd479f59049bc5f9"
       id = "6fb40ed3-1afc-5d5b-9373-4a8490177b20"
+      score = 50
    strings:
       $ = "VFZwVEFRR" ascii wide
       $ = "RWcFRBUU" ascii wide
