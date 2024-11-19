@@ -1,4 +1,4 @@
-rule wezrat { 
+rule wezrat_strs { 
 	meta:
 		description = "Identifies wezrat strings"
 	        author = "OPSWAT"
