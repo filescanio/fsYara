@@ -47,6 +47,7 @@ rule wezrat_strs {
 			2 of ($st*) or
 			any of ($lib*) or
 			any of ($api*) or
-			any of ($command*)
+			any of ($command*)  or 
+			any of ($explicit*)
 			)
 }
