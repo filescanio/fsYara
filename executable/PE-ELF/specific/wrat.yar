@@ -1,9 +1,10 @@
 rule wezrat { 
 	meta:
 		description = "Identifies wezrat strings"
-        author = "OPSWAT"
-        score = 80
-        samples = "https://research.checkpoint.com/2024/wezrat-malware-deep-dive/"
+	        author = "OPSWAT"
+	        score = 80
+	        samples = "https://research.checkpoint.com/2024/wezrat-malware-deep-dive/"
+		vetted_family = "wezrat"
 	strings:
 		// random phrases for exceptions
 		$st0 = "He was wearing a vest." 
