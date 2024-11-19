@@ -41,7 +41,7 @@ rule wezrat_strs {
 		$command8 = "094091084100083100107" // library
 		$explicit = "/wez/api2.php"
 		$explicit2 = "/wez/api.php"
-		$explicit = "wez/insert.php" fullword
+		$explicit3 = "wez/insert.php" fullword
 	condition:
 		uint16(0) == 0x5A4D and (
 			2 of ($st*) or
