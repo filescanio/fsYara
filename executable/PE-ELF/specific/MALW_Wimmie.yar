@@ -13,8 +13,7 @@ rule WimmieShellcode : Wimmie Family
         description = "Wimmie code features"
         author = "Seth Hardy"
         last_modified = "2014-07-17"
-        vetted_family = "Wimmie"
-        
+
     strings:
         // decryption loop
         $ = { 49 30 24 39 83 F9 00 77 F7 8D 3D 4D 10 40 00 B9 0C 03 00 00 }
