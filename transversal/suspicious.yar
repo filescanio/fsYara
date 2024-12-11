@@ -3,6 +3,7 @@ rule Xored_PE
 	meta:
 		description = "Contains a XORed PE executable"
 		author = "Ivan Kwiatkowski (@JusticeRage)"
+		score = 60
 		
 	strings:
 		$a0 = { 55 69 68 72 21 71 73 6E 66 73 60 6C 21 62 60 6F 6F 6E 75 21 63 64 21 73 74 6F 21 68 6F 21 45 4E 52 21 6C 6E 65 64 2F }
