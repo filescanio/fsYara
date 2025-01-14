@@ -35,5 +35,5 @@ rule Worm_VBS_LoveLetter {
         $email_contacts2 = "AddressEntries"
 
     condition:
-        all of ($signature1, $signature2) or (9 of ($copy_file*, $download_*, $irc*, $email_*))
+        filesize < 25KB and (all of ($signature1, $signature2) or (9 of ($copy_file*, $download_*, $irc*, $email_*)))
 }
