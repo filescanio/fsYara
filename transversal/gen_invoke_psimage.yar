@@ -1,20 +1,18 @@
-// source: https://github.com/Neo23x0/signature-base/blob/2ccd5f772b3f626a0130dd562f1ae68602dcade0/yara/gen_invoke_psimage.yar
+rule Invoke_PSImage : hardened
+{
+	meta:
+		description = "Detects a command to execute PowerShell from String"
+		score = 60
+		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
+		author = "Florian Roth (Nextron Systems)"
+		reference = "https://github.com/peewpw/Invoke-PSImage"
+		date = "2017-12-16"
+		id = "6abf53cd-6465-555b-a7d4-f5a917073f01"
 
-
-rule Invoke_PSImage {
-   meta:
-      description = "Detects a command to execute PowerShell from String"
-      score = 60
-      license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
-      author = "Florian Roth (Nextron Systems)"
-      reference = "https://github.com/peewpw/Invoke-PSImage"
-      date = "2017-12-16"
-      id = "6abf53cd-6465-555b-a7d4-f5a917073f01"
-   strings:
-      $ = "IEX([System.Text.Encoding]::ASCII.GetString(" ascii wide
-      $ = "System.Drawing.Bitmap((a Net.WebClient).OpenRead(" ascii wide
-
-      $ = { 89 50 4E 47 0D 0A 1A 0A 00 00 00 0D 49 48 44 52
+	strings:
+		$ = {((49 45 58 28 5b 53 79 73 74 65 6d 2e 54 65 78 74 2e 45 6e 63 6f 64 69 6e 67 5d 3a 3a 41 53 43 49 49 2e 47 65 74 53 74 72 69 6e 67 28) | (49 00 45 00 58 00 28 00 5b 00 53 00 79 00 73 00 74 00 65 00 6d 00 2e 00 54 00 65 00 78 00 74 00 2e 00 45 00 6e 00 63 00 6f 00 64 00 69 00 6e 00 67 00 5d 00 3a 00 3a 00 41 00 53 00 43 00 49 00 49 00 2e 00 47 00 65 00 74 00 53 00 74 00 72 00 69 00 6e 00 67 00 28 00))}
+		$ = {((53 79 73 74 65 6d 2e 44 72 61 77 69 6e 67 2e 42 69 74 6d 61 70 28 28 61 20 4e 65 74 2e 57 65 62 43 6c 69 65 6e 74 29 2e 4f 70 65 6e 52 65 61 64 28) | (53 00 79 00 73 00 74 00 65 00 6d 00 2e 00 44 00 72 00 61 00 77 00 69 00 6e 00 67 00 2e 00 42 00 69 00 74 00 6d 00 61 00 70 00 28 00 28 00 61 00 20 00 4e 00 65 00 74 00 2e 00 57 00 65 00 62 00 43 00 6c 00 69 00 65 00 6e 00 74 00 29 00 2e 00 4f 00 70 00 65 00 6e 00 52 00 65 00 61 00 64 00 28 00))}
+		$ = { 89 50 4E 47 0D 0A 1A 0A 00 00 00 0D 49 48 44 52
             00 00 04 E4 00 00 03 A0 08 06 00 00 00 9D AF A9
             E8 00 00 00 09 70 48 59 73 00 00 19 D6 00 00 19
             D6 01 18 D1 CA ED 00 00 00 07 74 49 4D 45 07 E1
@@ -25,6 +23,8 @@ rule Invoke_PSImage {
             72 69 67 68 74 00 AC 0F CC 3A 00 00 00 0E 74 45
             58 74 43 72 65 61 74 69 6F 6E 20 74 69 6D 65 00
             35 F7 0F }
-   condition:
-      filesize < 3000KB and 1 of them
+
+	condition:
+		filesize < 3000KB and 1 of them
 }
+

@@ -1,24 +1,24 @@
-// https://github.com/Neo23x0/signature-base/blob/master/yara/apt_f5_bigip_expl_payloads.yar
+rule MAL_Payload_F5_BIG_IP_Exploitations_Jul20_1 : hardened
+{
+	meta:
+		description = "Detects code found in report on exploits against CVE-2020-5902 F5 BIG-IP vulnerability by NCC group"
+		author = "Florian Roth (Nextron Systems)"
+		reference = "https://research.nccgroup.com/2020/07/05/rift-f5-networks-k52145254-tmui-rce-vulnerability-cve-2020-5902-intelligence/"
+		date = "2020-06-07"
+		score = 75
+		id = "57705ba1-c0ad-5ca6-8539-44d9da6b5942"
 
-rule MAL_Payload_F5_BIG_IP_Exploitations_Jul20_1 {
-   meta:
-      description = "Detects code found in report on exploits against CVE-2020-5902 F5 BIG-IP vulnerability by NCC group"
-      author = "Florian Roth (Nextron Systems)"
-      reference = "https://research.nccgroup.com/2020/07/05/rift-f5-networks-k52145254-tmui-rce-vulnerability-cve-2020-5902-intelligence/"
-      date = "2020-06-07"
-      score = 75
-      id = "57705ba1-c0ad-5ca6-8539-44d9da6b5942"
-   strings:
-      $x1 = "rm -f /etc/ld.so.preload" ascii fullword
-      $x2 = "echo \"* * * * * $LDR" ascii
-      $x3 = ".sh -o /tmp/in.sh" ascii
-      $x4 = "chmod a+x /etc/.modules/.tmp" ascii
-      $x5 = "chmod +x /var/log/F5-logcheck"
+	strings:
+		$x1 = {72 6d 20 2d 66 20 2f 65 74 63 2f 6c 64 2e 73 6f 2e 70 72 65 6c 6f 61 64}
+		$x2 = {65 63 68 6f 20 22 2a 20 2a 20 2a 20 2a 20 2a 20 24 4c 44 52}
+		$x3 = {2e 73 68 20 2d 6f 20 2f 74 6d 70 2f 69 6e 2e 73 68}
+		$x4 = {63 68 6d 6f 64 20 61 2b 78 20 2f 65 74 63 2f 2e 6d 6f 64 75 6c 65 73 2f 2e 74 6d 70}
+		$x5 = {63 68 6d 6f 64 20 2b 78 20 2f 76 61 72 2f 6c 6f 67 2f 46 35 2d 6c 6f 67 63 68 65 63 6b}
+		$s1 = {75 6c 69 6d 69 74 20 2d 6e 20 36 35 35 33 35}
+		$s2 = {2d 73 20 2f 75 73 72 2f 62 69 6e 2f 77 67 65 74 20}
+		$s3 = {2e 73 68 20 7c 20 73 68}
 
-      $s1 = "ulimit -n 65535" ascii fullword
-      $s2 = "-s /usr/bin/wget " ascii
-      $s3 = ".sh | sh" ascii
-   condition:
-      filesize < 300KB and
-      ( 1 of ($x*) or 3 of them )
+	condition:
+		filesize < 300KB and ( 1 of ( $x* ) or 3 of them )
 }
+

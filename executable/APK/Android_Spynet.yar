@@ -1,11 +1,4 @@
-// source: https://github.com/Yara-Rules/rules/blob/master/deprecated/Android/Android_Spynet.yar
-
-/*
-    This Yara ruleset is under the GNU-GPLv2 license (http://www.gnu.org/licenses/gpl-2.0.html) and open to any user or organization, as    long as you use it under this license.
-
-*/
-
-rule SpyNet : malware
+rule SpyNet : malware hardened
 {
 	meta:
 		description = "Ruleset to detect SpyNetV2 samples. "
@@ -13,15 +6,17 @@ rule SpyNet : malware
 		sample = "e6ef34577a75fc0dc0a1f473304de1fc3a0d7d330bf58448db5f3108ed92741b"
 
 	strings:
-	$a = "odNotice.txt"
-	$b = "camera This device has camera!"
-	$c = "camera This device has Nooo camera!"
-	$d = "send|1sBdBBbbBBF|K|"
-	$e = "send|372|ScreamSMS|senssd"
-	$f = "send|5ms5gs5annc"
-	$g = "send|45CLCLCa01"
-	$h = "send|999SAnd|TimeStart"
-	$i = "!s!c!r!e!a!m!"
+		$a = {6f 64 4e 6f 74 69 63 65 2e 74 78 74}
+		$b = {63 61 6d 65 72 61 20 54 68 69 73 20 64 65 76 69 63 65 20 68 61 73 20 63 61 6d 65 72 61 21}
+		$c = {63 61 6d 65 72 61 20 54 68 69 73 20 64 65 76 69 63 65 20 68 61 73 20 4e 6f 6f 6f 20 63 61 6d 65 72 61 21}
+		$d = {73 65 6e 64 7c 31 73 42 64 42 42 62 62 42 42 46 7c 4b 7c}
+		$e = {73 65 6e 64 7c 33 37 32 7c 53 63 72 65 61 6d 53 4d 53 7c 73 65 6e 73 73 64}
+		$f = {73 65 6e 64 7c 35 6d 73 35 67 73 35 61 6e 6e 63}
+		$g = {73 65 6e 64 7c 34 35 43 4c 43 4c 43 61 30 31}
+		$h = {73 65 6e 64 7c 39 39 39 53 41 6e 64 7c 54 69 6d 65 53 74 61 72 74}
+		$i = {21 73 21 63 21 72 21 65 21 61 21 6d 21}
+
 	condition:
-		4 of them 
+		4 of them
 }
+

@@ -1,10 +1,4 @@
-// source: https://github.com/Yara-Rules/rules/blob/master/malware/RAT_Bozok.yar
-
-/*
-    This Yara ruleset is under the GNU-GPLv2 license (http://www.gnu.org/licenses/gpl-2.0.html) and open to any user or organization, as
-    long as you use it under this license.
-*/
-rule Bozok : RAT
+rule Bozok : RAT hardened limited
 {
 	meta:
 		author = " Kevin Breen <kevin@techanarchy.net>"
@@ -15,12 +9,13 @@ rule Bozok : RAT
 		filetype = "exe"
 
 	strings:
-		$a = "getVer" nocase
-		$b = "StartVNC" nocase
-		$c = "SendCamList" nocase
-		$d = "untPlugin" nocase
-		$e = "gethostbyname" nocase
+		$a = {67 65 74 56 65 72}
+		$b = {53 74 61 72 74 56 4e 43}
+		$c = {53 65 6e 64 43 61 6d 4c 69 73 74}
+		$d = {75 6e 74 50 6c 75 67 69 6e}
+		$e = {67 65 74 68 6f 73 74 62 79 6e 61 6d 65}
 
 	condition:
 		all of them
 }
+

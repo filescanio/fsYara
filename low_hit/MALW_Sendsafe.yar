@@ -1,48 +1,42 @@
-/*
-    This Yara ruleset is under the GNU-GPLv2 license (http://www.gnu.org/licenses/gpl-2.0.html) and open to any user or organization, as    long as you use it under this license.
-
-*/
-
-
-
-rule sendsafe {
-
-    meta:
-        author = " J from THL <j@techhelplist.com>"
-        date = "2016/09"
-        reference = "http://pastebin.com/WPWWs406"
+rule sendsafe : hardened
+{
+	meta:
+		author = " J from THL <j@techhelplist.com>"
+		date = "2016/09"
+		reference = "http://pastebin.com/WPWWs406"
 		version = 2
-        maltype = "Spammer"
-        filetype = "memory"
+		maltype = "Spammer"
+		filetype = "memory"
 
-    strings:
-        $a = "Enterprise Mailing Service"
-        $b = "Blacklisted by rule: %s:%s"
-        $c = "/SuccessMails?CampaignNum=%ld"
-        $d = "/TimedOutMails?CampaignNum=%ld"
-        $e = "/InvalidMails?CampaignNum=%ld"
-        $f = "Failed to download maillist, retrying"
-        $g = "No maillist loaded"
-        $h = "Successfully sent using SMTP account %s (%d of %ld messages to %s)"
-        $i = "Successfully sent %d of %ld messages to %s"
-        $j = "Sending to %s in the same connection"
-        $k = "New connection required, will send to %s"
-		$l = "Mail transaction for %s is over."
-		$m = "Domain %s is bad (found in cache)"
-		$n = "Domain %s found in cache"
-		$o = "Domain %s isn't found in cache, resolving it"
-		$p = "All tries to resolve %s failed."
-		$q = "Failed to receive response for %s from DNS server"
-		$r = "Got DNS server response: domain %s is bad"
-		$s = "Got error %d in response for %s from DNS server"
-		$t = "MX's IP for domain %s found in cache:"
-		$u = "Timeout waiting for domain %s to be resolved"
-		$v = "No valid MXes for domain %s. Marking it as bad"
-		$w = "Resolving MX %s using existing connection to DNS server"
-		$x = "All tries to resolve MX for %s are failed"
-		$y = "Resolving MX %s using DNS server"
-		$z = "Failed to receive response for MX %s from DNS server"
+	strings:
+		$a = {45 6e 74 65 72 70 72 69 73 65 20 4d 61 69 6c 69 6e 67 20 53 65 72 76 69 63 65}
+		$b = {42 6c 61 63 6b 6c 69 73 74 65 64 20 62 79 20 72 75 6c 65 3a 20 25 73 3a 25 73}
+		$c = {2f 53 75 63 63 65 73 73 4d 61 69 6c 73 3f 43 61 6d 70 61 69 67 6e 4e 75 6d 3d 25 6c 64}
+		$d = {2f 54 69 6d 65 64 4f 75 74 4d 61 69 6c 73 3f 43 61 6d 70 61 69 67 6e 4e 75 6d 3d 25 6c 64}
+		$e = {2f 49 6e 76 61 6c 69 64 4d 61 69 6c 73 3f 43 61 6d 70 61 69 67 6e 4e 75 6d 3d 25 6c 64}
+		$f = {46 61 69 6c 65 64 20 74 6f 20 64 6f 77 6e 6c 6f 61 64 20 6d 61 69 6c 6c 69 73 74 2c 20 72 65 74 72 79 69 6e 67}
+		$g = {4e 6f 20 6d 61 69 6c 6c 69 73 74 20 6c 6f 61 64 65 64}
+		$h = {53 75 63 63 65 73 73 66 75 6c 6c 79 20 73 65 6e 74 20 75 73 69 6e 67 20 53 4d 54 50 20 61 63 63 6f 75 6e 74 20 25 73 20 28 25 64 20 6f 66 20 25 6c 64 20 6d 65 73 73 61 67 65 73 20 74 6f 20 25 73 29}
+		$i = {53 75 63 63 65 73 73 66 75 6c 6c 79 20 73 65 6e 74 20 25 64 20 6f 66 20 25 6c 64 20 6d 65 73 73 61 67 65 73 20 74 6f 20 25 73}
+		$j = {53 65 6e 64 69 6e 67 20 74 6f 20 25 73 20 69 6e 20 74 68 65 20 73 61 6d 65 20 63 6f 6e 6e 65 63 74 69 6f 6e}
+		$k = {4e 65 77 20 63 6f 6e 6e 65 63 74 69 6f 6e 20 72 65 71 75 69 72 65 64 2c 20 77 69 6c 6c 20 73 65 6e 64 20 74 6f 20 25 73}
+		$l = {4d 61 69 6c 20 74 72 61 6e 73 61 63 74 69 6f 6e 20 66 6f 72 20 25 73 20 69 73 20 6f 76 65 72 2e}
+		$m = {44 6f 6d 61 69 6e 20 25 73 20 69 73 20 62 61 64 20 28 66 6f 75 6e 64 20 69 6e 20 63 61 63 68 65 29}
+		$n = {44 6f 6d 61 69 6e 20 25 73 20 66 6f 75 6e 64 20 69 6e 20 63 61 63 68 65}
+		$o = {44 6f 6d 61 69 6e 20 25 73 20 69 73 6e 27 74 20 66 6f 75 6e 64 20 69 6e 20 63 61 63 68 65 2c 20 72 65 73 6f 6c 76 69 6e 67 20 69 74}
+		$p = {41 6c 6c 20 74 72 69 65 73 20 74 6f 20 72 65 73 6f 6c 76 65 20 25 73 20 66 61 69 6c 65 64 2e}
+		$q = {46 61 69 6c 65 64 20 74 6f 20 72 65 63 65 69 76 65 20 72 65 73 70 6f 6e 73 65 20 66 6f 72 20 25 73 20 66 72 6f 6d 20 44 4e 53 20 73 65 72 76 65 72}
+		$r = {47 6f 74 20 44 4e 53 20 73 65 72 76 65 72 20 72 65 73 70 6f 6e 73 65 3a 20 64 6f 6d 61 69 6e 20 25 73 20 69 73 20 62 61 64}
+		$s = {47 6f 74 20 65 72 72 6f 72 20 25 64 20 69 6e 20 72 65 73 70 6f 6e 73 65 20 66 6f 72 20 25 73 20 66 72 6f 6d 20 44 4e 53 20 73 65 72 76 65 72}
+		$t = {4d 58 27 73 20 49 50 20 66 6f 72 20 64 6f 6d 61 69 6e 20 25 73 20 66 6f 75 6e 64 20 69 6e 20 63 61 63 68 65 3a}
+		$u = {54 69 6d 65 6f 75 74 20 77 61 69 74 69 6e 67 20 66 6f 72 20 64 6f 6d 61 69 6e 20 25 73 20 74 6f 20 62 65 20 72 65 73 6f 6c 76 65 64}
+		$v = {4e 6f 20 76 61 6c 69 64 20 4d 58 65 73 20 66 6f 72 20 64 6f 6d 61 69 6e 20 25 73 2e 20 4d 61 72 6b 69 6e 67 20 69 74 20 61 73 20 62 61 64}
+		$w = {52 65 73 6f 6c 76 69 6e 67 20 4d 58 20 25 73 20 75 73 69 6e 67 20 65 78 69 73 74 69 6e 67 20 63 6f 6e 6e 65 63 74 69 6f 6e 20 74 6f 20 44 4e 53 20 73 65 72 76 65 72}
+		$x = {41 6c 6c 20 74 72 69 65 73 20 74 6f 20 72 65 73 6f 6c 76 65 20 4d 58 20 66 6f 72 20 25 73 20 61 72 65 20 66 61 69 6c 65 64}
+		$y = {52 65 73 6f 6c 76 69 6e 67 20 4d 58 20 25 73 20 75 73 69 6e 67 20 44 4e 53 20 73 65 72 76 65 72}
+		$z = {46 61 69 6c 65 64 20 74 6f 20 72 65 63 65 69 76 65 20 72 65 73 70 6f 6e 73 65 20 66 6f 72 20 4d 58 20 25 73 20 66 72 6f 6d 20 44 4e 53 20 73 65 72 76 65 72}
 
-    condition:
-        13 of them
+	condition:
+		13 of them
 }
+

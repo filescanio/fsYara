@@ -1,24 +1,24 @@
-rule MAL_Passwordstate_Moserware_Backdoor_Apr21_1 {
-   meta:
-      description = "Detects backdoor used in Passwordstate incident"
-      author = "Florian Roth (Nextron Systems)"
-      reference = "https://thehackernews.com/2021/04/passwordstate-password-manager-update.html"
-      date = "2021-04-25"
-      hash1 = "c2169ab4a39220d21709964d57e2eafe4b68c115061cbb64507cfbbddbe635c6"
-      hash2 = "f23f9c2aaf94147b2c5d4b39b56514cd67102d3293bdef85101e2c05ee1c3bf9"
-      id = "061de3ae-c404-5e4a-a16b-b3b208b1ae7f"
-   strings:
-      $x1 = "https://passwordstate-18ed2.kxcdn.com" wide
+rule MAL_Passwordstate_Moserware_Backdoor_Apr21_1 : hardened
+{
+	meta:
+		description = "Detects backdoor used in Passwordstate incident"
+		author = "Florian Roth (Nextron Systems)"
+		reference = "https://thehackernews.com/2021/04/passwordstate-password-manager-update.html"
+		date = "2021-04-25"
+		hash1 = "c2169ab4a39220d21709964d57e2eafe4b68c115061cbb64507cfbbddbe635c6"
+		hash2 = "f23f9c2aaf94147b2c5d4b39b56514cd67102d3293bdef85101e2c05ee1c3bf9"
+		id = "061de3ae-c404-5e4a-a16b-b3b208b1ae7f"
 
-      $s1 = " ProxyUserName, ProxyPassword FROM [SystemSettings]" wide fullword
-      $s2 = "PasswordstateService.Passwordstate.Crypto" wide
-      $s3 = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.128 Safari" wide fullword
+	strings:
+		$x1 = {68 00 74 00 74 00 70 00 73 00 3a 00 2f 00 2f 00 70 00 61 00 73 00 73 00 77 00 6f 00 72 00 64 00 73 00 74 00 61 00 74 00 65 00 2d 00 31 00 38 00 65 00 64 00 32 00 2e 00 6b 00 78 00 63 00 64 00 6e 00 2e 00 63 00 6f 00 6d 00}
+		$s1 = {20 00 50 00 72 00 6f 00 78 00 79 00 55 00 73 00 65 00 72 00 4e 00 61 00 6d 00 65 00 2c 00 20 00 50 00 72 00 6f 00 78 00 79 00 50 00 61 00 73 00 73 00 77 00 6f 00 72 00 64 00 20 00 46 00 52 00 4f 00 4d 00 20 00 5b 00 53 00 79 00 73 00 74 00 65 00 6d 00 53 00 65 00 74 00 74 00 69 00 6e 00 67 00 73 00 5d 00}
+		$s2 = {50 00 61 00 73 00 73 00 77 00 6f 00 72 00 64 00 73 00 74 00 61 00 74 00 65 00 53 00 65 00 72 00 76 00 69 00 63 00 65 00 2e 00 50 00 61 00 73 00 73 00 77 00 6f 00 72 00 64 00 73 00 74 00 61 00 74 00 65 00 2e 00 43 00 72 00 79 00 70 00 74 00 6f 00}
+		$s3 = {4d 00 6f 00 7a 00 69 00 6c 00 6c 00 61 00 2f 00 35 00 2e 00 30 00 20 00 28 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 4e 00 54 00 20 00 31 00 30 00 2e 00 30 00 3b 00 20 00 57 00 69 00 6e 00 36 00 34 00 3b 00 20 00 78 00 36 00 34 00 29 00 20 00 41 00 70 00 70 00 6c 00 65 00 57 00 65 00 62 00 4b 00 69 00 74 00 2f 00 35 00 33 00 37 00 2e 00 33 00 36 00 20 00 28 00 4b 00 48 00 54 00 4d 00 4c 00 2c 00 20 00 6c 00 69 00 6b 00 65 00 20 00 47 00 65 00 63 00 6b 00 6f 00 29 00 20 00 43 00 68 00 72 00 6f 00 6d 00 65 00 2f 00 38 00 39 00 2e 00 30 00 2e 00 34 00 33 00 38 00 39 00 2e 00 31 00 32 00 38 00 20 00 53 00 61 00 66 00 61 00 72 00 69 00}
+		$op1 = { 00 4c 00 4e 00 43 00 4c 00 49 00 31 00 31 00 3b 00 00 17 }
+		$op2 = { 4c 00 49 00 31 00 31 00 3b 00 00 17 50 00 72 00 }
+		$op3 = { 61 00 74 00 65 00 2d 00 31 00 38 00 65 00 64 00 32 00 2e 00 6b 00 78 00 }
 
-      $op1 = { 00 4c 00 4e 00 43 00 4c 00 49 00 31 00 31 00 3b 00 00 17 }
-      $op2 = { 4c 00 49 00 31 00 31 00 3b 00 00 17 50 00 72 00 }
-      $op3 = { 61 00 74 00 65 00 2d 00 31 00 38 00 65 00 64 00 32 00 2e 00 6b 00 78 00 }
-   condition:
-      uint16(0) == 0x5a4d and
-      filesize < 200KB and
-      1 of ($x*) or 3 of them
+	condition:
+		uint16( 0 ) == 0x5a4d and filesize < 200KB and 1 of ( $x* ) or 3 of them
 }
+

@@ -1,2368 +1,2259 @@
-// source: https://github.com/ditekshen/detection/blob/c37b067259715d4c93ac274a0830c54b355556a1/yara/indicator_suspicious.yar
-
-import "pe"
-import "time"
-
-rule INDICATOR_SUSPICIOUS_GENRansomware {
-    meta:
-        description = "Detects command variations typically used by ransomware"
-        author = "ditekSHen"
-        score = 50
-    strings:
-        $cmd1 = "cmd /c \"WMIC.exe shadowcopy delet\"" ascii wide nocase
-        $cmd2 = "vssadmin.exe Delete Shadows /all" ascii wide nocase
-        $cmd3 = "Delete Shadows /all" ascii wide nocase
-        $cmd4 = "} recoveryenabled no" ascii wide nocase
-        $cmd5 = "} bootstatuspolicy ignoreallfailures" ascii wide nocase
-        $cmd6 = "wmic SHADOWCOPY DELETE" ascii wide nocase
-        $cmd7 = "\\Microsoft\\Windows\\SystemRestore\\SR\" /disable" ascii wide nocase
-        $cmd8 = "resize shadowstorage /for=c: /on=c: /maxsize=" ascii wide nocase
-        $cmd9 = "shadowcopy where \"ID='%s'\" delete" ascii wide nocase
-        $cmd10 = "wmic.exe SHADOWCOPY /nointeractive" ascii wide nocase
-        $cmd11 = "WMIC.exe shadowcopy delete" ascii wide nocase
-        $cmd12 = "Win32_Shadowcopy | ForEach-Object {$_.Delete();}" ascii wide nocase
-        $delr = /del \/s \/f \/q(( [A-Za-z]:\\(\*\.|[Bb]ackup))(VHD|bac|bak|wbcat|bkf)?)+/ ascii wide
-        $wp1 = "delete catalog -quiet" ascii wide nocase
-        $wp2 = "wbadmin delete backup" ascii wide nocase
-        $wp3 = "delete systemstatebackup" ascii wide nocase
-    condition:
-        (uint16(0) == 0x5a4d and 2 of ($cmd*) or (1 of ($cmd*) and 1 of ($wp*)) or #delr > 4) or (4 of them)
-}
-
-//rule INDICATOR_SUSPICIOUS_ReflectiveLoader {
-//    meta:
-//        description = "Detects Reflective DLL injection artifacts"
-//        author = "ditekSHen"
-//    strings:
-//        $s1 = "_ReflectiveLoader@" ascii wide
-//        $s2 = "ReflectiveLoader@" ascii wide
-//    condition:
-//        uint16(0) == 0x5a4d and (1 of them or (
-//            pe.exports("ReflectiveLoader@4") or
-//            pe.exports("_ReflectiveLoader@4") or
-//            pe.exports("ReflectiveLoader")
-//            )
-//        )
-//}
-
-rule INDICATOR_SUSPICIOUS_EXE_UACBypass_EventViewer {
-    meta:
-        description = "detects Windows exceutables potentially bypassing UAC using eventvwr.exe"
-        author = "ditekSHen"
-        score = 60
-    strings:
-        $s1 = "\\Classes\\mscfile\\shell\\open\\command" ascii wide nocase
-        $s2 = "eventvwr.exe" ascii wide nocase
-    condition:
-       uint16(0) == 0x5a4d and all of them
-}
-
-rule INDICATOR_SUSPICIOUS_EXE_UACBypass_CleanMgr {
-    meta:
-        description = "detects Windows exceutables potentially bypassing UAC using cleanmgr.exe"
-        author = "ditekSHen"
-    strings:
-        $s1 = "\\Enviroment\\windir" ascii wide nocase
-        $s2 = "\\system32\\cleanmgr.exe" ascii wide nocase
-    condition:
-       uint16(0) == 0x5a4d and all of them
-}
-
-rule INDICATOR_SUSPICIOUS_EXE_Enable_OfficeMacro {
-    meta:
-        description = "Detects Windows executables referencing Office macro registry keys. Observed modifying Office configurations via the registy to enable macros"
-        author = "ditekSHen"
-    strings:
-        $s1 = "\\Word\\Security\\VBAWarnings" ascii wide
-        $s2 = "\\PowerPoint\\Security\\VBAWarnings" ascii wide
-        $s3 = "\\Excel\\Security\\VBAWarnings" ascii wide
-
-        $h1 = "5c576f72645c53656375726974795c5642415761726e696e6773" nocase ascii wide
-        $h2 = "5c506f776572506f696e745c53656375726974795c5642415761726e696e6773" nocase ascii wide
-        $h3 = "5c5c457863656c5c5c53656375726974795c5c5642415761726e696e6773" nocase ascii wide
-
-        $d1 = "5c%57%6f%72%64%5c%53%65%63%75%72%69%74%79%5c%56%42%41%57%61%72%6e%69%6e%67%73" nocase ascii
-        $d2 = "5c%50%6f%77%65%72%50%6f%69%6e%74%5c%53%65%63%75%72%69%74%79%5c%56%42%41%57%61%72%6e%69%6e%67%73" nocase ascii
-        $d3 = "5c%5c%45%78%63%65%6c%5c%5c%53%65%63%75%72%69%74%79%5c%5c%56%42%41%57%61%72%6e%69%6e%67%73" nocase ascii
-    condition:
-        uint16(0) == 0x5a4d and (2 of ($s*) or 2 of ($h*) or 2 of ($d*))
-}
-
-rule INDICATOR_SUSPICIOUS_EXE_Disable_OfficeProtectedView {
-    meta:
-        description = "Detects Windows executables referencing Office ProtectedView registry keys. Observed modifying Office configurations via the registy to disable ProtectedView"
-        author = "ditekSHen"
-    strings:
-        $s1 = "\\Security\\ProtectedView\\DisableInternetFilesInPV" ascii wide
-        $s2 = "\\Security\\ProtectedView\\DisableAttachementsInPV" ascii wide
-        $s3 = "\\Security\\ProtectedView\\DisableUnsafeLocationsInPV" ascii wide
-
-        $h1 = "5c53656375726974795c50726f746563746564566965775c44697361626c65496e7465726e657446696c6573496e5056" nocase ascii wide
-        $h2 = "5c53656375726974795c50726f746563746564566965775c44697361626c65417474616368656d656e7473496e5056" nocase ascii wide
-        $h3 = "5c53656375726974795c50726f746563746564566965775c44697361626c65556e736166654c6f636174696f6e73496e5056" nocase ascii wide
-
-        $d1 = "5c%53%65%63%75%72%69%74%79%5c%50%72%6f%74%65%63%74%65%64%56%69%65%77%5c%44%69%73%61%62%6c%65%49%6e%74%65%72%6e%65%74%46%69%6c%65%73%49%6e%50%56" nocase ascii
-        $d2 = "5c%53%65%63%75%72%69%74%79%5c%50%72%6f%74%65%63%74%65%64%56%69%65%77%5c%44%69%73%61%62%6c%65%41%74%74%61%63%68%65%6d%65%6e%74%73%49%6e%50%56" nocase ascii
-        $d3 = "5c%53%65%63%75%72%69%74%79%5c%50%72%6f%74%65%63%74%65%64%56%69%65%77%5c%44%69%73%61%62%6c%65%55%6e%73%61%66%65%4c%6f%63%61%74%69%6f%6e%73%49%6e%50%56" nocase ascii
-    condition:
-         uint16(0) == 0x5a4d and (2 of ($s*) or 2 of ($h*) or 2 of ($d*))
-}
-
-rule INDICATOR_SUSPICIOUS_EXE_SandboxProductID {
-    meta:
-        description = "Detects binaries and memory artifacts referencing sandbox product IDs"
-        author = "ditekSHen"
-        score = 60
-    strings:
-        $id1 = "76487-337-8429955-22614" fullword ascii wide // Anubis Sandbox
-        $id2 = "76487-644-3177037-23510" fullword ascii wide // CW Sandbox
-        $id3 = "55274-640-2673064-23950" fullword ascii wide // Joe Sandbox
-        $id4 = "76487-640-1457236-23837" fullword ascii wide // Anubis Sandbox
-        $id5 = "76497-640-6308873-23835" fullword ascii wide // CWSandbox
-        $id6 = "76487-640-1464517-23259" fullword ascii wide // ??
-        $id7 = "76487 - 337 - 8429955 - 22614" fullword ascii wide // Anubis Sandbox
-        $id8 = "76487 - 644 - 3177037 - 23510" fullword ascii wide // CW Sandbox
-        $id9 = "55274 - 640 - 2673064 - 23950" fullword ascii wide // Joe Sandbox
-        $id10 = "76487 - 640 - 1457236 - 23837" fullword ascii wide // Anubis Sandbox
-        $id11 = "76497 - 640 - 6308873 - 23835" fullword ascii wide // CWSandbox
-        $id12 = "76487 - 640 - 1464517 - 23259" fullword ascii wide // ??
-    condition:
-        uint16(0) == 0x5a4d and 2 of them
-}
-
-rule INDICATOR_SUSPICIOUS_EXE_SandboxHookingDLL {
-    meta:
-        description = "Detects binaries and memory artifacts referencing sandbox DLLs typically observed in sandbox evasion"
-        author = "ditekSHen"
-        score = 80
-    strings:
-        $dll1 = "sbiedll.dll" nocase fullword ascii wide 
-        //$dll2 = "dbghelp.dll" nocase fullword ascii wide  
-        $dll3 = "api_log.dll" nocase fullword ascii wide  
-        $dll4 = "pstorec.dll" nocase fullword ascii wide  
-        $dll5 = "dir_watch.dll" nocase fullword ascii wide
-        $dll6 = "vmcheck.dll" nocase fullword ascii wide  
-        $dll7 = "wpespy.dll" nocase fullword ascii wide   
-        $dll8 = "SxIn.dll" nocase fullword ascii wide     
-        $dll9 = "Sf2.dll" nocase fullword ascii wide     
-        $dll10 = "deploy.dll" nocase fullword ascii wide   
-        $dll11 = "avcuf32.dll" nocase fullword ascii wide  
-        $dll12 = "BgAgent.dll" nocase fullword ascii wide  
-        $dll13 = "guard32.dll" nocase fullword ascii wide  
-        $dll14 = "wl_hook.dll" nocase fullword ascii wide  
-        $dll15 = "QOEHook.dll" nocase fullword ascii wide  
-        $dll16 = "a2hooks32.dll" nocase fullword ascii wide
-        $dll17 = "tracer.dll" nocase fullword ascii wide
-        $dll18 = "APIOverride.dll" nocase fullword ascii wide
-        $dll19 = "NtHookEngine.dll" nocase fullword ascii wide
-        $dll20 = "LOG_API.DLL" nocase fullword ascii wide
-        $dll21 = "LOG_API32.DLL" nocase fullword ascii wide
-        $dll22 = "vmcheck32.dll" nocase ascii wide
-        $dll23 = "vmcheck64.dll" nocase ascii wide
-        $dll24 = "cuckoomon.dll" nocase ascii wide
-    condition:
-        uint16(0) == 0x5a4d and 3 of them
-}
-
-rule INDICATOR_SUSPICIOUS_AHK_Downloader {
-    meta:
-        description = "Detects AutoHotKey binaries acting as second stage droppers"
-        author = "ditekSHen"
-    strings:
-        $d1 = "URLDownloadToFile, http" ascii
-        $d2 = "URLDownloadToFile, file" ascii
-        $s1 = ">AUTOHOTKEY SCRIPT<" fullword wide
-        $s2 = "open \"%s\" alias AHK_PlayMe" fullword wide
-        $s3 = /AHK\s(Keybd|Mouse)/ fullword wide
-    condition:
-        uint16(0) == 0x5a4d and (1 of ($d*) and 1 of ($s*))
-}
-
-rule INDICATOR_SUSPICIOUS_EXE_UACBypass_CMSTPCOM {
-    meta:
-        description = "Detects Windows exceutables bypassing UAC using CMSTP COM interfaces. MITRE (T1218.003)"
-        author = "ditekSHen"
-        score = 75
-    strings:
-        // CMSTPLUA
-        $guid1 = "{3E5FC7F9-9A51-4367-9063-A120244FBEC7}" ascii wide nocase
-        // CMLUAUTIL
-        $guid2 = "{3E000D72-A845-4CD9-BD83-80C07C3B881F}" ascii wide nocase
-        // Connection Manager LUA Host Object
-        $guid3 = "{BA126F01-2166-11D1-B1D0-00805FC1270E}" ascii wide nocase
-        $s1 = "CoGetObject" fullword ascii wide
-        $s2 = "Elevation:Administrator!new:" fullword ascii wide
-    condition:
-       uint16(0) == 0x5a4d and (1 of ($guid*) and 1 of ($s*))
-}
-
-rule INDICATOR_SUSPICOUS_EXE_References_VEEAM {
-    meta:
-        author = "ditekSHen"
-        description = "Detects executables containing many references to VEEAM. Observed in ransomware"
-        score = 40
-    strings:
-        $s1 = "VeeamNFSSvc" ascii wide nocase
-        $s2 = "VeeamRESTSvc" ascii wide nocase
-        $s3 = "VeeamCloudSvc" ascii wide nocase
-        $s4 = "VeeamMountSvc" ascii wide nocase
-        $s5 = "VeeamBackupSvc" ascii wide nocase
-        $s6 = "VeeamBrokerSvc" ascii wide nocase
-        $s7 = "VeeamDeploySvc" ascii wide nocase
-        $s8 = "VeeamCatalogSvc" ascii wide nocase
-        $s9 = "VeeamTransportSvc" ascii wide nocase
-        $s10 = "VeeamDeploymentService" ascii wide nocase
-        $s11 = "VeeamHvIntegrationSvc" ascii wide nocase
-        $s12 = "VeeamEnterpriseManagerSvc" ascii wide nocase
-        $s13 = "\"Veeam Backup Catalog Data Service\"" ascii wide nocase
-        $e1 = "veeam.backup.agent.configurationservice.exe" ascii wide nocase
-        $e2 = "veeam.backup.brokerservice.exe" ascii wide nocase
-        $e3 = "veeam.backup.catalogdataservice.exe" ascii wide nocase
-        $e4 = "veeam.backup.cloudservice.exe" ascii wide nocase
-        $e5 = "veeam.backup.externalinfrastructure.dbprovider.exe" ascii wide nocase
-        $e6 = "veeam.backup.manager.exe" ascii wide nocase
-        $e7 = "veeam.backup.mountservice.exe" ascii wide nocase
-        $e8 = "veeam.backup.service.exe" ascii wide nocase
-        $e9 = "veeam.backup.uiserver.exe" ascii wide nocase
-        $e10 = "veeam.backup.wmiserver.exe" ascii wide nocase
-        $e11 = "veeamdeploymentsvc.exe" ascii wide nocase
-        $e12 = "veeamfilesysvsssvc.exe" ascii wide nocase
-        $e13 = "veeam.guest.interaction.proxy.exe" ascii wide nocase
-        $e14 = "veeamnfssvc.exe" ascii wide nocase
-        $e15 = "veeamtransportsvc.exe" ascii wide nocase
-    condition:
-        uint16(0) == 0x5a4d and 3 of them
-}
-
-rule INDICATOR_SUSPICIOUS_Binary_References_Browsers {
-    meta:
-        description = "Detects binaries (Windows and macOS) referencing many web browsers. Observed in information stealers."
-        author = "ditekSHen"
-        score = 50
-    strings:
-        $s1 = "Uran\\User Data" nocase ascii wide
-        $s2 = "Amigo\\User Data" nocase ascii wide
-        $s3 = "Torch\\User Data" nocase ascii wide
-        $s4 = "Chromium\\User Data" nocase ascii wide
-        $s5 = "Nichrome\\User Data" nocase ascii wide
-        $s6 = "Google\\Chrome\\User Data" nocase ascii wide
-        $s7 = "360Browser\\Browser\\User Data" nocase ascii wide
-        $s8 = "Maxthon3\\User Data" nocase ascii wide
-        $s9 = "Comodo\\User Data" nocase ascii wide
-        $s10 = "CocCoc\\Browser\\User Data" nocase ascii wide
-        $s11 = "Vivaldi\\User Data" nocase ascii wide
-        $s12 = "Opera Software\\" nocase ascii wide
-        $s13 = "Kometa\\User Data" nocase ascii wide
-        $s14 = "Comodo\\Dragon\\User Data" nocase ascii wide
-        $s15 = "Sputnik\\User Data" nocase ascii wide
-        $s16 = "Google (x86)\\Chrome\\User Data" nocase ascii wide
-        $s17 = "Orbitum\\User Data" nocase ascii wide
-        $s18 = "Yandex\\YandexBrowser\\User Data" nocase ascii wide
-        $s19 = "K-Melon\\User Data" nocase ascii wide
-        $s20 = "Flock\\Browser" nocase ascii wide
-        $s21 = "ChromePlus\\User Data" nocase ascii wide
-        $s22 = "UCBrowser\\" nocase ascii wide
-        $s23 = "Mozilla\\SeaMonkey" nocase ascii wide
-        $s24 = "Apple\\Apple Application Support\\plutil.exe" nocase ascii wide
-        $s25 = "Preferences\\keychain.plist" nocase ascii wide
-        $s26 = "SRWare Iron" ascii wide
-        $s27 = "CoolNovo" ascii wide
-        $s28 = "BlackHawk\\Profiles" ascii wide
-        $s29 = "CocCoc\\Browser" ascii wide
-        $s30 = "Cyberfox\\Profiles" ascii wide
-        $s31 = "Epic Privacy Browser\\" ascii wide
-        $s32 = "K-Meleon\\" ascii wide
-        $s33 = "Maxthon5\\Users" ascii wide
-        $s34 = "Nichrome\\User Data" ascii wide
-        $s35 = "Pale Moon\\Profiles" ascii wide
-        $s36 = "Waterfox\\Profiles" ascii wide
-        $s37 = "Amigo\\User Data" ascii wide
-        $s38 = "CentBrowser\\User Data" ascii wide
-        $s39 = "Chedot\\User Data" ascii wide
-        $s40 = "RockMelt\\User Data" ascii wide
-        $s41 = "Go!\\User Data" ascii wide
-        $s42 = "7Star\\User Data" ascii wide
-        $s43 = "QIP Surf\\User Data" ascii wide
-        $s44 = "Elements Browser\\User Data" ascii wide
-        $s45 = "TorBro\\Profile" ascii wide
-        $s46 = "Suhba\\User Data" ascii wide
-        $s47 = "Secure Browser\\User Data" ascii wide
-        $s48 = "Mustang\\User Data" ascii wide
-        $s49 = "Superbird\\User Data" ascii wide
-        $s50 = "Xpom\\User Data" ascii wide
-        $s51 = "Bromium\\User Data" ascii wide
-        $s52 = "Brave\\" nocase ascii wide
-        $s53 = "Google\\Chrome SxS\\User Data" ascii wide
-        $s54 = "Microsoft\\Internet Explorer" ascii wide
-        $s55 = "Packages\\Microsoft.MicrosoftEdge_" ascii wide
-        $s56 = "IceDragon\\Profiles" ascii wide
-        $s57 = "\\AdLibs\\" nocase ascii wide
-        $s58 = "Moonchild Production\\Pale Moon" nocase ascii wide
-        $s59 = "Firefox\\Profiles" nocase ascii wide
-        $s60 = "AVG\\Browser\\User Data" nocase ascii wide
-        $s61 = "Kinza\\User Data" nocase ascii wide
-        $s62 = "URBrowser\\User Data" nocase ascii wide
-        $s63 = "AVAST Software\\Browser\\User Data" nocase ascii wide
-        $s64 = "SalamWeb\\User Data" nocase ascii wide
-        $s65 = "Slimjet\\User Data" nocase ascii wide
-        $s66 = "Iridium\\User Data" nocase ascii wide
-        $s67 = "Blisk\\User Data" nocase ascii wide
-        $s68 = "uCozMedia\\Uran\\User Data" nocase ascii wide
-        $s69 = "setting\\modules\\ChromiumViewer" nocase ascii wide
-        $s70 = "Citrio\\User Data" nocase ascii wide
-        $s71 = "Coowon\\User Data" nocase ascii wide
-        $s72 = "liebao\\User Data" nocase ascii wide
-        $s73 = "Edge\\User Data" nocase ascii wide
-        $s74 = "BlackHawk\\User Data" nocase ascii wide
-        $s75 = "QQBrowser\\User Data" nocase ascii wide
-        $s76 = "GhostBrowser\\User Data" nocase ascii wide
-        $s77 = "Xvast\\User Data" nocase ascii wide
-        $s78 = "360Chrome\\Chrome\\User Data" nocase ascii wide
-        $s79 = "Brave-Browser\\User Data" nocase ascii wide
-        $s80 = "Fenrir Inc\\Sleipnir5\\setting\\modules\\ChromiumViewer" nocase ascii wide
-        $s81 = "Chromodo\\User Data" nocase ascii wide
-        $s82 = "Mail.Ru\\Atom\\User Data" nocase ascii wide
-        $s83 = "8pecxstudios\\Cyberfox" nocase ascii wide
-        $s84 = "NETGATE Technologies\\BlackHaw" nocase ascii wide
-    condition:
-        (uint16(0) == 0x5a4d or uint16(0) == 0xfacf) and 6 of them
-}
-
-rule INDICATOR_SUSPICIOUS_EXE_References_Confidential_Data_Store {
-    meta:
-        description = "Detects executables referencing many confidential data stores found in browsers, mail clients, cryptocurreny wallets, etc. Observed in information stealers"
-        author = "ditekSHen"
-        score = 60
-    strings:
-        $s1 = "key3.db" nocase ascii wide     // Firefox private keys
-        $s2 = "key4.db" nocase ascii wide     // Firefox private keys
-        $s3 = "cert8.db" nocase ascii wide    // Firefox certificate database
-        $s4 = "logins.json" nocase ascii wide // Firefox encrypted password database
-        $s5 = "account.cfn" nocase ascii wide // The Bat! (email client) account credentials
-        $s6 = "wand.dat" nocase ascii wide    // Opera password database 
-        $s7 = "wallet.dat" nocase ascii wide  // cryptocurreny wallets
-    condition:
-        uint16(0) == 0x5a4d and 3 of them
-}
-
-rule INDICATOR_SUSPICIOUS_EXE_References_Messaging_Clients {
-    meta:
-        description = "Detects executables referencing many email and collaboration clients. Observed in information stealers"
-        author = "ditekSHen"
-        score = 65
-    strings:
-        $s1 = "Software\\Microsoft\\Office\\15.0\\Outlook\\Profiles\\Outlook" fullword ascii wide
-        $s2 = "Software\\Microsoft\\Windows NT\\CurrentVersion\\Windows Messaging Subsystem\\Profiles\\Outlook" fullword ascii wide
-        $s3 = "Software\\Microsoft\\Windows Messaging Subsystem\\Profiles" fullword ascii wide
-        $s4 = "HKEY_CURRENT_USER\\Software\\Aerofox\\FoxmailPreview" ascii wide
-        $s5 = "HKEY_CURRENT_USER\\Software\\Aerofox\\Foxmail" ascii wide
-        $s6 = "VirtualStore\\Program Files\\Foxmail\\mail" ascii wide
-        $s7 = "VirtualStore\\Program Files (x86)\\Foxmail\\mail" ascii wide
-        $s8 = "Opera Mail\\Opera Mail\\wand.dat" ascii wide
-        $s9 = "Software\\IncrediMail\\Identities" ascii wide
-        $s10 = "Pocomail\\accounts.ini" ascii wide
-        $s11 = "Software\\Qualcomm\\Eudora\\CommandLine" ascii wide
-        $s12 = "Mozilla Thunderbird\\nss3.dll" ascii wide
-        $s13 = "SeaMonkey\\nss3.dll" ascii wide
-        $s14 = "Flock\\nss3.dll" ascii wide
-        $s15 = "Postbox\\nss3.dll" ascii wide
-        $s16 = "Software\\Microsoft\\Office\\16.0\\Outlook\\Profiles\\Outlook" ascii wide
-        $s17 = "CurrentVersion\\Windows Messaging Subsystem\\Profiles\\Outlook" ascii wide
-        $s18 = "Software\\Microsoft\\Office\\Outlook\\OMI Account Manager\\Accounts" ascii wide
-        $s19 = "Software\\Microsoft\\Internet Account Manager\\Accounts" ascii wide
-        $s20 = "Files\\Telegram" ascii wide
-        $s21 = "Telegram Desktop\\tdata" ascii wide
-        $s22 = "Files\\Discord" ascii wide
-        $s23 = "Steam\\config" ascii wide
-        $s24 = ".purple\\accounts.xml" ascii wide // pidgin
-        $s25 = "Skype\\" ascii wide
-        $s26 = "Pigdin\\accounts.xml" ascii wide
-        $s27 = "Psi\\accounts.xml" ascii wide
-        $s28 = "Psi+\\accounts.xml" ascii wide
-        $s29 = "Psi\\profiles" ascii wide
-        $s30 = "Psi+\\profiles" ascii wide
-        $s31 = "Microsoft\\Windows Mail\\account{" ascii wide
-        $s32 = "}.oeaccount" ascii wide
-        $s33 = "Trillian\\users" ascii wide
-        $s34 = "Google Talk\\Accounts" nocase ascii wide
-        $s35 = "Microsoft\\Windows Live Mail"  nocase ascii wide
-        $s36 = "Google\\Google Talk" nocase ascii wide
-        $s37 = "Yahoo\\Pager" nocase ascii wide
-        $s38 = "BatMail\\" nocase ascii wide
-        $s39 = "POP Peeper\\poppeeper.ini" nocase ascii wide
-        $s40 = "Netease\\MailMaster\\data" nocase ascii wide
-        $s41 = "Software\\Microsoft\\Office\\17.0\\Outlook\\Profiles\\Outlook" ascii wide
-        $s42 = "Software\\Microsoft\\Office\\18.0\\Outlook\\Profiles\\Outlook" ascii wide
-        $s43 = "Software\\Microsoft\\Office\\19.0\\Outlook\\Profiles\\Outlook" ascii wide
-        $s45 = "Paltalk NG\\common_settings\\core\\users\\creds" ascii wide
-        $s46 = "Discord\\Local Storage\\leveldb" ascii wide
-        $s47 = "Discord PTB\\Local Storage\\leveldb" ascii wide
-        $s48 = "Discord Canary\\leveldb" ascii wide
-        $s49 = "MailSpring\\" ascii wide
-    condition:
-        uint16(0) == 0x5a4d and 6 of them
-}
-
-rule INDICATOR_SUSPICIOUS_EXE_Referenfces_File_Transfer_Clients {
-    meta:
-        description = "Detects executables referencing many file transfer clients. Observed in information stealers"
-        author = "ditekSHen"
-    strings:
-        $s1 = "FileZilla\\recentservers.xml" ascii wide
-        $s2 = "Ipswitch\\WS_FTP\\" ascii wide
-        $s3 = "SOFTWARE\\\\Martin Prikryl\\\\WinSCP 2\\\\Sessions" ascii wide
-        $s4 = "SOFTWARE\\Martin Prikryl\\WinSCP 2\\Sessions" ascii wide
-        $s5 = "CoreFTP\\sites" ascii wide
-        $s6 = "FTPWare\\COREFTP\\Sites" ascii wide
-        $s7 = "HKEY_CURRENT_USERSoftwareFTPWareCOREFTPSites" ascii wide
-        $s8 = "FTP Navigator\\Ftplist.txt" ascii wide
-        $s9 = "FlashFXP\\3quick.dat" ascii wide
-        $s10 = "SmartFTP\\" ascii wide
-        $s11 = "cftp\\Ftplist.txt" ascii wide
-        $s12 = "Software\\DownloadManager\\Passwords\\" ascii wide
-        $s13 = "jDownloader\\config\\database.script" ascii wide
-        $s14 = "FileZilla\\sitemanager.xml" ascii wide
-        $s15 = "Far Manager\\Profile\\PluginsData\\" ascii wide
-        $s16 = "FTPGetter\\Profile\\servers.xml" ascii wide
-        $s17 = "FTPGetter\\servers.xml" ascii wide
-        $s18 = "Estsoft\\ALFTP\\" ascii wide
-        $s19 = "Far\\Plugins\\FTP\\" ascii wide
-        $s20 = "Far2\\Plugins\\FTP\\" ascii wide
-        $s21 = "Ghisler\\Total Commander" ascii wide
-        $s22 = "LinasFTP\\Site Manager" ascii wide
-        $s23 = "CuteFTP\\sm.dat" ascii wide
-        $s24 = "FlashFXP\\4\\Sites.dat" ascii wide
-        $s25 = "FlashFXP\\3\\Sites.dat" ascii wide
-        $s26 = "VanDyke\\Config\\Sessions\\" ascii wide
-        $s27 = "FTP Explorer\\" ascii wide
-        $s28 = "TurboFTP\\" ascii wide
-        $s29 = "FTPRush\\" ascii wide
-        $s30 = "LeapWare\\LeapFTP\\" ascii wide
-        $s31 = "FTPGetter\\" ascii wide
-        $s32 = "Far\\SavedDialogHistory\\" ascii wide
-        $s33 = "Far2\\SavedDialogHistory\\" ascii wide
-        $s34 = "GlobalSCAPE\\CuteFTP " ascii wide
-        $s35 = "Ghisler\\Windows Commander" ascii wide
-        $s36 = "BPFTP\\Bullet Proof FTP\\" ascii wide
-        $s37 = "Sota\\FFFTP" ascii wide
-        $s38 = "FTPClient\\Sites" ascii wide
-        $s39 = "SOFTWARE\\Robo-FTP 3.7\\" ascii wide
-        $s40 = "MAS-Soft\\FTPInfo\\" ascii wide
-        $s41 = "SoftX.org\\FTPClient\\Sites" ascii wide
-        $s42 = "BulletProof Software\\BulletProof FTP Client\\" ascii wide
-        $s43 = "BitKinex\\bitkinex.ds" ascii wide
-        $s44 = "Frigate3\\FtpSite.XML" ascii wide
-        $s45 = "Directory Opus\\ConfigFiles" ascii wide
-        $s56 = "SoftX.org\\FTPClient\\Sites" ascii wide
-        $s57 = "South River Technologies\\WebDrive\\Connections" ascii wide
-    condition:
-        uint16(0) == 0x5a4d and 6 of them
-}
-
-rule INDICATOR_SUSPICIOUS_EXE_References_CryptoWallets {
-    meta:
-        author = "ditekSHen"
-        description = "Detects executables referencing many cryptocurrency mining wallets or apps. Observed in information stealers"
-        score = 15
-    strings:
-        $app1 = "Ethereum" nocase ascii wide
-        $app2 = "Bitcoin" nocase ascii wide
-        $app3 = "Litecoin" nocase ascii wide
-        $app4 = "NavCoin4" nocase ascii wide
-        $app5 = "ByteCoin" nocase ascii wide
-        $app6 = "PotCoin" nocase ascii wide
-        $app7 = "Gridcoin" nocase ascii wide
-        $app8 = "VERGE" nocase ascii wide
-        $app9 = "DogeCoin" nocase ascii wide
-        $app10 = "FlashCoin" nocase ascii wide
-        $app11 = "Sia" nocase ascii wide
-        $app12 = "Reddcoin" nocase ascii wide
-        $app13 = "Electrum" nocase ascii wide
-        $app14 = "Emercoin" nocase ascii wide
-        $app15 = "Exodus" nocase ascii wide
-        $app16 = "BBQCoin" nocase ascii wide
-        $app17 = "Franko" nocase ascii wide
-        $app18 = "IOCoin" nocase ascii wide
-        $app19 = "Ixcoin" nocase ascii wide
-        $app20 = "Mincoin" nocase ascii wide
-        $app21 = "YACoin" nocase ascii wide
-        $app22 = "Zcash" nocase ascii wide
-        $app23 = "devcoin" nocase ascii wide
-        $app24 = "Dash" nocase ascii wide
-        $app25 = "Monero" nocase ascii wide
-        $app26 = "Riot Games\\" nocase ascii wide
-        $app27 = "qBittorrent\\" nocase ascii wide
-        $app28 = "Battle.net\\" nocase ascii wide
-        $app29 = "Steam\\" nocase ascii wide
-        $app30 = "Valve\\Steam\\" nocase ascii wide
-        $app31 = "Anoncoin" nocase ascii wide
-        $app32 = "DashCore" nocase ascii wide
-        $app33 = "DevCoin" nocase ascii wide
-        $app34 = "DigitalCoin" nocase ascii wide
-        $app35 = "Electron" nocase ascii wide
-        $app36 = "ElectrumLTC" nocase ascii wide
-        $app37 = "FlorinCoin" nocase ascii wide
-        $app38 = "FrancoCoin" nocase ascii wide
-        $app39 = "JAXX" nocase ascii wide
-        $app40 = "MultiDoge" ascii wide
-        $app41 = "TerraCoin" ascii wide
-        $app42 = "Electrum-LTC" ascii wide
-        $app43 = "ElectrumG" ascii wide
-        $app44 = "Electrum-btcp" ascii wide
-        $app45 = "MultiBitHD" ascii wide
-        $app46 = "monero-project" ascii wide
-        $app47 = "Bitcoin-Qt" ascii wide
-        $app48 = "BitcoinGold-Qt" ascii wide
-        $app49 = "Litecoin-Qt" ascii wide
-        $app50 = "BitcoinABC-Qt" ascii wide
-        $app51 = "Exodus Eden" ascii wide
-        $app52 = "myether" ascii wide
-        $app53 = "factores-Binance" ascii wide
-        $app54 = "metamask" ascii wide
-        $app55 = "kucoin" ascii wide
-        $app56 = "cryptopia" ascii wide
-        $app57 = "binance" ascii wide
-        $app58 = "hitbtc" ascii wide
-        $app59 = "litebit" ascii wide
-        $app60 = "coinEx" ascii wide
-        $app61 = "blockchain" ascii wide
-        $app62 = "\\Armory" ascii wide
-        $app63 = "\\Atomic" ascii wide
-        $app64 = "\\Bytecoin" ascii wide
-        $app65 = "simpleos" ascii wide
-        $app66 = "WalletWasabi" ascii wide
-        $app67 = "atomic\\" ascii wide
-        $app68 = "Guarda\\" ascii wide
-        $app69 = "Neon\\" ascii wide
-        $app70 = "Blockstream\\" ascii wide
-        $app71 = "GreenAddress Wallet\\" ascii wide
-        $app72 = "bitpay\\" ascii wide
-
-        $ne1 = "C:\\src\\pgriffais_incubator-w7\\Steam\\main\\src\\external\\libjingle-0.4.0\\talk/base/scoped_ptr.h" fullword wide
-        $ne2 = "\"%s\\bin\\%slauncher.exe\" -hproc %x -hthread %x -baseoverlayname %s\\%s" fullword ascii
-    condition:
-        uint16(0) == 0x5a4d and (not any of ($ne*) and 6 of them)
-}
-
-rule INDICATOR_SUSPICIOUS_ClearWinLogs {
-    meta:
-        author = "ditekSHen"
-        description = "Detects executables containing commands for clearing Windows Event Logs"
-        score = 50
-    strings:
-        $cmd1 = "wevtutil.exe clear-log" ascii wide nocase
-        $cmd2 = "wevtutil.exe cl " ascii wide nocase
-        $cmd3 = ".ClearEventLog()" ascii wide nocase
-        $cmd4 = "Foreach-Object {wevtutil cl \"$_\"}" ascii wide nocase
-        $cmd5 = "('wevtutil.exe el') DO (call :do_clear" ascii wide nocase
-        $cmd6 = "| ForEach { Clear-EventLog $_.Log }" ascii wide nocase
-        $cmd7 = "('wevtutil.exe el') DO wevtutil.exe cl \"%s\"" ascii wide nocase
-        $cmd8 = "Clear-EventLog -LogName application, system, security" ascii wide nocase
-        $t1 = "wevtutil" ascii wide nocase
-        $l1 = "cl Application" ascii wide nocase
-        $l2 = "cl System" ascii wide nocase
-        $l3 = "cl Setup" ascii wide nocase
-        $l4 = "cl Security" ascii wide nocase
-        $l5 = "sl Security /e:false" ascii wide nocase
-        $ne1 = "wevtutil.exe cl Aplicaci" fullword wide
-        $ne2 = "wevtutil.exe cl Application /bu:C:\\admin\\backup\\al0306.evtx" fullword wide
-        $ne3 = "wevtutil.exe cl Application /bu:C:\\admin\\backups\\al0306.evtx" fullword wide
-    condition:
-        uint16(0) == 0x5a4d and not any of ($ne*) and ((1 of ($cmd*)) or (1 of ($t*) and 3 of ($l*)))
-}
-
-rule INDICATOR_SUSPICIOUS_DisableWinDefender {
-    meta:
-        author = "ditekSHen"
-        description = "Detects executables containing artifacts associated with disabling Widnows Defender"
-        score = 75
-    strings:
-        $reg1 = "SOFTWARE\\Microsoft\\Windows Defender\\Features" ascii wide nocase
-        $reg2 = "SOFTWARE\\Policies\\Microsoft\\Windows Defender" ascii wide nocase
-        $s1 = "Set-MpPreference -SignatureDisableUpdateOnStartupWithoutEngine $true" ascii wide nocase
-        $s2 = "Set-MpPreference -DisableArchiveScanning $true" ascii wide nocase
-        $s3 = "Set-MpPreference -DisableIntrusionPreventionSystem $true" ascii wide nocase
-        $s4 = "Set-MpPreference -DisableScriptScanning $true" ascii wide nocase
-        $s5 = "Set-MpPreference -SubmitSamplesConsent 2" ascii wide nocase
-        $s6 = "Set-MpPreference -MAPSReporting 0" ascii wide nocase
-        $s7 = "Set-MpPreference -HighThreatDefaultAction 6" ascii wide nocase
-        $s8 = "Set-MpPreference -ModerateThreatDefaultAction 6" ascii wide nocase
-        $s9 = "Set-MpPreference -LowThreatDefaultAction 6" ascii wide nocase
-        $s10 = "Set-MpPreference -SevereThreatDefaultAction 6" ascii wide nocase
-        $s11 = "Set-MpPreference -EnableControlledFolderAccess Disabled" ascii wide nocase
-        $pdb = "\\Disable-Windows-Defender\\obj\\Debug\\Disable-Windows-Defender.pdb" ascii
-        $e1 = "Microsoft\\Windows Defender\\Exclusions\\Paths" ascii wide nocase
-        $e2 = "Add-MpPreference -Exclusion" ascii wide nocase
-        $c1 = "QQBkAGQALQBNAHAAUAByAGUAZgBlAHIAZQBuAGMAZQAgAC0ARQB4AGMAbAB1AHMAaQBvAG4" ascii wide
-    condition:
-        uint16(0) == 0x5a4d and ((1 of ($reg*) and 1 of ($s*)) or ($pdb) or all of ($e*) or #c1 > 1)
-}
-
-rule INDICATOR_SUSPICIOUS_USNDeleteJournal {
-    meta:
-        author = "ditekSHen"
-        description = "Detects executables containing anti-forensic artifacts of deleting USN change journal. Observed in ransomware"
-        score = 60
-    strings:
-        $cmd1 = "fsutil.exe" ascii wide nocase
-        $s1 = "usn deletejournal /D C:" ascii wide nocase
-        $s2 = "fsutil.exe usn deletejournal" ascii wide nocase
-        $s3 = "fsutil usn deletejournal" ascii wide nocase
-        $s4 = "fsutil file setZeroData offset=0" ascii wide nocase
-        $ne1 = "fsutil usn readdata C:\\Temp\\sample.txt" wide
-        $ne2 = "fsutil transaction query {0f2d8905-6153-449a-8e03-7d3a38187ba1}" wide
-        $ne3 = "fsutil resource start d:\\foobar d:\\foobar\\LogDir\\LogBLF::TxfLog d:\\foobar\\LogDir\\LogBLF::TmLog" wide
-        $ne4 = "fsutil objectid query C:\\Temp\\sample.txt" wide
-    condition:
-        uint16(0) == 0x5a4d and (not any of ($ne*) and ((1 of ($cmd*) and 1 of ($s*)) or 1 of ($s*)))
-}
-
-rule INDICATOR_SUSPICIOUS_GENInfoStealer {
-    meta:
-        author = "ditekSHen"
-        description = "Detects executables containing common artifacts observed in infostealers"
-    strings:
-        $f1 = "FileZilla\\recentservers.xml" ascii wide
-        $f2 = "FileZilla\\sitemanager.xml" ascii wide
-        $f3 = "SOFTWARE\\\\Martin Prikryl\\\\WinSCP 2\\\\Sessions" ascii wide
-        $b1 = "Chrome\\User Data\\" ascii wide
-        $b2 = "Mozilla\\Firefox\\Profiles" ascii wide
-        $b3 = "Software\\Microsoft\\Internet Explorer\\IntelliForms\\Storage2" ascii wide
-        $b4 = "Opera Software\\Opera Stable\\Login Data" ascii wide
-        $b5 = "YandexBrowser\\User Data\\" ascii wide
-        $s1 = "key3.db" nocase ascii wide
-        $s2 = "key4.db" nocase ascii wide
-        $s3 = "cert8.db" nocase ascii wide
-        $s4 = "logins.json" nocase ascii wide
-        $s5 = "account.cfn" nocase ascii wide
-        $s6 = "wand.dat" nocase ascii wide
-        $s7 = "wallet.dat" nocase ascii wide
-        $a1 = "username_value" ascii wide
-        $a2 = "password_value" ascii wide
-        $a3 = "encryptedUsername" ascii wide
-        $a4 = "encryptedPassword" ascii wide
-        $a5 = "httpRealm" ascii wide
-    condition:
-        uint16(0) == 0x5a4d and ((2 of ($f*) and 2 of ($b*) and 1 of ($s*) and 3 of ($a*)) or (14 of them))
-}
-
-rule INDICATOR_SUSPICIOUS_WMIC_Downloader {
-    meta:
-        author = "ditekSHen"
-        description = "Detects files utilizing WMIC for whitelisting bypass and downloading second stage payloads"
-    strings:
-        $s1 = "WMIC.exe os get /format:\"http" wide
-        $s2 = "WMIC.exe computersystem get /format:\"http" wide
-        $s3 = "WMIC.exe dcomapp get /format:\"http" wide
-        $s4 = "WMIC.exe desktop get /format:\"http" wide
-    condition:
-        (uint16(0) == 0x004c or uint16(0) == 0x5a4d) and 1 of them
-}
-
-rule INDICATOR_SUSPICIOUS_EXE_PE_ResourceTuner {
-    meta:
-        author = "ditekSHen"
-        description = "Detects executables with modified PE resources using the unpaid version of Resource Tuner"
-    strings:
-        $s1 = "Modified by an unpaid evaluation copy of Resource Tuner 2 (www.heaventools.com)" fullword wide
-    condition:
-        uint16(0) == 0x5a4d and all of them 
-}
-
-rule INDICATOR_SUSPICIOUS_EXE_ASEP_REG_Reverse {
-    meta:
-        author = "ditekSHen"
-        description = "Detects file containing reversed ASEP Autorun registry keys"
-        score = 60
-    strings:
-        $s1 = "nuR\\noisreVtnerruC\\swodniW\\tfosorciM" ascii wide nocase
-        $s2 = "ecnOnuR\\noisreVtnerruC\\swodniW\\tfosorciM" ascii wide nocase
-        $s3 = "secivreSnuR\\noisreVtnerruC\\swodniW\\tfosorciM" ascii wide nocase
-        $s4 = "xEecnOnuR\\noisreVtnerruC\\swodniW\\tfosorciM" ascii wide nocase
-        $s5 = "ecnOsecivreSnuR\\noisreVtnerruC\\swodniW\\tfosorciM" ascii wide nocase
-        $s6 = "yfitoN\\nogolniW\\noisreVtnerruC\\TN swodniW\\tfosorciM" ascii wide nocase
-        $s7 = "tiniresU\\nogolniW\\noisreVtnerruC\\TN swodniW\\tfosorciM" ascii wide nocase
-        $s8 = "nuR\\rerolpxE\\seiciloP\\noisreVtnerruC\\swodniW\\tfosorciM" ascii wide nocase
-        $s9 = "stnenopmoC dellatsnI\\puteS evitcA\\tfosorciM" ascii wide nocase
-        $s10 = "sLLD_tinIppA\\swodniW\\noisreVtnerruC\\TN swodniW\\tfosorciM" ascii wide nocase
-        $s11 = "snoitpO noitucexE eliF egamI\\noisreVtnerruC\\TN swodniW\\tfosorciM" ascii wide nocase
-        $s12 = "llehS\\nogolniW\\noisreVtnerruC\\TN swodniW\\tfosorciM" ascii wide nocase
-        $s13 = "daol\\swodniW\\noisreVtnerruC\\TN swodniW\\tfosorciM" ascii wide nocase
-        $s14 = "daoLyaleDtcejbOecivreSllehS\\noisreVtnerruC\\swodniW\\tfosorciM" ascii wide nocase
-        $s15 = "nuRotuA\\rossecorP\\dnammoC\\tfosorciM" ascii wide nocase
-        $s16 = "putratS\\sredloF llehS resU\\rerolpxE\\noisreVtnerruC\\swodniW\\tfosorciM" ascii wide nocase
-        $s17 = "sllDtreCppA\\reganaM noisseS\\lortnoC\\teSlortnoCtnerruC\\metsyS" ascii wide nocase
-        $s18 = "sllDtreCppA\\reganaM noisseS\\lortnoC\\100teSlortnoC\\metsyS" ascii wide nocase
-        $s19 = ")tluafeD(\\dnammoC\\nepO\\llehS\\elifexE\\sessalC\\erawtfoS" ascii wide nocase
-        $s20 = ")tluafeD(\\dnammoC\\nepO\\llehS\\elifexE\\sessalC\\edoN2346woW\\erawtfoS" ascii wide nocase
-    condition:
-        1 of them and filesize < 2000KB
-}
-
-rule INDICATOR_SUSPICIOUS_EXE_SQLQuery_ConfidentialDataStore {
-    meta:
-        author = "ditekSHen"
-        description = "Detects executables containing SQL queries to confidential data stores. Observed in infostealers"
-	score = 30
-    strings:
-        $select = "select " ascii wide nocase
-        $table1 = " from credit_cards" ascii wide nocase
-        $table2 = " from logins" ascii wide nocase
-        $table3 = " from cookies" ascii wide nocase
-        $table4 = " from moz_cookies" ascii wide nocase
-        $table5 = " from moz_formhistory" ascii wide nocase
-        $table6 = " from moz_logins" ascii wide nocase
-        $column1 = "name" ascii wide nocase
-        $column2 = "password_value" ascii wide nocase
-        $column3 = "encrypted_value" ascii wide nocase
-        $column4 = "card_number_encrypted" ascii wide nocase
-        $column5 = "isHttpOnly" ascii wide nocase
-    condition:
-        uint16(0) == 0x5a4d and 2 of ($table*) and 2 of ($column*) and $select
-}
-
-rule INDICATOR_SUSPICIOUS_References_SecTools {
-    meta:
-        author = "ditekSHen"
-        description = "Detects executables referencing many IR and analysis tools"
-    strings:
-        $s1 = "procexp.exe" nocase ascii wide
-        $s2 = "perfmon.exe" nocase ascii wide
-        $s3 = "autoruns.exe" nocase ascii wide
-        $s4 = "autorunsc.exe" nocase ascii wide
-        $s5 = "ProcessHacker.exe" nocase ascii wide
-        $s6 = "procmon.exe" nocase ascii wide
-        $s7 = "sysmon.exe" nocase ascii wide
-        $s8 = "procdump.exe" nocase ascii wide
-        $s9 = "apispy.exe" nocase ascii wide
-        $s10 = "dumpcap.exe" nocase ascii wide
-        $s11 = "emul.exe" nocase ascii wide
-        $s12 = "fortitracer.exe" nocase ascii wide
-        $s13 = "hookanaapp.exe" nocase ascii wide
-        $s14 = "hookexplorer.exe" nocase ascii wide
-        $s15 = "idag.exe" nocase ascii wide
-        $s16 = "idaq.exe" nocase ascii wide
-        $s17 = "importrec.exe" nocase ascii wide
-        $s18 = "imul.exe" nocase ascii wide
-        $s19 = "joeboxcontrol.exe" nocase ascii wide
-        $s20 = "joeboxserver.exe" nocase ascii wide
-        $s21 = "multi_pot.exe" nocase ascii wide
-        $s22 = "ollydbg.exe" nocase ascii wide
-        $s23 = "peid.exe" nocase ascii wide
-        $s24 = "petools.exe" nocase ascii wide
-        $s25 = "proc_analyzer.exe" nocase ascii wide
-        $s26 = "regmon.exe" nocase ascii wide
-        $s27 = "scktool.exe" nocase ascii wide
-        $s28 = "sniff_hit.exe" nocase ascii wide
-        $s29 = "sysanalyzer.exe" nocase ascii wide
-        $s30 = "CaptureProcessMonitor.sys" nocase ascii wide
-        $s31 = "CaptureRegistryMonitor.sys" nocase ascii wide
-        $s32 = "CaptureFileMonitor.sys" nocase ascii wide
-        $s33 = "Control.exe" nocase ascii wide
-        $s34 = "rshell.exe" nocase ascii wide
-        $s35 = "smc.exe" nocase ascii wide
-    condition:
-         uint16(0) == 0x5a4d and 4 of them
-}
-
-rule INDICATOR_SUSPICIOUS_References_SecTools_B64Encoded {
-    meta:
-        author = "ditekSHen"
-        description = "Detects executables referencing many base64-encoded IR and analysis tools names"
-    strings:
-        $s1 = "VGFza21ncg==" ascii wide  // Taskmgr
-        $s2 = "dGFza21ncg==" ascii wide  // taskmgr
-        $s3 = "UHJvY2Vzc0hhY2tlcg" ascii wide // ProcessHacker
-        $s4 = "cHJvY2V4cA" ascii wide  // procexp
-        $s5 = "cHJvY2V4cDY0" ascii wide  // procexp64
-        $s6 = "aHR0cCBhbmFseXplci" ascii wide // http analyzer
-        $s7 = "ZmlkZGxlcg" ascii wide // fiddler
-        $s8 = "ZWZmZXRlY2ggaHR0cCBzbmlmZmVy" ascii wide // effetech http sniffer
-        $s9 = "ZmlyZXNoZWVw" ascii wide // firesheep
-        $s10 = "SUVXYXRjaCBQcm9mZXNzaW9uYWw" ascii wide // IEWatch Professional
-        $s11 = "ZHVtcGNhcA" ascii wide // dumpcap
-        $s12 = "d2lyZXNoYXJr" ascii wide //wireshark
-        $s13 = "c3lzaW50ZXJuYWxzIHRjcHZpZXc" ascii wide // sysinternals tcpview
-        $s14 = "TmV0d29ya01pbmVy" ascii wide // NetworkMiner
-        $s15 = "TmV0d29ya1RyYWZmaWNWaWV3" ascii wide // NetworkTrafficView
-        $s16 = "SFRUUE5ldHdvcmtTbmlmZmVy" ascii wide // HTTPNetworkSniffer
-        $s17 = "dGNwZHVtcA" ascii wide // tcpdump
-        $s18 = "aW50ZXJjZXB0ZXI" ascii wide // intercepter
-        $s19 = "SW50ZXJjZXB0ZXItTkc" ascii wide // Intercepter-NG
-        $s20 = "b2xseWRiZw" ascii wide // ollydbg
-        $s21 = "eDY0ZGJn" ascii wide // x64dbg
-        $s22 = "eDMyZGJn" ascii wide // x32dbg
-        $s23 = "ZG5zcHk" ascii wide // dnspy
-        $s24 = "ZGU0ZG90" ascii wide // de4dot
-        $s25 = "aWxzcHk" ascii wide // ilspy
-        $s26 = "ZG90cGVla" ascii wide // dotpeek
-        $s27 = "aWRhNjQ" ascii wide // ida64
-        $s28 = "UkRHIFBhY2tlciBEZXRlY3Rvcg" ascii wide // RDG Packer Detector
-        $s29 = "Q0ZGIEV4cGxvcmVy" ascii wide // CFF Explorer
-        $s30 = "UEVpRA" ascii wide // PEiD
-        $s31 = "cHJvdGVjdGlvbl9pZA" ascii wide // protection_id
-        $s32 = "TG9yZFBF" ascii wide // LordPE
-        $s33 = "cGUtc2lldmU=" ascii wide // pe-sieve
-        $s34 = "TWVnYUR1bXBlcg" ascii wide // MegaDumper
-        $s35 = "VW5Db25mdXNlckV4" ascii wide // UnConfuserEx
-        $s36 = "VW5pdmVyc2FsX0ZpeGVy" ascii wide // Universal_Fixer
-        $s37 = "Tm9GdXNlckV4" ascii wide // NoFuserEx
-    condition:
-         uint16(0) == 0x5a4d and 4 of them
-}
-
-rule INDICATOR_SUSPICIOUS_References_Sandbox_Artifacts {
-    meta:
-        author = "ditekSHen"
-        description = "Detects executables referencing sandbox artifacts"
-    strings:
-        $s1 = "C:\\agent\\agent.pyw" ascii wide
-        $s2 = "C:\\sandbox\\starter.exe" ascii wide
-        $s3 = "c:\\ipf\\BDCore_U.dll" ascii wide
-        $s4 = "C:\\cwsandbox_manager" ascii wide
-        $s5 = "C:\\cwsandbox" ascii wide
-        $s6 = "C:\\Stuff\\odbg110" ascii wide
-        $s7 = "C:\\gfisandbox" ascii wide
-        $s8 = "C:\\Virus Analysis" ascii wide
-        $s9 = "C:\\iDEFENSE\\SysAnalyzer" ascii wide
-        $s10 = "c:\\gnu\\bin" ascii wide
-        $s11 = "C:\\SandCastle\\tools" ascii wide
-        $s12 = "C:\\cuckoo\\dll" ascii wide
-        $s13 = "C:\\MDS\\WinDump.exe" ascii wide
-        $s14 = "C:\\tsl\\Raptorclient.exe" ascii wide
-        $s15 = "C:\\guest_tools\\start.bat" ascii wide
-        $s16 = "C:\\tools\\aswsnx\\snxcmd.exe" ascii wide
-        $s17 = "C:\\Winap\\ckmon.pyw" ascii wide
-        $s18 = "c:\\tools\\decodezeus" ascii wide
-        $s19 = "c:\\tools\\aswsnx" ascii wide
-        $s20 = "C:\\sandbox\\starter.exe" ascii wide
-        $s21 = "C:\\Kit\\procexp.exe" ascii wide
-        $s22 = "c:\\tracer\\mdare32_0.sys" ascii wide
-        $s23 = "C:\\tool\\malmon" ascii wide
-        $s24 = "C:\\Samples\\102114\\Completed" ascii wide
-        $s25 = "c:\\vmremote\\VmRemoteGuest.exe" ascii wide
-        $s26 = "d:\\sandbox_svc.exe" ascii wide
-    condition:
-        uint16(0) == 0x5a4d and 3 of them
-}
-
-rule INDICATOR_SUSPICIOUS_EXE_Embedded_Gzip_B64Encoded_File {
-     meta:
-        author = "ditekSHen"
-        description = "Detects executables containing bas64 encoded gzip files"
-        score = 40
-    strings:
-        $s1 = "H4sIAAAAAAA" ascii wide
-        $s2 = "AAAAAAAIs4H" ascii wide
-    condition:
-        uint16(0) == 0x5a4d and 1 of them
-}
-
-rule INDICATOR_SUSPICIOUS_EXE_RawGitHub_URL : refined {
-     meta:
-        author = "ditekSHen"
-        description = "Detects executables containing URLs to raw contents of a Github gist"
-        score = 10
-    strings:
-        $url1 = "https://gist.githubusercontent.com/" ascii wide
-        $url2 = "https://raw.githubusercontent.com/" ascii wide
-        $raw = "/raw/" ascii wide
-    condition:
-        uint16(0) == 0x5a4d and (($url1 and $raw) or ($url2))
-}
-
-rule INDICATOR_SUSPICIOUS_EXE_RawPaste_URL {
-     meta:
-        author = "ditekSHen"
-        description = "Detects executables (downlaoders) containing URLs to raw contents of a paste"
-    strings:
-        $u1 = "https://pastebin.com/" ascii wide nocase
-        $u2 = "https://paste.ee/" ascii wide nocase
-        $u3 = "https://pastecode.xyz/" ascii wide nocase
-        $u4 = "https://rentry.co/" ascii wide nocase
-        $u5 = "https://paste.nrecom.net/" ascii wide nocase
-        $u6 = "https://hastebin.com/" ascii wide nocase
-        $u7 = "https://privatebin.info/" ascii wide nocase
-        $u8 = "https://penyacom.org/" ascii wide nocase
-        $u9 = "https://controlc.com/" ascii wide nocase
-        $u10 = "https://tiny-paste.com/" ascii wide nocase
-        $u11 = "https://paste.teknik.io/" ascii wide nocase
-        $u12 = "https://privnote.com/" ascii wide nocase
-        $u13 = "https://hushnote.herokuapp.com/" ascii wide nocase
-        $s1 = "/raw/" ascii wide
-    condition:
-        uint16(0) == 0x5a4d and (1 of ($u*) and all of ($s*))
-}
-
-rule INDICATOR_SUSPICIOUS_EXE_RawPaste_Reverse_URL {
-     meta:
-        author = "ditekSHen"
-        description = "Detects executables (downloaders) containing reversed URLs to raw contents of a paste"
-    strings:
-        $u1 = "/moc.nibetsap//:sptth" ascii wide nocase
-        $u2 = "/ee.etsap//:sptth" ascii wide nocase
-        $u3 = "/zyx.edocetsap//:sptth" ascii wide nocase
-        $u4 = "/oc.yrtner//:sptth" ascii wide nocase
-        $u5 = "/ten.mocern.etsap//:sptth" ascii wide nocase
-        $u6 = "/moc.nibetsah//:sptth" ascii wide nocase
-        $u7 = "/ofni.nibetavirp//:sptth" ascii wide nocase
-        $u8 = "/gro.mocaynep//:sptth" ascii wide nocase
-        $u9 = "/moc.clortnoc//:sptth" ascii wide nocase
-        $u10 = "/moc.etsap-ynit//:sptth" ascii wide nocase
-        $u11 = "/oi.kinket.etsap//:sptth" ascii wide nocase
-        $u12 = "/moc.etonvirp//:sptth" ascii wide nocase
-        $u13 = "/moc.ppaukoreh.etonhsuh//:sptth" ascii wide nocase
-    condition:
-        uint16(0) == 0x5a4d and 1 of ($u*)
-}
-
-/*
-rule INDICATOR_SUSPICIOUS_Stomped_PECompilation_Timestamp_InTheFuture {
-    meta:
-        author = "ditekSHen"
-        description = "Detect executables with stomped PE compilation timestamp that is greater than local current time"
-    condition:
-        uint16(0) == 0x5a4d and pe.timestamp > time.now()
-}
-*/
-
-rule INDICATOR_SUSPICIOUS_EXE_UACBypass_EnvVarScheduledTasks {
-    meta:
-        author = "ditekSHen"
-        description = "detects Windows exceutables potentially bypassing UAC (ab)using Environment Variables in Scheduled Tasks"
-    strings:
-        $s1 = "\\Microsoft\\Windows\\DiskCleanup\\SilentCleanup" ascii wide
-        $s2 = "\\Environment" ascii wide
-        $s3 = "schtasks" ascii wide
-        $s4 = "/v windir" ascii wide
-    condition:
-       all of them
-}
-
-rule INDICATOR_SUSPICIOUS_EXE_UACBypass_fodhelper {
-    meta:
-        author = "ditekSHen"
-        description = "detects Windows exceutables potentially bypassing UAC using fodhelper.exe"
-    strings:
-        $s1 = "\\software\\classes\\ms-settings\\shell\\open\\command" ascii wide nocase
-        $s2 = "DelegateExecute" ascii wide
-        $s3 = "fodhelper" ascii wide
-        $s4 = "ConsentPromptBehaviorAdmin" ascii wide
-    condition:
-       all of them
-}
-
-/*
-rule INDICATOR_SUSPICIOUS_EXE_Contains_MD5_Named_DLL {
-    meta:
-        author = "ditekSHen"
-        description = "detects Windows exceutables potentially bypassing UAC using fodhelper.exe"
-    strings:
-        $s1 = /[a-f0-9]{32}\.dll/ ascii wide nocase
-    condition:
-       uint16(0) == 0x5a4d and all of them
-}
-*/
-
-rule INDICATOR_SUSPICIOUS_EXE_UACBypass_CMSTPCMD {
-    meta:
-        author = "ditekSHen"
-        description = "Detects Windows exceutables bypassing UAC using CMSTP utility, command line and INF"
-    strings:
-        $s1 = "c:\\windows\\system32\\cmstp.exe" ascii wide nocase
-        $s2 = "taskkill /IM cmstp.exe /F" ascii wide nocase
-        $s3 = "CMSTPBypass" fullword ascii
-        $s4 = "CommandToExecute" fullword ascii
-        $s5 = "RunPreSetupCommands=RunPreSetupCommandsSection" fullword wide
-        $s6 = "\"HKLM\", \"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\CMMGR32.EXE\", \"ProfileInstallPath\", \"%UnexpectedError%\", \"\"" fullword wide nocase
-    condition:
-       uint16(0) == 0x5a4d and 3 of them
-}
-
-rule INDICATOR_SUSPICIOUS_EXE_SandboxUserNames {
-    meta:
-        author = "ditekSHen"
-        description = "Detects executables containing possible sandbox analysis VM usernames"
-        score = 60
-    strings:
-        $s1 = "15pb" fullword ascii wide nocase
-        $s2 = "7man2" fullword ascii wide nocase
-        $s3 = "stella" fullword ascii wide nocase
-        $s4 = "f4kh9od" fullword ascii wide nocase
-        $s5 = "willcarter" fullword ascii wide nocase
-        $s6 = "biluta" fullword ascii wide nocase
-        $s7 = "ehwalker" fullword ascii wide nocase
-        $s8 = "hong lee" fullword ascii wide nocase
-        $s9 = "joe cage" fullword ascii wide nocase
-        $s10 = "jonathan" fullword ascii wide nocase
-        $s11 = "kindsight" fullword ascii wide nocase
-        $s12 = "malware" fullword ascii wide nocase
-        $s13 = "peter miller" fullword ascii wide nocase
-        $s14 = "petermiller" fullword ascii wide nocase
-        $s15 = "phil" fullword ascii wide nocase
-        $s16 = "rapit" fullword ascii wide nocase
-        $s17 = "r0b0t" fullword ascii wide nocase
-        $s18 = "cuckoo" fullword ascii wide nocase
-        $s19 = "vm-pc" fullword ascii wide nocase
-        $s20 = "analyze" fullword ascii wide nocase
-        $s21 = "roslyn" fullword ascii wide nocase
-        $s22 = "vince" fullword ascii wide nocase
-        $s23 = "test" fullword ascii wide nocase
-        $s24 = "sample" fullword ascii wide nocase
-        $s25 = "mcafee" fullword ascii wide nocase
-        $s26 = "vmscan" fullword ascii wide nocase
-        $s27 = "mallab" fullword ascii wide nocase
-        $s28 = "abby" fullword ascii wide nocase
-        $s29 = "elvis" fullword ascii wide nocase
-        $s30 = "wilbert" fullword ascii wide nocase
-        $s31 = "joe smith" fullword ascii wide nocase
-        $s32 = "hanspeter" fullword ascii wide nocase
-        $s33 = "johnson" fullword ascii wide nocase
-        $s34 = "placehole" fullword ascii wide nocase
-        $s35 = "tequila" fullword ascii wide nocase
-        $s36 = "paggy sue" fullword ascii wide nocase
-        $s37 = "klone" fullword ascii wide nocase
-        $s38 = "oliver" fullword ascii wide nocase
-        $s39 = "stevens" fullword ascii wide nocase
-        $s40 = "ieuser" fullword ascii wide nocase
-        $s41 = "virlab" fullword ascii wide nocase
-        $s42 = "beginer" fullword ascii wide nocase
-        $s43 = "beginner" fullword ascii wide nocase
-        $s44 = "markos" fullword ascii wide nocase
-        $s45 = "semims" fullword ascii wide nocase
-        $s46 = "gregory" fullword ascii wide nocase
-        $s47 = "tom-pc" fullword ascii wide nocase
-        $s48 = "will carter" fullword ascii wide nocase
-        $s49 = "angelica" fullword ascii wide nocase
-        $s50 = "eric johns" fullword ascii wide nocase
-        $s51 = "john ca" fullword ascii wide nocase
-        $s52 = "lebron james" fullword ascii wide nocase
-        $s53 = "rats-pc" fullword ascii wide nocase
-        $s54 = "robot" fullword ascii wide nocase
-        $s55 = "serena" fullword ascii wide nocase
-        $s56 = "sofynia" fullword ascii wide nocase
-        $s57 = "straz" fullword ascii wide nocase
-        $s58 = "bea-ch" fullword ascii wide nocase
-        $s59 = "wdagutilityaccount" fullword ascii wide nocase
-        $s60 = "peter wilson" fullword ascii wide nocase
-        $s61 = "hmarc" fullword ascii wide nocase
-        $s62 = "patex" fullword ascii wide nocase
-        $s63 = "frank" fullword ascii wide nocase
-        $s64 = "george" fullword ascii wide nocase
-        $s65 = "julia" fullword ascii wide nocase
-        $s66 = "heuerzl" fullword ascii wide nocase
-        $s67 = "harry johnson" fullword ascii wide nocase
-        $s68 = "j.seance" fullword ascii wide nocase
-        $s69 = "a.monaldo" fullword ascii wide nocase
-    condition:
-        uint16(0) == 0x5a4d and 10 of them
-}
-
-rule INDICATOR_SUSPICIOUS_EXE_B64_Encoded_UserAgent {
-    meta:
-        author = "ditekSHen"
-        description = "Detects executables containing base64 encoded User Agent"
-    strings:
-        $s1 = "TW96aWxsYS81LjAgK" ascii wide
-        $s2 = "TW96aWxsYS81LjAgKFdpbmRvd3M" ascii wide
-    condition:
-        uint16(0) == 0x5a4d and any of them
-}
-
-rule INDICATOR_SUSPICIOUS_EXE_WindDefender_AntiEmaulation {
-    meta:
-        author = "ditekSHen"
-        description = "Detects executables containing potential Windows Defender anti-emulation checks"
-    strings:
-        $s1 = "JohnDoe" fullword ascii wide
-        $s2 = "HAL9TH" fullword ascii wide
-    condition:
-        uint16(0) == 0x5a4d and all of them
-}
-
-rule INDICATOR_SUSPICIOUS_EXE_attrib {
-    meta:
-        author = "ditekSHen"
-        score = 50
-        description = "Detects executables using attrib with suspicious attributes attributes"
-    strings:
-        $s1 = "attrib +h +r +s" ascii wide
-    condition:
-        uint16(0) == 0x5a4d and any of them
-}
-
-rule INDICATOR_SUSPICIOUS_EXE_ClearMyTracksByProcess {
-    meta:
-        author = "ditekSHen"
-        description = "Detects executables calling ClearMyTracksByProcess"
-    strings:
-        $s1 = "InetCpl.cpl,ClearMyTracksByProcess" ascii wide nocase
-    condition:
-        uint16(0) == 0x5a4d and any of them
-}
-
-rule INDICATOR_SUSPICIOUS_EXE_DotNetProcHook {
-    meta:
-        author = "ditekSHen"
-        description = "Detects executables with potential process hoocking"
-    strings:
-        $s1 = "UnHook" fullword ascii
-        $s2 = "SetHook" fullword ascii
-        $s3 = "CallNextHook" fullword ascii
-        $s4 = "_hook" fullword ascii
-    condition:
-        uint16(0) == 0x5a4d and all of them
-}
-
-rule INDICATOR_SUSPICIOUS_EXE_TelegramChatBot {
-    meta:
-        author = "ditekSHen"
-        description = "Detects executables using Telegram Chat Bot"
-        score = 60
-    strings:
-        $s1 = "https://api.telegram.org/bot" ascii wide
-        $s2 = "/sendMessage?chat_id=" fullword ascii wide
-        $s3 = "Content-Disposition: form-data; name=\"" fullword ascii
-        $s4 = "/sendDocument?chat_id=" fullword ascii wide
-        $p1 = "/sendMessage" ascii wide
-        $p2 = "/sendDocument" ascii wide
-        $p3 = "&chat_id=" ascii wide
-        $p4 = "/sendLocation" ascii wide
-    condition:
-        uint16(0) == 0x5a4d and (2 of ($s*) or (2 of ($p*) and 1 of ($s*)))
-}
-
-rule INDICATOR_SUSPICIOUS_EXE_B64_Artifacts {
-    meta:
-        author = "ditekSHen"
-        description = "Detects executables embedding bas64-encoded APIs, command lines, registry keys, etc."
-        score = 60
-    strings:
-        $s1 = "U09GVFdBUkVcTWljcm9zb2Z0XFdpbmRvd3NcQ3VycmVudFZlcnNpb25cUnVuXA" ascii wide
-        $s2 = "L2Mgc2NodGFza3MgL2" ascii wide
-        $s3 = "QW1zaVNjYW5CdWZmZXI" ascii wide
-        $s4 = "VmlydHVhbFByb3RlY3Q" ascii wide
-    condition:
-        uint16(0) == 0x5a4d and 2 of them
-}
-
-rule INDICATOR_SUSPICIOUS_EXE_DiscordURL {
-    meta:
-        author = "ditekSHen"
-        description = "Detects executables Discord URL observed in first stage droppers"
-        score = 60
-    strings:
-        $s1 = "https://discord.com/api/webhooks/" ascii wide nocase
-        $s2 = "https://cdn.discordapp.com/attachments/" ascii wide nocase
-        $s3 = "aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va" ascii wide
-        $s4 = "aHR0cHM6Ly9jZG4uZGlzY29yZGFwcC5jb20vYXR0YWNobW" ascii wide
-        $s5 = "/skoohbew/ipa/moc.drocsid//:sptth" ascii wide nocase
-        $s6 = "/stnemhcatta/moc.ppadrocsid.ndc//:sptth" ascii wide nocase
-        $s7 = "av9GaiV2dvkGch9SbvNmLkJ3bjNXak9yL6MHc0RHa" ascii wide
-        $s8 = "WboNWY0RXYv02bj5CcwFGZy92YzlGZu4GZj9yL6MHc0RHa" ascii wide
-    condition:
-        uint16(0) == 0x5a4d and any of them
-}
-
-/*
-rule INDICATOR_SUSPICIOUS_EXE_RegKeyComb_DisableTaskManager {
-    meta:
-        author = "ditekSHen"
-        description = "Detects executables embedding registry key / value combination indicative of disabling task manager"
-    strings:
-        $r1 = "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System" ascii wide nocase
-        $r2 = "SOFTWARE\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Policies\\System" ascii wide nocase
-        $k1 = "DisableTaskMgr" ascii wide nocase
-    condition:
-        uint16(0) == 0x5a4d and (1 of ($r*) and 1 of ($k*))
-}
-*/
-
-/*
-rule INDICATOR_SUSPICIOUS_EXE_RegKeyComb_DisableExplorerHidden {
-    meta:
-        author = "ditekSHen"
-        description = "Detects executables embedding registry key / value combination indicative of disabling explorer displaying hidden files"
-    strings:
-        $r1 = "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced" ascii wide nocase
-        $r2 = "SOFTWARE\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced" ascii wide nocase
-        $k1 = "Hidden" ascii wide nocase
-    condition:
-        uint16(0) == 0x5a4d and (1 of ($r*) and 1 of ($k*))
-}
-*/
-
-/*
-rule INDICATOR_SUSPICIOUS_EXE_RegKeyComb_DisableSecurityCenter {
-    meta:
-        author = "ditekSHen"
-        description = "Detects executables embedding registry key / value combination indicative of disabling Security Center features"
-    strings:
-        $r1 = "SOFTWARE\\Microsoft\\Security Center" ascii wide nocase
-        $k1 = "AntiVirusDisableNotify" ascii wide nocase
-        $k2 = "FirewallDisableNotify" ascii wide nocase
-        $k3 = "UpdatesDisableNotify" ascii wide nocase
-        $k4 = "UacDisableNotify" ascii wide nocase
-    condition:
-        uint16(0) == 0x5a4d and (1 of ($r*) and 1 of ($k*))
-}
-*/
-
-/*
-rule INDICATOR_SUSPICIOUS_EXE_RegKeyComb_DisableCMD {
-    meta:
-        author = "ditekSHen"
-        description = "Detects executables embedding registry key / value combination indicative of disabling command line"
-    strings:
-        $r1 = "Software\\Policies\\Microsoft\\Windows\\System" ascii wide nocase
-        $k1 = "DisableCMD" ascii wide nocase
-    condition:
-        uint16(0) == 0x5a4d and (1 of ($r*) and 1 of ($k*))
-}
-*/
-
-/*
-rule INDICATOR_SUSPICIOUS_EXE_RegKeyComb_NoRun {
-    meta:
-        author = "ditekSHen"
-        description = "Detects executables embedding registry key / value combination indicative of disabling command line"
-    strings:
-        $r1 = "Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer" ascii wide nocase
-        $k1 = "NoRun" fullword ascii wide nocase
-    condition:
-        uint16(0) == 0x5a4d and (1 of ($r*) and 1 of ($k*))
-}
-*/
-
-/*
-rule INDICATOR_SUSPICIOUS_EXE_RegKeyComb_NoViewContextMenu {
-    meta:
-        author = "ditekSHen"
-        description = "Detects executables embedding registry key / value combination indicative of disabling command line"
-    strings:
-        $r1 = "Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer" ascii wide nocase
-        $k1 = "NoViewContextMenu" fullword ascii wide nocase
-    condition:
-        uint16(0) == 0x5a4d and (1 of ($r*) and 1 of ($k*))
-}
-*/
-
-/*
-rule INDICATOR_SUSPICIOUS_EXE_RegKeyComb_Multi {
-    meta:
-        author = "ditekSHen"
-        description = "Detects executables embedding registry keys / values combination indicative of impairing system"
-    strings:
-        $r1 = "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System" ascii wide nocase
-        $r2 = "SOFTWARE\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Policies\\System" ascii wide nocase
-        $r3 = "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced" ascii wide nocase
-        $r4 = "SOFTWARE\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced" ascii wide nocase
-        $r5 = "Software\\Policies\\Microsoft\\Windows\\System" ascii wide nocase
-        $r6 = "Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer" ascii wide nocase
-        $r7 = "SOFTWARE\\Microsoft\\Security Center" ascii wide nocase
-        $k1 = "DisableTaskMgr" ascii wide nocase
-        $k2 = "Hidden" ascii wide nocase
-        $k3 = "AntiVirusDisableNotify" ascii wide nocase
-        $k4 = "FirewallDisableNotify" ascii wide nocase
-        $k5 = "DisableCMD" ascii wide nocase
-        $k6 = "NoRun" fullword ascii wide nocase
-        $k7 = "NoViewContextMenu" fullword ascii wide nocase
-    condition:
-        uint16(0) == 0x5a4d and (3 of ($r*) and 3 of ($k*))
-}
-*/
-
-rule INDICATOR_SUSPICIOUS_EXE_RegKeyComb_DisableWinDefender {
-    meta:
-        author = "ditekSHen"
-        description = "Detects executables embedding registry key / value combination indicative of disabling Windows Defender features"
-        score = 60
-    strings:
-        $r1 = "SOFTWARE\\Policies\\Microsoft\\Windows Defender" ascii wide nocase
-        $k1 = "DisableAntiSpyware" ascii wide
-        $r2 = "SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Real-Time Protection" ascii wide nocase
-        $k2 = "DisableBehaviorMonitoring" ascii wide
-        $k3 = "DisableOnAccessProtection" ascii wide
-        $k4 = "DisableScanOnRealtimeEnable" ascii wide
-        $r3 = "SOFTWARE\\Microsoft\\Windows Defender\\Real-Time Protection" ascii wide nocase
-        $k5 = "vDisableRealtimeMonitoring" ascii wide
-        $r4 = "SOFTWARE\\Microsoft\\Windows Defender\\Spynet" ascii wide nocase
-        $k6 = "SpyNetReporting" ascii wide
-        $k7 = "SubmitSamplesConsent" ascii wide
-        $r5 = "SOFTWARE\\Microsoft\\Windows Defender\\Features" ascii wide nocase
-        $k8 = "TamperProtection" ascii wide
-        $r6 = "SOFTWARE\\Microsoft\\Windows Defender\\Exclusions\\Paths" ascii wide nocase
-        $k9 = "Add-MpPreference -ExclusionPath \"{0}\"" ascii wide
-    condition:
-        uint16(0) == 0x5a4d and (1 of ($r*) and 1 of ($k*))
-}
-
-rule INDICATOR_SUSPICIOUS_EXE_RegKeyComb_IExecuteCommandCOM {
-    meta:
-        author = "ditekSHen"
-        description = "Detects executables embedding command execution via IExecuteCommand COM object"
-        score = 60
-    strings:
-        $r1 = "Classes\\Folder\\shell\\open\\command" ascii wide nocase
-        $k1 = "DelegateExecute" ascii wide
-        $s1 = "/EXEFilename \"{0}" ascii wide
-        $s2 = "/WindowState \"\"" ascii wide
-        $s3 = "/PriorityClass \"\"32\"\" /CommandLine \"" ascii wide
-        $s4 = "/StartDirectory \"" ascii wide
-        $s5 = "/RunAs" ascii wide
-    condition:
-        uint16(0) == 0x5a4d and ((1 of ($r*) and 1 of ($k*)) or (all of ($s*)))
-}
-
-rule INDICATOR_SUSPICIOUS_EXE_WMI_EnumerateVideoDevice {
-    meta:
-        author = "ditekSHen"
-        description = "Detects executables attemping to enumerate video devices using WMI"
-        score = 50
-    strings:
-        $q1 = "Select * from Win32_CacheMemory" ascii wide nocase
-        $d1 = "{860BB310-5D01-11d0-BD3B-00A0C911CE86}" ascii wide
-        $d2 = "{62BE5D10-60EB-11d0-BD3B-00A0C911CE86}" ascii wide
-        $d3 = "{55272A00-42CB-11CE-8135-00AA004BB851}" ascii wide
-        $d4 = "SYSTEM\\ControlSet001\\Control\\Class\\{4d36e968-e325-11ce-bfc1-08002be10318}\\000" ascii wide nocase
-        $d5 = "HardwareInformation.AdapterString" ascii wide
-        $d6 = "HardwareInformation.qwMemorySize" ascii wide
-    condition:
-        uint16(0) == 0x5a4d and ((1 of ($q*) and 1 of ($d*)) or 3 of ($d*))
-}
-
-rule INDICATOR_SUSPICIOUS_EXE_DcRatBy {
-    meta:
-        author = "ditekSHen"
-        description = "Detects executables containing the string DcRatBy"
-    strings:
-        $s1 = "DcRatBy" ascii wide
-    condition:
-        uint16(0) == 0x5a4d and all of them
-}
-
-rule INDICATOR_SUSPICIOUS_EXE_Anti_WinJail {
-    meta:
-        author = "ditekSHen"
-        description = "Detects executables potentially checking for WinJail sandbox window"
-    strings:
-        $s1 = "Afx:400000:0" fullword ascii wide
-    condition:
-        uint16(0) == 0x5a4d and all of them
-}
-
-rule INDICATOR_SUSPICIOUS_EXE_Anti_OldCopyPaste {
-    meta:
-        author = "ditekSHen"
-        description = "Detects executables potentially checking for WinJail sandbox window"
-    strings:
-        $s1 = "This file can't run into Virtual Machines" wide
-        $s2 = "This file can't run into Sandboxies" wide
-        $s3 = "This file can't run into RDP Servers" wide
-        $s4 = "Run without emulation" wide
-        $s5 = "Run using valid operating system" wide
-        $v1 = "SbieDll.dll" fullword wide
-        $v2 = "USER" fullword wide
-        $v3 = "SANDBOX" fullword wide
-        $v4 = "VIRUS" fullword wide
-        $v5 = "MALWARE" fullword wide
-        $v6 = "SCHMIDTI" fullword wide
-        $v7 = "CURRENTUSER" fullword wide
-    condition:
-        uint16(0) == 0x5a4d and (3 of ($s*) or all of ($v*))
-}
-
-rule INDICATOR_SUSPICIOUS_EXE_Go_GoLazagne {
-    meta:
-        author = "ditekSHen"
-        description = "Detects Go executables using GoLazagne"
-    strings:
-        $s1 = "/goLazagne/" ascii nocase
-        $s2 = "Go build ID:" ascii
-    condition:
-        uint16(0) == 0x5a4d and all of them
-}
-
-/*
-rule INDICATOR_SUSPICIOUS_EXE_RegKeyComb_EnableLinkedConnections {
-    meta:
-        author = "ditekSHen"
-        description = "Detects executables embedding registry key / value combination ensuring mapped drives are available from an elevated prompt or process with UAC enabled. Observed in ransomware"
-    strings:
-        $r1 = "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System" ascii wide nocase
-        $k1 = "EnableLinkedConnections" ascii wide nocase
-    condition:
-        uint16(0) == 0x5a4d and (1 of ($r*) and 1 of ($k*))
-}
-*/
-
-/*
-Too many FPs. Revise.
-rule INDICATOR_SUSPICIOUS_References_EDR {
-    meta:
-        author = "ditekSHen"
-        description = "Detects executables referencing many AV and EDR software"
-    strings:
-        $s1 = "activeconsole" ascii wide nocase
-        $s2 = "amsi.dll" ascii wide nocase
-        $s3 = "anti malware" ascii wide nocase
-        $s4 = "anti-malware" ascii wide nocase
-        $s5 = "antimalware" ascii wide nocase
-        $s6 = "anti virus" ascii wide nocase
-        $s7 = "anti-virus" ascii wide nocase
-        $s8 = "antivirus" ascii wide nocase
-        $s9 = "appsense" ascii wide nocase
-        $s10 = "authtap" ascii wide nocase
-        $s11 = "avast" ascii wide nocase
-        $s12 = "avecto" ascii wide nocase
-        $s13 = "canary" ascii wide nocase
-        $s14 = "carbonblack" ascii wide nocase
-        $s15 = "carbon black" ascii wide nocase
-        $s16 = "cb.exe" ascii wide nocase
-        $s17 = "ciscoamp" ascii wide nocase
-        $s18 = "cisco amp" ascii wide nocase
-        $s19 = "countercept" ascii wide nocase
-        $s20 = "countertack" ascii wide nocase
-        $s21 = "cramtray" ascii wide nocase
-        $s22 = "crssvc" ascii wide nocase
-        $s23 = "crowdstrike" ascii wide nocase
-        $s24 = "csagent" ascii wide nocase
-        $s25 = "csfalcon" ascii wide nocase
-        $s26 = "csshell" ascii wide nocase
-        $s27 = "cybereason" ascii wide nocase
-        $s28 = "cyclorama" ascii wide nocase
-        $s29 = "cylance" ascii wide nocase
-        $s30 = "cyoptics" ascii wide nocase
-        $s31 = "cyupdate" ascii wide nocase
-        $s32 = "cyvera" ascii wide nocase
-        $s33 = "cyserver" ascii wide nocase
-        $s34 = "cytray" ascii wide nocase
-        $s35 = "darktrace" ascii wide nocase
-        $s36 = "defendpoint" ascii wide nocase
-        $s37 = "defender" ascii wide nocase
-        $s38 = "eectrl" ascii wide nocase
-        $s39 = "elastic" ascii wide nocase
-        $s40 = "endgame" ascii wide nocase
-        $s41 = "f-secure" ascii wide nocase
-        $s42 = "forcepoint" ascii wide nocase
-        $s43 = "fireeye" ascii wide nocase
-        $s44 = "groundling" ascii wide nocase
-        $s45 = "GRRservic" ascii wide nocase
-        $s46 = "inspector" ascii wide nocase
-        $s47 = "ivanti" ascii wide nocase
-        $s48 = "kaspersky" ascii wide nocase
-        $s49 = "lacuna" ascii wide nocase
-        $s50 = "logrhythm" ascii wide nocase
-        $s51 = "malware" ascii wide nocase
-        $s52 = "mandiant" ascii wide nocase
-        $s53 = "mcafee" ascii wide nocase
-        $s54 = "morphisec" ascii wide nocase
-        $s55 = "msascuil" ascii wide nocase
-        $s56 = "msmpeng" ascii wide nocase
-        $s57 = "nissrv" ascii wide nocase
-        $s58 = "omni" ascii wide nocase
-        $s59 = "omniagent" ascii wide nocase
-        $s60 = "osquery" ascii wide nocase
-        $s61 = "Palo Alto Networks" ascii wide nocase
-        $s62 = "pgeposervice" ascii wide nocase
-        $s63 = "pgsystemtray" ascii wide nocase
-        $s64 = "privilegeguard" ascii wide nocase
-        $s65 = "procwall" ascii wide nocase
-        $s66 = "protectorservic" ascii wide nocase
-        $s67 = "qradar" ascii wide nocase
-        $s68 = "redcloak" ascii wide nocase
-        $s69 = "secureworks" ascii wide nocase
-        $s70 = "securityhealthservice" ascii wide nocase
-        $s71 = "semlaunchsv" ascii wide nocase
-        $s72 = "sentinel" ascii wide nocase
-        $s73 = "sepliveupdat" ascii wide nocase
-        $s74 = "sisidsservice" ascii wide nocase
-        $s75 = "sisipsservice" ascii wide nocase
-        $s76 = "sisipsutil" ascii wide nocase
-        $s77 = "smc.exe" ascii wide nocase
-        $s78 = "smcgui" ascii wide nocase
-        $s79 = "snac64" ascii wide nocase
-        $s80 = "sophos" ascii wide nocase
-        $s81 = "splunk" ascii wide nocase
-        $s82 = "srtsp" ascii wide nocase
-        $s83 = "symantec" ascii wide nocase
-        $s84 = "symcorpu" ascii wide nocase
-        $s85 = "symefasi" ascii wide nocase
-        $s86 = "sysinternal" ascii wide nocase
-        $s87 = "sysmon" ascii wide nocase
-        $s88 = "tanium" ascii wide nocase
-        $s89 = "tda.exe" ascii wide nocase
-        $s90 = "tdawork" ascii wide nocase
-        $s91 = "tpython" ascii wide nocase
-        $s92 = "vectra" ascii wide nocase
-        $s93 = "wincollect" ascii wide nocase
-        $s94 = "windowssensor" ascii wide nocase
-        $s95 = "wireshark" ascii wide nocase
-        $s96 = "threat" ascii wide nocase
-        $s97 = "xagt.exe" ascii wide nocase
-        $s98 = "xagtnotif.exe" ascii wide nocase
-        $n1 = "Kaspersky Security Scan" ascii wide
-    condition:
-         uint16(0) == 0x5a4d and not any of ($n*) and 10 of ($s*) 
-}
-*/
-
-rule INDICATOR_SUSPICIOUS_Sandbox_Evasion_FilesComb {
-    meta:
-        author = "ditekSHen"
-        description = "Detects executables referencing specific set of files observed in sandob anti-evation, and Emotet"
-    strings:
-        $s1 = "c:\\take_screenshot.ps1" ascii wide nocase
-        $s2 = "c:\\loaddll.exe" ascii wide nocase
-        $s3 = "c:\\email.doc" ascii wide nocase
-        $s4 = "c:\\email.htm" ascii wide nocase
-        $s5 = "c:\\123\\email.doc" ascii wide nocase
-        $s6 = "c:\\123\\email.docx" ascii wide nocase
-        $s7 = "c:\\a\\foobar.bmp" ascii wide nocase
-        $s8 = "c:\\a\\foobar.doc" ascii wide nocase
-        $s9 = "c:\\a\\foobar.gif" ascii wide nocase
-        $s10 = "c:\\symbols\\aagmmc.pdb" ascii wide nocase
-    condition:
-         uint16(0) == 0x5a4d and 6 of them
-}
-
-rule INDICATOR_SUSPICIOUS_VM_Evasion_VirtDrvComb {
-    meta:
-        author = "ditekSHen"
-        description = "Detects executables referencing combination of virtualization drivers"
-    strings:
-        $p1 = "prleth.sys" ascii wide
-        $p2 = "prlfs.sys" ascii wide
-        $p3 = "prlmouse.sys" ascii wide
-        $p4 = "prlvideo.sys	" ascii wide
-        $p5 = "prltime.sys" ascii wide
-        $p6 = "prl_pv32.sys" ascii wide
-        $p7 = "prl_paravirt_32.sys" ascii wide
-        $vb1 = "VBoxMouse.sys" ascii wide
-        $vb2 = "VBoxGuest.sys" ascii wide
-        $vb3 = "VBoxSF.sys" ascii wide
-        $vb4 = "VBoxVideo.sys" ascii wide
-        $vb5 = "vboxdisp.dll" ascii wide
-        $vb6 = "vboxhook.dll" ascii wide
-        $vb7 = "vboxmrxnp.dll" ascii wide
-        $vb8 = "vboxogl.dll" ascii wide
-        $vb9 = "vboxoglarrayspu.dll" ascii wide
-        $vb10 = "vboxoglcrutil.dll" ascii wide
-        $vb11 = "vboxoglerrorspu.dll" ascii wide
-        $vb12 = "vboxoglfeedbackspu.dll" ascii wide
-        $vb13 = "vboxoglpackspu.dll" ascii wide
-        $vb14 = "vboxoglpassthroughspu.dll" ascii wide
-        $vb15 = "vboxservice.exe" ascii wide
-        $vb16 = "vboxtray.exe" ascii wide
-        $vb17 = "VBoxControl.exe" ascii wide
-        $vp1 = "vmsrvc.sys" ascii wide
-        $vp2 = "vpc-s3.sys" ascii wide
-        $vw1 = "vmmouse.sys" ascii wide
-        $vw2 = "vmnet.sys" ascii wide
-        $vw3 = "vmxnet.sys" ascii wide
-        $vw4 = "vmhgfs.sys" ascii wide
-        $vw5 = "vmx86.sys" ascii wide
-        $vw6 = "hgfs.sys" ascii wide
-    condition:
-         uint16(0) == 0x5a4d and (
-             (2 of ($p*) and (2 of ($vb*) or 2 of ($vp*) or 2 of ($vw*))) or
-             (2 of ($vb*) and (2 of ($p*) or 2 of ($vp*) or 2 of ($vw*))) or
-             (2 of ($vp*) and (2 of ($p*) or 2 of ($vb*) or 2 of ($vw*))) or
-             (2 of ($vw*) and (2 of ($p*) or 2 of ($vb*) or 2 of ($vp*)))
-         )
-}
-
-rule INDICATOR_SUSPICIOUS_EXE_NoneWindowsUA {
-    meta:
-        author = "ditekSHen"
-        description = "Detects Windows executables referencing non-Windows User-Agents"
-    strings:
-        $ua1 = "Mozilla/5.0 (Macintosh; Intel Mac OS" wide ascii
-        $ua2 = "Mozilla/5.0 (iPhone; CPU iPhone OS" ascii wide
-        $ua3 = "Mozilla/5.0 (Linux; Android " ascii wide
-        $ua4 = "Mozilla/5.0 (PlayStation " ascii wide
-        $ua5 = "Mozilla/5.0 (X11; " wide ascii
-        $ua6 = "Mozilla/5.0 (Windows Phone " ascii wide
-        $ua7 = "Mozilla/5.0 (compatible; MSIE 10.0; Macintosh; Intel Mac OS X 10_7_3; Trident/6.0)" wide ascii
-        $ua8 = "Mozilla/5.0 (compatible; MSIE 9.0; Windows Phone OS 7.5; Trident/5.0; IEMobile/9.0)" wide ascii
-        $ua9 = "HTC_Touch_3G Mozilla/4.0 (compatible; MSIE 6.0; Windows CE; IEMobile 7.11)" wide ascii
-        $ua10 = "Mozilla/4.0 (compatible; MSIE 7.0; Windows Phone OS 7.0; Trident/3.1; IEMobile/7.0; Nokia;N70)" wide ascii
-        $ua11 = "Mozilla/5.0 (BlackBerry; U; BlackBerry " wide ascii
-        $ua12 = "Mozilla/5.0 (iPad; CPU OS" wide ascii
-        $ua13 = "Mozilla/5.0 (iPad; U;" ascii wide
-        $ua14 = "Mozilla/5.0 (IE 11.0;" ascii wide
-        $ua15 = "Mozilla/5.0 (Android;" ascii wide
-        $ua16 = "User-Agent: Internal Wordpress RPC connection" ascii wide
-        $ua17 = "Mozilla / 5.0 (SymbianOS" ascii wide
-        //$ua18 = "Mozilla/5.0 (SymbianOS" ascii wide
-    condition:
-         uint16(0) == 0x5a4d and 1 of them
-}
-
-rule INDICATOR_SUSPICIOUS_EXE_TooManyWindowsUA {
-    meta:
-        author = "ditekSHen"
-        description = "Detects executables referencing many varying, potentially fake Windows User-Agents"
-    strings:
-        $ua1 = "Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2049.0 Safari/537.36" ascii wide
-        $ua2 = "Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.67 Safari/537.36" ascii wide
-        $ua3 = "Mozilla/5.0 (Windows NT 5.1; rv:31.0) Gecko/20100101 Firefox/31.0" ascii wide
-        $ua4 = "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:29.0) Gecko/20120101 Firefox/29.0" ascii wide
-        $ua5 = "Mozilla/5.0 (Windows NT 6.1; rv:27.3) Gecko/20130101 Firefox/27.3" ascii wide
-        $ua6 = "Mozilla/5.0 (Windows; U; MSIE 9.0; WIndows NT 9.0; en-US)" ascii wide
-        $ua7 = "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; WOW64; Trident/6.0)" ascii wide
-        $ua8 = "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/4.0; InfoPath.2; SV1; .NET CLR 2.0.50727; WOW64)" ascii wide
-        $ua9 = "Opera/12.0(Windows NT 5.2;U;en)Presto/22.9.168 Version/12.00" ascii wide
-        $ua10 = "Opera/9.80 (Windows NT 6.0) Presto/2.12.388 Version/12.14" ascii wide
-        $ua11 = "Mozilla/5.0 (Windows NT 6.0; rv:2.0) Gecko/20100101 Firefox/4.0 Opera 12.14" ascii wide
-        $ua12 = "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.0) Opera 12.14" ascii wide
-        $ua13 = "Opera/12.80 (Windows NT 5.1; U; en) Presto/2.10.289 Version/12.02" ascii wide
-        $ua14 = "Opera/9.80 (Windows NT 6.1; U; es-ES) Presto/2.9.181 Version/12.00" ascii wide
-        $ua15 = "Opera/9.80 (Windows NT 5.1; U; zh-sg) Presto/2.9.181 Version/12.00" ascii wide
-        $ua16 = "Mozilla/5.0 (Windows NT 6.2) AppleWebKit/535.7 (KHTML, like Gecko) Comodo_Dragon/16.1.1.0 Chrome/16.0.912.63 Safari/535.7" ascii wide
-        $ua17 = "Mozilla/5.0 (Windows; U; Windows NT 6.1; tr-TR) AppleWebKit/533.20.25 (KHTML, like Gecko) Version/5.0.4 Safari/533.20.27" ascii wide
-    condition:
-         uint16(0) == 0x5a4d and 5 of them
-}
-
-rule INDICATOR_SUSPICIOUS_VM_Evasion_MACAddrComb {
-    meta:
-        author = "ditekSHen"
-        description = "Detects executables referencing virtualization MAC addresses"
-    strings:
-        $s1 = "00:03:FF" ascii wide nocase
-        $s2 = "00:05:69" ascii wide nocase
-        $s3 = "00:0C:29" ascii wide nocase
-        $s4 = "00:16:3E" ascii wide nocase
-        $s5 = "00:1C:14" ascii wide nocase
-        $s6 = "00:1C:42" ascii wide nocase
-        $s7 = "00:50:56" ascii wide nocase
-        $s8 = "08:00:27" ascii wide nocase
-    condition:
-         uint16(0) == 0x5a4d and 3 of them
-}
-
-/*
-rule INDICATOR_SUSPICIOUS_CAPABILITY_CaptureScreenShot {
-    meta:
-        author = "ditekSHen"
-        description = "Detects .NET executables with screen capture cabability"
-    strings:
-        $dll = "gdiplus.dll" ascii wide nocase
-        $c1 = "gdipcreatebitmapfromhbitmap" ascii wide nocase
-        $c2 = "gdipcreatebitmapfromscan0" ascii wide nocase
-        $save = "gdipsaveimagetofile" ascii wide nocase
-    condition:
-         uint16(0) == 0x5a4d and ($dll and $save and (1 of ($c*)))
-}
-*/
-
-rule INDICATOR_SUSPICIOUS_EXE_CC_Regex {
-    meta:
-        author = "ditekSHen"
-        description = "Detects executables referencing credit card regular expressions"
-        score = 60
-    strings:
-        // Amex / Express Card
-        $s1 = "^3[47][0-9]{13}$" ascii wide nocase
-        $s2 = "3[47][0-9]{13}$" ascii wide nocase
-        $s3 = "37[0-9]{2}\\s[0-9]{4}\\s[0-9]{4}\\s[0-9]{4}" ascii wide nocase
-        // BCGlobal
-        $s4 = "^(6541|6556)[0-9]{12}$" ascii wide nocase
-        // Carte Blanche Card
-        $s5 = "^389[0-9]{11}$" ascii wide nocase
-        // Diners Club Card
-        $s6 = "^3(?:0[0-5]|[68][0-9])[0-9]{11}$" ascii wide nocase
-        // Discover Card
-        $s7 = "6(?:011|5[0-9]{2})[0-9]{12}$" ascii wide nocase
-        $s8 = "6011\\s[0-9]{4}\\s[0-9]{4}\\s[0-9]{4}" ascii wide nocase
-        // Insta Payment Card
-        $s9 = "^63[7-9][0-9]{13}$" ascii wide nocase
-        // JCB Card
-        $s10 = "^(?:2131|1800|35\\d{3})\\d{11}$" ascii wide nocase
-        // KoreanLocalCard
-        $s11 = "^9[0-9]{15}$" ascii wide nocase
-        // Laser Card
-        $s12 = "^(6304|6706|6709|6771)[0-9]{12,15}$" ascii wide nocase
-        // Maestro Card
-        $s13 = "^(5018|5020|5038|6304|6759|6761|6763)[0-9]{8,15}$" ascii wide nocase
-        // Mastercard
-        $s14 = "5[1-5][0-9]{14}$" ascii wide nocase
-        // Solo Card
-        $s15 = "^(6334|6767)[0-9]{12}|(6334|6767)[0-9]{14}|(6334|6767)[0-9]{15}$" ascii wide nocase
-        // Switch Card
-        $s16 = "^(4903|4905|4911|4936|6333|6759)[0-9]{12}|(4903|4905|4911|4936|6333|6759)[0-9]{14}|(4903|4905|4911|4936|6333|6759)[0-9]{15}|564182[0-9]{10}|564182[0-9]{12}|564182[0-9]{13}|633110[0-9]{10}|633110[0-9]{12}|633110[0-9]{13}$" ascii wide nocase
-        // Union Pay Card
-        $s17 = "^(62[0-9]{14,17})$" ascii wide nocase
-        // Visa Card
-        $s18 = "4[0-9]{12}(?:[0-9]{3})?$" ascii wide nocase
-        // Visa Master Card
-        $s19 = "^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14})$" ascii wide nocase
-        $s20 = "4[0-9]{3}\\s[0-9]{4}\\s[0-9]{4}\\s[0-9]{4}" ascii wide nocase
-        $a21 = "^[0-9]{4}\\s[0-9]{4}\\s[0-9]{4}\\s[0-9]{4}"ascii wide nocase
-    condition:
-         (uint16(0) == 0x5a4d and 2 of them) or (4 of them)
-}
-
-rule INDICATOR_SUSPICIOUS_EXE_Discord_Regex {
-    meta:
-        author = "ditekSHen"
-        description = "Detects executables referencing Discord tokens regular expressions"
-        score = 40
-    strings:
-        $s1 = "[a-zA-Z0-9]{24}\\.[a-zA-Z0-9]{6}\\.[a-zA-Z0-9_\\-]{27}|mfa\\.[a-zA-Z0-9_\\-]{84}" ascii wide nocase
-    condition:
-         (uint16(0) == 0x5a4d and all of them) or all of them
-}
-
-rule INDICATOR_SUSPICIOUS_EXE_References_VPN {
-    meta:
-        author = "ditekSHen"
-        description = "Detects executables referencing many VPN software clients. Observed in infosteslers"
-        score = 40
-    strings:
-        $s1 = "\\VPN\\NordVPN" ascii wide nocase
-        $s2 = "\\VPN\\OpenVPN" ascii wide nocase
-        $s3 = "\\VPN\\ProtonVPN" ascii wide nocase
-        $s4 = "\\VPN\\DUC\\" ascii wide nocase
-        $s5 = "\\VPN\\PrivateVPN" ascii wide nocase
-        $s6 = "\\VPN\\PrivateVPN" ascii wide nocase
-        $s7 = "\\VPN\\EarthVPN" ascii wide nocase
-    condition:
-         uint16(0) == 0x5a4d and 3 of them
-}
-
-/*
-May generate FPs
-rule INDICATOR_SUSPICIOUS_EXE_B64_URL {
-    meta:
-        author = "ditekSHen"
-        description = "Detects executables referencing base64 encoded URL"
-    strings:
-        $s1 = "aHR0cHM6Ly9" ascii wide
-        $s2 = "aHR0cDovL2" ascii wide
-    condition:
-         uint16(0) == 0x5a4d and 1 of them
-}
-*/
-
-rule INDICATOR_SUSPICIOUS_EXE_VaultSchemaGUID {
-    meta:
-        author = "ditekSHen"
-        description = "Detects executables referencing Windows vault credential objects. Observed in infostealers"
-        score = 50
-    strings:
-        // Windows Secure Note
-        $s1 = "2F1A6504-0641-44CF-8BB5-3612D865F2E5" ascii wide
-        // Windows Web Password Credential
-        $s2 = "3CCD5499-87A8-4B10-A215-608888DD3B55" ascii wide
-        // Windows Credential Picker Protector
-        $s3 = "154E23D0-C644-4E6F-8CE6-5069272F999F" ascii wide
-        // Web Credentials
-        $s4 = "4BF4C442-9B8A-41A0-B380-DD4A704DDB28" ascii wide
-        // Windows Credentials
-        $s5 = "77BC582B-F0A6-4E15-4E80-61736B6F3B29" ascii wide
-        // Windows Domain Certificate Credential
-        $s6 = "E69D7838-91B5-4FC9-89D5-230D4D4CC2BC" ascii wide
-        // Windows Domain Password Credential
-        $s7 = "3E0E35BE-1B77-43E7-B873-AED901B6275B" ascii wide
-        // Windows Extended Credential
-        $s8 = "3C886FF3-2669-4AA2-A8FB-3F6759A77548" ascii wide
-    condition:
-         uint16(0) == 0x5a4d and 4 of them
-}
-
-rule INDICATOR_SUSPICIOUS_AntiVM_UNK01 {
-    meta:
-        author = "ditekSHen"
-        description = "Detects memory artifacts referencing specific combination of anti-VM checks"
-    strings:
-        $s1 = "vmci.s" fullword ascii wide
-        $s2 = "vmmemc" fullword ascii wide
-        $s3 = "qemu-ga.exe" fullword ascii wide
-        $s4 = "qga.exe" fullword ascii wide
-        $s5 = "windanr.exe" fullword ascii wide
-        $s6 = "vboxservice.exe" fullword ascii wide
-        $s7 = "vboxtray.exe" fullword ascii wide
-        $s8 = "vmtoolsd.exe" fullword ascii wide
-        $s9 = "prl_tools.exe" fullword ascii wide
-        $s10 = "7869.vmt" fullword ascii wide
-        $s11 = "qemu" fullword ascii wide
-        $s12 = "virtio" fullword ascii wide
-        $s13 = "vmware" fullword ascii wide
-        $s14 = "vbox" fullword ascii wide
-        $s15 = "%systemroot%\\system32\\ntdll.dll" fullword ascii wide
-    condition:
-         uint16(0) == 0x5a4d and all of them
-}
-
-rule INDICATOR_SUSPICIOUS_AntiVM_WMIC {
-    meta:
-        author = "ditekSHen"
-        description = "Detects memory artifacts referencing WMIC commands for anti-VM checks"
-    strings:
-        $s1 = "wmic process where \"name like '%vmwp%'\"" ascii wide nocase
-        $s2 = "wmic process where \"name like '%virtualbox%'\"" ascii wide nocase
-        $s3 = "wmic process where \"name like '%vbox%'\"" ascii wide nocase
-    condition:
-         uint16(0) == 0x5a4d and 2 of them
-}
-
-rule INDICATOR_SUSPICIOUS_EnableSMBv1 {
-    meta:
-        author = "ditekSHen"
-        description = "Detects binaries with PowerShell command enabling SMBv1"
-    strings:
-        $s1 = "Enable-WindowsOptionalFeature -Online -FeatureName SMB1Protocol" ascii wide nocase
-    condition:
-         uint16(0) == 0x5a4d and 1 of them
-}
-
-rule INDICATOR_SUSPICIOUS_EnableNetworkDiscovery {
-    meta:
-        author = "ditekSHen"
-        description = "Detects binaries manipulating Windows firewall to enable permissive network discovery"
-    strings:
-        $s1 = "netsh advfirewall firewall set rule group=\"Network Discovery\" new enable=Yes" ascii wide nocase 
-        $s2 = "netsh advfirewall firewall set rule group=\"File and Printer Sharing\" new enable=Yes" ascii wide nocase 
-    condition:
-         uint16(0) == 0x5a4d and all of them
-}
-
-rule INDICATOR_SUSPICIOUS_EXE_References_AuthApps {
-    meta:
-        author = "ditekSHen"
-        description = "Detects executables referencing many authentication apps. Observed in information stealers"
-    strings:
-        $s1 = "WinAuth\\winauth.xml" ascii wide nocase
-        $s2 = "Authy Desktop\\Local" ascii wide nocase
-    condition:
-        uint16(0) == 0x5a4d and all of them
-}
-
-rule INDICATOR_SUSPICIOUS_EXE_RegKeyComb_RDP {
-    meta:
-        author = "ditekSHen"
-        description = "Detects executables embedding registry key / value combination manipulating RDP / Terminal Services"
-    strings:
-        // Beginning with Windows Server 2008 and Windows Vista, this policy no longer has any effect
-        // https://docs.microsoft.com/en-us/windows/win32/msi/enableadmintsremote
-        $r1 = "SOFTWARE\\Policies\\Microsoft\\Windows\\Installer" ascii wide nocase
-        $k1 = "EnableAdminTSRemote" fullword ascii wide nocase
-        // Whether basic Terminal Services functions are enabled
-        $r2 = "SYSTEM\\CurrentControlSet\\Control\\Terminal Server" ascii wide nocase
-        $k2 = "TSEnabled" fullword ascii wide nocase
-        // Terminal Device Driver Attributes
-        // Terminal Services hosts and configurations
-        $r3 = "SYSTEM\\CurrentControlSet\\Services\\TermDD" ascii wide nocase
-        $r4 = "SYSTEM\\CurrentControlSet\\Services\\TermService" ascii wide nocase
-        $k3 = "Start" fullword ascii wide nocase
-        // Allows or denies connecting to Terminal Services
-        $r5 = "SYSTEM\\CurrentControlSet\\Control\\Terminal Server" ascii wide nocase
-        $k4 = "fDenyTSConnections" fullword ascii wide nocase
-        // RDP Port Number
-        $r6 = "SYSTEM\\CurrentControlSet\\Control\\Terminal Server\\RDPTcp" ascii wide nocase
-        $r7 = "SYSTEM\\CurrentControlSet\\Control\\Terminal Server\\Wds\\rdpwd\\Tds\\tcp" ascii wide nocase
-        $r8 = "SYSTEM\\CurrentControlSet\\Control\\Terminal Server\\WinStations\\RDP-Tcp" ascii wide nocase
-        $k5 = "PortNumber" fullword ascii wide nocase
-    condition:
-        uint16(0) == 0x5a4d and 5 of ($r*) and 3 of ($k*)
-}
-
-// http://undoc.airesoft.co.uk/
-
-rule INDICATOR_SUSPICIOUS_EXE_Undocumented_WinAPI_Kerberos {
-    meta:
-        author = "ditekSHen"
-        description = "Detects executables referencing undocumented kerberos Windows APIs and obsereved in malware"
-    strings:
-        // Undocumented Kerberos-related functions
-        // Reference: https://unit42.paloaltonetworks.com/manageengine-godzilla-nglite-kdcsponge/ (KdcSponge)
-        // Reference: https://us-cert.cisa.gov/ncas/current-activity/2021/11/19/updated-apt-exploitation-manageengine-adselfservice-plus
-        // New Sample: e391c2d3e8e4860e061f69b894cf2b1ba578a3e91de610410e7e9fa87c07304c
-        $kdc1 = "KdcVerifyEncryptedTimeStamp" ascii wide nocase
-        $kdc2 = "KerbHashPasswordEx3" ascii wide nocase
-        $kdc3 = "KerbFreeKey" ascii wide nocase
-    condition:
-        uint16(0) == 0x5a4d and all of ($kdc*)
-}
-
-rule INDICATOR_SUSPICIOUS_EXE_NKN_BCP2P {
-    meta:
-        author = "ditekSHen"
-        description = "Detects executables referencing NKN Blockchain P2P network"
-    strings:
-        $x1 = "/nknorg/nkn-sdk-go." ascii
-        $x2 = "://seed.nkn.org" ascii
-        $x3 = "/nknorg/nkn/" ascii
-        $s1 = ").NewNanoPayClaimer" ascii
-        $s2 = ").IncrementAmount" ascii
-        $s3 = ").BalanceByAddress" ascii
-        $s4 = ").TransferName" ascii
-        $s5 = ".GetWsAddr" ascii
-        $s6 = ".GetNodeStateContext" ascii
-    condition:
-        uint16(0) == 0x5a4d and (1 of ($x*) or all of ($s*))
-}
-
-rule INDICATOR_SUSPICIOUS_EXE_References_PasswordManagers {
-    meta:
-        author = "ditekSHen"
-        description = "Detects executables referencing many Password Manager software clients. Observed in infostealers"
-    strings:
-        $s1 = "1Password\\" ascii wide nocase
-        $s2 = "Dashlane\\" ascii wide nocase
-        $s3 = "nordpass*.sqlite" ascii wide nocase
-        $s4 = "RoboForm\\" ascii wide nocase
-    condition:
-         uint16(0) == 0x5a4d and 3 of them
-}
-
-rule INDICATOR_SUSPICIOUS_EXE_WirelessNetReccon {
-    meta:
-        author = "ditekSHen"
-        description = "Detects executables with interest in wireless interface using netsh"
-    strings:
-        $s1 = "netsh wlan show profile" ascii wide nocase
-        $s2 = "netsh wlan show profile name=" ascii wide nocase
-        $s3 = "netsh wlan show networks mode=bssid" ascii wide nocase
-    condition:
-         uint16(0) == 0x5a4d and all of them
-}
-
-rule INDICATOR_SUSPICIOUS_EXE_References_GitConfData {
-    meta:
-        author = "ditekSHen"
-        description = "Detects executables referencing potentially confidential GIT artifacts. Observed in infostealer"
-    strings:
-        $s1 = "GithubDesktop\\Local Storage" ascii wide nocase
-        $s2 = "GitHub Desktop\\Local Storage" ascii wide nocase
-        $s3 = ".git-credentials" ascii wide
-        $s4 = ".config\\git\\credentials" ascii wide
-        $s5 = ".gitconfig" ascii wide
-    condition:
-         uint16(0) == 0x5a4d and 4 of them
-}
-
-rule INDICATOR_SUSPICIOUS_EXE_Reversed {
-    meta:
-        author = "ditekSHen"
-        description = "Detects reversed executables. Observed N-stage drop"
-    strings:
-        $s1 = "edom SOD ni nur eb tonnac margorp sihT" ascii
-    condition:
-         uint16(filesize-0x2) == 0x4d5a and $s1
-}
-
-rule INDICATOR_SUSPICIOUS_Binary_Embedded_Crypto_Wallet_Browser_Extension_IDs {
-    meta:
-        author = "ditekSHen"
-        description = "Detect binaries embedding considerable number of cryptocurrency wallet browser extension IDs."
-    strings:
-        $s1 = "Ibnejdfjmmkpcnlpebklmnkoeoihofec" ascii wide nocase // TronLink
-        $s2 = "fhbohimaelbohpjbbldcngcnapndodjp" ascii wide nocase // BinanceChain
-        $s3 = "ffnbelfdoeiohenkjibnmadjiehjhajb" ascii wide nocase // Yoroi
-        $s4 = "jbdaocneiiinmjbjlgalhcelgbejmnid" ascii wide nocase // Nifty Wallet
-        $s5 = "afbcbjpbpfadlkmhmclhkeeodmamcflc" ascii wide nocase // Math Wallet
-        $s6 = "hnfanknocfeofbddgcijnmhnfnkdnaad" ascii wide nocase // Coinbase Wallet
-        $s7 = "hpglfhgfnhbgpjdenjgmdgoeiappafln" ascii wide nocase // Guarda
-        $s8 = "blnieiiffboillknjnepogjhkgnoapac" ascii wide nocase // EQUAL Wallet
-        $s9 = "cjelfplplebdjjenllpjcblmjkfcffne" ascii wide nocase // Jaxx Liberty
-        $s10 = "fihkakfobkmkjojpchpfgcmhfjnmnfpi" ascii wide nocase // BitApp Wallet
-        $s11 = "kncchdigobghenbbaddojjnnaogfppfj" ascii wide nocase // iWallet
-        $s12 = "amkmjjmmflddogmhpjloimipbofnfjih" ascii wide nocase // Wombat
-        $s13 = "nlbmnnijcnlegkjjpcfjclmcfggfefdm" ascii wide nocase // MEW CX
-        $s14 = "nanjmdknhkinifnkgdcggcfnhdaammmj" ascii wide nocase // GuildWallet
-        $s15 = "nkddgncdjgjfcddamfgcmfnlhccnimig" ascii wide nocase // Saturn Wallet
-        $s16 = "fnjhmkhhmkbjkkabndcnnogagogbneec" ascii wide nocase // Ronin Wallet
-        $s17 = "cphhlgmgameodnhkjdmkpanlelnlohao" ascii wide nocase // NeoLine
-        $s18 = "nhnkbkgjikgcigadomkphalanndcapjk" ascii wide nocase // Clover Wallet
-        $s19 = "kpfopkelmapcoipemfendmdcghnegimn" ascii wide nocase // Liquality Wallet
-        $s20 = "aiifbnbfobpmeekipheeijimdpnlpgpp" ascii wide nocase // Terra Station
-        $s21 = "dmkamcknogkgcdfhhbddcghachkejeap" ascii wide nocase // Keplr
-        $s22 = "fhmfendgdocmcbmfikdcogofphimnkno" ascii wide nocase // Sollet
-        $s23 = "cnmamaachppnkjgnildpdmkaakejnhae" ascii wide nocase // Auro Wallet
-        $s24 = "jojhfeoedkpkglbfimdfabpdfjaoolaf" ascii wide nocase // Polymesh Wallet
-        $s25 = "flpiciilemghbmfalicajoolhkkenfel" ascii wide nocase // ICONex
-        $s26 = "nknhiehlklippafakaeklbeglecifhad" ascii wide nocase // Nabox Wallet
-        $s27 = "hcflpincpppdclinealmandijcmnkbgn" ascii wide nocase // KHC
-        $s28 = "ookjlbkiijinhpmnjffcofjonbfbgaoc" ascii wide nocase // Temple
-        $s29 = "mnfifefkajgofkcjkemidiaecocnkjeh" ascii wide nocase // TezBox
-        $s30 = "lodccjjbdhfakaekdiahmedfbieldgik" ascii wide nocase // DAppPlay
-        $s31 = "Ijmpgkjfkbfhoebgogflfebnmejmfbml" ascii wide nocase // BitClip
-        $s32 = "lkcjlnjfpbikmcmbachjpdbijejflpcm" ascii wide nocase // Steem Keychain
-        $s33 = "nkbihfbeogaeaoehlefnkodbefgpgknn" ascii wide nocase // MetaMask
-        $s34 = "bcopgchhojmggmffilplmbdicgaihlkp" ascii wide nocase // Hycon Lite Client
-        $s35 = "klnaejjgbibmhlephnhpmaofohgkpgkd" ascii wide nocase // ZilPay
-        $s36 = "aeachknmefphepccionboohckonoeemg" ascii wide nocase // Coin98 Wallet
-        $s37 = "dkdedlpgdmmkkfjabffeganieamfklkm" ascii wide nocase // Cyano Wallet
-        $s38 = "nlgbhdfgdhgbiamfdfmbikcdghidoadd" ascii wide nocase // Byone
-        $s39 = "onofpnbbkehpmmoabgpcpmigafmmnjhl" ascii wide nocase // Nash Extension
-        $s40 = "cihmoadaighcejopammfbmddcmdekcje" ascii wide nocase // Leaf Wallet
-        $s41 = "cgeeodpfagjceefieflmdfphplkenlfk" ascii wide nocase // EVER Wallet
-        $s42 = "pdadjkfkgcafgbceimcpbkalnfnepbnk" ascii wide nocase // KardiaChain Wallet
-        $s43 = "acmacodkjbdgmoleebolmdjonilkdbch" ascii wide nocase // Rabby Wallet
-        $s44 = "bfnaelmomeimhlpmgjnjophhpkkoljpa" ascii wide nocase // Phantom
-        $s45 = "fhilaheimglignddkjgofkcbgekhenbh" ascii wide nocase // Oxygen - Atomic Crypto Wallet
-        $s46 = "mgffkfbidihjpoaomajlbgchddlicgpn" ascii wide nocase // Pali Wallet
-        $s47 = "hmeobnfnfcmdkdcmlblgagmfpfboieaf" ascii wide nocase // XDEFI Wallet
-        $s48 = "lpfcbjknijpeeillifnkikgncikgfhdo" ascii wide nocase // Nami
-        $s49 = "dngmlblcodfobpdpecaadgfbcggfjfnm" ascii wide nocase // MultiversX DeFi Wallet
-        $s50 = "bhhhlbepdkbapadjdnnojkbgioiodbic" ascii wide nocase // Solflare Wallet
-        $s51 = "jnkelfanjkeadonecabehalmbgpfodjm" ascii wide nocase // Goby
-        $s52 = "jhgnbkkipaallpehbohjmkbjofjdmeid" ascii wide nocase // SteemKeychain
-        $s53 = "jnlgamecbpmbajjfhmmmlhejkemejdma" ascii wide nocase // Braavos Smart Wallet
-        $s54 = "kkpllkodjeloidieedojogacfhpaihoh" ascii wide nocase // Enkrypt: Ethereum, Polkadot & RSK Wallet
-        $s55 = "mcohilncbfahbmgdjkbpemcciiolgcge" ascii wide nocase // OKX Wallet
-        $s56 = "gjagmgiddbbciopjhllkdnddhcglnemk" ascii wide nocase // Hashpack
-        $s57 = "kmhcihpebfmpgmihbkipmjlmmioameka" ascii wide nocase // Eternl
-        $s58 = "phkbamefinggmakgklpkljjmgibohnba" ascii wide nocase // Pontem Aptos Wallet
-        $s59 = "lpilbniiabackdjcionkobglmddfbcjo" ascii wide nocase // Keeper Wallet
-        $s60 = "cjmkndjhnagcfbpiemnkdpomccnjblmj" ascii wide nocase // Finnie
-        $s61 = "aijcbedoijmgnlmjeegjaglmepbmpkpi" ascii wide nocase // Leap Terra Wallet
-        $s62 = "efbglgofoippbgcjepnhiblaibcnclgk" ascii wide nocase // Martian Wallet for Sui & Aptos
-        $s63 = "odbfpeeihdkbihmopkbjmoonfanlbfcl" ascii wide nocase // Brave Wallet
-        $s64 = "fnnegphlobjdpkhecapkijjdkgcjhkib" ascii wide nocase // Harmony
-        $s65 = "aodkkagnadcbobfpggfnjeongemjbjca" ascii wide nocase // BOLT X
-        $s66 = "akoiaibnepcedcplijmiamnaigbepmcb" ascii wide nocase // Edge - Yoroi
-        $s67 = "ejbalbakoplchlghecdalmeeeajnimhm" ascii wide nocase // Edge - MetaMask
-        $s68 = "dfeccadlilpndjjohbjdblepmjeahlmm" ascii wide nocase // Edge - Math Wallet
-        $s69 = "kjmoohlgokccodicjjfebfomlbljgfhk" ascii wide nocase // Edge - Ronin Wallet
-        $s70 = "ajkhoeiiokighlmdnlakpjfoobnjinie" ascii wide nocase // Edge - Station Wallet
-        $s71 = "fplfipmamcjaknpgnipjeaeeidnjooao" ascii wide nocase // Edge - BDLT Wallet
-        $s72 = "niihfokdlimbddhfmngnplgfcgpmlido" ascii wide nocase // Edge - Glow
-        $s73 = "obffkkagpmohennipjokmpllocnlndac" ascii wide nocase // Edge - OneKey
-        $s74 = "kfocnlddfahihoalinnfbnfmopjokmhl" ascii wide nocase // Edge - MetaWallet
-        $s75 = "infeboajgfhgbjpjbeppbkgnabfdkdaf" ascii wide nocase // OneKey
-        $s76 = "{530f7c6c-6077-4703-8f71-cb368c663e35}.xpi" ascii wide nocase // Firefox - Yoroi
-        $s77 = "ronin-wallet@axieinfinity.com.xpi" ascii wide nocase // Firefox - Ronin Wallet
-        $s78 = "webextension@metamask.io.xpi" ascii wide nocase // Firefox - MetaMask
-        $s79 = "{5799d9b6-8343-4c26-9ab6-5d2ad39884ce}.xpi" ascii wide nocase // Firefox - TronLink
-        $s80 = "{aa812bee-9e92-48ba-9570-5faf0cfe2578}.xpi" ascii wide nocase // Firefox - TronLink
-        $s81 = "{59ea5f29-6ea9-40b5-83cd-937249b001e1}.xpi" ascii wide nocase // Firefox - TronLink
-        $s82 = "{d8ddfc2a-97d9-4c60-8b53-5edd299b6674}.xpi" ascii wide nocase // Firefox - TronLink
-        $s83 = "{7c42eea1-b3e4-4be4-a56f-82a5852b12dc}.xpi" ascii wide nocase // Firefox - Phantom
-        $s84 = "{b3e96b5f-b5bf-8b48-846b-52f430365e80}.xpi" ascii wide nocase // Firefox - Phantom
-        $s85 = "{eb1fb57b-ca3d-4624-a841-728fdb28455f}.xpi" ascii wide nocase // Firefox - Phantom
-        $s86 = "{76596e30-ecdb-477a-91fd-c08f2018df1a}.xpi" ascii wide nocase // Firefox - Phantom
-        $s87 = "ejjladinnckdgjemekebdpeokbikhfci" ascii wide nocase // Petra Wallet
-        $s88 = "bgpipimickeadkjlklgciifhnalhdjhe" ascii wide nocase // GeroWallet
-        $s89 = "epapihdplajcdnnkdeiahlgigofloibg" ascii wide nocase // Sender
-        $s90 = "aholpfdialjgjfhomihkjbmgjidlcdno" ascii wide nocase // Exodus Web3 Wallet
-        $s91 = "egjidjbpglichdcondbcbdnbeeppgdph" ascii wide nocase // Trust Wallet
-        $s92 = "pnndplcbkakcplkjnolgbkdgjikjednm" ascii wide nocase // Tronium
-        $s93 = "gojhcdgcpbpfigcaejpfhfegekdgiblk" ascii wide nocase // Opera Wallet
-        $s94 = "djclckkglechooblngghdinmeemkbgci" ascii wide nocase // MetaMask
-        $s95 = "jnmbobjmhlngoefaiojfljckilhhlhcj" ascii wide nocase // OneKey
-    condition:
-        (uint16(0) == 0x5a4d and 6 of them) or (12 of them)
-}
-
-rule INDICATOR_SUSPICIOUS_Binary_Embedded_MFA_Browser_Extension_IDs {
-    meta:
-        author = "ditekSHen"
-        description = "Detect binaries embedding considerable number of MFA browser extension IDs."
-    strings:
-        $s1 = "bhghoamapcdpbohphigoooaddinpkbai" ascii wide nocase // Authenticator
-        $s2 = "gaedmjdfmmahhbjefcbgaolhhanlaolb" ascii wide nocase // Authy 2FA
-        $s3 = "oeljdldpnmdbchonielidgobddffflal" ascii wide nocase // EOS Authenticator
-        $s4 = "ilgcnhelpchnceeipipijaljkblbcobl" ascii wide nocase // GAuth Authenticator
-        $s5 = "imloifkgjagghnncjkhggdhalmcnfklk" ascii wide nocase // Trezor Password Manager
-        $s6 = "fdjamakpfbbddfjaooikfcpapjohcfmg" ascii wide nocase // Dashlane — Password Manager
-        $s7 = "fooolghllnmhmmndgjiamiiodkpenpbb" ascii wide nocase // NordPass® Password Manager & Digital Vault
-        $s8 = "pnlccmojcmeohlpggmfnbbiapkmbliob" ascii wide nocase // RoboForm Password Manager
-        $s9 = "hdokiejnpimakedhajhdlcegeplioahd" ascii wide nocase // LastPass: Free Password Manager
-        $s10 = "naepdomgkenhinolocfifgehidddafch" ascii wide nocase // Browserpass
-        $s11 = "bmikpgodpkclnkgmnpphehdgcimmided" ascii wide nocase // MYKI Password Manager & Authenticator
-        $s12 = "oboonakemofpalcgghocfoadofidjkkk" ascii wide nocase // KeePassXC-Browser
-        $s13 = "fmhmiaejopepamlcjkncpgpdjichnecm" ascii wide nocase // KeePass Tusk
-        $s14 = "nngceckbapebfimnlniiiahkandclblb" ascii wide nocase // Bitwarden
-        $s15 = "fiedbfgcleddlbcmgdigjgdfcggjcion" ascii wide nocase // Microsoft AutoFill
-        $s16 = "bfogiafebfohielmmehodmfbbebbbpei" ascii wide nocase // Keeper
-        $s17 = "jhfjfclepacoldmjmkmdlmganfaalklb" ascii wide nocase // Splikity
-        $s18 = "chgfefjpcobfbnpmiokfjjaglahmnded" ascii wide nocase // CommonKey
-        $s19 = "igkpcodhieompeloncfnbekccinhapdb" ascii wide nocase // Zoho Vault
-    condition:
-        (uint16(0) == 0x5a4d and 5 of them) or (8 of them)
-}
-
-rule INDICATOR_SUSPICOUS_EXE_UNC_Regex {
-    meta:
-        author = "ditekSHen"
-        description = "Detects executables with considerable number of regexes often observed in infostealers"
-    strings:
-        $s1 = "^((8|\\+7|\\+380|\\+375|\\+373)[\\- ]?)?(\\(?\\d{3}\\)?[\\- ]?)?[\\d\\- ]{7,10}$" ascii wide
-        $s2 = "(^(1|3)(?=.*[0-9])(?=.*[a-zA-Z])[\\da-zA-Z]{27,34}?[\\d\\- ])|(^(1|3)(?=.*[0-9])(?=.*[a-zA-Z])[\\da-zA-Z]{27,34})$" ascii wide
-        $s3 = "(^L[A-Za-z0-9]{32,34}?[\\d\\- ])|(^L[A-Za-z0-9]{32,34})$" ascii wide
-        $s4 = "(^q[A-Za-z0-9\\:]{32,54}?[\\d\\- ])|(^q[A-Za-z0-9\\:]{32,54})$" ascii wide
-        $s5 = "^(P|p){1}[0-9]?[\\d\\- ]{7,15}|.+@.+\\..+$" ascii wide
-        $s6 = "(^0x[A-Za-z0-9]{40,42}?[\\d\\- ])|(^0x[A-Za-z0-9]{40,42})$" ascii wide
-        $s7 = "(^X[A-Za-z0-9]{32,34}?[\\d\\- ])|(^X[A-Za-z0-9]{32,34})$" ascii wide
-        $s8 = "^41001[0-9]?[\\d\\- ]{7,11}$" ascii wide
-        $s9 = "^R[0-9]?[\\d\\- ]{12,13}$" ascii wide
-        $s10 = "^Z[0-9]?[\\d\\- ]{12,13}$" ascii wide
-        $s11 = "(^(GD|GC)[A-Z0-9]{54,56}?[\\d\\- ])|(^(GD|GC)[A-Z0-9]{54,56})$" ascii wide
-        $s12 = "(^A[A-Za-z0-9]{32,34}?[\\d\\- ])|(^A[A-Za-z0-9]{32,34})$" ascii wide
-        $s13 = "(^t[A-Za-z0-9]{32,36}?[\\d\\- ])|(^t[A-Za-z0-9]{32,36})$" ascii wide
-        $s14 = "(^r[A-Za-z0-9]{32,34}?[\\d\\- ])|(^r[A-Za-z0-9]{32,34})$" ascii wide
-        $s15 = "(^G[A-Za-z0-9]{32,35}?[\\d\\- ])|(^G[A-Za-z0-9]{32,35})$" ascii wide
-        $s16 = "(^D[A-Za-z0-9]{32,35}?[\\d\\- ])|(^D[A-Za-z0-9]{32,35})$" ascii wide
-        $s17 = "(^(T[A-Z])[A-Za-z0-9]{32,35}?[\\d\\- ])|(^(T[A-Z])[A-Za-z0-9]{32,35})$" ascii wide
-        $s18 = "^1[a-km-zA-HJ-NP-Z1-9]{25,34}$" ascii wide // Crypto Wallet Address
-        $s19 = "^3[a-km-zA-HJ-NP-Z1-9]{25,34}$" ascii wide // Crypto Wallet Address
-        $s20 = "^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$" ascii wide
-        $s21 = "^(?!:\\/\\/)([a-zA-Z0-9-_]+\\.)*[a-zA-Z0-9][a-zA-Z0-9-_]+\\.[a-zA-Z]{2,11}?$" ascii wide
-        $s22 = "[\\w-]{24}\\.[\\w-]{6}\\.[\\w-]{27}|mfa\\.[\\w-]{84}" ascii wide
-    condition:
-        uint16(0) == 0x5a4d and 6 of them
-}
-
-rule INDICATOR_SUSPICIOUS_DeleteRecentItems {
-     meta:
-        author = "ditekSHen"
-        description = "Detects executables embedding anti-forensic artifacts of deleting Windows Recent Items"
-    strings:
-        $s1 = "del C:\\Windows\\AppCompat\\Programs\\RecentFileCache.bcf" ascii wide nocase
-        $s2 = "del /F /Q %APPDATA%\\Microsoft\\Windows\\Recent\\*" ascii wide nocase
-        $s3 = "del /F /Q %APPDATA%\\Microsoft\\Windows\\Recent\\CustomDestinations\\*" ascii wide nocase
-        $s4 = "del /F /Q %APPDATA%\\Microsoft\\Windows\\Recent\\AutomaticDestinations\\*" ascii wide nocase
-    condition:
-        uint16(0) == 0x5a4d and 2 of them
-}
-
-rule INDICATOR_SUSPICIOUS_DeleteWinDefenderQuarantineFiles {
-     meta:
-        author = "ditekSHen"
-        description = "Detects executables embedding anti-forensic artifacts of deleting Windows defender quarantine files"
-    strings:
-        $s1 = "rmdir C:\\ProgramData\\Microsoft\\Windows Defender\\Quarantine\\Entries /S" ascii wide nocase
-		$s2 = "rmdir C:\\ProgramData\\Microsoft\\Windows Defender\\Quarantine\\Resources /S" ascii wide nocase
-		$s3 = "rmdir C:\\ProgramData\\Microsoft\\Windows Defender\\Quarantine\\ResourceData /S" ascii wide nocase
-        $r1 = "rmdir" ascii wide nocase
-        $p1 = "Microsoft\\Windows Defender\\Quarantine\\Entries /S" ascii wide nocase
-        $p2 = "Microsoft\\Windows Defender\\Quarantine\\Resources /S" ascii wide nocase
-        $p3 = "Microsoft\\Windows Defender\\Quarantine\\ResourceData /S" ascii wide nocase
-    condition:
-        uint16(0) == 0x5a4d and (2 of ($s*) or (1 of ($r*) and 2 of ($p*)))
-}
-
-rule INDICATOR_SUSPICIOUS_DeleteShimCache {
-     meta:
-        author = "ditekSHen"
-        description = "Detects executables embedding anti-forensic artifacts of deleting shim cache"
-    strings:
-        $s1 = "Rundll32.exe apphelp.dll,ShimFlushCache" ascii wide nocase
-        $s2 = "Rundll32 apphelp.dll,ShimFlushCache" ascii wide nocase
-        $m1 = ".dll,ShimFlushCache" ascii wide nocase
-        $m2 = "rundll32" ascii wide nocase
-    condition:
-        uint16(0) == 0x5a4d and (1 of ($s*) or all of ($m*))
-}
-
-rule INDICATOR_SUSPICIOUS_ShredFileSteps {
-     meta:
-        author = "ditekSHen"
-        description = "Detects executables embedding/copying file shredding steps"
-    strings:
-        $s1 = { 55 00 00 00 aa 00 00 00 92 49 24 00 49 24 92 00
+rule INDICATOR_SUSPICIOUS_GENRansomware : hardened limited
+{
+	meta:
+		description = "Detects command variations typically used by ransomware"
+		author = "ditekSHen"
+		score = 50
+
+	strings:
+		$cmd1 = {((63 6d 64 20 2f 63 20 22 57 4d 49 43 2e 65 78 65 20 73 68 61 64 6f 77 63 6f 70 79 20 64 65 6c 65 74 22) | (63 00 6d 00 64 00 20 00 2f 00 63 00 20 00 22 00 57 00 4d 00 49 00 43 00 2e 00 65 00 78 00 65 00 20 00 73 00 68 00 61 00 64 00 6f 00 77 00 63 00 6f 00 70 00 79 00 20 00 64 00 65 00 6c 00 65 00 74 00 22 00))}
+		$cmd2 = {((76 73 73 61 64 6d 69 6e 2e 65 78 65 20 44 65 6c 65 74 65 20 53 68 61 64 6f 77 73 20 2f 61 6c 6c) | (76 00 73 00 73 00 61 00 64 00 6d 00 69 00 6e 00 2e 00 65 00 78 00 65 00 20 00 44 00 65 00 6c 00 65 00 74 00 65 00 20 00 53 00 68 00 61 00 64 00 6f 00 77 00 73 00 20 00 2f 00 61 00 6c 00 6c 00))}
+		$cmd3 = {((44 65 6c 65 74 65 20 53 68 61 64 6f 77 73 20 2f 61 6c 6c) | (44 00 65 00 6c 00 65 00 74 00 65 00 20 00 53 00 68 00 61 00 64 00 6f 00 77 00 73 00 20 00 2f 00 61 00 6c 00 6c 00))}
+		$cmd4 = {((7d 20 72 65 63 6f 76 65 72 79 65 6e 61 62 6c 65 64 20 6e 6f) | (7d 00 20 00 72 00 65 00 63 00 6f 00 76 00 65 00 72 00 79 00 65 00 6e 00 61 00 62 00 6c 00 65 00 64 00 20 00 6e 00 6f 00))}
+		$cmd5 = {((7d 20 62 6f 6f 74 73 74 61 74 75 73 70 6f 6c 69 63 79 20 69 67 6e 6f 72 65 61 6c 6c 66 61 69 6c 75 72 65 73) | (7d 00 20 00 62 00 6f 00 6f 00 74 00 73 00 74 00 61 00 74 00 75 00 73 00 70 00 6f 00 6c 00 69 00 63 00 79 00 20 00 69 00 67 00 6e 00 6f 00 72 00 65 00 61 00 6c 00 6c 00 66 00 61 00 69 00 6c 00 75 00 72 00 65 00 73 00))}
+		$cmd6 = {((77 6d 69 63 20 53 48 41 44 4f 57 43 4f 50 59 20 44 45 4c 45 54 45) | (77 00 6d 00 69 00 63 00 20 00 53 00 48 00 41 00 44 00 4f 00 57 00 43 00 4f 00 50 00 59 00 20 00 44 00 45 00 4c 00 45 00 54 00 45 00))}
+		$cmd7 = {((5c 4d 69 63 72 6f 73 6f 66 74 5c 57 69 6e 64 6f 77 73 5c 53 79 73 74 65 6d 52 65 73 74 6f 72 65 5c 53 52 22 20 2f 64 69 73 61 62 6c 65) | (5c 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 5c 00 53 00 79 00 73 00 74 00 65 00 6d 00 52 00 65 00 73 00 74 00 6f 00 72 00 65 00 5c 00 53 00 52 00 22 00 20 00 2f 00 64 00 69 00 73 00 61 00 62 00 6c 00 65 00))}
+		$cmd8 = {((72 65 73 69 7a 65 20 73 68 61 64 6f 77 73 74 6f 72 61 67 65 20 2f 66 6f 72 3d 63 3a 20 2f 6f 6e 3d 63 3a 20 2f 6d 61 78 73 69 7a 65 3d) | (72 00 65 00 73 00 69 00 7a 00 65 00 20 00 73 00 68 00 61 00 64 00 6f 00 77 00 73 00 74 00 6f 00 72 00 61 00 67 00 65 00 20 00 2f 00 66 00 6f 00 72 00 3d 00 63 00 3a 00 20 00 2f 00 6f 00 6e 00 3d 00 63 00 3a 00 20 00 2f 00 6d 00 61 00 78 00 73 00 69 00 7a 00 65 00 3d 00))}
+		$cmd9 = {((73 68 61 64 6f 77 63 6f 70 79 20 77 68 65 72 65 20 22 49 44 3d 27 25 73 27 22 20 64 65 6c 65 74 65) | (73 00 68 00 61 00 64 00 6f 00 77 00 63 00 6f 00 70 00 79 00 20 00 77 00 68 00 65 00 72 00 65 00 20 00 22 00 49 00 44 00 3d 00 27 00 25 00 73 00 27 00 22 00 20 00 64 00 65 00 6c 00 65 00 74 00 65 00))}
+		$cmd10 = {((77 6d 69 63 2e 65 78 65 20 53 48 41 44 4f 57 43 4f 50 59 20 2f 6e 6f 69 6e 74 65 72 61 63 74 69 76 65) | (77 00 6d 00 69 00 63 00 2e 00 65 00 78 00 65 00 20 00 53 00 48 00 41 00 44 00 4f 00 57 00 43 00 4f 00 50 00 59 00 20 00 2f 00 6e 00 6f 00 69 00 6e 00 74 00 65 00 72 00 61 00 63 00 74 00 69 00 76 00 65 00))}
+		$cmd11 = {((57 4d 49 43 2e 65 78 65 20 73 68 61 64 6f 77 63 6f 70 79 20 64 65 6c 65 74 65) | (57 00 4d 00 49 00 43 00 2e 00 65 00 78 00 65 00 20 00 73 00 68 00 61 00 64 00 6f 00 77 00 63 00 6f 00 70 00 79 00 20 00 64 00 65 00 6c 00 65 00 74 00 65 00))}
+		$cmd12 = {((57 69 6e 33 32 5f 53 68 61 64 6f 77 63 6f 70 79 20 7c 20 46 6f 72 45 61 63 68 2d 4f 62 6a 65 63 74 20 7b 24 5f 2e 44 65 6c 65 74 65 28 29 3b 7d) | (57 00 69 00 6e 00 33 00 32 00 5f 00 53 00 68 00 61 00 64 00 6f 00 77 00 63 00 6f 00 70 00 79 00 20 00 7c 00 20 00 46 00 6f 00 72 00 45 00 61 00 63 00 68 00 2d 00 4f 00 62 00 6a 00 65 00 63 00 74 00 20 00 7b 00 24 00 5f 00 2e 00 44 00 65 00 6c 00 65 00 74 00 65 00 28 00 29 00 3b 00 7d 00))}
+		$delr = /del \/s \/f \/q(( [A-Za-z]:\\(\*\.|[Bb]ackup))(VHD|bac|bak|wbcat|bkf)?)+/ ascii wide
+		$wp1 = {((64 65 6c 65 74 65 20 63 61 74 61 6c 6f 67 20 2d 71 75 69 65 74) | (64 00 65 00 6c 00 65 00 74 00 65 00 20 00 63 00 61 00 74 00 61 00 6c 00 6f 00 67 00 20 00 2d 00 71 00 75 00 69 00 65 00 74 00))}
+		$wp2 = {((77 62 61 64 6d 69 6e 20 64 65 6c 65 74 65 20 62 61 63 6b 75 70) | (77 00 62 00 61 00 64 00 6d 00 69 00 6e 00 20 00 64 00 65 00 6c 00 65 00 74 00 65 00 20 00 62 00 61 00 63 00 6b 00 75 00 70 00))}
+		$wp3 = {((64 65 6c 65 74 65 20 73 79 73 74 65 6d 73 74 61 74 65 62 61 63 6b 75 70) | (64 00 65 00 6c 00 65 00 74 00 65 00 20 00 73 00 79 00 73 00 74 00 65 00 6d 00 73 00 74 00 61 00 74 00 65 00 62 00 61 00 63 00 6b 00 75 00 70 00))}
+
+	condition:
+		( uint16( 0 ) == 0x5a4d and 2 of ( $cmd* ) or ( 1 of ( $cmd* ) and 1 of ( $wp* ) ) or #delr > 4 ) or ( 4 of them )
+}
+
+rule INDICATOR_SUSPICIOUS_EXE_UACBypass_EventViewer : hardened limited
+{
+	meta:
+		description = "detects Windows exceutables potentially bypassing UAC using eventvwr.exe"
+		author = "ditekSHen"
+		score = 60
+
+	strings:
+		$s1 = {((5c 43 6c 61 73 73 65 73 5c 6d 73 63 66 69 6c 65 5c 73 68 65 6c 6c 5c 6f 70 65 6e 5c 63 6f 6d 6d 61 6e 64) | (5c 00 43 00 6c 00 61 00 73 00 73 00 65 00 73 00 5c 00 6d 00 73 00 63 00 66 00 69 00 6c 00 65 00 5c 00 73 00 68 00 65 00 6c 00 6c 00 5c 00 6f 00 70 00 65 00 6e 00 5c 00 63 00 6f 00 6d 00 6d 00 61 00 6e 00 64 00))}
+		$s2 = {((65 76 65 6e 74 76 77 72 2e 65 78 65) | (65 00 76 00 65 00 6e 00 74 00 76 00 77 00 72 00 2e 00 65 00 78 00 65 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and all of them
+}
+
+rule INDICATOR_SUSPICIOUS_EXE_UACBypass_CleanMgr : hardened limited
+{
+	meta:
+		description = "detects Windows exceutables potentially bypassing UAC using cleanmgr.exe"
+		author = "ditekSHen"
+
+	strings:
+		$s1 = {((5c 45 6e 76 69 72 6f 6d 65 6e 74 5c 77 69 6e 64 69 72) | (5c 00 45 00 6e 00 76 00 69 00 72 00 6f 00 6d 00 65 00 6e 00 74 00 5c 00 77 00 69 00 6e 00 64 00 69 00 72 00))}
+		$s2 = {((5c 73 79 73 74 65 6d 33 32 5c 63 6c 65 61 6e 6d 67 72 2e 65 78 65) | (5c 00 73 00 79 00 73 00 74 00 65 00 6d 00 33 00 32 00 5c 00 63 00 6c 00 65 00 61 00 6e 00 6d 00 67 00 72 00 2e 00 65 00 78 00 65 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and all of them
+}
+
+rule INDICATOR_SUSPICIOUS_EXE_Enable_OfficeMacro : hardened limited
+{
+	meta:
+		description = "Detects Windows executables referencing Office macro registry keys. Observed modifying Office configurations via the registy to enable macros"
+		author = "ditekSHen"
+
+	strings:
+		$s1 = {((5c 57 6f 72 64 5c 53 65 63 75 72 69 74 79 5c 56 42 41 57 61 72 6e 69 6e 67 73) | (5c 00 57 00 6f 00 72 00 64 00 5c 00 53 00 65 00 63 00 75 00 72 00 69 00 74 00 79 00 5c 00 56 00 42 00 41 00 57 00 61 00 72 00 6e 00 69 00 6e 00 67 00 73 00))}
+		$s2 = {((5c 50 6f 77 65 72 50 6f 69 6e 74 5c 53 65 63 75 72 69 74 79 5c 56 42 41 57 61 72 6e 69 6e 67 73) | (5c 00 50 00 6f 00 77 00 65 00 72 00 50 00 6f 00 69 00 6e 00 74 00 5c 00 53 00 65 00 63 00 75 00 72 00 69 00 74 00 79 00 5c 00 56 00 42 00 41 00 57 00 61 00 72 00 6e 00 69 00 6e 00 67 00 73 00))}
+		$s3 = {((5c 45 78 63 65 6c 5c 53 65 63 75 72 69 74 79 5c 56 42 41 57 61 72 6e 69 6e 67 73) | (5c 00 45 00 78 00 63 00 65 00 6c 00 5c 00 53 00 65 00 63 00 75 00 72 00 69 00 74 00 79 00 5c 00 56 00 42 00 41 00 57 00 61 00 72 00 6e 00 69 00 6e 00 67 00 73 00))}
+		$h1 = {((35 63 35 37 36 66 37 32 36 34 35 63 35 33 36 35 36 33 37 35 37 32 36 39 37 34 37 39 35 63 35 36 34 32 34 31 35 37 36 31 37 32 36 65 36 39 36 65 36 37 37 33) | (35 00 63 00 35 00 37 00 36 00 66 00 37 00 32 00 36 00 34 00 35 00 63 00 35 00 33 00 36 00 35 00 36 00 33 00 37 00 35 00 37 00 32 00 36 00 39 00 37 00 34 00 37 00 39 00 35 00 63 00 35 00 36 00 34 00 32 00 34 00 31 00 35 00 37 00 36 00 31 00 37 00 32 00 36 00 65 00 36 00 39 00 36 00 65 00 36 00 37 00 37 00 33 00))}
+		$h2 = {((35 63 35 30 36 66 37 37 36 35 37 32 35 30 36 66 36 39 36 65 37 34 35 63 35 33 36 35 36 33 37 35 37 32 36 39 37 34 37 39 35 63 35 36 34 32 34 31 35 37 36 31 37 32 36 65 36 39 36 65 36 37 37 33) | (35 00 63 00 35 00 30 00 36 00 66 00 37 00 37 00 36 00 35 00 37 00 32 00 35 00 30 00 36 00 66 00 36 00 39 00 36 00 65 00 37 00 34 00 35 00 63 00 35 00 33 00 36 00 35 00 36 00 33 00 37 00 35 00 37 00 32 00 36 00 39 00 37 00 34 00 37 00 39 00 35 00 63 00 35 00 36 00 34 00 32 00 34 00 31 00 35 00 37 00 36 00 31 00 37 00 32 00 36 00 65 00 36 00 39 00 36 00 65 00 36 00 37 00 37 00 33 00))}
+		$h3 = {((35 63 35 63 34 35 37 38 36 33 36 35 36 63 35 63 35 63 35 33 36 35 36 33 37 35 37 32 36 39 37 34 37 39 35 63 35 63 35 36 34 32 34 31 35 37 36 31 37 32 36 65 36 39 36 65 36 37 37 33) | (35 00 63 00 35 00 63 00 34 00 35 00 37 00 38 00 36 00 33 00 36 00 35 00 36 00 63 00 35 00 63 00 35 00 63 00 35 00 33 00 36 00 35 00 36 00 33 00 37 00 35 00 37 00 32 00 36 00 39 00 37 00 34 00 37 00 39 00 35 00 63 00 35 00 63 00 35 00 36 00 34 00 32 00 34 00 31 00 35 00 37 00 36 00 31 00 37 00 32 00 36 00 65 00 36 00 39 00 36 00 65 00 36 00 37 00 37 00 33 00))}
+		$d1 = {35 63 25 35 37 25 36 66 25 37 32 25 36 34 25 35 63 25 35 33 25 36 35 25 36 33 25 37 35 25 37 32 25 36 39 25 37 34 25 37 39 25 35 63 25 35 36 25 34 32 25 34 31 25 35 37 25 36 31 25 37 32 25 36 65 25 36 39 25 36 65 25 36 37 25 37 33}
+		$d2 = {35 63 25 35 30 25 36 66 25 37 37 25 36 35 25 37 32 25 35 30 25 36 66 25 36 39 25 36 65 25 37 34 25 35 63 25 35 33 25 36 35 25 36 33 25 37 35 25 37 32 25 36 39 25 37 34 25 37 39 25 35 63 25 35 36 25 34 32 25 34 31 25 35 37 25 36 31 25 37 32 25 36 65 25 36 39 25 36 65 25 36 37 25 37 33}
+		$d3 = {35 63 25 35 63 25 34 35 25 37 38 25 36 33 25 36 35 25 36 63 25 35 63 25 35 63 25 35 33 25 36 35 25 36 33 25 37 35 25 37 32 25 36 39 25 37 34 25 37 39 25 35 63 25 35 63 25 35 36 25 34 32 25 34 31 25 35 37 25 36 31 25 37 32 25 36 65 25 36 39 25 36 65 25 36 37 25 37 33}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and ( 2 of ( $s* ) or 2 of ( $h* ) or 2 of ( $d* ) )
+}
+
+rule INDICATOR_SUSPICIOUS_EXE_Disable_OfficeProtectedView : hardened limited
+{
+	meta:
+		description = "Detects Windows executables referencing Office ProtectedView registry keys. Observed modifying Office configurations via the registy to disable ProtectedView"
+		author = "ditekSHen"
+
+	strings:
+		$s1 = {((5c 53 65 63 75 72 69 74 79 5c 50 72 6f 74 65 63 74 65 64 56 69 65 77 5c 44 69 73 61 62 6c 65 49 6e 74 65 72 6e 65 74 46 69 6c 65 73 49 6e 50 56) | (5c 00 53 00 65 00 63 00 75 00 72 00 69 00 74 00 79 00 5c 00 50 00 72 00 6f 00 74 00 65 00 63 00 74 00 65 00 64 00 56 00 69 00 65 00 77 00 5c 00 44 00 69 00 73 00 61 00 62 00 6c 00 65 00 49 00 6e 00 74 00 65 00 72 00 6e 00 65 00 74 00 46 00 69 00 6c 00 65 00 73 00 49 00 6e 00 50 00 56 00))}
+		$s2 = {((5c 53 65 63 75 72 69 74 79 5c 50 72 6f 74 65 63 74 65 64 56 69 65 77 5c 44 69 73 61 62 6c 65 41 74 74 61 63 68 65 6d 65 6e 74 73 49 6e 50 56) | (5c 00 53 00 65 00 63 00 75 00 72 00 69 00 74 00 79 00 5c 00 50 00 72 00 6f 00 74 00 65 00 63 00 74 00 65 00 64 00 56 00 69 00 65 00 77 00 5c 00 44 00 69 00 73 00 61 00 62 00 6c 00 65 00 41 00 74 00 74 00 61 00 63 00 68 00 65 00 6d 00 65 00 6e 00 74 00 73 00 49 00 6e 00 50 00 56 00))}
+		$s3 = {((5c 53 65 63 75 72 69 74 79 5c 50 72 6f 74 65 63 74 65 64 56 69 65 77 5c 44 69 73 61 62 6c 65 55 6e 73 61 66 65 4c 6f 63 61 74 69 6f 6e 73 49 6e 50 56) | (5c 00 53 00 65 00 63 00 75 00 72 00 69 00 74 00 79 00 5c 00 50 00 72 00 6f 00 74 00 65 00 63 00 74 00 65 00 64 00 56 00 69 00 65 00 77 00 5c 00 44 00 69 00 73 00 61 00 62 00 6c 00 65 00 55 00 6e 00 73 00 61 00 66 00 65 00 4c 00 6f 00 63 00 61 00 74 00 69 00 6f 00 6e 00 73 00 49 00 6e 00 50 00 56 00))}
+		$h1 = {((35 63 35 33 36 35 36 33 37 35 37 32 36 39 37 34 37 39 35 63 35 30 37 32 36 66 37 34 36 35 36 33 37 34 36 35 36 34 35 36 36 39 36 35 37 37 35 63 34 34 36 39 37 33 36 31 36 32 36 63 36 35 34 39 36 65 37 34 36 35 37 32 36 65 36 35 37 34 34 36 36 39 36 63 36 35 37 33 34 39 36 65 35 30 35 36) | (35 00 63 00 35 00 33 00 36 00 35 00 36 00 33 00 37 00 35 00 37 00 32 00 36 00 39 00 37 00 34 00 37 00 39 00 35 00 63 00 35 00 30 00 37 00 32 00 36 00 66 00 37 00 34 00 36 00 35 00 36 00 33 00 37 00 34 00 36 00 35 00 36 00 34 00 35 00 36 00 36 00 39 00 36 00 35 00 37 00 37 00 35 00 63 00 34 00 34 00 36 00 39 00 37 00 33 00 36 00 31 00 36 00 32 00 36 00 63 00 36 00 35 00 34 00 39 00 36 00 65 00 37 00 34 00 36 00 35 00 37 00 32 00 36 00 65 00 36 00 35 00 37 00 34 00 34 00 36 00 36 00 39 00 36 00 63 00 36 00 35 00 37 00 33 00 34 00 39 00 36 00 65 00 35 00 30 00 35 00 36 00))}
+		$h2 = {((35 63 35 33 36 35 36 33 37 35 37 32 36 39 37 34 37 39 35 63 35 30 37 32 36 66 37 34 36 35 36 33 37 34 36 35 36 34 35 36 36 39 36 35 37 37 35 63 34 34 36 39 37 33 36 31 36 32 36 63 36 35 34 31 37 34 37 34 36 31 36 33 36 38 36 35 36 64 36 35 36 65 37 34 37 33 34 39 36 65 35 30 35 36) | (35 00 63 00 35 00 33 00 36 00 35 00 36 00 33 00 37 00 35 00 37 00 32 00 36 00 39 00 37 00 34 00 37 00 39 00 35 00 63 00 35 00 30 00 37 00 32 00 36 00 66 00 37 00 34 00 36 00 35 00 36 00 33 00 37 00 34 00 36 00 35 00 36 00 34 00 35 00 36 00 36 00 39 00 36 00 35 00 37 00 37 00 35 00 63 00 34 00 34 00 36 00 39 00 37 00 33 00 36 00 31 00 36 00 32 00 36 00 63 00 36 00 35 00 34 00 31 00 37 00 34 00 37 00 34 00 36 00 31 00 36 00 33 00 36 00 38 00 36 00 35 00 36 00 64 00 36 00 35 00 36 00 65 00 37 00 34 00 37 00 33 00 34 00 39 00 36 00 65 00 35 00 30 00 35 00 36 00))}
+		$h3 = {((35 63 35 33 36 35 36 33 37 35 37 32 36 39 37 34 37 39 35 63 35 30 37 32 36 66 37 34 36 35 36 33 37 34 36 35 36 34 35 36 36 39 36 35 37 37 35 63 34 34 36 39 37 33 36 31 36 32 36 63 36 35 35 35 36 65 37 33 36 31 36 36 36 35 34 63 36 66 36 33 36 31 37 34 36 39 36 66 36 65 37 33 34 39 36 65 35 30 35 36) | (35 00 63 00 35 00 33 00 36 00 35 00 36 00 33 00 37 00 35 00 37 00 32 00 36 00 39 00 37 00 34 00 37 00 39 00 35 00 63 00 35 00 30 00 37 00 32 00 36 00 66 00 37 00 34 00 36 00 35 00 36 00 33 00 37 00 34 00 36 00 35 00 36 00 34 00 35 00 36 00 36 00 39 00 36 00 35 00 37 00 37 00 35 00 63 00 34 00 34 00 36 00 39 00 37 00 33 00 36 00 31 00 36 00 32 00 36 00 63 00 36 00 35 00 35 00 35 00 36 00 65 00 37 00 33 00 36 00 31 00 36 00 36 00 36 00 35 00 34 00 63 00 36 00 66 00 36 00 33 00 36 00 31 00 37 00 34 00 36 00 39 00 36 00 66 00 36 00 65 00 37 00 33 00 34 00 39 00 36 00 65 00 35 00 30 00 35 00 36 00))}
+		$d1 = {35 63 25 35 33 25 36 35 25 36 33 25 37 35 25 37 32 25 36 39 25 37 34 25 37 39 25 35 63 25 35 30 25 37 32 25 36 66 25 37 34 25 36 35 25 36 33 25 37 34 25 36 35 25 36 34 25 35 36 25 36 39 25 36 35 25 37 37 25 35 63 25 34 34 25 36 39 25 37 33 25 36 31 25 36 32 25 36 63 25 36 35 25 34 39 25 36 65 25 37 34 25 36 35 25 37 32 25 36 65 25 36 35 25 37 34 25 34 36 25 36 39 25 36 63 25 36 35 25 37 33 25 34 39 25 36 65 25 35 30 25 35 36}
+		$d2 = {35 63 25 35 33 25 36 35 25 36 33 25 37 35 25 37 32 25 36 39 25 37 34 25 37 39 25 35 63 25 35 30 25 37 32 25 36 66 25 37 34 25 36 35 25 36 33 25 37 34 25 36 35 25 36 34 25 35 36 25 36 39 25 36 35 25 37 37 25 35 63 25 34 34 25 36 39 25 37 33 25 36 31 25 36 32 25 36 63 25 36 35 25 34 31 25 37 34 25 37 34 25 36 31 25 36 33 25 36 38 25 36 35 25 36 64 25 36 35 25 36 65 25 37 34 25 37 33 25 34 39 25 36 65 25 35 30 25 35 36}
+		$d3 = {35 63 25 35 33 25 36 35 25 36 33 25 37 35 25 37 32 25 36 39 25 37 34 25 37 39 25 35 63 25 35 30 25 37 32 25 36 66 25 37 34 25 36 35 25 36 33 25 37 34 25 36 35 25 36 34 25 35 36 25 36 39 25 36 35 25 37 37 25 35 63 25 34 34 25 36 39 25 37 33 25 36 31 25 36 32 25 36 63 25 36 35 25 35 35 25 36 65 25 37 33 25 36 31 25 36 36 25 36 35 25 34 63 25 36 66 25 36 33 25 36 31 25 37 34 25 36 39 25 36 66 25 36 65 25 37 33 25 34 39 25 36 65 25 35 30 25 35 36}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and ( 2 of ( $s* ) or 2 of ( $h* ) or 2 of ( $d* ) )
+}
+
+rule INDICATOR_SUSPICIOUS_EXE_SandboxProductID : hardened
+{
+	meta:
+		description = "Detects binaries and memory artifacts referencing sandbox product IDs"
+		author = "ditekSHen"
+		score = 60
+
+	strings:
+		$id1 = {((37 36 34 38 37 2d 33 33 37 2d 38 34 32 39 39 35 35 2d 32 32 36 31 34) | (37 00 36 00 34 00 38 00 37 00 2d 00 33 00 33 00 37 00 2d 00 38 00 34 00 32 00 39 00 39 00 35 00 35 00 2d 00 32 00 32 00 36 00 31 00 34 00))}
+		$id2 = {((37 36 34 38 37 2d 36 34 34 2d 33 31 37 37 30 33 37 2d 32 33 35 31 30) | (37 00 36 00 34 00 38 00 37 00 2d 00 36 00 34 00 34 00 2d 00 33 00 31 00 37 00 37 00 30 00 33 00 37 00 2d 00 32 00 33 00 35 00 31 00 30 00))}
+		$id3 = {((35 35 32 37 34 2d 36 34 30 2d 32 36 37 33 30 36 34 2d 32 33 39 35 30) | (35 00 35 00 32 00 37 00 34 00 2d 00 36 00 34 00 30 00 2d 00 32 00 36 00 37 00 33 00 30 00 36 00 34 00 2d 00 32 00 33 00 39 00 35 00 30 00))}
+		$id4 = {((37 36 34 38 37 2d 36 34 30 2d 31 34 35 37 32 33 36 2d 32 33 38 33 37) | (37 00 36 00 34 00 38 00 37 00 2d 00 36 00 34 00 30 00 2d 00 31 00 34 00 35 00 37 00 32 00 33 00 36 00 2d 00 32 00 33 00 38 00 33 00 37 00))}
+		$id5 = {((37 36 34 39 37 2d 36 34 30 2d 36 33 30 38 38 37 33 2d 32 33 38 33 35) | (37 00 36 00 34 00 39 00 37 00 2d 00 36 00 34 00 30 00 2d 00 36 00 33 00 30 00 38 00 38 00 37 00 33 00 2d 00 32 00 33 00 38 00 33 00 35 00))}
+		$id6 = {((37 36 34 38 37 2d 36 34 30 2d 31 34 36 34 35 31 37 2d 32 33 32 35 39) | (37 00 36 00 34 00 38 00 37 00 2d 00 36 00 34 00 30 00 2d 00 31 00 34 00 36 00 34 00 35 00 31 00 37 00 2d 00 32 00 33 00 32 00 35 00 39 00))}
+		$id7 = {((37 36 34 38 37 20 2d 20 33 33 37 20 2d 20 38 34 32 39 39 35 35 20 2d 20 32 32 36 31 34) | (37 00 36 00 34 00 38 00 37 00 20 00 2d 00 20 00 33 00 33 00 37 00 20 00 2d 00 20 00 38 00 34 00 32 00 39 00 39 00 35 00 35 00 20 00 2d 00 20 00 32 00 32 00 36 00 31 00 34 00))}
+		$id8 = {((37 36 34 38 37 20 2d 20 36 34 34 20 2d 20 33 31 37 37 30 33 37 20 2d 20 32 33 35 31 30) | (37 00 36 00 34 00 38 00 37 00 20 00 2d 00 20 00 36 00 34 00 34 00 20 00 2d 00 20 00 33 00 31 00 37 00 37 00 30 00 33 00 37 00 20 00 2d 00 20 00 32 00 33 00 35 00 31 00 30 00))}
+		$id9 = {((35 35 32 37 34 20 2d 20 36 34 30 20 2d 20 32 36 37 33 30 36 34 20 2d 20 32 33 39 35 30) | (35 00 35 00 32 00 37 00 34 00 20 00 2d 00 20 00 36 00 34 00 30 00 20 00 2d 00 20 00 32 00 36 00 37 00 33 00 30 00 36 00 34 00 20 00 2d 00 20 00 32 00 33 00 39 00 35 00 30 00))}
+		$id10 = {((37 36 34 38 37 20 2d 20 36 34 30 20 2d 20 31 34 35 37 32 33 36 20 2d 20 32 33 38 33 37) | (37 00 36 00 34 00 38 00 37 00 20 00 2d 00 20 00 36 00 34 00 30 00 20 00 2d 00 20 00 31 00 34 00 35 00 37 00 32 00 33 00 36 00 20 00 2d 00 20 00 32 00 33 00 38 00 33 00 37 00))}
+		$id11 = {((37 36 34 39 37 20 2d 20 36 34 30 20 2d 20 36 33 30 38 38 37 33 20 2d 20 32 33 38 33 35) | (37 00 36 00 34 00 39 00 37 00 20 00 2d 00 20 00 36 00 34 00 30 00 20 00 2d 00 20 00 36 00 33 00 30 00 38 00 38 00 37 00 33 00 20 00 2d 00 20 00 32 00 33 00 38 00 33 00 35 00))}
+		$id12 = {((37 36 34 38 37 20 2d 20 36 34 30 20 2d 20 31 34 36 34 35 31 37 20 2d 20 32 33 32 35 39) | (37 00 36 00 34 00 38 00 37 00 20 00 2d 00 20 00 36 00 34 00 30 00 20 00 2d 00 20 00 31 00 34 00 36 00 34 00 35 00 31 00 37 00 20 00 2d 00 20 00 32 00 33 00 32 00 35 00 39 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 2 of them
+}
+
+rule INDICATOR_SUSPICIOUS_EXE_SandboxHookingDLL : hardened limited
+{
+	meta:
+		description = "Detects binaries and memory artifacts referencing sandbox DLLs typically observed in sandbox evasion"
+		author = "ditekSHen"
+		score = 80
+
+	strings:
+		$dll1 = {((73 62 69 65 64 6c 6c 2e 64 6c 6c) | (73 00 62 00 69 00 65 00 64 00 6c 00 6c 00 2e 00 64 00 6c 00 6c 00))}
+		$dll3 = {((61 70 69 5f 6c 6f 67 2e 64 6c 6c) | (61 00 70 00 69 00 5f 00 6c 00 6f 00 67 00 2e 00 64 00 6c 00 6c 00))}
+		$dll4 = {((70 73 74 6f 72 65 63 2e 64 6c 6c) | (70 00 73 00 74 00 6f 00 72 00 65 00 63 00 2e 00 64 00 6c 00 6c 00))}
+		$dll5 = {((64 69 72 5f 77 61 74 63 68 2e 64 6c 6c) | (64 00 69 00 72 00 5f 00 77 00 61 00 74 00 63 00 68 00 2e 00 64 00 6c 00 6c 00))}
+		$dll6 = {((76 6d 63 68 65 63 6b 2e 64 6c 6c) | (76 00 6d 00 63 00 68 00 65 00 63 00 6b 00 2e 00 64 00 6c 00 6c 00))}
+		$dll7 = {((77 70 65 73 70 79 2e 64 6c 6c) | (77 00 70 00 65 00 73 00 70 00 79 00 2e 00 64 00 6c 00 6c 00))}
+		$dll8 = {((53 78 49 6e 2e 64 6c 6c) | (53 00 78 00 49 00 6e 00 2e 00 64 00 6c 00 6c 00))}
+		$dll9 = {((53 66 32 2e 64 6c 6c) | (53 00 66 00 32 00 2e 00 64 00 6c 00 6c 00))}
+		$dll10 = {((64 65 70 6c 6f 79 2e 64 6c 6c) | (64 00 65 00 70 00 6c 00 6f 00 79 00 2e 00 64 00 6c 00 6c 00))}
+		$dll11 = {((61 76 63 75 66 33 32 2e 64 6c 6c) | (61 00 76 00 63 00 75 00 66 00 33 00 32 00 2e 00 64 00 6c 00 6c 00))}
+		$dll12 = {((42 67 41 67 65 6e 74 2e 64 6c 6c) | (42 00 67 00 41 00 67 00 65 00 6e 00 74 00 2e 00 64 00 6c 00 6c 00))}
+		$dll13 = {((67 75 61 72 64 33 32 2e 64 6c 6c) | (67 00 75 00 61 00 72 00 64 00 33 00 32 00 2e 00 64 00 6c 00 6c 00))}
+		$dll14 = {((77 6c 5f 68 6f 6f 6b 2e 64 6c 6c) | (77 00 6c 00 5f 00 68 00 6f 00 6f 00 6b 00 2e 00 64 00 6c 00 6c 00))}
+		$dll15 = {((51 4f 45 48 6f 6f 6b 2e 64 6c 6c) | (51 00 4f 00 45 00 48 00 6f 00 6f 00 6b 00 2e 00 64 00 6c 00 6c 00))}
+		$dll16 = {((61 32 68 6f 6f 6b 73 33 32 2e 64 6c 6c) | (61 00 32 00 68 00 6f 00 6f 00 6b 00 73 00 33 00 32 00 2e 00 64 00 6c 00 6c 00))}
+		$dll17 = {((74 72 61 63 65 72 2e 64 6c 6c) | (74 00 72 00 61 00 63 00 65 00 72 00 2e 00 64 00 6c 00 6c 00))}
+		$dll18 = {((41 50 49 4f 76 65 72 72 69 64 65 2e 64 6c 6c) | (41 00 50 00 49 00 4f 00 76 00 65 00 72 00 72 00 69 00 64 00 65 00 2e 00 64 00 6c 00 6c 00))}
+		$dll19 = {((4e 74 48 6f 6f 6b 45 6e 67 69 6e 65 2e 64 6c 6c) | (4e 00 74 00 48 00 6f 00 6f 00 6b 00 45 00 6e 00 67 00 69 00 6e 00 65 00 2e 00 64 00 6c 00 6c 00))}
+		$dll20 = {((4c 4f 47 5f 41 50 49 2e 44 4c 4c) | (4c 00 4f 00 47 00 5f 00 41 00 50 00 49 00 2e 00 44 00 4c 00 4c 00))}
+		$dll21 = {((4c 4f 47 5f 41 50 49 33 32 2e 44 4c 4c) | (4c 00 4f 00 47 00 5f 00 41 00 50 00 49 00 33 00 32 00 2e 00 44 00 4c 00 4c 00))}
+		$dll22 = {((76 6d 63 68 65 63 6b 33 32 2e 64 6c 6c) | (76 00 6d 00 63 00 68 00 65 00 63 00 6b 00 33 00 32 00 2e 00 64 00 6c 00 6c 00))}
+		$dll23 = {((76 6d 63 68 65 63 6b 36 34 2e 64 6c 6c) | (76 00 6d 00 63 00 68 00 65 00 63 00 6b 00 36 00 34 00 2e 00 64 00 6c 00 6c 00))}
+		$dll24 = {((63 75 63 6b 6f 6f 6d 6f 6e 2e 64 6c 6c) | (63 00 75 00 63 00 6b 00 6f 00 6f 00 6d 00 6f 00 6e 00 2e 00 64 00 6c 00 6c 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 3 of them
+}
+
+rule INDICATOR_SUSPICIOUS_AHK_Downloader : hardened
+{
+	meta:
+		description = "Detects AutoHotKey binaries acting as second stage droppers"
+		author = "ditekSHen"
+
+	strings:
+		$d1 = {55 52 4c 44 6f 77 6e 6c 6f 61 64 54 6f 46 69 6c 65 2c 20 68 74 74 70}
+		$d2 = {55 52 4c 44 6f 77 6e 6c 6f 61 64 54 6f 46 69 6c 65 2c 20 66 69 6c 65}
+		$s1 = {3e 00 41 00 55 00 54 00 4f 00 48 00 4f 00 54 00 4b 00 45 00 59 00 20 00 53 00 43 00 52 00 49 00 50 00 54 00 3c 00}
+		$s2 = {6f 00 70 00 65 00 6e 00 20 00 22 00 25 00 73 00 22 00 20 00 61 00 6c 00 69 00 61 00 73 00 20 00 41 00 48 00 4b 00 5f 00 50 00 6c 00 61 00 79 00 4d 00 65 00}
+		$s3 = /AHK\s(Keybd|Mouse)/ fullword wide
+
+	condition:
+		uint16( 0 ) == 0x5a4d and ( 1 of ( $d* ) and 1 of ( $s* ) )
+}
+
+rule INDICATOR_SUSPICIOUS_EXE_UACBypass_CMSTPCOM : hardened limited
+{
+	meta:
+		description = "Detects Windows exceutables bypassing UAC using CMSTP COM interfaces. MITRE (T1218.003)"
+		author = "ditekSHen"
+		score = 75
+
+	strings:
+		$guid1 = {((7b 33 45 35 46 43 37 46 39 2d 39 41 35 31 2d 34 33 36 37 2d 39 30 36 33 2d 41 31 32 30 32 34 34 46 42 45 43 37 7d) | (7b 00 33 00 45 00 35 00 46 00 43 00 37 00 46 00 39 00 2d 00 39 00 41 00 35 00 31 00 2d 00 34 00 33 00 36 00 37 00 2d 00 39 00 30 00 36 00 33 00 2d 00 41 00 31 00 32 00 30 00 32 00 34 00 34 00 46 00 42 00 45 00 43 00 37 00 7d 00))}
+		$guid2 = {((7b 33 45 30 30 30 44 37 32 2d 41 38 34 35 2d 34 43 44 39 2d 42 44 38 33 2d 38 30 43 30 37 43 33 42 38 38 31 46 7d) | (7b 00 33 00 45 00 30 00 30 00 30 00 44 00 37 00 32 00 2d 00 41 00 38 00 34 00 35 00 2d 00 34 00 43 00 44 00 39 00 2d 00 42 00 44 00 38 00 33 00 2d 00 38 00 30 00 43 00 30 00 37 00 43 00 33 00 42 00 38 00 38 00 31 00 46 00 7d 00))}
+		$guid3 = {((7b 42 41 31 32 36 46 30 31 2d 32 31 36 36 2d 31 31 44 31 2d 42 31 44 30 2d 30 30 38 30 35 46 43 31 32 37 30 45 7d) | (7b 00 42 00 41 00 31 00 32 00 36 00 46 00 30 00 31 00 2d 00 32 00 31 00 36 00 36 00 2d 00 31 00 31 00 44 00 31 00 2d 00 42 00 31 00 44 00 30 00 2d 00 30 00 30 00 38 00 30 00 35 00 46 00 43 00 31 00 32 00 37 00 30 00 45 00 7d 00))}
+		$s1 = {((43 6f 47 65 74 4f 62 6a 65 63 74) | (43 00 6f 00 47 00 65 00 74 00 4f 00 62 00 6a 00 65 00 63 00 74 00))}
+		$s2 = {((45 6c 65 76 61 74 69 6f 6e 3a 41 64 6d 69 6e 69 73 74 72 61 74 6f 72 21 6e 65 77 3a) | (45 00 6c 00 65 00 76 00 61 00 74 00 69 00 6f 00 6e 00 3a 00 41 00 64 00 6d 00 69 00 6e 00 69 00 73 00 74 00 72 00 61 00 74 00 6f 00 72 00 21 00 6e 00 65 00 77 00 3a 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and ( 1 of ( $guid* ) and 1 of ( $s* ) )
+}
+
+rule INDICATOR_SUSPICOUS_EXE_References_VEEAM : hardened limited
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects executables containing many references to VEEAM. Observed in ransomware"
+		score = 40
+
+	strings:
+		$s1 = {((56 65 65 61 6d 4e 46 53 53 76 63) | (56 00 65 00 65 00 61 00 6d 00 4e 00 46 00 53 00 53 00 76 00 63 00))}
+		$s2 = {((56 65 65 61 6d 52 45 53 54 53 76 63) | (56 00 65 00 65 00 61 00 6d 00 52 00 45 00 53 00 54 00 53 00 76 00 63 00))}
+		$s3 = {((56 65 65 61 6d 43 6c 6f 75 64 53 76 63) | (56 00 65 00 65 00 61 00 6d 00 43 00 6c 00 6f 00 75 00 64 00 53 00 76 00 63 00))}
+		$s4 = {((56 65 65 61 6d 4d 6f 75 6e 74 53 76 63) | (56 00 65 00 65 00 61 00 6d 00 4d 00 6f 00 75 00 6e 00 74 00 53 00 76 00 63 00))}
+		$s5 = {((56 65 65 61 6d 42 61 63 6b 75 70 53 76 63) | (56 00 65 00 65 00 61 00 6d 00 42 00 61 00 63 00 6b 00 75 00 70 00 53 00 76 00 63 00))}
+		$s6 = {((56 65 65 61 6d 42 72 6f 6b 65 72 53 76 63) | (56 00 65 00 65 00 61 00 6d 00 42 00 72 00 6f 00 6b 00 65 00 72 00 53 00 76 00 63 00))}
+		$s7 = {((56 65 65 61 6d 44 65 70 6c 6f 79 53 76 63) | (56 00 65 00 65 00 61 00 6d 00 44 00 65 00 70 00 6c 00 6f 00 79 00 53 00 76 00 63 00))}
+		$s8 = {((56 65 65 61 6d 43 61 74 61 6c 6f 67 53 76 63) | (56 00 65 00 65 00 61 00 6d 00 43 00 61 00 74 00 61 00 6c 00 6f 00 67 00 53 00 76 00 63 00))}
+		$s9 = {((56 65 65 61 6d 54 72 61 6e 73 70 6f 72 74 53 76 63) | (56 00 65 00 65 00 61 00 6d 00 54 00 72 00 61 00 6e 00 73 00 70 00 6f 00 72 00 74 00 53 00 76 00 63 00))}
+		$s10 = {((56 65 65 61 6d 44 65 70 6c 6f 79 6d 65 6e 74 53 65 72 76 69 63 65) | (56 00 65 00 65 00 61 00 6d 00 44 00 65 00 70 00 6c 00 6f 00 79 00 6d 00 65 00 6e 00 74 00 53 00 65 00 72 00 76 00 69 00 63 00 65 00))}
+		$s11 = {((56 65 65 61 6d 48 76 49 6e 74 65 67 72 61 74 69 6f 6e 53 76 63) | (56 00 65 00 65 00 61 00 6d 00 48 00 76 00 49 00 6e 00 74 00 65 00 67 00 72 00 61 00 74 00 69 00 6f 00 6e 00 53 00 76 00 63 00))}
+		$s12 = {((56 65 65 61 6d 45 6e 74 65 72 70 72 69 73 65 4d 61 6e 61 67 65 72 53 76 63) | (56 00 65 00 65 00 61 00 6d 00 45 00 6e 00 74 00 65 00 72 00 70 00 72 00 69 00 73 00 65 00 4d 00 61 00 6e 00 61 00 67 00 65 00 72 00 53 00 76 00 63 00))}
+		$s13 = {((22 56 65 65 61 6d 20 42 61 63 6b 75 70 20 43 61 74 61 6c 6f 67 20 44 61 74 61 20 53 65 72 76 69 63 65 22) | (22 00 56 00 65 00 65 00 61 00 6d 00 20 00 42 00 61 00 63 00 6b 00 75 00 70 00 20 00 43 00 61 00 74 00 61 00 6c 00 6f 00 67 00 20 00 44 00 61 00 74 00 61 00 20 00 53 00 65 00 72 00 76 00 69 00 63 00 65 00 22 00))}
+		$e1 = {((76 65 65 61 6d 2e 62 61 63 6b 75 70 2e 61 67 65 6e 74 2e 63 6f 6e 66 69 67 75 72 61 74 69 6f 6e 73 65 72 76 69 63 65 2e 65 78 65) | (76 00 65 00 65 00 61 00 6d 00 2e 00 62 00 61 00 63 00 6b 00 75 00 70 00 2e 00 61 00 67 00 65 00 6e 00 74 00 2e 00 63 00 6f 00 6e 00 66 00 69 00 67 00 75 00 72 00 61 00 74 00 69 00 6f 00 6e 00 73 00 65 00 72 00 76 00 69 00 63 00 65 00 2e 00 65 00 78 00 65 00))}
+		$e2 = {((76 65 65 61 6d 2e 62 61 63 6b 75 70 2e 62 72 6f 6b 65 72 73 65 72 76 69 63 65 2e 65 78 65) | (76 00 65 00 65 00 61 00 6d 00 2e 00 62 00 61 00 63 00 6b 00 75 00 70 00 2e 00 62 00 72 00 6f 00 6b 00 65 00 72 00 73 00 65 00 72 00 76 00 69 00 63 00 65 00 2e 00 65 00 78 00 65 00))}
+		$e3 = {((76 65 65 61 6d 2e 62 61 63 6b 75 70 2e 63 61 74 61 6c 6f 67 64 61 74 61 73 65 72 76 69 63 65 2e 65 78 65) | (76 00 65 00 65 00 61 00 6d 00 2e 00 62 00 61 00 63 00 6b 00 75 00 70 00 2e 00 63 00 61 00 74 00 61 00 6c 00 6f 00 67 00 64 00 61 00 74 00 61 00 73 00 65 00 72 00 76 00 69 00 63 00 65 00 2e 00 65 00 78 00 65 00))}
+		$e4 = {((76 65 65 61 6d 2e 62 61 63 6b 75 70 2e 63 6c 6f 75 64 73 65 72 76 69 63 65 2e 65 78 65) | (76 00 65 00 65 00 61 00 6d 00 2e 00 62 00 61 00 63 00 6b 00 75 00 70 00 2e 00 63 00 6c 00 6f 00 75 00 64 00 73 00 65 00 72 00 76 00 69 00 63 00 65 00 2e 00 65 00 78 00 65 00))}
+		$e5 = {((76 65 65 61 6d 2e 62 61 63 6b 75 70 2e 65 78 74 65 72 6e 61 6c 69 6e 66 72 61 73 74 72 75 63 74 75 72 65 2e 64 62 70 72 6f 76 69 64 65 72 2e 65 78 65) | (76 00 65 00 65 00 61 00 6d 00 2e 00 62 00 61 00 63 00 6b 00 75 00 70 00 2e 00 65 00 78 00 74 00 65 00 72 00 6e 00 61 00 6c 00 69 00 6e 00 66 00 72 00 61 00 73 00 74 00 72 00 75 00 63 00 74 00 75 00 72 00 65 00 2e 00 64 00 62 00 70 00 72 00 6f 00 76 00 69 00 64 00 65 00 72 00 2e 00 65 00 78 00 65 00))}
+		$e6 = {((76 65 65 61 6d 2e 62 61 63 6b 75 70 2e 6d 61 6e 61 67 65 72 2e 65 78 65) | (76 00 65 00 65 00 61 00 6d 00 2e 00 62 00 61 00 63 00 6b 00 75 00 70 00 2e 00 6d 00 61 00 6e 00 61 00 67 00 65 00 72 00 2e 00 65 00 78 00 65 00))}
+		$e7 = {((76 65 65 61 6d 2e 62 61 63 6b 75 70 2e 6d 6f 75 6e 74 73 65 72 76 69 63 65 2e 65 78 65) | (76 00 65 00 65 00 61 00 6d 00 2e 00 62 00 61 00 63 00 6b 00 75 00 70 00 2e 00 6d 00 6f 00 75 00 6e 00 74 00 73 00 65 00 72 00 76 00 69 00 63 00 65 00 2e 00 65 00 78 00 65 00))}
+		$e8 = {((76 65 65 61 6d 2e 62 61 63 6b 75 70 2e 73 65 72 76 69 63 65 2e 65 78 65) | (76 00 65 00 65 00 61 00 6d 00 2e 00 62 00 61 00 63 00 6b 00 75 00 70 00 2e 00 73 00 65 00 72 00 76 00 69 00 63 00 65 00 2e 00 65 00 78 00 65 00))}
+		$e9 = {((76 65 65 61 6d 2e 62 61 63 6b 75 70 2e 75 69 73 65 72 76 65 72 2e 65 78 65) | (76 00 65 00 65 00 61 00 6d 00 2e 00 62 00 61 00 63 00 6b 00 75 00 70 00 2e 00 75 00 69 00 73 00 65 00 72 00 76 00 65 00 72 00 2e 00 65 00 78 00 65 00))}
+		$e10 = {((76 65 65 61 6d 2e 62 61 63 6b 75 70 2e 77 6d 69 73 65 72 76 65 72 2e 65 78 65) | (76 00 65 00 65 00 61 00 6d 00 2e 00 62 00 61 00 63 00 6b 00 75 00 70 00 2e 00 77 00 6d 00 69 00 73 00 65 00 72 00 76 00 65 00 72 00 2e 00 65 00 78 00 65 00))}
+		$e11 = {((76 65 65 61 6d 64 65 70 6c 6f 79 6d 65 6e 74 73 76 63 2e 65 78 65) | (76 00 65 00 65 00 61 00 6d 00 64 00 65 00 70 00 6c 00 6f 00 79 00 6d 00 65 00 6e 00 74 00 73 00 76 00 63 00 2e 00 65 00 78 00 65 00))}
+		$e12 = {((76 65 65 61 6d 66 69 6c 65 73 79 73 76 73 73 73 76 63 2e 65 78 65) | (76 00 65 00 65 00 61 00 6d 00 66 00 69 00 6c 00 65 00 73 00 79 00 73 00 76 00 73 00 73 00 73 00 76 00 63 00 2e 00 65 00 78 00 65 00))}
+		$e13 = {((76 65 65 61 6d 2e 67 75 65 73 74 2e 69 6e 74 65 72 61 63 74 69 6f 6e 2e 70 72 6f 78 79 2e 65 78 65) | (76 00 65 00 65 00 61 00 6d 00 2e 00 67 00 75 00 65 00 73 00 74 00 2e 00 69 00 6e 00 74 00 65 00 72 00 61 00 63 00 74 00 69 00 6f 00 6e 00 2e 00 70 00 72 00 6f 00 78 00 79 00 2e 00 65 00 78 00 65 00))}
+		$e14 = {((76 65 65 61 6d 6e 66 73 73 76 63 2e 65 78 65) | (76 00 65 00 65 00 61 00 6d 00 6e 00 66 00 73 00 73 00 76 00 63 00 2e 00 65 00 78 00 65 00))}
+		$e15 = {((76 65 65 61 6d 74 72 61 6e 73 70 6f 72 74 73 76 63 2e 65 78 65) | (76 00 65 00 65 00 61 00 6d 00 74 00 72 00 61 00 6e 00 73 00 70 00 6f 00 72 00 74 00 73 00 76 00 63 00 2e 00 65 00 78 00 65 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 3 of them
+}
+
+rule INDICATOR_SUSPICIOUS_Binary_References_Browsers : hardened limited
+{
+	meta:
+		description = "Detects binaries (Windows and macOS) referencing many web browsers. Observed in information stealers."
+		author = "ditekSHen"
+		score = 50
+
+	strings:
+		$s1 = {((55 72 61 6e 5c 55 73 65 72 20 44 61 74 61) | (55 00 72 00 61 00 6e 00 5c 00 55 00 73 00 65 00 72 00 20 00 44 00 61 00 74 00 61 00))}
+		$s2 = {((41 6d 69 67 6f 5c 55 73 65 72 20 44 61 74 61) | (41 00 6d 00 69 00 67 00 6f 00 5c 00 55 00 73 00 65 00 72 00 20 00 44 00 61 00 74 00 61 00))}
+		$s3 = {((54 6f 72 63 68 5c 55 73 65 72 20 44 61 74 61) | (54 00 6f 00 72 00 63 00 68 00 5c 00 55 00 73 00 65 00 72 00 20 00 44 00 61 00 74 00 61 00))}
+		$s4 = {((43 68 72 6f 6d 69 75 6d 5c 55 73 65 72 20 44 61 74 61) | (43 00 68 00 72 00 6f 00 6d 00 69 00 75 00 6d 00 5c 00 55 00 73 00 65 00 72 00 20 00 44 00 61 00 74 00 61 00))}
+		$s5 = {((4e 69 63 68 72 6f 6d 65 5c 55 73 65 72 20 44 61 74 61) | (4e 00 69 00 63 00 68 00 72 00 6f 00 6d 00 65 00 5c 00 55 00 73 00 65 00 72 00 20 00 44 00 61 00 74 00 61 00))}
+		$s6 = {((47 6f 6f 67 6c 65 5c 43 68 72 6f 6d 65 5c 55 73 65 72 20 44 61 74 61) | (47 00 6f 00 6f 00 67 00 6c 00 65 00 5c 00 43 00 68 00 72 00 6f 00 6d 00 65 00 5c 00 55 00 73 00 65 00 72 00 20 00 44 00 61 00 74 00 61 00))}
+		$s7 = {((33 36 30 42 72 6f 77 73 65 72 5c 42 72 6f 77 73 65 72 5c 55 73 65 72 20 44 61 74 61) | (33 00 36 00 30 00 42 00 72 00 6f 00 77 00 73 00 65 00 72 00 5c 00 42 00 72 00 6f 00 77 00 73 00 65 00 72 00 5c 00 55 00 73 00 65 00 72 00 20 00 44 00 61 00 74 00 61 00))}
+		$s8 = {((4d 61 78 74 68 6f 6e 33 5c 55 73 65 72 20 44 61 74 61) | (4d 00 61 00 78 00 74 00 68 00 6f 00 6e 00 33 00 5c 00 55 00 73 00 65 00 72 00 20 00 44 00 61 00 74 00 61 00))}
+		$s9 = {((43 6f 6d 6f 64 6f 5c 55 73 65 72 20 44 61 74 61) | (43 00 6f 00 6d 00 6f 00 64 00 6f 00 5c 00 55 00 73 00 65 00 72 00 20 00 44 00 61 00 74 00 61 00))}
+		$s10 = {((43 6f 63 43 6f 63 5c 42 72 6f 77 73 65 72 5c 55 73 65 72 20 44 61 74 61) | (43 00 6f 00 63 00 43 00 6f 00 63 00 5c 00 42 00 72 00 6f 00 77 00 73 00 65 00 72 00 5c 00 55 00 73 00 65 00 72 00 20 00 44 00 61 00 74 00 61 00))}
+		$s11 = {((56 69 76 61 6c 64 69 5c 55 73 65 72 20 44 61 74 61) | (56 00 69 00 76 00 61 00 6c 00 64 00 69 00 5c 00 55 00 73 00 65 00 72 00 20 00 44 00 61 00 74 00 61 00))}
+		$s12 = {((4f 70 65 72 61 20 53 6f 66 74 77 61 72 65 5c) | (4f 00 70 00 65 00 72 00 61 00 20 00 53 00 6f 00 66 00 74 00 77 00 61 00 72 00 65 00 5c 00))}
+		$s13 = {((4b 6f 6d 65 74 61 5c 55 73 65 72 20 44 61 74 61) | (4b 00 6f 00 6d 00 65 00 74 00 61 00 5c 00 55 00 73 00 65 00 72 00 20 00 44 00 61 00 74 00 61 00))}
+		$s14 = {((43 6f 6d 6f 64 6f 5c 44 72 61 67 6f 6e 5c 55 73 65 72 20 44 61 74 61) | (43 00 6f 00 6d 00 6f 00 64 00 6f 00 5c 00 44 00 72 00 61 00 67 00 6f 00 6e 00 5c 00 55 00 73 00 65 00 72 00 20 00 44 00 61 00 74 00 61 00))}
+		$s15 = {((53 70 75 74 6e 69 6b 5c 55 73 65 72 20 44 61 74 61) | (53 00 70 00 75 00 74 00 6e 00 69 00 6b 00 5c 00 55 00 73 00 65 00 72 00 20 00 44 00 61 00 74 00 61 00))}
+		$s16 = {((47 6f 6f 67 6c 65 20 28 78 38 36 29 5c 43 68 72 6f 6d 65 5c 55 73 65 72 20 44 61 74 61) | (47 00 6f 00 6f 00 67 00 6c 00 65 00 20 00 28 00 78 00 38 00 36 00 29 00 5c 00 43 00 68 00 72 00 6f 00 6d 00 65 00 5c 00 55 00 73 00 65 00 72 00 20 00 44 00 61 00 74 00 61 00))}
+		$s17 = {((4f 72 62 69 74 75 6d 5c 55 73 65 72 20 44 61 74 61) | (4f 00 72 00 62 00 69 00 74 00 75 00 6d 00 5c 00 55 00 73 00 65 00 72 00 20 00 44 00 61 00 74 00 61 00))}
+		$s18 = {((59 61 6e 64 65 78 5c 59 61 6e 64 65 78 42 72 6f 77 73 65 72 5c 55 73 65 72 20 44 61 74 61) | (59 00 61 00 6e 00 64 00 65 00 78 00 5c 00 59 00 61 00 6e 00 64 00 65 00 78 00 42 00 72 00 6f 00 77 00 73 00 65 00 72 00 5c 00 55 00 73 00 65 00 72 00 20 00 44 00 61 00 74 00 61 00))}
+		$s19 = {((4b 2d 4d 65 6c 6f 6e 5c 55 73 65 72 20 44 61 74 61) | (4b 00 2d 00 4d 00 65 00 6c 00 6f 00 6e 00 5c 00 55 00 73 00 65 00 72 00 20 00 44 00 61 00 74 00 61 00))}
+		$s20 = {((46 6c 6f 63 6b 5c 42 72 6f 77 73 65 72) | (46 00 6c 00 6f 00 63 00 6b 00 5c 00 42 00 72 00 6f 00 77 00 73 00 65 00 72 00))}
+		$s21 = {((43 68 72 6f 6d 65 50 6c 75 73 5c 55 73 65 72 20 44 61 74 61) | (43 00 68 00 72 00 6f 00 6d 00 65 00 50 00 6c 00 75 00 73 00 5c 00 55 00 73 00 65 00 72 00 20 00 44 00 61 00 74 00 61 00))}
+		$s22 = {((55 43 42 72 6f 77 73 65 72 5c) | (55 00 43 00 42 00 72 00 6f 00 77 00 73 00 65 00 72 00 5c 00))}
+		$s23 = {((4d 6f 7a 69 6c 6c 61 5c 53 65 61 4d 6f 6e 6b 65 79) | (4d 00 6f 00 7a 00 69 00 6c 00 6c 00 61 00 5c 00 53 00 65 00 61 00 4d 00 6f 00 6e 00 6b 00 65 00 79 00))}
+		$s24 = {((41 70 70 6c 65 5c 41 70 70 6c 65 20 41 70 70 6c 69 63 61 74 69 6f 6e 20 53 75 70 70 6f 72 74 5c 70 6c 75 74 69 6c 2e 65 78 65) | (41 00 70 00 70 00 6c 00 65 00 5c 00 41 00 70 00 70 00 6c 00 65 00 20 00 41 00 70 00 70 00 6c 00 69 00 63 00 61 00 74 00 69 00 6f 00 6e 00 20 00 53 00 75 00 70 00 70 00 6f 00 72 00 74 00 5c 00 70 00 6c 00 75 00 74 00 69 00 6c 00 2e 00 65 00 78 00 65 00))}
+		$s25 = {((50 72 65 66 65 72 65 6e 63 65 73 5c 6b 65 79 63 68 61 69 6e 2e 70 6c 69 73 74) | (50 00 72 00 65 00 66 00 65 00 72 00 65 00 6e 00 63 00 65 00 73 00 5c 00 6b 00 65 00 79 00 63 00 68 00 61 00 69 00 6e 00 2e 00 70 00 6c 00 69 00 73 00 74 00))}
+		$s26 = {((53 52 57 61 72 65 20 49 72 6f 6e) | (53 00 52 00 57 00 61 00 72 00 65 00 20 00 49 00 72 00 6f 00 6e 00))}
+		$s27 = {((43 6f 6f 6c 4e 6f 76 6f) | (43 00 6f 00 6f 00 6c 00 4e 00 6f 00 76 00 6f 00))}
+		$s28 = {((42 6c 61 63 6b 48 61 77 6b 5c 50 72 6f 66 69 6c 65 73) | (42 00 6c 00 61 00 63 00 6b 00 48 00 61 00 77 00 6b 00 5c 00 50 00 72 00 6f 00 66 00 69 00 6c 00 65 00 73 00))}
+		$s29 = {((43 6f 63 43 6f 63 5c 42 72 6f 77 73 65 72) | (43 00 6f 00 63 00 43 00 6f 00 63 00 5c 00 42 00 72 00 6f 00 77 00 73 00 65 00 72 00))}
+		$s30 = {((43 79 62 65 72 66 6f 78 5c 50 72 6f 66 69 6c 65 73) | (43 00 79 00 62 00 65 00 72 00 66 00 6f 00 78 00 5c 00 50 00 72 00 6f 00 66 00 69 00 6c 00 65 00 73 00))}
+		$s31 = {((45 70 69 63 20 50 72 69 76 61 63 79 20 42 72 6f 77 73 65 72 5c) | (45 00 70 00 69 00 63 00 20 00 50 00 72 00 69 00 76 00 61 00 63 00 79 00 20 00 42 00 72 00 6f 00 77 00 73 00 65 00 72 00 5c 00))}
+		$s32 = {((4b 2d 4d 65 6c 65 6f 6e 5c) | (4b 00 2d 00 4d 00 65 00 6c 00 65 00 6f 00 6e 00 5c 00))}
+		$s33 = {((4d 61 78 74 68 6f 6e 35 5c 55 73 65 72 73) | (4d 00 61 00 78 00 74 00 68 00 6f 00 6e 00 35 00 5c 00 55 00 73 00 65 00 72 00 73 00))}
+		$s34 = {((4e 69 63 68 72 6f 6d 65 5c 55 73 65 72 20 44 61 74 61) | (4e 00 69 00 63 00 68 00 72 00 6f 00 6d 00 65 00 5c 00 55 00 73 00 65 00 72 00 20 00 44 00 61 00 74 00 61 00))}
+		$s35 = {((50 61 6c 65 20 4d 6f 6f 6e 5c 50 72 6f 66 69 6c 65 73) | (50 00 61 00 6c 00 65 00 20 00 4d 00 6f 00 6f 00 6e 00 5c 00 50 00 72 00 6f 00 66 00 69 00 6c 00 65 00 73 00))}
+		$s36 = {((57 61 74 65 72 66 6f 78 5c 50 72 6f 66 69 6c 65 73) | (57 00 61 00 74 00 65 00 72 00 66 00 6f 00 78 00 5c 00 50 00 72 00 6f 00 66 00 69 00 6c 00 65 00 73 00))}
+		$s37 = {((41 6d 69 67 6f 5c 55 73 65 72 20 44 61 74 61) | (41 00 6d 00 69 00 67 00 6f 00 5c 00 55 00 73 00 65 00 72 00 20 00 44 00 61 00 74 00 61 00))}
+		$s38 = {((43 65 6e 74 42 72 6f 77 73 65 72 5c 55 73 65 72 20 44 61 74 61) | (43 00 65 00 6e 00 74 00 42 00 72 00 6f 00 77 00 73 00 65 00 72 00 5c 00 55 00 73 00 65 00 72 00 20 00 44 00 61 00 74 00 61 00))}
+		$s39 = {((43 68 65 64 6f 74 5c 55 73 65 72 20 44 61 74 61) | (43 00 68 00 65 00 64 00 6f 00 74 00 5c 00 55 00 73 00 65 00 72 00 20 00 44 00 61 00 74 00 61 00))}
+		$s40 = {((52 6f 63 6b 4d 65 6c 74 5c 55 73 65 72 20 44 61 74 61) | (52 00 6f 00 63 00 6b 00 4d 00 65 00 6c 00 74 00 5c 00 55 00 73 00 65 00 72 00 20 00 44 00 61 00 74 00 61 00))}
+		$s41 = {((47 6f 21 5c 55 73 65 72 20 44 61 74 61) | (47 00 6f 00 21 00 5c 00 55 00 73 00 65 00 72 00 20 00 44 00 61 00 74 00 61 00))}
+		$s42 = {((37 53 74 61 72 5c 55 73 65 72 20 44 61 74 61) | (37 00 53 00 74 00 61 00 72 00 5c 00 55 00 73 00 65 00 72 00 20 00 44 00 61 00 74 00 61 00))}
+		$s43 = {((51 49 50 20 53 75 72 66 5c 55 73 65 72 20 44 61 74 61) | (51 00 49 00 50 00 20 00 53 00 75 00 72 00 66 00 5c 00 55 00 73 00 65 00 72 00 20 00 44 00 61 00 74 00 61 00))}
+		$s44 = {((45 6c 65 6d 65 6e 74 73 20 42 72 6f 77 73 65 72 5c 55 73 65 72 20 44 61 74 61) | (45 00 6c 00 65 00 6d 00 65 00 6e 00 74 00 73 00 20 00 42 00 72 00 6f 00 77 00 73 00 65 00 72 00 5c 00 55 00 73 00 65 00 72 00 20 00 44 00 61 00 74 00 61 00))}
+		$s45 = {((54 6f 72 42 72 6f 5c 50 72 6f 66 69 6c 65) | (54 00 6f 00 72 00 42 00 72 00 6f 00 5c 00 50 00 72 00 6f 00 66 00 69 00 6c 00 65 00))}
+		$s46 = {((53 75 68 62 61 5c 55 73 65 72 20 44 61 74 61) | (53 00 75 00 68 00 62 00 61 00 5c 00 55 00 73 00 65 00 72 00 20 00 44 00 61 00 74 00 61 00))}
+		$s47 = {((53 65 63 75 72 65 20 42 72 6f 77 73 65 72 5c 55 73 65 72 20 44 61 74 61) | (53 00 65 00 63 00 75 00 72 00 65 00 20 00 42 00 72 00 6f 00 77 00 73 00 65 00 72 00 5c 00 55 00 73 00 65 00 72 00 20 00 44 00 61 00 74 00 61 00))}
+		$s48 = {((4d 75 73 74 61 6e 67 5c 55 73 65 72 20 44 61 74 61) | (4d 00 75 00 73 00 74 00 61 00 6e 00 67 00 5c 00 55 00 73 00 65 00 72 00 20 00 44 00 61 00 74 00 61 00))}
+		$s49 = {((53 75 70 65 72 62 69 72 64 5c 55 73 65 72 20 44 61 74 61) | (53 00 75 00 70 00 65 00 72 00 62 00 69 00 72 00 64 00 5c 00 55 00 73 00 65 00 72 00 20 00 44 00 61 00 74 00 61 00))}
+		$s50 = {((58 70 6f 6d 5c 55 73 65 72 20 44 61 74 61) | (58 00 70 00 6f 00 6d 00 5c 00 55 00 73 00 65 00 72 00 20 00 44 00 61 00 74 00 61 00))}
+		$s51 = {((42 72 6f 6d 69 75 6d 5c 55 73 65 72 20 44 61 74 61) | (42 00 72 00 6f 00 6d 00 69 00 75 00 6d 00 5c 00 55 00 73 00 65 00 72 00 20 00 44 00 61 00 74 00 61 00))}
+		$s52 = {((42 72 61 76 65 5c) | (42 00 72 00 61 00 76 00 65 00 5c 00))}
+		$s53 = {((47 6f 6f 67 6c 65 5c 43 68 72 6f 6d 65 20 53 78 53 5c 55 73 65 72 20 44 61 74 61) | (47 00 6f 00 6f 00 67 00 6c 00 65 00 5c 00 43 00 68 00 72 00 6f 00 6d 00 65 00 20 00 53 00 78 00 53 00 5c 00 55 00 73 00 65 00 72 00 20 00 44 00 61 00 74 00 61 00))}
+		$s54 = {((4d 69 63 72 6f 73 6f 66 74 5c 49 6e 74 65 72 6e 65 74 20 45 78 70 6c 6f 72 65 72) | (4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 5c 00 49 00 6e 00 74 00 65 00 72 00 6e 00 65 00 74 00 20 00 45 00 78 00 70 00 6c 00 6f 00 72 00 65 00 72 00))}
+		$s55 = {((50 61 63 6b 61 67 65 73 5c 4d 69 63 72 6f 73 6f 66 74 2e 4d 69 63 72 6f 73 6f 66 74 45 64 67 65 5f) | (50 00 61 00 63 00 6b 00 61 00 67 00 65 00 73 00 5c 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 2e 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 45 00 64 00 67 00 65 00 5f 00))}
+		$s56 = {((49 63 65 44 72 61 67 6f 6e 5c 50 72 6f 66 69 6c 65 73) | (49 00 63 00 65 00 44 00 72 00 61 00 67 00 6f 00 6e 00 5c 00 50 00 72 00 6f 00 66 00 69 00 6c 00 65 00 73 00))}
+		$s57 = {((5c 41 64 4c 69 62 73 5c) | (5c 00 41 00 64 00 4c 00 69 00 62 00 73 00 5c 00))}
+		$s58 = {((4d 6f 6f 6e 63 68 69 6c 64 20 50 72 6f 64 75 63 74 69 6f 6e 5c 50 61 6c 65 20 4d 6f 6f 6e) | (4d 00 6f 00 6f 00 6e 00 63 00 68 00 69 00 6c 00 64 00 20 00 50 00 72 00 6f 00 64 00 75 00 63 00 74 00 69 00 6f 00 6e 00 5c 00 50 00 61 00 6c 00 65 00 20 00 4d 00 6f 00 6f 00 6e 00))}
+		$s59 = {((46 69 72 65 66 6f 78 5c 50 72 6f 66 69 6c 65 73) | (46 00 69 00 72 00 65 00 66 00 6f 00 78 00 5c 00 50 00 72 00 6f 00 66 00 69 00 6c 00 65 00 73 00))}
+		$s60 = {((41 56 47 5c 42 72 6f 77 73 65 72 5c 55 73 65 72 20 44 61 74 61) | (41 00 56 00 47 00 5c 00 42 00 72 00 6f 00 77 00 73 00 65 00 72 00 5c 00 55 00 73 00 65 00 72 00 20 00 44 00 61 00 74 00 61 00))}
+		$s61 = {((4b 69 6e 7a 61 5c 55 73 65 72 20 44 61 74 61) | (4b 00 69 00 6e 00 7a 00 61 00 5c 00 55 00 73 00 65 00 72 00 20 00 44 00 61 00 74 00 61 00))}
+		$s62 = {((55 52 42 72 6f 77 73 65 72 5c 55 73 65 72 20 44 61 74 61) | (55 00 52 00 42 00 72 00 6f 00 77 00 73 00 65 00 72 00 5c 00 55 00 73 00 65 00 72 00 20 00 44 00 61 00 74 00 61 00))}
+		$s63 = {((41 56 41 53 54 20 53 6f 66 74 77 61 72 65 5c 42 72 6f 77 73 65 72 5c 55 73 65 72 20 44 61 74 61) | (41 00 56 00 41 00 53 00 54 00 20 00 53 00 6f 00 66 00 74 00 77 00 61 00 72 00 65 00 5c 00 42 00 72 00 6f 00 77 00 73 00 65 00 72 00 5c 00 55 00 73 00 65 00 72 00 20 00 44 00 61 00 74 00 61 00))}
+		$s64 = {((53 61 6c 61 6d 57 65 62 5c 55 73 65 72 20 44 61 74 61) | (53 00 61 00 6c 00 61 00 6d 00 57 00 65 00 62 00 5c 00 55 00 73 00 65 00 72 00 20 00 44 00 61 00 74 00 61 00))}
+		$s65 = {((53 6c 69 6d 6a 65 74 5c 55 73 65 72 20 44 61 74 61) | (53 00 6c 00 69 00 6d 00 6a 00 65 00 74 00 5c 00 55 00 73 00 65 00 72 00 20 00 44 00 61 00 74 00 61 00))}
+		$s66 = {((49 72 69 64 69 75 6d 5c 55 73 65 72 20 44 61 74 61) | (49 00 72 00 69 00 64 00 69 00 75 00 6d 00 5c 00 55 00 73 00 65 00 72 00 20 00 44 00 61 00 74 00 61 00))}
+		$s67 = {((42 6c 69 73 6b 5c 55 73 65 72 20 44 61 74 61) | (42 00 6c 00 69 00 73 00 6b 00 5c 00 55 00 73 00 65 00 72 00 20 00 44 00 61 00 74 00 61 00))}
+		$s68 = {((75 43 6f 7a 4d 65 64 69 61 5c 55 72 61 6e 5c 55 73 65 72 20 44 61 74 61) | (75 00 43 00 6f 00 7a 00 4d 00 65 00 64 00 69 00 61 00 5c 00 55 00 72 00 61 00 6e 00 5c 00 55 00 73 00 65 00 72 00 20 00 44 00 61 00 74 00 61 00))}
+		$s69 = {((73 65 74 74 69 6e 67 5c 6d 6f 64 75 6c 65 73 5c 43 68 72 6f 6d 69 75 6d 56 69 65 77 65 72) | (73 00 65 00 74 00 74 00 69 00 6e 00 67 00 5c 00 6d 00 6f 00 64 00 75 00 6c 00 65 00 73 00 5c 00 43 00 68 00 72 00 6f 00 6d 00 69 00 75 00 6d 00 56 00 69 00 65 00 77 00 65 00 72 00))}
+		$s70 = {((43 69 74 72 69 6f 5c 55 73 65 72 20 44 61 74 61) | (43 00 69 00 74 00 72 00 69 00 6f 00 5c 00 55 00 73 00 65 00 72 00 20 00 44 00 61 00 74 00 61 00))}
+		$s71 = {((43 6f 6f 77 6f 6e 5c 55 73 65 72 20 44 61 74 61) | (43 00 6f 00 6f 00 77 00 6f 00 6e 00 5c 00 55 00 73 00 65 00 72 00 20 00 44 00 61 00 74 00 61 00))}
+		$s72 = {((6c 69 65 62 61 6f 5c 55 73 65 72 20 44 61 74 61) | (6c 00 69 00 65 00 62 00 61 00 6f 00 5c 00 55 00 73 00 65 00 72 00 20 00 44 00 61 00 74 00 61 00))}
+		$s73 = {((45 64 67 65 5c 55 73 65 72 20 44 61 74 61) | (45 00 64 00 67 00 65 00 5c 00 55 00 73 00 65 00 72 00 20 00 44 00 61 00 74 00 61 00))}
+		$s74 = {((42 6c 61 63 6b 48 61 77 6b 5c 55 73 65 72 20 44 61 74 61) | (42 00 6c 00 61 00 63 00 6b 00 48 00 61 00 77 00 6b 00 5c 00 55 00 73 00 65 00 72 00 20 00 44 00 61 00 74 00 61 00))}
+		$s75 = {((51 51 42 72 6f 77 73 65 72 5c 55 73 65 72 20 44 61 74 61) | (51 00 51 00 42 00 72 00 6f 00 77 00 73 00 65 00 72 00 5c 00 55 00 73 00 65 00 72 00 20 00 44 00 61 00 74 00 61 00))}
+		$s76 = {((47 68 6f 73 74 42 72 6f 77 73 65 72 5c 55 73 65 72 20 44 61 74 61) | (47 00 68 00 6f 00 73 00 74 00 42 00 72 00 6f 00 77 00 73 00 65 00 72 00 5c 00 55 00 73 00 65 00 72 00 20 00 44 00 61 00 74 00 61 00))}
+		$s77 = {((58 76 61 73 74 5c 55 73 65 72 20 44 61 74 61) | (58 00 76 00 61 00 73 00 74 00 5c 00 55 00 73 00 65 00 72 00 20 00 44 00 61 00 74 00 61 00))}
+		$s78 = {((33 36 30 43 68 72 6f 6d 65 5c 43 68 72 6f 6d 65 5c 55 73 65 72 20 44 61 74 61) | (33 00 36 00 30 00 43 00 68 00 72 00 6f 00 6d 00 65 00 5c 00 43 00 68 00 72 00 6f 00 6d 00 65 00 5c 00 55 00 73 00 65 00 72 00 20 00 44 00 61 00 74 00 61 00))}
+		$s79 = {((42 72 61 76 65 2d 42 72 6f 77 73 65 72 5c 55 73 65 72 20 44 61 74 61) | (42 00 72 00 61 00 76 00 65 00 2d 00 42 00 72 00 6f 00 77 00 73 00 65 00 72 00 5c 00 55 00 73 00 65 00 72 00 20 00 44 00 61 00 74 00 61 00))}
+		$s80 = {((46 65 6e 72 69 72 20 49 6e 63 5c 53 6c 65 69 70 6e 69 72 35 5c 73 65 74 74 69 6e 67 5c 6d 6f 64 75 6c 65 73 5c 43 68 72 6f 6d 69 75 6d 56 69 65 77 65 72) | (46 00 65 00 6e 00 72 00 69 00 72 00 20 00 49 00 6e 00 63 00 5c 00 53 00 6c 00 65 00 69 00 70 00 6e 00 69 00 72 00 35 00 5c 00 73 00 65 00 74 00 74 00 69 00 6e 00 67 00 5c 00 6d 00 6f 00 64 00 75 00 6c 00 65 00 73 00 5c 00 43 00 68 00 72 00 6f 00 6d 00 69 00 75 00 6d 00 56 00 69 00 65 00 77 00 65 00 72 00))}
+		$s81 = {((43 68 72 6f 6d 6f 64 6f 5c 55 73 65 72 20 44 61 74 61) | (43 00 68 00 72 00 6f 00 6d 00 6f 00 64 00 6f 00 5c 00 55 00 73 00 65 00 72 00 20 00 44 00 61 00 74 00 61 00))}
+		$s82 = {((4d 61 69 6c 2e 52 75 5c 41 74 6f 6d 5c 55 73 65 72 20 44 61 74 61) | (4d 00 61 00 69 00 6c 00 2e 00 52 00 75 00 5c 00 41 00 74 00 6f 00 6d 00 5c 00 55 00 73 00 65 00 72 00 20 00 44 00 61 00 74 00 61 00))}
+		$s83 = {((38 70 65 63 78 73 74 75 64 69 6f 73 5c 43 79 62 65 72 66 6f 78) | (38 00 70 00 65 00 63 00 78 00 73 00 74 00 75 00 64 00 69 00 6f 00 73 00 5c 00 43 00 79 00 62 00 65 00 72 00 66 00 6f 00 78 00))}
+		$s84 = {((4e 45 54 47 41 54 45 20 54 65 63 68 6e 6f 6c 6f 67 69 65 73 5c 42 6c 61 63 6b 48 61 77) | (4e 00 45 00 54 00 47 00 41 00 54 00 45 00 20 00 54 00 65 00 63 00 68 00 6e 00 6f 00 6c 00 6f 00 67 00 69 00 65 00 73 00 5c 00 42 00 6c 00 61 00 63 00 6b 00 48 00 61 00 77 00))}
+
+	condition:
+		( uint16( 0 ) == 0x5a4d or uint16( 0 ) == 0xfacf ) and 6 of them
+}
+
+rule INDICATOR_SUSPICIOUS_EXE_References_Confidential_Data_Store : hardened limited
+{
+	meta:
+		description = "Detects executables referencing many confidential data stores found in browsers, mail clients, cryptocurreny wallets, etc. Observed in information stealers"
+		author = "ditekSHen"
+		score = 60
+
+	strings:
+		$s1 = {((6b 65 79 33 2e 64 62) | (6b 00 65 00 79 00 33 00 2e 00 64 00 62 00))}
+		$s2 = {((6b 65 79 34 2e 64 62) | (6b 00 65 00 79 00 34 00 2e 00 64 00 62 00))}
+		$s3 = {((63 65 72 74 38 2e 64 62) | (63 00 65 00 72 00 74 00 38 00 2e 00 64 00 62 00))}
+		$s4 = {((6c 6f 67 69 6e 73 2e 6a 73 6f 6e) | (6c 00 6f 00 67 00 69 00 6e 00 73 00 2e 00 6a 00 73 00 6f 00 6e 00))}
+		$s5 = {((61 63 63 6f 75 6e 74 2e 63 66 6e) | (61 00 63 00 63 00 6f 00 75 00 6e 00 74 00 2e 00 63 00 66 00 6e 00))}
+		$s6 = {((77 61 6e 64 2e 64 61 74) | (77 00 61 00 6e 00 64 00 2e 00 64 00 61 00 74 00))}
+		$s7 = {((77 61 6c 6c 65 74 2e 64 61 74) | (77 00 61 00 6c 00 6c 00 65 00 74 00 2e 00 64 00 61 00 74 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 3 of them
+}
+
+rule INDICATOR_SUSPICIOUS_EXE_References_Messaging_Clients : hardened limited
+{
+	meta:
+		description = "Detects executables referencing many email and collaboration clients. Observed in information stealers"
+		author = "ditekSHen"
+		score = 65
+
+	strings:
+		$s1 = {((53 6f 66 74 77 61 72 65 5c 4d 69 63 72 6f 73 6f 66 74 5c 4f 66 66 69 63 65 5c 31 35 2e 30 5c 4f 75 74 6c 6f 6f 6b 5c 50 72 6f 66 69 6c 65 73 5c 4f 75 74 6c 6f 6f 6b) | (53 00 6f 00 66 00 74 00 77 00 61 00 72 00 65 00 5c 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 5c 00 4f 00 66 00 66 00 69 00 63 00 65 00 5c 00 31 00 35 00 2e 00 30 00 5c 00 4f 00 75 00 74 00 6c 00 6f 00 6f 00 6b 00 5c 00 50 00 72 00 6f 00 66 00 69 00 6c 00 65 00 73 00 5c 00 4f 00 75 00 74 00 6c 00 6f 00 6f 00 6b 00))}
+		$s2 = {((53 6f 66 74 77 61 72 65 5c 4d 69 63 72 6f 73 6f 66 74 5c 57 69 6e 64 6f 77 73 20 4e 54 5c 43 75 72 72 65 6e 74 56 65 72 73 69 6f 6e 5c 57 69 6e 64 6f 77 73 20 4d 65 73 73 61 67 69 6e 67 20 53 75 62 73 79 73 74 65 6d 5c 50 72 6f 66 69 6c 65 73 5c 4f 75 74 6c 6f 6f 6b) | (53 00 6f 00 66 00 74 00 77 00 61 00 72 00 65 00 5c 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 4e 00 54 00 5c 00 43 00 75 00 72 00 72 00 65 00 6e 00 74 00 56 00 65 00 72 00 73 00 69 00 6f 00 6e 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 4d 00 65 00 73 00 73 00 61 00 67 00 69 00 6e 00 67 00 20 00 53 00 75 00 62 00 73 00 79 00 73 00 74 00 65 00 6d 00 5c 00 50 00 72 00 6f 00 66 00 69 00 6c 00 65 00 73 00 5c 00 4f 00 75 00 74 00 6c 00 6f 00 6f 00 6b 00))}
+		$s3 = {((53 6f 66 74 77 61 72 65 5c 4d 69 63 72 6f 73 6f 66 74 5c 57 69 6e 64 6f 77 73 20 4d 65 73 73 61 67 69 6e 67 20 53 75 62 73 79 73 74 65 6d 5c 50 72 6f 66 69 6c 65 73) | (53 00 6f 00 66 00 74 00 77 00 61 00 72 00 65 00 5c 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 4d 00 65 00 73 00 73 00 61 00 67 00 69 00 6e 00 67 00 20 00 53 00 75 00 62 00 73 00 79 00 73 00 74 00 65 00 6d 00 5c 00 50 00 72 00 6f 00 66 00 69 00 6c 00 65 00 73 00))}
+		$s4 = {((48 4b 45 59 5f 43 55 52 52 45 4e 54 5f 55 53 45 52 5c 53 6f 66 74 77 61 72 65 5c 41 65 72 6f 66 6f 78 5c 46 6f 78 6d 61 69 6c 50 72 65 76 69 65 77) | (48 00 4b 00 45 00 59 00 5f 00 43 00 55 00 52 00 52 00 45 00 4e 00 54 00 5f 00 55 00 53 00 45 00 52 00 5c 00 53 00 6f 00 66 00 74 00 77 00 61 00 72 00 65 00 5c 00 41 00 65 00 72 00 6f 00 66 00 6f 00 78 00 5c 00 46 00 6f 00 78 00 6d 00 61 00 69 00 6c 00 50 00 72 00 65 00 76 00 69 00 65 00 77 00))}
+		$s5 = {((48 4b 45 59 5f 43 55 52 52 45 4e 54 5f 55 53 45 52 5c 53 6f 66 74 77 61 72 65 5c 41 65 72 6f 66 6f 78 5c 46 6f 78 6d 61 69 6c) | (48 00 4b 00 45 00 59 00 5f 00 43 00 55 00 52 00 52 00 45 00 4e 00 54 00 5f 00 55 00 53 00 45 00 52 00 5c 00 53 00 6f 00 66 00 74 00 77 00 61 00 72 00 65 00 5c 00 41 00 65 00 72 00 6f 00 66 00 6f 00 78 00 5c 00 46 00 6f 00 78 00 6d 00 61 00 69 00 6c 00))}
+		$s6 = {((56 69 72 74 75 61 6c 53 74 6f 72 65 5c 50 72 6f 67 72 61 6d 20 46 69 6c 65 73 5c 46 6f 78 6d 61 69 6c 5c 6d 61 69 6c) | (56 00 69 00 72 00 74 00 75 00 61 00 6c 00 53 00 74 00 6f 00 72 00 65 00 5c 00 50 00 72 00 6f 00 67 00 72 00 61 00 6d 00 20 00 46 00 69 00 6c 00 65 00 73 00 5c 00 46 00 6f 00 78 00 6d 00 61 00 69 00 6c 00 5c 00 6d 00 61 00 69 00 6c 00))}
+		$s7 = {((56 69 72 74 75 61 6c 53 74 6f 72 65 5c 50 72 6f 67 72 61 6d 20 46 69 6c 65 73 20 28 78 38 36 29 5c 46 6f 78 6d 61 69 6c 5c 6d 61 69 6c) | (56 00 69 00 72 00 74 00 75 00 61 00 6c 00 53 00 74 00 6f 00 72 00 65 00 5c 00 50 00 72 00 6f 00 67 00 72 00 61 00 6d 00 20 00 46 00 69 00 6c 00 65 00 73 00 20 00 28 00 78 00 38 00 36 00 29 00 5c 00 46 00 6f 00 78 00 6d 00 61 00 69 00 6c 00 5c 00 6d 00 61 00 69 00 6c 00))}
+		$s8 = {((4f 70 65 72 61 20 4d 61 69 6c 5c 4f 70 65 72 61 20 4d 61 69 6c 5c 77 61 6e 64 2e 64 61 74) | (4f 00 70 00 65 00 72 00 61 00 20 00 4d 00 61 00 69 00 6c 00 5c 00 4f 00 70 00 65 00 72 00 61 00 20 00 4d 00 61 00 69 00 6c 00 5c 00 77 00 61 00 6e 00 64 00 2e 00 64 00 61 00 74 00))}
+		$s9 = {((53 6f 66 74 77 61 72 65 5c 49 6e 63 72 65 64 69 4d 61 69 6c 5c 49 64 65 6e 74 69 74 69 65 73) | (53 00 6f 00 66 00 74 00 77 00 61 00 72 00 65 00 5c 00 49 00 6e 00 63 00 72 00 65 00 64 00 69 00 4d 00 61 00 69 00 6c 00 5c 00 49 00 64 00 65 00 6e 00 74 00 69 00 74 00 69 00 65 00 73 00))}
+		$s10 = {((50 6f 63 6f 6d 61 69 6c 5c 61 63 63 6f 75 6e 74 73 2e 69 6e 69) | (50 00 6f 00 63 00 6f 00 6d 00 61 00 69 00 6c 00 5c 00 61 00 63 00 63 00 6f 00 75 00 6e 00 74 00 73 00 2e 00 69 00 6e 00 69 00))}
+		$s11 = {((53 6f 66 74 77 61 72 65 5c 51 75 61 6c 63 6f 6d 6d 5c 45 75 64 6f 72 61 5c 43 6f 6d 6d 61 6e 64 4c 69 6e 65) | (53 00 6f 00 66 00 74 00 77 00 61 00 72 00 65 00 5c 00 51 00 75 00 61 00 6c 00 63 00 6f 00 6d 00 6d 00 5c 00 45 00 75 00 64 00 6f 00 72 00 61 00 5c 00 43 00 6f 00 6d 00 6d 00 61 00 6e 00 64 00 4c 00 69 00 6e 00 65 00))}
+		$s12 = {((4d 6f 7a 69 6c 6c 61 20 54 68 75 6e 64 65 72 62 69 72 64 5c 6e 73 73 33 2e 64 6c 6c) | (4d 00 6f 00 7a 00 69 00 6c 00 6c 00 61 00 20 00 54 00 68 00 75 00 6e 00 64 00 65 00 72 00 62 00 69 00 72 00 64 00 5c 00 6e 00 73 00 73 00 33 00 2e 00 64 00 6c 00 6c 00))}
+		$s13 = {((53 65 61 4d 6f 6e 6b 65 79 5c 6e 73 73 33 2e 64 6c 6c) | (53 00 65 00 61 00 4d 00 6f 00 6e 00 6b 00 65 00 79 00 5c 00 6e 00 73 00 73 00 33 00 2e 00 64 00 6c 00 6c 00))}
+		$s14 = {((46 6c 6f 63 6b 5c 6e 73 73 33 2e 64 6c 6c) | (46 00 6c 00 6f 00 63 00 6b 00 5c 00 6e 00 73 00 73 00 33 00 2e 00 64 00 6c 00 6c 00))}
+		$s15 = {((50 6f 73 74 62 6f 78 5c 6e 73 73 33 2e 64 6c 6c) | (50 00 6f 00 73 00 74 00 62 00 6f 00 78 00 5c 00 6e 00 73 00 73 00 33 00 2e 00 64 00 6c 00 6c 00))}
+		$s16 = {((53 6f 66 74 77 61 72 65 5c 4d 69 63 72 6f 73 6f 66 74 5c 4f 66 66 69 63 65 5c 31 36 2e 30 5c 4f 75 74 6c 6f 6f 6b 5c 50 72 6f 66 69 6c 65 73 5c 4f 75 74 6c 6f 6f 6b) | (53 00 6f 00 66 00 74 00 77 00 61 00 72 00 65 00 5c 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 5c 00 4f 00 66 00 66 00 69 00 63 00 65 00 5c 00 31 00 36 00 2e 00 30 00 5c 00 4f 00 75 00 74 00 6c 00 6f 00 6f 00 6b 00 5c 00 50 00 72 00 6f 00 66 00 69 00 6c 00 65 00 73 00 5c 00 4f 00 75 00 74 00 6c 00 6f 00 6f 00 6b 00))}
+		$s17 = {((43 75 72 72 65 6e 74 56 65 72 73 69 6f 6e 5c 57 69 6e 64 6f 77 73 20 4d 65 73 73 61 67 69 6e 67 20 53 75 62 73 79 73 74 65 6d 5c 50 72 6f 66 69 6c 65 73 5c 4f 75 74 6c 6f 6f 6b) | (43 00 75 00 72 00 72 00 65 00 6e 00 74 00 56 00 65 00 72 00 73 00 69 00 6f 00 6e 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 4d 00 65 00 73 00 73 00 61 00 67 00 69 00 6e 00 67 00 20 00 53 00 75 00 62 00 73 00 79 00 73 00 74 00 65 00 6d 00 5c 00 50 00 72 00 6f 00 66 00 69 00 6c 00 65 00 73 00 5c 00 4f 00 75 00 74 00 6c 00 6f 00 6f 00 6b 00))}
+		$s18 = {((53 6f 66 74 77 61 72 65 5c 4d 69 63 72 6f 73 6f 66 74 5c 4f 66 66 69 63 65 5c 4f 75 74 6c 6f 6f 6b 5c 4f 4d 49 20 41 63 63 6f 75 6e 74 20 4d 61 6e 61 67 65 72 5c 41 63 63 6f 75 6e 74 73) | (53 00 6f 00 66 00 74 00 77 00 61 00 72 00 65 00 5c 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 5c 00 4f 00 66 00 66 00 69 00 63 00 65 00 5c 00 4f 00 75 00 74 00 6c 00 6f 00 6f 00 6b 00 5c 00 4f 00 4d 00 49 00 20 00 41 00 63 00 63 00 6f 00 75 00 6e 00 74 00 20 00 4d 00 61 00 6e 00 61 00 67 00 65 00 72 00 5c 00 41 00 63 00 63 00 6f 00 75 00 6e 00 74 00 73 00))}
+		$s19 = {((53 6f 66 74 77 61 72 65 5c 4d 69 63 72 6f 73 6f 66 74 5c 49 6e 74 65 72 6e 65 74 20 41 63 63 6f 75 6e 74 20 4d 61 6e 61 67 65 72 5c 41 63 63 6f 75 6e 74 73) | (53 00 6f 00 66 00 74 00 77 00 61 00 72 00 65 00 5c 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 5c 00 49 00 6e 00 74 00 65 00 72 00 6e 00 65 00 74 00 20 00 41 00 63 00 63 00 6f 00 75 00 6e 00 74 00 20 00 4d 00 61 00 6e 00 61 00 67 00 65 00 72 00 5c 00 41 00 63 00 63 00 6f 00 75 00 6e 00 74 00 73 00))}
+		$s20 = {((46 69 6c 65 73 5c 54 65 6c 65 67 72 61 6d) | (46 00 69 00 6c 00 65 00 73 00 5c 00 54 00 65 00 6c 00 65 00 67 00 72 00 61 00 6d 00))}
+		$s21 = {((54 65 6c 65 67 72 61 6d 20 44 65 73 6b 74 6f 70 5c 74 64 61 74 61) | (54 00 65 00 6c 00 65 00 67 00 72 00 61 00 6d 00 20 00 44 00 65 00 73 00 6b 00 74 00 6f 00 70 00 5c 00 74 00 64 00 61 00 74 00 61 00))}
+		$s22 = {((46 69 6c 65 73 5c 44 69 73 63 6f 72 64) | (46 00 69 00 6c 00 65 00 73 00 5c 00 44 00 69 00 73 00 63 00 6f 00 72 00 64 00))}
+		$s23 = {((53 74 65 61 6d 5c 63 6f 6e 66 69 67) | (53 00 74 00 65 00 61 00 6d 00 5c 00 63 00 6f 00 6e 00 66 00 69 00 67 00))}
+		$s24 = {((2e 70 75 72 70 6c 65 5c 61 63 63 6f 75 6e 74 73 2e 78 6d 6c) | (2e 00 70 00 75 00 72 00 70 00 6c 00 65 00 5c 00 61 00 63 00 63 00 6f 00 75 00 6e 00 74 00 73 00 2e 00 78 00 6d 00 6c 00))}
+		$s25 = {((53 6b 79 70 65 5c) | (53 00 6b 00 79 00 70 00 65 00 5c 00))}
+		$s26 = {((50 69 67 64 69 6e 5c 61 63 63 6f 75 6e 74 73 2e 78 6d 6c) | (50 00 69 00 67 00 64 00 69 00 6e 00 5c 00 61 00 63 00 63 00 6f 00 75 00 6e 00 74 00 73 00 2e 00 78 00 6d 00 6c 00))}
+		$s27 = {((50 73 69 5c 61 63 63 6f 75 6e 74 73 2e 78 6d 6c) | (50 00 73 00 69 00 5c 00 61 00 63 00 63 00 6f 00 75 00 6e 00 74 00 73 00 2e 00 78 00 6d 00 6c 00))}
+		$s28 = {((50 73 69 2b 5c 61 63 63 6f 75 6e 74 73 2e 78 6d 6c) | (50 00 73 00 69 00 2b 00 5c 00 61 00 63 00 63 00 6f 00 75 00 6e 00 74 00 73 00 2e 00 78 00 6d 00 6c 00))}
+		$s29 = {((50 73 69 5c 70 72 6f 66 69 6c 65 73) | (50 00 73 00 69 00 5c 00 70 00 72 00 6f 00 66 00 69 00 6c 00 65 00 73 00))}
+		$s30 = {((50 73 69 2b 5c 70 72 6f 66 69 6c 65 73) | (50 00 73 00 69 00 2b 00 5c 00 70 00 72 00 6f 00 66 00 69 00 6c 00 65 00 73 00))}
+		$s31 = {((4d 69 63 72 6f 73 6f 66 74 5c 57 69 6e 64 6f 77 73 20 4d 61 69 6c 5c 61 63 63 6f 75 6e 74 7b) | (4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 4d 00 61 00 69 00 6c 00 5c 00 61 00 63 00 63 00 6f 00 75 00 6e 00 74 00 7b 00))}
+		$s32 = {((7d 2e 6f 65 61 63 63 6f 75 6e 74) | (7d 00 2e 00 6f 00 65 00 61 00 63 00 63 00 6f 00 75 00 6e 00 74 00))}
+		$s33 = {((54 72 69 6c 6c 69 61 6e 5c 75 73 65 72 73) | (54 00 72 00 69 00 6c 00 6c 00 69 00 61 00 6e 00 5c 00 75 00 73 00 65 00 72 00 73 00))}
+		$s34 = {((47 6f 6f 67 6c 65 20 54 61 6c 6b 5c 41 63 63 6f 75 6e 74 73) | (47 00 6f 00 6f 00 67 00 6c 00 65 00 20 00 54 00 61 00 6c 00 6b 00 5c 00 41 00 63 00 63 00 6f 00 75 00 6e 00 74 00 73 00))}
+		$s35 = {((4d 69 63 72 6f 73 6f 66 74 5c 57 69 6e 64 6f 77 73 20 4c 69 76 65 20 4d 61 69 6c) | (4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 4c 00 69 00 76 00 65 00 20 00 4d 00 61 00 69 00 6c 00))}
+		$s36 = {((47 6f 6f 67 6c 65 5c 47 6f 6f 67 6c 65 20 54 61 6c 6b) | (47 00 6f 00 6f 00 67 00 6c 00 65 00 5c 00 47 00 6f 00 6f 00 67 00 6c 00 65 00 20 00 54 00 61 00 6c 00 6b 00))}
+		$s37 = {((59 61 68 6f 6f 5c 50 61 67 65 72) | (59 00 61 00 68 00 6f 00 6f 00 5c 00 50 00 61 00 67 00 65 00 72 00))}
+		$s38 = {((42 61 74 4d 61 69 6c 5c) | (42 00 61 00 74 00 4d 00 61 00 69 00 6c 00 5c 00))}
+		$s39 = {((50 4f 50 20 50 65 65 70 65 72 5c 70 6f 70 70 65 65 70 65 72 2e 69 6e 69) | (50 00 4f 00 50 00 20 00 50 00 65 00 65 00 70 00 65 00 72 00 5c 00 70 00 6f 00 70 00 70 00 65 00 65 00 70 00 65 00 72 00 2e 00 69 00 6e 00 69 00))}
+		$s40 = {((4e 65 74 65 61 73 65 5c 4d 61 69 6c 4d 61 73 74 65 72 5c 64 61 74 61) | (4e 00 65 00 74 00 65 00 61 00 73 00 65 00 5c 00 4d 00 61 00 69 00 6c 00 4d 00 61 00 73 00 74 00 65 00 72 00 5c 00 64 00 61 00 74 00 61 00))}
+		$s41 = {((53 6f 66 74 77 61 72 65 5c 4d 69 63 72 6f 73 6f 66 74 5c 4f 66 66 69 63 65 5c 31 37 2e 30 5c 4f 75 74 6c 6f 6f 6b 5c 50 72 6f 66 69 6c 65 73 5c 4f 75 74 6c 6f 6f 6b) | (53 00 6f 00 66 00 74 00 77 00 61 00 72 00 65 00 5c 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 5c 00 4f 00 66 00 66 00 69 00 63 00 65 00 5c 00 31 00 37 00 2e 00 30 00 5c 00 4f 00 75 00 74 00 6c 00 6f 00 6f 00 6b 00 5c 00 50 00 72 00 6f 00 66 00 69 00 6c 00 65 00 73 00 5c 00 4f 00 75 00 74 00 6c 00 6f 00 6f 00 6b 00))}
+		$s42 = {((53 6f 66 74 77 61 72 65 5c 4d 69 63 72 6f 73 6f 66 74 5c 4f 66 66 69 63 65 5c 31 38 2e 30 5c 4f 75 74 6c 6f 6f 6b 5c 50 72 6f 66 69 6c 65 73 5c 4f 75 74 6c 6f 6f 6b) | (53 00 6f 00 66 00 74 00 77 00 61 00 72 00 65 00 5c 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 5c 00 4f 00 66 00 66 00 69 00 63 00 65 00 5c 00 31 00 38 00 2e 00 30 00 5c 00 4f 00 75 00 74 00 6c 00 6f 00 6f 00 6b 00 5c 00 50 00 72 00 6f 00 66 00 69 00 6c 00 65 00 73 00 5c 00 4f 00 75 00 74 00 6c 00 6f 00 6f 00 6b 00))}
+		$s43 = {((53 6f 66 74 77 61 72 65 5c 4d 69 63 72 6f 73 6f 66 74 5c 4f 66 66 69 63 65 5c 31 39 2e 30 5c 4f 75 74 6c 6f 6f 6b 5c 50 72 6f 66 69 6c 65 73 5c 4f 75 74 6c 6f 6f 6b) | (53 00 6f 00 66 00 74 00 77 00 61 00 72 00 65 00 5c 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 5c 00 4f 00 66 00 66 00 69 00 63 00 65 00 5c 00 31 00 39 00 2e 00 30 00 5c 00 4f 00 75 00 74 00 6c 00 6f 00 6f 00 6b 00 5c 00 50 00 72 00 6f 00 66 00 69 00 6c 00 65 00 73 00 5c 00 4f 00 75 00 74 00 6c 00 6f 00 6f 00 6b 00))}
+		$s45 = {((50 61 6c 74 61 6c 6b 20 4e 47 5c 63 6f 6d 6d 6f 6e 5f 73 65 74 74 69 6e 67 73 5c 63 6f 72 65 5c 75 73 65 72 73 5c 63 72 65 64 73) | (50 00 61 00 6c 00 74 00 61 00 6c 00 6b 00 20 00 4e 00 47 00 5c 00 63 00 6f 00 6d 00 6d 00 6f 00 6e 00 5f 00 73 00 65 00 74 00 74 00 69 00 6e 00 67 00 73 00 5c 00 63 00 6f 00 72 00 65 00 5c 00 75 00 73 00 65 00 72 00 73 00 5c 00 63 00 72 00 65 00 64 00 73 00))}
+		$s46 = {((44 69 73 63 6f 72 64 5c 4c 6f 63 61 6c 20 53 74 6f 72 61 67 65 5c 6c 65 76 65 6c 64 62) | (44 00 69 00 73 00 63 00 6f 00 72 00 64 00 5c 00 4c 00 6f 00 63 00 61 00 6c 00 20 00 53 00 74 00 6f 00 72 00 61 00 67 00 65 00 5c 00 6c 00 65 00 76 00 65 00 6c 00 64 00 62 00))}
+		$s47 = {((44 69 73 63 6f 72 64 20 50 54 42 5c 4c 6f 63 61 6c 20 53 74 6f 72 61 67 65 5c 6c 65 76 65 6c 64 62) | (44 00 69 00 73 00 63 00 6f 00 72 00 64 00 20 00 50 00 54 00 42 00 5c 00 4c 00 6f 00 63 00 61 00 6c 00 20 00 53 00 74 00 6f 00 72 00 61 00 67 00 65 00 5c 00 6c 00 65 00 76 00 65 00 6c 00 64 00 62 00))}
+		$s48 = {((44 69 73 63 6f 72 64 20 43 61 6e 61 72 79 5c 6c 65 76 65 6c 64 62) | (44 00 69 00 73 00 63 00 6f 00 72 00 64 00 20 00 43 00 61 00 6e 00 61 00 72 00 79 00 5c 00 6c 00 65 00 76 00 65 00 6c 00 64 00 62 00))}
+		$s49 = {((4d 61 69 6c 53 70 72 69 6e 67 5c) | (4d 00 61 00 69 00 6c 00 53 00 70 00 72 00 69 00 6e 00 67 00 5c 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 6 of them
+}
+
+rule INDICATOR_SUSPICIOUS_EXE_Referenfces_File_Transfer_Clients : hardened
+{
+	meta:
+		description = "Detects executables referencing many file transfer clients. Observed in information stealers"
+		author = "ditekSHen"
+
+	strings:
+		$s1 = {((46 69 6c 65 5a 69 6c 6c 61 5c 72 65 63 65 6e 74 73 65 72 76 65 72 73 2e 78 6d 6c) | (46 00 69 00 6c 00 65 00 5a 00 69 00 6c 00 6c 00 61 00 5c 00 72 00 65 00 63 00 65 00 6e 00 74 00 73 00 65 00 72 00 76 00 65 00 72 00 73 00 2e 00 78 00 6d 00 6c 00))}
+		$s2 = {((49 70 73 77 69 74 63 68 5c 57 53 5f 46 54 50 5c) | (49 00 70 00 73 00 77 00 69 00 74 00 63 00 68 00 5c 00 57 00 53 00 5f 00 46 00 54 00 50 00 5c 00))}
+		$s3 = {((53 4f 46 54 57 41 52 45 5c 5c 4d 61 72 74 69 6e 20 50 72 69 6b 72 79 6c 5c 5c 57 69 6e 53 43 50 20 32 5c 5c 53 65 73 73 69 6f 6e 73) | (53 00 4f 00 46 00 54 00 57 00 41 00 52 00 45 00 5c 00 5c 00 4d 00 61 00 72 00 74 00 69 00 6e 00 20 00 50 00 72 00 69 00 6b 00 72 00 79 00 6c 00 5c 00 5c 00 57 00 69 00 6e 00 53 00 43 00 50 00 20 00 32 00 5c 00 5c 00 53 00 65 00 73 00 73 00 69 00 6f 00 6e 00 73 00))}
+		$s4 = {((53 4f 46 54 57 41 52 45 5c 4d 61 72 74 69 6e 20 50 72 69 6b 72 79 6c 5c 57 69 6e 53 43 50 20 32 5c 53 65 73 73 69 6f 6e 73) | (53 00 4f 00 46 00 54 00 57 00 41 00 52 00 45 00 5c 00 4d 00 61 00 72 00 74 00 69 00 6e 00 20 00 50 00 72 00 69 00 6b 00 72 00 79 00 6c 00 5c 00 57 00 69 00 6e 00 53 00 43 00 50 00 20 00 32 00 5c 00 53 00 65 00 73 00 73 00 69 00 6f 00 6e 00 73 00))}
+		$s5 = {((43 6f 72 65 46 54 50 5c 73 69 74 65 73) | (43 00 6f 00 72 00 65 00 46 00 54 00 50 00 5c 00 73 00 69 00 74 00 65 00 73 00))}
+		$s6 = {((46 54 50 57 61 72 65 5c 43 4f 52 45 46 54 50 5c 53 69 74 65 73) | (46 00 54 00 50 00 57 00 61 00 72 00 65 00 5c 00 43 00 4f 00 52 00 45 00 46 00 54 00 50 00 5c 00 53 00 69 00 74 00 65 00 73 00))}
+		$s7 = {((48 4b 45 59 5f 43 55 52 52 45 4e 54 5f 55 53 45 52 53 6f 66 74 77 61 72 65 46 54 50 57 61 72 65 43 4f 52 45 46 54 50 53 69 74 65 73) | (48 00 4b 00 45 00 59 00 5f 00 43 00 55 00 52 00 52 00 45 00 4e 00 54 00 5f 00 55 00 53 00 45 00 52 00 53 00 6f 00 66 00 74 00 77 00 61 00 72 00 65 00 46 00 54 00 50 00 57 00 61 00 72 00 65 00 43 00 4f 00 52 00 45 00 46 00 54 00 50 00 53 00 69 00 74 00 65 00 73 00))}
+		$s8 = {((46 54 50 20 4e 61 76 69 67 61 74 6f 72 5c 46 74 70 6c 69 73 74 2e 74 78 74) | (46 00 54 00 50 00 20 00 4e 00 61 00 76 00 69 00 67 00 61 00 74 00 6f 00 72 00 5c 00 46 00 74 00 70 00 6c 00 69 00 73 00 74 00 2e 00 74 00 78 00 74 00))}
+		$s9 = {((46 6c 61 73 68 46 58 50 5c 33 71 75 69 63 6b 2e 64 61 74) | (46 00 6c 00 61 00 73 00 68 00 46 00 58 00 50 00 5c 00 33 00 71 00 75 00 69 00 63 00 6b 00 2e 00 64 00 61 00 74 00))}
+		$s10 = {((53 6d 61 72 74 46 54 50 5c) | (53 00 6d 00 61 00 72 00 74 00 46 00 54 00 50 00 5c 00))}
+		$s11 = {((63 66 74 70 5c 46 74 70 6c 69 73 74 2e 74 78 74) | (63 00 66 00 74 00 70 00 5c 00 46 00 74 00 70 00 6c 00 69 00 73 00 74 00 2e 00 74 00 78 00 74 00))}
+		$s12 = {((53 6f 66 74 77 61 72 65 5c 44 6f 77 6e 6c 6f 61 64 4d 61 6e 61 67 65 72 5c 50 61 73 73 77 6f 72 64 73 5c) | (53 00 6f 00 66 00 74 00 77 00 61 00 72 00 65 00 5c 00 44 00 6f 00 77 00 6e 00 6c 00 6f 00 61 00 64 00 4d 00 61 00 6e 00 61 00 67 00 65 00 72 00 5c 00 50 00 61 00 73 00 73 00 77 00 6f 00 72 00 64 00 73 00 5c 00))}
+		$s13 = {((6a 44 6f 77 6e 6c 6f 61 64 65 72 5c 63 6f 6e 66 69 67 5c 64 61 74 61 62 61 73 65 2e 73 63 72 69 70 74) | (6a 00 44 00 6f 00 77 00 6e 00 6c 00 6f 00 61 00 64 00 65 00 72 00 5c 00 63 00 6f 00 6e 00 66 00 69 00 67 00 5c 00 64 00 61 00 74 00 61 00 62 00 61 00 73 00 65 00 2e 00 73 00 63 00 72 00 69 00 70 00 74 00))}
+		$s14 = {((46 69 6c 65 5a 69 6c 6c 61 5c 73 69 74 65 6d 61 6e 61 67 65 72 2e 78 6d 6c) | (46 00 69 00 6c 00 65 00 5a 00 69 00 6c 00 6c 00 61 00 5c 00 73 00 69 00 74 00 65 00 6d 00 61 00 6e 00 61 00 67 00 65 00 72 00 2e 00 78 00 6d 00 6c 00))}
+		$s15 = {((46 61 72 20 4d 61 6e 61 67 65 72 5c 50 72 6f 66 69 6c 65 5c 50 6c 75 67 69 6e 73 44 61 74 61 5c) | (46 00 61 00 72 00 20 00 4d 00 61 00 6e 00 61 00 67 00 65 00 72 00 5c 00 50 00 72 00 6f 00 66 00 69 00 6c 00 65 00 5c 00 50 00 6c 00 75 00 67 00 69 00 6e 00 73 00 44 00 61 00 74 00 61 00 5c 00))}
+		$s16 = {((46 54 50 47 65 74 74 65 72 5c 50 72 6f 66 69 6c 65 5c 73 65 72 76 65 72 73 2e 78 6d 6c) | (46 00 54 00 50 00 47 00 65 00 74 00 74 00 65 00 72 00 5c 00 50 00 72 00 6f 00 66 00 69 00 6c 00 65 00 5c 00 73 00 65 00 72 00 76 00 65 00 72 00 73 00 2e 00 78 00 6d 00 6c 00))}
+		$s17 = {((46 54 50 47 65 74 74 65 72 5c 73 65 72 76 65 72 73 2e 78 6d 6c) | (46 00 54 00 50 00 47 00 65 00 74 00 74 00 65 00 72 00 5c 00 73 00 65 00 72 00 76 00 65 00 72 00 73 00 2e 00 78 00 6d 00 6c 00))}
+		$s18 = {((45 73 74 73 6f 66 74 5c 41 4c 46 54 50 5c) | (45 00 73 00 74 00 73 00 6f 00 66 00 74 00 5c 00 41 00 4c 00 46 00 54 00 50 00 5c 00))}
+		$s19 = {((46 61 72 5c 50 6c 75 67 69 6e 73 5c 46 54 50 5c) | (46 00 61 00 72 00 5c 00 50 00 6c 00 75 00 67 00 69 00 6e 00 73 00 5c 00 46 00 54 00 50 00 5c 00))}
+		$s20 = {((46 61 72 32 5c 50 6c 75 67 69 6e 73 5c 46 54 50 5c) | (46 00 61 00 72 00 32 00 5c 00 50 00 6c 00 75 00 67 00 69 00 6e 00 73 00 5c 00 46 00 54 00 50 00 5c 00))}
+		$s21 = {((47 68 69 73 6c 65 72 5c 54 6f 74 61 6c 20 43 6f 6d 6d 61 6e 64 65 72) | (47 00 68 00 69 00 73 00 6c 00 65 00 72 00 5c 00 54 00 6f 00 74 00 61 00 6c 00 20 00 43 00 6f 00 6d 00 6d 00 61 00 6e 00 64 00 65 00 72 00))}
+		$s22 = {((4c 69 6e 61 73 46 54 50 5c 53 69 74 65 20 4d 61 6e 61 67 65 72) | (4c 00 69 00 6e 00 61 00 73 00 46 00 54 00 50 00 5c 00 53 00 69 00 74 00 65 00 20 00 4d 00 61 00 6e 00 61 00 67 00 65 00 72 00))}
+		$s23 = {((43 75 74 65 46 54 50 5c 73 6d 2e 64 61 74) | (43 00 75 00 74 00 65 00 46 00 54 00 50 00 5c 00 73 00 6d 00 2e 00 64 00 61 00 74 00))}
+		$s24 = {((46 6c 61 73 68 46 58 50 5c 34 5c 53 69 74 65 73 2e 64 61 74) | (46 00 6c 00 61 00 73 00 68 00 46 00 58 00 50 00 5c 00 34 00 5c 00 53 00 69 00 74 00 65 00 73 00 2e 00 64 00 61 00 74 00))}
+		$s25 = {((46 6c 61 73 68 46 58 50 5c 33 5c 53 69 74 65 73 2e 64 61 74) | (46 00 6c 00 61 00 73 00 68 00 46 00 58 00 50 00 5c 00 33 00 5c 00 53 00 69 00 74 00 65 00 73 00 2e 00 64 00 61 00 74 00))}
+		$s26 = {((56 61 6e 44 79 6b 65 5c 43 6f 6e 66 69 67 5c 53 65 73 73 69 6f 6e 73 5c) | (56 00 61 00 6e 00 44 00 79 00 6b 00 65 00 5c 00 43 00 6f 00 6e 00 66 00 69 00 67 00 5c 00 53 00 65 00 73 00 73 00 69 00 6f 00 6e 00 73 00 5c 00))}
+		$s27 = {((46 54 50 20 45 78 70 6c 6f 72 65 72 5c) | (46 00 54 00 50 00 20 00 45 00 78 00 70 00 6c 00 6f 00 72 00 65 00 72 00 5c 00))}
+		$s28 = {((54 75 72 62 6f 46 54 50 5c) | (54 00 75 00 72 00 62 00 6f 00 46 00 54 00 50 00 5c 00))}
+		$s29 = {((46 54 50 52 75 73 68 5c) | (46 00 54 00 50 00 52 00 75 00 73 00 68 00 5c 00))}
+		$s30 = {((4c 65 61 70 57 61 72 65 5c 4c 65 61 70 46 54 50 5c) | (4c 00 65 00 61 00 70 00 57 00 61 00 72 00 65 00 5c 00 4c 00 65 00 61 00 70 00 46 00 54 00 50 00 5c 00))}
+		$s31 = {((46 54 50 47 65 74 74 65 72 5c) | (46 00 54 00 50 00 47 00 65 00 74 00 74 00 65 00 72 00 5c 00))}
+		$s32 = {((46 61 72 5c 53 61 76 65 64 44 69 61 6c 6f 67 48 69 73 74 6f 72 79 5c) | (46 00 61 00 72 00 5c 00 53 00 61 00 76 00 65 00 64 00 44 00 69 00 61 00 6c 00 6f 00 67 00 48 00 69 00 73 00 74 00 6f 00 72 00 79 00 5c 00))}
+		$s33 = {((46 61 72 32 5c 53 61 76 65 64 44 69 61 6c 6f 67 48 69 73 74 6f 72 79 5c) | (46 00 61 00 72 00 32 00 5c 00 53 00 61 00 76 00 65 00 64 00 44 00 69 00 61 00 6c 00 6f 00 67 00 48 00 69 00 73 00 74 00 6f 00 72 00 79 00 5c 00))}
+		$s34 = {((47 6c 6f 62 61 6c 53 43 41 50 45 5c 43 75 74 65 46 54 50 20) | (47 00 6c 00 6f 00 62 00 61 00 6c 00 53 00 43 00 41 00 50 00 45 00 5c 00 43 00 75 00 74 00 65 00 46 00 54 00 50 00 20 00))}
+		$s35 = {((47 68 69 73 6c 65 72 5c 57 69 6e 64 6f 77 73 20 43 6f 6d 6d 61 6e 64 65 72) | (47 00 68 00 69 00 73 00 6c 00 65 00 72 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 43 00 6f 00 6d 00 6d 00 61 00 6e 00 64 00 65 00 72 00))}
+		$s36 = {((42 50 46 54 50 5c 42 75 6c 6c 65 74 20 50 72 6f 6f 66 20 46 54 50 5c) | (42 00 50 00 46 00 54 00 50 00 5c 00 42 00 75 00 6c 00 6c 00 65 00 74 00 20 00 50 00 72 00 6f 00 6f 00 66 00 20 00 46 00 54 00 50 00 5c 00))}
+		$s37 = {((53 6f 74 61 5c 46 46 46 54 50) | (53 00 6f 00 74 00 61 00 5c 00 46 00 46 00 46 00 54 00 50 00))}
+		$s38 = {((46 54 50 43 6c 69 65 6e 74 5c 53 69 74 65 73) | (46 00 54 00 50 00 43 00 6c 00 69 00 65 00 6e 00 74 00 5c 00 53 00 69 00 74 00 65 00 73 00))}
+		$s39 = {((53 4f 46 54 57 41 52 45 5c 52 6f 62 6f 2d 46 54 50 20 33 2e 37 5c) | (53 00 4f 00 46 00 54 00 57 00 41 00 52 00 45 00 5c 00 52 00 6f 00 62 00 6f 00 2d 00 46 00 54 00 50 00 20 00 33 00 2e 00 37 00 5c 00))}
+		$s40 = {((4d 41 53 2d 53 6f 66 74 5c 46 54 50 49 6e 66 6f 5c) | (4d 00 41 00 53 00 2d 00 53 00 6f 00 66 00 74 00 5c 00 46 00 54 00 50 00 49 00 6e 00 66 00 6f 00 5c 00))}
+		$s41 = {((53 6f 66 74 58 2e 6f 72 67 5c 46 54 50 43 6c 69 65 6e 74 5c 53 69 74 65 73) | (53 00 6f 00 66 00 74 00 58 00 2e 00 6f 00 72 00 67 00 5c 00 46 00 54 00 50 00 43 00 6c 00 69 00 65 00 6e 00 74 00 5c 00 53 00 69 00 74 00 65 00 73 00))}
+		$s42 = {((42 75 6c 6c 65 74 50 72 6f 6f 66 20 53 6f 66 74 77 61 72 65 5c 42 75 6c 6c 65 74 50 72 6f 6f 66 20 46 54 50 20 43 6c 69 65 6e 74 5c) | (42 00 75 00 6c 00 6c 00 65 00 74 00 50 00 72 00 6f 00 6f 00 66 00 20 00 53 00 6f 00 66 00 74 00 77 00 61 00 72 00 65 00 5c 00 42 00 75 00 6c 00 6c 00 65 00 74 00 50 00 72 00 6f 00 6f 00 66 00 20 00 46 00 54 00 50 00 20 00 43 00 6c 00 69 00 65 00 6e 00 74 00 5c 00))}
+		$s43 = {((42 69 74 4b 69 6e 65 78 5c 62 69 74 6b 69 6e 65 78 2e 64 73) | (42 00 69 00 74 00 4b 00 69 00 6e 00 65 00 78 00 5c 00 62 00 69 00 74 00 6b 00 69 00 6e 00 65 00 78 00 2e 00 64 00 73 00))}
+		$s44 = {((46 72 69 67 61 74 65 33 5c 46 74 70 53 69 74 65 2e 58 4d 4c) | (46 00 72 00 69 00 67 00 61 00 74 00 65 00 33 00 5c 00 46 00 74 00 70 00 53 00 69 00 74 00 65 00 2e 00 58 00 4d 00 4c 00))}
+		$s45 = {((44 69 72 65 63 74 6f 72 79 20 4f 70 75 73 5c 43 6f 6e 66 69 67 46 69 6c 65 73) | (44 00 69 00 72 00 65 00 63 00 74 00 6f 00 72 00 79 00 20 00 4f 00 70 00 75 00 73 00 5c 00 43 00 6f 00 6e 00 66 00 69 00 67 00 46 00 69 00 6c 00 65 00 73 00))}
+		$s56 = {((53 6f 66 74 58 2e 6f 72 67 5c 46 54 50 43 6c 69 65 6e 74 5c 53 69 74 65 73) | (53 00 6f 00 66 00 74 00 58 00 2e 00 6f 00 72 00 67 00 5c 00 46 00 54 00 50 00 43 00 6c 00 69 00 65 00 6e 00 74 00 5c 00 53 00 69 00 74 00 65 00 73 00))}
+		$s57 = {((53 6f 75 74 68 20 52 69 76 65 72 20 54 65 63 68 6e 6f 6c 6f 67 69 65 73 5c 57 65 62 44 72 69 76 65 5c 43 6f 6e 6e 65 63 74 69 6f 6e 73) | (53 00 6f 00 75 00 74 00 68 00 20 00 52 00 69 00 76 00 65 00 72 00 20 00 54 00 65 00 63 00 68 00 6e 00 6f 00 6c 00 6f 00 67 00 69 00 65 00 73 00 5c 00 57 00 65 00 62 00 44 00 72 00 69 00 76 00 65 00 5c 00 43 00 6f 00 6e 00 6e 00 65 00 63 00 74 00 69 00 6f 00 6e 00 73 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 6 of them
+}
+
+rule INDICATOR_SUSPICIOUS_EXE_References_CryptoWallets : hardened limited
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects executables referencing many cryptocurrency mining wallets or apps. Observed in information stealers"
+		score = 15
+
+	strings:
+		$app1 = {((45 74 68 65 72 65 75 6d) | (45 00 74 00 68 00 65 00 72 00 65 00 75 00 6d 00))}
+		$app2 = {((42 69 74 63 6f 69 6e) | (42 00 69 00 74 00 63 00 6f 00 69 00 6e 00))}
+		$app3 = {((4c 69 74 65 63 6f 69 6e) | (4c 00 69 00 74 00 65 00 63 00 6f 00 69 00 6e 00))}
+		$app4 = {((4e 61 76 43 6f 69 6e 34) | (4e 00 61 00 76 00 43 00 6f 00 69 00 6e 00 34 00))}
+		$app5 = {((42 79 74 65 43 6f 69 6e) | (42 00 79 00 74 00 65 00 43 00 6f 00 69 00 6e 00))}
+		$app6 = {((50 6f 74 43 6f 69 6e) | (50 00 6f 00 74 00 43 00 6f 00 69 00 6e 00))}
+		$app7 = {((47 72 69 64 63 6f 69 6e) | (47 00 72 00 69 00 64 00 63 00 6f 00 69 00 6e 00))}
+		$app8 = {((56 45 52 47 45) | (56 00 45 00 52 00 47 00 45 00))}
+		$app9 = {((44 6f 67 65 43 6f 69 6e) | (44 00 6f 00 67 00 65 00 43 00 6f 00 69 00 6e 00))}
+		$app10 = {((46 6c 61 73 68 43 6f 69 6e) | (46 00 6c 00 61 00 73 00 68 00 43 00 6f 00 69 00 6e 00))}
+		$app11 = {((53 69 61) | (53 00 69 00 61 00))}
+		$app12 = {((52 65 64 64 63 6f 69 6e) | (52 00 65 00 64 00 64 00 63 00 6f 00 69 00 6e 00))}
+		$app13 = {((45 6c 65 63 74 72 75 6d) | (45 00 6c 00 65 00 63 00 74 00 72 00 75 00 6d 00))}
+		$app14 = {((45 6d 65 72 63 6f 69 6e) | (45 00 6d 00 65 00 72 00 63 00 6f 00 69 00 6e 00))}
+		$app15 = {((45 78 6f 64 75 73) | (45 00 78 00 6f 00 64 00 75 00 73 00))}
+		$app16 = {((42 42 51 43 6f 69 6e) | (42 00 42 00 51 00 43 00 6f 00 69 00 6e 00))}
+		$app17 = {((46 72 61 6e 6b 6f) | (46 00 72 00 61 00 6e 00 6b 00 6f 00))}
+		$app18 = {((49 4f 43 6f 69 6e) | (49 00 4f 00 43 00 6f 00 69 00 6e 00))}
+		$app19 = {((49 78 63 6f 69 6e) | (49 00 78 00 63 00 6f 00 69 00 6e 00))}
+		$app20 = {((4d 69 6e 63 6f 69 6e) | (4d 00 69 00 6e 00 63 00 6f 00 69 00 6e 00))}
+		$app21 = {((59 41 43 6f 69 6e) | (59 00 41 00 43 00 6f 00 69 00 6e 00))}
+		$app22 = {((5a 63 61 73 68) | (5a 00 63 00 61 00 73 00 68 00))}
+		$app23 = {((64 65 76 63 6f 69 6e) | (64 00 65 00 76 00 63 00 6f 00 69 00 6e 00))}
+		$app24 = {((44 61 73 68) | (44 00 61 00 73 00 68 00))}
+		$app25 = {((4d 6f 6e 65 72 6f) | (4d 00 6f 00 6e 00 65 00 72 00 6f 00))}
+		$app26 = {((52 69 6f 74 20 47 61 6d 65 73 5c) | (52 00 69 00 6f 00 74 00 20 00 47 00 61 00 6d 00 65 00 73 00 5c 00))}
+		$app27 = {((71 42 69 74 74 6f 72 72 65 6e 74 5c) | (71 00 42 00 69 00 74 00 74 00 6f 00 72 00 72 00 65 00 6e 00 74 00 5c 00))}
+		$app28 = {((42 61 74 74 6c 65 2e 6e 65 74 5c) | (42 00 61 00 74 00 74 00 6c 00 65 00 2e 00 6e 00 65 00 74 00 5c 00))}
+		$app29 = {((53 74 65 61 6d 5c) | (53 00 74 00 65 00 61 00 6d 00 5c 00))}
+		$app30 = {((56 61 6c 76 65 5c 53 74 65 61 6d 5c) | (56 00 61 00 6c 00 76 00 65 00 5c 00 53 00 74 00 65 00 61 00 6d 00 5c 00))}
+		$app31 = {((41 6e 6f 6e 63 6f 69 6e) | (41 00 6e 00 6f 00 6e 00 63 00 6f 00 69 00 6e 00))}
+		$app32 = {((44 61 73 68 43 6f 72 65) | (44 00 61 00 73 00 68 00 43 00 6f 00 72 00 65 00))}
+		$app33 = {((44 65 76 43 6f 69 6e) | (44 00 65 00 76 00 43 00 6f 00 69 00 6e 00))}
+		$app34 = {((44 69 67 69 74 61 6c 43 6f 69 6e) | (44 00 69 00 67 00 69 00 74 00 61 00 6c 00 43 00 6f 00 69 00 6e 00))}
+		$app35 = {((45 6c 65 63 74 72 6f 6e) | (45 00 6c 00 65 00 63 00 74 00 72 00 6f 00 6e 00))}
+		$app36 = {((45 6c 65 63 74 72 75 6d 4c 54 43) | (45 00 6c 00 65 00 63 00 74 00 72 00 75 00 6d 00 4c 00 54 00 43 00))}
+		$app37 = {((46 6c 6f 72 69 6e 43 6f 69 6e) | (46 00 6c 00 6f 00 72 00 69 00 6e 00 43 00 6f 00 69 00 6e 00))}
+		$app38 = {((46 72 61 6e 63 6f 43 6f 69 6e) | (46 00 72 00 61 00 6e 00 63 00 6f 00 43 00 6f 00 69 00 6e 00))}
+		$app39 = {((4a 41 58 58) | (4a 00 41 00 58 00 58 00))}
+		$app40 = {((4d 75 6c 74 69 44 6f 67 65) | (4d 00 75 00 6c 00 74 00 69 00 44 00 6f 00 67 00 65 00))}
+		$app41 = {((54 65 72 72 61 43 6f 69 6e) | (54 00 65 00 72 00 72 00 61 00 43 00 6f 00 69 00 6e 00))}
+		$app42 = {((45 6c 65 63 74 72 75 6d 2d 4c 54 43) | (45 00 6c 00 65 00 63 00 74 00 72 00 75 00 6d 00 2d 00 4c 00 54 00 43 00))}
+		$app43 = {((45 6c 65 63 74 72 75 6d 47) | (45 00 6c 00 65 00 63 00 74 00 72 00 75 00 6d 00 47 00))}
+		$app44 = {((45 6c 65 63 74 72 75 6d 2d 62 74 63 70) | (45 00 6c 00 65 00 63 00 74 00 72 00 75 00 6d 00 2d 00 62 00 74 00 63 00 70 00))}
+		$app45 = {((4d 75 6c 74 69 42 69 74 48 44) | (4d 00 75 00 6c 00 74 00 69 00 42 00 69 00 74 00 48 00 44 00))}
+		$app46 = {((6d 6f 6e 65 72 6f 2d 70 72 6f 6a 65 63 74) | (6d 00 6f 00 6e 00 65 00 72 00 6f 00 2d 00 70 00 72 00 6f 00 6a 00 65 00 63 00 74 00))}
+		$app47 = {((42 69 74 63 6f 69 6e 2d 51 74) | (42 00 69 00 74 00 63 00 6f 00 69 00 6e 00 2d 00 51 00 74 00))}
+		$app48 = {((42 69 74 63 6f 69 6e 47 6f 6c 64 2d 51 74) | (42 00 69 00 74 00 63 00 6f 00 69 00 6e 00 47 00 6f 00 6c 00 64 00 2d 00 51 00 74 00))}
+		$app49 = {((4c 69 74 65 63 6f 69 6e 2d 51 74) | (4c 00 69 00 74 00 65 00 63 00 6f 00 69 00 6e 00 2d 00 51 00 74 00))}
+		$app50 = {((42 69 74 63 6f 69 6e 41 42 43 2d 51 74) | (42 00 69 00 74 00 63 00 6f 00 69 00 6e 00 41 00 42 00 43 00 2d 00 51 00 74 00))}
+		$app51 = {((45 78 6f 64 75 73 20 45 64 65 6e) | (45 00 78 00 6f 00 64 00 75 00 73 00 20 00 45 00 64 00 65 00 6e 00))}
+		$app52 = {((6d 79 65 74 68 65 72) | (6d 00 79 00 65 00 74 00 68 00 65 00 72 00))}
+		$app53 = {((66 61 63 74 6f 72 65 73 2d 42 69 6e 61 6e 63 65) | (66 00 61 00 63 00 74 00 6f 00 72 00 65 00 73 00 2d 00 42 00 69 00 6e 00 61 00 6e 00 63 00 65 00))}
+		$app54 = {((6d 65 74 61 6d 61 73 6b) | (6d 00 65 00 74 00 61 00 6d 00 61 00 73 00 6b 00))}
+		$app55 = {((6b 75 63 6f 69 6e) | (6b 00 75 00 63 00 6f 00 69 00 6e 00))}
+		$app56 = {((63 72 79 70 74 6f 70 69 61) | (63 00 72 00 79 00 70 00 74 00 6f 00 70 00 69 00 61 00))}
+		$app57 = {((62 69 6e 61 6e 63 65) | (62 00 69 00 6e 00 61 00 6e 00 63 00 65 00))}
+		$app58 = {((68 69 74 62 74 63) | (68 00 69 00 74 00 62 00 74 00 63 00))}
+		$app59 = {((6c 69 74 65 62 69 74) | (6c 00 69 00 74 00 65 00 62 00 69 00 74 00))}
+		$app60 = {((63 6f 69 6e 45 78) | (63 00 6f 00 69 00 6e 00 45 00 78 00))}
+		$app61 = {((62 6c 6f 63 6b 63 68 61 69 6e) | (62 00 6c 00 6f 00 63 00 6b 00 63 00 68 00 61 00 69 00 6e 00))}
+		$app62 = {((5c 41 72 6d 6f 72 79) | (5c 00 41 00 72 00 6d 00 6f 00 72 00 79 00))}
+		$app63 = {((5c 41 74 6f 6d 69 63) | (5c 00 41 00 74 00 6f 00 6d 00 69 00 63 00))}
+		$app64 = {((5c 42 79 74 65 63 6f 69 6e) | (5c 00 42 00 79 00 74 00 65 00 63 00 6f 00 69 00 6e 00))}
+		$app65 = {((73 69 6d 70 6c 65 6f 73) | (73 00 69 00 6d 00 70 00 6c 00 65 00 6f 00 73 00))}
+		$app66 = {((57 61 6c 6c 65 74 57 61 73 61 62 69) | (57 00 61 00 6c 00 6c 00 65 00 74 00 57 00 61 00 73 00 61 00 62 00 69 00))}
+		$app67 = {((61 74 6f 6d 69 63 5c) | (61 00 74 00 6f 00 6d 00 69 00 63 00 5c 00))}
+		$app68 = {((47 75 61 72 64 61 5c) | (47 00 75 00 61 00 72 00 64 00 61 00 5c 00))}
+		$app69 = {((4e 65 6f 6e 5c) | (4e 00 65 00 6f 00 6e 00 5c 00))}
+		$app70 = {((42 6c 6f 63 6b 73 74 72 65 61 6d 5c) | (42 00 6c 00 6f 00 63 00 6b 00 73 00 74 00 72 00 65 00 61 00 6d 00 5c 00))}
+		$app71 = {((47 72 65 65 6e 41 64 64 72 65 73 73 20 57 61 6c 6c 65 74 5c) | (47 00 72 00 65 00 65 00 6e 00 41 00 64 00 64 00 72 00 65 00 73 00 73 00 20 00 57 00 61 00 6c 00 6c 00 65 00 74 00 5c 00))}
+		$app72 = {((62 69 74 70 61 79 5c) | (62 00 69 00 74 00 70 00 61 00 79 00 5c 00))}
+		$ne1 = {43 00 3a 00 5c 00 73 00 72 00 63 00 5c 00 70 00 67 00 72 00 69 00 66 00 66 00 61 00 69 00 73 00 5f 00 69 00 6e 00 63 00 75 00 62 00 61 00 74 00 6f 00 72 00 2d 00 77 00 37 00 5c 00 53 00 74 00 65 00 61 00 6d 00 5c 00 6d 00 61 00 69 00 6e 00 5c 00 73 00 72 00 63 00 5c 00 65 00 78 00 74 00 65 00 72 00 6e 00 61 00 6c 00 5c 00 6c 00 69 00 62 00 6a 00 69 00 6e 00 67 00 6c 00 65 00 2d 00 30 00 2e 00 34 00 2e 00 30 00 5c 00 74 00 61 00 6c 00 6b 00 2f 00 62 00 61 00 73 00 65 00 2f 00 73 00 63 00 6f 00 70 00 65 00 64 00 5f 00 70 00 74 00 72 00 2e 00 68 00}
+		$ne2 = {22 25 73 5c 62 69 6e 5c 25 73 6c 61 75 6e 63 68 65 72 2e 65 78 65 22 20 2d 68 70 72 6f 63 20 25 78 20 2d 68 74 68 72 65 61 64 20 25 78 20 2d 62 61 73 65 6f 76 65 72 6c 61 79 6e 61 6d 65 20 25 73 5c 25 73}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and ( not any of ( $ne* ) and 6 of them )
+}
+
+rule INDICATOR_SUSPICIOUS_ClearWinLogs : hardened limited
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects executables containing commands for clearing Windows Event Logs"
+		score = 50
+
+	strings:
+		$cmd1 = {((77 65 76 74 75 74 69 6c 2e 65 78 65 20 63 6c 65 61 72 2d 6c 6f 67) | (77 00 65 00 76 00 74 00 75 00 74 00 69 00 6c 00 2e 00 65 00 78 00 65 00 20 00 63 00 6c 00 65 00 61 00 72 00 2d 00 6c 00 6f 00 67 00))}
+		$cmd2 = {((77 65 76 74 75 74 69 6c 2e 65 78 65 20 63 6c 20) | (77 00 65 00 76 00 74 00 75 00 74 00 69 00 6c 00 2e 00 65 00 78 00 65 00 20 00 63 00 6c 00 20 00))}
+		$cmd3 = {((2e 43 6c 65 61 72 45 76 65 6e 74 4c 6f 67 28 29) | (2e 00 43 00 6c 00 65 00 61 00 72 00 45 00 76 00 65 00 6e 00 74 00 4c 00 6f 00 67 00 28 00 29 00))}
+		$cmd4 = {((46 6f 72 65 61 63 68 2d 4f 62 6a 65 63 74 20 7b 77 65 76 74 75 74 69 6c 20 63 6c 20 22 24 5f 22 7d) | (46 00 6f 00 72 00 65 00 61 00 63 00 68 00 2d 00 4f 00 62 00 6a 00 65 00 63 00 74 00 20 00 7b 00 77 00 65 00 76 00 74 00 75 00 74 00 69 00 6c 00 20 00 63 00 6c 00 20 00 22 00 24 00 5f 00 22 00 7d 00))}
+		$cmd5 = {((28 27 77 65 76 74 75 74 69 6c 2e 65 78 65 20 65 6c 27 29 20 44 4f 20 28 63 61 6c 6c 20 3a 64 6f 5f 63 6c 65 61 72) | (28 00 27 00 77 00 65 00 76 00 74 00 75 00 74 00 69 00 6c 00 2e 00 65 00 78 00 65 00 20 00 65 00 6c 00 27 00 29 00 20 00 44 00 4f 00 20 00 28 00 63 00 61 00 6c 00 6c 00 20 00 3a 00 64 00 6f 00 5f 00 63 00 6c 00 65 00 61 00 72 00))}
+		$cmd6 = {((7c 20 46 6f 72 45 61 63 68 20 7b 20 43 6c 65 61 72 2d 45 76 65 6e 74 4c 6f 67 20 24 5f 2e 4c 6f 67 20 7d) | (7c 00 20 00 46 00 6f 00 72 00 45 00 61 00 63 00 68 00 20 00 7b 00 20 00 43 00 6c 00 65 00 61 00 72 00 2d 00 45 00 76 00 65 00 6e 00 74 00 4c 00 6f 00 67 00 20 00 24 00 5f 00 2e 00 4c 00 6f 00 67 00 20 00 7d 00))}
+		$cmd7 = {((28 27 77 65 76 74 75 74 69 6c 2e 65 78 65 20 65 6c 27 29 20 44 4f 20 77 65 76 74 75 74 69 6c 2e 65 78 65 20 63 6c 20 22 25 73 22) | (28 00 27 00 77 00 65 00 76 00 74 00 75 00 74 00 69 00 6c 00 2e 00 65 00 78 00 65 00 20 00 65 00 6c 00 27 00 29 00 20 00 44 00 4f 00 20 00 77 00 65 00 76 00 74 00 75 00 74 00 69 00 6c 00 2e 00 65 00 78 00 65 00 20 00 63 00 6c 00 20 00 22 00 25 00 73 00 22 00))}
+		$cmd8 = {((43 6c 65 61 72 2d 45 76 65 6e 74 4c 6f 67 20 2d 4c 6f 67 4e 61 6d 65 20 61 70 70 6c 69 63 61 74 69 6f 6e 2c 20 73 79 73 74 65 6d 2c 20 73 65 63 75 72 69 74 79) | (43 00 6c 00 65 00 61 00 72 00 2d 00 45 00 76 00 65 00 6e 00 74 00 4c 00 6f 00 67 00 20 00 2d 00 4c 00 6f 00 67 00 4e 00 61 00 6d 00 65 00 20 00 61 00 70 00 70 00 6c 00 69 00 63 00 61 00 74 00 69 00 6f 00 6e 00 2c 00 20 00 73 00 79 00 73 00 74 00 65 00 6d 00 2c 00 20 00 73 00 65 00 63 00 75 00 72 00 69 00 74 00 79 00))}
+		$t1 = {((77 65 76 74 75 74 69 6c) | (77 00 65 00 76 00 74 00 75 00 74 00 69 00 6c 00))}
+		$l1 = {((63 6c 20 41 70 70 6c 69 63 61 74 69 6f 6e) | (63 00 6c 00 20 00 41 00 70 00 70 00 6c 00 69 00 63 00 61 00 74 00 69 00 6f 00 6e 00))}
+		$l2 = {((63 6c 20 53 79 73 74 65 6d) | (63 00 6c 00 20 00 53 00 79 00 73 00 74 00 65 00 6d 00))}
+		$l3 = {((63 6c 20 53 65 74 75 70) | (63 00 6c 00 20 00 53 00 65 00 74 00 75 00 70 00))}
+		$l4 = {((63 6c 20 53 65 63 75 72 69 74 79) | (63 00 6c 00 20 00 53 00 65 00 63 00 75 00 72 00 69 00 74 00 79 00))}
+		$l5 = {((73 6c 20 53 65 63 75 72 69 74 79 20 2f 65 3a 66 61 6c 73 65) | (73 00 6c 00 20 00 53 00 65 00 63 00 75 00 72 00 69 00 74 00 79 00 20 00 2f 00 65 00 3a 00 66 00 61 00 6c 00 73 00 65 00))}
+		$ne1 = {77 00 65 00 76 00 74 00 75 00 74 00 69 00 6c 00 2e 00 65 00 78 00 65 00 20 00 63 00 6c 00 20 00 41 00 70 00 6c 00 69 00 63 00 61 00 63 00 69 00}
+		$ne2 = {77 00 65 00 76 00 74 00 75 00 74 00 69 00 6c 00 2e 00 65 00 78 00 65 00 20 00 63 00 6c 00 20 00 41 00 70 00 70 00 6c 00 69 00 63 00 61 00 74 00 69 00 6f 00 6e 00 20 00 2f 00 62 00 75 00 3a 00 43 00 3a 00 5c 00 61 00 64 00 6d 00 69 00 6e 00 5c 00 62 00 61 00 63 00 6b 00 75 00 70 00 5c 00 61 00 6c 00 30 00 33 00 30 00 36 00 2e 00 65 00 76 00 74 00 78 00}
+		$ne3 = {77 00 65 00 76 00 74 00 75 00 74 00 69 00 6c 00 2e 00 65 00 78 00 65 00 20 00 63 00 6c 00 20 00 41 00 70 00 70 00 6c 00 69 00 63 00 61 00 74 00 69 00 6f 00 6e 00 20 00 2f 00 62 00 75 00 3a 00 43 00 3a 00 5c 00 61 00 64 00 6d 00 69 00 6e 00 5c 00 62 00 61 00 63 00 6b 00 75 00 70 00 73 00 5c 00 61 00 6c 00 30 00 33 00 30 00 36 00 2e 00 65 00 76 00 74 00 78 00}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and not any of ( $ne* ) and ( ( 1 of ( $cmd* ) ) or ( 1 of ( $t* ) and 3 of ( $l* ) ) )
+}
+
+rule INDICATOR_SUSPICIOUS_DisableWinDefender : hardened limited
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects executables containing artifacts associated with disabling Widnows Defender"
+		score = 75
+
+	strings:
+		$reg1 = {((53 4f 46 54 57 41 52 45 5c 4d 69 63 72 6f 73 6f 66 74 5c 57 69 6e 64 6f 77 73 20 44 65 66 65 6e 64 65 72 5c 46 65 61 74 75 72 65 73) | (53 00 4f 00 46 00 54 00 57 00 41 00 52 00 45 00 5c 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 44 00 65 00 66 00 65 00 6e 00 64 00 65 00 72 00 5c 00 46 00 65 00 61 00 74 00 75 00 72 00 65 00 73 00))}
+		$reg2 = {((53 4f 46 54 57 41 52 45 5c 50 6f 6c 69 63 69 65 73 5c 4d 69 63 72 6f 73 6f 66 74 5c 57 69 6e 64 6f 77 73 20 44 65 66 65 6e 64 65 72) | (53 00 4f 00 46 00 54 00 57 00 41 00 52 00 45 00 5c 00 50 00 6f 00 6c 00 69 00 63 00 69 00 65 00 73 00 5c 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 44 00 65 00 66 00 65 00 6e 00 64 00 65 00 72 00))}
+		$s1 = {((53 65 74 2d 4d 70 50 72 65 66 65 72 65 6e 63 65 20 2d 53 69 67 6e 61 74 75 72 65 44 69 73 61 62 6c 65 55 70 64 61 74 65 4f 6e 53 74 61 72 74 75 70 57 69 74 68 6f 75 74 45 6e 67 69 6e 65 20 24 74 72 75 65) | (53 00 65 00 74 00 2d 00 4d 00 70 00 50 00 72 00 65 00 66 00 65 00 72 00 65 00 6e 00 63 00 65 00 20 00 2d 00 53 00 69 00 67 00 6e 00 61 00 74 00 75 00 72 00 65 00 44 00 69 00 73 00 61 00 62 00 6c 00 65 00 55 00 70 00 64 00 61 00 74 00 65 00 4f 00 6e 00 53 00 74 00 61 00 72 00 74 00 75 00 70 00 57 00 69 00 74 00 68 00 6f 00 75 00 74 00 45 00 6e 00 67 00 69 00 6e 00 65 00 20 00 24 00 74 00 72 00 75 00 65 00))}
+		$s2 = {((53 65 74 2d 4d 70 50 72 65 66 65 72 65 6e 63 65 20 2d 44 69 73 61 62 6c 65 41 72 63 68 69 76 65 53 63 61 6e 6e 69 6e 67 20 24 74 72 75 65) | (53 00 65 00 74 00 2d 00 4d 00 70 00 50 00 72 00 65 00 66 00 65 00 72 00 65 00 6e 00 63 00 65 00 20 00 2d 00 44 00 69 00 73 00 61 00 62 00 6c 00 65 00 41 00 72 00 63 00 68 00 69 00 76 00 65 00 53 00 63 00 61 00 6e 00 6e 00 69 00 6e 00 67 00 20 00 24 00 74 00 72 00 75 00 65 00))}
+		$s3 = {((53 65 74 2d 4d 70 50 72 65 66 65 72 65 6e 63 65 20 2d 44 69 73 61 62 6c 65 49 6e 74 72 75 73 69 6f 6e 50 72 65 76 65 6e 74 69 6f 6e 53 79 73 74 65 6d 20 24 74 72 75 65) | (53 00 65 00 74 00 2d 00 4d 00 70 00 50 00 72 00 65 00 66 00 65 00 72 00 65 00 6e 00 63 00 65 00 20 00 2d 00 44 00 69 00 73 00 61 00 62 00 6c 00 65 00 49 00 6e 00 74 00 72 00 75 00 73 00 69 00 6f 00 6e 00 50 00 72 00 65 00 76 00 65 00 6e 00 74 00 69 00 6f 00 6e 00 53 00 79 00 73 00 74 00 65 00 6d 00 20 00 24 00 74 00 72 00 75 00 65 00))}
+		$s4 = {((53 65 74 2d 4d 70 50 72 65 66 65 72 65 6e 63 65 20 2d 44 69 73 61 62 6c 65 53 63 72 69 70 74 53 63 61 6e 6e 69 6e 67 20 24 74 72 75 65) | (53 00 65 00 74 00 2d 00 4d 00 70 00 50 00 72 00 65 00 66 00 65 00 72 00 65 00 6e 00 63 00 65 00 20 00 2d 00 44 00 69 00 73 00 61 00 62 00 6c 00 65 00 53 00 63 00 72 00 69 00 70 00 74 00 53 00 63 00 61 00 6e 00 6e 00 69 00 6e 00 67 00 20 00 24 00 74 00 72 00 75 00 65 00))}
+		$s5 = {((53 65 74 2d 4d 70 50 72 65 66 65 72 65 6e 63 65 20 2d 53 75 62 6d 69 74 53 61 6d 70 6c 65 73 43 6f 6e 73 65 6e 74 20 32) | (53 00 65 00 74 00 2d 00 4d 00 70 00 50 00 72 00 65 00 66 00 65 00 72 00 65 00 6e 00 63 00 65 00 20 00 2d 00 53 00 75 00 62 00 6d 00 69 00 74 00 53 00 61 00 6d 00 70 00 6c 00 65 00 73 00 43 00 6f 00 6e 00 73 00 65 00 6e 00 74 00 20 00 32 00))}
+		$s6 = {((53 65 74 2d 4d 70 50 72 65 66 65 72 65 6e 63 65 20 2d 4d 41 50 53 52 65 70 6f 72 74 69 6e 67 20 30) | (53 00 65 00 74 00 2d 00 4d 00 70 00 50 00 72 00 65 00 66 00 65 00 72 00 65 00 6e 00 63 00 65 00 20 00 2d 00 4d 00 41 00 50 00 53 00 52 00 65 00 70 00 6f 00 72 00 74 00 69 00 6e 00 67 00 20 00 30 00))}
+		$s7 = {((53 65 74 2d 4d 70 50 72 65 66 65 72 65 6e 63 65 20 2d 48 69 67 68 54 68 72 65 61 74 44 65 66 61 75 6c 74 41 63 74 69 6f 6e 20 36) | (53 00 65 00 74 00 2d 00 4d 00 70 00 50 00 72 00 65 00 66 00 65 00 72 00 65 00 6e 00 63 00 65 00 20 00 2d 00 48 00 69 00 67 00 68 00 54 00 68 00 72 00 65 00 61 00 74 00 44 00 65 00 66 00 61 00 75 00 6c 00 74 00 41 00 63 00 74 00 69 00 6f 00 6e 00 20 00 36 00))}
+		$s8 = {((53 65 74 2d 4d 70 50 72 65 66 65 72 65 6e 63 65 20 2d 4d 6f 64 65 72 61 74 65 54 68 72 65 61 74 44 65 66 61 75 6c 74 41 63 74 69 6f 6e 20 36) | (53 00 65 00 74 00 2d 00 4d 00 70 00 50 00 72 00 65 00 66 00 65 00 72 00 65 00 6e 00 63 00 65 00 20 00 2d 00 4d 00 6f 00 64 00 65 00 72 00 61 00 74 00 65 00 54 00 68 00 72 00 65 00 61 00 74 00 44 00 65 00 66 00 61 00 75 00 6c 00 74 00 41 00 63 00 74 00 69 00 6f 00 6e 00 20 00 36 00))}
+		$s9 = {((53 65 74 2d 4d 70 50 72 65 66 65 72 65 6e 63 65 20 2d 4c 6f 77 54 68 72 65 61 74 44 65 66 61 75 6c 74 41 63 74 69 6f 6e 20 36) | (53 00 65 00 74 00 2d 00 4d 00 70 00 50 00 72 00 65 00 66 00 65 00 72 00 65 00 6e 00 63 00 65 00 20 00 2d 00 4c 00 6f 00 77 00 54 00 68 00 72 00 65 00 61 00 74 00 44 00 65 00 66 00 61 00 75 00 6c 00 74 00 41 00 63 00 74 00 69 00 6f 00 6e 00 20 00 36 00))}
+		$s10 = {((53 65 74 2d 4d 70 50 72 65 66 65 72 65 6e 63 65 20 2d 53 65 76 65 72 65 54 68 72 65 61 74 44 65 66 61 75 6c 74 41 63 74 69 6f 6e 20 36) | (53 00 65 00 74 00 2d 00 4d 00 70 00 50 00 72 00 65 00 66 00 65 00 72 00 65 00 6e 00 63 00 65 00 20 00 2d 00 53 00 65 00 76 00 65 00 72 00 65 00 54 00 68 00 72 00 65 00 61 00 74 00 44 00 65 00 66 00 61 00 75 00 6c 00 74 00 41 00 63 00 74 00 69 00 6f 00 6e 00 20 00 36 00))}
+		$s11 = {((53 65 74 2d 4d 70 50 72 65 66 65 72 65 6e 63 65 20 2d 45 6e 61 62 6c 65 43 6f 6e 74 72 6f 6c 6c 65 64 46 6f 6c 64 65 72 41 63 63 65 73 73 20 44 69 73 61 62 6c 65 64) | (53 00 65 00 74 00 2d 00 4d 00 70 00 50 00 72 00 65 00 66 00 65 00 72 00 65 00 6e 00 63 00 65 00 20 00 2d 00 45 00 6e 00 61 00 62 00 6c 00 65 00 43 00 6f 00 6e 00 74 00 72 00 6f 00 6c 00 6c 00 65 00 64 00 46 00 6f 00 6c 00 64 00 65 00 72 00 41 00 63 00 63 00 65 00 73 00 73 00 20 00 44 00 69 00 73 00 61 00 62 00 6c 00 65 00 64 00))}
+		$pdb = {5c 44 69 73 61 62 6c 65 2d 57 69 6e 64 6f 77 73 2d 44 65 66 65 6e 64 65 72 5c 6f 62 6a 5c 44 65 62 75 67 5c 44 69 73 61 62 6c 65 2d 57 69 6e 64 6f 77 73 2d 44 65 66 65 6e 64 65 72 2e 70 64 62}
+		$e1 = {((4d 69 63 72 6f 73 6f 66 74 5c 57 69 6e 64 6f 77 73 20 44 65 66 65 6e 64 65 72 5c 45 78 63 6c 75 73 69 6f 6e 73 5c 50 61 74 68 73) | (4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 44 00 65 00 66 00 65 00 6e 00 64 00 65 00 72 00 5c 00 45 00 78 00 63 00 6c 00 75 00 73 00 69 00 6f 00 6e 00 73 00 5c 00 50 00 61 00 74 00 68 00 73 00))}
+		$e2 = {((41 64 64 2d 4d 70 50 72 65 66 65 72 65 6e 63 65 20 2d 45 78 63 6c 75 73 69 6f 6e) | (41 00 64 00 64 00 2d 00 4d 00 70 00 50 00 72 00 65 00 66 00 65 00 72 00 65 00 6e 00 63 00 65 00 20 00 2d 00 45 00 78 00 63 00 6c 00 75 00 73 00 69 00 6f 00 6e 00))}
+		$c1 = {((51 51 42 6b 41 47 51 41 4c 51 42 4e 41 48 41 41 55 41 42 79 41 47 55 41 5a 67 42 6c 41 48 49 41 5a 51 42 75 41 47 4d 41 5a 51 41 67 41 43 30 41 52 51 42 34 41 47 4d 41 62 41 42 31 41 48 4d 41 61 51 42 76 41 47 34) | (51 00 51 00 42 00 6b 00 41 00 47 00 51 00 41 00 4c 00 51 00 42 00 4e 00 41 00 48 00 41 00 41 00 55 00 41 00 42 00 79 00 41 00 47 00 55 00 41 00 5a 00 67 00 42 00 6c 00 41 00 48 00 49 00 41 00 5a 00 51 00 42 00 75 00 41 00 47 00 4d 00 41 00 5a 00 51 00 41 00 67 00 41 00 43 00 30 00 41 00 52 00 51 00 42 00 34 00 41 00 47 00 4d 00 41 00 62 00 41 00 42 00 31 00 41 00 48 00 4d 00 41 00 61 00 51 00 42 00 76 00 41 00 47 00 34 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and ( ( 1 of ( $reg* ) and 1 of ( $s* ) ) or ( $pdb ) or all of ( $e* ) or #c1 > 1 )
+}
+
+rule INDICATOR_SUSPICIOUS_USNDeleteJournal : hardened limited
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects executables containing anti-forensic artifacts of deleting USN change journal. Observed in ransomware"
+		score = 60
+
+	strings:
+		$cmd1 = {((66 73 75 74 69 6c 2e 65 78 65) | (66 00 73 00 75 00 74 00 69 00 6c 00 2e 00 65 00 78 00 65 00))}
+		$s1 = {((75 73 6e 20 64 65 6c 65 74 65 6a 6f 75 72 6e 61 6c 20 2f 44 20 43 3a) | (75 00 73 00 6e 00 20 00 64 00 65 00 6c 00 65 00 74 00 65 00 6a 00 6f 00 75 00 72 00 6e 00 61 00 6c 00 20 00 2f 00 44 00 20 00 43 00 3a 00))}
+		$s2 = {((66 73 75 74 69 6c 2e 65 78 65 20 75 73 6e 20 64 65 6c 65 74 65 6a 6f 75 72 6e 61 6c) | (66 00 73 00 75 00 74 00 69 00 6c 00 2e 00 65 00 78 00 65 00 20 00 75 00 73 00 6e 00 20 00 64 00 65 00 6c 00 65 00 74 00 65 00 6a 00 6f 00 75 00 72 00 6e 00 61 00 6c 00))}
+		$s3 = {((66 73 75 74 69 6c 20 75 73 6e 20 64 65 6c 65 74 65 6a 6f 75 72 6e 61 6c) | (66 00 73 00 75 00 74 00 69 00 6c 00 20 00 75 00 73 00 6e 00 20 00 64 00 65 00 6c 00 65 00 74 00 65 00 6a 00 6f 00 75 00 72 00 6e 00 61 00 6c 00))}
+		$s4 = {((66 73 75 74 69 6c 20 66 69 6c 65 20 73 65 74 5a 65 72 6f 44 61 74 61 20 6f 66 66 73 65 74 3d 30) | (66 00 73 00 75 00 74 00 69 00 6c 00 20 00 66 00 69 00 6c 00 65 00 20 00 73 00 65 00 74 00 5a 00 65 00 72 00 6f 00 44 00 61 00 74 00 61 00 20 00 6f 00 66 00 66 00 73 00 65 00 74 00 3d 00 30 00))}
+		$ne1 = {66 00 73 00 75 00 74 00 69 00 6c 00 20 00 75 00 73 00 6e 00 20 00 72 00 65 00 61 00 64 00 64 00 61 00 74 00 61 00 20 00 43 00 3a 00 5c 00 54 00 65 00 6d 00 70 00 5c 00 73 00 61 00 6d 00 70 00 6c 00 65 00 2e 00 74 00 78 00 74 00}
+		$ne2 = {66 00 73 00 75 00 74 00 69 00 6c 00 20 00 74 00 72 00 61 00 6e 00 73 00 61 00 63 00 74 00 69 00 6f 00 6e 00 20 00 71 00 75 00 65 00 72 00 79 00 20 00 7b 00 30 00 66 00 32 00 64 00 38 00 39 00 30 00 35 00 2d 00 36 00 31 00 35 00 33 00 2d 00 34 00 34 00 39 00 61 00 2d 00 38 00 65 00 30 00 33 00 2d 00 37 00 64 00 33 00 61 00 33 00 38 00 31 00 38 00 37 00 62 00 61 00 31 00 7d 00}
+		$ne3 = {66 00 73 00 75 00 74 00 69 00 6c 00 20 00 72 00 65 00 73 00 6f 00 75 00 72 00 63 00 65 00 20 00 73 00 74 00 61 00 72 00 74 00 20 00 64 00 3a 00 5c 00 66 00 6f 00 6f 00 62 00 61 00 72 00 20 00 64 00 3a 00 5c 00 66 00 6f 00 6f 00 62 00 61 00 72 00 5c 00 4c 00 6f 00 67 00 44 00 69 00 72 00 5c 00 4c 00 6f 00 67 00 42 00 4c 00 46 00 3a 00 3a 00 54 00 78 00 66 00 4c 00 6f 00 67 00 20 00 64 00 3a 00 5c 00 66 00 6f 00 6f 00 62 00 61 00 72 00 5c 00 4c 00 6f 00 67 00 44 00 69 00 72 00 5c 00 4c 00 6f 00 67 00 42 00 4c 00 46 00 3a 00 3a 00 54 00 6d 00 4c 00 6f 00 67 00}
+		$ne4 = {66 00 73 00 75 00 74 00 69 00 6c 00 20 00 6f 00 62 00 6a 00 65 00 63 00 74 00 69 00 64 00 20 00 71 00 75 00 65 00 72 00 79 00 20 00 43 00 3a 00 5c 00 54 00 65 00 6d 00 70 00 5c 00 73 00 61 00 6d 00 70 00 6c 00 65 00 2e 00 74 00 78 00 74 00}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and ( not any of ( $ne* ) and ( ( 1 of ( $cmd* ) and 1 of ( $s* ) ) or 1 of ( $s* ) ) )
+}
+
+rule INDICATOR_SUSPICIOUS_GENInfoStealer : hardened limited
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects executables containing common artifacts observed in infostealers"
+
+	strings:
+		$f1 = {((46 69 6c 65 5a 69 6c 6c 61 5c 72 65 63 65 6e 74 73 65 72 76 65 72 73 2e 78 6d 6c) | (46 00 69 00 6c 00 65 00 5a 00 69 00 6c 00 6c 00 61 00 5c 00 72 00 65 00 63 00 65 00 6e 00 74 00 73 00 65 00 72 00 76 00 65 00 72 00 73 00 2e 00 78 00 6d 00 6c 00))}
+		$f2 = {((46 69 6c 65 5a 69 6c 6c 61 5c 73 69 74 65 6d 61 6e 61 67 65 72 2e 78 6d 6c) | (46 00 69 00 6c 00 65 00 5a 00 69 00 6c 00 6c 00 61 00 5c 00 73 00 69 00 74 00 65 00 6d 00 61 00 6e 00 61 00 67 00 65 00 72 00 2e 00 78 00 6d 00 6c 00))}
+		$f3 = {((53 4f 46 54 57 41 52 45 5c 5c 4d 61 72 74 69 6e 20 50 72 69 6b 72 79 6c 5c 5c 57 69 6e 53 43 50 20 32 5c 5c 53 65 73 73 69 6f 6e 73) | (53 00 4f 00 46 00 54 00 57 00 41 00 52 00 45 00 5c 00 5c 00 4d 00 61 00 72 00 74 00 69 00 6e 00 20 00 50 00 72 00 69 00 6b 00 72 00 79 00 6c 00 5c 00 5c 00 57 00 69 00 6e 00 53 00 43 00 50 00 20 00 32 00 5c 00 5c 00 53 00 65 00 73 00 73 00 69 00 6f 00 6e 00 73 00))}
+		$b1 = {((43 68 72 6f 6d 65 5c 55 73 65 72 20 44 61 74 61 5c) | (43 00 68 00 72 00 6f 00 6d 00 65 00 5c 00 55 00 73 00 65 00 72 00 20 00 44 00 61 00 74 00 61 00 5c 00))}
+		$b2 = {((4d 6f 7a 69 6c 6c 61 5c 46 69 72 65 66 6f 78 5c 50 72 6f 66 69 6c 65 73) | (4d 00 6f 00 7a 00 69 00 6c 00 6c 00 61 00 5c 00 46 00 69 00 72 00 65 00 66 00 6f 00 78 00 5c 00 50 00 72 00 6f 00 66 00 69 00 6c 00 65 00 73 00))}
+		$b3 = {((53 6f 66 74 77 61 72 65 5c 4d 69 63 72 6f 73 6f 66 74 5c 49 6e 74 65 72 6e 65 74 20 45 78 70 6c 6f 72 65 72 5c 49 6e 74 65 6c 6c 69 46 6f 72 6d 73 5c 53 74 6f 72 61 67 65 32) | (53 00 6f 00 66 00 74 00 77 00 61 00 72 00 65 00 5c 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 5c 00 49 00 6e 00 74 00 65 00 72 00 6e 00 65 00 74 00 20 00 45 00 78 00 70 00 6c 00 6f 00 72 00 65 00 72 00 5c 00 49 00 6e 00 74 00 65 00 6c 00 6c 00 69 00 46 00 6f 00 72 00 6d 00 73 00 5c 00 53 00 74 00 6f 00 72 00 61 00 67 00 65 00 32 00))}
+		$b4 = {((4f 70 65 72 61 20 53 6f 66 74 77 61 72 65 5c 4f 70 65 72 61 20 53 74 61 62 6c 65 5c 4c 6f 67 69 6e 20 44 61 74 61) | (4f 00 70 00 65 00 72 00 61 00 20 00 53 00 6f 00 66 00 74 00 77 00 61 00 72 00 65 00 5c 00 4f 00 70 00 65 00 72 00 61 00 20 00 53 00 74 00 61 00 62 00 6c 00 65 00 5c 00 4c 00 6f 00 67 00 69 00 6e 00 20 00 44 00 61 00 74 00 61 00))}
+		$b5 = {((59 61 6e 64 65 78 42 72 6f 77 73 65 72 5c 55 73 65 72 20 44 61 74 61 5c) | (59 00 61 00 6e 00 64 00 65 00 78 00 42 00 72 00 6f 00 77 00 73 00 65 00 72 00 5c 00 55 00 73 00 65 00 72 00 20 00 44 00 61 00 74 00 61 00 5c 00))}
+		$s1 = {((6b 65 79 33 2e 64 62) | (6b 00 65 00 79 00 33 00 2e 00 64 00 62 00))}
+		$s2 = {((6b 65 79 34 2e 64 62) | (6b 00 65 00 79 00 34 00 2e 00 64 00 62 00))}
+		$s3 = {((63 65 72 74 38 2e 64 62) | (63 00 65 00 72 00 74 00 38 00 2e 00 64 00 62 00))}
+		$s4 = {((6c 6f 67 69 6e 73 2e 6a 73 6f 6e) | (6c 00 6f 00 67 00 69 00 6e 00 73 00 2e 00 6a 00 73 00 6f 00 6e 00))}
+		$s5 = {((61 63 63 6f 75 6e 74 2e 63 66 6e) | (61 00 63 00 63 00 6f 00 75 00 6e 00 74 00 2e 00 63 00 66 00 6e 00))}
+		$s6 = {((77 61 6e 64 2e 64 61 74) | (77 00 61 00 6e 00 64 00 2e 00 64 00 61 00 74 00))}
+		$s7 = {((77 61 6c 6c 65 74 2e 64 61 74) | (77 00 61 00 6c 00 6c 00 65 00 74 00 2e 00 64 00 61 00 74 00))}
+		$a1 = {((75 73 65 72 6e 61 6d 65 5f 76 61 6c 75 65) | (75 00 73 00 65 00 72 00 6e 00 61 00 6d 00 65 00 5f 00 76 00 61 00 6c 00 75 00 65 00))}
+		$a2 = {((70 61 73 73 77 6f 72 64 5f 76 61 6c 75 65) | (70 00 61 00 73 00 73 00 77 00 6f 00 72 00 64 00 5f 00 76 00 61 00 6c 00 75 00 65 00))}
+		$a3 = {((65 6e 63 72 79 70 74 65 64 55 73 65 72 6e 61 6d 65) | (65 00 6e 00 63 00 72 00 79 00 70 00 74 00 65 00 64 00 55 00 73 00 65 00 72 00 6e 00 61 00 6d 00 65 00))}
+		$a4 = {((65 6e 63 72 79 70 74 65 64 50 61 73 73 77 6f 72 64) | (65 00 6e 00 63 00 72 00 79 00 70 00 74 00 65 00 64 00 50 00 61 00 73 00 73 00 77 00 6f 00 72 00 64 00))}
+		$a5 = {((68 74 74 70 52 65 61 6c 6d) | (68 00 74 00 74 00 70 00 52 00 65 00 61 00 6c 00 6d 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and ( ( 2 of ( $f* ) and 2 of ( $b* ) and 1 of ( $s* ) and 3 of ( $a* ) ) or ( 14 of them ) )
+}
+
+rule INDICATOR_SUSPICIOUS_WMIC_Downloader : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects files utilizing WMIC for whitelisting bypass and downloading second stage payloads"
+
+	strings:
+		$s1 = {57 00 4d 00 49 00 43 00 2e 00 65 00 78 00 65 00 20 00 6f 00 73 00 20 00 67 00 65 00 74 00 20 00 2f 00 66 00 6f 00 72 00 6d 00 61 00 74 00 3a 00 22 00 68 00 74 00 74 00 70 00}
+		$s2 = {57 00 4d 00 49 00 43 00 2e 00 65 00 78 00 65 00 20 00 63 00 6f 00 6d 00 70 00 75 00 74 00 65 00 72 00 73 00 79 00 73 00 74 00 65 00 6d 00 20 00 67 00 65 00 74 00 20 00 2f 00 66 00 6f 00 72 00 6d 00 61 00 74 00 3a 00 22 00 68 00 74 00 74 00 70 00}
+		$s3 = {57 00 4d 00 49 00 43 00 2e 00 65 00 78 00 65 00 20 00 64 00 63 00 6f 00 6d 00 61 00 70 00 70 00 20 00 67 00 65 00 74 00 20 00 2f 00 66 00 6f 00 72 00 6d 00 61 00 74 00 3a 00 22 00 68 00 74 00 74 00 70 00}
+		$s4 = {57 00 4d 00 49 00 43 00 2e 00 65 00 78 00 65 00 20 00 64 00 65 00 73 00 6b 00 74 00 6f 00 70 00 20 00 67 00 65 00 74 00 20 00 2f 00 66 00 6f 00 72 00 6d 00 61 00 74 00 3a 00 22 00 68 00 74 00 74 00 70 00}
+
+	condition:
+		( uint16( 0 ) == 0x004c or uint16( 0 ) == 0x5a4d ) and 1 of them
+}
+
+rule INDICATOR_SUSPICIOUS_EXE_PE_ResourceTuner : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects executables with modified PE resources using the unpaid version of Resource Tuner"
+
+	strings:
+		$s1 = {4d 00 6f 00 64 00 69 00 66 00 69 00 65 00 64 00 20 00 62 00 79 00 20 00 61 00 6e 00 20 00 75 00 6e 00 70 00 61 00 69 00 64 00 20 00 65 00 76 00 61 00 6c 00 75 00 61 00 74 00 69 00 6f 00 6e 00 20 00 63 00 6f 00 70 00 79 00 20 00 6f 00 66 00 20 00 52 00 65 00 73 00 6f 00 75 00 72 00 63 00 65 00 20 00 54 00 75 00 6e 00 65 00 72 00 20 00 32 00 20 00 28 00 77 00 77 00 77 00 2e 00 68 00 65 00 61 00 76 00 65 00 6e 00 74 00 6f 00 6f 00 6c 00 73 00 2e 00 63 00 6f 00 6d 00 29 00}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and all of them
+}
+
+rule INDICATOR_SUSPICIOUS_EXE_ASEP_REG_Reverse : hardened limited
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects file containing reversed ASEP Autorun registry keys"
+		score = 60
+
+	strings:
+		$s1 = {((6e 75 52 5c 6e 6f 69 73 72 65 56 74 6e 65 72 72 75 43 5c 73 77 6f 64 6e 69 57 5c 74 66 6f 73 6f 72 63 69 4d) | (6e 00 75 00 52 00 5c 00 6e 00 6f 00 69 00 73 00 72 00 65 00 56 00 74 00 6e 00 65 00 72 00 72 00 75 00 43 00 5c 00 73 00 77 00 6f 00 64 00 6e 00 69 00 57 00 5c 00 74 00 66 00 6f 00 73 00 6f 00 72 00 63 00 69 00 4d 00))}
+		$s2 = {((65 63 6e 4f 6e 75 52 5c 6e 6f 69 73 72 65 56 74 6e 65 72 72 75 43 5c 73 77 6f 64 6e 69 57 5c 74 66 6f 73 6f 72 63 69 4d) | (65 00 63 00 6e 00 4f 00 6e 00 75 00 52 00 5c 00 6e 00 6f 00 69 00 73 00 72 00 65 00 56 00 74 00 6e 00 65 00 72 00 72 00 75 00 43 00 5c 00 73 00 77 00 6f 00 64 00 6e 00 69 00 57 00 5c 00 74 00 66 00 6f 00 73 00 6f 00 72 00 63 00 69 00 4d 00))}
+		$s3 = {((73 65 63 69 76 72 65 53 6e 75 52 5c 6e 6f 69 73 72 65 56 74 6e 65 72 72 75 43 5c 73 77 6f 64 6e 69 57 5c 74 66 6f 73 6f 72 63 69 4d) | (73 00 65 00 63 00 69 00 76 00 72 00 65 00 53 00 6e 00 75 00 52 00 5c 00 6e 00 6f 00 69 00 73 00 72 00 65 00 56 00 74 00 6e 00 65 00 72 00 72 00 75 00 43 00 5c 00 73 00 77 00 6f 00 64 00 6e 00 69 00 57 00 5c 00 74 00 66 00 6f 00 73 00 6f 00 72 00 63 00 69 00 4d 00))}
+		$s4 = {((78 45 65 63 6e 4f 6e 75 52 5c 6e 6f 69 73 72 65 56 74 6e 65 72 72 75 43 5c 73 77 6f 64 6e 69 57 5c 74 66 6f 73 6f 72 63 69 4d) | (78 00 45 00 65 00 63 00 6e 00 4f 00 6e 00 75 00 52 00 5c 00 6e 00 6f 00 69 00 73 00 72 00 65 00 56 00 74 00 6e 00 65 00 72 00 72 00 75 00 43 00 5c 00 73 00 77 00 6f 00 64 00 6e 00 69 00 57 00 5c 00 74 00 66 00 6f 00 73 00 6f 00 72 00 63 00 69 00 4d 00))}
+		$s5 = {((65 63 6e 4f 73 65 63 69 76 72 65 53 6e 75 52 5c 6e 6f 69 73 72 65 56 74 6e 65 72 72 75 43 5c 73 77 6f 64 6e 69 57 5c 74 66 6f 73 6f 72 63 69 4d) | (65 00 63 00 6e 00 4f 00 73 00 65 00 63 00 69 00 76 00 72 00 65 00 53 00 6e 00 75 00 52 00 5c 00 6e 00 6f 00 69 00 73 00 72 00 65 00 56 00 74 00 6e 00 65 00 72 00 72 00 75 00 43 00 5c 00 73 00 77 00 6f 00 64 00 6e 00 69 00 57 00 5c 00 74 00 66 00 6f 00 73 00 6f 00 72 00 63 00 69 00 4d 00))}
+		$s6 = {((79 66 69 74 6f 4e 5c 6e 6f 67 6f 6c 6e 69 57 5c 6e 6f 69 73 72 65 56 74 6e 65 72 72 75 43 5c 54 4e 20 73 77 6f 64 6e 69 57 5c 74 66 6f 73 6f 72 63 69 4d) | (79 00 66 00 69 00 74 00 6f 00 4e 00 5c 00 6e 00 6f 00 67 00 6f 00 6c 00 6e 00 69 00 57 00 5c 00 6e 00 6f 00 69 00 73 00 72 00 65 00 56 00 74 00 6e 00 65 00 72 00 72 00 75 00 43 00 5c 00 54 00 4e 00 20 00 73 00 77 00 6f 00 64 00 6e 00 69 00 57 00 5c 00 74 00 66 00 6f 00 73 00 6f 00 72 00 63 00 69 00 4d 00))}
+		$s7 = {((74 69 6e 69 72 65 73 55 5c 6e 6f 67 6f 6c 6e 69 57 5c 6e 6f 69 73 72 65 56 74 6e 65 72 72 75 43 5c 54 4e 20 73 77 6f 64 6e 69 57 5c 74 66 6f 73 6f 72 63 69 4d) | (74 00 69 00 6e 00 69 00 72 00 65 00 73 00 55 00 5c 00 6e 00 6f 00 67 00 6f 00 6c 00 6e 00 69 00 57 00 5c 00 6e 00 6f 00 69 00 73 00 72 00 65 00 56 00 74 00 6e 00 65 00 72 00 72 00 75 00 43 00 5c 00 54 00 4e 00 20 00 73 00 77 00 6f 00 64 00 6e 00 69 00 57 00 5c 00 74 00 66 00 6f 00 73 00 6f 00 72 00 63 00 69 00 4d 00))}
+		$s8 = {((6e 75 52 5c 72 65 72 6f 6c 70 78 45 5c 73 65 69 63 69 6c 6f 50 5c 6e 6f 69 73 72 65 56 74 6e 65 72 72 75 43 5c 73 77 6f 64 6e 69 57 5c 74 66 6f 73 6f 72 63 69 4d) | (6e 00 75 00 52 00 5c 00 72 00 65 00 72 00 6f 00 6c 00 70 00 78 00 45 00 5c 00 73 00 65 00 69 00 63 00 69 00 6c 00 6f 00 50 00 5c 00 6e 00 6f 00 69 00 73 00 72 00 65 00 56 00 74 00 6e 00 65 00 72 00 72 00 75 00 43 00 5c 00 73 00 77 00 6f 00 64 00 6e 00 69 00 57 00 5c 00 74 00 66 00 6f 00 73 00 6f 00 72 00 63 00 69 00 4d 00))}
+		$s9 = {((73 74 6e 65 6e 6f 70 6d 6f 43 20 64 65 6c 6c 61 74 73 6e 49 5c 70 75 74 65 53 20 65 76 69 74 63 41 5c 74 66 6f 73 6f 72 63 69 4d) | (73 00 74 00 6e 00 65 00 6e 00 6f 00 70 00 6d 00 6f 00 43 00 20 00 64 00 65 00 6c 00 6c 00 61 00 74 00 73 00 6e 00 49 00 5c 00 70 00 75 00 74 00 65 00 53 00 20 00 65 00 76 00 69 00 74 00 63 00 41 00 5c 00 74 00 66 00 6f 00 73 00 6f 00 72 00 63 00 69 00 4d 00))}
+		$s10 = {((73 4c 4c 44 5f 74 69 6e 49 70 70 41 5c 73 77 6f 64 6e 69 57 5c 6e 6f 69 73 72 65 56 74 6e 65 72 72 75 43 5c 54 4e 20 73 77 6f 64 6e 69 57 5c 74 66 6f 73 6f 72 63 69 4d) | (73 00 4c 00 4c 00 44 00 5f 00 74 00 69 00 6e 00 49 00 70 00 70 00 41 00 5c 00 73 00 77 00 6f 00 64 00 6e 00 69 00 57 00 5c 00 6e 00 6f 00 69 00 73 00 72 00 65 00 56 00 74 00 6e 00 65 00 72 00 72 00 75 00 43 00 5c 00 54 00 4e 00 20 00 73 00 77 00 6f 00 64 00 6e 00 69 00 57 00 5c 00 74 00 66 00 6f 00 73 00 6f 00 72 00 63 00 69 00 4d 00))}
+		$s11 = {((73 6e 6f 69 74 70 4f 20 6e 6f 69 74 75 63 65 78 45 20 65 6c 69 46 20 65 67 61 6d 49 5c 6e 6f 69 73 72 65 56 74 6e 65 72 72 75 43 5c 54 4e 20 73 77 6f 64 6e 69 57 5c 74 66 6f 73 6f 72 63 69 4d) | (73 00 6e 00 6f 00 69 00 74 00 70 00 4f 00 20 00 6e 00 6f 00 69 00 74 00 75 00 63 00 65 00 78 00 45 00 20 00 65 00 6c 00 69 00 46 00 20 00 65 00 67 00 61 00 6d 00 49 00 5c 00 6e 00 6f 00 69 00 73 00 72 00 65 00 56 00 74 00 6e 00 65 00 72 00 72 00 75 00 43 00 5c 00 54 00 4e 00 20 00 73 00 77 00 6f 00 64 00 6e 00 69 00 57 00 5c 00 74 00 66 00 6f 00 73 00 6f 00 72 00 63 00 69 00 4d 00))}
+		$s12 = {((6c 6c 65 68 53 5c 6e 6f 67 6f 6c 6e 69 57 5c 6e 6f 69 73 72 65 56 74 6e 65 72 72 75 43 5c 54 4e 20 73 77 6f 64 6e 69 57 5c 74 66 6f 73 6f 72 63 69 4d) | (6c 00 6c 00 65 00 68 00 53 00 5c 00 6e 00 6f 00 67 00 6f 00 6c 00 6e 00 69 00 57 00 5c 00 6e 00 6f 00 69 00 73 00 72 00 65 00 56 00 74 00 6e 00 65 00 72 00 72 00 75 00 43 00 5c 00 54 00 4e 00 20 00 73 00 77 00 6f 00 64 00 6e 00 69 00 57 00 5c 00 74 00 66 00 6f 00 73 00 6f 00 72 00 63 00 69 00 4d 00))}
+		$s13 = {((64 61 6f 6c 5c 73 77 6f 64 6e 69 57 5c 6e 6f 69 73 72 65 56 74 6e 65 72 72 75 43 5c 54 4e 20 73 77 6f 64 6e 69 57 5c 74 66 6f 73 6f 72 63 69 4d) | (64 00 61 00 6f 00 6c 00 5c 00 73 00 77 00 6f 00 64 00 6e 00 69 00 57 00 5c 00 6e 00 6f 00 69 00 73 00 72 00 65 00 56 00 74 00 6e 00 65 00 72 00 72 00 75 00 43 00 5c 00 54 00 4e 00 20 00 73 00 77 00 6f 00 64 00 6e 00 69 00 57 00 5c 00 74 00 66 00 6f 00 73 00 6f 00 72 00 63 00 69 00 4d 00))}
+		$s14 = {((64 61 6f 4c 79 61 6c 65 44 74 63 65 6a 62 4f 65 63 69 76 72 65 53 6c 6c 65 68 53 5c 6e 6f 69 73 72 65 56 74 6e 65 72 72 75 43 5c 73 77 6f 64 6e 69 57 5c 74 66 6f 73 6f 72 63 69 4d) | (64 00 61 00 6f 00 4c 00 79 00 61 00 6c 00 65 00 44 00 74 00 63 00 65 00 6a 00 62 00 4f 00 65 00 63 00 69 00 76 00 72 00 65 00 53 00 6c 00 6c 00 65 00 68 00 53 00 5c 00 6e 00 6f 00 69 00 73 00 72 00 65 00 56 00 74 00 6e 00 65 00 72 00 72 00 75 00 43 00 5c 00 73 00 77 00 6f 00 64 00 6e 00 69 00 57 00 5c 00 74 00 66 00 6f 00 73 00 6f 00 72 00 63 00 69 00 4d 00))}
+		$s15 = {((6e 75 52 6f 74 75 41 5c 72 6f 73 73 65 63 6f 72 50 5c 64 6e 61 6d 6d 6f 43 5c 74 66 6f 73 6f 72 63 69 4d) | (6e 00 75 00 52 00 6f 00 74 00 75 00 41 00 5c 00 72 00 6f 00 73 00 73 00 65 00 63 00 6f 00 72 00 50 00 5c 00 64 00 6e 00 61 00 6d 00 6d 00 6f 00 43 00 5c 00 74 00 66 00 6f 00 73 00 6f 00 72 00 63 00 69 00 4d 00))}
+		$s16 = {((70 75 74 72 61 74 53 5c 73 72 65 64 6c 6f 46 20 6c 6c 65 68 53 20 72 65 73 55 5c 72 65 72 6f 6c 70 78 45 5c 6e 6f 69 73 72 65 56 74 6e 65 72 72 75 43 5c 73 77 6f 64 6e 69 57 5c 74 66 6f 73 6f 72 63 69 4d) | (70 00 75 00 74 00 72 00 61 00 74 00 53 00 5c 00 73 00 72 00 65 00 64 00 6c 00 6f 00 46 00 20 00 6c 00 6c 00 65 00 68 00 53 00 20 00 72 00 65 00 73 00 55 00 5c 00 72 00 65 00 72 00 6f 00 6c 00 70 00 78 00 45 00 5c 00 6e 00 6f 00 69 00 73 00 72 00 65 00 56 00 74 00 6e 00 65 00 72 00 72 00 75 00 43 00 5c 00 73 00 77 00 6f 00 64 00 6e 00 69 00 57 00 5c 00 74 00 66 00 6f 00 73 00 6f 00 72 00 63 00 69 00 4d 00))}
+		$s17 = {((73 6c 6c 44 74 72 65 43 70 70 41 5c 72 65 67 61 6e 61 4d 20 6e 6f 69 73 73 65 53 5c 6c 6f 72 74 6e 6f 43 5c 74 65 53 6c 6f 72 74 6e 6f 43 74 6e 65 72 72 75 43 5c 6d 65 74 73 79 53) | (73 00 6c 00 6c 00 44 00 74 00 72 00 65 00 43 00 70 00 70 00 41 00 5c 00 72 00 65 00 67 00 61 00 6e 00 61 00 4d 00 20 00 6e 00 6f 00 69 00 73 00 73 00 65 00 53 00 5c 00 6c 00 6f 00 72 00 74 00 6e 00 6f 00 43 00 5c 00 74 00 65 00 53 00 6c 00 6f 00 72 00 74 00 6e 00 6f 00 43 00 74 00 6e 00 65 00 72 00 72 00 75 00 43 00 5c 00 6d 00 65 00 74 00 73 00 79 00 53 00))}
+		$s18 = {((73 6c 6c 44 74 72 65 43 70 70 41 5c 72 65 67 61 6e 61 4d 20 6e 6f 69 73 73 65 53 5c 6c 6f 72 74 6e 6f 43 5c 31 30 30 74 65 53 6c 6f 72 74 6e 6f 43 5c 6d 65 74 73 79 53) | (73 00 6c 00 6c 00 44 00 74 00 72 00 65 00 43 00 70 00 70 00 41 00 5c 00 72 00 65 00 67 00 61 00 6e 00 61 00 4d 00 20 00 6e 00 6f 00 69 00 73 00 73 00 65 00 53 00 5c 00 6c 00 6f 00 72 00 74 00 6e 00 6f 00 43 00 5c 00 31 00 30 00 30 00 74 00 65 00 53 00 6c 00 6f 00 72 00 74 00 6e 00 6f 00 43 00 5c 00 6d 00 65 00 74 00 73 00 79 00 53 00))}
+		$s19 = {((29 74 6c 75 61 66 65 44 28 5c 64 6e 61 6d 6d 6f 43 5c 6e 65 70 4f 5c 6c 6c 65 68 53 5c 65 6c 69 66 65 78 45 5c 73 65 73 73 61 6c 43 5c 65 72 61 77 74 66 6f 53) | (29 00 74 00 6c 00 75 00 61 00 66 00 65 00 44 00 28 00 5c 00 64 00 6e 00 61 00 6d 00 6d 00 6f 00 43 00 5c 00 6e 00 65 00 70 00 4f 00 5c 00 6c 00 6c 00 65 00 68 00 53 00 5c 00 65 00 6c 00 69 00 66 00 65 00 78 00 45 00 5c 00 73 00 65 00 73 00 73 00 61 00 6c 00 43 00 5c 00 65 00 72 00 61 00 77 00 74 00 66 00 6f 00 53 00))}
+		$s20 = {((29 74 6c 75 61 66 65 44 28 5c 64 6e 61 6d 6d 6f 43 5c 6e 65 70 4f 5c 6c 6c 65 68 53 5c 65 6c 69 66 65 78 45 5c 73 65 73 73 61 6c 43 5c 65 64 6f 4e 32 33 34 36 77 6f 57 5c 65 72 61 77 74 66 6f 53) | (29 00 74 00 6c 00 75 00 61 00 66 00 65 00 44 00 28 00 5c 00 64 00 6e 00 61 00 6d 00 6d 00 6f 00 43 00 5c 00 6e 00 65 00 70 00 4f 00 5c 00 6c 00 6c 00 65 00 68 00 53 00 5c 00 65 00 6c 00 69 00 66 00 65 00 78 00 45 00 5c 00 73 00 65 00 73 00 73 00 61 00 6c 00 43 00 5c 00 65 00 64 00 6f 00 4e 00 32 00 33 00 34 00 36 00 77 00 6f 00 57 00 5c 00 65 00 72 00 61 00 77 00 74 00 66 00 6f 00 53 00))}
+
+	condition:
+		1 of them and filesize < 2000KB
+}
+
+rule INDICATOR_SUSPICIOUS_EXE_SQLQuery_ConfidentialDataStore : hardened limited
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects executables containing SQL queries to confidential data stores. Observed in infostealers"
+		score = 30
+
+	strings:
+		$select = {((73 65 6c 65 63 74 20) | (73 00 65 00 6c 00 65 00 63 00 74 00 20 00))}
+		$table1 = {((20 66 72 6f 6d 20 63 72 65 64 69 74 5f 63 61 72 64 73) | (20 00 66 00 72 00 6f 00 6d 00 20 00 63 00 72 00 65 00 64 00 69 00 74 00 5f 00 63 00 61 00 72 00 64 00 73 00))}
+		$table2 = {((20 66 72 6f 6d 20 6c 6f 67 69 6e 73) | (20 00 66 00 72 00 6f 00 6d 00 20 00 6c 00 6f 00 67 00 69 00 6e 00 73 00))}
+		$table3 = {((20 66 72 6f 6d 20 63 6f 6f 6b 69 65 73) | (20 00 66 00 72 00 6f 00 6d 00 20 00 63 00 6f 00 6f 00 6b 00 69 00 65 00 73 00))}
+		$table4 = {((20 66 72 6f 6d 20 6d 6f 7a 5f 63 6f 6f 6b 69 65 73) | (20 00 66 00 72 00 6f 00 6d 00 20 00 6d 00 6f 00 7a 00 5f 00 63 00 6f 00 6f 00 6b 00 69 00 65 00 73 00))}
+		$table5 = {((20 66 72 6f 6d 20 6d 6f 7a 5f 66 6f 72 6d 68 69 73 74 6f 72 79) | (20 00 66 00 72 00 6f 00 6d 00 20 00 6d 00 6f 00 7a 00 5f 00 66 00 6f 00 72 00 6d 00 68 00 69 00 73 00 74 00 6f 00 72 00 79 00))}
+		$table6 = {((20 66 72 6f 6d 20 6d 6f 7a 5f 6c 6f 67 69 6e 73) | (20 00 66 00 72 00 6f 00 6d 00 20 00 6d 00 6f 00 7a 00 5f 00 6c 00 6f 00 67 00 69 00 6e 00 73 00))}
+		$column1 = {((6e 61 6d 65) | (6e 00 61 00 6d 00 65 00))}
+		$column2 = {((70 61 73 73 77 6f 72 64 5f 76 61 6c 75 65) | (70 00 61 00 73 00 73 00 77 00 6f 00 72 00 64 00 5f 00 76 00 61 00 6c 00 75 00 65 00))}
+		$column3 = {((65 6e 63 72 79 70 74 65 64 5f 76 61 6c 75 65) | (65 00 6e 00 63 00 72 00 79 00 70 00 74 00 65 00 64 00 5f 00 76 00 61 00 6c 00 75 00 65 00))}
+		$column4 = {((63 61 72 64 5f 6e 75 6d 62 65 72 5f 65 6e 63 72 79 70 74 65 64) | (63 00 61 00 72 00 64 00 5f 00 6e 00 75 00 6d 00 62 00 65 00 72 00 5f 00 65 00 6e 00 63 00 72 00 79 00 70 00 74 00 65 00 64 00))}
+		$column5 = {((69 73 48 74 74 70 4f 6e 6c 79) | (69 00 73 00 48 00 74 00 74 00 70 00 4f 00 6e 00 6c 00 79 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 2 of ( $table* ) and 2 of ( $column* ) and $select
+}
+
+rule INDICATOR_SUSPICIOUS_References_SecTools : hardened limited
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects executables referencing many IR and analysis tools"
+
+	strings:
+		$s1 = {((70 72 6f 63 65 78 70 2e 65 78 65) | (70 00 72 00 6f 00 63 00 65 00 78 00 70 00 2e 00 65 00 78 00 65 00))}
+		$s2 = {((70 65 72 66 6d 6f 6e 2e 65 78 65) | (70 00 65 00 72 00 66 00 6d 00 6f 00 6e 00 2e 00 65 00 78 00 65 00))}
+		$s3 = {((61 75 74 6f 72 75 6e 73 2e 65 78 65) | (61 00 75 00 74 00 6f 00 72 00 75 00 6e 00 73 00 2e 00 65 00 78 00 65 00))}
+		$s4 = {((61 75 74 6f 72 75 6e 73 63 2e 65 78 65) | (61 00 75 00 74 00 6f 00 72 00 75 00 6e 00 73 00 63 00 2e 00 65 00 78 00 65 00))}
+		$s5 = {((50 72 6f 63 65 73 73 48 61 63 6b 65 72 2e 65 78 65) | (50 00 72 00 6f 00 63 00 65 00 73 00 73 00 48 00 61 00 63 00 6b 00 65 00 72 00 2e 00 65 00 78 00 65 00))}
+		$s6 = {((70 72 6f 63 6d 6f 6e 2e 65 78 65) | (70 00 72 00 6f 00 63 00 6d 00 6f 00 6e 00 2e 00 65 00 78 00 65 00))}
+		$s7 = {((73 79 73 6d 6f 6e 2e 65 78 65) | (73 00 79 00 73 00 6d 00 6f 00 6e 00 2e 00 65 00 78 00 65 00))}
+		$s8 = {((70 72 6f 63 64 75 6d 70 2e 65 78 65) | (70 00 72 00 6f 00 63 00 64 00 75 00 6d 00 70 00 2e 00 65 00 78 00 65 00))}
+		$s9 = {((61 70 69 73 70 79 2e 65 78 65) | (61 00 70 00 69 00 73 00 70 00 79 00 2e 00 65 00 78 00 65 00))}
+		$s10 = {((64 75 6d 70 63 61 70 2e 65 78 65) | (64 00 75 00 6d 00 70 00 63 00 61 00 70 00 2e 00 65 00 78 00 65 00))}
+		$s11 = {((65 6d 75 6c 2e 65 78 65) | (65 00 6d 00 75 00 6c 00 2e 00 65 00 78 00 65 00))}
+		$s12 = {((66 6f 72 74 69 74 72 61 63 65 72 2e 65 78 65) | (66 00 6f 00 72 00 74 00 69 00 74 00 72 00 61 00 63 00 65 00 72 00 2e 00 65 00 78 00 65 00))}
+		$s13 = {((68 6f 6f 6b 61 6e 61 61 70 70 2e 65 78 65) | (68 00 6f 00 6f 00 6b 00 61 00 6e 00 61 00 61 00 70 00 70 00 2e 00 65 00 78 00 65 00))}
+		$s14 = {((68 6f 6f 6b 65 78 70 6c 6f 72 65 72 2e 65 78 65) | (68 00 6f 00 6f 00 6b 00 65 00 78 00 70 00 6c 00 6f 00 72 00 65 00 72 00 2e 00 65 00 78 00 65 00))}
+		$s15 = {((69 64 61 67 2e 65 78 65) | (69 00 64 00 61 00 67 00 2e 00 65 00 78 00 65 00))}
+		$s16 = {((69 64 61 71 2e 65 78 65) | (69 00 64 00 61 00 71 00 2e 00 65 00 78 00 65 00))}
+		$s17 = {((69 6d 70 6f 72 74 72 65 63 2e 65 78 65) | (69 00 6d 00 70 00 6f 00 72 00 74 00 72 00 65 00 63 00 2e 00 65 00 78 00 65 00))}
+		$s18 = {((69 6d 75 6c 2e 65 78 65) | (69 00 6d 00 75 00 6c 00 2e 00 65 00 78 00 65 00))}
+		$s19 = {((6a 6f 65 62 6f 78 63 6f 6e 74 72 6f 6c 2e 65 78 65) | (6a 00 6f 00 65 00 62 00 6f 00 78 00 63 00 6f 00 6e 00 74 00 72 00 6f 00 6c 00 2e 00 65 00 78 00 65 00))}
+		$s20 = {((6a 6f 65 62 6f 78 73 65 72 76 65 72 2e 65 78 65) | (6a 00 6f 00 65 00 62 00 6f 00 78 00 73 00 65 00 72 00 76 00 65 00 72 00 2e 00 65 00 78 00 65 00))}
+		$s21 = {((6d 75 6c 74 69 5f 70 6f 74 2e 65 78 65) | (6d 00 75 00 6c 00 74 00 69 00 5f 00 70 00 6f 00 74 00 2e 00 65 00 78 00 65 00))}
+		$s22 = {((6f 6c 6c 79 64 62 67 2e 65 78 65) | (6f 00 6c 00 6c 00 79 00 64 00 62 00 67 00 2e 00 65 00 78 00 65 00))}
+		$s23 = {((70 65 69 64 2e 65 78 65) | (70 00 65 00 69 00 64 00 2e 00 65 00 78 00 65 00))}
+		$s24 = {((70 65 74 6f 6f 6c 73 2e 65 78 65) | (70 00 65 00 74 00 6f 00 6f 00 6c 00 73 00 2e 00 65 00 78 00 65 00))}
+		$s25 = {((70 72 6f 63 5f 61 6e 61 6c 79 7a 65 72 2e 65 78 65) | (70 00 72 00 6f 00 63 00 5f 00 61 00 6e 00 61 00 6c 00 79 00 7a 00 65 00 72 00 2e 00 65 00 78 00 65 00))}
+		$s26 = {((72 65 67 6d 6f 6e 2e 65 78 65) | (72 00 65 00 67 00 6d 00 6f 00 6e 00 2e 00 65 00 78 00 65 00))}
+		$s27 = {((73 63 6b 74 6f 6f 6c 2e 65 78 65) | (73 00 63 00 6b 00 74 00 6f 00 6f 00 6c 00 2e 00 65 00 78 00 65 00))}
+		$s28 = {((73 6e 69 66 66 5f 68 69 74 2e 65 78 65) | (73 00 6e 00 69 00 66 00 66 00 5f 00 68 00 69 00 74 00 2e 00 65 00 78 00 65 00))}
+		$s29 = {((73 79 73 61 6e 61 6c 79 7a 65 72 2e 65 78 65) | (73 00 79 00 73 00 61 00 6e 00 61 00 6c 00 79 00 7a 00 65 00 72 00 2e 00 65 00 78 00 65 00))}
+		$s30 = {((43 61 70 74 75 72 65 50 72 6f 63 65 73 73 4d 6f 6e 69 74 6f 72 2e 73 79 73) | (43 00 61 00 70 00 74 00 75 00 72 00 65 00 50 00 72 00 6f 00 63 00 65 00 73 00 73 00 4d 00 6f 00 6e 00 69 00 74 00 6f 00 72 00 2e 00 73 00 79 00 73 00))}
+		$s31 = {((43 61 70 74 75 72 65 52 65 67 69 73 74 72 79 4d 6f 6e 69 74 6f 72 2e 73 79 73) | (43 00 61 00 70 00 74 00 75 00 72 00 65 00 52 00 65 00 67 00 69 00 73 00 74 00 72 00 79 00 4d 00 6f 00 6e 00 69 00 74 00 6f 00 72 00 2e 00 73 00 79 00 73 00))}
+		$s32 = {((43 61 70 74 75 72 65 46 69 6c 65 4d 6f 6e 69 74 6f 72 2e 73 79 73) | (43 00 61 00 70 00 74 00 75 00 72 00 65 00 46 00 69 00 6c 00 65 00 4d 00 6f 00 6e 00 69 00 74 00 6f 00 72 00 2e 00 73 00 79 00 73 00))}
+		$s33 = {((43 6f 6e 74 72 6f 6c 2e 65 78 65) | (43 00 6f 00 6e 00 74 00 72 00 6f 00 6c 00 2e 00 65 00 78 00 65 00))}
+		$s34 = {((72 73 68 65 6c 6c 2e 65 78 65) | (72 00 73 00 68 00 65 00 6c 00 6c 00 2e 00 65 00 78 00 65 00))}
+		$s35 = {((73 6d 63 2e 65 78 65) | (73 00 6d 00 63 00 2e 00 65 00 78 00 65 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 4 of them
+}
+
+rule INDICATOR_SUSPICIOUS_References_SecTools_B64Encoded : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects executables referencing many base64-encoded IR and analysis tools names"
+
+	strings:
+		$s1 = {((56 47 46 7a 61 32 31 6e 63 67 3d 3d) | (56 00 47 00 46 00 7a 00 61 00 32 00 31 00 6e 00 63 00 67 00 3d 00 3d 00))}
+		$s2 = {((64 47 46 7a 61 32 31 6e 63 67 3d 3d) | (64 00 47 00 46 00 7a 00 61 00 32 00 31 00 6e 00 63 00 67 00 3d 00 3d 00))}
+		$s3 = {((55 48 4a 76 59 32 56 7a 63 30 68 68 59 32 74 6c 63 67) | (55 00 48 00 4a 00 76 00 59 00 32 00 56 00 7a 00 63 00 30 00 68 00 68 00 59 00 32 00 74 00 6c 00 63 00 67 00))}
+		$s4 = {((63 48 4a 76 59 32 56 34 63 41) | (63 00 48 00 4a 00 76 00 59 00 32 00 56 00 34 00 63 00 41 00))}
+		$s5 = {((63 48 4a 76 59 32 56 34 63 44 59 30) | (63 00 48 00 4a 00 76 00 59 00 32 00 56 00 34 00 63 00 44 00 59 00 30 00))}
+		$s6 = {((61 48 52 30 63 43 42 68 62 6d 46 73 65 58 70 6c 63 69) | (61 00 48 00 52 00 30 00 63 00 43 00 42 00 68 00 62 00 6d 00 46 00 73 00 65 00 58 00 70 00 6c 00 63 00 69 00))}
+		$s7 = {((5a 6d 6c 6b 5a 47 78 6c 63 67) | (5a 00 6d 00 6c 00 6b 00 5a 00 47 00 78 00 6c 00 63 00 67 00))}
+		$s8 = {((5a 57 5a 6d 5a 58 52 6c 59 32 67 67 61 48 52 30 63 43 42 7a 62 6d 6c 6d 5a 6d 56 79) | (5a 00 57 00 5a 00 6d 00 5a 00 58 00 52 00 6c 00 59 00 32 00 67 00 67 00 61 00 48 00 52 00 30 00 63 00 43 00 42 00 7a 00 62 00 6d 00 6c 00 6d 00 5a 00 6d 00 56 00 79 00))}
+		$s9 = {((5a 6d 6c 79 5a 58 4e 6f 5a 57 56 77) | (5a 00 6d 00 6c 00 79 00 5a 00 58 00 4e 00 6f 00 5a 00 57 00 56 00 77 00))}
+		$s10 = {((53 55 56 58 59 58 52 6a 61 43 42 51 63 6d 39 6d 5a 58 4e 7a 61 57 39 75 59 57 77) | (53 00 55 00 56 00 58 00 59 00 58 00 52 00 6a 00 61 00 43 00 42 00 51 00 63 00 6d 00 39 00 6d 00 5a 00 58 00 4e 00 7a 00 61 00 57 00 39 00 75 00 59 00 57 00 77 00))}
+		$s11 = {((5a 48 56 74 63 47 4e 68 63 41) | (5a 00 48 00 56 00 74 00 63 00 47 00 4e 00 68 00 63 00 41 00))}
+		$s12 = {((64 32 6c 79 5a 58 4e 6f 59 58 4a 72) | (64 00 32 00 6c 00 79 00 5a 00 58 00 4e 00 6f 00 59 00 58 00 4a 00 72 00))}
+		$s13 = {((63 33 6c 7a 61 57 35 30 5a 58 4a 75 59 57 78 7a 49 48 52 6a 63 48 5a 70 5a 58 63) | (63 00 33 00 6c 00 7a 00 61 00 57 00 35 00 30 00 5a 00 58 00 4a 00 75 00 59 00 57 00 78 00 7a 00 49 00 48 00 52 00 6a 00 63 00 48 00 5a 00 70 00 5a 00 58 00 63 00))}
+		$s14 = {((54 6d 56 30 64 32 39 79 61 30 31 70 62 6d 56 79) | (54 00 6d 00 56 00 30 00 64 00 32 00 39 00 79 00 61 00 30 00 31 00 70 00 62 00 6d 00 56 00 79 00))}
+		$s15 = {((54 6d 56 30 64 32 39 79 61 31 52 79 59 57 5a 6d 61 57 4e 57 61 57 56 33) | (54 00 6d 00 56 00 30 00 64 00 32 00 39 00 79 00 61 00 31 00 52 00 79 00 59 00 57 00 5a 00 6d 00 61 00 57 00 4e 00 57 00 61 00 57 00 56 00 33 00))}
+		$s16 = {((53 46 52 55 55 45 35 6c 64 48 64 76 63 6d 74 54 62 6d 6c 6d 5a 6d 56 79) | (53 00 46 00 52 00 55 00 55 00 45 00 35 00 6c 00 64 00 48 00 64 00 76 00 63 00 6d 00 74 00 54 00 62 00 6d 00 6c 00 6d 00 5a 00 6d 00 56 00 79 00))}
+		$s17 = {((64 47 4e 77 5a 48 56 74 63 41) | (64 00 47 00 4e 00 77 00 5a 00 48 00 56 00 74 00 63 00 41 00))}
+		$s18 = {((61 57 35 30 5a 58 4a 6a 5a 58 42 30 5a 58 49) | (61 00 57 00 35 00 30 00 5a 00 58 00 4a 00 6a 00 5a 00 58 00 42 00 30 00 5a 00 58 00 49 00))}
+		$s19 = {((53 57 35 30 5a 58 4a 6a 5a 58 42 30 5a 58 49 74 54 6b 63) | (53 00 57 00 35 00 30 00 5a 00 58 00 4a 00 6a 00 5a 00 58 00 42 00 30 00 5a 00 58 00 49 00 74 00 54 00 6b 00 63 00))}
+		$s20 = {((62 32 78 73 65 57 52 69 5a 77) | (62 00 32 00 78 00 73 00 65 00 57 00 52 00 69 00 5a 00 77 00))}
+		$s21 = {((65 44 59 30 5a 47 4a 6e) | (65 00 44 00 59 00 30 00 5a 00 47 00 4a 00 6e 00))}
+		$s22 = {((65 44 4d 79 5a 47 4a 6e) | (65 00 44 00 4d 00 79 00 5a 00 47 00 4a 00 6e 00))}
+		$s23 = {((5a 47 35 7a 63 48 6b) | (5a 00 47 00 35 00 7a 00 63 00 48 00 6b 00))}
+		$s24 = {((5a 47 55 30 5a 47 39 30) | (5a 00 47 00 55 00 30 00 5a 00 47 00 39 00 30 00))}
+		$s25 = {((61 57 78 7a 63 48 6b) | (61 00 57 00 78 00 7a 00 63 00 48 00 6b 00))}
+		$s26 = {((5a 47 39 30 63 47 56 6c 61) | (5a 00 47 00 39 00 30 00 63 00 47 00 56 00 6c 00 61 00))}
+		$s27 = {((61 57 52 68 4e 6a 51) | (61 00 57 00 52 00 68 00 4e 00 6a 00 51 00))}
+		$s28 = {((55 6b 52 48 49 46 42 68 59 32 74 6c 63 69 42 45 5a 58 52 6c 59 33 52 76 63 67) | (55 00 6b 00 52 00 48 00 49 00 46 00 42 00 68 00 59 00 32 00 74 00 6c 00 63 00 69 00 42 00 45 00 5a 00 58 00 52 00 6c 00 59 00 33 00 52 00 76 00 63 00 67 00))}
+		$s29 = {((51 30 5a 47 49 45 56 34 63 47 78 76 63 6d 56 79) | (51 00 30 00 5a 00 47 00 49 00 45 00 56 00 34 00 63 00 47 00 78 00 76 00 63 00 6d 00 56 00 79 00))}
+		$s30 = {((55 45 56 70 52 41) | (55 00 45 00 56 00 70 00 52 00 41 00))}
+		$s31 = {((63 48 4a 76 64 47 56 6a 64 47 6c 76 62 6c 39 70 5a 41) | (63 00 48 00 4a 00 76 00 64 00 47 00 56 00 6a 00 64 00 47 00 6c 00 76 00 62 00 6c 00 39 00 70 00 5a 00 41 00))}
+		$s32 = {((54 47 39 79 5a 46 42 46) | (54 00 47 00 39 00 79 00 5a 00 46 00 42 00 46 00))}
+		$s33 = {((63 47 55 74 63 32 6c 6c 64 6d 55 3d) | (63 00 47 00 55 00 74 00 63 00 32 00 6c 00 6c 00 64 00 6d 00 55 00 3d 00))}
+		$s34 = {((54 57 56 6e 59 55 52 31 62 58 42 6c 63 67) | (54 00 57 00 56 00 6e 00 59 00 55 00 52 00 31 00 62 00 58 00 42 00 6c 00 63 00 67 00))}
+		$s35 = {((56 57 35 44 62 32 35 6d 64 58 4e 6c 63 6b 56 34) | (56 00 57 00 35 00 44 00 62 00 32 00 35 00 6d 00 64 00 58 00 4e 00 6c 00 63 00 6b 00 56 00 34 00))}
+		$s36 = {((56 57 35 70 64 6d 56 79 63 32 46 73 58 30 5a 70 65 47 56 79) | (56 00 57 00 35 00 70 00 64 00 6d 00 56 00 79 00 63 00 32 00 46 00 73 00 58 00 30 00 5a 00 70 00 65 00 47 00 56 00 79 00))}
+		$s37 = {((54 6d 39 47 64 58 4e 6c 63 6b 56 34) | (54 00 6d 00 39 00 47 00 64 00 58 00 4e 00 6c 00 63 00 6b 00 56 00 34 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 4 of them
+}
+
+rule INDICATOR_SUSPICIOUS_References_Sandbox_Artifacts : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects executables referencing sandbox artifacts"
+
+	strings:
+		$s1 = {((43 3a 5c 61 67 65 6e 74 5c 61 67 65 6e 74 2e 70 79 77) | (43 00 3a 00 5c 00 61 00 67 00 65 00 6e 00 74 00 5c 00 61 00 67 00 65 00 6e 00 74 00 2e 00 70 00 79 00 77 00))}
+		$s2 = {((43 3a 5c 73 61 6e 64 62 6f 78 5c 73 74 61 72 74 65 72 2e 65 78 65) | (43 00 3a 00 5c 00 73 00 61 00 6e 00 64 00 62 00 6f 00 78 00 5c 00 73 00 74 00 61 00 72 00 74 00 65 00 72 00 2e 00 65 00 78 00 65 00))}
+		$s3 = {((63 3a 5c 69 70 66 5c 42 44 43 6f 72 65 5f 55 2e 64 6c 6c) | (63 00 3a 00 5c 00 69 00 70 00 66 00 5c 00 42 00 44 00 43 00 6f 00 72 00 65 00 5f 00 55 00 2e 00 64 00 6c 00 6c 00))}
+		$s4 = {((43 3a 5c 63 77 73 61 6e 64 62 6f 78 5f 6d 61 6e 61 67 65 72) | (43 00 3a 00 5c 00 63 00 77 00 73 00 61 00 6e 00 64 00 62 00 6f 00 78 00 5f 00 6d 00 61 00 6e 00 61 00 67 00 65 00 72 00))}
+		$s5 = {((43 3a 5c 63 77 73 61 6e 64 62 6f 78) | (43 00 3a 00 5c 00 63 00 77 00 73 00 61 00 6e 00 64 00 62 00 6f 00 78 00))}
+		$s6 = {((43 3a 5c 53 74 75 66 66 5c 6f 64 62 67 31 31 30) | (43 00 3a 00 5c 00 53 00 74 00 75 00 66 00 66 00 5c 00 6f 00 64 00 62 00 67 00 31 00 31 00 30 00))}
+		$s7 = {((43 3a 5c 67 66 69 73 61 6e 64 62 6f 78) | (43 00 3a 00 5c 00 67 00 66 00 69 00 73 00 61 00 6e 00 64 00 62 00 6f 00 78 00))}
+		$s8 = {((43 3a 5c 56 69 72 75 73 20 41 6e 61 6c 79 73 69 73) | (43 00 3a 00 5c 00 56 00 69 00 72 00 75 00 73 00 20 00 41 00 6e 00 61 00 6c 00 79 00 73 00 69 00 73 00))}
+		$s9 = {((43 3a 5c 69 44 45 46 45 4e 53 45 5c 53 79 73 41 6e 61 6c 79 7a 65 72) | (43 00 3a 00 5c 00 69 00 44 00 45 00 46 00 45 00 4e 00 53 00 45 00 5c 00 53 00 79 00 73 00 41 00 6e 00 61 00 6c 00 79 00 7a 00 65 00 72 00))}
+		$s10 = {((63 3a 5c 67 6e 75 5c 62 69 6e) | (63 00 3a 00 5c 00 67 00 6e 00 75 00 5c 00 62 00 69 00 6e 00))}
+		$s11 = {((43 3a 5c 53 61 6e 64 43 61 73 74 6c 65 5c 74 6f 6f 6c 73) | (43 00 3a 00 5c 00 53 00 61 00 6e 00 64 00 43 00 61 00 73 00 74 00 6c 00 65 00 5c 00 74 00 6f 00 6f 00 6c 00 73 00))}
+		$s12 = {((43 3a 5c 63 75 63 6b 6f 6f 5c 64 6c 6c) | (43 00 3a 00 5c 00 63 00 75 00 63 00 6b 00 6f 00 6f 00 5c 00 64 00 6c 00 6c 00))}
+		$s13 = {((43 3a 5c 4d 44 53 5c 57 69 6e 44 75 6d 70 2e 65 78 65) | (43 00 3a 00 5c 00 4d 00 44 00 53 00 5c 00 57 00 69 00 6e 00 44 00 75 00 6d 00 70 00 2e 00 65 00 78 00 65 00))}
+		$s14 = {((43 3a 5c 74 73 6c 5c 52 61 70 74 6f 72 63 6c 69 65 6e 74 2e 65 78 65) | (43 00 3a 00 5c 00 74 00 73 00 6c 00 5c 00 52 00 61 00 70 00 74 00 6f 00 72 00 63 00 6c 00 69 00 65 00 6e 00 74 00 2e 00 65 00 78 00 65 00))}
+		$s15 = {((43 3a 5c 67 75 65 73 74 5f 74 6f 6f 6c 73 5c 73 74 61 72 74 2e 62 61 74) | (43 00 3a 00 5c 00 67 00 75 00 65 00 73 00 74 00 5f 00 74 00 6f 00 6f 00 6c 00 73 00 5c 00 73 00 74 00 61 00 72 00 74 00 2e 00 62 00 61 00 74 00))}
+		$s16 = {((43 3a 5c 74 6f 6f 6c 73 5c 61 73 77 73 6e 78 5c 73 6e 78 63 6d 64 2e 65 78 65) | (43 00 3a 00 5c 00 74 00 6f 00 6f 00 6c 00 73 00 5c 00 61 00 73 00 77 00 73 00 6e 00 78 00 5c 00 73 00 6e 00 78 00 63 00 6d 00 64 00 2e 00 65 00 78 00 65 00))}
+		$s17 = {((43 3a 5c 57 69 6e 61 70 5c 63 6b 6d 6f 6e 2e 70 79 77) | (43 00 3a 00 5c 00 57 00 69 00 6e 00 61 00 70 00 5c 00 63 00 6b 00 6d 00 6f 00 6e 00 2e 00 70 00 79 00 77 00))}
+		$s18 = {((63 3a 5c 74 6f 6f 6c 73 5c 64 65 63 6f 64 65 7a 65 75 73) | (63 00 3a 00 5c 00 74 00 6f 00 6f 00 6c 00 73 00 5c 00 64 00 65 00 63 00 6f 00 64 00 65 00 7a 00 65 00 75 00 73 00))}
+		$s19 = {((63 3a 5c 74 6f 6f 6c 73 5c 61 73 77 73 6e 78) | (63 00 3a 00 5c 00 74 00 6f 00 6f 00 6c 00 73 00 5c 00 61 00 73 00 77 00 73 00 6e 00 78 00))}
+		$s20 = {((43 3a 5c 73 61 6e 64 62 6f 78 5c 73 74 61 72 74 65 72 2e 65 78 65) | (43 00 3a 00 5c 00 73 00 61 00 6e 00 64 00 62 00 6f 00 78 00 5c 00 73 00 74 00 61 00 72 00 74 00 65 00 72 00 2e 00 65 00 78 00 65 00))}
+		$s21 = {((43 3a 5c 4b 69 74 5c 70 72 6f 63 65 78 70 2e 65 78 65) | (43 00 3a 00 5c 00 4b 00 69 00 74 00 5c 00 70 00 72 00 6f 00 63 00 65 00 78 00 70 00 2e 00 65 00 78 00 65 00))}
+		$s22 = {((63 3a 5c 74 72 61 63 65 72 5c 6d 64 61 72 65 33 32 5f 30 2e 73 79 73) | (63 00 3a 00 5c 00 74 00 72 00 61 00 63 00 65 00 72 00 5c 00 6d 00 64 00 61 00 72 00 65 00 33 00 32 00 5f 00 30 00 2e 00 73 00 79 00 73 00))}
+		$s23 = {((43 3a 5c 74 6f 6f 6c 5c 6d 61 6c 6d 6f 6e) | (43 00 3a 00 5c 00 74 00 6f 00 6f 00 6c 00 5c 00 6d 00 61 00 6c 00 6d 00 6f 00 6e 00))}
+		$s24 = {((43 3a 5c 53 61 6d 70 6c 65 73 5c 31 30 32 31 31 34 5c 43 6f 6d 70 6c 65 74 65 64) | (43 00 3a 00 5c 00 53 00 61 00 6d 00 70 00 6c 00 65 00 73 00 5c 00 31 00 30 00 32 00 31 00 31 00 34 00 5c 00 43 00 6f 00 6d 00 70 00 6c 00 65 00 74 00 65 00 64 00))}
+		$s25 = {((63 3a 5c 76 6d 72 65 6d 6f 74 65 5c 56 6d 52 65 6d 6f 74 65 47 75 65 73 74 2e 65 78 65) | (63 00 3a 00 5c 00 76 00 6d 00 72 00 65 00 6d 00 6f 00 74 00 65 00 5c 00 56 00 6d 00 52 00 65 00 6d 00 6f 00 74 00 65 00 47 00 75 00 65 00 73 00 74 00 2e 00 65 00 78 00 65 00))}
+		$s26 = {((64 3a 5c 73 61 6e 64 62 6f 78 5f 73 76 63 2e 65 78 65) | (64 00 3a 00 5c 00 73 00 61 00 6e 00 64 00 62 00 6f 00 78 00 5f 00 73 00 76 00 63 00 2e 00 65 00 78 00 65 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 3 of them
+}
+
+rule INDICATOR_SUSPICIOUS_EXE_Embedded_Gzip_B64Encoded_File : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects executables containing bas64 encoded gzip files"
+		score = 40
+
+	strings:
+		$s1 = {((48 34 73 49 41 41 41 41 41 41 41) | (48 00 34 00 73 00 49 00 41 00 41 00 41 00 41 00 41 00 41 00 41 00))}
+		$s2 = {((41 41 41 41 41 41 41 49 73 34 48) | (41 00 41 00 41 00 41 00 41 00 41 00 41 00 49 00 73 00 34 00 48 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 1 of them
+}
+
+rule INDICATOR_SUSPICIOUS_EXE_RawGitHub_URL : refined hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects executables containing URLs to raw contents of a Github gist"
+		score = 10
+
+	strings:
+		$url1 = {((68 74 74 70 73 3a 2f 2f 67 69 73 74 2e 67 69 74 68 75 62 75 73 65 72 63 6f 6e 74 65 6e 74 2e 63 6f 6d 2f) | (68 00 74 00 74 00 70 00 73 00 3a 00 2f 00 2f 00 67 00 69 00 73 00 74 00 2e 00 67 00 69 00 74 00 68 00 75 00 62 00 75 00 73 00 65 00 72 00 63 00 6f 00 6e 00 74 00 65 00 6e 00 74 00 2e 00 63 00 6f 00 6d 00 2f 00))}
+		$url2 = {((68 74 74 70 73 3a 2f 2f 72 61 77 2e 67 69 74 68 75 62 75 73 65 72 63 6f 6e 74 65 6e 74 2e 63 6f 6d 2f) | (68 00 74 00 74 00 70 00 73 00 3a 00 2f 00 2f 00 72 00 61 00 77 00 2e 00 67 00 69 00 74 00 68 00 75 00 62 00 75 00 73 00 65 00 72 00 63 00 6f 00 6e 00 74 00 65 00 6e 00 74 00 2e 00 63 00 6f 00 6d 00 2f 00))}
+		$raw = {((2f 72 61 77 2f) | (2f 00 72 00 61 00 77 00 2f 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and ( ( $url1 and $raw ) or ( $url2 ) )
+}
+
+rule INDICATOR_SUSPICIOUS_EXE_RawPaste_URL : hardened limited
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects executables (downlaoders) containing URLs to raw contents of a paste"
+
+	strings:
+		$u1 = {((68 74 74 70 73 3a 2f 2f 70 61 73 74 65 62 69 6e 2e 63 6f 6d 2f) | (68 00 74 00 74 00 70 00 73 00 3a 00 2f 00 2f 00 70 00 61 00 73 00 74 00 65 00 62 00 69 00 6e 00 2e 00 63 00 6f 00 6d 00 2f 00))}
+		$u2 = {((68 74 74 70 73 3a 2f 2f 70 61 73 74 65 2e 65 65 2f) | (68 00 74 00 74 00 70 00 73 00 3a 00 2f 00 2f 00 70 00 61 00 73 00 74 00 65 00 2e 00 65 00 65 00 2f 00))}
+		$u3 = {((68 74 74 70 73 3a 2f 2f 70 61 73 74 65 63 6f 64 65 2e 78 79 7a 2f) | (68 00 74 00 74 00 70 00 73 00 3a 00 2f 00 2f 00 70 00 61 00 73 00 74 00 65 00 63 00 6f 00 64 00 65 00 2e 00 78 00 79 00 7a 00 2f 00))}
+		$u4 = {((68 74 74 70 73 3a 2f 2f 72 65 6e 74 72 79 2e 63 6f 2f) | (68 00 74 00 74 00 70 00 73 00 3a 00 2f 00 2f 00 72 00 65 00 6e 00 74 00 72 00 79 00 2e 00 63 00 6f 00 2f 00))}
+		$u5 = {((68 74 74 70 73 3a 2f 2f 70 61 73 74 65 2e 6e 72 65 63 6f 6d 2e 6e 65 74 2f) | (68 00 74 00 74 00 70 00 73 00 3a 00 2f 00 2f 00 70 00 61 00 73 00 74 00 65 00 2e 00 6e 00 72 00 65 00 63 00 6f 00 6d 00 2e 00 6e 00 65 00 74 00 2f 00))}
+		$u6 = {((68 74 74 70 73 3a 2f 2f 68 61 73 74 65 62 69 6e 2e 63 6f 6d 2f) | (68 00 74 00 74 00 70 00 73 00 3a 00 2f 00 2f 00 68 00 61 00 73 00 74 00 65 00 62 00 69 00 6e 00 2e 00 63 00 6f 00 6d 00 2f 00))}
+		$u7 = {((68 74 74 70 73 3a 2f 2f 70 72 69 76 61 74 65 62 69 6e 2e 69 6e 66 6f 2f) | (68 00 74 00 74 00 70 00 73 00 3a 00 2f 00 2f 00 70 00 72 00 69 00 76 00 61 00 74 00 65 00 62 00 69 00 6e 00 2e 00 69 00 6e 00 66 00 6f 00 2f 00))}
+		$u8 = {((68 74 74 70 73 3a 2f 2f 70 65 6e 79 61 63 6f 6d 2e 6f 72 67 2f) | (68 00 74 00 74 00 70 00 73 00 3a 00 2f 00 2f 00 70 00 65 00 6e 00 79 00 61 00 63 00 6f 00 6d 00 2e 00 6f 00 72 00 67 00 2f 00))}
+		$u9 = {((68 74 74 70 73 3a 2f 2f 63 6f 6e 74 72 6f 6c 63 2e 63 6f 6d 2f) | (68 00 74 00 74 00 70 00 73 00 3a 00 2f 00 2f 00 63 00 6f 00 6e 00 74 00 72 00 6f 00 6c 00 63 00 2e 00 63 00 6f 00 6d 00 2f 00))}
+		$u10 = {((68 74 74 70 73 3a 2f 2f 74 69 6e 79 2d 70 61 73 74 65 2e 63 6f 6d 2f) | (68 00 74 00 74 00 70 00 73 00 3a 00 2f 00 2f 00 74 00 69 00 6e 00 79 00 2d 00 70 00 61 00 73 00 74 00 65 00 2e 00 63 00 6f 00 6d 00 2f 00))}
+		$u11 = {((68 74 74 70 73 3a 2f 2f 70 61 73 74 65 2e 74 65 6b 6e 69 6b 2e 69 6f 2f) | (68 00 74 00 74 00 70 00 73 00 3a 00 2f 00 2f 00 70 00 61 00 73 00 74 00 65 00 2e 00 74 00 65 00 6b 00 6e 00 69 00 6b 00 2e 00 69 00 6f 00 2f 00))}
+		$u12 = {((68 74 74 70 73 3a 2f 2f 70 72 69 76 6e 6f 74 65 2e 63 6f 6d 2f) | (68 00 74 00 74 00 70 00 73 00 3a 00 2f 00 2f 00 70 00 72 00 69 00 76 00 6e 00 6f 00 74 00 65 00 2e 00 63 00 6f 00 6d 00 2f 00))}
+		$u13 = {((68 74 74 70 73 3a 2f 2f 68 75 73 68 6e 6f 74 65 2e 68 65 72 6f 6b 75 61 70 70 2e 63 6f 6d 2f) | (68 00 74 00 74 00 70 00 73 00 3a 00 2f 00 2f 00 68 00 75 00 73 00 68 00 6e 00 6f 00 74 00 65 00 2e 00 68 00 65 00 72 00 6f 00 6b 00 75 00 61 00 70 00 70 00 2e 00 63 00 6f 00 6d 00 2f 00))}
+		$s1 = {((2f 72 61 77 2f) | (2f 00 72 00 61 00 77 00 2f 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and ( 1 of ( $u* ) and all of ( $s* ) )
+}
+
+rule INDICATOR_SUSPICIOUS_EXE_RawPaste_Reverse_URL : hardened limited
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects executables (downloaders) containing reversed URLs to raw contents of a paste"
+
+	strings:
+		$u1 = {((2f 6d 6f 63 2e 6e 69 62 65 74 73 61 70 2f 2f 3a 73 70 74 74 68) | (2f 00 6d 00 6f 00 63 00 2e 00 6e 00 69 00 62 00 65 00 74 00 73 00 61 00 70 00 2f 00 2f 00 3a 00 73 00 70 00 74 00 74 00 68 00))}
+		$u2 = {((2f 65 65 2e 65 74 73 61 70 2f 2f 3a 73 70 74 74 68) | (2f 00 65 00 65 00 2e 00 65 00 74 00 73 00 61 00 70 00 2f 00 2f 00 3a 00 73 00 70 00 74 00 74 00 68 00))}
+		$u3 = {((2f 7a 79 78 2e 65 64 6f 63 65 74 73 61 70 2f 2f 3a 73 70 74 74 68) | (2f 00 7a 00 79 00 78 00 2e 00 65 00 64 00 6f 00 63 00 65 00 74 00 73 00 61 00 70 00 2f 00 2f 00 3a 00 73 00 70 00 74 00 74 00 68 00))}
+		$u4 = {((2f 6f 63 2e 79 72 74 6e 65 72 2f 2f 3a 73 70 74 74 68) | (2f 00 6f 00 63 00 2e 00 79 00 72 00 74 00 6e 00 65 00 72 00 2f 00 2f 00 3a 00 73 00 70 00 74 00 74 00 68 00))}
+		$u5 = {((2f 74 65 6e 2e 6d 6f 63 65 72 6e 2e 65 74 73 61 70 2f 2f 3a 73 70 74 74 68) | (2f 00 74 00 65 00 6e 00 2e 00 6d 00 6f 00 63 00 65 00 72 00 6e 00 2e 00 65 00 74 00 73 00 61 00 70 00 2f 00 2f 00 3a 00 73 00 70 00 74 00 74 00 68 00))}
+		$u6 = {((2f 6d 6f 63 2e 6e 69 62 65 74 73 61 68 2f 2f 3a 73 70 74 74 68) | (2f 00 6d 00 6f 00 63 00 2e 00 6e 00 69 00 62 00 65 00 74 00 73 00 61 00 68 00 2f 00 2f 00 3a 00 73 00 70 00 74 00 74 00 68 00))}
+		$u7 = {((2f 6f 66 6e 69 2e 6e 69 62 65 74 61 76 69 72 70 2f 2f 3a 73 70 74 74 68) | (2f 00 6f 00 66 00 6e 00 69 00 2e 00 6e 00 69 00 62 00 65 00 74 00 61 00 76 00 69 00 72 00 70 00 2f 00 2f 00 3a 00 73 00 70 00 74 00 74 00 68 00))}
+		$u8 = {((2f 67 72 6f 2e 6d 6f 63 61 79 6e 65 70 2f 2f 3a 73 70 74 74 68) | (2f 00 67 00 72 00 6f 00 2e 00 6d 00 6f 00 63 00 61 00 79 00 6e 00 65 00 70 00 2f 00 2f 00 3a 00 73 00 70 00 74 00 74 00 68 00))}
+		$u9 = {((2f 6d 6f 63 2e 63 6c 6f 72 74 6e 6f 63 2f 2f 3a 73 70 74 74 68) | (2f 00 6d 00 6f 00 63 00 2e 00 63 00 6c 00 6f 00 72 00 74 00 6e 00 6f 00 63 00 2f 00 2f 00 3a 00 73 00 70 00 74 00 74 00 68 00))}
+		$u10 = {((2f 6d 6f 63 2e 65 74 73 61 70 2d 79 6e 69 74 2f 2f 3a 73 70 74 74 68) | (2f 00 6d 00 6f 00 63 00 2e 00 65 00 74 00 73 00 61 00 70 00 2d 00 79 00 6e 00 69 00 74 00 2f 00 2f 00 3a 00 73 00 70 00 74 00 74 00 68 00))}
+		$u11 = {((2f 6f 69 2e 6b 69 6e 6b 65 74 2e 65 74 73 61 70 2f 2f 3a 73 70 74 74 68) | (2f 00 6f 00 69 00 2e 00 6b 00 69 00 6e 00 6b 00 65 00 74 00 2e 00 65 00 74 00 73 00 61 00 70 00 2f 00 2f 00 3a 00 73 00 70 00 74 00 74 00 68 00))}
+		$u12 = {((2f 6d 6f 63 2e 65 74 6f 6e 76 69 72 70 2f 2f 3a 73 70 74 74 68) | (2f 00 6d 00 6f 00 63 00 2e 00 65 00 74 00 6f 00 6e 00 76 00 69 00 72 00 70 00 2f 00 2f 00 3a 00 73 00 70 00 74 00 74 00 68 00))}
+		$u13 = {((2f 6d 6f 63 2e 70 70 61 75 6b 6f 72 65 68 2e 65 74 6f 6e 68 73 75 68 2f 2f 3a 73 70 74 74 68) | (2f 00 6d 00 6f 00 63 00 2e 00 70 00 70 00 61 00 75 00 6b 00 6f 00 72 00 65 00 68 00 2e 00 65 00 74 00 6f 00 6e 00 68 00 73 00 75 00 68 00 2f 00 2f 00 3a 00 73 00 70 00 74 00 74 00 68 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 1 of ( $u* )
+}
+
+rule INDICATOR_SUSPICIOUS_EXE_UACBypass_EnvVarScheduledTasks : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "detects Windows exceutables potentially bypassing UAC (ab)using Environment Variables in Scheduled Tasks"
+
+	strings:
+		$s1 = {((5c 4d 69 63 72 6f 73 6f 66 74 5c 57 69 6e 64 6f 77 73 5c 44 69 73 6b 43 6c 65 61 6e 75 70 5c 53 69 6c 65 6e 74 43 6c 65 61 6e 75 70) | (5c 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 5c 00 44 00 69 00 73 00 6b 00 43 00 6c 00 65 00 61 00 6e 00 75 00 70 00 5c 00 53 00 69 00 6c 00 65 00 6e 00 74 00 43 00 6c 00 65 00 61 00 6e 00 75 00 70 00))}
+		$s2 = {((5c 45 6e 76 69 72 6f 6e 6d 65 6e 74) | (5c 00 45 00 6e 00 76 00 69 00 72 00 6f 00 6e 00 6d 00 65 00 6e 00 74 00))}
+		$s3 = {((73 63 68 74 61 73 6b 73) | (73 00 63 00 68 00 74 00 61 00 73 00 6b 00 73 00))}
+		$s4 = {((2f 76 20 77 69 6e 64 69 72) | (2f 00 76 00 20 00 77 00 69 00 6e 00 64 00 69 00 72 00))}
+
+	condition:
+		all of them
+}
+
+rule INDICATOR_SUSPICIOUS_EXE_UACBypass_fodhelper : hardened limited
+{
+	meta:
+		author = "ditekSHen"
+		description = "detects Windows exceutables potentially bypassing UAC using fodhelper.exe"
+
+	strings:
+		$s1 = {((5c 73 6f 66 74 77 61 72 65 5c 63 6c 61 73 73 65 73 5c 6d 73 2d 73 65 74 74 69 6e 67 73 5c 73 68 65 6c 6c 5c 6f 70 65 6e 5c 63 6f 6d 6d 61 6e 64) | (5c 00 73 00 6f 00 66 00 74 00 77 00 61 00 72 00 65 00 5c 00 63 00 6c 00 61 00 73 00 73 00 65 00 73 00 5c 00 6d 00 73 00 2d 00 73 00 65 00 74 00 74 00 69 00 6e 00 67 00 73 00 5c 00 73 00 68 00 65 00 6c 00 6c 00 5c 00 6f 00 70 00 65 00 6e 00 5c 00 63 00 6f 00 6d 00 6d 00 61 00 6e 00 64 00))}
+		$s2 = {((44 65 6c 65 67 61 74 65 45 78 65 63 75 74 65) | (44 00 65 00 6c 00 65 00 67 00 61 00 74 00 65 00 45 00 78 00 65 00 63 00 75 00 74 00 65 00))}
+		$s3 = {((66 6f 64 68 65 6c 70 65 72) | (66 00 6f 00 64 00 68 00 65 00 6c 00 70 00 65 00 72 00))}
+		$s4 = {((43 6f 6e 73 65 6e 74 50 72 6f 6d 70 74 42 65 68 61 76 69 6f 72 41 64 6d 69 6e) | (43 00 6f 00 6e 00 73 00 65 00 6e 00 74 00 50 00 72 00 6f 00 6d 00 70 00 74 00 42 00 65 00 68 00 61 00 76 00 69 00 6f 00 72 00 41 00 64 00 6d 00 69 00 6e 00))}
+
+	condition:
+		all of them
+}
+
+rule INDICATOR_SUSPICIOUS_EXE_UACBypass_CMSTPCMD : hardened limited
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects Windows exceutables bypassing UAC using CMSTP utility, command line and INF"
+
+	strings:
+		$s1 = {((63 3a 5c 77 69 6e 64 6f 77 73 5c 73 79 73 74 65 6d 33 32 5c 63 6d 73 74 70 2e 65 78 65) | (63 00 3a 00 5c 00 77 00 69 00 6e 00 64 00 6f 00 77 00 73 00 5c 00 73 00 79 00 73 00 74 00 65 00 6d 00 33 00 32 00 5c 00 63 00 6d 00 73 00 74 00 70 00 2e 00 65 00 78 00 65 00))}
+		$s2 = {((74 61 73 6b 6b 69 6c 6c 20 2f 49 4d 20 63 6d 73 74 70 2e 65 78 65 20 2f 46) | (74 00 61 00 73 00 6b 00 6b 00 69 00 6c 00 6c 00 20 00 2f 00 49 00 4d 00 20 00 63 00 6d 00 73 00 74 00 70 00 2e 00 65 00 78 00 65 00 20 00 2f 00 46 00))}
+		$s3 = {43 4d 53 54 50 42 79 70 61 73 73}
+		$s4 = {43 6f 6d 6d 61 6e 64 54 6f 45 78 65 63 75 74 65}
+		$s5 = {52 00 75 00 6e 00 50 00 72 00 65 00 53 00 65 00 74 00 75 00 70 00 43 00 6f 00 6d 00 6d 00 61 00 6e 00 64 00 73 00 3d 00 52 00 75 00 6e 00 50 00 72 00 65 00 53 00 65 00 74 00 75 00 70 00 43 00 6f 00 6d 00 6d 00 61 00 6e 00 64 00 73 00 53 00 65 00 63 00 74 00 69 00 6f 00 6e 00}
+		$s6 = {22 00 48 00 4b 00 4c 00 4d 00 22 00 2c 00 20 00 22 00 53 00 4f 00 46 00 54 00 57 00 41 00 52 00 45 00 5c 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 5c 00 43 00 75 00 72 00 72 00 65 00 6e 00 74 00 56 00 65 00 72 00 73 00 69 00 6f 00 6e 00 5c 00 41 00 70 00 70 00 20 00 50 00 61 00 74 00 68 00 73 00 5c 00 43 00 4d 00 4d 00 47 00 52 00 33 00 32 00 2e 00 45 00 58 00 45 00 22 00 2c 00 20 00 22 00 50 00 72 00 6f 00 66 00 69 00 6c 00 65 00 49 00 6e 00 73 00 74 00 61 00 6c 00 6c 00 50 00 61 00 74 00 68 00 22 00 2c 00 20 00 22 00 25 00 55 00 6e 00 65 00 78 00 70 00 65 00 63 00 74 00 65 00 64 00 45 00 72 00 72 00 6f 00 72 00 25 00 22 00 2c 00 20 00 22 00 22 00}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 3 of them
+}
+
+rule INDICATOR_SUSPICIOUS_EXE_SandboxUserNames : hardened limited
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects executables containing possible sandbox analysis VM usernames"
+		score = 60
+
+	strings:
+		$s1 = {((31 35 70 62) | (31 00 35 00 70 00 62 00))}
+		$s2 = {((37 6d 61 6e 32) | (37 00 6d 00 61 00 6e 00 32 00))}
+		$s3 = {((73 74 65 6c 6c 61) | (73 00 74 00 65 00 6c 00 6c 00 61 00))}
+		$s4 = {((66 34 6b 68 39 6f 64) | (66 00 34 00 6b 00 68 00 39 00 6f 00 64 00))}
+		$s5 = {((77 69 6c 6c 63 61 72 74 65 72) | (77 00 69 00 6c 00 6c 00 63 00 61 00 72 00 74 00 65 00 72 00))}
+		$s6 = {((62 69 6c 75 74 61) | (62 00 69 00 6c 00 75 00 74 00 61 00))}
+		$s7 = {((65 68 77 61 6c 6b 65 72) | (65 00 68 00 77 00 61 00 6c 00 6b 00 65 00 72 00))}
+		$s8 = {((68 6f 6e 67 20 6c 65 65) | (68 00 6f 00 6e 00 67 00 20 00 6c 00 65 00 65 00))}
+		$s9 = {((6a 6f 65 20 63 61 67 65) | (6a 00 6f 00 65 00 20 00 63 00 61 00 67 00 65 00))}
+		$s10 = {((6a 6f 6e 61 74 68 61 6e) | (6a 00 6f 00 6e 00 61 00 74 00 68 00 61 00 6e 00))}
+		$s11 = {((6b 69 6e 64 73 69 67 68 74) | (6b 00 69 00 6e 00 64 00 73 00 69 00 67 00 68 00 74 00))}
+		$s12 = {((6d 61 6c 77 61 72 65) | (6d 00 61 00 6c 00 77 00 61 00 72 00 65 00))}
+		$s13 = {((70 65 74 65 72 20 6d 69 6c 6c 65 72) | (70 00 65 00 74 00 65 00 72 00 20 00 6d 00 69 00 6c 00 6c 00 65 00 72 00))}
+		$s14 = {((70 65 74 65 72 6d 69 6c 6c 65 72) | (70 00 65 00 74 00 65 00 72 00 6d 00 69 00 6c 00 6c 00 65 00 72 00))}
+		$s15 = {((70 68 69 6c) | (70 00 68 00 69 00 6c 00))}
+		$s16 = {((72 61 70 69 74) | (72 00 61 00 70 00 69 00 74 00))}
+		$s17 = {((72 30 62 30 74) | (72 00 30 00 62 00 30 00 74 00))}
+		$s18 = {((63 75 63 6b 6f 6f) | (63 00 75 00 63 00 6b 00 6f 00 6f 00))}
+		$s19 = {((76 6d 2d 70 63) | (76 00 6d 00 2d 00 70 00 63 00))}
+		$s20 = {((61 6e 61 6c 79 7a 65) | (61 00 6e 00 61 00 6c 00 79 00 7a 00 65 00))}
+		$s21 = {((72 6f 73 6c 79 6e) | (72 00 6f 00 73 00 6c 00 79 00 6e 00))}
+		$s22 = {((76 69 6e 63 65) | (76 00 69 00 6e 00 63 00 65 00))}
+		$s23 = {((74 65 73 74) | (74 00 65 00 73 00 74 00))}
+		$s24 = {((73 61 6d 70 6c 65) | (73 00 61 00 6d 00 70 00 6c 00 65 00))}
+		$s25 = {((6d 63 61 66 65 65) | (6d 00 63 00 61 00 66 00 65 00 65 00))}
+		$s26 = {((76 6d 73 63 61 6e) | (76 00 6d 00 73 00 63 00 61 00 6e 00))}
+		$s27 = {((6d 61 6c 6c 61 62) | (6d 00 61 00 6c 00 6c 00 61 00 62 00))}
+		$s28 = {((61 62 62 79) | (61 00 62 00 62 00 79 00))}
+		$s29 = {((65 6c 76 69 73) | (65 00 6c 00 76 00 69 00 73 00))}
+		$s30 = {((77 69 6c 62 65 72 74) | (77 00 69 00 6c 00 62 00 65 00 72 00 74 00))}
+		$s31 = {((6a 6f 65 20 73 6d 69 74 68) | (6a 00 6f 00 65 00 20 00 73 00 6d 00 69 00 74 00 68 00))}
+		$s32 = {((68 61 6e 73 70 65 74 65 72) | (68 00 61 00 6e 00 73 00 70 00 65 00 74 00 65 00 72 00))}
+		$s33 = {((6a 6f 68 6e 73 6f 6e) | (6a 00 6f 00 68 00 6e 00 73 00 6f 00 6e 00))}
+		$s34 = {((70 6c 61 63 65 68 6f 6c 65) | (70 00 6c 00 61 00 63 00 65 00 68 00 6f 00 6c 00 65 00))}
+		$s35 = {((74 65 71 75 69 6c 61) | (74 00 65 00 71 00 75 00 69 00 6c 00 61 00))}
+		$s36 = {((70 61 67 67 79 20 73 75 65) | (70 00 61 00 67 00 67 00 79 00 20 00 73 00 75 00 65 00))}
+		$s37 = {((6b 6c 6f 6e 65) | (6b 00 6c 00 6f 00 6e 00 65 00))}
+		$s38 = {((6f 6c 69 76 65 72) | (6f 00 6c 00 69 00 76 00 65 00 72 00))}
+		$s39 = {((73 74 65 76 65 6e 73) | (73 00 74 00 65 00 76 00 65 00 6e 00 73 00))}
+		$s40 = {((69 65 75 73 65 72) | (69 00 65 00 75 00 73 00 65 00 72 00))}
+		$s41 = {((76 69 72 6c 61 62) | (76 00 69 00 72 00 6c 00 61 00 62 00))}
+		$s42 = {((62 65 67 69 6e 65 72) | (62 00 65 00 67 00 69 00 6e 00 65 00 72 00))}
+		$s43 = {((62 65 67 69 6e 6e 65 72) | (62 00 65 00 67 00 69 00 6e 00 6e 00 65 00 72 00))}
+		$s44 = {((6d 61 72 6b 6f 73) | (6d 00 61 00 72 00 6b 00 6f 00 73 00))}
+		$s45 = {((73 65 6d 69 6d 73) | (73 00 65 00 6d 00 69 00 6d 00 73 00))}
+		$s46 = {((67 72 65 67 6f 72 79) | (67 00 72 00 65 00 67 00 6f 00 72 00 79 00))}
+		$s47 = {((74 6f 6d 2d 70 63) | (74 00 6f 00 6d 00 2d 00 70 00 63 00))}
+		$s48 = {((77 69 6c 6c 20 63 61 72 74 65 72) | (77 00 69 00 6c 00 6c 00 20 00 63 00 61 00 72 00 74 00 65 00 72 00))}
+		$s49 = {((61 6e 67 65 6c 69 63 61) | (61 00 6e 00 67 00 65 00 6c 00 69 00 63 00 61 00))}
+		$s50 = {((65 72 69 63 20 6a 6f 68 6e 73) | (65 00 72 00 69 00 63 00 20 00 6a 00 6f 00 68 00 6e 00 73 00))}
+		$s51 = {((6a 6f 68 6e 20 63 61) | (6a 00 6f 00 68 00 6e 00 20 00 63 00 61 00))}
+		$s52 = {((6c 65 62 72 6f 6e 20 6a 61 6d 65 73) | (6c 00 65 00 62 00 72 00 6f 00 6e 00 20 00 6a 00 61 00 6d 00 65 00 73 00))}
+		$s53 = {((72 61 74 73 2d 70 63) | (72 00 61 00 74 00 73 00 2d 00 70 00 63 00))}
+		$s54 = {((72 6f 62 6f 74) | (72 00 6f 00 62 00 6f 00 74 00))}
+		$s55 = {((73 65 72 65 6e 61) | (73 00 65 00 72 00 65 00 6e 00 61 00))}
+		$s56 = {((73 6f 66 79 6e 69 61) | (73 00 6f 00 66 00 79 00 6e 00 69 00 61 00))}
+		$s57 = {((73 74 72 61 7a) | (73 00 74 00 72 00 61 00 7a 00))}
+		$s58 = {((62 65 61 2d 63 68) | (62 00 65 00 61 00 2d 00 63 00 68 00))}
+		$s59 = {((77 64 61 67 75 74 69 6c 69 74 79 61 63 63 6f 75 6e 74) | (77 00 64 00 61 00 67 00 75 00 74 00 69 00 6c 00 69 00 74 00 79 00 61 00 63 00 63 00 6f 00 75 00 6e 00 74 00))}
+		$s60 = {((70 65 74 65 72 20 77 69 6c 73 6f 6e) | (70 00 65 00 74 00 65 00 72 00 20 00 77 00 69 00 6c 00 73 00 6f 00 6e 00))}
+		$s61 = {((68 6d 61 72 63) | (68 00 6d 00 61 00 72 00 63 00))}
+		$s62 = {((70 61 74 65 78) | (70 00 61 00 74 00 65 00 78 00))}
+		$s63 = {((66 72 61 6e 6b) | (66 00 72 00 61 00 6e 00 6b 00))}
+		$s64 = {((67 65 6f 72 67 65) | (67 00 65 00 6f 00 72 00 67 00 65 00))}
+		$s65 = {((6a 75 6c 69 61) | (6a 00 75 00 6c 00 69 00 61 00))}
+		$s66 = {((68 65 75 65 72 7a 6c) | (68 00 65 00 75 00 65 00 72 00 7a 00 6c 00))}
+		$s67 = {((68 61 72 72 79 20 6a 6f 68 6e 73 6f 6e) | (68 00 61 00 72 00 72 00 79 00 20 00 6a 00 6f 00 68 00 6e 00 73 00 6f 00 6e 00))}
+		$s68 = {((6a 2e 73 65 61 6e 63 65) | (6a 00 2e 00 73 00 65 00 61 00 6e 00 63 00 65 00))}
+		$s69 = {((61 2e 6d 6f 6e 61 6c 64 6f) | (61 00 2e 00 6d 00 6f 00 6e 00 61 00 6c 00 64 00 6f 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 10 of them
+}
+
+rule INDICATOR_SUSPICIOUS_EXE_B64_Encoded_UserAgent : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects executables containing base64 encoded User Agent"
+
+	strings:
+		$s1 = {((54 57 39 36 61 57 78 73 59 53 38 31 4c 6a 41 67 4b) | (54 00 57 00 39 00 36 00 61 00 57 00 78 00 73 00 59 00 53 00 38 00 31 00 4c 00 6a 00 41 00 67 00 4b 00))}
+		$s2 = {((54 57 39 36 61 57 78 73 59 53 38 31 4c 6a 41 67 4b 46 64 70 62 6d 52 76 64 33 4d) | (54 00 57 00 39 00 36 00 61 00 57 00 78 00 73 00 59 00 53 00 38 00 31 00 4c 00 6a 00 41 00 67 00 4b 00 46 00 64 00 70 00 62 00 6d 00 52 00 76 00 64 00 33 00 4d 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and any of them
+}
+
+rule INDICATOR_SUSPICIOUS_EXE_WindDefender_AntiEmaulation : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects executables containing potential Windows Defender anti-emulation checks"
+
+	strings:
+		$s1 = {((4a 6f 68 6e 44 6f 65) | (4a 00 6f 00 68 00 6e 00 44 00 6f 00 65 00))}
+		$s2 = {((48 41 4c 39 54 48) | (48 00 41 00 4c 00 39 00 54 00 48 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and all of them
+}
+
+rule INDICATOR_SUSPICIOUS_EXE_attrib : hardened
+{
+	meta:
+		author = "ditekSHen"
+		score = 50
+		description = "Detects executables using attrib with suspicious attributes attributes"
+
+	strings:
+		$s1 = {((61 74 74 72 69 62 20 2b 68 20 2b 72 20 2b 73) | (61 00 74 00 74 00 72 00 69 00 62 00 20 00 2b 00 68 00 20 00 2b 00 72 00 20 00 2b 00 73 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and any of them
+}
+
+rule INDICATOR_SUSPICIOUS_EXE_ClearMyTracksByProcess : hardened limited
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects executables calling ClearMyTracksByProcess"
+
+	strings:
+		$s1 = {((49 6e 65 74 43 70 6c 2e 63 70 6c 2c 43 6c 65 61 72 4d 79 54 72 61 63 6b 73 42 79 50 72 6f 63 65 73 73) | (49 00 6e 00 65 00 74 00 43 00 70 00 6c 00 2e 00 63 00 70 00 6c 00 2c 00 43 00 6c 00 65 00 61 00 72 00 4d 00 79 00 54 00 72 00 61 00 63 00 6b 00 73 00 42 00 79 00 50 00 72 00 6f 00 63 00 65 00 73 00 73 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and any of them
+}
+
+rule INDICATOR_SUSPICIOUS_EXE_DotNetProcHook : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects executables with potential process hoocking"
+
+	strings:
+		$s1 = {55 6e 48 6f 6f 6b}
+		$s2 = {53 65 74 48 6f 6f 6b}
+		$s3 = {43 61 6c 6c 4e 65 78 74 48 6f 6f 6b}
+		$s4 = {5f 68 6f 6f 6b}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and all of them
+}
+
+rule INDICATOR_SUSPICIOUS_EXE_TelegramChatBot : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects executables using Telegram Chat Bot"
+		score = 60
+
+	strings:
+		$s1 = {((68 74 74 70 73 3a 2f 2f 61 70 69 2e 74 65 6c 65 67 72 61 6d 2e 6f 72 67 2f 62 6f 74) | (68 00 74 00 74 00 70 00 73 00 3a 00 2f 00 2f 00 61 00 70 00 69 00 2e 00 74 00 65 00 6c 00 65 00 67 00 72 00 61 00 6d 00 2e 00 6f 00 72 00 67 00 2f 00 62 00 6f 00 74 00))}
+		$s2 = {((2f 73 65 6e 64 4d 65 73 73 61 67 65 3f 63 68 61 74 5f 69 64 3d) | (2f 00 73 00 65 00 6e 00 64 00 4d 00 65 00 73 00 73 00 61 00 67 00 65 00 3f 00 63 00 68 00 61 00 74 00 5f 00 69 00 64 00 3d 00))}
+		$s3 = {43 6f 6e 74 65 6e 74 2d 44 69 73 70 6f 73 69 74 69 6f 6e 3a 20 66 6f 72 6d 2d 64 61 74 61 3b 20 6e 61 6d 65 3d 22}
+		$s4 = {((2f 73 65 6e 64 44 6f 63 75 6d 65 6e 74 3f 63 68 61 74 5f 69 64 3d) | (2f 00 73 00 65 00 6e 00 64 00 44 00 6f 00 63 00 75 00 6d 00 65 00 6e 00 74 00 3f 00 63 00 68 00 61 00 74 00 5f 00 69 00 64 00 3d 00))}
+		$p1 = {((2f 73 65 6e 64 4d 65 73 73 61 67 65) | (2f 00 73 00 65 00 6e 00 64 00 4d 00 65 00 73 00 73 00 61 00 67 00 65 00))}
+		$p2 = {((2f 73 65 6e 64 44 6f 63 75 6d 65 6e 74) | (2f 00 73 00 65 00 6e 00 64 00 44 00 6f 00 63 00 75 00 6d 00 65 00 6e 00 74 00))}
+		$p3 = {((26 63 68 61 74 5f 69 64 3d) | (26 00 63 00 68 00 61 00 74 00 5f 00 69 00 64 00 3d 00))}
+		$p4 = {((2f 73 65 6e 64 4c 6f 63 61 74 69 6f 6e) | (2f 00 73 00 65 00 6e 00 64 00 4c 00 6f 00 63 00 61 00 74 00 69 00 6f 00 6e 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and ( 2 of ( $s* ) or ( 2 of ( $p* ) and 1 of ( $s* ) ) )
+}
+
+rule INDICATOR_SUSPICIOUS_EXE_B64_Artifacts : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects executables embedding bas64-encoded APIs, command lines, registry keys, etc."
+		score = 60
+
+	strings:
+		$s1 = {((55 30 39 47 56 46 64 42 55 6b 56 63 54 57 6c 6a 63 6d 39 7a 62 32 5a 30 58 46 64 70 62 6d 52 76 64 33 4e 63 51 33 56 79 63 6d 56 75 64 46 5a 6c 63 6e 4e 70 62 32 35 63 55 6e 56 75 58 41) | (55 00 30 00 39 00 47 00 56 00 46 00 64 00 42 00 55 00 6b 00 56 00 63 00 54 00 57 00 6c 00 6a 00 63 00 6d 00 39 00 7a 00 62 00 32 00 5a 00 30 00 58 00 46 00 64 00 70 00 62 00 6d 00 52 00 76 00 64 00 33 00 4e 00 63 00 51 00 33 00 56 00 79 00 63 00 6d 00 56 00 75 00 64 00 46 00 5a 00 6c 00 63 00 6e 00 4e 00 70 00 62 00 32 00 35 00 63 00 55 00 6e 00 56 00 75 00 58 00 41 00))}
+		$s2 = {((4c 32 4d 67 63 32 4e 6f 64 47 46 7a 61 33 4d 67 4c 32) | (4c 00 32 00 4d 00 67 00 63 00 32 00 4e 00 6f 00 64 00 47 00 46 00 7a 00 61 00 33 00 4d 00 67 00 4c 00 32 00))}
+		$s3 = {((51 57 31 7a 61 56 4e 6a 59 57 35 43 64 57 5a 6d 5a 58 49) | (51 00 57 00 31 00 7a 00 61 00 56 00 4e 00 6a 00 59 00 57 00 35 00 43 00 64 00 57 00 5a 00 6d 00 5a 00 58 00 49 00))}
+		$s4 = {((56 6d 6c 79 64 48 56 68 62 46 42 79 62 33 52 6c 59 33 51) | (56 00 6d 00 6c 00 79 00 64 00 48 00 56 00 68 00 62 00 46 00 42 00 79 00 62 00 33 00 52 00 6c 00 59 00 33 00 51 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 2 of them
+}
+
+rule INDICATOR_SUSPICIOUS_EXE_DiscordURL : hardened limited
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects executables Discord URL observed in first stage droppers"
+		score = 60
+
+	strings:
+		$s1 = {((68 74 74 70 73 3a 2f 2f 64 69 73 63 6f 72 64 2e 63 6f 6d 2f 61 70 69 2f 77 65 62 68 6f 6f 6b 73 2f) | (68 00 74 00 74 00 70 00 73 00 3a 00 2f 00 2f 00 64 00 69 00 73 00 63 00 6f 00 72 00 64 00 2e 00 63 00 6f 00 6d 00 2f 00 61 00 70 00 69 00 2f 00 77 00 65 00 62 00 68 00 6f 00 6f 00 6b 00 73 00 2f 00))}
+		$s2 = {((68 74 74 70 73 3a 2f 2f 63 64 6e 2e 64 69 73 63 6f 72 64 61 70 70 2e 63 6f 6d 2f 61 74 74 61 63 68 6d 65 6e 74 73 2f) | (68 00 74 00 74 00 70 00 73 00 3a 00 2f 00 2f 00 63 00 64 00 6e 00 2e 00 64 00 69 00 73 00 63 00 6f 00 72 00 64 00 61 00 70 00 70 00 2e 00 63 00 6f 00 6d 00 2f 00 61 00 74 00 74 00 61 00 63 00 68 00 6d 00 65 00 6e 00 74 00 73 00 2f 00))}
+		$s3 = {((61 48 52 30 63 48 4d 36 4c 79 39 6b 61 58 4e 6a 62 33 4a 6b 4c 6d 4e 76 62 53 39 68 63 47 6b 76 64 32 56 69 61 47 39 76 61) | (61 00 48 00 52 00 30 00 63 00 48 00 4d 00 36 00 4c 00 79 00 39 00 6b 00 61 00 58 00 4e 00 6a 00 62 00 33 00 4a 00 6b 00 4c 00 6d 00 4e 00 76 00 62 00 53 00 39 00 68 00 63 00 47 00 6b 00 76 00 64 00 32 00 56 00 69 00 61 00 47 00 39 00 76 00 61 00))}
+		$s4 = {((61 48 52 30 63 48 4d 36 4c 79 39 6a 5a 47 34 75 5a 47 6c 7a 59 32 39 79 5a 47 46 77 63 43 35 6a 62 32 30 76 59 58 52 30 59 57 4e 6f 62 57) | (61 00 48 00 52 00 30 00 63 00 48 00 4d 00 36 00 4c 00 79 00 39 00 6a 00 5a 00 47 00 34 00 75 00 5a 00 47 00 6c 00 7a 00 59 00 32 00 39 00 79 00 5a 00 47 00 46 00 77 00 63 00 43 00 35 00 6a 00 62 00 32 00 30 00 76 00 59 00 58 00 52 00 30 00 59 00 57 00 4e 00 6f 00 62 00 57 00))}
+		$s5 = {((2f 73 6b 6f 6f 68 62 65 77 2f 69 70 61 2f 6d 6f 63 2e 64 72 6f 63 73 69 64 2f 2f 3a 73 70 74 74 68) | (2f 00 73 00 6b 00 6f 00 6f 00 68 00 62 00 65 00 77 00 2f 00 69 00 70 00 61 00 2f 00 6d 00 6f 00 63 00 2e 00 64 00 72 00 6f 00 63 00 73 00 69 00 64 00 2f 00 2f 00 3a 00 73 00 70 00 74 00 74 00 68 00))}
+		$s6 = {((2f 73 74 6e 65 6d 68 63 61 74 74 61 2f 6d 6f 63 2e 70 70 61 64 72 6f 63 73 69 64 2e 6e 64 63 2f 2f 3a 73 70 74 74 68) | (2f 00 73 00 74 00 6e 00 65 00 6d 00 68 00 63 00 61 00 74 00 74 00 61 00 2f 00 6d 00 6f 00 63 00 2e 00 70 00 70 00 61 00 64 00 72 00 6f 00 63 00 73 00 69 00 64 00 2e 00 6e 00 64 00 63 00 2f 00 2f 00 3a 00 73 00 70 00 74 00 74 00 68 00))}
+		$s7 = {((61 76 39 47 61 69 56 32 64 76 6b 47 63 68 39 53 62 76 4e 6d 4c 6b 4a 33 62 6a 4e 58 61 6b 39 79 4c 36 4d 48 63 30 52 48 61) | (61 00 76 00 39 00 47 00 61 00 69 00 56 00 32 00 64 00 76 00 6b 00 47 00 63 00 68 00 39 00 53 00 62 00 76 00 4e 00 6d 00 4c 00 6b 00 4a 00 33 00 62 00 6a 00 4e 00 58 00 61 00 6b 00 39 00 79 00 4c 00 36 00 4d 00 48 00 63 00 30 00 52 00 48 00 61 00))}
+		$s8 = {((57 62 6f 4e 57 59 30 52 58 59 76 30 32 62 6a 35 43 63 77 46 47 5a 79 39 32 59 7a 6c 47 5a 75 34 47 5a 6a 39 79 4c 36 4d 48 63 30 52 48 61) | (57 00 62 00 6f 00 4e 00 57 00 59 00 30 00 52 00 58 00 59 00 76 00 30 00 32 00 62 00 6a 00 35 00 43 00 63 00 77 00 46 00 47 00 5a 00 79 00 39 00 32 00 59 00 7a 00 6c 00 47 00 5a 00 75 00 34 00 47 00 5a 00 6a 00 39 00 79 00 4c 00 36 00 4d 00 48 00 63 00 30 00 52 00 48 00 61 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and any of them
+}
+
+rule INDICATOR_SUSPICIOUS_EXE_RegKeyComb_DisableWinDefender : hardened limited
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects executables embedding registry key / value combination indicative of disabling Windows Defender features"
+		score = 60
+
+	strings:
+		$r1 = {((53 4f 46 54 57 41 52 45 5c 50 6f 6c 69 63 69 65 73 5c 4d 69 63 72 6f 73 6f 66 74 5c 57 69 6e 64 6f 77 73 20 44 65 66 65 6e 64 65 72) | (53 00 4f 00 46 00 54 00 57 00 41 00 52 00 45 00 5c 00 50 00 6f 00 6c 00 69 00 63 00 69 00 65 00 73 00 5c 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 44 00 65 00 66 00 65 00 6e 00 64 00 65 00 72 00))}
+		$k1 = {((44 69 73 61 62 6c 65 41 6e 74 69 53 70 79 77 61 72 65) | (44 00 69 00 73 00 61 00 62 00 6c 00 65 00 41 00 6e 00 74 00 69 00 53 00 70 00 79 00 77 00 61 00 72 00 65 00))}
+		$r2 = {((53 4f 46 54 57 41 52 45 5c 50 6f 6c 69 63 69 65 73 5c 4d 69 63 72 6f 73 6f 66 74 5c 57 69 6e 64 6f 77 73 20 44 65 66 65 6e 64 65 72 5c 52 65 61 6c 2d 54 69 6d 65 20 50 72 6f 74 65 63 74 69 6f 6e) | (53 00 4f 00 46 00 54 00 57 00 41 00 52 00 45 00 5c 00 50 00 6f 00 6c 00 69 00 63 00 69 00 65 00 73 00 5c 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 44 00 65 00 66 00 65 00 6e 00 64 00 65 00 72 00 5c 00 52 00 65 00 61 00 6c 00 2d 00 54 00 69 00 6d 00 65 00 20 00 50 00 72 00 6f 00 74 00 65 00 63 00 74 00 69 00 6f 00 6e 00))}
+		$k2 = {((44 69 73 61 62 6c 65 42 65 68 61 76 69 6f 72 4d 6f 6e 69 74 6f 72 69 6e 67) | (44 00 69 00 73 00 61 00 62 00 6c 00 65 00 42 00 65 00 68 00 61 00 76 00 69 00 6f 00 72 00 4d 00 6f 00 6e 00 69 00 74 00 6f 00 72 00 69 00 6e 00 67 00))}
+		$k3 = {((44 69 73 61 62 6c 65 4f 6e 41 63 63 65 73 73 50 72 6f 74 65 63 74 69 6f 6e) | (44 00 69 00 73 00 61 00 62 00 6c 00 65 00 4f 00 6e 00 41 00 63 00 63 00 65 00 73 00 73 00 50 00 72 00 6f 00 74 00 65 00 63 00 74 00 69 00 6f 00 6e 00))}
+		$k4 = {((44 69 73 61 62 6c 65 53 63 61 6e 4f 6e 52 65 61 6c 74 69 6d 65 45 6e 61 62 6c 65) | (44 00 69 00 73 00 61 00 62 00 6c 00 65 00 53 00 63 00 61 00 6e 00 4f 00 6e 00 52 00 65 00 61 00 6c 00 74 00 69 00 6d 00 65 00 45 00 6e 00 61 00 62 00 6c 00 65 00))}
+		$r3 = {((53 4f 46 54 57 41 52 45 5c 4d 69 63 72 6f 73 6f 66 74 5c 57 69 6e 64 6f 77 73 20 44 65 66 65 6e 64 65 72 5c 52 65 61 6c 2d 54 69 6d 65 20 50 72 6f 74 65 63 74 69 6f 6e) | (53 00 4f 00 46 00 54 00 57 00 41 00 52 00 45 00 5c 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 44 00 65 00 66 00 65 00 6e 00 64 00 65 00 72 00 5c 00 52 00 65 00 61 00 6c 00 2d 00 54 00 69 00 6d 00 65 00 20 00 50 00 72 00 6f 00 74 00 65 00 63 00 74 00 69 00 6f 00 6e 00))}
+		$k5 = {((76 44 69 73 61 62 6c 65 52 65 61 6c 74 69 6d 65 4d 6f 6e 69 74 6f 72 69 6e 67) | (76 00 44 00 69 00 73 00 61 00 62 00 6c 00 65 00 52 00 65 00 61 00 6c 00 74 00 69 00 6d 00 65 00 4d 00 6f 00 6e 00 69 00 74 00 6f 00 72 00 69 00 6e 00 67 00))}
+		$r4 = {((53 4f 46 54 57 41 52 45 5c 4d 69 63 72 6f 73 6f 66 74 5c 57 69 6e 64 6f 77 73 20 44 65 66 65 6e 64 65 72 5c 53 70 79 6e 65 74) | (53 00 4f 00 46 00 54 00 57 00 41 00 52 00 45 00 5c 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 44 00 65 00 66 00 65 00 6e 00 64 00 65 00 72 00 5c 00 53 00 70 00 79 00 6e 00 65 00 74 00))}
+		$k6 = {((53 70 79 4e 65 74 52 65 70 6f 72 74 69 6e 67) | (53 00 70 00 79 00 4e 00 65 00 74 00 52 00 65 00 70 00 6f 00 72 00 74 00 69 00 6e 00 67 00))}
+		$k7 = {((53 75 62 6d 69 74 53 61 6d 70 6c 65 73 43 6f 6e 73 65 6e 74) | (53 00 75 00 62 00 6d 00 69 00 74 00 53 00 61 00 6d 00 70 00 6c 00 65 00 73 00 43 00 6f 00 6e 00 73 00 65 00 6e 00 74 00))}
+		$r5 = {((53 4f 46 54 57 41 52 45 5c 4d 69 63 72 6f 73 6f 66 74 5c 57 69 6e 64 6f 77 73 20 44 65 66 65 6e 64 65 72 5c 46 65 61 74 75 72 65 73) | (53 00 4f 00 46 00 54 00 57 00 41 00 52 00 45 00 5c 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 44 00 65 00 66 00 65 00 6e 00 64 00 65 00 72 00 5c 00 46 00 65 00 61 00 74 00 75 00 72 00 65 00 73 00))}
+		$k8 = {((54 61 6d 70 65 72 50 72 6f 74 65 63 74 69 6f 6e) | (54 00 61 00 6d 00 70 00 65 00 72 00 50 00 72 00 6f 00 74 00 65 00 63 00 74 00 69 00 6f 00 6e 00))}
+		$r6 = {((53 4f 46 54 57 41 52 45 5c 4d 69 63 72 6f 73 6f 66 74 5c 57 69 6e 64 6f 77 73 20 44 65 66 65 6e 64 65 72 5c 45 78 63 6c 75 73 69 6f 6e 73 5c 50 61 74 68 73) | (53 00 4f 00 46 00 54 00 57 00 41 00 52 00 45 00 5c 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 44 00 65 00 66 00 65 00 6e 00 64 00 65 00 72 00 5c 00 45 00 78 00 63 00 6c 00 75 00 73 00 69 00 6f 00 6e 00 73 00 5c 00 50 00 61 00 74 00 68 00 73 00))}
+		$k9 = {((41 64 64 2d 4d 70 50 72 65 66 65 72 65 6e 63 65 20 2d 45 78 63 6c 75 73 69 6f 6e 50 61 74 68 20 22 7b 30 7d 22) | (41 00 64 00 64 00 2d 00 4d 00 70 00 50 00 72 00 65 00 66 00 65 00 72 00 65 00 6e 00 63 00 65 00 20 00 2d 00 45 00 78 00 63 00 6c 00 75 00 73 00 69 00 6f 00 6e 00 50 00 61 00 74 00 68 00 20 00 22 00 7b 00 30 00 7d 00 22 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and ( 1 of ( $r* ) and 1 of ( $k* ) )
+}
+
+rule INDICATOR_SUSPICIOUS_EXE_RegKeyComb_IExecuteCommandCOM : hardened limited
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects executables embedding command execution via IExecuteCommand COM object"
+		score = 60
+
+	strings:
+		$r1 = {((43 6c 61 73 73 65 73 5c 46 6f 6c 64 65 72 5c 73 68 65 6c 6c 5c 6f 70 65 6e 5c 63 6f 6d 6d 61 6e 64) | (43 00 6c 00 61 00 73 00 73 00 65 00 73 00 5c 00 46 00 6f 00 6c 00 64 00 65 00 72 00 5c 00 73 00 68 00 65 00 6c 00 6c 00 5c 00 6f 00 70 00 65 00 6e 00 5c 00 63 00 6f 00 6d 00 6d 00 61 00 6e 00 64 00))}
+		$k1 = {((44 65 6c 65 67 61 74 65 45 78 65 63 75 74 65) | (44 00 65 00 6c 00 65 00 67 00 61 00 74 00 65 00 45 00 78 00 65 00 63 00 75 00 74 00 65 00))}
+		$s1 = {((2f 45 58 45 46 69 6c 65 6e 61 6d 65 20 22 7b 30 7d) | (2f 00 45 00 58 00 45 00 46 00 69 00 6c 00 65 00 6e 00 61 00 6d 00 65 00 20 00 22 00 7b 00 30 00 7d 00))}
+		$s2 = {((2f 57 69 6e 64 6f 77 53 74 61 74 65 20 22 22) | (2f 00 57 00 69 00 6e 00 64 00 6f 00 77 00 53 00 74 00 61 00 74 00 65 00 20 00 22 00 22 00))}
+		$s3 = {((2f 50 72 69 6f 72 69 74 79 43 6c 61 73 73 20 22 22 33 32 22 22 20 2f 43 6f 6d 6d 61 6e 64 4c 69 6e 65 20 22) | (2f 00 50 00 72 00 69 00 6f 00 72 00 69 00 74 00 79 00 43 00 6c 00 61 00 73 00 73 00 20 00 22 00 22 00 33 00 32 00 22 00 22 00 20 00 2f 00 43 00 6f 00 6d 00 6d 00 61 00 6e 00 64 00 4c 00 69 00 6e 00 65 00 20 00 22 00))}
+		$s4 = {((2f 53 74 61 72 74 44 69 72 65 63 74 6f 72 79 20 22) | (2f 00 53 00 74 00 61 00 72 00 74 00 44 00 69 00 72 00 65 00 63 00 74 00 6f 00 72 00 79 00 20 00 22 00))}
+		$s5 = {((2f 52 75 6e 41 73) | (2f 00 52 00 75 00 6e 00 41 00 73 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and ( ( 1 of ( $r* ) and 1 of ( $k* ) ) or ( all of ( $s* ) ) )
+}
+
+rule INDICATOR_SUSPICIOUS_EXE_WMI_EnumerateVideoDevice : hardened limited
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects executables attemping to enumerate video devices using WMI"
+		score = 50
+
+	strings:
+		$q1 = {((53 65 6c 65 63 74 20 2a 20 66 72 6f 6d 20 57 69 6e 33 32 5f 43 61 63 68 65 4d 65 6d 6f 72 79) | (53 00 65 00 6c 00 65 00 63 00 74 00 20 00 2a 00 20 00 66 00 72 00 6f 00 6d 00 20 00 57 00 69 00 6e 00 33 00 32 00 5f 00 43 00 61 00 63 00 68 00 65 00 4d 00 65 00 6d 00 6f 00 72 00 79 00))}
+		$d1 = {((7b 38 36 30 42 42 33 31 30 2d 35 44 30 31 2d 31 31 64 30 2d 42 44 33 42 2d 30 30 41 30 43 39 31 31 43 45 38 36 7d) | (7b 00 38 00 36 00 30 00 42 00 42 00 33 00 31 00 30 00 2d 00 35 00 44 00 30 00 31 00 2d 00 31 00 31 00 64 00 30 00 2d 00 42 00 44 00 33 00 42 00 2d 00 30 00 30 00 41 00 30 00 43 00 39 00 31 00 31 00 43 00 45 00 38 00 36 00 7d 00))}
+		$d2 = {((7b 36 32 42 45 35 44 31 30 2d 36 30 45 42 2d 31 31 64 30 2d 42 44 33 42 2d 30 30 41 30 43 39 31 31 43 45 38 36 7d) | (7b 00 36 00 32 00 42 00 45 00 35 00 44 00 31 00 30 00 2d 00 36 00 30 00 45 00 42 00 2d 00 31 00 31 00 64 00 30 00 2d 00 42 00 44 00 33 00 42 00 2d 00 30 00 30 00 41 00 30 00 43 00 39 00 31 00 31 00 43 00 45 00 38 00 36 00 7d 00))}
+		$d3 = {((7b 35 35 32 37 32 41 30 30 2d 34 32 43 42 2d 31 31 43 45 2d 38 31 33 35 2d 30 30 41 41 30 30 34 42 42 38 35 31 7d) | (7b 00 35 00 35 00 32 00 37 00 32 00 41 00 30 00 30 00 2d 00 34 00 32 00 43 00 42 00 2d 00 31 00 31 00 43 00 45 00 2d 00 38 00 31 00 33 00 35 00 2d 00 30 00 30 00 41 00 41 00 30 00 30 00 34 00 42 00 42 00 38 00 35 00 31 00 7d 00))}
+		$d4 = {((53 59 53 54 45 4d 5c 43 6f 6e 74 72 6f 6c 53 65 74 30 30 31 5c 43 6f 6e 74 72 6f 6c 5c 43 6c 61 73 73 5c 7b 34 64 33 36 65 39 36 38 2d 65 33 32 35 2d 31 31 63 65 2d 62 66 63 31 2d 30 38 30 30 32 62 65 31 30 33 31 38 7d 5c 30 30 30) | (53 00 59 00 53 00 54 00 45 00 4d 00 5c 00 43 00 6f 00 6e 00 74 00 72 00 6f 00 6c 00 53 00 65 00 74 00 30 00 30 00 31 00 5c 00 43 00 6f 00 6e 00 74 00 72 00 6f 00 6c 00 5c 00 43 00 6c 00 61 00 73 00 73 00 5c 00 7b 00 34 00 64 00 33 00 36 00 65 00 39 00 36 00 38 00 2d 00 65 00 33 00 32 00 35 00 2d 00 31 00 31 00 63 00 65 00 2d 00 62 00 66 00 63 00 31 00 2d 00 30 00 38 00 30 00 30 00 32 00 62 00 65 00 31 00 30 00 33 00 31 00 38 00 7d 00 5c 00 30 00 30 00 30 00))}
+		$d5 = {((48 61 72 64 77 61 72 65 49 6e 66 6f 72 6d 61 74 69 6f 6e 2e 41 64 61 70 74 65 72 53 74 72 69 6e 67) | (48 00 61 00 72 00 64 00 77 00 61 00 72 00 65 00 49 00 6e 00 66 00 6f 00 72 00 6d 00 61 00 74 00 69 00 6f 00 6e 00 2e 00 41 00 64 00 61 00 70 00 74 00 65 00 72 00 53 00 74 00 72 00 69 00 6e 00 67 00))}
+		$d6 = {((48 61 72 64 77 61 72 65 49 6e 66 6f 72 6d 61 74 69 6f 6e 2e 71 77 4d 65 6d 6f 72 79 53 69 7a 65) | (48 00 61 00 72 00 64 00 77 00 61 00 72 00 65 00 49 00 6e 00 66 00 6f 00 72 00 6d 00 61 00 74 00 69 00 6f 00 6e 00 2e 00 71 00 77 00 4d 00 65 00 6d 00 6f 00 72 00 79 00 53 00 69 00 7a 00 65 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and ( ( 1 of ( $q* ) and 1 of ( $d* ) ) or 3 of ( $d* ) )
+}
+
+rule INDICATOR_SUSPICIOUS_EXE_DcRatBy : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects executables containing the string DcRatBy"
+
+	strings:
+		$s1 = {((44 63 52 61 74 42 79) | (44 00 63 00 52 00 61 00 74 00 42 00 79 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and all of them
+}
+
+rule INDICATOR_SUSPICIOUS_EXE_Anti_WinJail : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects executables potentially checking for WinJail sandbox window"
+
+	strings:
+		$s1 = {((41 66 78 3a 34 30 30 30 30 30 3a 30) | (41 00 66 00 78 00 3a 00 34 00 30 00 30 00 30 00 30 00 30 00 3a 00 30 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and all of them
+}
+
+rule INDICATOR_SUSPICIOUS_EXE_Anti_OldCopyPaste : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects executables potentially checking for WinJail sandbox window"
+
+	strings:
+		$s1 = {54 00 68 00 69 00 73 00 20 00 66 00 69 00 6c 00 65 00 20 00 63 00 61 00 6e 00 27 00 74 00 20 00 72 00 75 00 6e 00 20 00 69 00 6e 00 74 00 6f 00 20 00 56 00 69 00 72 00 74 00 75 00 61 00 6c 00 20 00 4d 00 61 00 63 00 68 00 69 00 6e 00 65 00 73 00}
+		$s2 = {54 00 68 00 69 00 73 00 20 00 66 00 69 00 6c 00 65 00 20 00 63 00 61 00 6e 00 27 00 74 00 20 00 72 00 75 00 6e 00 20 00 69 00 6e 00 74 00 6f 00 20 00 53 00 61 00 6e 00 64 00 62 00 6f 00 78 00 69 00 65 00 73 00}
+		$s3 = {54 00 68 00 69 00 73 00 20 00 66 00 69 00 6c 00 65 00 20 00 63 00 61 00 6e 00 27 00 74 00 20 00 72 00 75 00 6e 00 20 00 69 00 6e 00 74 00 6f 00 20 00 52 00 44 00 50 00 20 00 53 00 65 00 72 00 76 00 65 00 72 00 73 00}
+		$s4 = {52 00 75 00 6e 00 20 00 77 00 69 00 74 00 68 00 6f 00 75 00 74 00 20 00 65 00 6d 00 75 00 6c 00 61 00 74 00 69 00 6f 00 6e 00}
+		$s5 = {52 00 75 00 6e 00 20 00 75 00 73 00 69 00 6e 00 67 00 20 00 76 00 61 00 6c 00 69 00 64 00 20 00 6f 00 70 00 65 00 72 00 61 00 74 00 69 00 6e 00 67 00 20 00 73 00 79 00 73 00 74 00 65 00 6d 00}
+		$v1 = {53 00 62 00 69 00 65 00 44 00 6c 00 6c 00 2e 00 64 00 6c 00 6c 00}
+		$v2 = {55 00 53 00 45 00 52 00}
+		$v3 = {53 00 41 00 4e 00 44 00 42 00 4f 00 58 00}
+		$v4 = {56 00 49 00 52 00 55 00 53 00}
+		$v5 = {4d 00 41 00 4c 00 57 00 41 00 52 00 45 00}
+		$v6 = {53 00 43 00 48 00 4d 00 49 00 44 00 54 00 49 00}
+		$v7 = {43 00 55 00 52 00 52 00 45 00 4e 00 54 00 55 00 53 00 45 00 52 00}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and ( 3 of ( $s* ) or all of ( $v* ) )
+}
+
+rule INDICATOR_SUSPICIOUS_EXE_Go_GoLazagne : hardened limited
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects Go executables using GoLazagne"
+
+	strings:
+		$s1 = {2f 67 6f 4c 61 7a 61 67 6e 65 2f}
+		$s2 = {47 6f 20 62 75 69 6c 64 20 49 44 3a}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and all of them
+}
+
+rule INDICATOR_SUSPICIOUS_Sandbox_Evasion_FilesComb : hardened limited
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects executables referencing specific set of files observed in sandob anti-evation, and Emotet"
+
+	strings:
+		$s1 = {((63 3a 5c 74 61 6b 65 5f 73 63 72 65 65 6e 73 68 6f 74 2e 70 73 31) | (63 00 3a 00 5c 00 74 00 61 00 6b 00 65 00 5f 00 73 00 63 00 72 00 65 00 65 00 6e 00 73 00 68 00 6f 00 74 00 2e 00 70 00 73 00 31 00))}
+		$s2 = {((63 3a 5c 6c 6f 61 64 64 6c 6c 2e 65 78 65) | (63 00 3a 00 5c 00 6c 00 6f 00 61 00 64 00 64 00 6c 00 6c 00 2e 00 65 00 78 00 65 00))}
+		$s3 = {((63 3a 5c 65 6d 61 69 6c 2e 64 6f 63) | (63 00 3a 00 5c 00 65 00 6d 00 61 00 69 00 6c 00 2e 00 64 00 6f 00 63 00))}
+		$s4 = {((63 3a 5c 65 6d 61 69 6c 2e 68 74 6d) | (63 00 3a 00 5c 00 65 00 6d 00 61 00 69 00 6c 00 2e 00 68 00 74 00 6d 00))}
+		$s5 = {((63 3a 5c 31 32 33 5c 65 6d 61 69 6c 2e 64 6f 63) | (63 00 3a 00 5c 00 31 00 32 00 33 00 5c 00 65 00 6d 00 61 00 69 00 6c 00 2e 00 64 00 6f 00 63 00))}
+		$s6 = {((63 3a 5c 31 32 33 5c 65 6d 61 69 6c 2e 64 6f 63 78) | (63 00 3a 00 5c 00 31 00 32 00 33 00 5c 00 65 00 6d 00 61 00 69 00 6c 00 2e 00 64 00 6f 00 63 00 78 00))}
+		$s7 = {((63 3a 5c 61 5c 66 6f 6f 62 61 72 2e 62 6d 70) | (63 00 3a 00 5c 00 61 00 5c 00 66 00 6f 00 6f 00 62 00 61 00 72 00 2e 00 62 00 6d 00 70 00))}
+		$s8 = {((63 3a 5c 61 5c 66 6f 6f 62 61 72 2e 64 6f 63) | (63 00 3a 00 5c 00 61 00 5c 00 66 00 6f 00 6f 00 62 00 61 00 72 00 2e 00 64 00 6f 00 63 00))}
+		$s9 = {((63 3a 5c 61 5c 66 6f 6f 62 61 72 2e 67 69 66) | (63 00 3a 00 5c 00 61 00 5c 00 66 00 6f 00 6f 00 62 00 61 00 72 00 2e 00 67 00 69 00 66 00))}
+		$s10 = {((63 3a 5c 73 79 6d 62 6f 6c 73 5c 61 61 67 6d 6d 63 2e 70 64 62) | (63 00 3a 00 5c 00 73 00 79 00 6d 00 62 00 6f 00 6c 00 73 00 5c 00 61 00 61 00 67 00 6d 00 6d 00 63 00 2e 00 70 00 64 00 62 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 6 of them
+}
+
+rule INDICATOR_SUSPICIOUS_VM_Evasion_VirtDrvComb : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects executables referencing combination of virtualization drivers"
+
+	strings:
+		$p1 = {((70 72 6c 65 74 68 2e 73 79 73) | (70 00 72 00 6c 00 65 00 74 00 68 00 2e 00 73 00 79 00 73 00))}
+		$p2 = {((70 72 6c 66 73 2e 73 79 73) | (70 00 72 00 6c 00 66 00 73 00 2e 00 73 00 79 00 73 00))}
+		$p3 = {((70 72 6c 6d 6f 75 73 65 2e 73 79 73) | (70 00 72 00 6c 00 6d 00 6f 00 75 00 73 00 65 00 2e 00 73 00 79 00 73 00))}
+		$p4 = {((70 72 6c 76 69 64 65 6f 2e 73 79 73 09) | (70 00 72 00 6c 00 76 00 69 00 64 00 65 00 6f 00 2e 00 73 00 79 00 73 00 09 00))}
+		$p5 = {((70 72 6c 74 69 6d 65 2e 73 79 73) | (70 00 72 00 6c 00 74 00 69 00 6d 00 65 00 2e 00 73 00 79 00 73 00))}
+		$p6 = {((70 72 6c 5f 70 76 33 32 2e 73 79 73) | (70 00 72 00 6c 00 5f 00 70 00 76 00 33 00 32 00 2e 00 73 00 79 00 73 00))}
+		$p7 = {((70 72 6c 5f 70 61 72 61 76 69 72 74 5f 33 32 2e 73 79 73) | (70 00 72 00 6c 00 5f 00 70 00 61 00 72 00 61 00 76 00 69 00 72 00 74 00 5f 00 33 00 32 00 2e 00 73 00 79 00 73 00))}
+		$vb1 = {((56 42 6f 78 4d 6f 75 73 65 2e 73 79 73) | (56 00 42 00 6f 00 78 00 4d 00 6f 00 75 00 73 00 65 00 2e 00 73 00 79 00 73 00))}
+		$vb2 = {((56 42 6f 78 47 75 65 73 74 2e 73 79 73) | (56 00 42 00 6f 00 78 00 47 00 75 00 65 00 73 00 74 00 2e 00 73 00 79 00 73 00))}
+		$vb3 = {((56 42 6f 78 53 46 2e 73 79 73) | (56 00 42 00 6f 00 78 00 53 00 46 00 2e 00 73 00 79 00 73 00))}
+		$vb4 = {((56 42 6f 78 56 69 64 65 6f 2e 73 79 73) | (56 00 42 00 6f 00 78 00 56 00 69 00 64 00 65 00 6f 00 2e 00 73 00 79 00 73 00))}
+		$vb5 = {((76 62 6f 78 64 69 73 70 2e 64 6c 6c) | (76 00 62 00 6f 00 78 00 64 00 69 00 73 00 70 00 2e 00 64 00 6c 00 6c 00))}
+		$vb6 = {((76 62 6f 78 68 6f 6f 6b 2e 64 6c 6c) | (76 00 62 00 6f 00 78 00 68 00 6f 00 6f 00 6b 00 2e 00 64 00 6c 00 6c 00))}
+		$vb7 = {((76 62 6f 78 6d 72 78 6e 70 2e 64 6c 6c) | (76 00 62 00 6f 00 78 00 6d 00 72 00 78 00 6e 00 70 00 2e 00 64 00 6c 00 6c 00))}
+		$vb8 = {((76 62 6f 78 6f 67 6c 2e 64 6c 6c) | (76 00 62 00 6f 00 78 00 6f 00 67 00 6c 00 2e 00 64 00 6c 00 6c 00))}
+		$vb9 = {((76 62 6f 78 6f 67 6c 61 72 72 61 79 73 70 75 2e 64 6c 6c) | (76 00 62 00 6f 00 78 00 6f 00 67 00 6c 00 61 00 72 00 72 00 61 00 79 00 73 00 70 00 75 00 2e 00 64 00 6c 00 6c 00))}
+		$vb10 = {((76 62 6f 78 6f 67 6c 63 72 75 74 69 6c 2e 64 6c 6c) | (76 00 62 00 6f 00 78 00 6f 00 67 00 6c 00 63 00 72 00 75 00 74 00 69 00 6c 00 2e 00 64 00 6c 00 6c 00))}
+		$vb11 = {((76 62 6f 78 6f 67 6c 65 72 72 6f 72 73 70 75 2e 64 6c 6c) | (76 00 62 00 6f 00 78 00 6f 00 67 00 6c 00 65 00 72 00 72 00 6f 00 72 00 73 00 70 00 75 00 2e 00 64 00 6c 00 6c 00))}
+		$vb12 = {((76 62 6f 78 6f 67 6c 66 65 65 64 62 61 63 6b 73 70 75 2e 64 6c 6c) | (76 00 62 00 6f 00 78 00 6f 00 67 00 6c 00 66 00 65 00 65 00 64 00 62 00 61 00 63 00 6b 00 73 00 70 00 75 00 2e 00 64 00 6c 00 6c 00))}
+		$vb13 = {((76 62 6f 78 6f 67 6c 70 61 63 6b 73 70 75 2e 64 6c 6c) | (76 00 62 00 6f 00 78 00 6f 00 67 00 6c 00 70 00 61 00 63 00 6b 00 73 00 70 00 75 00 2e 00 64 00 6c 00 6c 00))}
+		$vb14 = {((76 62 6f 78 6f 67 6c 70 61 73 73 74 68 72 6f 75 67 68 73 70 75 2e 64 6c 6c) | (76 00 62 00 6f 00 78 00 6f 00 67 00 6c 00 70 00 61 00 73 00 73 00 74 00 68 00 72 00 6f 00 75 00 67 00 68 00 73 00 70 00 75 00 2e 00 64 00 6c 00 6c 00))}
+		$vb15 = {((76 62 6f 78 73 65 72 76 69 63 65 2e 65 78 65) | (76 00 62 00 6f 00 78 00 73 00 65 00 72 00 76 00 69 00 63 00 65 00 2e 00 65 00 78 00 65 00))}
+		$vb16 = {((76 62 6f 78 74 72 61 79 2e 65 78 65) | (76 00 62 00 6f 00 78 00 74 00 72 00 61 00 79 00 2e 00 65 00 78 00 65 00))}
+		$vb17 = {((56 42 6f 78 43 6f 6e 74 72 6f 6c 2e 65 78 65) | (56 00 42 00 6f 00 78 00 43 00 6f 00 6e 00 74 00 72 00 6f 00 6c 00 2e 00 65 00 78 00 65 00))}
+		$vp1 = {((76 6d 73 72 76 63 2e 73 79 73) | (76 00 6d 00 73 00 72 00 76 00 63 00 2e 00 73 00 79 00 73 00))}
+		$vp2 = {((76 70 63 2d 73 33 2e 73 79 73) | (76 00 70 00 63 00 2d 00 73 00 33 00 2e 00 73 00 79 00 73 00))}
+		$vw1 = {((76 6d 6d 6f 75 73 65 2e 73 79 73) | (76 00 6d 00 6d 00 6f 00 75 00 73 00 65 00 2e 00 73 00 79 00 73 00))}
+		$vw2 = {((76 6d 6e 65 74 2e 73 79 73) | (76 00 6d 00 6e 00 65 00 74 00 2e 00 73 00 79 00 73 00))}
+		$vw3 = {((76 6d 78 6e 65 74 2e 73 79 73) | (76 00 6d 00 78 00 6e 00 65 00 74 00 2e 00 73 00 79 00 73 00))}
+		$vw4 = {((76 6d 68 67 66 73 2e 73 79 73) | (76 00 6d 00 68 00 67 00 66 00 73 00 2e 00 73 00 79 00 73 00))}
+		$vw5 = {((76 6d 78 38 36 2e 73 79 73) | (76 00 6d 00 78 00 38 00 36 00 2e 00 73 00 79 00 73 00))}
+		$vw6 = {((68 67 66 73 2e 73 79 73) | (68 00 67 00 66 00 73 00 2e 00 73 00 79 00 73 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and ( ( 2 of ( $p* ) and ( 2 of ( $vb* ) or 2 of ( $vp* ) or 2 of ( $vw* ) ) ) or ( 2 of ( $vb* ) and ( 2 of ( $p* ) or 2 of ( $vp* ) or 2 of ( $vw* ) ) ) or ( 2 of ( $vp* ) and ( 2 of ( $p* ) or 2 of ( $vb* ) or 2 of ( $vw* ) ) ) or ( 2 of ( $vw* ) and ( 2 of ( $p* ) or 2 of ( $vb* ) or 2 of ( $vp* ) ) ) )
+}
+
+rule INDICATOR_SUSPICIOUS_EXE_NoneWindowsUA : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects Windows executables referencing non-Windows User-Agents"
+
+	strings:
+		$ua1 = {((4d 6f 7a 69 6c 6c 61 2f 35 2e 30 20 28 4d 61 63 69 6e 74 6f 73 68 3b 20 49 6e 74 65 6c 20 4d 61 63 20 4f 53) | (4d 00 6f 00 7a 00 69 00 6c 00 6c 00 61 00 2f 00 35 00 2e 00 30 00 20 00 28 00 4d 00 61 00 63 00 69 00 6e 00 74 00 6f 00 73 00 68 00 3b 00 20 00 49 00 6e 00 74 00 65 00 6c 00 20 00 4d 00 61 00 63 00 20 00 4f 00 53 00))}
+		$ua2 = {((4d 6f 7a 69 6c 6c 61 2f 35 2e 30 20 28 69 50 68 6f 6e 65 3b 20 43 50 55 20 69 50 68 6f 6e 65 20 4f 53) | (4d 00 6f 00 7a 00 69 00 6c 00 6c 00 61 00 2f 00 35 00 2e 00 30 00 20 00 28 00 69 00 50 00 68 00 6f 00 6e 00 65 00 3b 00 20 00 43 00 50 00 55 00 20 00 69 00 50 00 68 00 6f 00 6e 00 65 00 20 00 4f 00 53 00))}
+		$ua3 = {((4d 6f 7a 69 6c 6c 61 2f 35 2e 30 20 28 4c 69 6e 75 78 3b 20 41 6e 64 72 6f 69 64 20) | (4d 00 6f 00 7a 00 69 00 6c 00 6c 00 61 00 2f 00 35 00 2e 00 30 00 20 00 28 00 4c 00 69 00 6e 00 75 00 78 00 3b 00 20 00 41 00 6e 00 64 00 72 00 6f 00 69 00 64 00 20 00))}
+		$ua4 = {((4d 6f 7a 69 6c 6c 61 2f 35 2e 30 20 28 50 6c 61 79 53 74 61 74 69 6f 6e 20) | (4d 00 6f 00 7a 00 69 00 6c 00 6c 00 61 00 2f 00 35 00 2e 00 30 00 20 00 28 00 50 00 6c 00 61 00 79 00 53 00 74 00 61 00 74 00 69 00 6f 00 6e 00 20 00))}
+		$ua5 = {((4d 6f 7a 69 6c 6c 61 2f 35 2e 30 20 28 58 31 31 3b 20) | (4d 00 6f 00 7a 00 69 00 6c 00 6c 00 61 00 2f 00 35 00 2e 00 30 00 20 00 28 00 58 00 31 00 31 00 3b 00 20 00))}
+		$ua6 = {((4d 6f 7a 69 6c 6c 61 2f 35 2e 30 20 28 57 69 6e 64 6f 77 73 20 50 68 6f 6e 65 20) | (4d 00 6f 00 7a 00 69 00 6c 00 6c 00 61 00 2f 00 35 00 2e 00 30 00 20 00 28 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 50 00 68 00 6f 00 6e 00 65 00 20 00))}
+		$ua7 = {((4d 6f 7a 69 6c 6c 61 2f 35 2e 30 20 28 63 6f 6d 70 61 74 69 62 6c 65 3b 20 4d 53 49 45 20 31 30 2e 30 3b 20 4d 61 63 69 6e 74 6f 73 68 3b 20 49 6e 74 65 6c 20 4d 61 63 20 4f 53 20 58 20 31 30 5f 37 5f 33 3b 20 54 72 69 64 65 6e 74 2f 36 2e 30 29) | (4d 00 6f 00 7a 00 69 00 6c 00 6c 00 61 00 2f 00 35 00 2e 00 30 00 20 00 28 00 63 00 6f 00 6d 00 70 00 61 00 74 00 69 00 62 00 6c 00 65 00 3b 00 20 00 4d 00 53 00 49 00 45 00 20 00 31 00 30 00 2e 00 30 00 3b 00 20 00 4d 00 61 00 63 00 69 00 6e 00 74 00 6f 00 73 00 68 00 3b 00 20 00 49 00 6e 00 74 00 65 00 6c 00 20 00 4d 00 61 00 63 00 20 00 4f 00 53 00 20 00 58 00 20 00 31 00 30 00 5f 00 37 00 5f 00 33 00 3b 00 20 00 54 00 72 00 69 00 64 00 65 00 6e 00 74 00 2f 00 36 00 2e 00 30 00 29 00))}
+		$ua8 = {((4d 6f 7a 69 6c 6c 61 2f 35 2e 30 20 28 63 6f 6d 70 61 74 69 62 6c 65 3b 20 4d 53 49 45 20 39 2e 30 3b 20 57 69 6e 64 6f 77 73 20 50 68 6f 6e 65 20 4f 53 20 37 2e 35 3b 20 54 72 69 64 65 6e 74 2f 35 2e 30 3b 20 49 45 4d 6f 62 69 6c 65 2f 39 2e 30 29) | (4d 00 6f 00 7a 00 69 00 6c 00 6c 00 61 00 2f 00 35 00 2e 00 30 00 20 00 28 00 63 00 6f 00 6d 00 70 00 61 00 74 00 69 00 62 00 6c 00 65 00 3b 00 20 00 4d 00 53 00 49 00 45 00 20 00 39 00 2e 00 30 00 3b 00 20 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 50 00 68 00 6f 00 6e 00 65 00 20 00 4f 00 53 00 20 00 37 00 2e 00 35 00 3b 00 20 00 54 00 72 00 69 00 64 00 65 00 6e 00 74 00 2f 00 35 00 2e 00 30 00 3b 00 20 00 49 00 45 00 4d 00 6f 00 62 00 69 00 6c 00 65 00 2f 00 39 00 2e 00 30 00 29 00))}
+		$ua9 = {((48 54 43 5f 54 6f 75 63 68 5f 33 47 20 4d 6f 7a 69 6c 6c 61 2f 34 2e 30 20 28 63 6f 6d 70 61 74 69 62 6c 65 3b 20 4d 53 49 45 20 36 2e 30 3b 20 57 69 6e 64 6f 77 73 20 43 45 3b 20 49 45 4d 6f 62 69 6c 65 20 37 2e 31 31 29) | (48 00 54 00 43 00 5f 00 54 00 6f 00 75 00 63 00 68 00 5f 00 33 00 47 00 20 00 4d 00 6f 00 7a 00 69 00 6c 00 6c 00 61 00 2f 00 34 00 2e 00 30 00 20 00 28 00 63 00 6f 00 6d 00 70 00 61 00 74 00 69 00 62 00 6c 00 65 00 3b 00 20 00 4d 00 53 00 49 00 45 00 20 00 36 00 2e 00 30 00 3b 00 20 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 43 00 45 00 3b 00 20 00 49 00 45 00 4d 00 6f 00 62 00 69 00 6c 00 65 00 20 00 37 00 2e 00 31 00 31 00 29 00))}
+		$ua10 = {((4d 6f 7a 69 6c 6c 61 2f 34 2e 30 20 28 63 6f 6d 70 61 74 69 62 6c 65 3b 20 4d 53 49 45 20 37 2e 30 3b 20 57 69 6e 64 6f 77 73 20 50 68 6f 6e 65 20 4f 53 20 37 2e 30 3b 20 54 72 69 64 65 6e 74 2f 33 2e 31 3b 20 49 45 4d 6f 62 69 6c 65 2f 37 2e 30 3b 20 4e 6f 6b 69 61 3b 4e 37 30 29) | (4d 00 6f 00 7a 00 69 00 6c 00 6c 00 61 00 2f 00 34 00 2e 00 30 00 20 00 28 00 63 00 6f 00 6d 00 70 00 61 00 74 00 69 00 62 00 6c 00 65 00 3b 00 20 00 4d 00 53 00 49 00 45 00 20 00 37 00 2e 00 30 00 3b 00 20 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 50 00 68 00 6f 00 6e 00 65 00 20 00 4f 00 53 00 20 00 37 00 2e 00 30 00 3b 00 20 00 54 00 72 00 69 00 64 00 65 00 6e 00 74 00 2f 00 33 00 2e 00 31 00 3b 00 20 00 49 00 45 00 4d 00 6f 00 62 00 69 00 6c 00 65 00 2f 00 37 00 2e 00 30 00 3b 00 20 00 4e 00 6f 00 6b 00 69 00 61 00 3b 00 4e 00 37 00 30 00 29 00))}
+		$ua11 = {((4d 6f 7a 69 6c 6c 61 2f 35 2e 30 20 28 42 6c 61 63 6b 42 65 72 72 79 3b 20 55 3b 20 42 6c 61 63 6b 42 65 72 72 79 20) | (4d 00 6f 00 7a 00 69 00 6c 00 6c 00 61 00 2f 00 35 00 2e 00 30 00 20 00 28 00 42 00 6c 00 61 00 63 00 6b 00 42 00 65 00 72 00 72 00 79 00 3b 00 20 00 55 00 3b 00 20 00 42 00 6c 00 61 00 63 00 6b 00 42 00 65 00 72 00 72 00 79 00 20 00))}
+		$ua12 = {((4d 6f 7a 69 6c 6c 61 2f 35 2e 30 20 28 69 50 61 64 3b 20 43 50 55 20 4f 53) | (4d 00 6f 00 7a 00 69 00 6c 00 6c 00 61 00 2f 00 35 00 2e 00 30 00 20 00 28 00 69 00 50 00 61 00 64 00 3b 00 20 00 43 00 50 00 55 00 20 00 4f 00 53 00))}
+		$ua13 = {((4d 6f 7a 69 6c 6c 61 2f 35 2e 30 20 28 69 50 61 64 3b 20 55 3b) | (4d 00 6f 00 7a 00 69 00 6c 00 6c 00 61 00 2f 00 35 00 2e 00 30 00 20 00 28 00 69 00 50 00 61 00 64 00 3b 00 20 00 55 00 3b 00))}
+		$ua14 = {((4d 6f 7a 69 6c 6c 61 2f 35 2e 30 20 28 49 45 20 31 31 2e 30 3b) | (4d 00 6f 00 7a 00 69 00 6c 00 6c 00 61 00 2f 00 35 00 2e 00 30 00 20 00 28 00 49 00 45 00 20 00 31 00 31 00 2e 00 30 00 3b 00))}
+		$ua15 = {((4d 6f 7a 69 6c 6c 61 2f 35 2e 30 20 28 41 6e 64 72 6f 69 64 3b) | (4d 00 6f 00 7a 00 69 00 6c 00 6c 00 61 00 2f 00 35 00 2e 00 30 00 20 00 28 00 41 00 6e 00 64 00 72 00 6f 00 69 00 64 00 3b 00))}
+		$ua16 = {((55 73 65 72 2d 41 67 65 6e 74 3a 20 49 6e 74 65 72 6e 61 6c 20 57 6f 72 64 70 72 65 73 73 20 52 50 43 20 63 6f 6e 6e 65 63 74 69 6f 6e) | (55 00 73 00 65 00 72 00 2d 00 41 00 67 00 65 00 6e 00 74 00 3a 00 20 00 49 00 6e 00 74 00 65 00 72 00 6e 00 61 00 6c 00 20 00 57 00 6f 00 72 00 64 00 70 00 72 00 65 00 73 00 73 00 20 00 52 00 50 00 43 00 20 00 63 00 6f 00 6e 00 6e 00 65 00 63 00 74 00 69 00 6f 00 6e 00))}
+		$ua17 = {((4d 6f 7a 69 6c 6c 61 20 2f 20 35 2e 30 20 28 53 79 6d 62 69 61 6e 4f 53) | (4d 00 6f 00 7a 00 69 00 6c 00 6c 00 61 00 20 00 2f 00 20 00 35 00 2e 00 30 00 20 00 28 00 53 00 79 00 6d 00 62 00 69 00 61 00 6e 00 4f 00 53 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 1 of them
+}
+
+rule INDICATOR_SUSPICIOUS_EXE_TooManyWindowsUA : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects executables referencing many varying, potentially fake Windows User-Agents"
+
+	strings:
+		$ua1 = {((4d 6f 7a 69 6c 6c 61 2f 35 2e 30 20 28 57 69 6e 64 6f 77 73 20 4e 54 20 36 2e 33 3b 20 57 69 6e 36 34 3b 20 78 36 34 29 20 41 70 70 6c 65 57 65 62 4b 69 74 2f 35 33 37 2e 33 36 20 28 4b 48 54 4d 4c 2c 20 6c 69 6b 65 20 47 65 63 6b 6f 29 20 43 68 72 6f 6d 65 2f 33 37 2e 30 2e 32 30 34 39 2e 30 20 53 61 66 61 72 69 2f 35 33 37 2e 33 36) | (4d 00 6f 00 7a 00 69 00 6c 00 6c 00 61 00 2f 00 35 00 2e 00 30 00 20 00 28 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 4e 00 54 00 20 00 36 00 2e 00 33 00 3b 00 20 00 57 00 69 00 6e 00 36 00 34 00 3b 00 20 00 78 00 36 00 34 00 29 00 20 00 41 00 70 00 70 00 6c 00 65 00 57 00 65 00 62 00 4b 00 69 00 74 00 2f 00 35 00 33 00 37 00 2e 00 33 00 36 00 20 00 28 00 4b 00 48 00 54 00 4d 00 4c 00 2c 00 20 00 6c 00 69 00 6b 00 65 00 20 00 47 00 65 00 63 00 6b 00 6f 00 29 00 20 00 43 00 68 00 72 00 6f 00 6d 00 65 00 2f 00 33 00 37 00 2e 00 30 00 2e 00 32 00 30 00 34 00 39 00 2e 00 30 00 20 00 53 00 61 00 66 00 61 00 72 00 69 00 2f 00 35 00 33 00 37 00 2e 00 33 00 36 00))}
+		$ua2 = {((4d 6f 7a 69 6c 6c 61 2f 35 2e 30 20 28 57 69 6e 64 6f 77 73 20 4e 54 20 35 2e 31 29 20 41 70 70 6c 65 57 65 62 4b 69 74 2f 35 33 37 2e 33 36 20 28 4b 48 54 4d 4c 2c 20 6c 69 6b 65 20 47 65 63 6b 6f 29 20 43 68 72 6f 6d 65 2f 33 36 2e 30 2e 31 39 38 35 2e 36 37 20 53 61 66 61 72 69 2f 35 33 37 2e 33 36) | (4d 00 6f 00 7a 00 69 00 6c 00 6c 00 61 00 2f 00 35 00 2e 00 30 00 20 00 28 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 4e 00 54 00 20 00 35 00 2e 00 31 00 29 00 20 00 41 00 70 00 70 00 6c 00 65 00 57 00 65 00 62 00 4b 00 69 00 74 00 2f 00 35 00 33 00 37 00 2e 00 33 00 36 00 20 00 28 00 4b 00 48 00 54 00 4d 00 4c 00 2c 00 20 00 6c 00 69 00 6b 00 65 00 20 00 47 00 65 00 63 00 6b 00 6f 00 29 00 20 00 43 00 68 00 72 00 6f 00 6d 00 65 00 2f 00 33 00 36 00 2e 00 30 00 2e 00 31 00 39 00 38 00 35 00 2e 00 36 00 37 00 20 00 53 00 61 00 66 00 61 00 72 00 69 00 2f 00 35 00 33 00 37 00 2e 00 33 00 36 00))}
+		$ua3 = {((4d 6f 7a 69 6c 6c 61 2f 35 2e 30 20 28 57 69 6e 64 6f 77 73 20 4e 54 20 35 2e 31 3b 20 72 76 3a 33 31 2e 30 29 20 47 65 63 6b 6f 2f 32 30 31 30 30 31 30 31 20 46 69 72 65 66 6f 78 2f 33 31 2e 30) | (4d 00 6f 00 7a 00 69 00 6c 00 6c 00 61 00 2f 00 35 00 2e 00 30 00 20 00 28 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 4e 00 54 00 20 00 35 00 2e 00 31 00 3b 00 20 00 72 00 76 00 3a 00 33 00 31 00 2e 00 30 00 29 00 20 00 47 00 65 00 63 00 6b 00 6f 00 2f 00 32 00 30 00 31 00 30 00 30 00 31 00 30 00 31 00 20 00 46 00 69 00 72 00 65 00 66 00 6f 00 78 00 2f 00 33 00 31 00 2e 00 30 00))}
+		$ua4 = {((4d 6f 7a 69 6c 6c 61 2f 35 2e 30 20 28 57 69 6e 64 6f 77 73 20 4e 54 20 36 2e 31 3b 20 57 4f 57 36 34 3b 20 72 76 3a 32 39 2e 30 29 20 47 65 63 6b 6f 2f 32 30 31 32 30 31 30 31 20 46 69 72 65 66 6f 78 2f 32 39 2e 30) | (4d 00 6f 00 7a 00 69 00 6c 00 6c 00 61 00 2f 00 35 00 2e 00 30 00 20 00 28 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 4e 00 54 00 20 00 36 00 2e 00 31 00 3b 00 20 00 57 00 4f 00 57 00 36 00 34 00 3b 00 20 00 72 00 76 00 3a 00 32 00 39 00 2e 00 30 00 29 00 20 00 47 00 65 00 63 00 6b 00 6f 00 2f 00 32 00 30 00 31 00 32 00 30 00 31 00 30 00 31 00 20 00 46 00 69 00 72 00 65 00 66 00 6f 00 78 00 2f 00 32 00 39 00 2e 00 30 00))}
+		$ua5 = {((4d 6f 7a 69 6c 6c 61 2f 35 2e 30 20 28 57 69 6e 64 6f 77 73 20 4e 54 20 36 2e 31 3b 20 72 76 3a 32 37 2e 33 29 20 47 65 63 6b 6f 2f 32 30 31 33 30 31 30 31 20 46 69 72 65 66 6f 78 2f 32 37 2e 33) | (4d 00 6f 00 7a 00 69 00 6c 00 6c 00 61 00 2f 00 35 00 2e 00 30 00 20 00 28 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 4e 00 54 00 20 00 36 00 2e 00 31 00 3b 00 20 00 72 00 76 00 3a 00 32 00 37 00 2e 00 33 00 29 00 20 00 47 00 65 00 63 00 6b 00 6f 00 2f 00 32 00 30 00 31 00 33 00 30 00 31 00 30 00 31 00 20 00 46 00 69 00 72 00 65 00 66 00 6f 00 78 00 2f 00 32 00 37 00 2e 00 33 00))}
+		$ua6 = {((4d 6f 7a 69 6c 6c 61 2f 35 2e 30 20 28 57 69 6e 64 6f 77 73 3b 20 55 3b 20 4d 53 49 45 20 39 2e 30 3b 20 57 49 6e 64 6f 77 73 20 4e 54 20 39 2e 30 3b 20 65 6e 2d 55 53 29) | (4d 00 6f 00 7a 00 69 00 6c 00 6c 00 61 00 2f 00 35 00 2e 00 30 00 20 00 28 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 3b 00 20 00 55 00 3b 00 20 00 4d 00 53 00 49 00 45 00 20 00 39 00 2e 00 30 00 3b 00 20 00 57 00 49 00 6e 00 64 00 6f 00 77 00 73 00 20 00 4e 00 54 00 20 00 39 00 2e 00 30 00 3b 00 20 00 65 00 6e 00 2d 00 55 00 53 00 29 00))}
+		$ua7 = {((4d 6f 7a 69 6c 6c 61 2f 35 2e 30 20 28 63 6f 6d 70 61 74 69 62 6c 65 3b 20 4d 53 49 45 20 31 30 2e 30 3b 20 57 69 6e 64 6f 77 73 20 4e 54 20 36 2e 31 3b 20 57 4f 57 36 34 3b 20 54 72 69 64 65 6e 74 2f 36 2e 30 29) | (4d 00 6f 00 7a 00 69 00 6c 00 6c 00 61 00 2f 00 35 00 2e 00 30 00 20 00 28 00 63 00 6f 00 6d 00 70 00 61 00 74 00 69 00 62 00 6c 00 65 00 3b 00 20 00 4d 00 53 00 49 00 45 00 20 00 31 00 30 00 2e 00 30 00 3b 00 20 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 4e 00 54 00 20 00 36 00 2e 00 31 00 3b 00 20 00 57 00 4f 00 57 00 36 00 34 00 3b 00 20 00 54 00 72 00 69 00 64 00 65 00 6e 00 74 00 2f 00 36 00 2e 00 30 00 29 00))}
+		$ua8 = {((4d 6f 7a 69 6c 6c 61 2f 35 2e 30 20 28 63 6f 6d 70 61 74 69 62 6c 65 3b 20 4d 53 49 45 20 31 30 2e 30 3b 20 57 69 6e 64 6f 77 73 20 4e 54 20 36 2e 31 3b 20 54 72 69 64 65 6e 74 2f 34 2e 30 3b 20 49 6e 66 6f 50 61 74 68 2e 32 3b 20 53 56 31 3b 20 2e 4e 45 54 20 43 4c 52 20 32 2e 30 2e 35 30 37 32 37 3b 20 57 4f 57 36 34 29) | (4d 00 6f 00 7a 00 69 00 6c 00 6c 00 61 00 2f 00 35 00 2e 00 30 00 20 00 28 00 63 00 6f 00 6d 00 70 00 61 00 74 00 69 00 62 00 6c 00 65 00 3b 00 20 00 4d 00 53 00 49 00 45 00 20 00 31 00 30 00 2e 00 30 00 3b 00 20 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 4e 00 54 00 20 00 36 00 2e 00 31 00 3b 00 20 00 54 00 72 00 69 00 64 00 65 00 6e 00 74 00 2f 00 34 00 2e 00 30 00 3b 00 20 00 49 00 6e 00 66 00 6f 00 50 00 61 00 74 00 68 00 2e 00 32 00 3b 00 20 00 53 00 56 00 31 00 3b 00 20 00 2e 00 4e 00 45 00 54 00 20 00 43 00 4c 00 52 00 20 00 32 00 2e 00 30 00 2e 00 35 00 30 00 37 00 32 00 37 00 3b 00 20 00 57 00 4f 00 57 00 36 00 34 00 29 00))}
+		$ua9 = {((4f 70 65 72 61 2f 31 32 2e 30 28 57 69 6e 64 6f 77 73 20 4e 54 20 35 2e 32 3b 55 3b 65 6e 29 50 72 65 73 74 6f 2f 32 32 2e 39 2e 31 36 38 20 56 65 72 73 69 6f 6e 2f 31 32 2e 30 30) | (4f 00 70 00 65 00 72 00 61 00 2f 00 31 00 32 00 2e 00 30 00 28 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 4e 00 54 00 20 00 35 00 2e 00 32 00 3b 00 55 00 3b 00 65 00 6e 00 29 00 50 00 72 00 65 00 73 00 74 00 6f 00 2f 00 32 00 32 00 2e 00 39 00 2e 00 31 00 36 00 38 00 20 00 56 00 65 00 72 00 73 00 69 00 6f 00 6e 00 2f 00 31 00 32 00 2e 00 30 00 30 00))}
+		$ua10 = {((4f 70 65 72 61 2f 39 2e 38 30 20 28 57 69 6e 64 6f 77 73 20 4e 54 20 36 2e 30 29 20 50 72 65 73 74 6f 2f 32 2e 31 32 2e 33 38 38 20 56 65 72 73 69 6f 6e 2f 31 32 2e 31 34) | (4f 00 70 00 65 00 72 00 61 00 2f 00 39 00 2e 00 38 00 30 00 20 00 28 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 4e 00 54 00 20 00 36 00 2e 00 30 00 29 00 20 00 50 00 72 00 65 00 73 00 74 00 6f 00 2f 00 32 00 2e 00 31 00 32 00 2e 00 33 00 38 00 38 00 20 00 56 00 65 00 72 00 73 00 69 00 6f 00 6e 00 2f 00 31 00 32 00 2e 00 31 00 34 00))}
+		$ua11 = {((4d 6f 7a 69 6c 6c 61 2f 35 2e 30 20 28 57 69 6e 64 6f 77 73 20 4e 54 20 36 2e 30 3b 20 72 76 3a 32 2e 30 29 20 47 65 63 6b 6f 2f 32 30 31 30 30 31 30 31 20 46 69 72 65 66 6f 78 2f 34 2e 30 20 4f 70 65 72 61 20 31 32 2e 31 34) | (4d 00 6f 00 7a 00 69 00 6c 00 6c 00 61 00 2f 00 35 00 2e 00 30 00 20 00 28 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 4e 00 54 00 20 00 36 00 2e 00 30 00 3b 00 20 00 72 00 76 00 3a 00 32 00 2e 00 30 00 29 00 20 00 47 00 65 00 63 00 6b 00 6f 00 2f 00 32 00 30 00 31 00 30 00 30 00 31 00 30 00 31 00 20 00 46 00 69 00 72 00 65 00 66 00 6f 00 78 00 2f 00 34 00 2e 00 30 00 20 00 4f 00 70 00 65 00 72 00 61 00 20 00 31 00 32 00 2e 00 31 00 34 00))}
+		$ua12 = {((4d 6f 7a 69 6c 6c 61 2f 35 2e 30 20 28 63 6f 6d 70 61 74 69 62 6c 65 3b 20 4d 53 49 45 20 39 2e 30 3b 20 57 69 6e 64 6f 77 73 20 4e 54 20 36 2e 30 29 20 4f 70 65 72 61 20 31 32 2e 31 34) | (4d 00 6f 00 7a 00 69 00 6c 00 6c 00 61 00 2f 00 35 00 2e 00 30 00 20 00 28 00 63 00 6f 00 6d 00 70 00 61 00 74 00 69 00 62 00 6c 00 65 00 3b 00 20 00 4d 00 53 00 49 00 45 00 20 00 39 00 2e 00 30 00 3b 00 20 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 4e 00 54 00 20 00 36 00 2e 00 30 00 29 00 20 00 4f 00 70 00 65 00 72 00 61 00 20 00 31 00 32 00 2e 00 31 00 34 00))}
+		$ua13 = {((4f 70 65 72 61 2f 31 32 2e 38 30 20 28 57 69 6e 64 6f 77 73 20 4e 54 20 35 2e 31 3b 20 55 3b 20 65 6e 29 20 50 72 65 73 74 6f 2f 32 2e 31 30 2e 32 38 39 20 56 65 72 73 69 6f 6e 2f 31 32 2e 30 32) | (4f 00 70 00 65 00 72 00 61 00 2f 00 31 00 32 00 2e 00 38 00 30 00 20 00 28 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 4e 00 54 00 20 00 35 00 2e 00 31 00 3b 00 20 00 55 00 3b 00 20 00 65 00 6e 00 29 00 20 00 50 00 72 00 65 00 73 00 74 00 6f 00 2f 00 32 00 2e 00 31 00 30 00 2e 00 32 00 38 00 39 00 20 00 56 00 65 00 72 00 73 00 69 00 6f 00 6e 00 2f 00 31 00 32 00 2e 00 30 00 32 00))}
+		$ua14 = {((4f 70 65 72 61 2f 39 2e 38 30 20 28 57 69 6e 64 6f 77 73 20 4e 54 20 36 2e 31 3b 20 55 3b 20 65 73 2d 45 53 29 20 50 72 65 73 74 6f 2f 32 2e 39 2e 31 38 31 20 56 65 72 73 69 6f 6e 2f 31 32 2e 30 30) | (4f 00 70 00 65 00 72 00 61 00 2f 00 39 00 2e 00 38 00 30 00 20 00 28 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 4e 00 54 00 20 00 36 00 2e 00 31 00 3b 00 20 00 55 00 3b 00 20 00 65 00 73 00 2d 00 45 00 53 00 29 00 20 00 50 00 72 00 65 00 73 00 74 00 6f 00 2f 00 32 00 2e 00 39 00 2e 00 31 00 38 00 31 00 20 00 56 00 65 00 72 00 73 00 69 00 6f 00 6e 00 2f 00 31 00 32 00 2e 00 30 00 30 00))}
+		$ua15 = {((4f 70 65 72 61 2f 39 2e 38 30 20 28 57 69 6e 64 6f 77 73 20 4e 54 20 35 2e 31 3b 20 55 3b 20 7a 68 2d 73 67 29 20 50 72 65 73 74 6f 2f 32 2e 39 2e 31 38 31 20 56 65 72 73 69 6f 6e 2f 31 32 2e 30 30) | (4f 00 70 00 65 00 72 00 61 00 2f 00 39 00 2e 00 38 00 30 00 20 00 28 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 4e 00 54 00 20 00 35 00 2e 00 31 00 3b 00 20 00 55 00 3b 00 20 00 7a 00 68 00 2d 00 73 00 67 00 29 00 20 00 50 00 72 00 65 00 73 00 74 00 6f 00 2f 00 32 00 2e 00 39 00 2e 00 31 00 38 00 31 00 20 00 56 00 65 00 72 00 73 00 69 00 6f 00 6e 00 2f 00 31 00 32 00 2e 00 30 00 30 00))}
+		$ua16 = {((4d 6f 7a 69 6c 6c 61 2f 35 2e 30 20 28 57 69 6e 64 6f 77 73 20 4e 54 20 36 2e 32 29 20 41 70 70 6c 65 57 65 62 4b 69 74 2f 35 33 35 2e 37 20 28 4b 48 54 4d 4c 2c 20 6c 69 6b 65 20 47 65 63 6b 6f 29 20 43 6f 6d 6f 64 6f 5f 44 72 61 67 6f 6e 2f 31 36 2e 31 2e 31 2e 30 20 43 68 72 6f 6d 65 2f 31 36 2e 30 2e 39 31 32 2e 36 33 20 53 61 66 61 72 69 2f 35 33 35 2e 37) | (4d 00 6f 00 7a 00 69 00 6c 00 6c 00 61 00 2f 00 35 00 2e 00 30 00 20 00 28 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 4e 00 54 00 20 00 36 00 2e 00 32 00 29 00 20 00 41 00 70 00 70 00 6c 00 65 00 57 00 65 00 62 00 4b 00 69 00 74 00 2f 00 35 00 33 00 35 00 2e 00 37 00 20 00 28 00 4b 00 48 00 54 00 4d 00 4c 00 2c 00 20 00 6c 00 69 00 6b 00 65 00 20 00 47 00 65 00 63 00 6b 00 6f 00 29 00 20 00 43 00 6f 00 6d 00 6f 00 64 00 6f 00 5f 00 44 00 72 00 61 00 67 00 6f 00 6e 00 2f 00 31 00 36 00 2e 00 31 00 2e 00 31 00 2e 00 30 00 20 00 43 00 68 00 72 00 6f 00 6d 00 65 00 2f 00 31 00 36 00 2e 00 30 00 2e 00 39 00 31 00 32 00 2e 00 36 00 33 00 20 00 53 00 61 00 66 00 61 00 72 00 69 00 2f 00 35 00 33 00 35 00 2e 00 37 00))}
+		$ua17 = {((4d 6f 7a 69 6c 6c 61 2f 35 2e 30 20 28 57 69 6e 64 6f 77 73 3b 20 55 3b 20 57 69 6e 64 6f 77 73 20 4e 54 20 36 2e 31 3b 20 74 72 2d 54 52 29 20 41 70 70 6c 65 57 65 62 4b 69 74 2f 35 33 33 2e 32 30 2e 32 35 20 28 4b 48 54 4d 4c 2c 20 6c 69 6b 65 20 47 65 63 6b 6f 29 20 56 65 72 73 69 6f 6e 2f 35 2e 30 2e 34 20 53 61 66 61 72 69 2f 35 33 33 2e 32 30 2e 32 37) | (4d 00 6f 00 7a 00 69 00 6c 00 6c 00 61 00 2f 00 35 00 2e 00 30 00 20 00 28 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 3b 00 20 00 55 00 3b 00 20 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 4e 00 54 00 20 00 36 00 2e 00 31 00 3b 00 20 00 74 00 72 00 2d 00 54 00 52 00 29 00 20 00 41 00 70 00 70 00 6c 00 65 00 57 00 65 00 62 00 4b 00 69 00 74 00 2f 00 35 00 33 00 33 00 2e 00 32 00 30 00 2e 00 32 00 35 00 20 00 28 00 4b 00 48 00 54 00 4d 00 4c 00 2c 00 20 00 6c 00 69 00 6b 00 65 00 20 00 47 00 65 00 63 00 6b 00 6f 00 29 00 20 00 56 00 65 00 72 00 73 00 69 00 6f 00 6e 00 2f 00 35 00 2e 00 30 00 2e 00 34 00 20 00 53 00 61 00 66 00 61 00 72 00 69 00 2f 00 35 00 33 00 33 00 2e 00 32 00 30 00 2e 00 32 00 37 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 5 of them
+}
+
+rule INDICATOR_SUSPICIOUS_VM_Evasion_MACAddrComb : hardened limited
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects executables referencing virtualization MAC addresses"
+
+	strings:
+		$s1 = {((30 30 3a 30 33 3a 46 46) | (30 00 30 00 3a 00 30 00 33 00 3a 00 46 00 46 00))}
+		$s2 = {((30 30 3a 30 35 3a 36 39) | (30 00 30 00 3a 00 30 00 35 00 3a 00 36 00 39 00))}
+		$s3 = {((30 30 3a 30 43 3a 32 39) | (30 00 30 00 3a 00 30 00 43 00 3a 00 32 00 39 00))}
+		$s4 = {((30 30 3a 31 36 3a 33 45) | (30 00 30 00 3a 00 31 00 36 00 3a 00 33 00 45 00))}
+		$s5 = {((30 30 3a 31 43 3a 31 34) | (30 00 30 00 3a 00 31 00 43 00 3a 00 31 00 34 00))}
+		$s6 = {((30 30 3a 31 43 3a 34 32) | (30 00 30 00 3a 00 31 00 43 00 3a 00 34 00 32 00))}
+		$s7 = {((30 30 3a 35 30 3a 35 36) | (30 00 30 00 3a 00 35 00 30 00 3a 00 35 00 36 00))}
+		$s8 = {((30 38 3a 30 30 3a 32 37) | (30 00 38 00 3a 00 30 00 30 00 3a 00 32 00 37 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 3 of them
+}
+
+rule INDICATOR_SUSPICIOUS_EXE_CC_Regex : hardened limited
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects executables referencing credit card regular expressions"
+		score = 60
+
+	strings:
+		$s1 = {((5e 33 5b 34 37 5d 5b 30 2d 39 5d 7b 31 33 7d 24) | (5e 00 33 00 5b 00 34 00 37 00 5d 00 5b 00 30 00 2d 00 39 00 5d 00 7b 00 31 00 33 00 7d 00 24 00))}
+		$s2 = {((33 5b 34 37 5d 5b 30 2d 39 5d 7b 31 33 7d 24) | (33 00 5b 00 34 00 37 00 5d 00 5b 00 30 00 2d 00 39 00 5d 00 7b 00 31 00 33 00 7d 00 24 00))}
+		$s3 = {((33 37 5b 30 2d 39 5d 7b 32 7d 5c 73 5b 30 2d 39 5d 7b 34 7d 5c 73 5b 30 2d 39 5d 7b 34 7d 5c 73 5b 30 2d 39 5d 7b 34 7d) | (33 00 37 00 5b 00 30 00 2d 00 39 00 5d 00 7b 00 32 00 7d 00 5c 00 73 00 5b 00 30 00 2d 00 39 00 5d 00 7b 00 34 00 7d 00 5c 00 73 00 5b 00 30 00 2d 00 39 00 5d 00 7b 00 34 00 7d 00 5c 00 73 00 5b 00 30 00 2d 00 39 00 5d 00 7b 00 34 00 7d 00))}
+		$s4 = {((5e 28 36 35 34 31 7c 36 35 35 36 29 5b 30 2d 39 5d 7b 31 32 7d 24) | (5e 00 28 00 36 00 35 00 34 00 31 00 7c 00 36 00 35 00 35 00 36 00 29 00 5b 00 30 00 2d 00 39 00 5d 00 7b 00 31 00 32 00 7d 00 24 00))}
+		$s5 = {((5e 33 38 39 5b 30 2d 39 5d 7b 31 31 7d 24) | (5e 00 33 00 38 00 39 00 5b 00 30 00 2d 00 39 00 5d 00 7b 00 31 00 31 00 7d 00 24 00))}
+		$s6 = {((5e 33 28 3f 3a 30 5b 30 2d 35 5d 7c 5b 36 38 5d 5b 30 2d 39 5d 29 5b 30 2d 39 5d 7b 31 31 7d 24) | (5e 00 33 00 28 00 3f 00 3a 00 30 00 5b 00 30 00 2d 00 35 00 5d 00 7c 00 5b 00 36 00 38 00 5d 00 5b 00 30 00 2d 00 39 00 5d 00 29 00 5b 00 30 00 2d 00 39 00 5d 00 7b 00 31 00 31 00 7d 00 24 00))}
+		$s7 = {((36 28 3f 3a 30 31 31 7c 35 5b 30 2d 39 5d 7b 32 7d 29 5b 30 2d 39 5d 7b 31 32 7d 24) | (36 00 28 00 3f 00 3a 00 30 00 31 00 31 00 7c 00 35 00 5b 00 30 00 2d 00 39 00 5d 00 7b 00 32 00 7d 00 29 00 5b 00 30 00 2d 00 39 00 5d 00 7b 00 31 00 32 00 7d 00 24 00))}
+		$s8 = {((36 30 31 31 5c 73 5b 30 2d 39 5d 7b 34 7d 5c 73 5b 30 2d 39 5d 7b 34 7d 5c 73 5b 30 2d 39 5d 7b 34 7d) | (36 00 30 00 31 00 31 00 5c 00 73 00 5b 00 30 00 2d 00 39 00 5d 00 7b 00 34 00 7d 00 5c 00 73 00 5b 00 30 00 2d 00 39 00 5d 00 7b 00 34 00 7d 00 5c 00 73 00 5b 00 30 00 2d 00 39 00 5d 00 7b 00 34 00 7d 00))}
+		$s9 = {((5e 36 33 5b 37 2d 39 5d 5b 30 2d 39 5d 7b 31 33 7d 24) | (5e 00 36 00 33 00 5b 00 37 00 2d 00 39 00 5d 00 5b 00 30 00 2d 00 39 00 5d 00 7b 00 31 00 33 00 7d 00 24 00))}
+		$s10 = {((5e 28 3f 3a 32 31 33 31 7c 31 38 30 30 7c 33 35 5c 64 7b 33 7d 29 5c 64 7b 31 31 7d 24) | (5e 00 28 00 3f 00 3a 00 32 00 31 00 33 00 31 00 7c 00 31 00 38 00 30 00 30 00 7c 00 33 00 35 00 5c 00 64 00 7b 00 33 00 7d 00 29 00 5c 00 64 00 7b 00 31 00 31 00 7d 00 24 00))}
+		$s11 = {((5e 39 5b 30 2d 39 5d 7b 31 35 7d 24) | (5e 00 39 00 5b 00 30 00 2d 00 39 00 5d 00 7b 00 31 00 35 00 7d 00 24 00))}
+		$s12 = {((5e 28 36 33 30 34 7c 36 37 30 36 7c 36 37 30 39 7c 36 37 37 31 29 5b 30 2d 39 5d 7b 31 32 2c 31 35 7d 24) | (5e 00 28 00 36 00 33 00 30 00 34 00 7c 00 36 00 37 00 30 00 36 00 7c 00 36 00 37 00 30 00 39 00 7c 00 36 00 37 00 37 00 31 00 29 00 5b 00 30 00 2d 00 39 00 5d 00 7b 00 31 00 32 00 2c 00 31 00 35 00 7d 00 24 00))}
+		$s13 = {((5e 28 35 30 31 38 7c 35 30 32 30 7c 35 30 33 38 7c 36 33 30 34 7c 36 37 35 39 7c 36 37 36 31 7c 36 37 36 33 29 5b 30 2d 39 5d 7b 38 2c 31 35 7d 24) | (5e 00 28 00 35 00 30 00 31 00 38 00 7c 00 35 00 30 00 32 00 30 00 7c 00 35 00 30 00 33 00 38 00 7c 00 36 00 33 00 30 00 34 00 7c 00 36 00 37 00 35 00 39 00 7c 00 36 00 37 00 36 00 31 00 7c 00 36 00 37 00 36 00 33 00 29 00 5b 00 30 00 2d 00 39 00 5d 00 7b 00 38 00 2c 00 31 00 35 00 7d 00 24 00))}
+		$s14 = {((35 5b 31 2d 35 5d 5b 30 2d 39 5d 7b 31 34 7d 24) | (35 00 5b 00 31 00 2d 00 35 00 5d 00 5b 00 30 00 2d 00 39 00 5d 00 7b 00 31 00 34 00 7d 00 24 00))}
+		$s15 = {((5e 28 36 33 33 34 7c 36 37 36 37 29 5b 30 2d 39 5d 7b 31 32 7d 7c 28 36 33 33 34 7c 36 37 36 37 29 5b 30 2d 39 5d 7b 31 34 7d 7c 28 36 33 33 34 7c 36 37 36 37 29 5b 30 2d 39 5d 7b 31 35 7d 24) | (5e 00 28 00 36 00 33 00 33 00 34 00 7c 00 36 00 37 00 36 00 37 00 29 00 5b 00 30 00 2d 00 39 00 5d 00 7b 00 31 00 32 00 7d 00 7c 00 28 00 36 00 33 00 33 00 34 00 7c 00 36 00 37 00 36 00 37 00 29 00 5b 00 30 00 2d 00 39 00 5d 00 7b 00 31 00 34 00 7d 00 7c 00 28 00 36 00 33 00 33 00 34 00 7c 00 36 00 37 00 36 00 37 00 29 00 5b 00 30 00 2d 00 39 00 5d 00 7b 00 31 00 35 00 7d 00 24 00))}
+		$s16 = {((5e 28 34 39 30 33 7c 34 39 30 35 7c 34 39 31 31 7c 34 39 33 36 7c 36 33 33 33 7c 36 37 35 39 29 5b 30 2d 39 5d 7b 31 32 7d 7c 28 34 39 30 33 7c 34 39 30 35 7c 34 39 31 31 7c 34 39 33 36 7c 36 33 33 33 7c 36 37 35 39 29 5b 30 2d 39 5d 7b 31 34 7d 7c 28 34 39 30 33 7c 34 39 30 35 7c 34 39 31 31 7c 34 39 33 36 7c 36 33 33 33 7c 36 37 35 39 29 5b 30 2d 39 5d 7b 31 35 7d 7c 35 36 34 31 38 32 5b 30 2d 39 5d 7b 31 30 7d 7c 35 36 34 31 38 32 5b 30 2d 39 5d 7b 31 32 7d 7c 35 36 34 31 38 32 5b 30 2d 39 5d 7b 31 33 7d 7c 36 33 33 31 31 30 5b 30 2d 39 5d 7b 31 30 7d 7c 36 33 33 31 31 30 5b 30 2d 39 5d 7b 31 32 7d 7c 36 33 33 31 31 30 5b 30 2d 39 5d 7b 31 33 7d 24) | (5e 00 28 00 34 00 39 00 30 00 33 00 7c 00 34 00 39 00 30 00 35 00 7c 00 34 00 39 00 31 00 31 00 7c 00 34 00 39 00 33 00 36 00 7c 00 36 00 33 00 33 00 33 00 7c 00 36 00 37 00 35 00 39 00 29 00 5b 00 30 00 2d 00 39 00 5d 00 7b 00 31 00 32 00 7d 00 7c 00 28 00 34 00 39 00 30 00 33 00 7c 00 34 00 39 00 30 00 35 00 7c 00 34 00 39 00 31 00 31 00 7c 00 34 00 39 00 33 00 36 00 7c 00 36 00 33 00 33 00 33 00 7c 00 36 00 37 00 35 00 39 00 29 00 5b 00 30 00 2d 00 39 00 5d 00 7b 00 31 00 34 00 7d 00 7c 00 28 00 34 00 39 00 30 00 33 00 7c 00 34 00 39 00 30 00 35 00 7c 00 34 00 39 00 31 00 31 00 7c 00 34 00 39 00 33 00 36 00 7c 00 36 00 33 00 33 00 33 00 7c 00 36 00 37 00 35 00 39 00 29 00 5b 00 30 00 2d 00 39 00 5d 00 7b 00 31 00 35 00 7d 00 7c 00 35 00 36 00 34 00 31 00 38 00 32 00 5b 00 30 00 2d 00 39 00 5d 00 7b 00 31 00 30 00 7d 00 7c 00 35 00 36 00 34 00 31 00 38 00 32 00 5b 00 30 00 2d 00 39 00 5d 00 7b 00 31 00 32 00 7d 00 7c 00 35 00 36 00 34 00 31 00 38 00 32 00 5b 00 30 00 2d 00 39 00 5d 00 7b 00 31 00 33 00 7d 00 7c 00 36 00 33 00 33 00 31 00 31 00 30 00 5b 00 30 00 2d 00 39 00 5d 00 7b 00 31 00 30 00 7d 00 7c 00 36 00 33 00 33 00 31 00 31 00 30 00 5b 00 30 00 2d 00 39 00 5d 00 7b 00 31 00 32 00 7d 00 7c 00 36 00 33 00 33 00 31 00 31 00 30 00 5b 00 30 00 2d 00 39 00 5d 00 7b 00 31 00 33 00 7d 00 24 00))}
+		$s17 = {((5e 28 36 32 5b 30 2d 39 5d 7b 31 34 2c 31 37 7d 29 24) | (5e 00 28 00 36 00 32 00 5b 00 30 00 2d 00 39 00 5d 00 7b 00 31 00 34 00 2c 00 31 00 37 00 7d 00 29 00 24 00))}
+		$s18 = {((34 5b 30 2d 39 5d 7b 31 32 7d 28 3f 3a 5b 30 2d 39 5d 7b 33 7d 29 3f 24) | (34 00 5b 00 30 00 2d 00 39 00 5d 00 7b 00 31 00 32 00 7d 00 28 00 3f 00 3a 00 5b 00 30 00 2d 00 39 00 5d 00 7b 00 33 00 7d 00 29 00 3f 00 24 00))}
+		$s19 = {((5e 28 3f 3a 34 5b 30 2d 39 5d 7b 31 32 7d 28 3f 3a 5b 30 2d 39 5d 7b 33 7d 29 3f 7c 35 5b 31 2d 35 5d 5b 30 2d 39 5d 7b 31 34 7d 29 24) | (5e 00 28 00 3f 00 3a 00 34 00 5b 00 30 00 2d 00 39 00 5d 00 7b 00 31 00 32 00 7d 00 28 00 3f 00 3a 00 5b 00 30 00 2d 00 39 00 5d 00 7b 00 33 00 7d 00 29 00 3f 00 7c 00 35 00 5b 00 31 00 2d 00 35 00 5d 00 5b 00 30 00 2d 00 39 00 5d 00 7b 00 31 00 34 00 7d 00 29 00 24 00))}
+		$s20 = {((34 5b 30 2d 39 5d 7b 33 7d 5c 73 5b 30 2d 39 5d 7b 34 7d 5c 73 5b 30 2d 39 5d 7b 34 7d 5c 73 5b 30 2d 39 5d 7b 34 7d) | (34 00 5b 00 30 00 2d 00 39 00 5d 00 7b 00 33 00 7d 00 5c 00 73 00 5b 00 30 00 2d 00 39 00 5d 00 7b 00 34 00 7d 00 5c 00 73 00 5b 00 30 00 2d 00 39 00 5d 00 7b 00 34 00 7d 00 5c 00 73 00 5b 00 30 00 2d 00 39 00 5d 00 7b 00 34 00 7d 00))}
+		$a21 = {((5e 5b 30 2d 39 5d 7b 34 7d 5c 73 5b 30 2d 39 5d 7b 34 7d 5c 73 5b 30 2d 39 5d 7b 34 7d 5c 73 5b 30 2d 39 5d 7b 34 7d) | (5e 00 5b 00 30 00 2d 00 39 00 5d 00 7b 00 34 00 7d 00 5c 00 73 00 5b 00 30 00 2d 00 39 00 5d 00 7b 00 34 00 7d 00 5c 00 73 00 5b 00 30 00 2d 00 39 00 5d 00 7b 00 34 00 7d 00 5c 00 73 00 5b 00 30 00 2d 00 39 00 5d 00 7b 00 34 00 7d 00))}
+
+	condition:
+		( uint16( 0 ) == 0x5a4d and 2 of them ) or ( 4 of them )
+}
+
+rule INDICATOR_SUSPICIOUS_EXE_Discord_Regex : hardened limited
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects executables referencing Discord tokens regular expressions"
+		score = 40
+
+	strings:
+		$s1 = {((5b 61 2d 7a 41 2d 5a 30 2d 39 5d 7b 32 34 7d 5c 2e 5b 61 2d 7a 41 2d 5a 30 2d 39 5d 7b 36 7d 5c 2e 5b 61 2d 7a 41 2d 5a 30 2d 39 5f 5c 2d 5d 7b 32 37 7d 7c 6d 66 61 5c 2e 5b 61 2d 7a 41 2d 5a 30 2d 39 5f 5c 2d 5d 7b 38 34 7d) | (5b 00 61 00 2d 00 7a 00 41 00 2d 00 5a 00 30 00 2d 00 39 00 5d 00 7b 00 32 00 34 00 7d 00 5c 00 2e 00 5b 00 61 00 2d 00 7a 00 41 00 2d 00 5a 00 30 00 2d 00 39 00 5d 00 7b 00 36 00 7d 00 5c 00 2e 00 5b 00 61 00 2d 00 7a 00 41 00 2d 00 5a 00 30 00 2d 00 39 00 5f 00 5c 00 2d 00 5d 00 7b 00 32 00 37 00 7d 00 7c 00 6d 00 66 00 61 00 5c 00 2e 00 5b 00 61 00 2d 00 7a 00 41 00 2d 00 5a 00 30 00 2d 00 39 00 5f 00 5c 00 2d 00 5d 00 7b 00 38 00 34 00 7d 00))}
+
+	condition:
+		( uint16( 0 ) == 0x5a4d and all of them ) or all of them
+}
+
+rule INDICATOR_SUSPICIOUS_EXE_References_VPN : hardened limited
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects executables referencing many VPN software clients. Observed in infosteslers"
+		score = 40
+
+	strings:
+		$s1 = {((5c 56 50 4e 5c 4e 6f 72 64 56 50 4e) | (5c 00 56 00 50 00 4e 00 5c 00 4e 00 6f 00 72 00 64 00 56 00 50 00 4e 00))}
+		$s2 = {((5c 56 50 4e 5c 4f 70 65 6e 56 50 4e) | (5c 00 56 00 50 00 4e 00 5c 00 4f 00 70 00 65 00 6e 00 56 00 50 00 4e 00))}
+		$s3 = {((5c 56 50 4e 5c 50 72 6f 74 6f 6e 56 50 4e) | (5c 00 56 00 50 00 4e 00 5c 00 50 00 72 00 6f 00 74 00 6f 00 6e 00 56 00 50 00 4e 00))}
+		$s4 = {((5c 56 50 4e 5c 44 55 43 5c) | (5c 00 56 00 50 00 4e 00 5c 00 44 00 55 00 43 00 5c 00))}
+		$s5 = {((5c 56 50 4e 5c 50 72 69 76 61 74 65 56 50 4e) | (5c 00 56 00 50 00 4e 00 5c 00 50 00 72 00 69 00 76 00 61 00 74 00 65 00 56 00 50 00 4e 00))}
+		$s6 = {((5c 56 50 4e 5c 50 72 69 76 61 74 65 56 50 4e) | (5c 00 56 00 50 00 4e 00 5c 00 50 00 72 00 69 00 76 00 61 00 74 00 65 00 56 00 50 00 4e 00))}
+		$s7 = {((5c 56 50 4e 5c 45 61 72 74 68 56 50 4e) | (5c 00 56 00 50 00 4e 00 5c 00 45 00 61 00 72 00 74 00 68 00 56 00 50 00 4e 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 3 of them
+}
+
+rule INDICATOR_SUSPICIOUS_EXE_VaultSchemaGUID : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects executables referencing Windows vault credential objects. Observed in infostealers"
+		score = 50
+
+	strings:
+		$s1 = {((32 46 31 41 36 35 30 34 2d 30 36 34 31 2d 34 34 43 46 2d 38 42 42 35 2d 33 36 31 32 44 38 36 35 46 32 45 35) | (32 00 46 00 31 00 41 00 36 00 35 00 30 00 34 00 2d 00 30 00 36 00 34 00 31 00 2d 00 34 00 34 00 43 00 46 00 2d 00 38 00 42 00 42 00 35 00 2d 00 33 00 36 00 31 00 32 00 44 00 38 00 36 00 35 00 46 00 32 00 45 00 35 00))}
+		$s2 = {((33 43 43 44 35 34 39 39 2d 38 37 41 38 2d 34 42 31 30 2d 41 32 31 35 2d 36 30 38 38 38 38 44 44 33 42 35 35) | (33 00 43 00 43 00 44 00 35 00 34 00 39 00 39 00 2d 00 38 00 37 00 41 00 38 00 2d 00 34 00 42 00 31 00 30 00 2d 00 41 00 32 00 31 00 35 00 2d 00 36 00 30 00 38 00 38 00 38 00 38 00 44 00 44 00 33 00 42 00 35 00 35 00))}
+		$s3 = {((31 35 34 45 32 33 44 30 2d 43 36 34 34 2d 34 45 36 46 2d 38 43 45 36 2d 35 30 36 39 32 37 32 46 39 39 39 46) | (31 00 35 00 34 00 45 00 32 00 33 00 44 00 30 00 2d 00 43 00 36 00 34 00 34 00 2d 00 34 00 45 00 36 00 46 00 2d 00 38 00 43 00 45 00 36 00 2d 00 35 00 30 00 36 00 39 00 32 00 37 00 32 00 46 00 39 00 39 00 39 00 46 00))}
+		$s4 = {((34 42 46 34 43 34 34 32 2d 39 42 38 41 2d 34 31 41 30 2d 42 33 38 30 2d 44 44 34 41 37 30 34 44 44 42 32 38) | (34 00 42 00 46 00 34 00 43 00 34 00 34 00 32 00 2d 00 39 00 42 00 38 00 41 00 2d 00 34 00 31 00 41 00 30 00 2d 00 42 00 33 00 38 00 30 00 2d 00 44 00 44 00 34 00 41 00 37 00 30 00 34 00 44 00 44 00 42 00 32 00 38 00))}
+		$s5 = {((37 37 42 43 35 38 32 42 2d 46 30 41 36 2d 34 45 31 35 2d 34 45 38 30 2d 36 31 37 33 36 42 36 46 33 42 32 39) | (37 00 37 00 42 00 43 00 35 00 38 00 32 00 42 00 2d 00 46 00 30 00 41 00 36 00 2d 00 34 00 45 00 31 00 35 00 2d 00 34 00 45 00 38 00 30 00 2d 00 36 00 31 00 37 00 33 00 36 00 42 00 36 00 46 00 33 00 42 00 32 00 39 00))}
+		$s6 = {((45 36 39 44 37 38 33 38 2d 39 31 42 35 2d 34 46 43 39 2d 38 39 44 35 2d 32 33 30 44 34 44 34 43 43 32 42 43) | (45 00 36 00 39 00 44 00 37 00 38 00 33 00 38 00 2d 00 39 00 31 00 42 00 35 00 2d 00 34 00 46 00 43 00 39 00 2d 00 38 00 39 00 44 00 35 00 2d 00 32 00 33 00 30 00 44 00 34 00 44 00 34 00 43 00 43 00 32 00 42 00 43 00))}
+		$s7 = {((33 45 30 45 33 35 42 45 2d 31 42 37 37 2d 34 33 45 37 2d 42 38 37 33 2d 41 45 44 39 30 31 42 36 32 37 35 42) | (33 00 45 00 30 00 45 00 33 00 35 00 42 00 45 00 2d 00 31 00 42 00 37 00 37 00 2d 00 34 00 33 00 45 00 37 00 2d 00 42 00 38 00 37 00 33 00 2d 00 41 00 45 00 44 00 39 00 30 00 31 00 42 00 36 00 32 00 37 00 35 00 42 00))}
+		$s8 = {((33 43 38 38 36 46 46 33 2d 32 36 36 39 2d 34 41 41 32 2d 41 38 46 42 2d 33 46 36 37 35 39 41 37 37 35 34 38) | (33 00 43 00 38 00 38 00 36 00 46 00 46 00 33 00 2d 00 32 00 36 00 36 00 39 00 2d 00 34 00 41 00 41 00 32 00 2d 00 41 00 38 00 46 00 42 00 2d 00 33 00 46 00 36 00 37 00 35 00 39 00 41 00 37 00 37 00 35 00 34 00 38 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 4 of them
+}
+
+rule INDICATOR_SUSPICIOUS_AntiVM_UNK01 : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects memory artifacts referencing specific combination of anti-VM checks"
+
+	strings:
+		$s1 = {((76 6d 63 69 2e 73) | (76 00 6d 00 63 00 69 00 2e 00 73 00))}
+		$s2 = {((76 6d 6d 65 6d 63) | (76 00 6d 00 6d 00 65 00 6d 00 63 00))}
+		$s3 = {((71 65 6d 75 2d 67 61 2e 65 78 65) | (71 00 65 00 6d 00 75 00 2d 00 67 00 61 00 2e 00 65 00 78 00 65 00))}
+		$s4 = {((71 67 61 2e 65 78 65) | (71 00 67 00 61 00 2e 00 65 00 78 00 65 00))}
+		$s5 = {((77 69 6e 64 61 6e 72 2e 65 78 65) | (77 00 69 00 6e 00 64 00 61 00 6e 00 72 00 2e 00 65 00 78 00 65 00))}
+		$s6 = {((76 62 6f 78 73 65 72 76 69 63 65 2e 65 78 65) | (76 00 62 00 6f 00 78 00 73 00 65 00 72 00 76 00 69 00 63 00 65 00 2e 00 65 00 78 00 65 00))}
+		$s7 = {((76 62 6f 78 74 72 61 79 2e 65 78 65) | (76 00 62 00 6f 00 78 00 74 00 72 00 61 00 79 00 2e 00 65 00 78 00 65 00))}
+		$s8 = {((76 6d 74 6f 6f 6c 73 64 2e 65 78 65) | (76 00 6d 00 74 00 6f 00 6f 00 6c 00 73 00 64 00 2e 00 65 00 78 00 65 00))}
+		$s9 = {((70 72 6c 5f 74 6f 6f 6c 73 2e 65 78 65) | (70 00 72 00 6c 00 5f 00 74 00 6f 00 6f 00 6c 00 73 00 2e 00 65 00 78 00 65 00))}
+		$s10 = {((37 38 36 39 2e 76 6d 74) | (37 00 38 00 36 00 39 00 2e 00 76 00 6d 00 74 00))}
+		$s11 = {((71 65 6d 75) | (71 00 65 00 6d 00 75 00))}
+		$s12 = {((76 69 72 74 69 6f) | (76 00 69 00 72 00 74 00 69 00 6f 00))}
+		$s13 = {((76 6d 77 61 72 65) | (76 00 6d 00 77 00 61 00 72 00 65 00))}
+		$s14 = {((76 62 6f 78) | (76 00 62 00 6f 00 78 00))}
+		$s15 = {((25 73 79 73 74 65 6d 72 6f 6f 74 25 5c 73 79 73 74 65 6d 33 32 5c 6e 74 64 6c 6c 2e 64 6c 6c) | (25 00 73 00 79 00 73 00 74 00 65 00 6d 00 72 00 6f 00 6f 00 74 00 25 00 5c 00 73 00 79 00 73 00 74 00 65 00 6d 00 33 00 32 00 5c 00 6e 00 74 00 64 00 6c 00 6c 00 2e 00 64 00 6c 00 6c 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and all of them
+}
+
+rule INDICATOR_SUSPICIOUS_AntiVM_WMIC : hardened limited
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects memory artifacts referencing WMIC commands for anti-VM checks"
+
+	strings:
+		$s1 = {((77 6d 69 63 20 70 72 6f 63 65 73 73 20 77 68 65 72 65 20 22 6e 61 6d 65 20 6c 69 6b 65 20 27 25 76 6d 77 70 25 27 22) | (77 00 6d 00 69 00 63 00 20 00 70 00 72 00 6f 00 63 00 65 00 73 00 73 00 20 00 77 00 68 00 65 00 72 00 65 00 20 00 22 00 6e 00 61 00 6d 00 65 00 20 00 6c 00 69 00 6b 00 65 00 20 00 27 00 25 00 76 00 6d 00 77 00 70 00 25 00 27 00 22 00))}
+		$s2 = {((77 6d 69 63 20 70 72 6f 63 65 73 73 20 77 68 65 72 65 20 22 6e 61 6d 65 20 6c 69 6b 65 20 27 25 76 69 72 74 75 61 6c 62 6f 78 25 27 22) | (77 00 6d 00 69 00 63 00 20 00 70 00 72 00 6f 00 63 00 65 00 73 00 73 00 20 00 77 00 68 00 65 00 72 00 65 00 20 00 22 00 6e 00 61 00 6d 00 65 00 20 00 6c 00 69 00 6b 00 65 00 20 00 27 00 25 00 76 00 69 00 72 00 74 00 75 00 61 00 6c 00 62 00 6f 00 78 00 25 00 27 00 22 00))}
+		$s3 = {((77 6d 69 63 20 70 72 6f 63 65 73 73 20 77 68 65 72 65 20 22 6e 61 6d 65 20 6c 69 6b 65 20 27 25 76 62 6f 78 25 27 22) | (77 00 6d 00 69 00 63 00 20 00 70 00 72 00 6f 00 63 00 65 00 73 00 73 00 20 00 77 00 68 00 65 00 72 00 65 00 20 00 22 00 6e 00 61 00 6d 00 65 00 20 00 6c 00 69 00 6b 00 65 00 20 00 27 00 25 00 76 00 62 00 6f 00 78 00 25 00 27 00 22 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 2 of them
+}
+
+rule INDICATOR_SUSPICIOUS_EnableSMBv1 : hardened limited
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects binaries with PowerShell command enabling SMBv1"
+
+	strings:
+		$s1 = {((45 6e 61 62 6c 65 2d 57 69 6e 64 6f 77 73 4f 70 74 69 6f 6e 61 6c 46 65 61 74 75 72 65 20 2d 4f 6e 6c 69 6e 65 20 2d 46 65 61 74 75 72 65 4e 61 6d 65 20 53 4d 42 31 50 72 6f 74 6f 63 6f 6c) | (45 00 6e 00 61 00 62 00 6c 00 65 00 2d 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 4f 00 70 00 74 00 69 00 6f 00 6e 00 61 00 6c 00 46 00 65 00 61 00 74 00 75 00 72 00 65 00 20 00 2d 00 4f 00 6e 00 6c 00 69 00 6e 00 65 00 20 00 2d 00 46 00 65 00 61 00 74 00 75 00 72 00 65 00 4e 00 61 00 6d 00 65 00 20 00 53 00 4d 00 42 00 31 00 50 00 72 00 6f 00 74 00 6f 00 63 00 6f 00 6c 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 1 of them
+}
+
+rule INDICATOR_SUSPICIOUS_EnableNetworkDiscovery : hardened limited
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects binaries manipulating Windows firewall to enable permissive network discovery"
+
+	strings:
+		$s1 = {((6e 65 74 73 68 20 61 64 76 66 69 72 65 77 61 6c 6c 20 66 69 72 65 77 61 6c 6c 20 73 65 74 20 72 75 6c 65 20 67 72 6f 75 70 3d 22 4e 65 74 77 6f 72 6b 20 44 69 73 63 6f 76 65 72 79 22 20 6e 65 77 20 65 6e 61 62 6c 65 3d 59 65 73) | (6e 00 65 00 74 00 73 00 68 00 20 00 61 00 64 00 76 00 66 00 69 00 72 00 65 00 77 00 61 00 6c 00 6c 00 20 00 66 00 69 00 72 00 65 00 77 00 61 00 6c 00 6c 00 20 00 73 00 65 00 74 00 20 00 72 00 75 00 6c 00 65 00 20 00 67 00 72 00 6f 00 75 00 70 00 3d 00 22 00 4e 00 65 00 74 00 77 00 6f 00 72 00 6b 00 20 00 44 00 69 00 73 00 63 00 6f 00 76 00 65 00 72 00 79 00 22 00 20 00 6e 00 65 00 77 00 20 00 65 00 6e 00 61 00 62 00 6c 00 65 00 3d 00 59 00 65 00 73 00))}
+		$s2 = {((6e 65 74 73 68 20 61 64 76 66 69 72 65 77 61 6c 6c 20 66 69 72 65 77 61 6c 6c 20 73 65 74 20 72 75 6c 65 20 67 72 6f 75 70 3d 22 46 69 6c 65 20 61 6e 64 20 50 72 69 6e 74 65 72 20 53 68 61 72 69 6e 67 22 20 6e 65 77 20 65 6e 61 62 6c 65 3d 59 65 73) | (6e 00 65 00 74 00 73 00 68 00 20 00 61 00 64 00 76 00 66 00 69 00 72 00 65 00 77 00 61 00 6c 00 6c 00 20 00 66 00 69 00 72 00 65 00 77 00 61 00 6c 00 6c 00 20 00 73 00 65 00 74 00 20 00 72 00 75 00 6c 00 65 00 20 00 67 00 72 00 6f 00 75 00 70 00 3d 00 22 00 46 00 69 00 6c 00 65 00 20 00 61 00 6e 00 64 00 20 00 50 00 72 00 69 00 6e 00 74 00 65 00 72 00 20 00 53 00 68 00 61 00 72 00 69 00 6e 00 67 00 22 00 20 00 6e 00 65 00 77 00 20 00 65 00 6e 00 61 00 62 00 6c 00 65 00 3d 00 59 00 65 00 73 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and all of them
+}
+
+rule INDICATOR_SUSPICIOUS_EXE_References_AuthApps : hardened limited
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects executables referencing many authentication apps. Observed in information stealers"
+
+	strings:
+		$s1 = {((57 69 6e 41 75 74 68 5c 77 69 6e 61 75 74 68 2e 78 6d 6c) | (57 00 69 00 6e 00 41 00 75 00 74 00 68 00 5c 00 77 00 69 00 6e 00 61 00 75 00 74 00 68 00 2e 00 78 00 6d 00 6c 00))}
+		$s2 = {((41 75 74 68 79 20 44 65 73 6b 74 6f 70 5c 4c 6f 63 61 6c) | (41 00 75 00 74 00 68 00 79 00 20 00 44 00 65 00 73 00 6b 00 74 00 6f 00 70 00 5c 00 4c 00 6f 00 63 00 61 00 6c 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and all of them
+}
+
+rule INDICATOR_SUSPICIOUS_EXE_RegKeyComb_RDP : hardened limited
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects executables embedding registry key / value combination manipulating RDP / Terminal Services"
+
+	strings:
+		$r1 = {((53 4f 46 54 57 41 52 45 5c 50 6f 6c 69 63 69 65 73 5c 4d 69 63 72 6f 73 6f 66 74 5c 57 69 6e 64 6f 77 73 5c 49 6e 73 74 61 6c 6c 65 72) | (53 00 4f 00 46 00 54 00 57 00 41 00 52 00 45 00 5c 00 50 00 6f 00 6c 00 69 00 63 00 69 00 65 00 73 00 5c 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 5c 00 49 00 6e 00 73 00 74 00 61 00 6c 00 6c 00 65 00 72 00))}
+		$k1 = {((45 6e 61 62 6c 65 41 64 6d 69 6e 54 53 52 65 6d 6f 74 65) | (45 00 6e 00 61 00 62 00 6c 00 65 00 41 00 64 00 6d 00 69 00 6e 00 54 00 53 00 52 00 65 00 6d 00 6f 00 74 00 65 00))}
+		$r2 = {((53 59 53 54 45 4d 5c 43 75 72 72 65 6e 74 43 6f 6e 74 72 6f 6c 53 65 74 5c 43 6f 6e 74 72 6f 6c 5c 54 65 72 6d 69 6e 61 6c 20 53 65 72 76 65 72) | (53 00 59 00 53 00 54 00 45 00 4d 00 5c 00 43 00 75 00 72 00 72 00 65 00 6e 00 74 00 43 00 6f 00 6e 00 74 00 72 00 6f 00 6c 00 53 00 65 00 74 00 5c 00 43 00 6f 00 6e 00 74 00 72 00 6f 00 6c 00 5c 00 54 00 65 00 72 00 6d 00 69 00 6e 00 61 00 6c 00 20 00 53 00 65 00 72 00 76 00 65 00 72 00))}
+		$k2 = {((54 53 45 6e 61 62 6c 65 64) | (54 00 53 00 45 00 6e 00 61 00 62 00 6c 00 65 00 64 00))}
+		$r3 = {((53 59 53 54 45 4d 5c 43 75 72 72 65 6e 74 43 6f 6e 74 72 6f 6c 53 65 74 5c 53 65 72 76 69 63 65 73 5c 54 65 72 6d 44 44) | (53 00 59 00 53 00 54 00 45 00 4d 00 5c 00 43 00 75 00 72 00 72 00 65 00 6e 00 74 00 43 00 6f 00 6e 00 74 00 72 00 6f 00 6c 00 53 00 65 00 74 00 5c 00 53 00 65 00 72 00 76 00 69 00 63 00 65 00 73 00 5c 00 54 00 65 00 72 00 6d 00 44 00 44 00))}
+		$r4 = {((53 59 53 54 45 4d 5c 43 75 72 72 65 6e 74 43 6f 6e 74 72 6f 6c 53 65 74 5c 53 65 72 76 69 63 65 73 5c 54 65 72 6d 53 65 72 76 69 63 65) | (53 00 59 00 53 00 54 00 45 00 4d 00 5c 00 43 00 75 00 72 00 72 00 65 00 6e 00 74 00 43 00 6f 00 6e 00 74 00 72 00 6f 00 6c 00 53 00 65 00 74 00 5c 00 53 00 65 00 72 00 76 00 69 00 63 00 65 00 73 00 5c 00 54 00 65 00 72 00 6d 00 53 00 65 00 72 00 76 00 69 00 63 00 65 00))}
+		$k3 = {((53 74 61 72 74) | (53 00 74 00 61 00 72 00 74 00))}
+		$r5 = {((53 59 53 54 45 4d 5c 43 75 72 72 65 6e 74 43 6f 6e 74 72 6f 6c 53 65 74 5c 43 6f 6e 74 72 6f 6c 5c 54 65 72 6d 69 6e 61 6c 20 53 65 72 76 65 72) | (53 00 59 00 53 00 54 00 45 00 4d 00 5c 00 43 00 75 00 72 00 72 00 65 00 6e 00 74 00 43 00 6f 00 6e 00 74 00 72 00 6f 00 6c 00 53 00 65 00 74 00 5c 00 43 00 6f 00 6e 00 74 00 72 00 6f 00 6c 00 5c 00 54 00 65 00 72 00 6d 00 69 00 6e 00 61 00 6c 00 20 00 53 00 65 00 72 00 76 00 65 00 72 00))}
+		$k4 = {((66 44 65 6e 79 54 53 43 6f 6e 6e 65 63 74 69 6f 6e 73) | (66 00 44 00 65 00 6e 00 79 00 54 00 53 00 43 00 6f 00 6e 00 6e 00 65 00 63 00 74 00 69 00 6f 00 6e 00 73 00))}
+		$r6 = {((53 59 53 54 45 4d 5c 43 75 72 72 65 6e 74 43 6f 6e 74 72 6f 6c 53 65 74 5c 43 6f 6e 74 72 6f 6c 5c 54 65 72 6d 69 6e 61 6c 20 53 65 72 76 65 72 5c 52 44 50 54 63 70) | (53 00 59 00 53 00 54 00 45 00 4d 00 5c 00 43 00 75 00 72 00 72 00 65 00 6e 00 74 00 43 00 6f 00 6e 00 74 00 72 00 6f 00 6c 00 53 00 65 00 74 00 5c 00 43 00 6f 00 6e 00 74 00 72 00 6f 00 6c 00 5c 00 54 00 65 00 72 00 6d 00 69 00 6e 00 61 00 6c 00 20 00 53 00 65 00 72 00 76 00 65 00 72 00 5c 00 52 00 44 00 50 00 54 00 63 00 70 00))}
+		$r7 = {((53 59 53 54 45 4d 5c 43 75 72 72 65 6e 74 43 6f 6e 74 72 6f 6c 53 65 74 5c 43 6f 6e 74 72 6f 6c 5c 54 65 72 6d 69 6e 61 6c 20 53 65 72 76 65 72 5c 57 64 73 5c 72 64 70 77 64 5c 54 64 73 5c 74 63 70) | (53 00 59 00 53 00 54 00 45 00 4d 00 5c 00 43 00 75 00 72 00 72 00 65 00 6e 00 74 00 43 00 6f 00 6e 00 74 00 72 00 6f 00 6c 00 53 00 65 00 74 00 5c 00 43 00 6f 00 6e 00 74 00 72 00 6f 00 6c 00 5c 00 54 00 65 00 72 00 6d 00 69 00 6e 00 61 00 6c 00 20 00 53 00 65 00 72 00 76 00 65 00 72 00 5c 00 57 00 64 00 73 00 5c 00 72 00 64 00 70 00 77 00 64 00 5c 00 54 00 64 00 73 00 5c 00 74 00 63 00 70 00))}
+		$r8 = {((53 59 53 54 45 4d 5c 43 75 72 72 65 6e 74 43 6f 6e 74 72 6f 6c 53 65 74 5c 43 6f 6e 74 72 6f 6c 5c 54 65 72 6d 69 6e 61 6c 20 53 65 72 76 65 72 5c 57 69 6e 53 74 61 74 69 6f 6e 73 5c 52 44 50 2d 54 63 70) | (53 00 59 00 53 00 54 00 45 00 4d 00 5c 00 43 00 75 00 72 00 72 00 65 00 6e 00 74 00 43 00 6f 00 6e 00 74 00 72 00 6f 00 6c 00 53 00 65 00 74 00 5c 00 43 00 6f 00 6e 00 74 00 72 00 6f 00 6c 00 5c 00 54 00 65 00 72 00 6d 00 69 00 6e 00 61 00 6c 00 20 00 53 00 65 00 72 00 76 00 65 00 72 00 5c 00 57 00 69 00 6e 00 53 00 74 00 61 00 74 00 69 00 6f 00 6e 00 73 00 5c 00 52 00 44 00 50 00 2d 00 54 00 63 00 70 00))}
+		$k5 = {((50 6f 72 74 4e 75 6d 62 65 72) | (50 00 6f 00 72 00 74 00 4e 00 75 00 6d 00 62 00 65 00 72 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 5 of ( $r* ) and 3 of ( $k* )
+}
+
+rule INDICATOR_SUSPICIOUS_EXE_Undocumented_WinAPI_Kerberos : hardened limited
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects executables referencing undocumented kerberos Windows APIs and obsereved in malware"
+
+	strings:
+		$kdc1 = {((4b 64 63 56 65 72 69 66 79 45 6e 63 72 79 70 74 65 64 54 69 6d 65 53 74 61 6d 70) | (4b 00 64 00 63 00 56 00 65 00 72 00 69 00 66 00 79 00 45 00 6e 00 63 00 72 00 79 00 70 00 74 00 65 00 64 00 54 00 69 00 6d 00 65 00 53 00 74 00 61 00 6d 00 70 00))}
+		$kdc2 = {((4b 65 72 62 48 61 73 68 50 61 73 73 77 6f 72 64 45 78 33) | (4b 00 65 00 72 00 62 00 48 00 61 00 73 00 68 00 50 00 61 00 73 00 73 00 77 00 6f 00 72 00 64 00 45 00 78 00 33 00))}
+		$kdc3 = {((4b 65 72 62 46 72 65 65 4b 65 79) | (4b 00 65 00 72 00 62 00 46 00 72 00 65 00 65 00 4b 00 65 00 79 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and all of ( $kdc* )
+}
+
+rule INDICATOR_SUSPICIOUS_EXE_NKN_BCP2P : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects executables referencing NKN Blockchain P2P network"
+
+	strings:
+		$x1 = {2f 6e 6b 6e 6f 72 67 2f 6e 6b 6e 2d 73 64 6b 2d 67 6f 2e}
+		$x2 = {3a 2f 2f 73 65 65 64 2e 6e 6b 6e 2e 6f 72 67}
+		$x3 = {2f 6e 6b 6e 6f 72 67 2f 6e 6b 6e 2f}
+		$s1 = {29 2e 4e 65 77 4e 61 6e 6f 50 61 79 43 6c 61 69 6d 65 72}
+		$s2 = {29 2e 49 6e 63 72 65 6d 65 6e 74 41 6d 6f 75 6e 74}
+		$s3 = {29 2e 42 61 6c 61 6e 63 65 42 79 41 64 64 72 65 73 73}
+		$s4 = {29 2e 54 72 61 6e 73 66 65 72 4e 61 6d 65}
+		$s5 = {2e 47 65 74 57 73 41 64 64 72}
+		$s6 = {2e 47 65 74 4e 6f 64 65 53 74 61 74 65 43 6f 6e 74 65 78 74}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and ( 1 of ( $x* ) or all of ( $s* ) )
+}
+
+rule INDICATOR_SUSPICIOUS_EXE_References_PasswordManagers : hardened limited
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects executables referencing many Password Manager software clients. Observed in infostealers"
+
+	strings:
+		$s1 = {((31 50 61 73 73 77 6f 72 64 5c) | (31 00 50 00 61 00 73 00 73 00 77 00 6f 00 72 00 64 00 5c 00))}
+		$s2 = {((44 61 73 68 6c 61 6e 65 5c) | (44 00 61 00 73 00 68 00 6c 00 61 00 6e 00 65 00 5c 00))}
+		$s3 = {((6e 6f 72 64 70 61 73 73 2a 2e 73 71 6c 69 74 65) | (6e 00 6f 00 72 00 64 00 70 00 61 00 73 00 73 00 2a 00 2e 00 73 00 71 00 6c 00 69 00 74 00 65 00))}
+		$s4 = {((52 6f 62 6f 46 6f 72 6d 5c) | (52 00 6f 00 62 00 6f 00 46 00 6f 00 72 00 6d 00 5c 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 3 of them
+}
+
+rule INDICATOR_SUSPICIOUS_EXE_WirelessNetReccon : hardened limited
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects executables with interest in wireless interface using netsh"
+
+	strings:
+		$s1 = {((6e 65 74 73 68 20 77 6c 61 6e 20 73 68 6f 77 20 70 72 6f 66 69 6c 65) | (6e 00 65 00 74 00 73 00 68 00 20 00 77 00 6c 00 61 00 6e 00 20 00 73 00 68 00 6f 00 77 00 20 00 70 00 72 00 6f 00 66 00 69 00 6c 00 65 00))}
+		$s2 = {((6e 65 74 73 68 20 77 6c 61 6e 20 73 68 6f 77 20 70 72 6f 66 69 6c 65 20 6e 61 6d 65 3d) | (6e 00 65 00 74 00 73 00 68 00 20 00 77 00 6c 00 61 00 6e 00 20 00 73 00 68 00 6f 00 77 00 20 00 70 00 72 00 6f 00 66 00 69 00 6c 00 65 00 20 00 6e 00 61 00 6d 00 65 00 3d 00))}
+		$s3 = {((6e 65 74 73 68 20 77 6c 61 6e 20 73 68 6f 77 20 6e 65 74 77 6f 72 6b 73 20 6d 6f 64 65 3d 62 73 73 69 64) | (6e 00 65 00 74 00 73 00 68 00 20 00 77 00 6c 00 61 00 6e 00 20 00 73 00 68 00 6f 00 77 00 20 00 6e 00 65 00 74 00 77 00 6f 00 72 00 6b 00 73 00 20 00 6d 00 6f 00 64 00 65 00 3d 00 62 00 73 00 73 00 69 00 64 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and all of them
+}
+
+rule INDICATOR_SUSPICIOUS_EXE_References_GitConfData : hardened limited
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects executables referencing potentially confidential GIT artifacts. Observed in infostealer"
+
+	strings:
+		$s1 = {((47 69 74 68 75 62 44 65 73 6b 74 6f 70 5c 4c 6f 63 61 6c 20 53 74 6f 72 61 67 65) | (47 00 69 00 74 00 68 00 75 00 62 00 44 00 65 00 73 00 6b 00 74 00 6f 00 70 00 5c 00 4c 00 6f 00 63 00 61 00 6c 00 20 00 53 00 74 00 6f 00 72 00 61 00 67 00 65 00))}
+		$s2 = {((47 69 74 48 75 62 20 44 65 73 6b 74 6f 70 5c 4c 6f 63 61 6c 20 53 74 6f 72 61 67 65) | (47 00 69 00 74 00 48 00 75 00 62 00 20 00 44 00 65 00 73 00 6b 00 74 00 6f 00 70 00 5c 00 4c 00 6f 00 63 00 61 00 6c 00 20 00 53 00 74 00 6f 00 72 00 61 00 67 00 65 00))}
+		$s3 = {((2e 67 69 74 2d 63 72 65 64 65 6e 74 69 61 6c 73) | (2e 00 67 00 69 00 74 00 2d 00 63 00 72 00 65 00 64 00 65 00 6e 00 74 00 69 00 61 00 6c 00 73 00))}
+		$s4 = {((2e 63 6f 6e 66 69 67 5c 67 69 74 5c 63 72 65 64 65 6e 74 69 61 6c 73) | (2e 00 63 00 6f 00 6e 00 66 00 69 00 67 00 5c 00 67 00 69 00 74 00 5c 00 63 00 72 00 65 00 64 00 65 00 6e 00 74 00 69 00 61 00 6c 00 73 00))}
+		$s5 = {((2e 67 69 74 63 6f 6e 66 69 67) | (2e 00 67 00 69 00 74 00 63 00 6f 00 6e 00 66 00 69 00 67 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 4 of them
+}
+
+rule INDICATOR_SUSPICIOUS_EXE_Reversed : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects reversed executables. Observed N-stage drop"
+
+	strings:
+		$s1 = {65 64 6f 6d 20 53 4f 44 20 6e 69 20 6e 75 72 20 65 62 20 74 6f 6e 6e 61 63 20 6d 61 72 67 6f 72 70 20 73 69 68 54}
+
+	condition:
+		uint16( filesize - 0x2 ) == 0x4d5a and $s1
+}
+
+rule INDICATOR_SUSPICIOUS_Binary_Embedded_Crypto_Wallet_Browser_Extension_IDs : hardened limited
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detect binaries embedding considerable number of cryptocurrency wallet browser extension IDs."
+
+	strings:
+		$s1 = {((49 62 6e 65 6a 64 66 6a 6d 6d 6b 70 63 6e 6c 70 65 62 6b 6c 6d 6e 6b 6f 65 6f 69 68 6f 66 65 63) | (49 00 62 00 6e 00 65 00 6a 00 64 00 66 00 6a 00 6d 00 6d 00 6b 00 70 00 63 00 6e 00 6c 00 70 00 65 00 62 00 6b 00 6c 00 6d 00 6e 00 6b 00 6f 00 65 00 6f 00 69 00 68 00 6f 00 66 00 65 00 63 00))}
+		$s2 = {((66 68 62 6f 68 69 6d 61 65 6c 62 6f 68 70 6a 62 62 6c 64 63 6e 67 63 6e 61 70 6e 64 6f 64 6a 70) | (66 00 68 00 62 00 6f 00 68 00 69 00 6d 00 61 00 65 00 6c 00 62 00 6f 00 68 00 70 00 6a 00 62 00 62 00 6c 00 64 00 63 00 6e 00 67 00 63 00 6e 00 61 00 70 00 6e 00 64 00 6f 00 64 00 6a 00 70 00))}
+		$s3 = {((66 66 6e 62 65 6c 66 64 6f 65 69 6f 68 65 6e 6b 6a 69 62 6e 6d 61 64 6a 69 65 68 6a 68 61 6a 62) | (66 00 66 00 6e 00 62 00 65 00 6c 00 66 00 64 00 6f 00 65 00 69 00 6f 00 68 00 65 00 6e 00 6b 00 6a 00 69 00 62 00 6e 00 6d 00 61 00 64 00 6a 00 69 00 65 00 68 00 6a 00 68 00 61 00 6a 00 62 00))}
+		$s4 = {((6a 62 64 61 6f 63 6e 65 69 69 69 6e 6d 6a 62 6a 6c 67 61 6c 68 63 65 6c 67 62 65 6a 6d 6e 69 64) | (6a 00 62 00 64 00 61 00 6f 00 63 00 6e 00 65 00 69 00 69 00 69 00 6e 00 6d 00 6a 00 62 00 6a 00 6c 00 67 00 61 00 6c 00 68 00 63 00 65 00 6c 00 67 00 62 00 65 00 6a 00 6d 00 6e 00 69 00 64 00))}
+		$s5 = {((61 66 62 63 62 6a 70 62 70 66 61 64 6c 6b 6d 68 6d 63 6c 68 6b 65 65 6f 64 6d 61 6d 63 66 6c 63) | (61 00 66 00 62 00 63 00 62 00 6a 00 70 00 62 00 70 00 66 00 61 00 64 00 6c 00 6b 00 6d 00 68 00 6d 00 63 00 6c 00 68 00 6b 00 65 00 65 00 6f 00 64 00 6d 00 61 00 6d 00 63 00 66 00 6c 00 63 00))}
+		$s6 = {((68 6e 66 61 6e 6b 6e 6f 63 66 65 6f 66 62 64 64 67 63 69 6a 6e 6d 68 6e 66 6e 6b 64 6e 61 61 64) | (68 00 6e 00 66 00 61 00 6e 00 6b 00 6e 00 6f 00 63 00 66 00 65 00 6f 00 66 00 62 00 64 00 64 00 67 00 63 00 69 00 6a 00 6e 00 6d 00 68 00 6e 00 66 00 6e 00 6b 00 64 00 6e 00 61 00 61 00 64 00))}
+		$s7 = {((68 70 67 6c 66 68 67 66 6e 68 62 67 70 6a 64 65 6e 6a 67 6d 64 67 6f 65 69 61 70 70 61 66 6c 6e) | (68 00 70 00 67 00 6c 00 66 00 68 00 67 00 66 00 6e 00 68 00 62 00 67 00 70 00 6a 00 64 00 65 00 6e 00 6a 00 67 00 6d 00 64 00 67 00 6f 00 65 00 69 00 61 00 70 00 70 00 61 00 66 00 6c 00 6e 00))}
+		$s8 = {((62 6c 6e 69 65 69 69 66 66 62 6f 69 6c 6c 6b 6e 6a 6e 65 70 6f 67 6a 68 6b 67 6e 6f 61 70 61 63) | (62 00 6c 00 6e 00 69 00 65 00 69 00 69 00 66 00 66 00 62 00 6f 00 69 00 6c 00 6c 00 6b 00 6e 00 6a 00 6e 00 65 00 70 00 6f 00 67 00 6a 00 68 00 6b 00 67 00 6e 00 6f 00 61 00 70 00 61 00 63 00))}
+		$s9 = {((63 6a 65 6c 66 70 6c 70 6c 65 62 64 6a 6a 65 6e 6c 6c 70 6a 63 62 6c 6d 6a 6b 66 63 66 66 6e 65) | (63 00 6a 00 65 00 6c 00 66 00 70 00 6c 00 70 00 6c 00 65 00 62 00 64 00 6a 00 6a 00 65 00 6e 00 6c 00 6c 00 70 00 6a 00 63 00 62 00 6c 00 6d 00 6a 00 6b 00 66 00 63 00 66 00 66 00 6e 00 65 00))}
+		$s10 = {((66 69 68 6b 61 6b 66 6f 62 6b 6d 6b 6a 6f 6a 70 63 68 70 66 67 63 6d 68 66 6a 6e 6d 6e 66 70 69) | (66 00 69 00 68 00 6b 00 61 00 6b 00 66 00 6f 00 62 00 6b 00 6d 00 6b 00 6a 00 6f 00 6a 00 70 00 63 00 68 00 70 00 66 00 67 00 63 00 6d 00 68 00 66 00 6a 00 6e 00 6d 00 6e 00 66 00 70 00 69 00))}
+		$s11 = {((6b 6e 63 63 68 64 69 67 6f 62 67 68 65 6e 62 62 61 64 64 6f 6a 6a 6e 6e 61 6f 67 66 70 70 66 6a) | (6b 00 6e 00 63 00 63 00 68 00 64 00 69 00 67 00 6f 00 62 00 67 00 68 00 65 00 6e 00 62 00 62 00 61 00 64 00 64 00 6f 00 6a 00 6a 00 6e 00 6e 00 61 00 6f 00 67 00 66 00 70 00 70 00 66 00 6a 00))}
+		$s12 = {((61 6d 6b 6d 6a 6a 6d 6d 66 6c 64 64 6f 67 6d 68 70 6a 6c 6f 69 6d 69 70 62 6f 66 6e 66 6a 69 68) | (61 00 6d 00 6b 00 6d 00 6a 00 6a 00 6d 00 6d 00 66 00 6c 00 64 00 64 00 6f 00 67 00 6d 00 68 00 70 00 6a 00 6c 00 6f 00 69 00 6d 00 69 00 70 00 62 00 6f 00 66 00 6e 00 66 00 6a 00 69 00 68 00))}
+		$s13 = {((6e 6c 62 6d 6e 6e 69 6a 63 6e 6c 65 67 6b 6a 6a 70 63 66 6a 63 6c 6d 63 66 67 67 66 65 66 64 6d) | (6e 00 6c 00 62 00 6d 00 6e 00 6e 00 69 00 6a 00 63 00 6e 00 6c 00 65 00 67 00 6b 00 6a 00 6a 00 70 00 63 00 66 00 6a 00 63 00 6c 00 6d 00 63 00 66 00 67 00 67 00 66 00 65 00 66 00 64 00 6d 00))}
+		$s14 = {((6e 61 6e 6a 6d 64 6b 6e 68 6b 69 6e 69 66 6e 6b 67 64 63 67 67 63 66 6e 68 64 61 61 6d 6d 6d 6a) | (6e 00 61 00 6e 00 6a 00 6d 00 64 00 6b 00 6e 00 68 00 6b 00 69 00 6e 00 69 00 66 00 6e 00 6b 00 67 00 64 00 63 00 67 00 67 00 63 00 66 00 6e 00 68 00 64 00 61 00 61 00 6d 00 6d 00 6d 00 6a 00))}
+		$s15 = {((6e 6b 64 64 67 6e 63 64 6a 67 6a 66 63 64 64 61 6d 66 67 63 6d 66 6e 6c 68 63 63 6e 69 6d 69 67) | (6e 00 6b 00 64 00 64 00 67 00 6e 00 63 00 64 00 6a 00 67 00 6a 00 66 00 63 00 64 00 64 00 61 00 6d 00 66 00 67 00 63 00 6d 00 66 00 6e 00 6c 00 68 00 63 00 63 00 6e 00 69 00 6d 00 69 00 67 00))}
+		$s16 = {((66 6e 6a 68 6d 6b 68 68 6d 6b 62 6a 6b 6b 61 62 6e 64 63 6e 6e 6f 67 61 67 6f 67 62 6e 65 65 63) | (66 00 6e 00 6a 00 68 00 6d 00 6b 00 68 00 68 00 6d 00 6b 00 62 00 6a 00 6b 00 6b 00 61 00 62 00 6e 00 64 00 63 00 6e 00 6e 00 6f 00 67 00 61 00 67 00 6f 00 67 00 62 00 6e 00 65 00 65 00 63 00))}
+		$s17 = {((63 70 68 68 6c 67 6d 67 61 6d 65 6f 64 6e 68 6b 6a 64 6d 6b 70 61 6e 6c 65 6c 6e 6c 6f 68 61 6f) | (63 00 70 00 68 00 68 00 6c 00 67 00 6d 00 67 00 61 00 6d 00 65 00 6f 00 64 00 6e 00 68 00 6b 00 6a 00 64 00 6d 00 6b 00 70 00 61 00 6e 00 6c 00 65 00 6c 00 6e 00 6c 00 6f 00 68 00 61 00 6f 00))}
+		$s18 = {((6e 68 6e 6b 62 6b 67 6a 69 6b 67 63 69 67 61 64 6f 6d 6b 70 68 61 6c 61 6e 6e 64 63 61 70 6a 6b) | (6e 00 68 00 6e 00 6b 00 62 00 6b 00 67 00 6a 00 69 00 6b 00 67 00 63 00 69 00 67 00 61 00 64 00 6f 00 6d 00 6b 00 70 00 68 00 61 00 6c 00 61 00 6e 00 6e 00 64 00 63 00 61 00 70 00 6a 00 6b 00))}
+		$s19 = {((6b 70 66 6f 70 6b 65 6c 6d 61 70 63 6f 69 70 65 6d 66 65 6e 64 6d 64 63 67 68 6e 65 67 69 6d 6e) | (6b 00 70 00 66 00 6f 00 70 00 6b 00 65 00 6c 00 6d 00 61 00 70 00 63 00 6f 00 69 00 70 00 65 00 6d 00 66 00 65 00 6e 00 64 00 6d 00 64 00 63 00 67 00 68 00 6e 00 65 00 67 00 69 00 6d 00 6e 00))}
+		$s20 = {((61 69 69 66 62 6e 62 66 6f 62 70 6d 65 65 6b 69 70 68 65 65 69 6a 69 6d 64 70 6e 6c 70 67 70 70) | (61 00 69 00 69 00 66 00 62 00 6e 00 62 00 66 00 6f 00 62 00 70 00 6d 00 65 00 65 00 6b 00 69 00 70 00 68 00 65 00 65 00 69 00 6a 00 69 00 6d 00 64 00 70 00 6e 00 6c 00 70 00 67 00 70 00 70 00))}
+		$s21 = {((64 6d 6b 61 6d 63 6b 6e 6f 67 6b 67 63 64 66 68 68 62 64 64 63 67 68 61 63 68 6b 65 6a 65 61 70) | (64 00 6d 00 6b 00 61 00 6d 00 63 00 6b 00 6e 00 6f 00 67 00 6b 00 67 00 63 00 64 00 66 00 68 00 68 00 62 00 64 00 64 00 63 00 67 00 68 00 61 00 63 00 68 00 6b 00 65 00 6a 00 65 00 61 00 70 00))}
+		$s22 = {((66 68 6d 66 65 6e 64 67 64 6f 63 6d 63 62 6d 66 69 6b 64 63 6f 67 6f 66 70 68 69 6d 6e 6b 6e 6f) | (66 00 68 00 6d 00 66 00 65 00 6e 00 64 00 67 00 64 00 6f 00 63 00 6d 00 63 00 62 00 6d 00 66 00 69 00 6b 00 64 00 63 00 6f 00 67 00 6f 00 66 00 70 00 68 00 69 00 6d 00 6e 00 6b 00 6e 00 6f 00))}
+		$s23 = {((63 6e 6d 61 6d 61 61 63 68 70 70 6e 6b 6a 67 6e 69 6c 64 70 64 6d 6b 61 61 6b 65 6a 6e 68 61 65) | (63 00 6e 00 6d 00 61 00 6d 00 61 00 61 00 63 00 68 00 70 00 70 00 6e 00 6b 00 6a 00 67 00 6e 00 69 00 6c 00 64 00 70 00 64 00 6d 00 6b 00 61 00 61 00 6b 00 65 00 6a 00 6e 00 68 00 61 00 65 00))}
+		$s24 = {((6a 6f 6a 68 66 65 6f 65 64 6b 70 6b 67 6c 62 66 69 6d 64 66 61 62 70 64 66 6a 61 6f 6f 6c 61 66) | (6a 00 6f 00 6a 00 68 00 66 00 65 00 6f 00 65 00 64 00 6b 00 70 00 6b 00 67 00 6c 00 62 00 66 00 69 00 6d 00 64 00 66 00 61 00 62 00 70 00 64 00 66 00 6a 00 61 00 6f 00 6f 00 6c 00 61 00 66 00))}
+		$s25 = {((66 6c 70 69 63 69 69 6c 65 6d 67 68 62 6d 66 61 6c 69 63 61 6a 6f 6f 6c 68 6b 6b 65 6e 66 65 6c) | (66 00 6c 00 70 00 69 00 63 00 69 00 69 00 6c 00 65 00 6d 00 67 00 68 00 62 00 6d 00 66 00 61 00 6c 00 69 00 63 00 61 00 6a 00 6f 00 6f 00 6c 00 68 00 6b 00 6b 00 65 00 6e 00 66 00 65 00 6c 00))}
+		$s26 = {((6e 6b 6e 68 69 65 68 6c 6b 6c 69 70 70 61 66 61 6b 61 65 6b 6c 62 65 67 6c 65 63 69 66 68 61 64) | (6e 00 6b 00 6e 00 68 00 69 00 65 00 68 00 6c 00 6b 00 6c 00 69 00 70 00 70 00 61 00 66 00 61 00 6b 00 61 00 65 00 6b 00 6c 00 62 00 65 00 67 00 6c 00 65 00 63 00 69 00 66 00 68 00 61 00 64 00))}
+		$s27 = {((68 63 66 6c 70 69 6e 63 70 70 70 64 63 6c 69 6e 65 61 6c 6d 61 6e 64 69 6a 63 6d 6e 6b 62 67 6e) | (68 00 63 00 66 00 6c 00 70 00 69 00 6e 00 63 00 70 00 70 00 70 00 64 00 63 00 6c 00 69 00 6e 00 65 00 61 00 6c 00 6d 00 61 00 6e 00 64 00 69 00 6a 00 63 00 6d 00 6e 00 6b 00 62 00 67 00 6e 00))}
+		$s28 = {((6f 6f 6b 6a 6c 62 6b 69 69 6a 69 6e 68 70 6d 6e 6a 66 66 63 6f 66 6a 6f 6e 62 66 62 67 61 6f 63) | (6f 00 6f 00 6b 00 6a 00 6c 00 62 00 6b 00 69 00 69 00 6a 00 69 00 6e 00 68 00 70 00 6d 00 6e 00 6a 00 66 00 66 00 63 00 6f 00 66 00 6a 00 6f 00 6e 00 62 00 66 00 62 00 67 00 61 00 6f 00 63 00))}
+		$s29 = {((6d 6e 66 69 66 65 66 6b 61 6a 67 6f 66 6b 63 6a 6b 65 6d 69 64 69 61 65 63 6f 63 6e 6b 6a 65 68) | (6d 00 6e 00 66 00 69 00 66 00 65 00 66 00 6b 00 61 00 6a 00 67 00 6f 00 66 00 6b 00 63 00 6a 00 6b 00 65 00 6d 00 69 00 64 00 69 00 61 00 65 00 63 00 6f 00 63 00 6e 00 6b 00 6a 00 65 00 68 00))}
+		$s30 = {((6c 6f 64 63 63 6a 6a 62 64 68 66 61 6b 61 65 6b 64 69 61 68 6d 65 64 66 62 69 65 6c 64 67 69 6b) | (6c 00 6f 00 64 00 63 00 63 00 6a 00 6a 00 62 00 64 00 68 00 66 00 61 00 6b 00 61 00 65 00 6b 00 64 00 69 00 61 00 68 00 6d 00 65 00 64 00 66 00 62 00 69 00 65 00 6c 00 64 00 67 00 69 00 6b 00))}
+		$s31 = {((49 6a 6d 70 67 6b 6a 66 6b 62 66 68 6f 65 62 67 6f 67 66 6c 66 65 62 6e 6d 65 6a 6d 66 62 6d 6c) | (49 00 6a 00 6d 00 70 00 67 00 6b 00 6a 00 66 00 6b 00 62 00 66 00 68 00 6f 00 65 00 62 00 67 00 6f 00 67 00 66 00 6c 00 66 00 65 00 62 00 6e 00 6d 00 65 00 6a 00 6d 00 66 00 62 00 6d 00 6c 00))}
+		$s32 = {((6c 6b 63 6a 6c 6e 6a 66 70 62 69 6b 6d 63 6d 62 61 63 68 6a 70 64 62 69 6a 65 6a 66 6c 70 63 6d) | (6c 00 6b 00 63 00 6a 00 6c 00 6e 00 6a 00 66 00 70 00 62 00 69 00 6b 00 6d 00 63 00 6d 00 62 00 61 00 63 00 68 00 6a 00 70 00 64 00 62 00 69 00 6a 00 65 00 6a 00 66 00 6c 00 70 00 63 00 6d 00))}
+		$s33 = {((6e 6b 62 69 68 66 62 65 6f 67 61 65 61 6f 65 68 6c 65 66 6e 6b 6f 64 62 65 66 67 70 67 6b 6e 6e) | (6e 00 6b 00 62 00 69 00 68 00 66 00 62 00 65 00 6f 00 67 00 61 00 65 00 61 00 6f 00 65 00 68 00 6c 00 65 00 66 00 6e 00 6b 00 6f 00 64 00 62 00 65 00 66 00 67 00 70 00 67 00 6b 00 6e 00 6e 00))}
+		$s34 = {((62 63 6f 70 67 63 68 68 6f 6a 6d 67 67 6d 66 66 69 6c 70 6c 6d 62 64 69 63 67 61 69 68 6c 6b 70) | (62 00 63 00 6f 00 70 00 67 00 63 00 68 00 68 00 6f 00 6a 00 6d 00 67 00 67 00 6d 00 66 00 66 00 69 00 6c 00 70 00 6c 00 6d 00 62 00 64 00 69 00 63 00 67 00 61 00 69 00 68 00 6c 00 6b 00 70 00))}
+		$s35 = {((6b 6c 6e 61 65 6a 6a 67 62 69 62 6d 68 6c 65 70 68 6e 68 70 6d 61 6f 66 6f 68 67 6b 70 67 6b 64) | (6b 00 6c 00 6e 00 61 00 65 00 6a 00 6a 00 67 00 62 00 69 00 62 00 6d 00 68 00 6c 00 65 00 70 00 68 00 6e 00 68 00 70 00 6d 00 61 00 6f 00 66 00 6f 00 68 00 67 00 6b 00 70 00 67 00 6b 00 64 00))}
+		$s36 = {((61 65 61 63 68 6b 6e 6d 65 66 70 68 65 70 63 63 69 6f 6e 62 6f 6f 68 63 6b 6f 6e 6f 65 65 6d 67) | (61 00 65 00 61 00 63 00 68 00 6b 00 6e 00 6d 00 65 00 66 00 70 00 68 00 65 00 70 00 63 00 63 00 69 00 6f 00 6e 00 62 00 6f 00 6f 00 68 00 63 00 6b 00 6f 00 6e 00 6f 00 65 00 65 00 6d 00 67 00))}
+		$s37 = {((64 6b 64 65 64 6c 70 67 64 6d 6d 6b 6b 66 6a 61 62 66 66 65 67 61 6e 69 65 61 6d 66 6b 6c 6b 6d) | (64 00 6b 00 64 00 65 00 64 00 6c 00 70 00 67 00 64 00 6d 00 6d 00 6b 00 6b 00 66 00 6a 00 61 00 62 00 66 00 66 00 65 00 67 00 61 00 6e 00 69 00 65 00 61 00 6d 00 66 00 6b 00 6c 00 6b 00 6d 00))}
+		$s38 = {((6e 6c 67 62 68 64 66 67 64 68 67 62 69 61 6d 66 64 66 6d 62 69 6b 63 64 67 68 69 64 6f 61 64 64) | (6e 00 6c 00 67 00 62 00 68 00 64 00 66 00 67 00 64 00 68 00 67 00 62 00 69 00 61 00 6d 00 66 00 64 00 66 00 6d 00 62 00 69 00 6b 00 63 00 64 00 67 00 68 00 69 00 64 00 6f 00 61 00 64 00 64 00))}
+		$s39 = {((6f 6e 6f 66 70 6e 62 62 6b 65 68 70 6d 6d 6f 61 62 67 70 63 70 6d 69 67 61 66 6d 6d 6e 6a 68 6c) | (6f 00 6e 00 6f 00 66 00 70 00 6e 00 62 00 62 00 6b 00 65 00 68 00 70 00 6d 00 6d 00 6f 00 61 00 62 00 67 00 70 00 63 00 70 00 6d 00 69 00 67 00 61 00 66 00 6d 00 6d 00 6e 00 6a 00 68 00 6c 00))}
+		$s40 = {((63 69 68 6d 6f 61 64 61 69 67 68 63 65 6a 6f 70 61 6d 6d 66 62 6d 64 64 63 6d 64 65 6b 63 6a 65) | (63 00 69 00 68 00 6d 00 6f 00 61 00 64 00 61 00 69 00 67 00 68 00 63 00 65 00 6a 00 6f 00 70 00 61 00 6d 00 6d 00 66 00 62 00 6d 00 64 00 64 00 63 00 6d 00 64 00 65 00 6b 00 63 00 6a 00 65 00))}
+		$s41 = {((63 67 65 65 6f 64 70 66 61 67 6a 63 65 65 66 69 65 66 6c 6d 64 66 70 68 70 6c 6b 65 6e 6c 66 6b) | (63 00 67 00 65 00 65 00 6f 00 64 00 70 00 66 00 61 00 67 00 6a 00 63 00 65 00 65 00 66 00 69 00 65 00 66 00 6c 00 6d 00 64 00 66 00 70 00 68 00 70 00 6c 00 6b 00 65 00 6e 00 6c 00 66 00 6b 00))}
+		$s42 = {((70 64 61 64 6a 6b 66 6b 67 63 61 66 67 62 63 65 69 6d 63 70 62 6b 61 6c 6e 66 6e 65 70 62 6e 6b) | (70 00 64 00 61 00 64 00 6a 00 6b 00 66 00 6b 00 67 00 63 00 61 00 66 00 67 00 62 00 63 00 65 00 69 00 6d 00 63 00 70 00 62 00 6b 00 61 00 6c 00 6e 00 66 00 6e 00 65 00 70 00 62 00 6e 00 6b 00))}
+		$s43 = {((61 63 6d 61 63 6f 64 6b 6a 62 64 67 6d 6f 6c 65 65 62 6f 6c 6d 64 6a 6f 6e 69 6c 6b 64 62 63 68) | (61 00 63 00 6d 00 61 00 63 00 6f 00 64 00 6b 00 6a 00 62 00 64 00 67 00 6d 00 6f 00 6c 00 65 00 65 00 62 00 6f 00 6c 00 6d 00 64 00 6a 00 6f 00 6e 00 69 00 6c 00 6b 00 64 00 62 00 63 00 68 00))}
+		$s44 = {((62 66 6e 61 65 6c 6d 6f 6d 65 69 6d 68 6c 70 6d 67 6a 6e 6a 6f 70 68 68 70 6b 6b 6f 6c 6a 70 61) | (62 00 66 00 6e 00 61 00 65 00 6c 00 6d 00 6f 00 6d 00 65 00 69 00 6d 00 68 00 6c 00 70 00 6d 00 67 00 6a 00 6e 00 6a 00 6f 00 70 00 68 00 68 00 70 00 6b 00 6b 00 6f 00 6c 00 6a 00 70 00 61 00))}
+		$s45 = {((66 68 69 6c 61 68 65 69 6d 67 6c 69 67 6e 64 64 6b 6a 67 6f 66 6b 63 62 67 65 6b 68 65 6e 62 68) | (66 00 68 00 69 00 6c 00 61 00 68 00 65 00 69 00 6d 00 67 00 6c 00 69 00 67 00 6e 00 64 00 64 00 6b 00 6a 00 67 00 6f 00 66 00 6b 00 63 00 62 00 67 00 65 00 6b 00 68 00 65 00 6e 00 62 00 68 00))}
+		$s46 = {((6d 67 66 66 6b 66 62 69 64 69 68 6a 70 6f 61 6f 6d 61 6a 6c 62 67 63 68 64 64 6c 69 63 67 70 6e) | (6d 00 67 00 66 00 66 00 6b 00 66 00 62 00 69 00 64 00 69 00 68 00 6a 00 70 00 6f 00 61 00 6f 00 6d 00 61 00 6a 00 6c 00 62 00 67 00 63 00 68 00 64 00 64 00 6c 00 69 00 63 00 67 00 70 00 6e 00))}
+		$s47 = {((68 6d 65 6f 62 6e 66 6e 66 63 6d 64 6b 64 63 6d 6c 62 6c 67 61 67 6d 66 70 66 62 6f 69 65 61 66) | (68 00 6d 00 65 00 6f 00 62 00 6e 00 66 00 6e 00 66 00 63 00 6d 00 64 00 6b 00 64 00 63 00 6d 00 6c 00 62 00 6c 00 67 00 61 00 67 00 6d 00 66 00 70 00 66 00 62 00 6f 00 69 00 65 00 61 00 66 00))}
+		$s48 = {((6c 70 66 63 62 6a 6b 6e 69 6a 70 65 65 69 6c 6c 69 66 6e 6b 69 6b 67 6e 63 69 6b 67 66 68 64 6f) | (6c 00 70 00 66 00 63 00 62 00 6a 00 6b 00 6e 00 69 00 6a 00 70 00 65 00 65 00 69 00 6c 00 6c 00 69 00 66 00 6e 00 6b 00 69 00 6b 00 67 00 6e 00 63 00 69 00 6b 00 67 00 66 00 68 00 64 00 6f 00))}
+		$s49 = {((64 6e 67 6d 6c 62 6c 63 6f 64 66 6f 62 70 64 70 65 63 61 61 64 67 66 62 63 67 67 66 6a 66 6e 6d) | (64 00 6e 00 67 00 6d 00 6c 00 62 00 6c 00 63 00 6f 00 64 00 66 00 6f 00 62 00 70 00 64 00 70 00 65 00 63 00 61 00 61 00 64 00 67 00 66 00 62 00 63 00 67 00 67 00 66 00 6a 00 66 00 6e 00 6d 00))}
+		$s50 = {((62 68 68 68 6c 62 65 70 64 6b 62 61 70 61 64 6a 64 6e 6e 6f 6a 6b 62 67 69 6f 69 6f 64 62 69 63) | (62 00 68 00 68 00 68 00 6c 00 62 00 65 00 70 00 64 00 6b 00 62 00 61 00 70 00 61 00 64 00 6a 00 64 00 6e 00 6e 00 6f 00 6a 00 6b 00 62 00 67 00 69 00 6f 00 69 00 6f 00 64 00 62 00 69 00 63 00))}
+		$s51 = {((6a 6e 6b 65 6c 66 61 6e 6a 6b 65 61 64 6f 6e 65 63 61 62 65 68 61 6c 6d 62 67 70 66 6f 64 6a 6d) | (6a 00 6e 00 6b 00 65 00 6c 00 66 00 61 00 6e 00 6a 00 6b 00 65 00 61 00 64 00 6f 00 6e 00 65 00 63 00 61 00 62 00 65 00 68 00 61 00 6c 00 6d 00 62 00 67 00 70 00 66 00 6f 00 64 00 6a 00 6d 00))}
+		$s52 = {((6a 68 67 6e 62 6b 6b 69 70 61 61 6c 6c 70 65 68 62 6f 68 6a 6d 6b 62 6a 6f 66 6a 64 6d 65 69 64) | (6a 00 68 00 67 00 6e 00 62 00 6b 00 6b 00 69 00 70 00 61 00 61 00 6c 00 6c 00 70 00 65 00 68 00 62 00 6f 00 68 00 6a 00 6d 00 6b 00 62 00 6a 00 6f 00 66 00 6a 00 64 00 6d 00 65 00 69 00 64 00))}
+		$s53 = {((6a 6e 6c 67 61 6d 65 63 62 70 6d 62 61 6a 6a 66 68 6d 6d 6d 6c 68 65 6a 6b 65 6d 65 6a 64 6d 61) | (6a 00 6e 00 6c 00 67 00 61 00 6d 00 65 00 63 00 62 00 70 00 6d 00 62 00 61 00 6a 00 6a 00 66 00 68 00 6d 00 6d 00 6d 00 6c 00 68 00 65 00 6a 00 6b 00 65 00 6d 00 65 00 6a 00 64 00 6d 00 61 00))}
+		$s54 = {((6b 6b 70 6c 6c 6b 6f 64 6a 65 6c 6f 69 64 69 65 65 64 6f 6a 6f 67 61 63 66 68 70 61 69 68 6f 68) | (6b 00 6b 00 70 00 6c 00 6c 00 6b 00 6f 00 64 00 6a 00 65 00 6c 00 6f 00 69 00 64 00 69 00 65 00 65 00 64 00 6f 00 6a 00 6f 00 67 00 61 00 63 00 66 00 68 00 70 00 61 00 69 00 68 00 6f 00 68 00))}
+		$s55 = {((6d 63 6f 68 69 6c 6e 63 62 66 61 68 62 6d 67 64 6a 6b 62 70 65 6d 63 63 69 69 6f 6c 67 63 67 65) | (6d 00 63 00 6f 00 68 00 69 00 6c 00 6e 00 63 00 62 00 66 00 61 00 68 00 62 00 6d 00 67 00 64 00 6a 00 6b 00 62 00 70 00 65 00 6d 00 63 00 63 00 69 00 69 00 6f 00 6c 00 67 00 63 00 67 00 65 00))}
+		$s56 = {((67 6a 61 67 6d 67 69 64 64 62 62 63 69 6f 70 6a 68 6c 6c 6b 64 6e 64 64 68 63 67 6c 6e 65 6d 6b) | (67 00 6a 00 61 00 67 00 6d 00 67 00 69 00 64 00 64 00 62 00 62 00 63 00 69 00 6f 00 70 00 6a 00 68 00 6c 00 6c 00 6b 00 64 00 6e 00 64 00 64 00 68 00 63 00 67 00 6c 00 6e 00 65 00 6d 00 6b 00))}
+		$s57 = {((6b 6d 68 63 69 68 70 65 62 66 6d 70 67 6d 69 68 62 6b 69 70 6d 6a 6c 6d 6d 69 6f 61 6d 65 6b 61) | (6b 00 6d 00 68 00 63 00 69 00 68 00 70 00 65 00 62 00 66 00 6d 00 70 00 67 00 6d 00 69 00 68 00 62 00 6b 00 69 00 70 00 6d 00 6a 00 6c 00 6d 00 6d 00 69 00 6f 00 61 00 6d 00 65 00 6b 00 61 00))}
+		$s58 = {((70 68 6b 62 61 6d 65 66 69 6e 67 67 6d 61 6b 67 6b 6c 70 6b 6c 6a 6a 6d 67 69 62 6f 68 6e 62 61) | (70 00 68 00 6b 00 62 00 61 00 6d 00 65 00 66 00 69 00 6e 00 67 00 67 00 6d 00 61 00 6b 00 67 00 6b 00 6c 00 70 00 6b 00 6c 00 6a 00 6a 00 6d 00 67 00 69 00 62 00 6f 00 68 00 6e 00 62 00 61 00))}
+		$s59 = {((6c 70 69 6c 62 6e 69 69 61 62 61 63 6b 64 6a 63 69 6f 6e 6b 6f 62 67 6c 6d 64 64 66 62 63 6a 6f) | (6c 00 70 00 69 00 6c 00 62 00 6e 00 69 00 69 00 61 00 62 00 61 00 63 00 6b 00 64 00 6a 00 63 00 69 00 6f 00 6e 00 6b 00 6f 00 62 00 67 00 6c 00 6d 00 64 00 64 00 66 00 62 00 63 00 6a 00 6f 00))}
+		$s60 = {((63 6a 6d 6b 6e 64 6a 68 6e 61 67 63 66 62 70 69 65 6d 6e 6b 64 70 6f 6d 63 63 6e 6a 62 6c 6d 6a) | (63 00 6a 00 6d 00 6b 00 6e 00 64 00 6a 00 68 00 6e 00 61 00 67 00 63 00 66 00 62 00 70 00 69 00 65 00 6d 00 6e 00 6b 00 64 00 70 00 6f 00 6d 00 63 00 63 00 6e 00 6a 00 62 00 6c 00 6d 00 6a 00))}
+		$s61 = {((61 69 6a 63 62 65 64 6f 69 6a 6d 67 6e 6c 6d 6a 65 65 67 6a 61 67 6c 6d 65 70 62 6d 70 6b 70 69) | (61 00 69 00 6a 00 63 00 62 00 65 00 64 00 6f 00 69 00 6a 00 6d 00 67 00 6e 00 6c 00 6d 00 6a 00 65 00 65 00 67 00 6a 00 61 00 67 00 6c 00 6d 00 65 00 70 00 62 00 6d 00 70 00 6b 00 70 00 69 00))}
+		$s62 = {((65 66 62 67 6c 67 6f 66 6f 69 70 70 62 67 63 6a 65 70 6e 68 69 62 6c 61 69 62 63 6e 63 6c 67 6b) | (65 00 66 00 62 00 67 00 6c 00 67 00 6f 00 66 00 6f 00 69 00 70 00 70 00 62 00 67 00 63 00 6a 00 65 00 70 00 6e 00 68 00 69 00 62 00 6c 00 61 00 69 00 62 00 63 00 6e 00 63 00 6c 00 67 00 6b 00))}
+		$s63 = {((6f 64 62 66 70 65 65 69 68 64 6b 62 69 68 6d 6f 70 6b 62 6a 6d 6f 6f 6e 66 61 6e 6c 62 66 63 6c) | (6f 00 64 00 62 00 66 00 70 00 65 00 65 00 69 00 68 00 64 00 6b 00 62 00 69 00 68 00 6d 00 6f 00 70 00 6b 00 62 00 6a 00 6d 00 6f 00 6f 00 6e 00 66 00 61 00 6e 00 6c 00 62 00 66 00 63 00 6c 00))}
+		$s64 = {((66 6e 6e 65 67 70 68 6c 6f 62 6a 64 70 6b 68 65 63 61 70 6b 69 6a 6a 64 6b 67 63 6a 68 6b 69 62) | (66 00 6e 00 6e 00 65 00 67 00 70 00 68 00 6c 00 6f 00 62 00 6a 00 64 00 70 00 6b 00 68 00 65 00 63 00 61 00 70 00 6b 00 69 00 6a 00 6a 00 64 00 6b 00 67 00 63 00 6a 00 68 00 6b 00 69 00 62 00))}
+		$s65 = {((61 6f 64 6b 6b 61 67 6e 61 64 63 62 6f 62 66 70 67 67 66 6e 6a 65 6f 6e 67 65 6d 6a 62 6a 63 61) | (61 00 6f 00 64 00 6b 00 6b 00 61 00 67 00 6e 00 61 00 64 00 63 00 62 00 6f 00 62 00 66 00 70 00 67 00 67 00 66 00 6e 00 6a 00 65 00 6f 00 6e 00 67 00 65 00 6d 00 6a 00 62 00 6a 00 63 00 61 00))}
+		$s66 = {((61 6b 6f 69 61 69 62 6e 65 70 63 65 64 63 70 6c 69 6a 6d 69 61 6d 6e 61 69 67 62 65 70 6d 63 62) | (61 00 6b 00 6f 00 69 00 61 00 69 00 62 00 6e 00 65 00 70 00 63 00 65 00 64 00 63 00 70 00 6c 00 69 00 6a 00 6d 00 69 00 61 00 6d 00 6e 00 61 00 69 00 67 00 62 00 65 00 70 00 6d 00 63 00 62 00))}
+		$s67 = {((65 6a 62 61 6c 62 61 6b 6f 70 6c 63 68 6c 67 68 65 63 64 61 6c 6d 65 65 65 61 6a 6e 69 6d 68 6d) | (65 00 6a 00 62 00 61 00 6c 00 62 00 61 00 6b 00 6f 00 70 00 6c 00 63 00 68 00 6c 00 67 00 68 00 65 00 63 00 64 00 61 00 6c 00 6d 00 65 00 65 00 65 00 61 00 6a 00 6e 00 69 00 6d 00 68 00 6d 00))}
+		$s68 = {((64 66 65 63 63 61 64 6c 69 6c 70 6e 64 6a 6a 6f 68 62 6a 64 62 6c 65 70 6d 6a 65 61 68 6c 6d 6d) | (64 00 66 00 65 00 63 00 63 00 61 00 64 00 6c 00 69 00 6c 00 70 00 6e 00 64 00 6a 00 6a 00 6f 00 68 00 62 00 6a 00 64 00 62 00 6c 00 65 00 70 00 6d 00 6a 00 65 00 61 00 68 00 6c 00 6d 00 6d 00))}
+		$s69 = {((6b 6a 6d 6f 6f 68 6c 67 6f 6b 63 63 6f 64 69 63 6a 6a 66 65 62 66 6f 6d 6c 62 6c 6a 67 66 68 6b) | (6b 00 6a 00 6d 00 6f 00 6f 00 68 00 6c 00 67 00 6f 00 6b 00 63 00 63 00 6f 00 64 00 69 00 63 00 6a 00 6a 00 66 00 65 00 62 00 66 00 6f 00 6d 00 6c 00 62 00 6c 00 6a 00 67 00 66 00 68 00 6b 00))}
+		$s70 = {((61 6a 6b 68 6f 65 69 69 6f 6b 69 67 68 6c 6d 64 6e 6c 61 6b 70 6a 66 6f 6f 62 6e 6a 69 6e 69 65) | (61 00 6a 00 6b 00 68 00 6f 00 65 00 69 00 69 00 6f 00 6b 00 69 00 67 00 68 00 6c 00 6d 00 64 00 6e 00 6c 00 61 00 6b 00 70 00 6a 00 66 00 6f 00 6f 00 62 00 6e 00 6a 00 69 00 6e 00 69 00 65 00))}
+		$s71 = {((66 70 6c 66 69 70 6d 61 6d 63 6a 61 6b 6e 70 67 6e 69 70 6a 65 61 65 65 69 64 6e 6a 6f 6f 61 6f) | (66 00 70 00 6c 00 66 00 69 00 70 00 6d 00 61 00 6d 00 63 00 6a 00 61 00 6b 00 6e 00 70 00 67 00 6e 00 69 00 70 00 6a 00 65 00 61 00 65 00 65 00 69 00 64 00 6e 00 6a 00 6f 00 6f 00 61 00 6f 00))}
+		$s72 = {((6e 69 69 68 66 6f 6b 64 6c 69 6d 62 64 64 68 66 6d 6e 67 6e 70 6c 67 66 63 67 70 6d 6c 69 64 6f) | (6e 00 69 00 69 00 68 00 66 00 6f 00 6b 00 64 00 6c 00 69 00 6d 00 62 00 64 00 64 00 68 00 66 00 6d 00 6e 00 67 00 6e 00 70 00 6c 00 67 00 66 00 63 00 67 00 70 00 6d 00 6c 00 69 00 64 00 6f 00))}
+		$s73 = {((6f 62 66 66 6b 6b 61 67 70 6d 6f 68 65 6e 6e 69 70 6a 6f 6b 6d 70 6c 6c 6f 63 6e 6c 6e 64 61 63) | (6f 00 62 00 66 00 66 00 6b 00 6b 00 61 00 67 00 70 00 6d 00 6f 00 68 00 65 00 6e 00 6e 00 69 00 70 00 6a 00 6f 00 6b 00 6d 00 70 00 6c 00 6c 00 6f 00 63 00 6e 00 6c 00 6e 00 64 00 61 00 63 00))}
+		$s74 = {((6b 66 6f 63 6e 6c 64 64 66 61 68 69 68 6f 61 6c 69 6e 6e 66 62 6e 66 6d 6f 70 6a 6f 6b 6d 68 6c) | (6b 00 66 00 6f 00 63 00 6e 00 6c 00 64 00 64 00 66 00 61 00 68 00 69 00 68 00 6f 00 61 00 6c 00 69 00 6e 00 6e 00 66 00 62 00 6e 00 66 00 6d 00 6f 00 70 00 6a 00 6f 00 6b 00 6d 00 68 00 6c 00))}
+		$s75 = {((69 6e 66 65 62 6f 61 6a 67 66 68 67 62 6a 70 6a 62 65 70 70 62 6b 67 6e 61 62 66 64 6b 64 61 66) | (69 00 6e 00 66 00 65 00 62 00 6f 00 61 00 6a 00 67 00 66 00 68 00 67 00 62 00 6a 00 70 00 6a 00 62 00 65 00 70 00 70 00 62 00 6b 00 67 00 6e 00 61 00 62 00 66 00 64 00 6b 00 64 00 61 00 66 00))}
+		$s76 = {((7b 35 33 30 66 37 63 36 63 2d 36 30 37 37 2d 34 37 30 33 2d 38 66 37 31 2d 63 62 33 36 38 63 36 36 33 65 33 35 7d 2e 78 70 69) | (7b 00 35 00 33 00 30 00 66 00 37 00 63 00 36 00 63 00 2d 00 36 00 30 00 37 00 37 00 2d 00 34 00 37 00 30 00 33 00 2d 00 38 00 66 00 37 00 31 00 2d 00 63 00 62 00 33 00 36 00 38 00 63 00 36 00 36 00 33 00 65 00 33 00 35 00 7d 00 2e 00 78 00 70 00 69 00))}
+		$s77 = {((72 6f 6e 69 6e 2d 77 61 6c 6c 65 74 40 61 78 69 65 69 6e 66 69 6e 69 74 79 2e 63 6f 6d 2e 78 70 69) | (72 00 6f 00 6e 00 69 00 6e 00 2d 00 77 00 61 00 6c 00 6c 00 65 00 74 00 40 00 61 00 78 00 69 00 65 00 69 00 6e 00 66 00 69 00 6e 00 69 00 74 00 79 00 2e 00 63 00 6f 00 6d 00 2e 00 78 00 70 00 69 00))}
+		$s78 = {((77 65 62 65 78 74 65 6e 73 69 6f 6e 40 6d 65 74 61 6d 61 73 6b 2e 69 6f 2e 78 70 69) | (77 00 65 00 62 00 65 00 78 00 74 00 65 00 6e 00 73 00 69 00 6f 00 6e 00 40 00 6d 00 65 00 74 00 61 00 6d 00 61 00 73 00 6b 00 2e 00 69 00 6f 00 2e 00 78 00 70 00 69 00))}
+		$s79 = {((7b 35 37 39 39 64 39 62 36 2d 38 33 34 33 2d 34 63 32 36 2d 39 61 62 36 2d 35 64 32 61 64 33 39 38 38 34 63 65 7d 2e 78 70 69) | (7b 00 35 00 37 00 39 00 39 00 64 00 39 00 62 00 36 00 2d 00 38 00 33 00 34 00 33 00 2d 00 34 00 63 00 32 00 36 00 2d 00 39 00 61 00 62 00 36 00 2d 00 35 00 64 00 32 00 61 00 64 00 33 00 39 00 38 00 38 00 34 00 63 00 65 00 7d 00 2e 00 78 00 70 00 69 00))}
+		$s80 = {((7b 61 61 38 31 32 62 65 65 2d 39 65 39 32 2d 34 38 62 61 2d 39 35 37 30 2d 35 66 61 66 30 63 66 65 32 35 37 38 7d 2e 78 70 69) | (7b 00 61 00 61 00 38 00 31 00 32 00 62 00 65 00 65 00 2d 00 39 00 65 00 39 00 32 00 2d 00 34 00 38 00 62 00 61 00 2d 00 39 00 35 00 37 00 30 00 2d 00 35 00 66 00 61 00 66 00 30 00 63 00 66 00 65 00 32 00 35 00 37 00 38 00 7d 00 2e 00 78 00 70 00 69 00))}
+		$s81 = {((7b 35 39 65 61 35 66 32 39 2d 36 65 61 39 2d 34 30 62 35 2d 38 33 63 64 2d 39 33 37 32 34 39 62 30 30 31 65 31 7d 2e 78 70 69) | (7b 00 35 00 39 00 65 00 61 00 35 00 66 00 32 00 39 00 2d 00 36 00 65 00 61 00 39 00 2d 00 34 00 30 00 62 00 35 00 2d 00 38 00 33 00 63 00 64 00 2d 00 39 00 33 00 37 00 32 00 34 00 39 00 62 00 30 00 30 00 31 00 65 00 31 00 7d 00 2e 00 78 00 70 00 69 00))}
+		$s82 = {((7b 64 38 64 64 66 63 32 61 2d 39 37 64 39 2d 34 63 36 30 2d 38 62 35 33 2d 35 65 64 64 32 39 39 62 36 36 37 34 7d 2e 78 70 69) | (7b 00 64 00 38 00 64 00 64 00 66 00 63 00 32 00 61 00 2d 00 39 00 37 00 64 00 39 00 2d 00 34 00 63 00 36 00 30 00 2d 00 38 00 62 00 35 00 33 00 2d 00 35 00 65 00 64 00 64 00 32 00 39 00 39 00 62 00 36 00 36 00 37 00 34 00 7d 00 2e 00 78 00 70 00 69 00))}
+		$s83 = {((7b 37 63 34 32 65 65 61 31 2d 62 33 65 34 2d 34 62 65 34 2d 61 35 36 66 2d 38 32 61 35 38 35 32 62 31 32 64 63 7d 2e 78 70 69) | (7b 00 37 00 63 00 34 00 32 00 65 00 65 00 61 00 31 00 2d 00 62 00 33 00 65 00 34 00 2d 00 34 00 62 00 65 00 34 00 2d 00 61 00 35 00 36 00 66 00 2d 00 38 00 32 00 61 00 35 00 38 00 35 00 32 00 62 00 31 00 32 00 64 00 63 00 7d 00 2e 00 78 00 70 00 69 00))}
+		$s84 = {((7b 62 33 65 39 36 62 35 66 2d 62 35 62 66 2d 38 62 34 38 2d 38 34 36 62 2d 35 32 66 34 33 30 33 36 35 65 38 30 7d 2e 78 70 69) | (7b 00 62 00 33 00 65 00 39 00 36 00 62 00 35 00 66 00 2d 00 62 00 35 00 62 00 66 00 2d 00 38 00 62 00 34 00 38 00 2d 00 38 00 34 00 36 00 62 00 2d 00 35 00 32 00 66 00 34 00 33 00 30 00 33 00 36 00 35 00 65 00 38 00 30 00 7d 00 2e 00 78 00 70 00 69 00))}
+		$s85 = {((7b 65 62 31 66 62 35 37 62 2d 63 61 33 64 2d 34 36 32 34 2d 61 38 34 31 2d 37 32 38 66 64 62 32 38 34 35 35 66 7d 2e 78 70 69) | (7b 00 65 00 62 00 31 00 66 00 62 00 35 00 37 00 62 00 2d 00 63 00 61 00 33 00 64 00 2d 00 34 00 36 00 32 00 34 00 2d 00 61 00 38 00 34 00 31 00 2d 00 37 00 32 00 38 00 66 00 64 00 62 00 32 00 38 00 34 00 35 00 35 00 66 00 7d 00 2e 00 78 00 70 00 69 00))}
+		$s86 = {((7b 37 36 35 39 36 65 33 30 2d 65 63 64 62 2d 34 37 37 61 2d 39 31 66 64 2d 63 30 38 66 32 30 31 38 64 66 31 61 7d 2e 78 70 69) | (7b 00 37 00 36 00 35 00 39 00 36 00 65 00 33 00 30 00 2d 00 65 00 63 00 64 00 62 00 2d 00 34 00 37 00 37 00 61 00 2d 00 39 00 31 00 66 00 64 00 2d 00 63 00 30 00 38 00 66 00 32 00 30 00 31 00 38 00 64 00 66 00 31 00 61 00 7d 00 2e 00 78 00 70 00 69 00))}
+		$s87 = {((65 6a 6a 6c 61 64 69 6e 6e 63 6b 64 67 6a 65 6d 65 6b 65 62 64 70 65 6f 6b 62 69 6b 68 66 63 69) | (65 00 6a 00 6a 00 6c 00 61 00 64 00 69 00 6e 00 6e 00 63 00 6b 00 64 00 67 00 6a 00 65 00 6d 00 65 00 6b 00 65 00 62 00 64 00 70 00 65 00 6f 00 6b 00 62 00 69 00 6b 00 68 00 66 00 63 00 69 00))}
+		$s88 = {((62 67 70 69 70 69 6d 69 63 6b 65 61 64 6b 6a 6c 6b 6c 67 63 69 69 66 68 6e 61 6c 68 64 6a 68 65) | (62 00 67 00 70 00 69 00 70 00 69 00 6d 00 69 00 63 00 6b 00 65 00 61 00 64 00 6b 00 6a 00 6c 00 6b 00 6c 00 67 00 63 00 69 00 69 00 66 00 68 00 6e 00 61 00 6c 00 68 00 64 00 6a 00 68 00 65 00))}
+		$s89 = {((65 70 61 70 69 68 64 70 6c 61 6a 63 64 6e 6e 6b 64 65 69 61 68 6c 67 69 67 6f 66 6c 6f 69 62 67) | (65 00 70 00 61 00 70 00 69 00 68 00 64 00 70 00 6c 00 61 00 6a 00 63 00 64 00 6e 00 6e 00 6b 00 64 00 65 00 69 00 61 00 68 00 6c 00 67 00 69 00 67 00 6f 00 66 00 6c 00 6f 00 69 00 62 00 67 00))}
+		$s90 = {((61 68 6f 6c 70 66 64 69 61 6c 6a 67 6a 66 68 6f 6d 69 68 6b 6a 62 6d 67 6a 69 64 6c 63 64 6e 6f) | (61 00 68 00 6f 00 6c 00 70 00 66 00 64 00 69 00 61 00 6c 00 6a 00 67 00 6a 00 66 00 68 00 6f 00 6d 00 69 00 68 00 6b 00 6a 00 62 00 6d 00 67 00 6a 00 69 00 64 00 6c 00 63 00 64 00 6e 00 6f 00))}
+		$s91 = {((65 67 6a 69 64 6a 62 70 67 6c 69 63 68 64 63 6f 6e 64 62 63 62 64 6e 62 65 65 70 70 67 64 70 68) | (65 00 67 00 6a 00 69 00 64 00 6a 00 62 00 70 00 67 00 6c 00 69 00 63 00 68 00 64 00 63 00 6f 00 6e 00 64 00 62 00 63 00 62 00 64 00 6e 00 62 00 65 00 65 00 70 00 70 00 67 00 64 00 70 00 68 00))}
+		$s92 = {((70 6e 6e 64 70 6c 63 62 6b 61 6b 63 70 6c 6b 6a 6e 6f 6c 67 62 6b 64 67 6a 69 6b 6a 65 64 6e 6d) | (70 00 6e 00 6e 00 64 00 70 00 6c 00 63 00 62 00 6b 00 61 00 6b 00 63 00 70 00 6c 00 6b 00 6a 00 6e 00 6f 00 6c 00 67 00 62 00 6b 00 64 00 67 00 6a 00 69 00 6b 00 6a 00 65 00 64 00 6e 00 6d 00))}
+		$s93 = {((67 6f 6a 68 63 64 67 63 70 62 70 66 69 67 63 61 65 6a 70 66 68 66 65 67 65 6b 64 67 69 62 6c 6b) | (67 00 6f 00 6a 00 68 00 63 00 64 00 67 00 63 00 70 00 62 00 70 00 66 00 69 00 67 00 63 00 61 00 65 00 6a 00 70 00 66 00 68 00 66 00 65 00 67 00 65 00 6b 00 64 00 67 00 69 00 62 00 6c 00 6b 00))}
+		$s94 = {((64 6a 63 6c 63 6b 6b 67 6c 65 63 68 6f 6f 62 6c 6e 67 67 68 64 69 6e 6d 65 65 6d 6b 62 67 63 69) | (64 00 6a 00 63 00 6c 00 63 00 6b 00 6b 00 67 00 6c 00 65 00 63 00 68 00 6f 00 6f 00 62 00 6c 00 6e 00 67 00 67 00 68 00 64 00 69 00 6e 00 6d 00 65 00 65 00 6d 00 6b 00 62 00 67 00 63 00 69 00))}
+		$s95 = {((6a 6e 6d 62 6f 62 6a 6d 68 6c 6e 67 6f 65 66 61 69 6f 6a 66 6c 6a 63 6b 69 6c 68 68 6c 68 63 6a) | (6a 00 6e 00 6d 00 62 00 6f 00 62 00 6a 00 6d 00 68 00 6c 00 6e 00 67 00 6f 00 65 00 66 00 61 00 69 00 6f 00 6a 00 66 00 6c 00 6a 00 63 00 6b 00 69 00 6c 00 68 00 68 00 6c 00 68 00 63 00 6a 00))}
+
+	condition:
+		( uint16( 0 ) == 0x5a4d and 6 of them ) or ( 12 of them )
+}
+
+rule INDICATOR_SUSPICIOUS_Binary_Embedded_MFA_Browser_Extension_IDs : hardened limited
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detect binaries embedding considerable number of MFA browser extension IDs."
+
+	strings:
+		$s1 = {((62 68 67 68 6f 61 6d 61 70 63 64 70 62 6f 68 70 68 69 67 6f 6f 6f 61 64 64 69 6e 70 6b 62 61 69) | (62 00 68 00 67 00 68 00 6f 00 61 00 6d 00 61 00 70 00 63 00 64 00 70 00 62 00 6f 00 68 00 70 00 68 00 69 00 67 00 6f 00 6f 00 6f 00 61 00 64 00 64 00 69 00 6e 00 70 00 6b 00 62 00 61 00 69 00))}
+		$s2 = {((67 61 65 64 6d 6a 64 66 6d 6d 61 68 68 62 6a 65 66 63 62 67 61 6f 6c 68 68 61 6e 6c 61 6f 6c 62) | (67 00 61 00 65 00 64 00 6d 00 6a 00 64 00 66 00 6d 00 6d 00 61 00 68 00 68 00 62 00 6a 00 65 00 66 00 63 00 62 00 67 00 61 00 6f 00 6c 00 68 00 68 00 61 00 6e 00 6c 00 61 00 6f 00 6c 00 62 00))}
+		$s3 = {((6f 65 6c 6a 64 6c 64 70 6e 6d 64 62 63 68 6f 6e 69 65 6c 69 64 67 6f 62 64 64 66 66 66 6c 61 6c) | (6f 00 65 00 6c 00 6a 00 64 00 6c 00 64 00 70 00 6e 00 6d 00 64 00 62 00 63 00 68 00 6f 00 6e 00 69 00 65 00 6c 00 69 00 64 00 67 00 6f 00 62 00 64 00 64 00 66 00 66 00 66 00 6c 00 61 00 6c 00))}
+		$s4 = {((69 6c 67 63 6e 68 65 6c 70 63 68 6e 63 65 65 69 70 69 70 69 6a 61 6c 6a 6b 62 6c 62 63 6f 62 6c) | (69 00 6c 00 67 00 63 00 6e 00 68 00 65 00 6c 00 70 00 63 00 68 00 6e 00 63 00 65 00 65 00 69 00 70 00 69 00 70 00 69 00 6a 00 61 00 6c 00 6a 00 6b 00 62 00 6c 00 62 00 63 00 6f 00 62 00 6c 00))}
+		$s5 = {((69 6d 6c 6f 69 66 6b 67 6a 61 67 67 68 6e 6e 63 6a 6b 68 67 67 64 68 61 6c 6d 63 6e 66 6b 6c 6b) | (69 00 6d 00 6c 00 6f 00 69 00 66 00 6b 00 67 00 6a 00 61 00 67 00 67 00 68 00 6e 00 6e 00 63 00 6a 00 6b 00 68 00 67 00 67 00 64 00 68 00 61 00 6c 00 6d 00 63 00 6e 00 66 00 6b 00 6c 00 6b 00))}
+		$s6 = {((66 64 6a 61 6d 61 6b 70 66 62 62 64 64 66 6a 61 6f 6f 69 6b 66 63 70 61 70 6a 6f 68 63 66 6d 67) | (66 00 64 00 6a 00 61 00 6d 00 61 00 6b 00 70 00 66 00 62 00 62 00 64 00 64 00 66 00 6a 00 61 00 6f 00 6f 00 69 00 6b 00 66 00 63 00 70 00 61 00 70 00 6a 00 6f 00 68 00 63 00 66 00 6d 00 67 00))}
+		$s7 = {((66 6f 6f 6f 6c 67 68 6c 6c 6e 6d 68 6d 6d 6e 64 67 6a 69 61 6d 69 69 6f 64 6b 70 65 6e 70 62 62) | (66 00 6f 00 6f 00 6f 00 6c 00 67 00 68 00 6c 00 6c 00 6e 00 6d 00 68 00 6d 00 6d 00 6e 00 64 00 67 00 6a 00 69 00 61 00 6d 00 69 00 69 00 6f 00 64 00 6b 00 70 00 65 00 6e 00 70 00 62 00 62 00))}
+		$s8 = {((70 6e 6c 63 63 6d 6f 6a 63 6d 65 6f 68 6c 70 67 67 6d 66 6e 62 62 69 61 70 6b 6d 62 6c 69 6f 62) | (70 00 6e 00 6c 00 63 00 63 00 6d 00 6f 00 6a 00 63 00 6d 00 65 00 6f 00 68 00 6c 00 70 00 67 00 67 00 6d 00 66 00 6e 00 62 00 62 00 69 00 61 00 70 00 6b 00 6d 00 62 00 6c 00 69 00 6f 00 62 00))}
+		$s9 = {((68 64 6f 6b 69 65 6a 6e 70 69 6d 61 6b 65 64 68 61 6a 68 64 6c 63 65 67 65 70 6c 69 6f 61 68 64) | (68 00 64 00 6f 00 6b 00 69 00 65 00 6a 00 6e 00 70 00 69 00 6d 00 61 00 6b 00 65 00 64 00 68 00 61 00 6a 00 68 00 64 00 6c 00 63 00 65 00 67 00 65 00 70 00 6c 00 69 00 6f 00 61 00 68 00 64 00))}
+		$s10 = {((6e 61 65 70 64 6f 6d 67 6b 65 6e 68 69 6e 6f 6c 6f 63 66 69 66 67 65 68 69 64 64 64 61 66 63 68) | (6e 00 61 00 65 00 70 00 64 00 6f 00 6d 00 67 00 6b 00 65 00 6e 00 68 00 69 00 6e 00 6f 00 6c 00 6f 00 63 00 66 00 69 00 66 00 67 00 65 00 68 00 69 00 64 00 64 00 64 00 61 00 66 00 63 00 68 00))}
+		$s11 = {((62 6d 69 6b 70 67 6f 64 70 6b 63 6c 6e 6b 67 6d 6e 70 70 68 65 68 64 67 63 69 6d 6d 69 64 65 64) | (62 00 6d 00 69 00 6b 00 70 00 67 00 6f 00 64 00 70 00 6b 00 63 00 6c 00 6e 00 6b 00 67 00 6d 00 6e 00 70 00 70 00 68 00 65 00 68 00 64 00 67 00 63 00 69 00 6d 00 6d 00 69 00 64 00 65 00 64 00))}
+		$s12 = {((6f 62 6f 6f 6e 61 6b 65 6d 6f 66 70 61 6c 63 67 67 68 6f 63 66 6f 61 64 6f 66 69 64 6a 6b 6b 6b) | (6f 00 62 00 6f 00 6f 00 6e 00 61 00 6b 00 65 00 6d 00 6f 00 66 00 70 00 61 00 6c 00 63 00 67 00 67 00 68 00 6f 00 63 00 66 00 6f 00 61 00 64 00 6f 00 66 00 69 00 64 00 6a 00 6b 00 6b 00 6b 00))}
+		$s13 = {((66 6d 68 6d 69 61 65 6a 6f 70 65 70 61 6d 6c 63 6a 6b 6e 63 70 67 70 64 6a 69 63 68 6e 65 63 6d) | (66 00 6d 00 68 00 6d 00 69 00 61 00 65 00 6a 00 6f 00 70 00 65 00 70 00 61 00 6d 00 6c 00 63 00 6a 00 6b 00 6e 00 63 00 70 00 67 00 70 00 64 00 6a 00 69 00 63 00 68 00 6e 00 65 00 63 00 6d 00))}
+		$s14 = {((6e 6e 67 63 65 63 6b 62 61 70 65 62 66 69 6d 6e 6c 6e 69 69 69 61 68 6b 61 6e 64 63 6c 62 6c 62) | (6e 00 6e 00 67 00 63 00 65 00 63 00 6b 00 62 00 61 00 70 00 65 00 62 00 66 00 69 00 6d 00 6e 00 6c 00 6e 00 69 00 69 00 69 00 61 00 68 00 6b 00 61 00 6e 00 64 00 63 00 6c 00 62 00 6c 00 62 00))}
+		$s15 = {((66 69 65 64 62 66 67 63 6c 65 64 64 6c 62 63 6d 67 64 69 67 6a 67 64 66 63 67 67 6a 63 69 6f 6e) | (66 00 69 00 65 00 64 00 62 00 66 00 67 00 63 00 6c 00 65 00 64 00 64 00 6c 00 62 00 63 00 6d 00 67 00 64 00 69 00 67 00 6a 00 67 00 64 00 66 00 63 00 67 00 67 00 6a 00 63 00 69 00 6f 00 6e 00))}
+		$s16 = {((62 66 6f 67 69 61 66 65 62 66 6f 68 69 65 6c 6d 6d 65 68 6f 64 6d 66 62 62 65 62 62 62 70 65 69) | (62 00 66 00 6f 00 67 00 69 00 61 00 66 00 65 00 62 00 66 00 6f 00 68 00 69 00 65 00 6c 00 6d 00 6d 00 65 00 68 00 6f 00 64 00 6d 00 66 00 62 00 62 00 65 00 62 00 62 00 62 00 70 00 65 00 69 00))}
+		$s17 = {((6a 68 66 6a 66 63 6c 65 70 61 63 6f 6c 64 6d 6a 6d 6b 6d 64 6c 6d 67 61 6e 66 61 61 6c 6b 6c 62) | (6a 00 68 00 66 00 6a 00 66 00 63 00 6c 00 65 00 70 00 61 00 63 00 6f 00 6c 00 64 00 6d 00 6a 00 6d 00 6b 00 6d 00 64 00 6c 00 6d 00 67 00 61 00 6e 00 66 00 61 00 61 00 6c 00 6b 00 6c 00 62 00))}
+		$s18 = {((63 68 67 66 65 66 6a 70 63 6f 62 66 62 6e 70 6d 69 6f 6b 66 6a 6a 61 67 6c 61 68 6d 6e 64 65 64) | (63 00 68 00 67 00 66 00 65 00 66 00 6a 00 70 00 63 00 6f 00 62 00 66 00 62 00 6e 00 70 00 6d 00 69 00 6f 00 6b 00 66 00 6a 00 6a 00 61 00 67 00 6c 00 61 00 68 00 6d 00 6e 00 64 00 65 00 64 00))}
+		$s19 = {((69 67 6b 70 63 6f 64 68 69 65 6f 6d 70 65 6c 6f 6e 63 66 6e 62 65 6b 63 63 69 6e 68 61 70 64 62) | (69 00 67 00 6b 00 70 00 63 00 6f 00 64 00 68 00 69 00 65 00 6f 00 6d 00 70 00 65 00 6c 00 6f 00 6e 00 63 00 66 00 6e 00 62 00 65 00 6b 00 63 00 63 00 69 00 6e 00 68 00 61 00 70 00 64 00 62 00))}
+
+	condition:
+		( uint16( 0 ) == 0x5a4d and 5 of them ) or ( 8 of them )
+}
+
+rule INDICATOR_SUSPICOUS_EXE_UNC_Regex : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects executables with considerable number of regexes often observed in infostealers"
+
+	strings:
+		$s1 = {((5e 28 28 38 7c 5c 2b 37 7c 5c 2b 33 38 30 7c 5c 2b 33 37 35 7c 5c 2b 33 37 33 29 5b 5c 2d 20 5d 3f 29 3f 28 5c 28 3f 5c 64 7b 33 7d 5c 29 3f 5b 5c 2d 20 5d 3f 29 3f 5b 5c 64 5c 2d 20 5d 7b 37 2c 31 30 7d 24) | (5e 00 28 00 28 00 38 00 7c 00 5c 00 2b 00 37 00 7c 00 5c 00 2b 00 33 00 38 00 30 00 7c 00 5c 00 2b 00 33 00 37 00 35 00 7c 00 5c 00 2b 00 33 00 37 00 33 00 29 00 5b 00 5c 00 2d 00 20 00 5d 00 3f 00 29 00 3f 00 28 00 5c 00 28 00 3f 00 5c 00 64 00 7b 00 33 00 7d 00 5c 00 29 00 3f 00 5b 00 5c 00 2d 00 20 00 5d 00 3f 00 29 00 3f 00 5b 00 5c 00 64 00 5c 00 2d 00 20 00 5d 00 7b 00 37 00 2c 00 31 00 30 00 7d 00 24 00))}
+		$s2 = {((28 5e 28 31 7c 33 29 28 3f 3d 2e 2a 5b 30 2d 39 5d 29 28 3f 3d 2e 2a 5b 61 2d 7a 41 2d 5a 5d 29 5b 5c 64 61 2d 7a 41 2d 5a 5d 7b 32 37 2c 33 34 7d 3f 5b 5c 64 5c 2d 20 5d 29 7c 28 5e 28 31 7c 33 29 28 3f 3d 2e 2a 5b 30 2d 39 5d 29 28 3f 3d 2e 2a 5b 61 2d 7a 41 2d 5a 5d 29 5b 5c 64 61 2d 7a 41 2d 5a 5d 7b 32 37 2c 33 34 7d 29 24) | (28 00 5e 00 28 00 31 00 7c 00 33 00 29 00 28 00 3f 00 3d 00 2e 00 2a 00 5b 00 30 00 2d 00 39 00 5d 00 29 00 28 00 3f 00 3d 00 2e 00 2a 00 5b 00 61 00 2d 00 7a 00 41 00 2d 00 5a 00 5d 00 29 00 5b 00 5c 00 64 00 61 00 2d 00 7a 00 41 00 2d 00 5a 00 5d 00 7b 00 32 00 37 00 2c 00 33 00 34 00 7d 00 3f 00 5b 00 5c 00 64 00 5c 00 2d 00 20 00 5d 00 29 00 7c 00 28 00 5e 00 28 00 31 00 7c 00 33 00 29 00 28 00 3f 00 3d 00 2e 00 2a 00 5b 00 30 00 2d 00 39 00 5d 00 29 00 28 00 3f 00 3d 00 2e 00 2a 00 5b 00 61 00 2d 00 7a 00 41 00 2d 00 5a 00 5d 00 29 00 5b 00 5c 00 64 00 61 00 2d 00 7a 00 41 00 2d 00 5a 00 5d 00 7b 00 32 00 37 00 2c 00 33 00 34 00 7d 00 29 00 24 00))}
+		$s3 = {((28 5e 4c 5b 41 2d 5a 61 2d 7a 30 2d 39 5d 7b 33 32 2c 33 34 7d 3f 5b 5c 64 5c 2d 20 5d 29 7c 28 5e 4c 5b 41 2d 5a 61 2d 7a 30 2d 39 5d 7b 33 32 2c 33 34 7d 29 24) | (28 00 5e 00 4c 00 5b 00 41 00 2d 00 5a 00 61 00 2d 00 7a 00 30 00 2d 00 39 00 5d 00 7b 00 33 00 32 00 2c 00 33 00 34 00 7d 00 3f 00 5b 00 5c 00 64 00 5c 00 2d 00 20 00 5d 00 29 00 7c 00 28 00 5e 00 4c 00 5b 00 41 00 2d 00 5a 00 61 00 2d 00 7a 00 30 00 2d 00 39 00 5d 00 7b 00 33 00 32 00 2c 00 33 00 34 00 7d 00 29 00 24 00))}
+		$s4 = {((28 5e 71 5b 41 2d 5a 61 2d 7a 30 2d 39 5c 3a 5d 7b 33 32 2c 35 34 7d 3f 5b 5c 64 5c 2d 20 5d 29 7c 28 5e 71 5b 41 2d 5a 61 2d 7a 30 2d 39 5c 3a 5d 7b 33 32 2c 35 34 7d 29 24) | (28 00 5e 00 71 00 5b 00 41 00 2d 00 5a 00 61 00 2d 00 7a 00 30 00 2d 00 39 00 5c 00 3a 00 5d 00 7b 00 33 00 32 00 2c 00 35 00 34 00 7d 00 3f 00 5b 00 5c 00 64 00 5c 00 2d 00 20 00 5d 00 29 00 7c 00 28 00 5e 00 71 00 5b 00 41 00 2d 00 5a 00 61 00 2d 00 7a 00 30 00 2d 00 39 00 5c 00 3a 00 5d 00 7b 00 33 00 32 00 2c 00 35 00 34 00 7d 00 29 00 24 00))}
+		$s5 = {((5e 28 50 7c 70 29 7b 31 7d 5b 30 2d 39 5d 3f 5b 5c 64 5c 2d 20 5d 7b 37 2c 31 35 7d 7c 2e 2b 40 2e 2b 5c 2e 2e 2b 24) | (5e 00 28 00 50 00 7c 00 70 00 29 00 7b 00 31 00 7d 00 5b 00 30 00 2d 00 39 00 5d 00 3f 00 5b 00 5c 00 64 00 5c 00 2d 00 20 00 5d 00 7b 00 37 00 2c 00 31 00 35 00 7d 00 7c 00 2e 00 2b 00 40 00 2e 00 2b 00 5c 00 2e 00 2e 00 2b 00 24 00))}
+		$s6 = {((28 5e 30 78 5b 41 2d 5a 61 2d 7a 30 2d 39 5d 7b 34 30 2c 34 32 7d 3f 5b 5c 64 5c 2d 20 5d 29 7c 28 5e 30 78 5b 41 2d 5a 61 2d 7a 30 2d 39 5d 7b 34 30 2c 34 32 7d 29 24) | (28 00 5e 00 30 00 78 00 5b 00 41 00 2d 00 5a 00 61 00 2d 00 7a 00 30 00 2d 00 39 00 5d 00 7b 00 34 00 30 00 2c 00 34 00 32 00 7d 00 3f 00 5b 00 5c 00 64 00 5c 00 2d 00 20 00 5d 00 29 00 7c 00 28 00 5e 00 30 00 78 00 5b 00 41 00 2d 00 5a 00 61 00 2d 00 7a 00 30 00 2d 00 39 00 5d 00 7b 00 34 00 30 00 2c 00 34 00 32 00 7d 00 29 00 24 00))}
+		$s7 = {((28 5e 58 5b 41 2d 5a 61 2d 7a 30 2d 39 5d 7b 33 32 2c 33 34 7d 3f 5b 5c 64 5c 2d 20 5d 29 7c 28 5e 58 5b 41 2d 5a 61 2d 7a 30 2d 39 5d 7b 33 32 2c 33 34 7d 29 24) | (28 00 5e 00 58 00 5b 00 41 00 2d 00 5a 00 61 00 2d 00 7a 00 30 00 2d 00 39 00 5d 00 7b 00 33 00 32 00 2c 00 33 00 34 00 7d 00 3f 00 5b 00 5c 00 64 00 5c 00 2d 00 20 00 5d 00 29 00 7c 00 28 00 5e 00 58 00 5b 00 41 00 2d 00 5a 00 61 00 2d 00 7a 00 30 00 2d 00 39 00 5d 00 7b 00 33 00 32 00 2c 00 33 00 34 00 7d 00 29 00 24 00))}
+		$s8 = {((5e 34 31 30 30 31 5b 30 2d 39 5d 3f 5b 5c 64 5c 2d 20 5d 7b 37 2c 31 31 7d 24) | (5e 00 34 00 31 00 30 00 30 00 31 00 5b 00 30 00 2d 00 39 00 5d 00 3f 00 5b 00 5c 00 64 00 5c 00 2d 00 20 00 5d 00 7b 00 37 00 2c 00 31 00 31 00 7d 00 24 00))}
+		$s9 = {((5e 52 5b 30 2d 39 5d 3f 5b 5c 64 5c 2d 20 5d 7b 31 32 2c 31 33 7d 24) | (5e 00 52 00 5b 00 30 00 2d 00 39 00 5d 00 3f 00 5b 00 5c 00 64 00 5c 00 2d 00 20 00 5d 00 7b 00 31 00 32 00 2c 00 31 00 33 00 7d 00 24 00))}
+		$s10 = {((5e 5a 5b 30 2d 39 5d 3f 5b 5c 64 5c 2d 20 5d 7b 31 32 2c 31 33 7d 24) | (5e 00 5a 00 5b 00 30 00 2d 00 39 00 5d 00 3f 00 5b 00 5c 00 64 00 5c 00 2d 00 20 00 5d 00 7b 00 31 00 32 00 2c 00 31 00 33 00 7d 00 24 00))}
+		$s11 = {((28 5e 28 47 44 7c 47 43 29 5b 41 2d 5a 30 2d 39 5d 7b 35 34 2c 35 36 7d 3f 5b 5c 64 5c 2d 20 5d 29 7c 28 5e 28 47 44 7c 47 43 29 5b 41 2d 5a 30 2d 39 5d 7b 35 34 2c 35 36 7d 29 24) | (28 00 5e 00 28 00 47 00 44 00 7c 00 47 00 43 00 29 00 5b 00 41 00 2d 00 5a 00 30 00 2d 00 39 00 5d 00 7b 00 35 00 34 00 2c 00 35 00 36 00 7d 00 3f 00 5b 00 5c 00 64 00 5c 00 2d 00 20 00 5d 00 29 00 7c 00 28 00 5e 00 28 00 47 00 44 00 7c 00 47 00 43 00 29 00 5b 00 41 00 2d 00 5a 00 30 00 2d 00 39 00 5d 00 7b 00 35 00 34 00 2c 00 35 00 36 00 7d 00 29 00 24 00))}
+		$s12 = {((28 5e 41 5b 41 2d 5a 61 2d 7a 30 2d 39 5d 7b 33 32 2c 33 34 7d 3f 5b 5c 64 5c 2d 20 5d 29 7c 28 5e 41 5b 41 2d 5a 61 2d 7a 30 2d 39 5d 7b 33 32 2c 33 34 7d 29 24) | (28 00 5e 00 41 00 5b 00 41 00 2d 00 5a 00 61 00 2d 00 7a 00 30 00 2d 00 39 00 5d 00 7b 00 33 00 32 00 2c 00 33 00 34 00 7d 00 3f 00 5b 00 5c 00 64 00 5c 00 2d 00 20 00 5d 00 29 00 7c 00 28 00 5e 00 41 00 5b 00 41 00 2d 00 5a 00 61 00 2d 00 7a 00 30 00 2d 00 39 00 5d 00 7b 00 33 00 32 00 2c 00 33 00 34 00 7d 00 29 00 24 00))}
+		$s13 = {((28 5e 74 5b 41 2d 5a 61 2d 7a 30 2d 39 5d 7b 33 32 2c 33 36 7d 3f 5b 5c 64 5c 2d 20 5d 29 7c 28 5e 74 5b 41 2d 5a 61 2d 7a 30 2d 39 5d 7b 33 32 2c 33 36 7d 29 24) | (28 00 5e 00 74 00 5b 00 41 00 2d 00 5a 00 61 00 2d 00 7a 00 30 00 2d 00 39 00 5d 00 7b 00 33 00 32 00 2c 00 33 00 36 00 7d 00 3f 00 5b 00 5c 00 64 00 5c 00 2d 00 20 00 5d 00 29 00 7c 00 28 00 5e 00 74 00 5b 00 41 00 2d 00 5a 00 61 00 2d 00 7a 00 30 00 2d 00 39 00 5d 00 7b 00 33 00 32 00 2c 00 33 00 36 00 7d 00 29 00 24 00))}
+		$s14 = {((28 5e 72 5b 41 2d 5a 61 2d 7a 30 2d 39 5d 7b 33 32 2c 33 34 7d 3f 5b 5c 64 5c 2d 20 5d 29 7c 28 5e 72 5b 41 2d 5a 61 2d 7a 30 2d 39 5d 7b 33 32 2c 33 34 7d 29 24) | (28 00 5e 00 72 00 5b 00 41 00 2d 00 5a 00 61 00 2d 00 7a 00 30 00 2d 00 39 00 5d 00 7b 00 33 00 32 00 2c 00 33 00 34 00 7d 00 3f 00 5b 00 5c 00 64 00 5c 00 2d 00 20 00 5d 00 29 00 7c 00 28 00 5e 00 72 00 5b 00 41 00 2d 00 5a 00 61 00 2d 00 7a 00 30 00 2d 00 39 00 5d 00 7b 00 33 00 32 00 2c 00 33 00 34 00 7d 00 29 00 24 00))}
+		$s15 = {((28 5e 47 5b 41 2d 5a 61 2d 7a 30 2d 39 5d 7b 33 32 2c 33 35 7d 3f 5b 5c 64 5c 2d 20 5d 29 7c 28 5e 47 5b 41 2d 5a 61 2d 7a 30 2d 39 5d 7b 33 32 2c 33 35 7d 29 24) | (28 00 5e 00 47 00 5b 00 41 00 2d 00 5a 00 61 00 2d 00 7a 00 30 00 2d 00 39 00 5d 00 7b 00 33 00 32 00 2c 00 33 00 35 00 7d 00 3f 00 5b 00 5c 00 64 00 5c 00 2d 00 20 00 5d 00 29 00 7c 00 28 00 5e 00 47 00 5b 00 41 00 2d 00 5a 00 61 00 2d 00 7a 00 30 00 2d 00 39 00 5d 00 7b 00 33 00 32 00 2c 00 33 00 35 00 7d 00 29 00 24 00))}
+		$s16 = {((28 5e 44 5b 41 2d 5a 61 2d 7a 30 2d 39 5d 7b 33 32 2c 33 35 7d 3f 5b 5c 64 5c 2d 20 5d 29 7c 28 5e 44 5b 41 2d 5a 61 2d 7a 30 2d 39 5d 7b 33 32 2c 33 35 7d 29 24) | (28 00 5e 00 44 00 5b 00 41 00 2d 00 5a 00 61 00 2d 00 7a 00 30 00 2d 00 39 00 5d 00 7b 00 33 00 32 00 2c 00 33 00 35 00 7d 00 3f 00 5b 00 5c 00 64 00 5c 00 2d 00 20 00 5d 00 29 00 7c 00 28 00 5e 00 44 00 5b 00 41 00 2d 00 5a 00 61 00 2d 00 7a 00 30 00 2d 00 39 00 5d 00 7b 00 33 00 32 00 2c 00 33 00 35 00 7d 00 29 00 24 00))}
+		$s17 = {((28 5e 28 54 5b 41 2d 5a 5d 29 5b 41 2d 5a 61 2d 7a 30 2d 39 5d 7b 33 32 2c 33 35 7d 3f 5b 5c 64 5c 2d 20 5d 29 7c 28 5e 28 54 5b 41 2d 5a 5d 29 5b 41 2d 5a 61 2d 7a 30 2d 39 5d 7b 33 32 2c 33 35 7d 29 24) | (28 00 5e 00 28 00 54 00 5b 00 41 00 2d 00 5a 00 5d 00 29 00 5b 00 41 00 2d 00 5a 00 61 00 2d 00 7a 00 30 00 2d 00 39 00 5d 00 7b 00 33 00 32 00 2c 00 33 00 35 00 7d 00 3f 00 5b 00 5c 00 64 00 5c 00 2d 00 20 00 5d 00 29 00 7c 00 28 00 5e 00 28 00 54 00 5b 00 41 00 2d 00 5a 00 5d 00 29 00 5b 00 41 00 2d 00 5a 00 61 00 2d 00 7a 00 30 00 2d 00 39 00 5d 00 7b 00 33 00 32 00 2c 00 33 00 35 00 7d 00 29 00 24 00))}
+		$s18 = {((5e 31 5b 61 2d 6b 6d 2d 7a 41 2d 48 4a 2d 4e 50 2d 5a 31 2d 39 5d 7b 32 35 2c 33 34 7d 24) | (5e 00 31 00 5b 00 61 00 2d 00 6b 00 6d 00 2d 00 7a 00 41 00 2d 00 48 00 4a 00 2d 00 4e 00 50 00 2d 00 5a 00 31 00 2d 00 39 00 5d 00 7b 00 32 00 35 00 2c 00 33 00 34 00 7d 00 24 00))}
+		$s19 = {((5e 33 5b 61 2d 6b 6d 2d 7a 41 2d 48 4a 2d 4e 50 2d 5a 31 2d 39 5d 7b 32 35 2c 33 34 7d 24) | (5e 00 33 00 5b 00 61 00 2d 00 6b 00 6d 00 2d 00 7a 00 41 00 2d 00 48 00 4a 00 2d 00 4e 00 50 00 2d 00 5a 00 31 00 2d 00 39 00 5d 00 7b 00 32 00 35 00 2c 00 33 00 34 00 7d 00 24 00))}
+		$s20 = {((5e 28 5b 61 2d 7a 41 2d 5a 30 2d 39 5f 5c 2d 5c 2e 5d 2b 29 40 28 5b 61 2d 7a 41 2d 5a 30 2d 39 5f 5c 2d 5c 2e 5d 2b 29 5c 2e 28 5b 61 2d 7a 41 2d 5a 5d 7b 32 2c 35 7d 29 24) | (5e 00 28 00 5b 00 61 00 2d 00 7a 00 41 00 2d 00 5a 00 30 00 2d 00 39 00 5f 00 5c 00 2d 00 5c 00 2e 00 5d 00 2b 00 29 00 40 00 28 00 5b 00 61 00 2d 00 7a 00 41 00 2d 00 5a 00 30 00 2d 00 39 00 5f 00 5c 00 2d 00 5c 00 2e 00 5d 00 2b 00 29 00 5c 00 2e 00 28 00 5b 00 61 00 2d 00 7a 00 41 00 2d 00 5a 00 5d 00 7b 00 32 00 2c 00 35 00 7d 00 29 00 24 00))}
+		$s21 = {((5e 28 3f 21 3a 5c 2f 5c 2f 29 28 5b 61 2d 7a 41 2d 5a 30 2d 39 2d 5f 5d 2b 5c 2e 29 2a 5b 61 2d 7a 41 2d 5a 30 2d 39 5d 5b 61 2d 7a 41 2d 5a 30 2d 39 2d 5f 5d 2b 5c 2e 5b 61 2d 7a 41 2d 5a 5d 7b 32 2c 31 31 7d 3f 24) | (5e 00 28 00 3f 00 21 00 3a 00 5c 00 2f 00 5c 00 2f 00 29 00 28 00 5b 00 61 00 2d 00 7a 00 41 00 2d 00 5a 00 30 00 2d 00 39 00 2d 00 5f 00 5d 00 2b 00 5c 00 2e 00 29 00 2a 00 5b 00 61 00 2d 00 7a 00 41 00 2d 00 5a 00 30 00 2d 00 39 00 5d 00 5b 00 61 00 2d 00 7a 00 41 00 2d 00 5a 00 30 00 2d 00 39 00 2d 00 5f 00 5d 00 2b 00 5c 00 2e 00 5b 00 61 00 2d 00 7a 00 41 00 2d 00 5a 00 5d 00 7b 00 32 00 2c 00 31 00 31 00 7d 00 3f 00 24 00))}
+		$s22 = {((5b 5c 77 2d 5d 7b 32 34 7d 5c 2e 5b 5c 77 2d 5d 7b 36 7d 5c 2e 5b 5c 77 2d 5d 7b 32 37 7d 7c 6d 66 61 5c 2e 5b 5c 77 2d 5d 7b 38 34 7d) | (5b 00 5c 00 77 00 2d 00 5d 00 7b 00 32 00 34 00 7d 00 5c 00 2e 00 5b 00 5c 00 77 00 2d 00 5d 00 7b 00 36 00 7d 00 5c 00 2e 00 5b 00 5c 00 77 00 2d 00 5d 00 7b 00 32 00 37 00 7d 00 7c 00 6d 00 66 00 61 00 5c 00 2e 00 5b 00 5c 00 77 00 2d 00 5d 00 7b 00 38 00 34 00 7d 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 6 of them
+}
+
+rule INDICATOR_SUSPICIOUS_DeleteRecentItems : hardened limited
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects executables embedding anti-forensic artifacts of deleting Windows Recent Items"
+
+	strings:
+		$s1 = {((64 65 6c 20 43 3a 5c 57 69 6e 64 6f 77 73 5c 41 70 70 43 6f 6d 70 61 74 5c 50 72 6f 67 72 61 6d 73 5c 52 65 63 65 6e 74 46 69 6c 65 43 61 63 68 65 2e 62 63 66) | (64 00 65 00 6c 00 20 00 43 00 3a 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 5c 00 41 00 70 00 70 00 43 00 6f 00 6d 00 70 00 61 00 74 00 5c 00 50 00 72 00 6f 00 67 00 72 00 61 00 6d 00 73 00 5c 00 52 00 65 00 63 00 65 00 6e 00 74 00 46 00 69 00 6c 00 65 00 43 00 61 00 63 00 68 00 65 00 2e 00 62 00 63 00 66 00))}
+		$s2 = {((64 65 6c 20 2f 46 20 2f 51 20 25 41 50 50 44 41 54 41 25 5c 4d 69 63 72 6f 73 6f 66 74 5c 57 69 6e 64 6f 77 73 5c 52 65 63 65 6e 74 5c 2a) | (64 00 65 00 6c 00 20 00 2f 00 46 00 20 00 2f 00 51 00 20 00 25 00 41 00 50 00 50 00 44 00 41 00 54 00 41 00 25 00 5c 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 5c 00 52 00 65 00 63 00 65 00 6e 00 74 00 5c 00 2a 00))}
+		$s3 = {((64 65 6c 20 2f 46 20 2f 51 20 25 41 50 50 44 41 54 41 25 5c 4d 69 63 72 6f 73 6f 66 74 5c 57 69 6e 64 6f 77 73 5c 52 65 63 65 6e 74 5c 43 75 73 74 6f 6d 44 65 73 74 69 6e 61 74 69 6f 6e 73 5c 2a) | (64 00 65 00 6c 00 20 00 2f 00 46 00 20 00 2f 00 51 00 20 00 25 00 41 00 50 00 50 00 44 00 41 00 54 00 41 00 25 00 5c 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 5c 00 52 00 65 00 63 00 65 00 6e 00 74 00 5c 00 43 00 75 00 73 00 74 00 6f 00 6d 00 44 00 65 00 73 00 74 00 69 00 6e 00 61 00 74 00 69 00 6f 00 6e 00 73 00 5c 00 2a 00))}
+		$s4 = {((64 65 6c 20 2f 46 20 2f 51 20 25 41 50 50 44 41 54 41 25 5c 4d 69 63 72 6f 73 6f 66 74 5c 57 69 6e 64 6f 77 73 5c 52 65 63 65 6e 74 5c 41 75 74 6f 6d 61 74 69 63 44 65 73 74 69 6e 61 74 69 6f 6e 73 5c 2a) | (64 00 65 00 6c 00 20 00 2f 00 46 00 20 00 2f 00 51 00 20 00 25 00 41 00 50 00 50 00 44 00 41 00 54 00 41 00 25 00 5c 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 5c 00 52 00 65 00 63 00 65 00 6e 00 74 00 5c 00 41 00 75 00 74 00 6f 00 6d 00 61 00 74 00 69 00 63 00 44 00 65 00 73 00 74 00 69 00 6e 00 61 00 74 00 69 00 6f 00 6e 00 73 00 5c 00 2a 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 2 of them
+}
+
+rule INDICATOR_SUSPICIOUS_DeleteWinDefenderQuarantineFiles : hardened limited
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects executables embedding anti-forensic artifacts of deleting Windows defender quarantine files"
+
+	strings:
+		$s1 = {((72 6d 64 69 72 20 43 3a 5c 50 72 6f 67 72 61 6d 44 61 74 61 5c 4d 69 63 72 6f 73 6f 66 74 5c 57 69 6e 64 6f 77 73 20 44 65 66 65 6e 64 65 72 5c 51 75 61 72 61 6e 74 69 6e 65 5c 45 6e 74 72 69 65 73 20 2f 53) | (72 00 6d 00 64 00 69 00 72 00 20 00 43 00 3a 00 5c 00 50 00 72 00 6f 00 67 00 72 00 61 00 6d 00 44 00 61 00 74 00 61 00 5c 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 44 00 65 00 66 00 65 00 6e 00 64 00 65 00 72 00 5c 00 51 00 75 00 61 00 72 00 61 00 6e 00 74 00 69 00 6e 00 65 00 5c 00 45 00 6e 00 74 00 72 00 69 00 65 00 73 00 20 00 2f 00 53 00))}
+		$s2 = {((72 6d 64 69 72 20 43 3a 5c 50 72 6f 67 72 61 6d 44 61 74 61 5c 4d 69 63 72 6f 73 6f 66 74 5c 57 69 6e 64 6f 77 73 20 44 65 66 65 6e 64 65 72 5c 51 75 61 72 61 6e 74 69 6e 65 5c 52 65 73 6f 75 72 63 65 73 20 2f 53) | (72 00 6d 00 64 00 69 00 72 00 20 00 43 00 3a 00 5c 00 50 00 72 00 6f 00 67 00 72 00 61 00 6d 00 44 00 61 00 74 00 61 00 5c 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 44 00 65 00 66 00 65 00 6e 00 64 00 65 00 72 00 5c 00 51 00 75 00 61 00 72 00 61 00 6e 00 74 00 69 00 6e 00 65 00 5c 00 52 00 65 00 73 00 6f 00 75 00 72 00 63 00 65 00 73 00 20 00 2f 00 53 00))}
+		$s3 = {((72 6d 64 69 72 20 43 3a 5c 50 72 6f 67 72 61 6d 44 61 74 61 5c 4d 69 63 72 6f 73 6f 66 74 5c 57 69 6e 64 6f 77 73 20 44 65 66 65 6e 64 65 72 5c 51 75 61 72 61 6e 74 69 6e 65 5c 52 65 73 6f 75 72 63 65 44 61 74 61 20 2f 53) | (72 00 6d 00 64 00 69 00 72 00 20 00 43 00 3a 00 5c 00 50 00 72 00 6f 00 67 00 72 00 61 00 6d 00 44 00 61 00 74 00 61 00 5c 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 44 00 65 00 66 00 65 00 6e 00 64 00 65 00 72 00 5c 00 51 00 75 00 61 00 72 00 61 00 6e 00 74 00 69 00 6e 00 65 00 5c 00 52 00 65 00 73 00 6f 00 75 00 72 00 63 00 65 00 44 00 61 00 74 00 61 00 20 00 2f 00 53 00))}
+		$r1 = {((72 6d 64 69 72) | (72 00 6d 00 64 00 69 00 72 00))}
+		$p1 = {((4d 69 63 72 6f 73 6f 66 74 5c 57 69 6e 64 6f 77 73 20 44 65 66 65 6e 64 65 72 5c 51 75 61 72 61 6e 74 69 6e 65 5c 45 6e 74 72 69 65 73 20 2f 53) | (4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 44 00 65 00 66 00 65 00 6e 00 64 00 65 00 72 00 5c 00 51 00 75 00 61 00 72 00 61 00 6e 00 74 00 69 00 6e 00 65 00 5c 00 45 00 6e 00 74 00 72 00 69 00 65 00 73 00 20 00 2f 00 53 00))}
+		$p2 = {((4d 69 63 72 6f 73 6f 66 74 5c 57 69 6e 64 6f 77 73 20 44 65 66 65 6e 64 65 72 5c 51 75 61 72 61 6e 74 69 6e 65 5c 52 65 73 6f 75 72 63 65 73 20 2f 53) | (4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 44 00 65 00 66 00 65 00 6e 00 64 00 65 00 72 00 5c 00 51 00 75 00 61 00 72 00 61 00 6e 00 74 00 69 00 6e 00 65 00 5c 00 52 00 65 00 73 00 6f 00 75 00 72 00 63 00 65 00 73 00 20 00 2f 00 53 00))}
+		$p3 = {((4d 69 63 72 6f 73 6f 66 74 5c 57 69 6e 64 6f 77 73 20 44 65 66 65 6e 64 65 72 5c 51 75 61 72 61 6e 74 69 6e 65 5c 52 65 73 6f 75 72 63 65 44 61 74 61 20 2f 53) | (4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 44 00 65 00 66 00 65 00 6e 00 64 00 65 00 72 00 5c 00 51 00 75 00 61 00 72 00 61 00 6e 00 74 00 69 00 6e 00 65 00 5c 00 52 00 65 00 73 00 6f 00 75 00 72 00 63 00 65 00 44 00 61 00 74 00 61 00 20 00 2f 00 53 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and ( 2 of ( $s* ) or ( 1 of ( $r* ) and 2 of ( $p* ) ) )
+}
+
+rule INDICATOR_SUSPICIOUS_DeleteShimCache : hardened limited
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects executables embedding anti-forensic artifacts of deleting shim cache"
+
+	strings:
+		$s1 = {((52 75 6e 64 6c 6c 33 32 2e 65 78 65 20 61 70 70 68 65 6c 70 2e 64 6c 6c 2c 53 68 69 6d 46 6c 75 73 68 43 61 63 68 65) | (52 00 75 00 6e 00 64 00 6c 00 6c 00 33 00 32 00 2e 00 65 00 78 00 65 00 20 00 61 00 70 00 70 00 68 00 65 00 6c 00 70 00 2e 00 64 00 6c 00 6c 00 2c 00 53 00 68 00 69 00 6d 00 46 00 6c 00 75 00 73 00 68 00 43 00 61 00 63 00 68 00 65 00))}
+		$s2 = {((52 75 6e 64 6c 6c 33 32 20 61 70 70 68 65 6c 70 2e 64 6c 6c 2c 53 68 69 6d 46 6c 75 73 68 43 61 63 68 65) | (52 00 75 00 6e 00 64 00 6c 00 6c 00 33 00 32 00 20 00 61 00 70 00 70 00 68 00 65 00 6c 00 70 00 2e 00 64 00 6c 00 6c 00 2c 00 53 00 68 00 69 00 6d 00 46 00 6c 00 75 00 73 00 68 00 43 00 61 00 63 00 68 00 65 00))}
+		$m1 = {((2e 64 6c 6c 2c 53 68 69 6d 46 6c 75 73 68 43 61 63 68 65) | (2e 00 64 00 6c 00 6c 00 2c 00 53 00 68 00 69 00 6d 00 46 00 6c 00 75 00 73 00 68 00 43 00 61 00 63 00 68 00 65 00))}
+		$m2 = {((72 75 6e 64 6c 6c 33 32) | (72 00 75 00 6e 00 64 00 6c 00 6c 00 33 00 32 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and ( 1 of ( $s* ) or all of ( $m* ) )
+}
+
+rule INDICATOR_SUSPICIOUS_ShredFileSteps : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects executables embedding/copying file shredding steps"
+
+	strings:
+		$s1 = { 55 00 00 00 aa 00 00 00 92 49 24 00 49 24 92 00
                 24 92 49 00 00 00 00 00 11 00 00 00 22 00 00 00
                 33 00 00 00 44 00 00 00 66 00 00 00 88 00 00 00
                 99 00 00 00 bb 00 00 00 cc 00 00 00 dd 00 00 00
                 ee 00 00 00 ff 00 00 00 6d b6 db 00 b6 db 6d 00
                 db 6d b6 }
-    condition:
-        uint16(0) == 0x5a4d and all of them
+
+	condition:
+		uint16( 0 ) == 0x5a4d and all of them
 }
 
-rule INDICATOR_SUSPICIOUS_EXE_TransferSh_URL {
-    meta:
-        author = "ditekSHen"
-        description = "Detects files referencing the transfer.sh file sharing website"
-    strings:
-        $s1 = "//transfer.sh/get/" ascii wide nocase
-    condition:
-        uint16(0) == 0x5a4d and 1 of them
+rule INDICATOR_SUSPICIOUS_EXE_TransferSh_URL : hardened limited
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects files referencing the transfer.sh file sharing website"
+
+	strings:
+		$s1 = {((2f 2f 74 72 61 6e 73 66 65 72 2e 73 68 2f 67 65 74 2f) | (2f 00 2f 00 74 00 72 00 61 00 6e 00 73 00 66 00 65 00 72 00 2e 00 73 00 68 00 2f 00 67 00 65 00 74 00 2f 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 1 of them
 }
 
-rule INDICATOR_SUSPICIOUS_EXE_References_AdsBlocker_Browser_Extension_IDs {
-    meta:
-        author = "ditekSHen"
-        description = "Detect executables referencing considerable number of Ads blocking browser extension IDs"
-    strings:
-        $s1 = "gighmmpiobklfepjocnamgkkbiglidom" ascii wide nocase // AdBlock
-        $s2 = "cfhdojbkjhnklbpkdaibdccddilifddb" ascii wide nocase // Adblock Plus
-        $s3 = "cjpalhdlnbpafiamejdnhcphjbkeiagm" ascii wide nocase // uBlock Origin
-        $s4 = "epcnnfbjfcgphgdmggkamkmgojdagdnn" ascii wide nocase // uBlock
-        $s5 = "kacljcbejojnapnmiifgckbafkojcncf" ascii wide nocase // Ad-Blocker
-        $s6 = "gginmiamniniinhbipmknjiefidjlnob" ascii wide nocase // Easy AdBlocker
-        $s7 = "alplpnakfeabeiebipdmaenpmbgknjce" ascii wide nocase // Adblocker for Chrome - NoAds
-        $s8 = "ohahllgiabjaoigichmmfljhkcfikeof" ascii wide nocase // AdBlocker Ultimate
-        $s9 = "lmiknjkanfacinilblfjegkpajpcpjce" ascii wide nocase // uBlocker
-        $s10 = "lalfpjdbhpmnhfofkckdpkljeilmogfl" ascii wide nocase // Hola ad remover
-	$s11 = "ddkjiahejlhfcafbddmgiahcphecmpfh" ascii wide nocase // uBlock Origin Lite (MV3)
-	$s12 = "bgnkhhnnamicmpeenaelnjfhikgbkllg" ascii wide nocase  // AdGuard
-	$s13 = "odfafepnkmbhccpbejgmiehpchacaeak" ascii wide nocase // uBlock Origin - Microsoft Edge addons store
-	$s14 = "uBlock0@raymondhill.net.xpi" ascii wide nocase // uBlock Origin - Firefox
-	$s15 = "uBOLite@raymondhill.net.xpi" ascii wide nocase // uBlock Origin lite - Firefox
-	$s16 = "adguardadblocker@adguard.com.xpi" ascii wide nocase // AdGuard - Firefox
-    condition:
-        (uint16(0) == 0x5a4d and 5 of them) or (7 of them)
+rule INDICATOR_SUSPICIOUS_EXE_References_AdsBlocker_Browser_Extension_IDs : hardened limited
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detect executables referencing considerable number of Ads blocking browser extension IDs"
+
+	strings:
+		$s1 = {((67 69 67 68 6d 6d 70 69 6f 62 6b 6c 66 65 70 6a 6f 63 6e 61 6d 67 6b 6b 62 69 67 6c 69 64 6f 6d) | (67 00 69 00 67 00 68 00 6d 00 6d 00 70 00 69 00 6f 00 62 00 6b 00 6c 00 66 00 65 00 70 00 6a 00 6f 00 63 00 6e 00 61 00 6d 00 67 00 6b 00 6b 00 62 00 69 00 67 00 6c 00 69 00 64 00 6f 00 6d 00))}
+		$s2 = {((63 66 68 64 6f 6a 62 6b 6a 68 6e 6b 6c 62 70 6b 64 61 69 62 64 63 63 64 64 69 6c 69 66 64 64 62) | (63 00 66 00 68 00 64 00 6f 00 6a 00 62 00 6b 00 6a 00 68 00 6e 00 6b 00 6c 00 62 00 70 00 6b 00 64 00 61 00 69 00 62 00 64 00 63 00 63 00 64 00 64 00 69 00 6c 00 69 00 66 00 64 00 64 00 62 00))}
+		$s3 = {((63 6a 70 61 6c 68 64 6c 6e 62 70 61 66 69 61 6d 65 6a 64 6e 68 63 70 68 6a 62 6b 65 69 61 67 6d) | (63 00 6a 00 70 00 61 00 6c 00 68 00 64 00 6c 00 6e 00 62 00 70 00 61 00 66 00 69 00 61 00 6d 00 65 00 6a 00 64 00 6e 00 68 00 63 00 70 00 68 00 6a 00 62 00 6b 00 65 00 69 00 61 00 67 00 6d 00))}
+		$s4 = {((65 70 63 6e 6e 66 62 6a 66 63 67 70 68 67 64 6d 67 67 6b 61 6d 6b 6d 67 6f 6a 64 61 67 64 6e 6e) | (65 00 70 00 63 00 6e 00 6e 00 66 00 62 00 6a 00 66 00 63 00 67 00 70 00 68 00 67 00 64 00 6d 00 67 00 67 00 6b 00 61 00 6d 00 6b 00 6d 00 67 00 6f 00 6a 00 64 00 61 00 67 00 64 00 6e 00 6e 00))}
+		$s5 = {((6b 61 63 6c 6a 63 62 65 6a 6f 6a 6e 61 70 6e 6d 69 69 66 67 63 6b 62 61 66 6b 6f 6a 63 6e 63 66) | (6b 00 61 00 63 00 6c 00 6a 00 63 00 62 00 65 00 6a 00 6f 00 6a 00 6e 00 61 00 70 00 6e 00 6d 00 69 00 69 00 66 00 67 00 63 00 6b 00 62 00 61 00 66 00 6b 00 6f 00 6a 00 63 00 6e 00 63 00 66 00))}
+		$s6 = {((67 67 69 6e 6d 69 61 6d 6e 69 6e 69 69 6e 68 62 69 70 6d 6b 6e 6a 69 65 66 69 64 6a 6c 6e 6f 62) | (67 00 67 00 69 00 6e 00 6d 00 69 00 61 00 6d 00 6e 00 69 00 6e 00 69 00 69 00 6e 00 68 00 62 00 69 00 70 00 6d 00 6b 00 6e 00 6a 00 69 00 65 00 66 00 69 00 64 00 6a 00 6c 00 6e 00 6f 00 62 00))}
+		$s7 = {((61 6c 70 6c 70 6e 61 6b 66 65 61 62 65 69 65 62 69 70 64 6d 61 65 6e 70 6d 62 67 6b 6e 6a 63 65) | (61 00 6c 00 70 00 6c 00 70 00 6e 00 61 00 6b 00 66 00 65 00 61 00 62 00 65 00 69 00 65 00 62 00 69 00 70 00 64 00 6d 00 61 00 65 00 6e 00 70 00 6d 00 62 00 67 00 6b 00 6e 00 6a 00 63 00 65 00))}
+		$s8 = {((6f 68 61 68 6c 6c 67 69 61 62 6a 61 6f 69 67 69 63 68 6d 6d 66 6c 6a 68 6b 63 66 69 6b 65 6f 66) | (6f 00 68 00 61 00 68 00 6c 00 6c 00 67 00 69 00 61 00 62 00 6a 00 61 00 6f 00 69 00 67 00 69 00 63 00 68 00 6d 00 6d 00 66 00 6c 00 6a 00 68 00 6b 00 63 00 66 00 69 00 6b 00 65 00 6f 00 66 00))}
+		$s9 = {((6c 6d 69 6b 6e 6a 6b 61 6e 66 61 63 69 6e 69 6c 62 6c 66 6a 65 67 6b 70 61 6a 70 63 70 6a 63 65) | (6c 00 6d 00 69 00 6b 00 6e 00 6a 00 6b 00 61 00 6e 00 66 00 61 00 63 00 69 00 6e 00 69 00 6c 00 62 00 6c 00 66 00 6a 00 65 00 67 00 6b 00 70 00 61 00 6a 00 70 00 63 00 70 00 6a 00 63 00 65 00))}
+		$s10 = {((6c 61 6c 66 70 6a 64 62 68 70 6d 6e 68 66 6f 66 6b 63 6b 64 70 6b 6c 6a 65 69 6c 6d 6f 67 66 6c) | (6c 00 61 00 6c 00 66 00 70 00 6a 00 64 00 62 00 68 00 70 00 6d 00 6e 00 68 00 66 00 6f 00 66 00 6b 00 63 00 6b 00 64 00 70 00 6b 00 6c 00 6a 00 65 00 69 00 6c 00 6d 00 6f 00 67 00 66 00 6c 00))}
+		$s11 = {((64 64 6b 6a 69 61 68 65 6a 6c 68 66 63 61 66 62 64 64 6d 67 69 61 68 63 70 68 65 63 6d 70 66 68) | (64 00 64 00 6b 00 6a 00 69 00 61 00 68 00 65 00 6a 00 6c 00 68 00 66 00 63 00 61 00 66 00 62 00 64 00 64 00 6d 00 67 00 69 00 61 00 68 00 63 00 70 00 68 00 65 00 63 00 6d 00 70 00 66 00 68 00))}
+		$s12 = {((62 67 6e 6b 68 68 6e 6e 61 6d 69 63 6d 70 65 65 6e 61 65 6c 6e 6a 66 68 69 6b 67 62 6b 6c 6c 67) | (62 00 67 00 6e 00 6b 00 68 00 68 00 6e 00 6e 00 61 00 6d 00 69 00 63 00 6d 00 70 00 65 00 65 00 6e 00 61 00 65 00 6c 00 6e 00 6a 00 66 00 68 00 69 00 6b 00 67 00 62 00 6b 00 6c 00 6c 00 67 00))}
+		$s13 = {((6f 64 66 61 66 65 70 6e 6b 6d 62 68 63 63 70 62 65 6a 67 6d 69 65 68 70 63 68 61 63 61 65 61 6b) | (6f 00 64 00 66 00 61 00 66 00 65 00 70 00 6e 00 6b 00 6d 00 62 00 68 00 63 00 63 00 70 00 62 00 65 00 6a 00 67 00 6d 00 69 00 65 00 68 00 70 00 63 00 68 00 61 00 63 00 61 00 65 00 61 00 6b 00))}
+		$s14 = {((75 42 6c 6f 63 6b 30 40 72 61 79 6d 6f 6e 64 68 69 6c 6c 2e 6e 65 74 2e 78 70 69) | (75 00 42 00 6c 00 6f 00 63 00 6b 00 30 00 40 00 72 00 61 00 79 00 6d 00 6f 00 6e 00 64 00 68 00 69 00 6c 00 6c 00 2e 00 6e 00 65 00 74 00 2e 00 78 00 70 00 69 00))}
+		$s15 = {((75 42 4f 4c 69 74 65 40 72 61 79 6d 6f 6e 64 68 69 6c 6c 2e 6e 65 74 2e 78 70 69) | (75 00 42 00 4f 00 4c 00 69 00 74 00 65 00 40 00 72 00 61 00 79 00 6d 00 6f 00 6e 00 64 00 68 00 69 00 6c 00 6c 00 2e 00 6e 00 65 00 74 00 2e 00 78 00 70 00 69 00))}
+		$s16 = {((61 64 67 75 61 72 64 61 64 62 6c 6f 63 6b 65 72 40 61 64 67 75 61 72 64 2e 63 6f 6d 2e 78 70 69) | (61 00 64 00 67 00 75 00 61 00 72 00 64 00 61 00 64 00 62 00 6c 00 6f 00 63 00 6b 00 65 00 72 00 40 00 61 00 64 00 67 00 75 00 61 00 72 00 64 00 2e 00 63 00 6f 00 6d 00 2e 00 78 00 70 00 69 00))}
+
+	condition:
+		( uint16( 0 ) == 0x5a4d and 5 of them ) or ( 7 of them )
 }
 
-rule INDICATOR_SUSPICIOUS_EXE_References_PublicServiceInterface {
-    meta:
-        author = "ditekSHen"
-        description = "Detect executables referencing public and free service interface testing and dev services as means of CnC"
-    strings:
-        $s1 = "mockbin.org/bin" ascii wide nocase
-        $s2 = "run.mocky.io/v3" ascii wide nocase
-        $s3 = "webhook.site/" ascii wide nocase
-        $s4 = "devtunnels.ms/" ascii wide nocase
-    condition:
-        (uint16(0) == 0x5a4d or uint16(0) == 0x457f or uint16(0) == 0xfacf) and 1 of them
+rule INDICATOR_SUSPICIOUS_EXE_References_PublicServiceInterface : hardened limited
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detect executables referencing public and free service interface testing and dev services as means of CnC"
+
+	strings:
+		$s1 = {((6d 6f 63 6b 62 69 6e 2e 6f 72 67 2f 62 69 6e) | (6d 00 6f 00 63 00 6b 00 62 00 69 00 6e 00 2e 00 6f 00 72 00 67 00 2f 00 62 00 69 00 6e 00))}
+		$s2 = {((72 75 6e 2e 6d 6f 63 6b 79 2e 69 6f 2f 76 33) | (72 00 75 00 6e 00 2e 00 6d 00 6f 00 63 00 6b 00 79 00 2e 00 69 00 6f 00 2f 00 76 00 33 00))}
+		$s3 = {((77 65 62 68 6f 6f 6b 2e 73 69 74 65 2f) | (77 00 65 00 62 00 68 00 6f 00 6f 00 6b 00 2e 00 73 00 69 00 74 00 65 00 2f 00))}
+		$s4 = {((64 65 76 74 75 6e 6e 65 6c 73 2e 6d 73 2f) | (64 00 65 00 76 00 74 00 75 00 6e 00 6e 00 65 00 6c 00 73 00 2e 00 6d 00 73 00 2f 00))}
+
+	condition:
+		( uint16( 0 ) == 0x5a4d or uint16( 0 ) == 0x457f or uint16( 0 ) == 0xfacf ) and 1 of them
 }
 
-rule INDICATOR_SUSPICIOUS_EXE_SandboxComputerNames {
-    meta:
-        author = "ditekSHen"
-        description = "Detects executables containing possible sandbox analysis VM names"
-    strings:
-        $s1 = "bee7370c-8c0c-4" fullword ascii wide nocase
-        $s2 = "desktop-nakffmt" fullword ascii wide nocase
-        $s3 = "win-5e07cos9alr" fullword ascii wide nocase
-        $s4 = "b30f0242-1c6a-4" fullword ascii wide nocase
-        $s5 = "desktop-vrsqlag" fullword ascii wide nocase
-        $s6 = "desktop-d019gdm" fullword ascii wide nocase
-        $s7 = "desktop-wi8clet" fullword ascii wide nocase
-        $s8 = "server1" fullword ascii wide nocase
-        $s9 = "lisa-pc" fullword ascii wide nocase
-        $s10 = "john-pc" fullword ascii wide nocase
-        $s11 = "desktop-b0t93d6" fullword ascii wide nocase
-        $s12 = "desktop-1pykp29" fullword ascii wide nocase
-        $s13 = "desktop-1y2433r" fullword ascii wide nocase
-        $s14 = "wileypc" fullword ascii wide nocase
-        $s15 = "6c4e733f-c2d9-4" fullword ascii wide nocase
-        $s16 = "ralphs-pc" fullword ascii wide nocase
-        $s17 = "desktop-wg3myjs" fullword ascii wide nocase
-        $s18 = "desktop-7xc6gez" fullword ascii wide nocase
-        $s19 = "desktop-5ov9s0o" fullword ascii wide nocase
-        $s20 = "oreleepc" fullword ascii wide nocase
-        $s21 = "archibaldpc" fullword ascii wide nocase
-        $s22 = "julia-pc" fullword ascii wide nocase
-        $s23 = "compname_5076" fullword ascii wide nocase
-        $s24 = "desktop-vkeons4" fullword ascii wide nocase
-        $s25 = "NTT-EFF-2W11WSS" fullword ascii wide nocase
-    condition:
-       uint16(0) == 0x5a4d and 10 of them
+rule INDICATOR_SUSPICIOUS_EXE_SandboxComputerNames : hardened limited
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects executables containing possible sandbox analysis VM names"
+
+	strings:
+		$s1 = {((62 65 65 37 33 37 30 63 2d 38 63 30 63 2d 34) | (62 00 65 00 65 00 37 00 33 00 37 00 30 00 63 00 2d 00 38 00 63 00 30 00 63 00 2d 00 34 00))}
+		$s2 = {((64 65 73 6b 74 6f 70 2d 6e 61 6b 66 66 6d 74) | (64 00 65 00 73 00 6b 00 74 00 6f 00 70 00 2d 00 6e 00 61 00 6b 00 66 00 66 00 6d 00 74 00))}
+		$s3 = {((77 69 6e 2d 35 65 30 37 63 6f 73 39 61 6c 72) | (77 00 69 00 6e 00 2d 00 35 00 65 00 30 00 37 00 63 00 6f 00 73 00 39 00 61 00 6c 00 72 00))}
+		$s4 = {((62 33 30 66 30 32 34 32 2d 31 63 36 61 2d 34) | (62 00 33 00 30 00 66 00 30 00 32 00 34 00 32 00 2d 00 31 00 63 00 36 00 61 00 2d 00 34 00))}
+		$s5 = {((64 65 73 6b 74 6f 70 2d 76 72 73 71 6c 61 67) | (64 00 65 00 73 00 6b 00 74 00 6f 00 70 00 2d 00 76 00 72 00 73 00 71 00 6c 00 61 00 67 00))}
+		$s6 = {((64 65 73 6b 74 6f 70 2d 64 30 31 39 67 64 6d) | (64 00 65 00 73 00 6b 00 74 00 6f 00 70 00 2d 00 64 00 30 00 31 00 39 00 67 00 64 00 6d 00))}
+		$s7 = {((64 65 73 6b 74 6f 70 2d 77 69 38 63 6c 65 74) | (64 00 65 00 73 00 6b 00 74 00 6f 00 70 00 2d 00 77 00 69 00 38 00 63 00 6c 00 65 00 74 00))}
+		$s8 = {((73 65 72 76 65 72 31) | (73 00 65 00 72 00 76 00 65 00 72 00 31 00))}
+		$s9 = {((6c 69 73 61 2d 70 63) | (6c 00 69 00 73 00 61 00 2d 00 70 00 63 00))}
+		$s10 = {((6a 6f 68 6e 2d 70 63) | (6a 00 6f 00 68 00 6e 00 2d 00 70 00 63 00))}
+		$s11 = {((64 65 73 6b 74 6f 70 2d 62 30 74 39 33 64 36) | (64 00 65 00 73 00 6b 00 74 00 6f 00 70 00 2d 00 62 00 30 00 74 00 39 00 33 00 64 00 36 00))}
+		$s12 = {((64 65 73 6b 74 6f 70 2d 31 70 79 6b 70 32 39) | (64 00 65 00 73 00 6b 00 74 00 6f 00 70 00 2d 00 31 00 70 00 79 00 6b 00 70 00 32 00 39 00))}
+		$s13 = {((64 65 73 6b 74 6f 70 2d 31 79 32 34 33 33 72) | (64 00 65 00 73 00 6b 00 74 00 6f 00 70 00 2d 00 31 00 79 00 32 00 34 00 33 00 33 00 72 00))}
+		$s14 = {((77 69 6c 65 79 70 63) | (77 00 69 00 6c 00 65 00 79 00 70 00 63 00))}
+		$s15 = {((36 63 34 65 37 33 33 66 2d 63 32 64 39 2d 34) | (36 00 63 00 34 00 65 00 37 00 33 00 33 00 66 00 2d 00 63 00 32 00 64 00 39 00 2d 00 34 00))}
+		$s16 = {((72 61 6c 70 68 73 2d 70 63) | (72 00 61 00 6c 00 70 00 68 00 73 00 2d 00 70 00 63 00))}
+		$s17 = {((64 65 73 6b 74 6f 70 2d 77 67 33 6d 79 6a 73) | (64 00 65 00 73 00 6b 00 74 00 6f 00 70 00 2d 00 77 00 67 00 33 00 6d 00 79 00 6a 00 73 00))}
+		$s18 = {((64 65 73 6b 74 6f 70 2d 37 78 63 36 67 65 7a) | (64 00 65 00 73 00 6b 00 74 00 6f 00 70 00 2d 00 37 00 78 00 63 00 36 00 67 00 65 00 7a 00))}
+		$s19 = {((64 65 73 6b 74 6f 70 2d 35 6f 76 39 73 30 6f) | (64 00 65 00 73 00 6b 00 74 00 6f 00 70 00 2d 00 35 00 6f 00 76 00 39 00 73 00 30 00 6f 00))}
+		$s20 = {((6f 72 65 6c 65 65 70 63) | (6f 00 72 00 65 00 6c 00 65 00 65 00 70 00 63 00))}
+		$s21 = {((61 72 63 68 69 62 61 6c 64 70 63) | (61 00 72 00 63 00 68 00 69 00 62 00 61 00 6c 00 64 00 70 00 63 00))}
+		$s22 = {((6a 75 6c 69 61 2d 70 63) | (6a 00 75 00 6c 00 69 00 61 00 2d 00 70 00 63 00))}
+		$s23 = {((63 6f 6d 70 6e 61 6d 65 5f 35 30 37 36) | (63 00 6f 00 6d 00 70 00 6e 00 61 00 6d 00 65 00 5f 00 35 00 30 00 37 00 36 00))}
+		$s24 = {((64 65 73 6b 74 6f 70 2d 76 6b 65 6f 6e 73 34) | (64 00 65 00 73 00 6b 00 74 00 6f 00 70 00 2d 00 76 00 6b 00 65 00 6f 00 6e 00 73 00 34 00))}
+		$s25 = {((4e 54 54 2d 45 46 46 2d 32 57 31 31 57 53 53) | (4e 00 54 00 54 00 2d 00 45 00 46 00 46 00 2d 00 32 00 57 00 31 00 31 00 57 00 53 00 53 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 10 of them
 }
 
-rule INDICATOR_SUSPICIOUS_EXE_SandboxSystemUUIDs {
-    meta:
-        author = "ditekSHen"
-        description = "Detects executables containing possible sandbox system UUIDs"
-    strings:
-        $s1 = "00000000-0000-0000-0000-000000000000" ascii wide nocase
-        $s2 = "00000000-0000-0000-0000-50E5493391EF" ascii wide nocase
-        $s3 = "00000000-0000-0000-0000-AC1F6BD048FE" ascii wide nocase
-        $s4 = "00000000-0000-0000-0000-AC1F6BD04972" ascii wide nocase
-        $s5 = "00000000-0000-0000-0000-AC1F6BD04986" ascii wide nocase
-        $s6 = "00000000-0000-0000-0000-AC1F6BD04D98" ascii wide nocase
-        $s7 = "02AD9898-FA37-11EB-AC55-1D0C0A67EA8A" ascii wide nocase
-        $s8 = "032E02B4-0499-05C3-0806-3C0700080009" ascii wide nocase
-        $s9 = "03DE0294-0480-05DE-1A06-350700080009" ascii wide nocase
-        $s10 = "050C3342-FADD-AEDF-EF24-C6454E1A73C9" ascii wide nocase
-        $s11 = "05790C00-3B21-11EA-8000-3CECEF4400D0" ascii wide nocase
-        $s12 = "07E42E42-F43D-3E1C-1C6B-9C7AC120F3B9" ascii wide nocase
-        $s13 = "08C1E400-3C56-11EA-8000-3CECEF43FEDE" ascii wide nocase
-        $s14 = "0934E336-72E4-4E6A-B3E5-383BD8E938C3" ascii wide nocase
-        $s15 = "11111111-2222-3333-4444-555555555555" ascii wide nocase
-        $s16 = "119602E8-92F9-BD4B-8979-DA682276D385" ascii wide nocase
-        $s17 = "12204D56-28C0-AB03-51B7-44A8B7525250" ascii wide nocase
-        $s18 = "12EE3342-87A2-32DE-A390-4C2DA4D512E9" ascii wide nocase
-        $s19 = "1D4D3342-D6C4-710C-98A3-9CC6571234D5" ascii wide nocase
-        $s20 = "2DD1B176-C043-49A4-830F-C623FFB88F3C" ascii wide nocase
-        $s21 = "2E6FB594-9D55-4424-8E74-CE25A25E36B0" ascii wide nocase
-        $s22 = "365B4000-3B25-11EA-8000-3CECEF44010C" ascii wide nocase
-        $s23 = "38813342-D7D0-DFC8-C56F-7FC9DFE5C972" ascii wide nocase
-        $s24 = "38AB3342-66B0-7175-0B23-F390B3728B78" ascii wide nocase
-        $s25 = "3A9F3342-D1F2-DF37-68AE-C10F60BFB462" ascii wide nocase
-        $s26 = "3F284CA4-8BDF-489B-A273-41B44D668F6D" ascii wide nocase
-        $s27 = "3F3C58D1-B4F2-4019-B2A2-2A500E96AF2E" ascii wide nocase
-        $s28 = "42A82042-3F13-512F-5E3D-6BF4FFFD8518" ascii wide nocase
-        $s29 = "44B94D56-65AB-DC02-86A0-98143A7423BF" ascii wide nocase
-        $s30 = "4729AEB0-FC07-11E3-9673-CE39E79C8A00" ascii wide nocase
-        $s31 = "481E2042-A1AF-D390-CE06-A8F783B1E76A" ascii wide nocase
-        $s32 = "48941AE9-D52F-11DF-BBDA-503734826431" ascii wide nocase
-        $s33 = "49434D53-0200-9036-2500-369025000C65" ascii wide nocase
-        $s34 = "49434D53-0200-9036-2500-369025003865" ascii wide nocase
-        $s35 = "49434D53-0200-9036-2500-369025003AF0" ascii wide nocase
-        $s36 = "49434D53-0200-9036-2500-36902500F022" ascii wide nocase
-        $s37 = "49434D53-0200-9065-2500-65902500E439" ascii wide nocase
-        $s38 = "4C4C4544-0050-3710-8058-CAC04F59344A" ascii wide nocase
-        $s39 = "4CB82042-BA8F-1748-C941-363C391CA7F3" ascii wide nocase
-        $s40 = "4D4DDC94-E06C-44F4-95FE-33A1ADA5AC27" ascii wide nocase
-        $s41 = "4DC32042-E601-F329-21C1-03F27564FD6C" ascii wide nocase
-        $s42 = "5BD24D56-789F-8468-7CDC-CAA7222CC121" ascii wide nocase
-        $s43 = "5E3E7FE0-2636-4CB7-84F5-8D2650FFEC0E" ascii wide nocase
-        $s44 = "5EBD2E42-1DB8-78A6-0EC3-031B661D5C57" ascii wide nocase
-        $s45 = "60C83342-0A97-928D-7316-5F1080A78E72" ascii wide nocase
-        $s46 = "63203342-0EB0-AA1A-4DF5-3FB37DBB0670" ascii wide nocase
-        $s47 = "63FA3342-31C7-4E8E-8089-DAFF6CE5E967" ascii wide nocase
-        $s48 = "6608003F-ECE4-494E-B07E-1C4615D1D93C" ascii wide nocase
-        $s49 = "67E595EB-54AC-4FF0-B5E3-3DA7C7B547E3" ascii wide nocase
-        $s50 = "6ECEAF72-3548-476C-BD8D-73134A9182C8" ascii wide nocase
-        $s51 = "6F3CA5EC-BEC9-4A4D-8274-11168F640058" ascii wide nocase
-        $s52 = "76122042-C286-FA81-F0A8-514CC507B250" ascii wide nocase
-        $s53 = "777D84B3-88D1-451C-93E4-D235177420A7" ascii wide nocase
-        $s54 = "79AF5279-16CF-4094-9758-F88A616D81B4" ascii wide nocase
-        $s55 = "7AB5C494-39F5-4941-9163-47F54D6D5016" ascii wide nocase
-        $s56 = "84FE3342-6C67-5FC6-5639-9B3CA3D775A1" ascii wide nocase
-        $s57 = "88DC3342-12E6-7D62-B0AE-C80E578E7B07" ascii wide nocase
-        $s58 = "8B4E8278-525C-7343-B825-280AEBCD3BCB" ascii wide nocase
-        $s59 = "8DA62042-8B59-B4E3-D232-38B29A10964A" ascii wide nocase
-        $s60 = "907A2A79-7116-4CB6-9FA5-E5A58C4587CD" ascii wide nocase
-        $s61 = "921E2042-70D3-F9F1-8CBD-B398A21F89C6" ascii wide nocase
-        $s62 = "96BB3342-6335-0FA8-BA29-E1BA5D8FEFBE" ascii wide nocase
-        $s63 = "9921DE3A-5C1A-DF11-9078-563412000026" ascii wide nocase
-        $s64 = "9961A120-E691-4FFE-B67B-F0E4115D5919" ascii wide nocase
-        $s65 = "9C6D1742-046D-BC94-ED09-C36F70CC9A91" ascii wide nocase
-        $s66 = "A15A930C-8251-9645-AF63-E45AD728C20C" ascii wide nocase
-        $s67 = "A7721742-BE24-8A1C-B859-D7F8251A83D3" ascii wide nocase
-        $s68 = "A9C83342-4800-0578-1EE8-BA26D2A678D2" ascii wide nocase
-        $s69 = "ACA69200-3C4C-11EA-8000-3CECEF4401AA" ascii wide nocase
-        $s70 = "ADEEEE9E-EF0A-6B84-B14B-B83A54AFC548" ascii wide nocase
-        $s71 = "AF1B2042-4B90-0000-A4E4-632A1C8C7EB1" ascii wide nocase
-        $s72 = "B1112042-52E8-E25B-3655-6A4F54155DBF" ascii wide nocase
-        $s73 = "B6464A2B-92C7-4B95-A2D0-E5410081B812" ascii wide nocase
-        $s74 = "BB233342-2E01-718F-D4A1-E7F69D026428" ascii wide nocase
-        $s75 = "BB64E044-87BA-C847-BC0A-C797D1A16A50" ascii wide nocase
-        $s76 = "BE784D56-81F5-2C8D-9D4B-5AB56F05D86E" ascii wide nocase
-        $s77 = "C249957A-AA08-4B21-933F-9271BEC63C85" ascii wide nocase
-        $s78 = "C6B32042-4EC3-6FDF-C725-6F63914DA7C7" ascii wide nocase
-        $s79 = "C7D23342-A5D4-68A1-59AC-CF40F735B363" ascii wide nocase
-        $s80 = "CC5B3F62-2A04-4D2E-A46C-AA41B7050712" ascii wide nocase
-        $s81 = "CE352E42-9339-8484-293A-BD50CDC639A5" ascii wide nocase
-        $s82 = "CEFC836C-8CB1-45A6-ADD7-209085EE2A57" ascii wide nocase
-        $s83 = "CF1BE00F-4AAF-455E-8DCD-B5B09B6BFA8F" ascii wide nocase
-        $s84 = "D2DC3342-396C-6737-A8F6-0C6673C1DE08" ascii wide nocase
-        $s85 = "D7382042-00A0-A6F0-1E51-FD1BBF06CD71" ascii wide nocase
-        $s86 = "D8C30328-1B06-4611-8E3C-E433F4F9794E" ascii wide nocase
-        $s87 = "D9142042-8F51-5EFF-D5F8-EE9AE3D1602A" ascii wide nocase
-        $s88 = "DBC22E42-59F7-1329-D9F2-E78A2EE5BD0D" ascii wide nocase
-        $s89 = "DBCC3514-FA57-477D-9D1F-1CAF4CC92D0F" ascii wide nocase
-        $s90 = "DD9C3342-FB80-9A31-EB04-5794E5AE2B4C" ascii wide nocase
-        $s91 = "DEAEB8CE-A573-9F48-BD40-62ED6C223F20" ascii wide nocase
-        $s92 = "E08DE9AA-C704-4261-B32D-57B2A3993518" ascii wide nocase
-        $s93 = "EADD1742-4807-00A0-F92E-CCD933E9D8C1" ascii wide nocase
-        $s94 = "EB16924B-FB6D-4FA1-8666-17B91F62FB37" ascii wide nocase
-        $s95 = "F3988356-32F5-4AE1-8D47-FD3B8BAFBD4C" ascii wide nocase
-        $s96 = "F5744000-3C78-11EA-8000-3CECEF43FEFE" ascii wide nocase
-        $s97 = "FA8C2042-205D-13B0-FCB5-C5CC55577A35" ascii wide nocase
-        $s98 = "FCE23342-91F1-EAFC-BA97-5AAE4509E173" ascii wide nocase
-        $s99 = "FE455D1A-BE27-4BA4-96C8-967A6D3A9661" ascii wide nocase
-        $s100 = "FE822042-A70C-D08B-F1D1-C207055A488F" ascii wide nocase
-        $s101 = "FED63342-E0D6-C669-D53F-253D696D74DA" ascii wide nocase
-        $s102 = "FF577B79-782E-0A4D-8568-B35A9B7EB76B" ascii wide nocase
-    condition:
-       uint16(0) == 0x5a4d and 10 of them
+rule INDICATOR_SUSPICIOUS_EXE_SandboxSystemUUIDs : hardened limited
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects executables containing possible sandbox system UUIDs"
+
+	strings:
+		$s1 = {((30 30 30 30 30 30 30 30 2d 30 30 30 30 2d 30 30 30 30 2d 30 30 30 30 2d 30 30 30 30 30 30 30 30 30 30 30 30) | (30 00 30 00 30 00 30 00 30 00 30 00 30 00 30 00 2d 00 30 00 30 00 30 00 30 00 2d 00 30 00 30 00 30 00 30 00 2d 00 30 00 30 00 30 00 30 00 2d 00 30 00 30 00 30 00 30 00 30 00 30 00 30 00 30 00 30 00 30 00 30 00 30 00))}
+		$s2 = {((30 30 30 30 30 30 30 30 2d 30 30 30 30 2d 30 30 30 30 2d 30 30 30 30 2d 35 30 45 35 34 39 33 33 39 31 45 46) | (30 00 30 00 30 00 30 00 30 00 30 00 30 00 30 00 2d 00 30 00 30 00 30 00 30 00 2d 00 30 00 30 00 30 00 30 00 2d 00 30 00 30 00 30 00 30 00 2d 00 35 00 30 00 45 00 35 00 34 00 39 00 33 00 33 00 39 00 31 00 45 00 46 00))}
+		$s3 = {((30 30 30 30 30 30 30 30 2d 30 30 30 30 2d 30 30 30 30 2d 30 30 30 30 2d 41 43 31 46 36 42 44 30 34 38 46 45) | (30 00 30 00 30 00 30 00 30 00 30 00 30 00 30 00 2d 00 30 00 30 00 30 00 30 00 2d 00 30 00 30 00 30 00 30 00 2d 00 30 00 30 00 30 00 30 00 2d 00 41 00 43 00 31 00 46 00 36 00 42 00 44 00 30 00 34 00 38 00 46 00 45 00))}
+		$s4 = {((30 30 30 30 30 30 30 30 2d 30 30 30 30 2d 30 30 30 30 2d 30 30 30 30 2d 41 43 31 46 36 42 44 30 34 39 37 32) | (30 00 30 00 30 00 30 00 30 00 30 00 30 00 30 00 2d 00 30 00 30 00 30 00 30 00 2d 00 30 00 30 00 30 00 30 00 2d 00 30 00 30 00 30 00 30 00 2d 00 41 00 43 00 31 00 46 00 36 00 42 00 44 00 30 00 34 00 39 00 37 00 32 00))}
+		$s5 = {((30 30 30 30 30 30 30 30 2d 30 30 30 30 2d 30 30 30 30 2d 30 30 30 30 2d 41 43 31 46 36 42 44 30 34 39 38 36) | (30 00 30 00 30 00 30 00 30 00 30 00 30 00 30 00 2d 00 30 00 30 00 30 00 30 00 2d 00 30 00 30 00 30 00 30 00 2d 00 30 00 30 00 30 00 30 00 2d 00 41 00 43 00 31 00 46 00 36 00 42 00 44 00 30 00 34 00 39 00 38 00 36 00))}
+		$s6 = {((30 30 30 30 30 30 30 30 2d 30 30 30 30 2d 30 30 30 30 2d 30 30 30 30 2d 41 43 31 46 36 42 44 30 34 44 39 38) | (30 00 30 00 30 00 30 00 30 00 30 00 30 00 30 00 2d 00 30 00 30 00 30 00 30 00 2d 00 30 00 30 00 30 00 30 00 2d 00 30 00 30 00 30 00 30 00 2d 00 41 00 43 00 31 00 46 00 36 00 42 00 44 00 30 00 34 00 44 00 39 00 38 00))}
+		$s7 = {((30 32 41 44 39 38 39 38 2d 46 41 33 37 2d 31 31 45 42 2d 41 43 35 35 2d 31 44 30 43 30 41 36 37 45 41 38 41) | (30 00 32 00 41 00 44 00 39 00 38 00 39 00 38 00 2d 00 46 00 41 00 33 00 37 00 2d 00 31 00 31 00 45 00 42 00 2d 00 41 00 43 00 35 00 35 00 2d 00 31 00 44 00 30 00 43 00 30 00 41 00 36 00 37 00 45 00 41 00 38 00 41 00))}
+		$s8 = {((30 33 32 45 30 32 42 34 2d 30 34 39 39 2d 30 35 43 33 2d 30 38 30 36 2d 33 43 30 37 30 30 30 38 30 30 30 39) | (30 00 33 00 32 00 45 00 30 00 32 00 42 00 34 00 2d 00 30 00 34 00 39 00 39 00 2d 00 30 00 35 00 43 00 33 00 2d 00 30 00 38 00 30 00 36 00 2d 00 33 00 43 00 30 00 37 00 30 00 30 00 30 00 38 00 30 00 30 00 30 00 39 00))}
+		$s9 = {((30 33 44 45 30 32 39 34 2d 30 34 38 30 2d 30 35 44 45 2d 31 41 30 36 2d 33 35 30 37 30 30 30 38 30 30 30 39) | (30 00 33 00 44 00 45 00 30 00 32 00 39 00 34 00 2d 00 30 00 34 00 38 00 30 00 2d 00 30 00 35 00 44 00 45 00 2d 00 31 00 41 00 30 00 36 00 2d 00 33 00 35 00 30 00 37 00 30 00 30 00 30 00 38 00 30 00 30 00 30 00 39 00))}
+		$s10 = {((30 35 30 43 33 33 34 32 2d 46 41 44 44 2d 41 45 44 46 2d 45 46 32 34 2d 43 36 34 35 34 45 31 41 37 33 43 39) | (30 00 35 00 30 00 43 00 33 00 33 00 34 00 32 00 2d 00 46 00 41 00 44 00 44 00 2d 00 41 00 45 00 44 00 46 00 2d 00 45 00 46 00 32 00 34 00 2d 00 43 00 36 00 34 00 35 00 34 00 45 00 31 00 41 00 37 00 33 00 43 00 39 00))}
+		$s11 = {((30 35 37 39 30 43 30 30 2d 33 42 32 31 2d 31 31 45 41 2d 38 30 30 30 2d 33 43 45 43 45 46 34 34 30 30 44 30) | (30 00 35 00 37 00 39 00 30 00 43 00 30 00 30 00 2d 00 33 00 42 00 32 00 31 00 2d 00 31 00 31 00 45 00 41 00 2d 00 38 00 30 00 30 00 30 00 2d 00 33 00 43 00 45 00 43 00 45 00 46 00 34 00 34 00 30 00 30 00 44 00 30 00))}
+		$s12 = {((30 37 45 34 32 45 34 32 2d 46 34 33 44 2d 33 45 31 43 2d 31 43 36 42 2d 39 43 37 41 43 31 32 30 46 33 42 39) | (30 00 37 00 45 00 34 00 32 00 45 00 34 00 32 00 2d 00 46 00 34 00 33 00 44 00 2d 00 33 00 45 00 31 00 43 00 2d 00 31 00 43 00 36 00 42 00 2d 00 39 00 43 00 37 00 41 00 43 00 31 00 32 00 30 00 46 00 33 00 42 00 39 00))}
+		$s13 = {((30 38 43 31 45 34 30 30 2d 33 43 35 36 2d 31 31 45 41 2d 38 30 30 30 2d 33 43 45 43 45 46 34 33 46 45 44 45) | (30 00 38 00 43 00 31 00 45 00 34 00 30 00 30 00 2d 00 33 00 43 00 35 00 36 00 2d 00 31 00 31 00 45 00 41 00 2d 00 38 00 30 00 30 00 30 00 2d 00 33 00 43 00 45 00 43 00 45 00 46 00 34 00 33 00 46 00 45 00 44 00 45 00))}
+		$s14 = {((30 39 33 34 45 33 33 36 2d 37 32 45 34 2d 34 45 36 41 2d 42 33 45 35 2d 33 38 33 42 44 38 45 39 33 38 43 33) | (30 00 39 00 33 00 34 00 45 00 33 00 33 00 36 00 2d 00 37 00 32 00 45 00 34 00 2d 00 34 00 45 00 36 00 41 00 2d 00 42 00 33 00 45 00 35 00 2d 00 33 00 38 00 33 00 42 00 44 00 38 00 45 00 39 00 33 00 38 00 43 00 33 00))}
+		$s15 = {((31 31 31 31 31 31 31 31 2d 32 32 32 32 2d 33 33 33 33 2d 34 34 34 34 2d 35 35 35 35 35 35 35 35 35 35 35 35) | (31 00 31 00 31 00 31 00 31 00 31 00 31 00 31 00 2d 00 32 00 32 00 32 00 32 00 2d 00 33 00 33 00 33 00 33 00 2d 00 34 00 34 00 34 00 34 00 2d 00 35 00 35 00 35 00 35 00 35 00 35 00 35 00 35 00 35 00 35 00 35 00 35 00))}
+		$s16 = {((31 31 39 36 30 32 45 38 2d 39 32 46 39 2d 42 44 34 42 2d 38 39 37 39 2d 44 41 36 38 32 32 37 36 44 33 38 35) | (31 00 31 00 39 00 36 00 30 00 32 00 45 00 38 00 2d 00 39 00 32 00 46 00 39 00 2d 00 42 00 44 00 34 00 42 00 2d 00 38 00 39 00 37 00 39 00 2d 00 44 00 41 00 36 00 38 00 32 00 32 00 37 00 36 00 44 00 33 00 38 00 35 00))}
+		$s17 = {((31 32 32 30 34 44 35 36 2d 32 38 43 30 2d 41 42 30 33 2d 35 31 42 37 2d 34 34 41 38 42 37 35 32 35 32 35 30) | (31 00 32 00 32 00 30 00 34 00 44 00 35 00 36 00 2d 00 32 00 38 00 43 00 30 00 2d 00 41 00 42 00 30 00 33 00 2d 00 35 00 31 00 42 00 37 00 2d 00 34 00 34 00 41 00 38 00 42 00 37 00 35 00 32 00 35 00 32 00 35 00 30 00))}
+		$s18 = {((31 32 45 45 33 33 34 32 2d 38 37 41 32 2d 33 32 44 45 2d 41 33 39 30 2d 34 43 32 44 41 34 44 35 31 32 45 39) | (31 00 32 00 45 00 45 00 33 00 33 00 34 00 32 00 2d 00 38 00 37 00 41 00 32 00 2d 00 33 00 32 00 44 00 45 00 2d 00 41 00 33 00 39 00 30 00 2d 00 34 00 43 00 32 00 44 00 41 00 34 00 44 00 35 00 31 00 32 00 45 00 39 00))}
+		$s19 = {((31 44 34 44 33 33 34 32 2d 44 36 43 34 2d 37 31 30 43 2d 39 38 41 33 2d 39 43 43 36 35 37 31 32 33 34 44 35) | (31 00 44 00 34 00 44 00 33 00 33 00 34 00 32 00 2d 00 44 00 36 00 43 00 34 00 2d 00 37 00 31 00 30 00 43 00 2d 00 39 00 38 00 41 00 33 00 2d 00 39 00 43 00 43 00 36 00 35 00 37 00 31 00 32 00 33 00 34 00 44 00 35 00))}
+		$s20 = {((32 44 44 31 42 31 37 36 2d 43 30 34 33 2d 34 39 41 34 2d 38 33 30 46 2d 43 36 32 33 46 46 42 38 38 46 33 43) | (32 00 44 00 44 00 31 00 42 00 31 00 37 00 36 00 2d 00 43 00 30 00 34 00 33 00 2d 00 34 00 39 00 41 00 34 00 2d 00 38 00 33 00 30 00 46 00 2d 00 43 00 36 00 32 00 33 00 46 00 46 00 42 00 38 00 38 00 46 00 33 00 43 00))}
+		$s21 = {((32 45 36 46 42 35 39 34 2d 39 44 35 35 2d 34 34 32 34 2d 38 45 37 34 2d 43 45 32 35 41 32 35 45 33 36 42 30) | (32 00 45 00 36 00 46 00 42 00 35 00 39 00 34 00 2d 00 39 00 44 00 35 00 35 00 2d 00 34 00 34 00 32 00 34 00 2d 00 38 00 45 00 37 00 34 00 2d 00 43 00 45 00 32 00 35 00 41 00 32 00 35 00 45 00 33 00 36 00 42 00 30 00))}
+		$s22 = {((33 36 35 42 34 30 30 30 2d 33 42 32 35 2d 31 31 45 41 2d 38 30 30 30 2d 33 43 45 43 45 46 34 34 30 31 30 43) | (33 00 36 00 35 00 42 00 34 00 30 00 30 00 30 00 2d 00 33 00 42 00 32 00 35 00 2d 00 31 00 31 00 45 00 41 00 2d 00 38 00 30 00 30 00 30 00 2d 00 33 00 43 00 45 00 43 00 45 00 46 00 34 00 34 00 30 00 31 00 30 00 43 00))}
+		$s23 = {((33 38 38 31 33 33 34 32 2d 44 37 44 30 2d 44 46 43 38 2d 43 35 36 46 2d 37 46 43 39 44 46 45 35 43 39 37 32) | (33 00 38 00 38 00 31 00 33 00 33 00 34 00 32 00 2d 00 44 00 37 00 44 00 30 00 2d 00 44 00 46 00 43 00 38 00 2d 00 43 00 35 00 36 00 46 00 2d 00 37 00 46 00 43 00 39 00 44 00 46 00 45 00 35 00 43 00 39 00 37 00 32 00))}
+		$s24 = {((33 38 41 42 33 33 34 32 2d 36 36 42 30 2d 37 31 37 35 2d 30 42 32 33 2d 46 33 39 30 42 33 37 32 38 42 37 38) | (33 00 38 00 41 00 42 00 33 00 33 00 34 00 32 00 2d 00 36 00 36 00 42 00 30 00 2d 00 37 00 31 00 37 00 35 00 2d 00 30 00 42 00 32 00 33 00 2d 00 46 00 33 00 39 00 30 00 42 00 33 00 37 00 32 00 38 00 42 00 37 00 38 00))}
+		$s25 = {((33 41 39 46 33 33 34 32 2d 44 31 46 32 2d 44 46 33 37 2d 36 38 41 45 2d 43 31 30 46 36 30 42 46 42 34 36 32) | (33 00 41 00 39 00 46 00 33 00 33 00 34 00 32 00 2d 00 44 00 31 00 46 00 32 00 2d 00 44 00 46 00 33 00 37 00 2d 00 36 00 38 00 41 00 45 00 2d 00 43 00 31 00 30 00 46 00 36 00 30 00 42 00 46 00 42 00 34 00 36 00 32 00))}
+		$s26 = {((33 46 32 38 34 43 41 34 2d 38 42 44 46 2d 34 38 39 42 2d 41 32 37 33 2d 34 31 42 34 34 44 36 36 38 46 36 44) | (33 00 46 00 32 00 38 00 34 00 43 00 41 00 34 00 2d 00 38 00 42 00 44 00 46 00 2d 00 34 00 38 00 39 00 42 00 2d 00 41 00 32 00 37 00 33 00 2d 00 34 00 31 00 42 00 34 00 34 00 44 00 36 00 36 00 38 00 46 00 36 00 44 00))}
+		$s27 = {((33 46 33 43 35 38 44 31 2d 42 34 46 32 2d 34 30 31 39 2d 42 32 41 32 2d 32 41 35 30 30 45 39 36 41 46 32 45) | (33 00 46 00 33 00 43 00 35 00 38 00 44 00 31 00 2d 00 42 00 34 00 46 00 32 00 2d 00 34 00 30 00 31 00 39 00 2d 00 42 00 32 00 41 00 32 00 2d 00 32 00 41 00 35 00 30 00 30 00 45 00 39 00 36 00 41 00 46 00 32 00 45 00))}
+		$s28 = {((34 32 41 38 32 30 34 32 2d 33 46 31 33 2d 35 31 32 46 2d 35 45 33 44 2d 36 42 46 34 46 46 46 44 38 35 31 38) | (34 00 32 00 41 00 38 00 32 00 30 00 34 00 32 00 2d 00 33 00 46 00 31 00 33 00 2d 00 35 00 31 00 32 00 46 00 2d 00 35 00 45 00 33 00 44 00 2d 00 36 00 42 00 46 00 34 00 46 00 46 00 46 00 44 00 38 00 35 00 31 00 38 00))}
+		$s29 = {((34 34 42 39 34 44 35 36 2d 36 35 41 42 2d 44 43 30 32 2d 38 36 41 30 2d 39 38 31 34 33 41 37 34 32 33 42 46) | (34 00 34 00 42 00 39 00 34 00 44 00 35 00 36 00 2d 00 36 00 35 00 41 00 42 00 2d 00 44 00 43 00 30 00 32 00 2d 00 38 00 36 00 41 00 30 00 2d 00 39 00 38 00 31 00 34 00 33 00 41 00 37 00 34 00 32 00 33 00 42 00 46 00))}
+		$s30 = {((34 37 32 39 41 45 42 30 2d 46 43 30 37 2d 31 31 45 33 2d 39 36 37 33 2d 43 45 33 39 45 37 39 43 38 41 30 30) | (34 00 37 00 32 00 39 00 41 00 45 00 42 00 30 00 2d 00 46 00 43 00 30 00 37 00 2d 00 31 00 31 00 45 00 33 00 2d 00 39 00 36 00 37 00 33 00 2d 00 43 00 45 00 33 00 39 00 45 00 37 00 39 00 43 00 38 00 41 00 30 00 30 00))}
+		$s31 = {((34 38 31 45 32 30 34 32 2d 41 31 41 46 2d 44 33 39 30 2d 43 45 30 36 2d 41 38 46 37 38 33 42 31 45 37 36 41) | (34 00 38 00 31 00 45 00 32 00 30 00 34 00 32 00 2d 00 41 00 31 00 41 00 46 00 2d 00 44 00 33 00 39 00 30 00 2d 00 43 00 45 00 30 00 36 00 2d 00 41 00 38 00 46 00 37 00 38 00 33 00 42 00 31 00 45 00 37 00 36 00 41 00))}
+		$s32 = {((34 38 39 34 31 41 45 39 2d 44 35 32 46 2d 31 31 44 46 2d 42 42 44 41 2d 35 30 33 37 33 34 38 32 36 34 33 31) | (34 00 38 00 39 00 34 00 31 00 41 00 45 00 39 00 2d 00 44 00 35 00 32 00 46 00 2d 00 31 00 31 00 44 00 46 00 2d 00 42 00 42 00 44 00 41 00 2d 00 35 00 30 00 33 00 37 00 33 00 34 00 38 00 32 00 36 00 34 00 33 00 31 00))}
+		$s33 = {((34 39 34 33 34 44 35 33 2d 30 32 30 30 2d 39 30 33 36 2d 32 35 30 30 2d 33 36 39 30 32 35 30 30 30 43 36 35) | (34 00 39 00 34 00 33 00 34 00 44 00 35 00 33 00 2d 00 30 00 32 00 30 00 30 00 2d 00 39 00 30 00 33 00 36 00 2d 00 32 00 35 00 30 00 30 00 2d 00 33 00 36 00 39 00 30 00 32 00 35 00 30 00 30 00 30 00 43 00 36 00 35 00))}
+		$s34 = {((34 39 34 33 34 44 35 33 2d 30 32 30 30 2d 39 30 33 36 2d 32 35 30 30 2d 33 36 39 30 32 35 30 30 33 38 36 35) | (34 00 39 00 34 00 33 00 34 00 44 00 35 00 33 00 2d 00 30 00 32 00 30 00 30 00 2d 00 39 00 30 00 33 00 36 00 2d 00 32 00 35 00 30 00 30 00 2d 00 33 00 36 00 39 00 30 00 32 00 35 00 30 00 30 00 33 00 38 00 36 00 35 00))}
+		$s35 = {((34 39 34 33 34 44 35 33 2d 30 32 30 30 2d 39 30 33 36 2d 32 35 30 30 2d 33 36 39 30 32 35 30 30 33 41 46 30) | (34 00 39 00 34 00 33 00 34 00 44 00 35 00 33 00 2d 00 30 00 32 00 30 00 30 00 2d 00 39 00 30 00 33 00 36 00 2d 00 32 00 35 00 30 00 30 00 2d 00 33 00 36 00 39 00 30 00 32 00 35 00 30 00 30 00 33 00 41 00 46 00 30 00))}
+		$s36 = {((34 39 34 33 34 44 35 33 2d 30 32 30 30 2d 39 30 33 36 2d 32 35 30 30 2d 33 36 39 30 32 35 30 30 46 30 32 32) | (34 00 39 00 34 00 33 00 34 00 44 00 35 00 33 00 2d 00 30 00 32 00 30 00 30 00 2d 00 39 00 30 00 33 00 36 00 2d 00 32 00 35 00 30 00 30 00 2d 00 33 00 36 00 39 00 30 00 32 00 35 00 30 00 30 00 46 00 30 00 32 00 32 00))}
+		$s37 = {((34 39 34 33 34 44 35 33 2d 30 32 30 30 2d 39 30 36 35 2d 32 35 30 30 2d 36 35 39 30 32 35 30 30 45 34 33 39) | (34 00 39 00 34 00 33 00 34 00 44 00 35 00 33 00 2d 00 30 00 32 00 30 00 30 00 2d 00 39 00 30 00 36 00 35 00 2d 00 32 00 35 00 30 00 30 00 2d 00 36 00 35 00 39 00 30 00 32 00 35 00 30 00 30 00 45 00 34 00 33 00 39 00))}
+		$s38 = {((34 43 34 43 34 35 34 34 2d 30 30 35 30 2d 33 37 31 30 2d 38 30 35 38 2d 43 41 43 30 34 46 35 39 33 34 34 41) | (34 00 43 00 34 00 43 00 34 00 35 00 34 00 34 00 2d 00 30 00 30 00 35 00 30 00 2d 00 33 00 37 00 31 00 30 00 2d 00 38 00 30 00 35 00 38 00 2d 00 43 00 41 00 43 00 30 00 34 00 46 00 35 00 39 00 33 00 34 00 34 00 41 00))}
+		$s39 = {((34 43 42 38 32 30 34 32 2d 42 41 38 46 2d 31 37 34 38 2d 43 39 34 31 2d 33 36 33 43 33 39 31 43 41 37 46 33) | (34 00 43 00 42 00 38 00 32 00 30 00 34 00 32 00 2d 00 42 00 41 00 38 00 46 00 2d 00 31 00 37 00 34 00 38 00 2d 00 43 00 39 00 34 00 31 00 2d 00 33 00 36 00 33 00 43 00 33 00 39 00 31 00 43 00 41 00 37 00 46 00 33 00))}
+		$s40 = {((34 44 34 44 44 43 39 34 2d 45 30 36 43 2d 34 34 46 34 2d 39 35 46 45 2d 33 33 41 31 41 44 41 35 41 43 32 37) | (34 00 44 00 34 00 44 00 44 00 43 00 39 00 34 00 2d 00 45 00 30 00 36 00 43 00 2d 00 34 00 34 00 46 00 34 00 2d 00 39 00 35 00 46 00 45 00 2d 00 33 00 33 00 41 00 31 00 41 00 44 00 41 00 35 00 41 00 43 00 32 00 37 00))}
+		$s41 = {((34 44 43 33 32 30 34 32 2d 45 36 30 31 2d 46 33 32 39 2d 32 31 43 31 2d 30 33 46 32 37 35 36 34 46 44 36 43) | (34 00 44 00 43 00 33 00 32 00 30 00 34 00 32 00 2d 00 45 00 36 00 30 00 31 00 2d 00 46 00 33 00 32 00 39 00 2d 00 32 00 31 00 43 00 31 00 2d 00 30 00 33 00 46 00 32 00 37 00 35 00 36 00 34 00 46 00 44 00 36 00 43 00))}
+		$s42 = {((35 42 44 32 34 44 35 36 2d 37 38 39 46 2d 38 34 36 38 2d 37 43 44 43 2d 43 41 41 37 32 32 32 43 43 31 32 31) | (35 00 42 00 44 00 32 00 34 00 44 00 35 00 36 00 2d 00 37 00 38 00 39 00 46 00 2d 00 38 00 34 00 36 00 38 00 2d 00 37 00 43 00 44 00 43 00 2d 00 43 00 41 00 41 00 37 00 32 00 32 00 32 00 43 00 43 00 31 00 32 00 31 00))}
+		$s43 = {((35 45 33 45 37 46 45 30 2d 32 36 33 36 2d 34 43 42 37 2d 38 34 46 35 2d 38 44 32 36 35 30 46 46 45 43 30 45) | (35 00 45 00 33 00 45 00 37 00 46 00 45 00 30 00 2d 00 32 00 36 00 33 00 36 00 2d 00 34 00 43 00 42 00 37 00 2d 00 38 00 34 00 46 00 35 00 2d 00 38 00 44 00 32 00 36 00 35 00 30 00 46 00 46 00 45 00 43 00 30 00 45 00))}
+		$s44 = {((35 45 42 44 32 45 34 32 2d 31 44 42 38 2d 37 38 41 36 2d 30 45 43 33 2d 30 33 31 42 36 36 31 44 35 43 35 37) | (35 00 45 00 42 00 44 00 32 00 45 00 34 00 32 00 2d 00 31 00 44 00 42 00 38 00 2d 00 37 00 38 00 41 00 36 00 2d 00 30 00 45 00 43 00 33 00 2d 00 30 00 33 00 31 00 42 00 36 00 36 00 31 00 44 00 35 00 43 00 35 00 37 00))}
+		$s45 = {((36 30 43 38 33 33 34 32 2d 30 41 39 37 2d 39 32 38 44 2d 37 33 31 36 2d 35 46 31 30 38 30 41 37 38 45 37 32) | (36 00 30 00 43 00 38 00 33 00 33 00 34 00 32 00 2d 00 30 00 41 00 39 00 37 00 2d 00 39 00 32 00 38 00 44 00 2d 00 37 00 33 00 31 00 36 00 2d 00 35 00 46 00 31 00 30 00 38 00 30 00 41 00 37 00 38 00 45 00 37 00 32 00))}
+		$s46 = {((36 33 32 30 33 33 34 32 2d 30 45 42 30 2d 41 41 31 41 2d 34 44 46 35 2d 33 46 42 33 37 44 42 42 30 36 37 30) | (36 00 33 00 32 00 30 00 33 00 33 00 34 00 32 00 2d 00 30 00 45 00 42 00 30 00 2d 00 41 00 41 00 31 00 41 00 2d 00 34 00 44 00 46 00 35 00 2d 00 33 00 46 00 42 00 33 00 37 00 44 00 42 00 42 00 30 00 36 00 37 00 30 00))}
+		$s47 = {((36 33 46 41 33 33 34 32 2d 33 31 43 37 2d 34 45 38 45 2d 38 30 38 39 2d 44 41 46 46 36 43 45 35 45 39 36 37) | (36 00 33 00 46 00 41 00 33 00 33 00 34 00 32 00 2d 00 33 00 31 00 43 00 37 00 2d 00 34 00 45 00 38 00 45 00 2d 00 38 00 30 00 38 00 39 00 2d 00 44 00 41 00 46 00 46 00 36 00 43 00 45 00 35 00 45 00 39 00 36 00 37 00))}
+		$s48 = {((36 36 30 38 30 30 33 46 2d 45 43 45 34 2d 34 39 34 45 2d 42 30 37 45 2d 31 43 34 36 31 35 44 31 44 39 33 43) | (36 00 36 00 30 00 38 00 30 00 30 00 33 00 46 00 2d 00 45 00 43 00 45 00 34 00 2d 00 34 00 39 00 34 00 45 00 2d 00 42 00 30 00 37 00 45 00 2d 00 31 00 43 00 34 00 36 00 31 00 35 00 44 00 31 00 44 00 39 00 33 00 43 00))}
+		$s49 = {((36 37 45 35 39 35 45 42 2d 35 34 41 43 2d 34 46 46 30 2d 42 35 45 33 2d 33 44 41 37 43 37 42 35 34 37 45 33) | (36 00 37 00 45 00 35 00 39 00 35 00 45 00 42 00 2d 00 35 00 34 00 41 00 43 00 2d 00 34 00 46 00 46 00 30 00 2d 00 42 00 35 00 45 00 33 00 2d 00 33 00 44 00 41 00 37 00 43 00 37 00 42 00 35 00 34 00 37 00 45 00 33 00))}
+		$s50 = {((36 45 43 45 41 46 37 32 2d 33 35 34 38 2d 34 37 36 43 2d 42 44 38 44 2d 37 33 31 33 34 41 39 31 38 32 43 38) | (36 00 45 00 43 00 45 00 41 00 46 00 37 00 32 00 2d 00 33 00 35 00 34 00 38 00 2d 00 34 00 37 00 36 00 43 00 2d 00 42 00 44 00 38 00 44 00 2d 00 37 00 33 00 31 00 33 00 34 00 41 00 39 00 31 00 38 00 32 00 43 00 38 00))}
+		$s51 = {((36 46 33 43 41 35 45 43 2d 42 45 43 39 2d 34 41 34 44 2d 38 32 37 34 2d 31 31 31 36 38 46 36 34 30 30 35 38) | (36 00 46 00 33 00 43 00 41 00 35 00 45 00 43 00 2d 00 42 00 45 00 43 00 39 00 2d 00 34 00 41 00 34 00 44 00 2d 00 38 00 32 00 37 00 34 00 2d 00 31 00 31 00 31 00 36 00 38 00 46 00 36 00 34 00 30 00 30 00 35 00 38 00))}
+		$s52 = {((37 36 31 32 32 30 34 32 2d 43 32 38 36 2d 46 41 38 31 2d 46 30 41 38 2d 35 31 34 43 43 35 30 37 42 32 35 30) | (37 00 36 00 31 00 32 00 32 00 30 00 34 00 32 00 2d 00 43 00 32 00 38 00 36 00 2d 00 46 00 41 00 38 00 31 00 2d 00 46 00 30 00 41 00 38 00 2d 00 35 00 31 00 34 00 43 00 43 00 35 00 30 00 37 00 42 00 32 00 35 00 30 00))}
+		$s53 = {((37 37 37 44 38 34 42 33 2d 38 38 44 31 2d 34 35 31 43 2d 39 33 45 34 2d 44 32 33 35 31 37 37 34 32 30 41 37) | (37 00 37 00 37 00 44 00 38 00 34 00 42 00 33 00 2d 00 38 00 38 00 44 00 31 00 2d 00 34 00 35 00 31 00 43 00 2d 00 39 00 33 00 45 00 34 00 2d 00 44 00 32 00 33 00 35 00 31 00 37 00 37 00 34 00 32 00 30 00 41 00 37 00))}
+		$s54 = {((37 39 41 46 35 32 37 39 2d 31 36 43 46 2d 34 30 39 34 2d 39 37 35 38 2d 46 38 38 41 36 31 36 44 38 31 42 34) | (37 00 39 00 41 00 46 00 35 00 32 00 37 00 39 00 2d 00 31 00 36 00 43 00 46 00 2d 00 34 00 30 00 39 00 34 00 2d 00 39 00 37 00 35 00 38 00 2d 00 46 00 38 00 38 00 41 00 36 00 31 00 36 00 44 00 38 00 31 00 42 00 34 00))}
+		$s55 = {((37 41 42 35 43 34 39 34 2d 33 39 46 35 2d 34 39 34 31 2d 39 31 36 33 2d 34 37 46 35 34 44 36 44 35 30 31 36) | (37 00 41 00 42 00 35 00 43 00 34 00 39 00 34 00 2d 00 33 00 39 00 46 00 35 00 2d 00 34 00 39 00 34 00 31 00 2d 00 39 00 31 00 36 00 33 00 2d 00 34 00 37 00 46 00 35 00 34 00 44 00 36 00 44 00 35 00 30 00 31 00 36 00))}
+		$s56 = {((38 34 46 45 33 33 34 32 2d 36 43 36 37 2d 35 46 43 36 2d 35 36 33 39 2d 39 42 33 43 41 33 44 37 37 35 41 31) | (38 00 34 00 46 00 45 00 33 00 33 00 34 00 32 00 2d 00 36 00 43 00 36 00 37 00 2d 00 35 00 46 00 43 00 36 00 2d 00 35 00 36 00 33 00 39 00 2d 00 39 00 42 00 33 00 43 00 41 00 33 00 44 00 37 00 37 00 35 00 41 00 31 00))}
+		$s57 = {((38 38 44 43 33 33 34 32 2d 31 32 45 36 2d 37 44 36 32 2d 42 30 41 45 2d 43 38 30 45 35 37 38 45 37 42 30 37) | (38 00 38 00 44 00 43 00 33 00 33 00 34 00 32 00 2d 00 31 00 32 00 45 00 36 00 2d 00 37 00 44 00 36 00 32 00 2d 00 42 00 30 00 41 00 45 00 2d 00 43 00 38 00 30 00 45 00 35 00 37 00 38 00 45 00 37 00 42 00 30 00 37 00))}
+		$s58 = {((38 42 34 45 38 32 37 38 2d 35 32 35 43 2d 37 33 34 33 2d 42 38 32 35 2d 32 38 30 41 45 42 43 44 33 42 43 42) | (38 00 42 00 34 00 45 00 38 00 32 00 37 00 38 00 2d 00 35 00 32 00 35 00 43 00 2d 00 37 00 33 00 34 00 33 00 2d 00 42 00 38 00 32 00 35 00 2d 00 32 00 38 00 30 00 41 00 45 00 42 00 43 00 44 00 33 00 42 00 43 00 42 00))}
+		$s59 = {((38 44 41 36 32 30 34 32 2d 38 42 35 39 2d 42 34 45 33 2d 44 32 33 32 2d 33 38 42 32 39 41 31 30 39 36 34 41) | (38 00 44 00 41 00 36 00 32 00 30 00 34 00 32 00 2d 00 38 00 42 00 35 00 39 00 2d 00 42 00 34 00 45 00 33 00 2d 00 44 00 32 00 33 00 32 00 2d 00 33 00 38 00 42 00 32 00 39 00 41 00 31 00 30 00 39 00 36 00 34 00 41 00))}
+		$s60 = {((39 30 37 41 32 41 37 39 2d 37 31 31 36 2d 34 43 42 36 2d 39 46 41 35 2d 45 35 41 35 38 43 34 35 38 37 43 44) | (39 00 30 00 37 00 41 00 32 00 41 00 37 00 39 00 2d 00 37 00 31 00 31 00 36 00 2d 00 34 00 43 00 42 00 36 00 2d 00 39 00 46 00 41 00 35 00 2d 00 45 00 35 00 41 00 35 00 38 00 43 00 34 00 35 00 38 00 37 00 43 00 44 00))}
+		$s61 = {((39 32 31 45 32 30 34 32 2d 37 30 44 33 2d 46 39 46 31 2d 38 43 42 44 2d 42 33 39 38 41 32 31 46 38 39 43 36) | (39 00 32 00 31 00 45 00 32 00 30 00 34 00 32 00 2d 00 37 00 30 00 44 00 33 00 2d 00 46 00 39 00 46 00 31 00 2d 00 38 00 43 00 42 00 44 00 2d 00 42 00 33 00 39 00 38 00 41 00 32 00 31 00 46 00 38 00 39 00 43 00 36 00))}
+		$s62 = {((39 36 42 42 33 33 34 32 2d 36 33 33 35 2d 30 46 41 38 2d 42 41 32 39 2d 45 31 42 41 35 44 38 46 45 46 42 45) | (39 00 36 00 42 00 42 00 33 00 33 00 34 00 32 00 2d 00 36 00 33 00 33 00 35 00 2d 00 30 00 46 00 41 00 38 00 2d 00 42 00 41 00 32 00 39 00 2d 00 45 00 31 00 42 00 41 00 35 00 44 00 38 00 46 00 45 00 46 00 42 00 45 00))}
+		$s63 = {((39 39 32 31 44 45 33 41 2d 35 43 31 41 2d 44 46 31 31 2d 39 30 37 38 2d 35 36 33 34 31 32 30 30 30 30 32 36) | (39 00 39 00 32 00 31 00 44 00 45 00 33 00 41 00 2d 00 35 00 43 00 31 00 41 00 2d 00 44 00 46 00 31 00 31 00 2d 00 39 00 30 00 37 00 38 00 2d 00 35 00 36 00 33 00 34 00 31 00 32 00 30 00 30 00 30 00 30 00 32 00 36 00))}
+		$s64 = {((39 39 36 31 41 31 32 30 2d 45 36 39 31 2d 34 46 46 45 2d 42 36 37 42 2d 46 30 45 34 31 31 35 44 35 39 31 39) | (39 00 39 00 36 00 31 00 41 00 31 00 32 00 30 00 2d 00 45 00 36 00 39 00 31 00 2d 00 34 00 46 00 46 00 45 00 2d 00 42 00 36 00 37 00 42 00 2d 00 46 00 30 00 45 00 34 00 31 00 31 00 35 00 44 00 35 00 39 00 31 00 39 00))}
+		$s65 = {((39 43 36 44 31 37 34 32 2d 30 34 36 44 2d 42 43 39 34 2d 45 44 30 39 2d 43 33 36 46 37 30 43 43 39 41 39 31) | (39 00 43 00 36 00 44 00 31 00 37 00 34 00 32 00 2d 00 30 00 34 00 36 00 44 00 2d 00 42 00 43 00 39 00 34 00 2d 00 45 00 44 00 30 00 39 00 2d 00 43 00 33 00 36 00 46 00 37 00 30 00 43 00 43 00 39 00 41 00 39 00 31 00))}
+		$s66 = {((41 31 35 41 39 33 30 43 2d 38 32 35 31 2d 39 36 34 35 2d 41 46 36 33 2d 45 34 35 41 44 37 32 38 43 32 30 43) | (41 00 31 00 35 00 41 00 39 00 33 00 30 00 43 00 2d 00 38 00 32 00 35 00 31 00 2d 00 39 00 36 00 34 00 35 00 2d 00 41 00 46 00 36 00 33 00 2d 00 45 00 34 00 35 00 41 00 44 00 37 00 32 00 38 00 43 00 32 00 30 00 43 00))}
+		$s67 = {((41 37 37 32 31 37 34 32 2d 42 45 32 34 2d 38 41 31 43 2d 42 38 35 39 2d 44 37 46 38 32 35 31 41 38 33 44 33) | (41 00 37 00 37 00 32 00 31 00 37 00 34 00 32 00 2d 00 42 00 45 00 32 00 34 00 2d 00 38 00 41 00 31 00 43 00 2d 00 42 00 38 00 35 00 39 00 2d 00 44 00 37 00 46 00 38 00 32 00 35 00 31 00 41 00 38 00 33 00 44 00 33 00))}
+		$s68 = {((41 39 43 38 33 33 34 32 2d 34 38 30 30 2d 30 35 37 38 2d 31 45 45 38 2d 42 41 32 36 44 32 41 36 37 38 44 32) | (41 00 39 00 43 00 38 00 33 00 33 00 34 00 32 00 2d 00 34 00 38 00 30 00 30 00 2d 00 30 00 35 00 37 00 38 00 2d 00 31 00 45 00 45 00 38 00 2d 00 42 00 41 00 32 00 36 00 44 00 32 00 41 00 36 00 37 00 38 00 44 00 32 00))}
+		$s69 = {((41 43 41 36 39 32 30 30 2d 33 43 34 43 2d 31 31 45 41 2d 38 30 30 30 2d 33 43 45 43 45 46 34 34 30 31 41 41) | (41 00 43 00 41 00 36 00 39 00 32 00 30 00 30 00 2d 00 33 00 43 00 34 00 43 00 2d 00 31 00 31 00 45 00 41 00 2d 00 38 00 30 00 30 00 30 00 2d 00 33 00 43 00 45 00 43 00 45 00 46 00 34 00 34 00 30 00 31 00 41 00 41 00))}
+		$s70 = {((41 44 45 45 45 45 39 45 2d 45 46 30 41 2d 36 42 38 34 2d 42 31 34 42 2d 42 38 33 41 35 34 41 46 43 35 34 38) | (41 00 44 00 45 00 45 00 45 00 45 00 39 00 45 00 2d 00 45 00 46 00 30 00 41 00 2d 00 36 00 42 00 38 00 34 00 2d 00 42 00 31 00 34 00 42 00 2d 00 42 00 38 00 33 00 41 00 35 00 34 00 41 00 46 00 43 00 35 00 34 00 38 00))}
+		$s71 = {((41 46 31 42 32 30 34 32 2d 34 42 39 30 2d 30 30 30 30 2d 41 34 45 34 2d 36 33 32 41 31 43 38 43 37 45 42 31) | (41 00 46 00 31 00 42 00 32 00 30 00 34 00 32 00 2d 00 34 00 42 00 39 00 30 00 2d 00 30 00 30 00 30 00 30 00 2d 00 41 00 34 00 45 00 34 00 2d 00 36 00 33 00 32 00 41 00 31 00 43 00 38 00 43 00 37 00 45 00 42 00 31 00))}
+		$s72 = {((42 31 31 31 32 30 34 32 2d 35 32 45 38 2d 45 32 35 42 2d 33 36 35 35 2d 36 41 34 46 35 34 31 35 35 44 42 46) | (42 00 31 00 31 00 31 00 32 00 30 00 34 00 32 00 2d 00 35 00 32 00 45 00 38 00 2d 00 45 00 32 00 35 00 42 00 2d 00 33 00 36 00 35 00 35 00 2d 00 36 00 41 00 34 00 46 00 35 00 34 00 31 00 35 00 35 00 44 00 42 00 46 00))}
+		$s73 = {((42 36 34 36 34 41 32 42 2d 39 32 43 37 2d 34 42 39 35 2d 41 32 44 30 2d 45 35 34 31 30 30 38 31 42 38 31 32) | (42 00 36 00 34 00 36 00 34 00 41 00 32 00 42 00 2d 00 39 00 32 00 43 00 37 00 2d 00 34 00 42 00 39 00 35 00 2d 00 41 00 32 00 44 00 30 00 2d 00 45 00 35 00 34 00 31 00 30 00 30 00 38 00 31 00 42 00 38 00 31 00 32 00))}
+		$s74 = {((42 42 32 33 33 33 34 32 2d 32 45 30 31 2d 37 31 38 46 2d 44 34 41 31 2d 45 37 46 36 39 44 30 32 36 34 32 38) | (42 00 42 00 32 00 33 00 33 00 33 00 34 00 32 00 2d 00 32 00 45 00 30 00 31 00 2d 00 37 00 31 00 38 00 46 00 2d 00 44 00 34 00 41 00 31 00 2d 00 45 00 37 00 46 00 36 00 39 00 44 00 30 00 32 00 36 00 34 00 32 00 38 00))}
+		$s75 = {((42 42 36 34 45 30 34 34 2d 38 37 42 41 2d 43 38 34 37 2d 42 43 30 41 2d 43 37 39 37 44 31 41 31 36 41 35 30) | (42 00 42 00 36 00 34 00 45 00 30 00 34 00 34 00 2d 00 38 00 37 00 42 00 41 00 2d 00 43 00 38 00 34 00 37 00 2d 00 42 00 43 00 30 00 41 00 2d 00 43 00 37 00 39 00 37 00 44 00 31 00 41 00 31 00 36 00 41 00 35 00 30 00))}
+		$s76 = {((42 45 37 38 34 44 35 36 2d 38 31 46 35 2d 32 43 38 44 2d 39 44 34 42 2d 35 41 42 35 36 46 30 35 44 38 36 45) | (42 00 45 00 37 00 38 00 34 00 44 00 35 00 36 00 2d 00 38 00 31 00 46 00 35 00 2d 00 32 00 43 00 38 00 44 00 2d 00 39 00 44 00 34 00 42 00 2d 00 35 00 41 00 42 00 35 00 36 00 46 00 30 00 35 00 44 00 38 00 36 00 45 00))}
+		$s77 = {((43 32 34 39 39 35 37 41 2d 41 41 30 38 2d 34 42 32 31 2d 39 33 33 46 2d 39 32 37 31 42 45 43 36 33 43 38 35) | (43 00 32 00 34 00 39 00 39 00 35 00 37 00 41 00 2d 00 41 00 41 00 30 00 38 00 2d 00 34 00 42 00 32 00 31 00 2d 00 39 00 33 00 33 00 46 00 2d 00 39 00 32 00 37 00 31 00 42 00 45 00 43 00 36 00 33 00 43 00 38 00 35 00))}
+		$s78 = {((43 36 42 33 32 30 34 32 2d 34 45 43 33 2d 36 46 44 46 2d 43 37 32 35 2d 36 46 36 33 39 31 34 44 41 37 43 37) | (43 00 36 00 42 00 33 00 32 00 30 00 34 00 32 00 2d 00 34 00 45 00 43 00 33 00 2d 00 36 00 46 00 44 00 46 00 2d 00 43 00 37 00 32 00 35 00 2d 00 36 00 46 00 36 00 33 00 39 00 31 00 34 00 44 00 41 00 37 00 43 00 37 00))}
+		$s79 = {((43 37 44 32 33 33 34 32 2d 41 35 44 34 2d 36 38 41 31 2d 35 39 41 43 2d 43 46 34 30 46 37 33 35 42 33 36 33) | (43 00 37 00 44 00 32 00 33 00 33 00 34 00 32 00 2d 00 41 00 35 00 44 00 34 00 2d 00 36 00 38 00 41 00 31 00 2d 00 35 00 39 00 41 00 43 00 2d 00 43 00 46 00 34 00 30 00 46 00 37 00 33 00 35 00 42 00 33 00 36 00 33 00))}
+		$s80 = {((43 43 35 42 33 46 36 32 2d 32 41 30 34 2d 34 44 32 45 2d 41 34 36 43 2d 41 41 34 31 42 37 30 35 30 37 31 32) | (43 00 43 00 35 00 42 00 33 00 46 00 36 00 32 00 2d 00 32 00 41 00 30 00 34 00 2d 00 34 00 44 00 32 00 45 00 2d 00 41 00 34 00 36 00 43 00 2d 00 41 00 41 00 34 00 31 00 42 00 37 00 30 00 35 00 30 00 37 00 31 00 32 00))}
+		$s81 = {((43 45 33 35 32 45 34 32 2d 39 33 33 39 2d 38 34 38 34 2d 32 39 33 41 2d 42 44 35 30 43 44 43 36 33 39 41 35) | (43 00 45 00 33 00 35 00 32 00 45 00 34 00 32 00 2d 00 39 00 33 00 33 00 39 00 2d 00 38 00 34 00 38 00 34 00 2d 00 32 00 39 00 33 00 41 00 2d 00 42 00 44 00 35 00 30 00 43 00 44 00 43 00 36 00 33 00 39 00 41 00 35 00))}
+		$s82 = {((43 45 46 43 38 33 36 43 2d 38 43 42 31 2d 34 35 41 36 2d 41 44 44 37 2d 32 30 39 30 38 35 45 45 32 41 35 37) | (43 00 45 00 46 00 43 00 38 00 33 00 36 00 43 00 2d 00 38 00 43 00 42 00 31 00 2d 00 34 00 35 00 41 00 36 00 2d 00 41 00 44 00 44 00 37 00 2d 00 32 00 30 00 39 00 30 00 38 00 35 00 45 00 45 00 32 00 41 00 35 00 37 00))}
+		$s83 = {((43 46 31 42 45 30 30 46 2d 34 41 41 46 2d 34 35 35 45 2d 38 44 43 44 2d 42 35 42 30 39 42 36 42 46 41 38 46) | (43 00 46 00 31 00 42 00 45 00 30 00 30 00 46 00 2d 00 34 00 41 00 41 00 46 00 2d 00 34 00 35 00 35 00 45 00 2d 00 38 00 44 00 43 00 44 00 2d 00 42 00 35 00 42 00 30 00 39 00 42 00 36 00 42 00 46 00 41 00 38 00 46 00))}
+		$s84 = {((44 32 44 43 33 33 34 32 2d 33 39 36 43 2d 36 37 33 37 2d 41 38 46 36 2d 30 43 36 36 37 33 43 31 44 45 30 38) | (44 00 32 00 44 00 43 00 33 00 33 00 34 00 32 00 2d 00 33 00 39 00 36 00 43 00 2d 00 36 00 37 00 33 00 37 00 2d 00 41 00 38 00 46 00 36 00 2d 00 30 00 43 00 36 00 36 00 37 00 33 00 43 00 31 00 44 00 45 00 30 00 38 00))}
+		$s85 = {((44 37 33 38 32 30 34 32 2d 30 30 41 30 2d 41 36 46 30 2d 31 45 35 31 2d 46 44 31 42 42 46 30 36 43 44 37 31) | (44 00 37 00 33 00 38 00 32 00 30 00 34 00 32 00 2d 00 30 00 30 00 41 00 30 00 2d 00 41 00 36 00 46 00 30 00 2d 00 31 00 45 00 35 00 31 00 2d 00 46 00 44 00 31 00 42 00 42 00 46 00 30 00 36 00 43 00 44 00 37 00 31 00))}
+		$s86 = {((44 38 43 33 30 33 32 38 2d 31 42 30 36 2d 34 36 31 31 2d 38 45 33 43 2d 45 34 33 33 46 34 46 39 37 39 34 45) | (44 00 38 00 43 00 33 00 30 00 33 00 32 00 38 00 2d 00 31 00 42 00 30 00 36 00 2d 00 34 00 36 00 31 00 31 00 2d 00 38 00 45 00 33 00 43 00 2d 00 45 00 34 00 33 00 33 00 46 00 34 00 46 00 39 00 37 00 39 00 34 00 45 00))}
+		$s87 = {((44 39 31 34 32 30 34 32 2d 38 46 35 31 2d 35 45 46 46 2d 44 35 46 38 2d 45 45 39 41 45 33 44 31 36 30 32 41) | (44 00 39 00 31 00 34 00 32 00 30 00 34 00 32 00 2d 00 38 00 46 00 35 00 31 00 2d 00 35 00 45 00 46 00 46 00 2d 00 44 00 35 00 46 00 38 00 2d 00 45 00 45 00 39 00 41 00 45 00 33 00 44 00 31 00 36 00 30 00 32 00 41 00))}
+		$s88 = {((44 42 43 32 32 45 34 32 2d 35 39 46 37 2d 31 33 32 39 2d 44 39 46 32 2d 45 37 38 41 32 45 45 35 42 44 30 44) | (44 00 42 00 43 00 32 00 32 00 45 00 34 00 32 00 2d 00 35 00 39 00 46 00 37 00 2d 00 31 00 33 00 32 00 39 00 2d 00 44 00 39 00 46 00 32 00 2d 00 45 00 37 00 38 00 41 00 32 00 45 00 45 00 35 00 42 00 44 00 30 00 44 00))}
+		$s89 = {((44 42 43 43 33 35 31 34 2d 46 41 35 37 2d 34 37 37 44 2d 39 44 31 46 2d 31 43 41 46 34 43 43 39 32 44 30 46) | (44 00 42 00 43 00 43 00 33 00 35 00 31 00 34 00 2d 00 46 00 41 00 35 00 37 00 2d 00 34 00 37 00 37 00 44 00 2d 00 39 00 44 00 31 00 46 00 2d 00 31 00 43 00 41 00 46 00 34 00 43 00 43 00 39 00 32 00 44 00 30 00 46 00))}
+		$s90 = {((44 44 39 43 33 33 34 32 2d 46 42 38 30 2d 39 41 33 31 2d 45 42 30 34 2d 35 37 39 34 45 35 41 45 32 42 34 43) | (44 00 44 00 39 00 43 00 33 00 33 00 34 00 32 00 2d 00 46 00 42 00 38 00 30 00 2d 00 39 00 41 00 33 00 31 00 2d 00 45 00 42 00 30 00 34 00 2d 00 35 00 37 00 39 00 34 00 45 00 35 00 41 00 45 00 32 00 42 00 34 00 43 00))}
+		$s91 = {((44 45 41 45 42 38 43 45 2d 41 35 37 33 2d 39 46 34 38 2d 42 44 34 30 2d 36 32 45 44 36 43 32 32 33 46 32 30) | (44 00 45 00 41 00 45 00 42 00 38 00 43 00 45 00 2d 00 41 00 35 00 37 00 33 00 2d 00 39 00 46 00 34 00 38 00 2d 00 42 00 44 00 34 00 30 00 2d 00 36 00 32 00 45 00 44 00 36 00 43 00 32 00 32 00 33 00 46 00 32 00 30 00))}
+		$s92 = {((45 30 38 44 45 39 41 41 2d 43 37 30 34 2d 34 32 36 31 2d 42 33 32 44 2d 35 37 42 32 41 33 39 39 33 35 31 38) | (45 00 30 00 38 00 44 00 45 00 39 00 41 00 41 00 2d 00 43 00 37 00 30 00 34 00 2d 00 34 00 32 00 36 00 31 00 2d 00 42 00 33 00 32 00 44 00 2d 00 35 00 37 00 42 00 32 00 41 00 33 00 39 00 39 00 33 00 35 00 31 00 38 00))}
+		$s93 = {((45 41 44 44 31 37 34 32 2d 34 38 30 37 2d 30 30 41 30 2d 46 39 32 45 2d 43 43 44 39 33 33 45 39 44 38 43 31) | (45 00 41 00 44 00 44 00 31 00 37 00 34 00 32 00 2d 00 34 00 38 00 30 00 37 00 2d 00 30 00 30 00 41 00 30 00 2d 00 46 00 39 00 32 00 45 00 2d 00 43 00 43 00 44 00 39 00 33 00 33 00 45 00 39 00 44 00 38 00 43 00 31 00))}
+		$s94 = {((45 42 31 36 39 32 34 42 2d 46 42 36 44 2d 34 46 41 31 2d 38 36 36 36 2d 31 37 42 39 31 46 36 32 46 42 33 37) | (45 00 42 00 31 00 36 00 39 00 32 00 34 00 42 00 2d 00 46 00 42 00 36 00 44 00 2d 00 34 00 46 00 41 00 31 00 2d 00 38 00 36 00 36 00 36 00 2d 00 31 00 37 00 42 00 39 00 31 00 46 00 36 00 32 00 46 00 42 00 33 00 37 00))}
+		$s95 = {((46 33 39 38 38 33 35 36 2d 33 32 46 35 2d 34 41 45 31 2d 38 44 34 37 2d 46 44 33 42 38 42 41 46 42 44 34 43) | (46 00 33 00 39 00 38 00 38 00 33 00 35 00 36 00 2d 00 33 00 32 00 46 00 35 00 2d 00 34 00 41 00 45 00 31 00 2d 00 38 00 44 00 34 00 37 00 2d 00 46 00 44 00 33 00 42 00 38 00 42 00 41 00 46 00 42 00 44 00 34 00 43 00))}
+		$s96 = {((46 35 37 34 34 30 30 30 2d 33 43 37 38 2d 31 31 45 41 2d 38 30 30 30 2d 33 43 45 43 45 46 34 33 46 45 46 45) | (46 00 35 00 37 00 34 00 34 00 30 00 30 00 30 00 2d 00 33 00 43 00 37 00 38 00 2d 00 31 00 31 00 45 00 41 00 2d 00 38 00 30 00 30 00 30 00 2d 00 33 00 43 00 45 00 43 00 45 00 46 00 34 00 33 00 46 00 45 00 46 00 45 00))}
+		$s97 = {((46 41 38 43 32 30 34 32 2d 32 30 35 44 2d 31 33 42 30 2d 46 43 42 35 2d 43 35 43 43 35 35 35 37 37 41 33 35) | (46 00 41 00 38 00 43 00 32 00 30 00 34 00 32 00 2d 00 32 00 30 00 35 00 44 00 2d 00 31 00 33 00 42 00 30 00 2d 00 46 00 43 00 42 00 35 00 2d 00 43 00 35 00 43 00 43 00 35 00 35 00 35 00 37 00 37 00 41 00 33 00 35 00))}
+		$s98 = {((46 43 45 32 33 33 34 32 2d 39 31 46 31 2d 45 41 46 43 2d 42 41 39 37 2d 35 41 41 45 34 35 30 39 45 31 37 33) | (46 00 43 00 45 00 32 00 33 00 33 00 34 00 32 00 2d 00 39 00 31 00 46 00 31 00 2d 00 45 00 41 00 46 00 43 00 2d 00 42 00 41 00 39 00 37 00 2d 00 35 00 41 00 41 00 45 00 34 00 35 00 30 00 39 00 45 00 31 00 37 00 33 00))}
+		$s99 = {((46 45 34 35 35 44 31 41 2d 42 45 32 37 2d 34 42 41 34 2d 39 36 43 38 2d 39 36 37 41 36 44 33 41 39 36 36 31) | (46 00 45 00 34 00 35 00 35 00 44 00 31 00 41 00 2d 00 42 00 45 00 32 00 37 00 2d 00 34 00 42 00 41 00 34 00 2d 00 39 00 36 00 43 00 38 00 2d 00 39 00 36 00 37 00 41 00 36 00 44 00 33 00 41 00 39 00 36 00 36 00 31 00))}
+		$s100 = {((46 45 38 32 32 30 34 32 2d 41 37 30 43 2d 44 30 38 42 2d 46 31 44 31 2d 43 32 30 37 30 35 35 41 34 38 38 46) | (46 00 45 00 38 00 32 00 32 00 30 00 34 00 32 00 2d 00 41 00 37 00 30 00 43 00 2d 00 44 00 30 00 38 00 42 00 2d 00 46 00 31 00 44 00 31 00 2d 00 43 00 32 00 30 00 37 00 30 00 35 00 35 00 41 00 34 00 38 00 38 00 46 00))}
+		$s101 = {((46 45 44 36 33 33 34 32 2d 45 30 44 36 2d 43 36 36 39 2d 44 35 33 46 2d 32 35 33 44 36 39 36 44 37 34 44 41) | (46 00 45 00 44 00 36 00 33 00 33 00 34 00 32 00 2d 00 45 00 30 00 44 00 36 00 2d 00 43 00 36 00 36 00 39 00 2d 00 44 00 35 00 33 00 46 00 2d 00 32 00 35 00 33 00 44 00 36 00 39 00 36 00 44 00 37 00 34 00 44 00 41 00))}
+		$s102 = {((46 46 35 37 37 42 37 39 2d 37 38 32 45 2d 30 41 34 44 2d 38 35 36 38 2d 42 33 35 41 39 42 37 45 42 37 36 42) | (46 00 46 00 35 00 37 00 37 00 42 00 37 00 39 00 2d 00 37 00 38 00 32 00 45 00 2d 00 30 00 41 00 34 00 44 00 2d 00 38 00 35 00 36 00 38 00 2d 00 42 00 33 00 35 00 41 00 39 00 42 00 37 00 45 00 42 00 37 00 36 00 42 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 10 of them
 }
+

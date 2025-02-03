@@ -1,34 +1,20 @@
-/*
-    This Yara ruleset is under the GNU-GPLv2 license (http://www.gnu.org/licenses/gpl-2.0.html) and open to any user or organization, as long as you use it under this license.
-*/
-
-rule Generic_ATMPot : Generic_ATMPot
+rule Generic_ATMPot : Generic_ATMPot hardened
 {
-    meta:
-        description = "Generic rule for Winpot aka ATMPot"
-        author = "xylitol@temari.fr"
-        date = "2019-02-24"
-        reference = "https://securelist.com/atm-robber-winpot/89611/"
-        // May only the challenge guide you
-    strings:
-        $api1 = "CSCCNG" ascii wide
-        $api2 = "CscCngOpen" ascii wide
-        $api3 = "CscCngClose" ascii wide
-        $string1 = "%d,%02d;" ascii wide
-/*
-0xD:
-.text:004022EC FF 15 20 70 40 00             CALL DWORD PTR DS:[407020]  ; cscwcng.CscCngDispense
-.text:004022F2 F6 C4 80                      TEST AH,80
-winpot:
-.text:004019D4 FF 15 24 60 40 00             CALL DWORD PTR DS:[406024]  ; cscwcng.CscCngDispense
-.text:004019DA F6 C4 80                      TEST AH,80
-*/
-        $hex1 = { FF 15 ?? ?? ?? ?? F6 C4 80 }
-/*
-0xD...: 0040506E  25 31 5B 31 2D 34 5D 56 41 4C 3D 25 38 5B 30 2D 39 5D: %1[1-4]VAL=%8[0-9]
-winpot: 0040404D  25 31 5B 30 2D 39 5D 56 41 4C 3D 25 38 5B 30 2D 39 5D: %1[0-9]VAL=%8[0-9]
-*/
-        $hex2 = { 25 31 5B ?? 2D ?? 5D 56 41 4C 3D 25 38 5B 30 2D 39 5D }
-    condition:  
-        (uint16(0) == 0x5A4D and uint32(uint32(0x3C)) == 0x00004550) and all of them
+	meta:
+		description = "Generic rule for Winpot aka ATMPot"
+		author = "xylitol@temari.fr"
+		date = "2019-02-24"
+		reference = "https://securelist.com/atm-robber-winpot/89611/"
+
+	strings:
+		$api1 = {((43 53 43 43 4e 47) | (43 00 53 00 43 00 43 00 4e 00 47 00))}
+		$api2 = {((43 73 63 43 6e 67 4f 70 65 6e) | (43 00 73 00 63 00 43 00 6e 00 67 00 4f 00 70 00 65 00 6e 00))}
+		$api3 = {((43 73 63 43 6e 67 43 6c 6f 73 65) | (43 00 73 00 63 00 43 00 6e 00 67 00 43 00 6c 00 6f 00 73 00 65 00))}
+		$string1 = {((25 64 2c 25 30 32 64 3b) | (25 00 64 00 2c 00 25 00 30 00 32 00 64 00 3b 00))}
+		$hex1 = { FF 15 ?? ?? ?? ?? F6 C4 80 }
+		$hex2 = { 25 31 5B ?? 2D ?? 5D 56 41 4C 3D 25 38 5B 30 2D 39 5D }
+
+	condition:
+		( uint16( 0 ) == 0x5A4D and uint32( uint32( 0x3C ) ) == 0x00004550 ) and all of them
 }
+

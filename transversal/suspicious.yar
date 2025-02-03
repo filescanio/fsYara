@@ -1,10 +1,10 @@
-rule Xored_PE
+rule Xored_PE : hardened
 {
 	meta:
 		description = "Contains a XORed PE executable"
 		author = "Ivan Kwiatkowski (@JusticeRage)"
 		score = 60
-		
+
 	strings:
 		$a0 = { 55 69 68 72 21 71 73 6E 66 73 60 6C 21 62 60 6F 6F 6E 75 21 63 64 21 73 74 6F 21 68 6F 21 45 4E 52 21 6C 6E 65 64 2F }
 		$a1 = { 56 6A 6B 71 22 72 70 6D 65 70 63 6F 22 61 63 6C 6C 6D 76 22 60 67 22 70 77 6C 22 6B 6C 22 46 4D 51 22 6F 6D 66 67 2C }
@@ -259,18 +259,21 @@ rule Xored_PE
 		$a251 = { A8 94 95 8F DC 8C 8E 93 9B 8E 9D 91 DC 9F 9D 92 92 93 88 DC 9E 99 DC 8E 89 92 DC 95 92 DC B8 B3 AF DC 91 93 98 99 D2 }
 		$a252 = { A9 95 94 8E DD 8D 8F 92 9A 8F 9C 90 DD 9E 9C 93 93 92 89 DD 9F 98 DD 8F 88 93 DD 94 93 DD B9 B2 AE DD 90 92 99 98 D3 }
 		$a253 = { AA 96 97 8D DE 8E 8C 91 99 8C 9F 93 DE 9D 9F 90 90 91 8A DE 9C 9B DE 8C 8B 90 DE 97 90 DE BA B1 AD DE 93 91 9A 9B D0 }
-		
+
 	condition:
 		any of them
 }
 
-rule MiningPool
+rule MiningPool : hardened
 {
 	meta:
 		description = "Contains references to mining pools"
 		author = "Ivan Kwiatkowski (@JusticeRage), based on an idea from @__Emilien__"
+
 	strings:
 		$stratum = /stratum\+tcp:\/\/[A-Za-z0-9-.:]*/
+
 	condition:
 		$stratum
 }
+

@@ -1,42 +1,33 @@
-/*
-   Yara Rule Set
-   Author: Florian Roth
-   Date: 2018-03-06
-   Identifier: CrimsonRAT
-   Reference: Internal Research
-*/
+rule CrimsonRAT_Mar18_1 : hardened
+{
+	meta:
+		description = "Detects CrimsonRAT malware"
+		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
+		author = "Florian Roth (Nextron Systems)"
+		reference = "Internal Research"
+		date = "2018-03-06"
+		hash1 = "acf2e8013b6fafcf436d5a05049896504ffa2e982bca05155d19981d1931c611"
+		hash2 = "7ca6e5ef1d346ec35993c910128a3526b098a07445131784a9358bf5679e3975"
+		hash3 = "be4264973de9886caedae1cb707586588d0da85ac7a2ad277db4258033ea12a8"
+		hash4 = "acf2e8013b6fafcf436d5a05049896504ffa2e982bca05155d19981d1931c611"
+		hash5 = "ff52b4a64ed7caeab00350e493968dbdb159aeb545fcba67d83ab9b158464de4"
+		id = "af21876c-f99d-5307-abba-02c57ee93df0"
 
-/* Rule Set ----------------------------------------------------------------- */
+	strings:
+		$x1 = {53 00 4f 00 46 00 54 00 57 00 41 00 52 00 45 00 5c 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 5c 00 43 00 75 00 72 00 72 00 65 00 6e 00 74 00 56 00 65 00 72 00 73 00 69 00 6f 00 6e 00 5c 00 52 00 75 00 6e 00 7c 00}
+		$x2 = {5c 52 65 6c 65 61 73 65 5c 52 54 4c 42 6f 74 2e 70 64 62}
+		$x3 = {63 00 6d 00 64 00 2e 00 65 00 78 00 65 00 2f 00 63 00 20 00 73 00 79 00 73 00 74 00 65 00 6d 00 69 00 6e 00 66 00 6f 00 20 00 3e 00 3e 00 20 00 31 00 2e 00 74 00 78 00 74 00}
+		$x4 = {2f 00 6f 00 6e 00 6c 00 69 00 6e 00 65 00 20 00 3e 00 3e 00 20 00 47 00 65 00 74 00 20 00 6f 00 6e 00 6c 00 69 00 6e 00 65 00 20 00 74 00 61 00 72 00 67 00 65 00 74 00 20 00 77 00 69 00 74 00 68 00 20 00 69 00 6d 00 70 00 6f 00 72 00 74 00 61 00 6e 00 74 00 20 00 69 00 6e 00 66 00 6f 00}
+		$x5 = {2f 00 73 00 63 00 72 00 65 00 65 00 6e 00 20 00 3e 00 3e 00 20 00 53 00 63 00 72 00 65 00 65 00 6e 00 53 00 68 00 6f 00 74 00 20 00 66 00 72 00 6f 00 6d 00 20 00 74 00 61 00 72 00 67 00 65 00 74 00 20 00 50 00 43 00}
+		$x6 = {2f 00 72 00 65 00 73 00 74 00 61 00 72 00 74 00 20 00 3e 00 3e 00 20 00 52 00 65 00 73 00 74 00 61 00 72 00 74 00 20 00 54 00 61 00 72 00 67 00 65 00 74 00 20 00 50 00 43 00}
+		$x7 = {2f 00 6c 00 6f 00 67 00 5f 00 6b 00 65 00 79 00 20 00 3e 00 3e 00 20 00 47 00 65 00 74 00 20 00 6c 00 6f 00 67 00 20 00 6b 00 65 00 79 00 20 00 66 00 69 00 6c 00 65 00}
+		$a1 = {67 65 74 5f 53 68 69 66 74 4b 65 79}
+		$a2 = {67 65 74 5f 43 6f 6e 74 72 6f 6c 4b 65 79}
+		$a3 = {67 65 74 5f 41 6c 74 4b 65 79}
+		$a4 = {67 65 74 5f 4d 69 6e 65 49 6e 74 65 72 76 61 6c}
+		$fp1 = {43 00 6f 00 70 00 79 00 72 00 69 00 67 00 68 00 74 00 20 00 53 00 6f 00 66 00 74 00 77 00 61 00 72 00 65 00 20 00 53 00 65 00 63 00 75 00 72 00 65 00}
 
-rule CrimsonRAT_Mar18_1 {
-   meta:
-      description = "Detects CrimsonRAT malware"
-      license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
-      author = "Florian Roth (Nextron Systems)"
-      reference = "Internal Research"
-      date = "2018-03-06"
-      hash1 = "acf2e8013b6fafcf436d5a05049896504ffa2e982bca05155d19981d1931c611"
-      hash2 = "7ca6e5ef1d346ec35993c910128a3526b098a07445131784a9358bf5679e3975"
-      hash3 = "be4264973de9886caedae1cb707586588d0da85ac7a2ad277db4258033ea12a8"
-      hash4 = "acf2e8013b6fafcf436d5a05049896504ffa2e982bca05155d19981d1931c611"
-      hash5 = "ff52b4a64ed7caeab00350e493968dbdb159aeb545fcba67d83ab9b158464de4"
-      id = "af21876c-f99d-5307-abba-02c57ee93df0"
-   strings:
-      $x1 = "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run|" wide
-      $x2 = "\\Release\\RTLBot.pdb" ascii
-      $x3 = "cmd.exe/c systeminfo >> 1.txt" fullword wide
-      $x4 = "/online >> Get online target with important info" fullword wide
-      $x5 = "/screen >> ScreenShot from target PC" fullword wide
-      $x6 = "/restart >> Restart Target PC" fullword wide
-      $x7 = "/log_key >> Get log key file" fullword wide
-
-      $a1 = "get_ShiftKey" fullword ascii
-      $a2 = "get_ControlKey" fullword ascii
-      $a3 = "get_AltKey" fullword ascii
-      $a4 = "get_MineInterval" fullword ascii
-
-      $fp1 = "Copyright Software Secure" wide
-   condition:
-      uint16(0) == 0x5a4d and filesize < 400KB and ( 1 of ($x*) or all of ($a*) )
-      and not 1 of ($fp*)
+	condition:
+		uint16( 0 ) == 0x5a4d and filesize < 400KB and ( 1 of ( $x* ) or all of ( $a* ) ) and not 1 of ( $fp* )
 }
+

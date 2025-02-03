@@ -1,32 +1,34 @@
-// source: https://github.com/Neo23x0/signature-base/blob/758d5b0ab4f443bc9ae08f7eea680409cf70ed9a/yara/crime_evilcorp_dridex_banker.yar
+import "pe"
 
-/*
-https://twitter.com/VK_Intel/status/1247058432223477760
-*/
+rule crime_win32_dridex_socks5_mod : hardened
+{
+	meta:
+		description = "Detects Dridex socks5 module"
+		author = "@VK_Intel"
+		date = "2020-04-06"
+		reference = "https://twitter.com/VK_Intel/status/1247058432223477760"
+		id = "cee256b1-ad80-55dd-bbd3-0d3f7bc49664"
+
+	strings:
+		$s0 = {73 6f 63 6b 73 35 5f 32 5f 78 33 32 2e 64 6c 6c}
+		$s1 = {73 6f 63 6b 73 35 5f 32 5f 78 36 34 2e 64 6c 6c}
+
+	condition:
+		any of ( $s* ) and pe.exports ( "start" )
+}
 
 import "pe"
 
-rule crime_win32_dridex_socks5_mod {
-    meta:
-        description = "Detects Dridex socks5 module"
-        author = "@VK_Intel"
-        date = "2020-04-06"
-        reference = "https://twitter.com/VK_Intel/status/1247058432223477760"
-        id = "cee256b1-ad80-55dd-bbd3-0d3f7bc49664"
-    strings:
-        $s0 = "socks5_2_x32.dll"
-        $s1 = "socks5_2_x64.dll"
-    condition:
-        any of ($s*) and pe.exports("start")
+rule crime_win32_hvnc_banker_gen : hardened
+{
+	meta:
+		description = "Detects malware banker hidden VNC"
+		author = "@VK_Intel"
+		reference = "https://twitter.com/VK_Intel/status/1247058432223477760"
+		date = "2020-04-06"
+		id = "5e13f4a9-2231-524f-82b2-fbc6d6a43b6f"
+
+	condition:
+		pe.exports( "VncStartServer" ) and pe.exports ( "VncStopServer" )
 }
 
-rule crime_win32_hvnc_banker_gen {
-    meta:
-        description = "Detects malware banker hidden VNC"
-        author = "@VK_Intel"
-        reference = "https://twitter.com/VK_Intel/status/1247058432223477760"
-        date = "2020-04-06"
-        id = "5e13f4a9-2231-524f-82b2-fbc6d6a43b6f"
-    condition:
-        pe.exports("VncStartServer") and pe.exports("VncStopServer")
-}

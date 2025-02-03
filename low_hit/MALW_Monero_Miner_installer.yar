@@ -1,35 +1,22 @@
-rule nkminer_monero {
+rule nkminer_monero : hardened limited
+{
+	meta:
+		description = "Detects installer of Monero miner that points to a NK domain"
+		author = "cdoman@alienvault.com"
+		reference = "https://www.alienvault.com/blogs/labs-research/a-north-korean-monero-cryptocurrency-miner"
+		tlp = "white"
+		license = "MIT License"
 
- meta:
+	strings:
+		$a = {((38 32 65 39 39 39 66 62 2d 61 36 65 30 2d 34 30 39 34 2d 61 61 31 66 2d 31 61 33 30 36 30 36 39 64 31 61 35) | (38 00 32 00 65 00 39 00 39 00 39 00 66 00 62 00 2d 00 61 00 36 00 65 00 30 00 2d 00 34 00 30 00 39 00 34 00 2d 00 61 00 61 00 31 00 66 00 2d 00 31 00 61 00 33 00 30 00 36 00 30 00 36 00 39 00 64 00 31 00 61 00 35 00))}
+		$b = {((34 4a 55 64 47 7a 76 72 4d 46 44 57 72 55 55 77 59 33 74 6f 4a 41 54 53 65 4e 77 6a 6e 35 34 4c 6b 43 6e 4b 42 50 52 7a 44 75 68 7a 69 35 76 53 65 70 48 66 55 63 6b 4a 4e 78 52 4c 32 67 6a 6b 4e 72 53 71 74 43 6f 52 55 72 45 44 41 67 52 77 73 51 76 56 43 6a 5a 62 52 79 35 59 65 46 43 71 67 6f 55 4d 6e 7a 75 6d 76 53) | (34 00 4a 00 55 00 64 00 47 00 7a 00 76 00 72 00 4d 00 46 00 44 00 57 00 72 00 55 00 55 00 77 00 59 00 33 00 74 00 6f 00 4a 00 41 00 54 00 53 00 65 00 4e 00 77 00 6a 00 6e 00 35 00 34 00 4c 00 6b 00 43 00 6e 00 4b 00 42 00 50 00 52 00 7a 00 44 00 75 00 68 00 7a 00 69 00 35 00 76 00 53 00 65 00 70 00 48 00 66 00 55 00 63 00 6b 00 4a 00 4e 00 78 00 52 00 4c 00 32 00 67 00 6a 00 6b 00 4e 00 72 00 53 00 71 00 74 00 43 00 6f 00 52 00 55 00 72 00 45 00 44 00 41 00 67 00 52 00 77 00 73 00 51 00 76 00 56 00 43 00 6a 00 5a 00 62 00 52 00 79 00 35 00 59 00 65 00 46 00 43 00 71 00 67 00 6f 00 55 00 4d 00 6e 00 7a 00 75 00 6d 00 76 00 53 00))}
+		$c = {((62 61 72 6a 75 6f 6b 2e 72 79 6f 6e 67 6e 61 6d 73 61 6e 2e 65 64 75 2e 6b 70) | (62 00 61 00 72 00 6a 00 75 00 6f 00 6b 00 2e 00 72 00 79 00 6f 00 6e 00 67 00 6e 00 61 00 6d 00 73 00 61 00 6e 00 2e 00 65 00 64 00 75 00 2e 00 6b 00 70 00))}
+		$d = {((43 3a 5c 53 6f 66 74 77 61 72 65 73 49 6e 73 74 61 6c 6c 5c 73 6f 66 74) | (43 00 3a 00 5c 00 53 00 6f 00 66 00 74 00 77 00 61 00 72 00 65 00 73 00 49 00 6e 00 73 00 74 00 61 00 6c 00 6c 00 5c 00 73 00 6f 00 66 00 74 00))}
+		$e = {((43 3a 5c 57 69 6e 64 6f 77 73 5c 53 79 73 36 34 5c 69 6e 74 65 6c 73 65 72 76 69 63 65 2e 65 78 65) | (43 00 3a 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 5c 00 53 00 79 00 73 00 36 00 34 00 5c 00 69 00 6e 00 74 00 65 00 6c 00 73 00 65 00 72 00 76 00 69 00 63 00 65 00 2e 00 65 00 78 00 65 00))}
+		$f = {((43 3a 5c 57 69 6e 64 6f 77 73 5c 53 79 73 36 34 5c 75 70 64 61 74 65 72 2e 65 78 65) | (43 00 3a 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 5c 00 53 00 79 00 73 00 36 00 34 00 5c 00 75 00 70 00 64 00 61 00 74 00 65 00 72 00 2e 00 65 00 78 00 65 00))}
+		$g = {((43 3a 5c 55 73 65 72 73 5c 4a 61 77 68 61 72 5c 64 6f 63 75 6d 65 6e 74 73 5c) | (43 00 3a 00 5c 00 55 00 73 00 65 00 72 00 73 00 5c 00 4a 00 61 00 77 00 68 00 61 00 72 00 5c 00 64 00 6f 00 63 00 75 00 6d 00 65 00 6e 00 74 00 73 00 5c 00))}
 
- description = "Detects installer of Monero miner that points to a NK domain"
-
- author = "cdoman@alienvault.com"
- 
- reference = "https://www.alienvault.com/blogs/labs-research/a-north-korean-monero-cryptocurrency-miner"
-
- tlp = "white"
-
- license = "MIT License"
-
- strings:
-
- $a = "82e999fb-a6e0-4094-aa1f-1a306069d1a5" nocase wide ascii
-
- $b = "4JUdGzvrMFDWrUUwY3toJATSeNwjn54LkCnKBPRzDuhzi5vSepHfUckJNxRL2gjkNrSqtCoRUrEDAgRwsQvVCjZbRy5YeFCqgoUMnzumvS" nocase wide ascii
-
- $c = "barjuok.ryongnamsan.edu.kp" nocase wide ascii
-
- $d = "C:\\SoftwaresInstall\\soft" nocase wide ascii
-
- $e = "C:\\Windows\\Sys64\\intelservice.exe" nocase wide ascii
-
- $f = "C:\\Windows\\Sys64\\updater.exe" nocase wide ascii
-
- $g = "C:\\Users\\Jawhar\\documents\\" nocase wide ascii
-
- condition:
-
- any of them
-
+	condition:
+		any of them
 }
+

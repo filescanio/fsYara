@@ -1,4 +1,4 @@
-rule Lumma
+rule Lumma : hardened
 {
 	meta:
 		author = "kevoreilly"
@@ -17,11 +17,10 @@ rule Lumma
 		$remap = {C6 44 24 20 00 C7 44 24 1C C2 00 00 90 C7 44 24 18 00 00 FF D2 C7 44 24 14 00 BA 00 00 C7 44 24 10 B8 00 00 00 8B ?? 89 44 24 11}
 
 	condition:
-		uint16(0)==0x5a4d and 
-		any of them
+		uint16( 0 ) == 0x5a4d and any of them
 }
 
-rule win_lumma_auto
+rule win_lumma_auto : hardened
 {
 	meta:
 		author = "Felix Bilstein - yara-signator at cocacoding dot com"
@@ -58,11 +57,10 @@ rule win_lumma_auto
 		$sequence_12 = { 48 83ec28 0f05 48 83c428 49 }
 
 	condition:
-		7 of them and 
-		filesize <1115136
+		7 of them and filesize < 1115136
 }
 
-rule Detect_lumma_stealer : lumma
+rule Detect_lumma_stealer : lumma hardened
 {
 	meta:
 		description = "Detect_lumma_stealer"
@@ -79,19 +77,17 @@ rule Detect_lumma_stealer : lumma
 		score = 75
 
 	strings:
-		$s1 = "- PC:" ascii
-		$s2 = "- User:" ascii
-		$s3 = "- Screen Resoluton:" ascii
-		$s4 = "- Language:" ascii
+		$s1 = {2d 20 50 43 3a}
+		$s2 = {2d 20 55 73 65 72 3a}
+		$s3 = {2d 20 53 63 72 65 65 6e 20 52 65 73 6f 6c 75 74 6f 6e 3a}
+		$s4 = {2d 20 4c 61 6e 67 75 61 67 65 3a}
 		$op = {0B C8 69 F6 [4] 0F B6 47 ?? C1 E1 ?? 0B C8 0F B6 07 C1 E1 ?? 83 C7 ?? 0B C8 69 C9 [4] 8B C1 C1 E8 ?? 33 C1 69 C8 [4] 33 F1}
 
 	condition:
-		uint16(0)==0x5A4D and 
-		$op and 
-		all of ($s*)
+		uint16( 0 ) == 0x5A4D and $op and all of ( $s* )
 }
 
-rule win_lumma_simple_strings
+rule win_lumma_simple_strings : hardened
 {
 	meta:
 		author = "Matthew @ Embee_Research"
@@ -104,22 +100,19 @@ rule win_lumma_simple_strings
 		score = 75
 
 	strings:
-		$s1 = "Binedx765ance Chaedx765in Waledx765let" wide
-		$s2 = "%appdaedx765ta%\\Moedx765zilla\\Firedx765efox\\Profedx765iles"
-		$s3 = "\\Locedx765al Extensedx765ion Settinedx765gs\\"
-		$s4 = "%appdedx765ata%\\Opedx765era Softwedx765are\\Opedx765era GX Staedx765ble"
+		$s1 = {42 00 69 00 6e 00 65 00 64 00 78 00 37 00 36 00 35 00 61 00 6e 00 63 00 65 00 20 00 43 00 68 00 61 00 65 00 64 00 78 00 37 00 36 00 35 00 69 00 6e 00 20 00 57 00 61 00 6c 00 65 00 64 00 78 00 37 00 36 00 35 00 6c 00 65 00 74 00}
+		$s2 = {25 61 70 70 64 61 65 64 78 37 36 35 74 61 25 5c 4d 6f 65 64 78 37 36 35 7a 69 6c 6c 61 5c 46 69 72 65 64 78 37 36 35 65 66 6f 78 5c 50 72 6f 66 65 64 78 37 36 35 69 6c 65 73}
+		$s3 = {5c 4c 6f 63 65 64 78 37 36 35 61 6c 20 45 78 74 65 6e 73 65 64 78 37 36 35 69 6f 6e 20 53 65 74 74 69 6e 65 64 78 37 36 35 67 73 5c}
+		$s4 = {25 61 70 70 64 65 64 78 37 36 35 61 74 61 25 5c 4f 70 65 64 78 37 36 35 65 72 61 20 53 6f 66 74 77 65 64 78 37 36 35 61 72 65 5c 4f 70 65 64 78 37 36 35 65 72 61 20 47 58 20 53 74 61 65 64 78 37 36 35 62 6c 65}
 		$o1 = {57 00 ?? 00 ?? 00 ?? 00 ?? 00 ?? 00 ?? 00 65 00 62 00 20 00 44 00 61 00 ?? 00 ?? 00 ?? 00 ?? 00 ?? 00 ?? 00 74 00 61 00}
 		$o2 = {4f 00 70 00 ?? 00 ?? 00 ?? 00 ?? 00 ?? 00 ?? 00 65 00 72 00 61 00 20 00 4e 00 65 00 6f 00 ?? 00 ?? 00 ?? 00 ?? 00 ?? 00 ?? 00 6e 00}
 		$o3 = {4c 00 6f 00 ?? 00 ?? 00 ?? 00 ?? 00 ?? 00 ?? 00 67 00 69 00 6e 00 20 00 44 00 61 00 ?? 00 ?? 00 ?? 00 ?? 00 ?? 00 ?? 00 74 00 61 00}
 
 	condition:
-		uint16(0)==0x5a4d and 
-		filesize <5000KB and 
-		(( all of ($s*)) or 
-			( all of ($o*)))
+		uint16( 0 ) == 0x5a4d and filesize < 5000KB and ( ( all of ( $s* ) ) or ( all of ( $o* ) ) )
 }
 
-rule LummaStealer
+rule LummaStealer : hardened limited
 {
 	meta:
 		author = "ditekSHen"
@@ -134,29 +127,24 @@ rule LummaStealer
 		$x1 = /Lum[0-9]{3}xedmaC2,\sBuild/ ascii
 		$x2 = /LID\(Lu[0-9]{3}xedmma\sID\):/ ascii
 		$s1 = /os_c[0-9]{3}xedrypt\.encry[0-9]{3}xedpted_key/ fullword ascii
-		$s2 = "c2sock" wide
-		$s3 = "c2conf" wide
-		$s4 = "TeslaBrowser/" wide
-		$s5 = "Software.txt" fullword wide
-		$s6 = "SysmonDrv" fullword
-		$s7 = "*.eml" fullword wide nocase
-		$s8 = "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall" wide
-		$s9 = "- Screen Resoluton:" ascii
-		$s10 = "lid=%s" ascii
-		$s11 = "&ver=" ascii
-		$s12 = "769cb9aa22f4ccc412f9cbc81feedd" fullword wide
-		$s13 = "gapi-node.io" fullword ascii
+		$s2 = {63 00 32 00 73 00 6f 00 63 00 6b 00}
+		$s3 = {63 00 32 00 63 00 6f 00 6e 00 66 00}
+		$s4 = {54 00 65 00 73 00 6c 00 61 00 42 00 72 00 6f 00 77 00 73 00 65 00 72 00 2f 00}
+		$s5 = {53 00 6f 00 66 00 74 00 77 00 61 00 72 00 65 00 2e 00 74 00 78 00 74 00}
+		$s6 = {53 79 73 6d 6f 6e 44 72 76}
+		$s7 = {2a 00 2e 00 65 00 6d 00 6c 00}
+		$s8 = {53 00 4f 00 46 00 54 00 57 00 41 00 52 00 45 00 5c 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 5c 00 43 00 75 00 72 00 72 00 65 00 6e 00 74 00 56 00 65 00 72 00 73 00 69 00 6f 00 6e 00 5c 00 55 00 6e 00 69 00 6e 00 73 00 74 00 61 00 6c 00 6c 00}
+		$s9 = {2d 20 53 63 72 65 65 6e 20 52 65 73 6f 6c 75 74 6f 6e 3a}
+		$s10 = {6c 69 64 3d 25 73}
+		$s11 = {26 76 65 72 3d}
+		$s12 = {37 00 36 00 39 00 63 00 62 00 39 00 61 00 61 00 32 00 32 00 66 00 34 00 63 00 63 00 63 00 34 00 31 00 32 00 66 00 39 00 63 00 62 00 63 00 38 00 31 00 66 00 65 00 65 00 64 00 64 00}
+		$s13 = {67 61 70 69 2d 6e 6f 64 65 2e 69 6f}
 
 	condition:
-		uint16(0)==0x5a4d and 
-		( all of ($x*) or 
-			(1 of ($x*) and 
-				2 of ($s*)) or 
-			5 of ($s*) or 
-			7 of them )
+		uint16( 0 ) == 0x5a4d and ( all of ( $x* ) or ( 1 of ( $x* ) and 2 of ( $s* ) ) or 5 of ( $s* ) or 7 of them )
 }
 
-rule CAPE_Lumma : FILE
+rule CAPE_Lumma : FILE hardened
 {
 	meta:
 		description = "Lumma config extraction"
@@ -182,11 +170,10 @@ rule CAPE_Lumma : FILE
 		$decode = {88 1F 47 0F B6 19 41 84 DB 75 F5 C6 07 00 0F B6 1E 84 DB 74 16 46 66 2E 0F 1F 84 00 00 00 00 00}
 
 	condition:
-		uint16(0)==0x5a4d and 
-		any of them
+		uint16( 0 ) == 0x5a4d and any of them
 }
 
-rule detect_Lumma_stealer : Lumma
+rule detect_Lumma_stealer : Lumma hardened
 {
 	meta:
 		description = "detect_Lumma_stealer"
@@ -207,21 +194,19 @@ rule detect_Lumma_stealer : Lumma
 		score = 75
 
 	strings:
-		$m1 = "LummaC\\Release\\LummaC.pdb" ascii fullword
-		$s1 = "Cookies.txt" ascii
-		$s2 = "Autofills.txt" ascii
-		$s3 = "ProgramData\\config.txt" ascii
-		$s4 = "ProgramData\\softokn3.dll" ascii
-		$s5 = "ProgramData\\winrarupd.zip" ascii
+		$m1 = {4c 75 6d 6d 61 43 5c 52 65 6c 65 61 73 65 5c 4c 75 6d 6d 61 43 2e 70 64 62}
+		$s1 = {43 6f 6f 6b 69 65 73 2e 74 78 74}
+		$s2 = {41 75 74 6f 66 69 6c 6c 73 2e 74 78 74}
+		$s3 = {50 72 6f 67 72 61 6d 44 61 74 61 5c 63 6f 6e 66 69 67 2e 74 78 74}
+		$s4 = {50 72 6f 67 72 61 6d 44 61 74 61 5c 73 6f 66 74 6f 6b 6e 33 2e 64 6c 6c}
+		$s5 = {50 72 6f 67 72 61 6d 44 61 74 61 5c 77 69 6e 72 61 72 75 70 64 2e 7a 69 70}
 		$chunk_1 = {C1 E8 ?? 33 C6 69 C8 ?? ?? ?? ?? 5F 5E 8B C1 C1 E8 ??}
 
 	condition:
-		$m1 or 
-		(4 of ($s*) and 
-			$chunk_1)
+		$m1 or ( 4 of ( $s* ) and $chunk_1 )
 }
 
-rule win_lumma_update_simple_strings_sep_2023
+rule win_lumma_update_simple_strings_sep_2023 : hardened
 {
 	meta:
 		author = "Matthew @ Embee_Research"
@@ -234,18 +219,16 @@ rule win_lumma_update_simple_strings_sep_2023
 		score = 75
 
 	strings:
-		$s1 = "Do you want to run a malware ?" wide
-		$s2 = "c2sock" wide
-		$s3 = "TeslaBrowser/5" wide
-		$s4 = "Crypt build to disable this message" wide
+		$s1 = {44 00 6f 00 20 00 79 00 6f 00 75 00 20 00 77 00 61 00 6e 00 74 00 20 00 74 00 6f 00 20 00 72 00 75 00 6e 00 20 00 61 00 20 00 6d 00 61 00 6c 00 77 00 61 00 72 00 65 00 20 00 3f 00}
+		$s2 = {63 00 32 00 73 00 6f 00 63 00 6b 00}
+		$s3 = {54 00 65 00 73 00 6c 00 61 00 42 00 72 00 6f 00 77 00 73 00 65 00 72 00 2f 00 35 00}
+		$s4 = {43 00 72 00 79 00 70 00 74 00 20 00 62 00 75 00 69 00 6c 00 64 00 20 00 74 00 6f 00 20 00 64 00 69 00 73 00 61 00 62 00 6c 00 65 00 20 00 74 00 68 00 69 00 73 00 20 00 6d 00 65 00 73 00 73 00 61 00 67 00 65 00}
 
 	condition:
-		uint16(0)==0x5a4d and 
-		filesize <5000KB and 
-		( all of ($s*))
+		uint16( 0 ) == 0x5a4d and filesize < 5000KB and ( all of ( $s* ) )
 }
 
-rule win_lumma_auto_1
+rule win_lumma_auto_1 : hardened
 {
 	meta:
 		author = "Felix Bilstein - yara-signator at cocacoding dot com"
@@ -280,11 +263,10 @@ rule win_lumma_auto_1
 		$sequence_9 = { e8???????? 894610 8b461c c1e002 50 e8???????? 894614 }
 
 	condition:
-		7 of them and 
-		filesize <413552
+		7 of them and filesize < 413552
 }
 
-rule LummaC2
+rule LummaC2 : hardened
 {
 	meta:
 		author = "RussianPanda"
@@ -295,15 +277,14 @@ rule LummaC2
 		score = 75
 
 	strings:
-		$p1 = "lid=%s&j=%s&ver"
+		$p1 = {6c 69 64 3d 25 73 26 6a 3d 25 73 26 76 65 72}
 		$p2 = {89 ca 83 e2 03 8a 54 14 08 32 54 0d 04}
 
 	condition:
-		all of them and 
-		filesize <=500KB
+		all of them and filesize <= 500KB
 }
 
-rule Lumma_1
+rule Lumma_1 : hardened
 {
 	meta:
 		author = "kevoreilly"
@@ -323,11 +304,10 @@ rule Lumma_1
 		$patch = {66 C7 0? 00 00 8B 46 1? C6 00 01 8B}
 
 	condition:
-		uint16(0)==0x5a4d and 
-		2 of them
+		uint16( 0 ) == 0x5a4d and 2 of them
 }
 
-rule LummaRemap
+rule LummaRemap : hardened
 {
 	meta:
 		author = "kevoreilly"
@@ -344,11 +324,10 @@ rule LummaRemap
 		$remap = {C6 44 24 20 00 C7 44 24 1C C2 00 00 90 C7 44 24 18 00 00 FF D2 C7 44 24 14 00 BA 00 00 C7 44 24 10 B8 00 00 00 8B ?? 89 44 24 11}
 
 	condition:
-		uint16(0)==0x5a4d and 
-		any of them
+		uint16( 0 ) == 0x5a4d and any of them
 }
 
-rule win_lumma_auto_2
+rule win_lumma_auto_2 : hardened
 {
 	meta:
 		author = "Felix Bilstein - yara-signator at cocacoding dot com"
@@ -390,11 +369,10 @@ rule win_lumma_auto_2
 		$sequence_14 = { c1e002 50 e8???????? 89460c 8b461c c1e002 }
 
 	condition:
-		7 of them and 
-		filesize <838656
+		7 of them and filesize < 838656
 }
 
-rule Lumma_alt_2
+rule Lumma_alt_2 : hardened
 {
 	meta:
 		author = "kevoreilly"
@@ -415,11 +393,10 @@ rule Lumma_alt_2
 		$remap = {C6 44 24 20 00 C7 44 24 1C C2 00 00 90 C7 44 24 18 00 00 FF D2 C7 44 24 14 00 BA 00 00 C7 44 24 10 B8 00 00 00 8B ?? 89 44 24 11}
 
 	condition:
-		uint16(0)==0x5a4d and 
-		any of them
+		uint16( 0 ) == 0x5a4d and any of them
 }
 
-rule fsLumma
+rule fsLumma : hardened
 {
 	meta:
 		description = "FsYARA - Malware Trends"
@@ -427,19 +404,6 @@ rule fsLumma
 		score = 75
 
 	condition:
-		Lumma or 
-		win_lumma_auto or 
-		Detect_lumma_stealer or 
-		win_lumma_simple_strings or 
-		LummaStealer or 
-		CAPE_Lumma or 
-		detect_Lumma_stealer or 
-		win_lumma_update_simple_strings_sep_2023 or 
-		win_lumma_auto_1 or 
-		LummaC2 or 
-		Lumma_1 or 
-		LummaRemap or 
-		win_lumma_auto_2 or 
-		Lumma_alt_2
+		Lumma or win_lumma_auto or Detect_lumma_stealer or win_lumma_simple_strings or LummaStealer or CAPE_Lumma or detect_Lumma_stealer or win_lumma_update_simple_strings_sep_2023 or win_lumma_auto_1 or LummaC2 or Lumma_1 or LummaRemap or win_lumma_auto_2 or Lumma_alt_2
 }
 

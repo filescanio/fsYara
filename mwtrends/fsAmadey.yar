@@ -1,4 +1,4 @@
-rule Amadey
+rule Amadey : hardened
 {
 	meta:
 		author = "kevoreilly"
@@ -17,11 +17,10 @@ rule Amadey
 		$decode3 = {8A 04 02 88 04 0F 41 8B 7D ?? 8D 42 01 3B CB 7C}
 
 	condition:
-		uint16(0)==0x5A4D and 
-		2 of them
+		uint16( 0 ) == 0x5A4D and 2 of them
 }
 
-rule Windows_Trojan_Amadey_7abb059b
+rule Windows_Trojan_Amadey_7abb059b : hardened
 {
 	meta:
 		author = "Elastic Security"
@@ -48,7 +47,7 @@ rule Windows_Trojan_Amadey_7abb059b
 		all of them
 }
 
-rule Windows_Trojan_Amadey_c4df8d4a
+rule Windows_Trojan_Amadey_c4df8d4a : hardened
 {
 	meta:
 		author = "Elastic Security"
@@ -69,13 +68,13 @@ rule Windows_Trojan_Amadey_c4df8d4a
 		score = 75
 
 	strings:
-		$a1 = "D:\\Mktmp\\NL1\\Release\\NL1.pdb" fullword
+		$a1 = {44 3a 5c 4d 6b 74 6d 70 5c 4e 4c 31 5c 52 65 6c 65 61 73 65 5c 4e 4c 31 2e 70 64 62}
 
 	condition:
 		all of them
 }
 
-rule win_amadey_a9f4
+rule win_amadey_a9f4 : hardened
 {
 	meta:
 		author = "Johannes Bader"
@@ -101,16 +100,14 @@ rule win_amadey_a9f4
 		score = 75
 
 	strings:
-		$pdb = "\\Amadey\\Release\\Amadey.pdb"
+		$pdb = {5c 41 6d 61 64 65 79 5c 52 65 6c 65 61 73 65 5c 41 6d 61 64 65 79 2e 70 64 62}
 		$keys = /stoi argument out of range\x00\x00[a-f0-9]{32}\x00{1,16}[a-f0-9]{32}\x00{1,4}[a-f0-9]{6}\x00{1,4}[a-f0-9]{32}\x00/
 
 	condition:
-		uint16(0)==0x5A4D and 
-		($pdb or 
-			$keys)
+		uint16( 0 ) == 0x5A4D and ( $pdb or $keys )
 }
 
-rule win_amadey_auto
+rule win_amadey_auto : hardened
 {
 	meta:
 		author = "Felix Bilstein - yara-signator at cocacoding dot com"
@@ -154,11 +151,10 @@ rule win_amadey_auto
 		$sequence_19 = { 51 e8???????? 83c408 8b950cfdffff c78520fdffff00000000 c78524fdffff0f000000 }
 
 	condition:
-		7 of them and 
-		filesize <529408
+		7 of them and filesize < 529408
 }
 
-rule win_amadey_bytecodes_oct_2023
+rule win_amadey_bytecodes_oct_2023 : hardened
 {
 	meta:
 		author = "Matthew @ Embee_Research"
@@ -176,12 +172,10 @@ rule win_amadey_bytecodes_oct_2023
 		$s3 = {8b c1 c1 f8 10 88 ?? ?? 8b c1 c1 f8 08}
 
 	condition:
-		$s1 and 
-		$s2 and 
-		$s3
+		$s1 and $s2 and $s3
 }
 
-rule fsAmadey
+rule fsAmadey : hardened
 {
 	meta:
 		description = "FsYARA - Malware Trends"
@@ -189,11 +183,6 @@ rule fsAmadey
 		score = 75
 
 	condition:
-		Amadey or 
-		Windows_Trojan_Amadey_7abb059b or 
-		Windows_Trojan_Amadey_c4df8d4a or 
-		win_amadey_a9f4 or 
-		win_amadey_auto or 
-		win_amadey_bytecodes_oct_2023
+		Amadey or Windows_Trojan_Amadey_7abb059b or Windows_Trojan_Amadey_c4df8d4a or win_amadey_a9f4 or win_amadey_auto or win_amadey_bytecodes_oct_2023
 }
 

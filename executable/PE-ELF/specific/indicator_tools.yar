@@ -1,1887 +1,2152 @@
-// source: https://github.com/ditekshen/detection/blob/6419013759723bbe4d5739312c9bc0a339259bc4/yara/indicator_tools.yar
+rule INDICATOR_TOOL_PWS_LaZagne : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects LaZagne post-exploitation password stealing tool. It is typically embedded with malware in the binary resources."
+		score = 75
 
-import "pe"
+	strings:
+		$s1 = {62 6c 61 5a 61 67 6e 65 2e 65 78 65 2e 6d 61 6e 69 66 65 73 74}
+		$S2 = {6f 70 79 69 2d 77 69 6e 64 6f 77 73 2d 6d 61 6e 69 66 65 73 74 2d 66 69 6c 65 6e 61 6d 65 20 6c 61 5a 61 67 6e 65 2e 65 78 65 2e 6d 61 6e 69 66 65 73 74}
+		$s3 = {6c 61 7a 61 67 6e 65 2e 73 6f 66 74 77 61 72 65 73 2e 77 69 6e 64 6f 77 73 2e}
+		$s4 = {6c 61 7a 61 67 6e 65 2e 73 6f 66 74 77 61 72 65 73 2e 73 79 73 61 64 6d 69 6e 2e}
+		$s5 = {6c 61 7a 61 67 6e 65 2e 73 6f 66 74 77 61 72 65 73 2e 70 68 70 2e}
+		$s6 = {6c 61 7a 61 67 6e 65 2e 73 6f 66 74 77 61 72 65 73 2e 6d 65 6d 6f 72 79 2e}
+		$s7 = {6c 61 7a 61 67 6e 65 2e 73 6f 66 74 77 61 72 65 73 2e 64 61 74 61 62 61 73 65 73 2e}
+		$s8 = {6c 61 7a 61 67 6e 65 2e 73 6f 66 74 77 61 72 65 73 2e 62 72 6f 77 73 65 72 73 2e}
+		$s9 = {6c 61 7a 61 67 6e 65 2e 63 6f 6e 66 69 67 2e 77 72 69 74 65 5f 6f 75 74 70 75 74 28}
+		$s10 = {6c 61 7a 61 67 6e 65 2e 63 6f 6e 66 69 67 2e}
 
-rule INDICATOR_TOOL_PWS_LaZagne {
-    meta:
-        author = "ditekSHen"
-        description = "Detects LaZagne post-exploitation password stealing tool. It is typically embedded with malware in the binary resources."
-        score = 75
-    strings:
-        $s1 = "blaZagne.exe.manifest" fullword ascii
-        $S2 = "opyi-windows-manifest-filename laZagne.exe.manifest" fullword ascii
-        $s3 = "lazagne.softwares.windows." ascii
-        $s4 = "lazagne.softwares.sysadmin." ascii
-        $s5 = "lazagne.softwares.php." ascii
-        $s6 = "lazagne.softwares.memory." ascii
-        $s7 = "lazagne.softwares.databases." ascii
-        $s8 = "lazagne.softwares.browsers." ascii
-        $s9 = "lazagne.config.write_output(" fullword ascii
-        $s10 = "lazagne.config." ascii
-    condition:
-       uint16(0) == 0x5a4d and any of them
+	condition:
+		uint16( 0 ) == 0x5a4d and any of them
 }
 
-rule INDICATOR_TOOL_PWS_Credstealer {
-    meta:
-        author = "ditekSHen"
-        description = "Detects Python executable for stealing credentials including domain environments. Observed in MuddyWater."
-        score = 75
-    strings:
-        $s1 = "PYTHON27.DLL" fullword wide
-        $s2 = "C:\\Python27\\lib\\site-packages\\py2exe\\boot_common.pyR" fullword ascii
-        $s3 = "C:\\Python27\\lib\\site-packages\\py2exe\\boot_common.pyt" fullword ascii
-        $s4 = "subprocess.pyc" fullword ascii
-        $s5 = "MyGetProcAddress(%p, %p(%s)) -> %p" fullword ascii
-        $p1 = "Dump SAM hashes from target systemss" fullword ascii
-        $p2 = "Dump LSA secrets from target systemss" fullword ascii
-        $p3 = "Dump the NTDS.dit from target DCs using the specifed method" fullword ascii
-        $p4 = "Dump NTDS.dit password historys" fullword ascii
-        $p5 = "Use Kerberos authentication. Grabs credentials from ccache file (KRB5CCNAME) based on target parameterss" fullword ascii
-        $p6 = "Retrieve plaintext passwords and other information for accounts pushed through Group Policy Preferencess" fullword ascii
-        $p7 = "Combo file containing a list of domain\\username:password or username:password entriess" fullword ascii
-    condition:
-       uint16(0) == 0x5a4d and (3 of ($s*) and 1 of ($p*))
+rule INDICATOR_TOOL_PWS_Credstealer : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects Python executable for stealing credentials including domain environments. Observed in MuddyWater."
+		score = 75
+
+	strings:
+		$s1 = {50 00 59 00 54 00 48 00 4f 00 4e 00 32 00 37 00 2e 00 44 00 4c 00 4c 00}
+		$s2 = {43 3a 5c 50 79 74 68 6f 6e 32 37 5c 6c 69 62 5c 73 69 74 65 2d 70 61 63 6b 61 67 65 73 5c 70 79 32 65 78 65 5c 62 6f 6f 74 5f 63 6f 6d 6d 6f 6e 2e 70 79 52}
+		$s3 = {43 3a 5c 50 79 74 68 6f 6e 32 37 5c 6c 69 62 5c 73 69 74 65 2d 70 61 63 6b 61 67 65 73 5c 70 79 32 65 78 65 5c 62 6f 6f 74 5f 63 6f 6d 6d 6f 6e 2e 70 79 74}
+		$s4 = {73 75 62 70 72 6f 63 65 73 73 2e 70 79 63}
+		$s5 = {4d 79 47 65 74 50 72 6f 63 41 64 64 72 65 73 73 28 25 70 2c 20 25 70 28 25 73 29 29 20 2d 3e 20 25 70}
+		$p1 = {44 75 6d 70 20 53 41 4d 20 68 61 73 68 65 73 20 66 72 6f 6d 20 74 61 72 67 65 74 20 73 79 73 74 65 6d 73 73}
+		$p2 = {44 75 6d 70 20 4c 53 41 20 73 65 63 72 65 74 73 20 66 72 6f 6d 20 74 61 72 67 65 74 20 73 79 73 74 65 6d 73 73}
+		$p3 = {44 75 6d 70 20 74 68 65 20 4e 54 44 53 2e 64 69 74 20 66 72 6f 6d 20 74 61 72 67 65 74 20 44 43 73 20 75 73 69 6e 67 20 74 68 65 20 73 70 65 63 69 66 65 64 20 6d 65 74 68 6f 64}
+		$p4 = {44 75 6d 70 20 4e 54 44 53 2e 64 69 74 20 70 61 73 73 77 6f 72 64 20 68 69 73 74 6f 72 79 73}
+		$p5 = {55 73 65 20 4b 65 72 62 65 72 6f 73 20 61 75 74 68 65 6e 74 69 63 61 74 69 6f 6e 2e 20 47 72 61 62 73 20 63 72 65 64 65 6e 74 69 61 6c 73 20 66 72 6f 6d 20 63 63 61 63 68 65 20 66 69 6c 65 20 28 4b 52 42 35 43 43 4e 41 4d 45 29 20 62 61 73 65 64 20 6f 6e 20 74 61 72 67 65 74 20 70 61 72 61 6d 65 74 65 72 73 73}
+		$p6 = {52 65 74 72 69 65 76 65 20 70 6c 61 69 6e 74 65 78 74 20 70 61 73 73 77 6f 72 64 73 20 61 6e 64 20 6f 74 68 65 72 20 69 6e 66 6f 72 6d 61 74 69 6f 6e 20 66 6f 72 20 61 63 63 6f 75 6e 74 73 20 70 75 73 68 65 64 20 74 68 72 6f 75 67 68 20 47 72 6f 75 70 20 50 6f 6c 69 63 79 20 50 72 65 66 65 72 65 6e 63 65 73 73}
+		$p7 = {43 6f 6d 62 6f 20 66 69 6c 65 20 63 6f 6e 74 61 69 6e 69 6e 67 20 61 20 6c 69 73 74 20 6f 66 20 64 6f 6d 61 69 6e 5c 75 73 65 72 6e 61 6d 65 3a 70 61 73 73 77 6f 72 64 20 6f 72 20 75 73 65 72 6e 61 6d 65 3a 70 61 73 73 77 6f 72 64 20 65 6e 74 72 69 65 73 73}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and ( 3 of ( $s* ) and 1 of ( $p* ) )
 }
 
-rule INDICATOR_TOOL_CNC_Shootback {
-    meta:
-        author = "ditekSHen"
-        description = "detects Python executable for CnC communication via reverse tunnels. Used by MuddyWater group."
-    strings:
-        $s1 = "PYTHON27.DLL" fullword wide
-        $s2 = "C:\\Python27\\lib\\site-packages\\py2exe\\boot_common.pyR" fullword ascii
-        $s3 = "C:\\Python27\\lib\\site-packages\\py2exe\\boot_common.pyt" fullword ascii
-        $s4 = "subprocess.pyc" fullword ascii
-        $s5 = "MyGetProcAddress(%p, %p(%s)) -> %p" fullword ascii
-        $p1 = "Slaver(this pc):" ascii
-        $p2 = "Master(another public server):" ascii
-        $p3 = "Master(this pc):" ascii
-        $p4 = "running as slaver, master addr: {} target: {}R/" fullword ascii
-        $p5 = "Customer(this pc): " ascii
-        $p6 = "Customer(any internet user):" ascii
-        $p7 = "the actual traffic is:  customer <--> master(1.2.3.4) <--> slaver(this pc) <--> ssh(this pc)" fullword ascii
-    condition:
-       uint16(0) == 0x5a4d and (3 of ($s*) and 2 of ($p*))
+rule INDICATOR_TOOL_CNC_Shootback : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "detects Python executable for CnC communication via reverse tunnels. Used by MuddyWater group."
+
+	strings:
+		$s1 = {50 00 59 00 54 00 48 00 4f 00 4e 00 32 00 37 00 2e 00 44 00 4c 00 4c 00}
+		$s2 = {43 3a 5c 50 79 74 68 6f 6e 32 37 5c 6c 69 62 5c 73 69 74 65 2d 70 61 63 6b 61 67 65 73 5c 70 79 32 65 78 65 5c 62 6f 6f 74 5f 63 6f 6d 6d 6f 6e 2e 70 79 52}
+		$s3 = {43 3a 5c 50 79 74 68 6f 6e 32 37 5c 6c 69 62 5c 73 69 74 65 2d 70 61 63 6b 61 67 65 73 5c 70 79 32 65 78 65 5c 62 6f 6f 74 5f 63 6f 6d 6d 6f 6e 2e 70 79 74}
+		$s4 = {73 75 62 70 72 6f 63 65 73 73 2e 70 79 63}
+		$s5 = {4d 79 47 65 74 50 72 6f 63 41 64 64 72 65 73 73 28 25 70 2c 20 25 70 28 25 73 29 29 20 2d 3e 20 25 70}
+		$p1 = {53 6c 61 76 65 72 28 74 68 69 73 20 70 63 29 3a}
+		$p2 = {4d 61 73 74 65 72 28 61 6e 6f 74 68 65 72 20 70 75 62 6c 69 63 20 73 65 72 76 65 72 29 3a}
+		$p3 = {4d 61 73 74 65 72 28 74 68 69 73 20 70 63 29 3a}
+		$p4 = {72 75 6e 6e 69 6e 67 20 61 73 20 73 6c 61 76 65 72 2c 20 6d 61 73 74 65 72 20 61 64 64 72 3a 20 7b 7d 20 74 61 72 67 65 74 3a 20 7b 7d 52 2f}
+		$p5 = {43 75 73 74 6f 6d 65 72 28 74 68 69 73 20 70 63 29 3a 20}
+		$p6 = {43 75 73 74 6f 6d 65 72 28 61 6e 79 20 69 6e 74 65 72 6e 65 74 20 75 73 65 72 29 3a}
+		$p7 = {74 68 65 20 61 63 74 75 61 6c 20 74 72 61 66 66 69 63 20 69 73 3a 20 20 63 75 73 74 6f 6d 65 72 20 3c 2d 2d 3e 20 6d 61 73 74 65 72 28 31 2e 32 2e 33 2e 34 29 20 3c 2d 2d 3e 20 73 6c 61 76 65 72 28 74 68 69 73 20 70 63 29 20 3c 2d 2d 3e 20 73 73 68 28 74 68 69 73 20 70 63 29}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and ( 3 of ( $s* ) and 2 of ( $p* ) )
 }
 
-rule INDICATOR_TOOL_PWS_Fgdump {
-    meta:
-        author = "ditekSHen"
-        description = "detects all versions of the password dumping tool, fgdump. Observed to be used by DustSquad group."
-        score = 75
-    strings:
-        $s1 = "dumping server %s" ascii
-        $s2 = "dump on server %s" ascii
-        $s3 = "dump passwords: %s" ascii
-        $s4 = "Dumping cache" nocase ascii
-        $s5 = "SECURITY\\Cache" ascii
-        $s6 = "LSASS.EXE process" ascii
-        $s7 = " AntiVirus " nocase ascii
-        $s8 = " IPC$ " ascii
-        $s9 = "Exec failed, GetLastError returned %d" fullword ascii
-        $10 = "writable connection to %s" ascii
-    condition:
-        uint16(0) == 0x5a4d and 5 of them
+rule INDICATOR_TOOL_PWS_Fgdump : hardened limited
+{
+	meta:
+		author = "ditekSHen"
+		description = "detects all versions of the password dumping tool, fgdump. Observed to be used by DustSquad group."
+		score = 75
+
+	strings:
+		$s1 = {64 75 6d 70 69 6e 67 20 73 65 72 76 65 72 20 25 73}
+		$s2 = {64 75 6d 70 20 6f 6e 20 73 65 72 76 65 72 20 25 73}
+		$s3 = {64 75 6d 70 20 70 61 73 73 77 6f 72 64 73 3a 20 25 73}
+		$s4 = {44 75 6d 70 69 6e 67 20 63 61 63 68 65}
+		$s5 = {53 45 43 55 52 49 54 59 5c 43 61 63 68 65}
+		$s6 = {4c 53 41 53 53 2e 45 58 45 20 70 72 6f 63 65 73 73}
+		$s7 = {20 41 6e 74 69 56 69 72 75 73 20}
+		$s8 = {20 49 50 43 24 20}
+		$s9 = {45 78 65 63 20 66 61 69 6c 65 64 2c 20 47 65 74 4c 61 73 74 45 72 72 6f 72 20 72 65 74 75 72 6e 65 64 20 25 64}
+		$10 = {77 72 69 74 61 62 6c 65 20 63 6f 6e 6e 65 63 74 69 6f 6e 20 74 6f 20 25 73}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 5 of them
 }
 
-rule INDICATOR_TOOL_PWS_SharpWeb {
-    meta:
-        author = "ditekSHen"
-        description = "detects all versions of the browser password dumping .NET tool, SharpWeb."
-    strings:
-        $param1 = "logins" nocase wide
-        $param2 = "cookies" nocase wide
-        $param3 = "edge" nocase wide
-        $param4 = "firefox" nocase wide
-        $param5 = "chrome" nocase wide
+rule INDICATOR_TOOL_PWS_SharpWeb : hardened limited
+{
+	meta:
+		author = "ditekSHen"
+		description = "detects all versions of the browser password dumping .NET tool, SharpWeb."
 
-        $path1 = "\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Login Data" wide
-        $path2 = "\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\" wide
-        $path3 = "\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Cookies" wide
-        $path4 = "\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Bookmarks" wide
+	strings:
+		$param1 = {6c 00 6f 00 67 00 69 00 6e 00 73 00}
+		$param2 = {63 00 6f 00 6f 00 6b 00 69 00 65 00 73 00}
+		$param3 = {65 00 64 00 67 00 65 00}
+		$param4 = {66 00 69 00 72 00 65 00 66 00 6f 00 78 00}
+		$param5 = {63 00 68 00 72 00 6f 00 6d 00 65 00}
+		$path1 = {5c 00 41 00 70 00 70 00 44 00 61 00 74 00 61 00 5c 00 4c 00 6f 00 63 00 61 00 6c 00 5c 00 47 00 6f 00 6f 00 67 00 6c 00 65 00 5c 00 43 00 68 00 72 00 6f 00 6d 00 65 00 5c 00 55 00 73 00 65 00 72 00 20 00 44 00 61 00 74 00 61 00 5c 00 44 00 65 00 66 00 61 00 75 00 6c 00 74 00 5c 00 4c 00 6f 00 67 00 69 00 6e 00 20 00 44 00 61 00 74 00 61 00}
+		$path2 = {5c 00 41 00 70 00 70 00 44 00 61 00 74 00 61 00 5c 00 52 00 6f 00 61 00 6d 00 69 00 6e 00 67 00 5c 00 4d 00 6f 00 7a 00 69 00 6c 00 6c 00 61 00 5c 00 46 00 69 00 72 00 65 00 66 00 6f 00 78 00 5c 00 50 00 72 00 6f 00 66 00 69 00 6c 00 65 00 73 00 5c 00}
+		$path3 = {5c 00 41 00 70 00 70 00 44 00 61 00 74 00 61 00 5c 00 4c 00 6f 00 63 00 61 00 6c 00 5c 00 47 00 6f 00 6f 00 67 00 6c 00 65 00 5c 00 43 00 68 00 72 00 6f 00 6d 00 65 00 5c 00 55 00 73 00 65 00 72 00 20 00 44 00 61 00 74 00 61 00 5c 00 44 00 65 00 66 00 61 00 75 00 6c 00 74 00 5c 00 43 00 6f 00 6f 00 6b 00 69 00 65 00 73 00}
+		$path4 = {5c 00 41 00 70 00 70 00 44 00 61 00 74 00 61 00 5c 00 4c 00 6f 00 63 00 61 00 6c 00 5c 00 47 00 6f 00 6f 00 67 00 6c 00 65 00 5c 00 43 00 68 00 72 00 6f 00 6d 00 65 00 5c 00 55 00 73 00 65 00 72 00 20 00 44 00 61 00 74 00 61 00 5c 00 44 00 65 00 66 00 61 00 75 00 6c 00 74 00 5c 00 42 00 6f 00 6f 00 6b 00 6d 00 61 00 72 00 6b 00 73 00}
+		$sql1 = {55 00 50 00 44 00 41 00 54 00 45 00 20 00 73 00 71 00 6c 00 69 00 74 00 65 00 5f 00 74 00 65 00 6d 00 70 00 5f 00 6d 00 61 00 73 00 74 00 65 00 72 00 20 00 53 00 45 00 54 00 20 00 73 00 71 00 6c 00 20 00 3d 00 20 00 73 00 71 00 6c 00 69 00 74 00 65 00 5f 00 72 00 65 00 6e 00 61 00 6d 00 65 00 5f 00 74 00 72 00 69 00 67 00 67 00 65 00 72 00 28 00 73 00 71 00 6c 00 2c 00 20 00 25 00 51 00 29 00 2c 00 20 00 74 00 62 00 6c 00 5f 00 6e 00 61 00 6d 00 65 00 20 00 3d 00 20 00 25 00 51 00 20 00 57 00 48 00 45 00 52 00 45 00 20 00 25 00 73 00 3b 00}
+		$sql2 = {55 00 50 00 44 00 41 00 54 00 45 00 20 00 25 00 51 00 2e 00 25 00 73 00 20 00 53 00 45 00 54 00 20 00 74 00 79 00 70 00 65 00 3d 00 27 00 25 00 73 00 27 00 2c 00 20 00 6e 00 61 00 6d 00 65 00 3d 00 25 00 51 00 2c 00 20 00 74 00 62 00 6c 00 5f 00 6e 00 61 00 6d 00 65 00 3d 00 25 00 51 00 2c 00 20 00 72 00 6f 00 6f 00 74 00 70 00 61 00 67 00 65 00 3d 00 23 00 25 00 64 00 2c 00 20 00 73 00 71 00 6c 00 3d 00 25 00 51 00 20 00 57 00 48 00 45 00 52 00 45 00 20 00 72 00 6f 00 77 00 69 00 64 00 3d 00 23 00 25 00 64 00}
+		$sql3 = {53 00 45 00 4c 00 45 00 43 00 54 00 20 00 61 00 63 00 74 00 69 00 6f 00 6e 00 5f 00 75 00 72 00 6c 00 2c 00 20 00 75 00 73 00 65 00 72 00 6e 00 61 00 6d 00 65 00 5f 00 76 00 61 00 6c 00 75 00 65 00 2c 00 20 00 70 00 61 00 73 00 73 00 77 00 6f 00 72 00 64 00 5f 00 76 00 61 00 6c 00 75 00 65 00 20 00 46 00 52 00 4f 00 4d 00 20 00 6c 00 6f 00 67 00 69 00 6e 00 73 00}
+		$func1 = {67 65 74 5f 65 6e 63 72 79 70 74 65 64 50 61 73 73 77 6f 72 64}
+		$func2 = {3c 47 65 74 4c 6f 67 69 6e 73 3e 67 5f 5f 47 65 74 56 61 75 6c 74 45 6c 65 6d 65 6e 74 56 61 6c 75 65 30 5f 30}
+		$func3 = {3c 65 6e 63 72 79 70 74 65 64 50 61 73 73 77 6f 72 64 3e 6b 5f 5f 42 61 63 6b 69 6e 67 46 69 65 6c 64}
+		$pdb = {5c 53 68 61 72 70 57 65 62 5c 6f 62 6a 5c 44 65 62 75 67 5c 53 68 61 72 70 57 65 62 2e 70 64 62}
 
-        $sql1 = "UPDATE sqlite_temp_master SET sql = sqlite_rename_trigger(sql, %Q), tbl_name = %Q WHERE %s;" nocase wide
-        $sql2 = "UPDATE %Q.%s SET type='%s', name=%Q, tbl_name=%Q, rootpage=#%d, sql=%Q WHERE rowid=#%d" nocase wide
-        $sql3 = "SELECT action_url, username_value, password_value FROM logins" nocase wide
-
-        $func1 = "get_encryptedPassword" fullword ascii
-        $func2 = "<GetLogins>g__GetVaultElementValue0_0" fullword ascii
-        $func3 = "<encryptedPassword>k__BackingField" fullword ascii
-
-        $pdb = "\\SharpWeb\\obj\\Debug\\SharpWeb.pdb" fullword ascii
-    condition:
-        uint16(0) == 0x5a4d and ((1 of ($func*) and 3 of ($param*) and (1 of ($path*) or 1 of ($sql*))) or $pdb)
+	condition:
+		uint16( 0 ) == 0x5a4d and ( ( 1 of ( $func* ) and 3 of ( $param* ) and ( 1 of ( $path* ) or 1 of ( $sql* ) ) ) or $pdb )
 }
 
-rule INDICATOR_TOOL_PWS_Blackbone {
-    meta:
-        author = "ditekSHen"
-        description = "detects Blackbone password dumping tool on Windows 7-10 operating system."
-    strings:
-        $s1 = "BlackBone: %s: " ascii
-        $s2 = "\\BlackBoneDrv\\" ascii
-        $s3 = "\\DosDevices\\BlackBone" fullword wide
-        $s4 = "\\Temp\\BBImage.manifest" wide
-        $s5 = "\\Device\\BlackBone" fullword wide
-        $s6 = "BBExecuteInNewThread" fullword ascii
-        $s7 = "BBHideVAD" fullword ascii
-        $s8 = "BBInjectDll" fullword ascii
-        $s9 = "ntoskrnl.exe" fullword ascii
-        $s10 = "WDKTestCert Ton," ascii
-    condition:
-        uint16(0) == 0x5a4d and 5 of them
+rule INDICATOR_TOOL_PWS_Blackbone : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "detects Blackbone password dumping tool on Windows 7-10 operating system."
+
+	strings:
+		$s1 = {42 6c 61 63 6b 42 6f 6e 65 3a 20 25 73 3a 20}
+		$s2 = {5c 42 6c 61 63 6b 42 6f 6e 65 44 72 76 5c}
+		$s3 = {5c 00 44 00 6f 00 73 00 44 00 65 00 76 00 69 00 63 00 65 00 73 00 5c 00 42 00 6c 00 61 00 63 00 6b 00 42 00 6f 00 6e 00 65 00}
+		$s4 = {5c 00 54 00 65 00 6d 00 70 00 5c 00 42 00 42 00 49 00 6d 00 61 00 67 00 65 00 2e 00 6d 00 61 00 6e 00 69 00 66 00 65 00 73 00 74 00}
+		$s5 = {5c 00 44 00 65 00 76 00 69 00 63 00 65 00 5c 00 42 00 6c 00 61 00 63 00 6b 00 42 00 6f 00 6e 00 65 00}
+		$s6 = {42 42 45 78 65 63 75 74 65 49 6e 4e 65 77 54 68 72 65 61 64}
+		$s7 = {42 42 48 69 64 65 56 41 44}
+		$s8 = {42 42 49 6e 6a 65 63 74 44 6c 6c}
+		$s9 = {6e 74 6f 73 6b 72 6e 6c 2e 65 78 65}
+		$s10 = {57 44 4b 54 65 73 74 43 65 72 74 20 54 6f 6e 2c}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 5 of them
 }
 
-rule INDICATOR_TOOL_PWS_Mimikatz {
-    meta:
-        author = "ditekSHen"
-        description = "Detects Mimikatz"
-    strings:
-        $s1 = "mimilib.dll" ascii
-        $s2 = "mimidrv.sys" ascii
-        $s3 = "mimikatz.exe" ascii
-        $s4 = "\\mimidrv.pdb" ascii
-        $s5 = "mimikatz" ascii
-        $s6 = { 6d 00 69 00 6d 00 69 00 6b 00 61 00 74 00 7a }  // m|00|i|00|m|00|i|00|k|00|a|00|t|00|z     
-        $s7 = { 5c 00 6d 00 69 00 6d 00 69 00 64 00 72 00 76 }  // \|00|m|00|i|00|m|00i|00|d|00|r|00|v
-        $s8 = { 6d 00 69 00 6d 00 69 00 64 00 72 00 76 }        // m|00|i|00|m|00i|00|d|00|r|00|v
-        $s9 = "Lecture KIWI_MSV1_0_" ascii
-        $s10 = "Search for LSASS process" ascii
+rule INDICATOR_TOOL_PWS_Mimikatz : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects Mimikatz"
 
-        $f1 = "SspCredentialList" ascii
-        $f2 = "KerbGlobalLogonSessionTable" ascii
-        $f3 = "LiveGlobalLogonSessionList" ascii
-        $f4 = "TSGlobalCredTable" ascii
-        $f5 = "g_MasterKeyCacheList" ascii
-        $f6 = "l_LogSessList" ascii
-        $f7 = "lsasrv!" ascii
-        $f8 = "SekurLSA" ascii
-        $f9 = /Cached(Unlock|Interative|RemoteInteractive)/ ascii
-
-        // https://github.com/gentilkiwi/mimikatz/blob/master/kiwi_passwords.yar
-        $dll_1 = { c7 0? 00 00 01 00 [4-14] c7 0? 01 00 00 00 }
+	strings:
+		$s1 = {6d 69 6d 69 6c 69 62 2e 64 6c 6c}
+		$s2 = {6d 69 6d 69 64 72 76 2e 73 79 73}
+		$s3 = {6d 69 6d 69 6b 61 74 7a 2e 65 78 65}
+		$s4 = {5c 6d 69 6d 69 64 72 76 2e 70 64 62}
+		$s5 = {6d 69 6d 69 6b 61 74 7a}
+		$s6 = { 6d 00 69 00 6d 00 69 00 6b 00 61 00 74 00 7a }
+		$s7 = { 5c 00 6d 00 69 00 6d 00 69 00 64 00 72 00 76 }
+		$s8 = { 6d 00 69 00 6d 00 69 00 64 00 72 00 76 }
+		$s9 = {4c 65 63 74 75 72 65 20 4b 49 57 49 5f 4d 53 56 31 5f 30 5f}
+		$s10 = {53 65 61 72 63 68 20 66 6f 72 20 4c 53 41 53 53 20 70 72 6f 63 65 73 73}
+		$f1 = {53 73 70 43 72 65 64 65 6e 74 69 61 6c 4c 69 73 74}
+		$f2 = {4b 65 72 62 47 6c 6f 62 61 6c 4c 6f 67 6f 6e 53 65 73 73 69 6f 6e 54 61 62 6c 65}
+		$f3 = {4c 69 76 65 47 6c 6f 62 61 6c 4c 6f 67 6f 6e 53 65 73 73 69 6f 6e 4c 69 73 74}
+		$f4 = {54 53 47 6c 6f 62 61 6c 43 72 65 64 54 61 62 6c 65}
+		$f5 = {67 5f 4d 61 73 74 65 72 4b 65 79 43 61 63 68 65 4c 69 73 74}
+		$f6 = {6c 5f 4c 6f 67 53 65 73 73 4c 69 73 74}
+		$f7 = {6c 73 61 73 72 76 21}
+		$f8 = {53 65 6b 75 72 4c 53 41}
+		$f9 = /Cached(Unlock|Interative|RemoteInteractive)/ ascii
+		$dll_1 = { c7 0? 00 00 01 00 [4-14] c7 0? 01 00 00 00 }
 		$dll_2 = { c7 0? 10 02 00 00 ?? 89 4? }
-        $sys_x86 = { a0 00 00 00 24 02 00 00 40 00 00 00 [0-4] b8 00 00 00 6c 02 00 00 40 00 00 00 }
+		$sys_x86 = { a0 00 00 00 24 02 00 00 40 00 00 00 [0-4] b8 00 00 00 6c 02 00 00 40 00 00 00 }
 		$sys_x64 = { 88 01 00 00 3c 04 00 00 40 00 00 00 [0-4] e8 02 00 00 f8 02 00 00 40 00 00 00 }
-    condition:
-        uint16(0) == 0x5a4d and (2 of ($*) or 3 of ($f*) or all of ($dll_*) or any of ($sys_*))
-}
-
-rule INDICATOR_TOOL_SCN_PortScan {
-    meta:
-        author = "ditekSHen"
-        description = "Detects a port scanner tool observed as second or third stage post-compromise or dropped by malware."
-    strings:
-        $s1 = "HEAD / HTTP/1.0" fullword ascii
-        $s2 = "Result.txt" fullword ascii
-        $s3 = "Example: %s SYN " ascii
-        $s4 = "Performing Time: %d/%d/%d %d:%d:%d -->" fullword ascii
-        $s5 = "Bind On IP: %d.%d.%d.%d" fullword ascii
-        $s6 = "SYN Scan: About To Scan %" ascii
-        $s7 = "Normal Scan: About To Scan %" ascii
-    condition:
-        uint16(0) == 0x5a4d and 5 of them
-}
-
-rule INDICATOR_TOOL_MEM_mXtract {
-    meta:
-        author = "ditekSHen"
-        description = "Detects mXtract, a linux-based tool that dumps memory for offensive pentration testing and can be used to scan memory for private keys, ips, and passwords using regexes."
-    strings:
-        $s1 = "_ZN18process_operations10get_rangesEv" fullword ascii
-        $s2 = "_ZN4misc10write_dumpESsSs" fullword ascii
-        $s3 = "_ZTVNSt8__detail13_Scanner_baseE" fullword ascii
-        $s4 = "Running as root is recommended as not all PIDs will be scanned" fullword ascii
-        $s5 = "ERROR ATTACHING TO PROCESS" fullword ascii
-        $s6 = "ERROR SCANNING MEMORY RANGE" fullword ascii
-    condition:
-        (uint32(0) == 0x464c457f or uint16(0) == 0x457f) and 3 of them
-}
-
-rule INDICATOR_TOOL_PWS_SniffPass {
-    meta:
-        author = "ditekSHen"
-        description = "Detects SniffPass, a password monitoring software that listens on the network and captures passwords over POP3, IMAP4, SMTP, FTP, and HTTP."
-    strings:
-        $s1 = "\\Release\\SniffPass.pdb" ascii
-        $s2 = "Password   Sniffer" fullword wide
-        $s3 = "Software\\NirSoft\\SniffPass" fullword ascii
-        $s4 = "Sniffed PasswordsCFailed to start" wide
-        $s5 = "Pwpcap.dll" fullword ascii
-        $s6 = "nmwifi.exe" fullword ascii
-        $s7 = "NmApi.dll" fullword ascii
-        $s8 = "npptools.dll" fullword ascii
-    condition:
-        uint16(0) == 0x5a4d and 4 of them
-}
-
-rule INDICATOR_TOOL_AVBypass_AVIator {
-    meta:
-        author = "ditekSHen"
-        description = "Detects AVIator, which is a backdoor generator utility, which uses cryptographic and injection techniques in order to bypass AV detection. This was observed to bypass Win.Trojan.AZorult. This rule works for binaries and memory."
-    strings:
-        $s1 = "msfvenom -p windows/meterpreter" ascii wide
-        $s2 = "payloadBox.Text" ascii wide
-        $s3 = "APCInjectionCheckBox" ascii wide
-        $s4 = "Thread Hijacking (Shellcode Arch: x86, OS Arch: x86)" ascii wide
-        $s5 = "injectExistingApp.Text" ascii wide
-        $s6 = "Stable execution but can be traced by most AVs" ascii wide
-        $s7 = "AV/\\tor" ascii wide
-        $s8 = "AvIator.Properties.Resources" ascii wide
-        $s9 = "Select injection technique" ascii wide
-        $s10 = "threadHijacking_option" ascii wide
-
-        $pwsh1 = "Convert.ToByte(Payload_Encrypted_Without_delimiterChar[" ascii wide
-        $pwsh2 = "[DllImport(\"kernel32.dll\", SetLastError = true)]" ascii wide
-        $pwsh3 = "IntPtr RtlAdjustPrivilege(" ascii wide
-        $pwsh4 = /InjectShellcode\.(THREADENTRY32|CONTEXT64|WriteProcessMemory\(|CloseHandle\(|CONTEXT_FLAGS|CONTEXT\(\);|Thread32Next\()/ ascii wide
-        $pwsh5 = "= Payload_Encrypted.Split(',');" ascii wide
-        $pwsh6 = "namespace NativePayload_Reverse_tcp" ascii wide
-        $pwsh7 = "byte[] Finall_Payload = Decrypt(KEY, _X_to_Bytes);" ascii wide
-        $pwsh8 = /ConstantsAndExtCalls\.(WriteProcessMemory\(|CreateRemoteThread\()/ ascii wide
-    condition:
-        (uint16(0) == 0x5a4d and (3 of ($s*) or 2 of ($pwsh*))) or (3 of ($s*) or 2 of ($pwsh*))
-}
-
-rule INDICATOR_TOOL_PWS_PwDump7 {
-    meta:
-        author = "ditekSHen"
-        description = "Detects Pwdump7 password Dumper"
-    strings:
-        $s1 = "savedump.dat" fullword ascii
-        $s2 = "Asd -_- _RegEnumKey fail!" fullword ascii
-        $s3 = "\\SAM\\" ascii
-        $s4 = "Unable to dump file %S" fullword ascii
-        $s5 = "NO PASSWORD" ascii
-    condition:
-        (uint16(0) == 0x5a4d and 4 of them) or (all of them)
-}
-
-rule INDICATOR_TOOL_LTM_SharpExec {
-    meta:
-        author = "ditekSHen"
-        description = "Detects SharpExec lateral movement tool"
-    strings:
-        $s1 = "fileUploaded" fullword ascii
-        $s2 = "$7fbad126-e21c-4c4e-a9f0-613fcf585a71" fullword ascii
-        $s3 = "DESKTOP_HOOKCONTROL" fullword ascii
-        $s4 = /WINSTA_(ACCESSCLIPBOARD|WINSTA_ALL_ACCESS)/ fullword ascii
-        $s5 = /NETBIND(ADD|DISABLE|ENABLE|REMOVE)/ fullword ascii
-        $s6 = /SERVICE_(ALL_ACCESS|WIN32_OWN_PROCESS|INTERROGATE)/ fullword ascii
-        $s7 = /(Sharp|PS|smb)Exec/ fullword ascii
-        $s8 = "lpszPassword" fullword ascii
-        $s9 = "lpszDomain" fullword ascii
-        $s10 = "wmiexec" fullword ascii
-        $s11 = "\\C$\\__LegitFile" wide
-        $s12 = "LOGON32_LOGON_NEW_CREDENTIALS" fullword ascii
-    condition:
-        (uint16(0) == 0x5a4d and 9 of them) or (all of them)
-}
-
-rule INDICATOR_TOOL_PRV_AdvancedRun {
-    meta:
-        author = "ditekSHen"
-        description = "Detects NirSoft AdvancedRun privialge escalation tool"
-    strings:
-        $s1 = "RunAsProcessName" fullword wide
-        $s2 = "Process ID/Name:" fullword wide
-        $s3 = "swinsta.dll" fullword wide
-        $s4 = "User of the selected process0Child of selected process (Using code injection) Specified user name and password" fullword wide
-        $s5 = "\"Current User - Allow UAC Elevation$Current User - Without UAC Elevation#Administrator (Force UAC Elevation)" fullword wide
-    condition:
-        uint16(0) == 0x5a4d and 3 of them
-}
-
-rule INDICATOR_TOOL_PWS_Amady {
-    meta:
-        author = "ditekSHen"
-        description = "Detects password stealer DLL. Dropped by Amadey"
-    strings:
-        $s1 = "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders\\AppData" fullword ascii
-        $s2 = "Software\\Microsoft\\Windows NT\\CurrentVersion\\Windows Messaging Subsystem\\Profiles\\Outlook" ascii
-        $s3 = "\\Mikrotik\\Winbox\\Addresses.cdb" fullword ascii
-        $s4 = "\\HostName" fullword ascii
-        $s5 = "\\Password" fullword ascii
-        $s6 = "SOFTWARE\\RealVNC\\" ascii
-        $s7 = "SOFTWARE\\TightVNC\\" ascii
-        $s8 = "cred.dll" fullword ascii
-    condition:
-        uint16(0) == 0x5a4d and filesize < 400KB and 7 of them
-}
-
-rule INDICATOR_TOOL_SCR_Amady {
-    meta:
-        author = "ditekSHen"
-        description = "Detects screenshot stealer DLL. Dropped by Amadey"
-    strings:
-        $s1 = "User-Agent: Uploador" fullword ascii
-        $s2 = "Content-Disposition: form-data; name=\"data\"; filename=\"" fullword ascii
-        $s3 = "WebUpload" fullword ascii
-        $s4 = "Cannot assign a %s to a %s%List does not allow duplicates ($0%x)%String" wide
-        $s5 = "scr.dll" fullword ascii
-    condition:
-        uint16(0) == 0x5a4d and filesize < 700KB and 4 of them
-}
-
-rule INDICATOR_TOOL_EXP_EternalBlue {
-    meta:
-        author = "ditekSHen"
-        description = "Detects Windows executables containing EternalBlue explitation artifacts"
-    strings:
-        $ci1 = "CNEFileIO_" ascii wide
-        $ci2 = "coli_" ascii wide
-        $ci3 = "mainWrapper" ascii wide
-
-        $dp1 = "EXPLOIT_SHELLCODE" ascii wide
-        $dp2 = "ETERNALBLUE_VALIDATE_BACKDOOR" ascii wide
-        $dp3 = "ETERNALBLUE_DOUBLEPULSAR_PRESENT" ascii wide
-        $dp4 = "//service[name='smb']/port" ascii wide
-        $dp5 = /DOUBLEPULSAR_(PROTOCOL_|ARCHITECTURE_|FUNCTION_|DLL_|PROCESS_|COMMAND_|IS_64_BIT)/
-
-        $cm1 = "--DllOrdinal 1 ProcessName lsass.exe --ProcessCommandLine --Protocol SMB --Architecture x64 --Function Rundll" ascii wide
-        $cm2 = "--DllOrdinal 1 ProcessName lsass.exe --ProcessCommandLine --Protocol SMB --Architecture x86 --Function Rundll" ascii wide
-        $cm3 = "--DaveProxyPort=0 --NetworkTimeout 30 --TargetPort 445 --VerifyTarget True --VerifyBackdoor True --MaxExploitAttempts 3 --GroomAllocations 12 --OutConfig" ascii wide
-    condition:
-        uint16(0) == 0x5a4d and (2 of ($ci*)) or (2 of ($dp*)) or (1 of ($dp*) and 1 of ($ci*)) or (1 of ($cm*))
-}
-
-rule INDICATOR_TOOL_EXP_WebLogic {
-    meta:
-        author = "ditekSHen"
-        description = "Detects Windows executables containing Weblogic exploits commands"
-    strings:
-        $s1 = "certutil.exe -urlcache -split -f AAAAA BBBBB & cmd.exe /c BBBBB" ascii
-        $s2 = "powershell (new-object System.Net.WebClient).DownloadFile('AAAAA','BBBBB')" ascii
-    condition:
-        uint16(0) == 0x5a4d and 1 of them
-}
-
-rule INDICATOR_TOOL_EXP_ApacheStrusts {
-    meta:
-        author = "ditekSHen"
-        description = "Detects Windows executables containing ApacheStruts exploit artifatcs"
-    strings:
-        // CVE-2017-5638
-        $x1 = "apache.struts2.ServletActionContext@getResponse" ascii 
-        $e1 = ".getWriter()" ascii
-        $e2 = ".getOutputStream()" ascii
-        $e3 = ".getInputStream()" ascii
-
-        // CVE-2018-11776
-        $x2 = "#_memberAccess" ascii                                   
-        $s1 = "ognl.OgnlContext" ascii
-        $s2 = "ognl.ClassResolver" ascii
-        $s3 = "ognl.TypeConverter" ascii
-        $s4 = "ognl.MemberAccess" ascii
-    condition:
-        (uint16(0) == 0x5a4d or uint16(0) == 0x457f) and ($x1 and 2 of ($e*)) or ($x2 and 1 of ($s*))
-}
-
-rule INDICATOR_TOOL_SCN_SMBTouch {
-    meta:
-        author = "ditekSHen"
-        description = "Detects SMBTouch scanner EternalBlue, EternalChampion, EternalRomance, EternalSynergy"
-    strings:
-        $s1 = "[+] SMB Touch started" fullword ascii
-        $s2 = "[-] Could not connect to share (0x%08X - %s)" fullword ascii
-        $s3 = "[!] Target could be either SP%d or SP%d," fullword ascii
-        $s4 = "[!] for these SMB exploits they are equivalent" fullword ascii
-        $s5 = "[+] Target is vulnerable to %d exploit%s" fullword ascii
-        $s6 = "[+] Touch completed successfully" fullword ascii
-        $s7 = "Network error while determining exploitability" fullword ascii
-        $s8 = "Named pipe or share required for exploit" fullword ascii
-
-        $w1 = "UsingNbt" fullword ascii
-        $w2 = "TargetPort" fullword ascii
-        $w3 = "TargetIp" fullword ascii
-        $w4 = "RedirectedTargetPort" fullword ascii
-        $w5 = "RedirectedTargetIp" fullword ascii
-        $w6 = "NtlmHash" fullword ascii
-        $w7 = "\\PIPE\\LANMAN" fullword ascii
-        $w8 = "UserRejected: " fullword ascii
-    condition:
-        uint16(0) == 0x5a4d and (2 of ($s*) or all of ($w*))
-}
-
-rule INDICATOR_TOOL_SCN_NBTScan {
-    meta:
-        author = "ditekSHen"
-        description = "Detects NBTScan scanner for open NETBIOS nameservers on a local or remote TCP/IP network"
-    strings:
-        $s1 = "[%s] is an invalid target (bad IP/hostname)" fullword ascii
-        $s2 = "ERROR: no parse for %s -- %s" fullword ascii
-        $s3 = "add_target failed" fullword ascii
-        $s4 = "   -p <n>    bind to UDP Port <n> (default=%d)" fullword ascii
-        $s5 = "process_response.c" fullword ascii
-        $s6 = "currTarget != 0" fullword ascii
-        $s7 = "parse_target.c" fullword ascii
-        $s8 = "dump_packet.c" fullword ascii
-        $s9 = "parse_target_cb.c" fullword ascii
-        $s10 = "DUMP OF PACKET" fullword ascii
-        $s11 = "lookup_hostname.c" fullword ascii
-    condition:
-        uint16(0) == 0x5a4d and 10 of ($s*)
-}
-
-rule INDICATOR_TOOL_LTM_CompiledImpacket {
-    meta:
-        author = "ditekSHen"
-        description = "Detects executables of compiled Impacket's python scripts"
-    strings:
-        $s1 = "impacket(" fullword ascii
-        $s2 = "impacket.dcerpc(" fullword ascii
-        $s3 = "impacket.krb5(" fullword ascii
-        $s4 = "impacket.smb(" fullword ascii
-        $s5 = "impacket.smb3(" fullword ascii
-        $s6 = "impacket.winregistry(" fullword ascii
-        $s7 = "impacket.ntlm(" fullword ascii
-        $m1 = "inspect(" fullword ascii
-        $m2 = "pickle(" fullword ascii
-        $m3 = "spsexec" fullword ascii
-        $m4 = "schecker" fullword ascii
-    condition:
-        uint16(0) == 0x5a4d and (2 of ($s*) or (3 of ($m*) and 1 of ($s*)))
-}
-
-rule INDICATOR_TOOL_ENC_BestCrypt {
-    meta:
-        author = "ditekSHen"
-        description = "Detects BestEncrypt commercial disk encryption and wiping software"
-    strings:
-        $s1 = "BestCrypt Volume Encryption" wide
-        $s2 = "BCWipe for " wide
-        $s3 = "Software\\Jetico\\BestCrypt" wide
-        $s4 = "%c:\\EFI\\Jetico\\" fullword wide
-    condition:
-        uint16(0) == 0x5a4d and all of them
-}
-
-rule INDICATOR_TOOL_CNC_Earthworm {
-    meta:
-        author = "ditekSHen"
-        description = "Detects Earthworm C&C Windows/macOS tool"
-    strings:
-        $s1 = "lcx_tran 0.0.0.0:%d <--[%4d usec]--> %s:%d" fullword ascii
-        $s2 = "ssocksd 0.0.0.0:%d <--[%4d usec]--> socks server" fullword ascii
-        $s3 = "rcsocks 0.0.0.0:%d <--[%4d usec]--> 0.0.0.0:%d" fullword ascii
-        $s4 = "rssocks %s:%d <--[%4d usec]--> socks server" fullword ascii
-        $s5 = "--> %3d <-- (close)used/unused  %d/%d" fullword ascii
-        $s6 = "<-- %3d --> (open)used/unused  %d/%d" fullword ascii
-        $s7 = "--> %d start server" ascii
-        $s8 = "Error on connect %s:%d [proto_init_cmd_rcsocket]" fullword ascii
-        $url = "http://rootkiter.com/EarthWrom/" nocase fullword ascii
-    condition:
-        (uint16(0) == 0xfacf or uint16(0) == 0x5a4d) and (5 of ($s*) or $url)
-}
-
-rule INDICATOR_TOOL_PWS_KeychainDumper {
-    meta:
-        author = "ditekSHen"
-        description = "Detects macOS certificate/password keychain dumping tool"
-        clamav_sig = "INDICATOR_Osx.Tool.PWS.KeychainDumper"
-    strings:
-        $s1 = "_getEmptyKeychainItemString" fullword ascii
-        $s2 = "NdumpKeychainEntitlements" fullword ascii
-        $s3 = "_dumpKeychainEntitlements" fullword ascii
-    condition:
-        (uint16(0) == 0xfeca or uint16(0) == 0xfacf) and all of them
-}
-
-rule INDICATOR_TOOL_PET_p0wnedShell {
-    meta:
-        author = "ditekSHen"
-        description = "Detects compiled executables of p0wnedShell post-exploitation toolkit"
-    strings:
-        $s1 = "Use WinRM, PsExec, SMB/WMI to execute commands on remote systems" wide
-        $s2 = "-CreateProcess \"cmd.exe\" -Username \"nt authority\\system\"" wide
-        $s3 = "-Command '\"lsadump::dcsync /user:" wide
-        $s4 = "-Payload windows/meterpreter/reverse_https -Lhost" wide
-        $s5 = "Get-Content ./EncodedPayload.bat" fullword wide
-        $e1 = "OnYNAB+LCAAAAAAABAC8vOeS60iSLvh75yly+rZZVxuqC4KQs3uvLQhFEJIACALoHVuD1oKQBMbuuy+Y4pw8dUTf3R+bZlWVZHh87uHh4vPItv63ZGrCMW+bF7GZ2zL+" wide
-        $e2 = "kuIeAB+LCAAAAAAABADsvWt327iuMPw9v0Jv27Wa7DqJc2ma5nl71vZFTpzx/ZJL+3TlyLZiq7EtjyTHcffZ//0BSEqiKEqWbKczs8941qS2LgAIAiAIguDjfNp3DHOq" wide
-        $e3 = "mZYIAB+LCAAAAAAABADsvflj2zyOMPx7/gptmnftbBIfuZp0t/OOfMZp7PjO0adfX9lSbCWy5Vp2HGfm+d8/ACQl6vCRNp2Z3bVmnioWSRAEQQAESfC/Pmwp8FTtmTFu" wide
-        $e4 = "u9YGAB+LCAAAAAAABADsvW1D40ayKPw9v0Lr4V7ZE8vY5mUY9rKJBzMTnmWAgyGTvYTlCluAdmzJK9nDsEn++1NV/S61ZJmXZJIN52wG7O7q6urq6qrqquoXSfDveZgE" wide
-        $e5 = "T3gDAB+LCAAAAAAABADtvX1f2zq2KPz3yafQzuZcwi5JEydQ2nM7v4cCnc0zQLmE7j3z6+7NmMQBnwY7YzsFTqff/WpJsi3Jki07DlA2mT008ctaS0tL601L0nThjSPX" wide
-        $e6 = "zRgDAB+LCAAAAAAABADtfW1327jR6OdHv4Kr9TmWdiVZkl+SdZs913Gcrm9tx7WcbvekuS4t0TYbiVRJKYmfbf77xeCNeCVBinKcbNStI5HAYDAYDAaDwczNMhovwjjy" wide
-        $e7 = "pxICAB+LCAAAAAAABADtvf17GkeyKPyz+Cvmlfw+ggRhfcXr1X1znsUIx5yVhC7IUbI+fnUHGKRZwww7M1jWyeZ/v1XV3z09wABysnviZ1cBpqe6urqquqq6uno8j4ZZ" wide
-        $e8 = "H4sIAAAAAAAEANy9e3wTVfo4PG1SmkLbCdpgFdSgUeuCbLTAthYk005gQhNahUIVkCqIqKi1TaAuIGBaJRzG27Kuul5wV3fV1fUuUFxNKbTl3oJAuaiouE4paAGBFpB5" wide
-        $k1 = "EasySystemPPID" fullword ascii
-        $k2 = "EasySystemShell" fullword ascii
-        $k3 = "LatMovement" fullword ascii
-        $k4 = "ListenerURL" fullword ascii
-        $k5 = "MeterStager" fullword ascii
-        $k6 = "PatchEventLog" fullword ascii
-    condition:
-        uint16(0) == 0x5a4d and (3 of ($s*) or 7 of ($e*) or all of ($k*) or (2 of ($s*) and 2 of ($e*) and 2 of ($k*)))
-}
-
-rule INDICATOR_TOOL_PWS_Rubeus {
-    meta:
-        author = "ditekSHen"
-        description = "Detects Rubeus kerberos defensive/offensive toolset"
-    strings:
-        $s1 = "(&(samAccountType=805306368)(userAccountControl:1.2.840.113556.1.4.803:=4194304))" fullword wide
-        $s2 = "(!samAccountName=krbtgt)(!(UserAccountControl:1.2.840.113556.1.4.803:=2))" fullword wide
-        $s3 = "rc4opsec" fullword wide
-        $s4 = "pwdlastset" fullword wide
-        $s5 = "LsaEnumerateLogonSessions" fullword ascii
-        $s6 = "extractKerberoastHash" fullword ascii
-        $s7 = "ComputeAllKerberosPasswordHashes" fullword ascii
-        $s8 = "kerberoastDomain" fullword ascii
-        $s9 = "GetUsernamePasswordTGT" fullword ascii
-        $s10 = "WriteUserPasswordToFile" fullword ascii
-    condition:
-        uint16(0) == 0x5a4d and 8 of them
-}
-
-rule INDICATOR_TOOL_RTK_HiddenRootKit {
-    meta:
-        author = "ditekSHen"
-        description = "Detects the Hidden public rootkit"
-    strings:
-        $h1 = "Hid_State" fullword wide
-        $h2 = "Hid_StealthMode" fullword wide
-        $h3 = "Hid_HideFsDirs" fullword wide
-        $h4 = "Hid_HideFsFiles" fullword wide
-        $h5 = "Hid_HideRegKeys" fullword wide
-        $h6 = "Hid_HideRegValues" fullword wide
-        $h7 = "Hid_IgnoredImages" fullword wide
-        $h8 = "Hid_ProtectedImages" fullword wide
-        $s1 = "FLTMGR.SYS" fullword ascii
-        $s2 = "HAL.dll" fullword ascii
-        $s3 = "\\SystemRoot\\System32\\csrss.exe" fullword wide
-        $s4 = "\\REGISTRY\\MACHINE\\SYSTEM\\ControlSet001\\%wZ" fullword wide
-        $s5 = "INIT" fullword ascii
-        $s6 = "\\hidden-master\\Debug\\QAssist.pdb" fullword ascii
-    condition:
-        uint16(0) == 0x5a4d and (3 of ($h*) or 5 of ($s*) or (2 of ($s*) and 2 of ($h*)))
-}
-
-rule INDICATOR_TOOL_PET_SharpHound {
-    meta:
-        author = "ditekSHen"
-        description = "Detects BloodHound"
-    strings:
-        $id1 = "InvokeBloodHound" fullword ascii
-        $id2 = "Sharphound" ascii nocase
-        $s1 = "SamServerExecute" fullword ascii
-        $s2 = "get_RemoteDesktopUsers" fullword ascii
-        $s3 = "commandline.dll.compressed" ascii wide
-        $s4 = "operatingsystemservicepack" fullword wide
-        $s5 = "LDAP://" fullword wide
-        $s6 = "wkui1_logon_domain" fullword ascii
-        $s7 = "GpoProps" fullword ascii
-        $s8 = "a517a8de-5834-411d-abda-2d0e1766539c" fullword ascii nocase
-    condition:
-        uint16(0) == 0x5a4d and (all of ($id*) or 6 of ($s*) or (1 of ($id*) and 4 of ($s*)))
-}
-
-rule INDICATOR_TOOL_UAC_NSISUAC {
-    meta:
-        author = "ditekSHen"
-        description = "Detects NSIS UAC plugin"
-    strings:
-        $s1 = "HideCurrUserOpt" fullword wide
-        $s2 = "/UAC:%X /NCRC%s" fullword wide
-        $s3 = "2MyRunAsStrings" fullword wide
-        $s4 = "CheckElevationEnabled" fullword ascii
-        $s5 = "UAC.dll" fullword ascii
-    condition:
-        uint16(0) == 0x5a4d and all of them
-}
-
-rule INDICATOR_TOOL_REM_IntelliAdmin {
-    meta:
-        author = "ditekSHen"
-        description = "Detects commerical IntelliAdmin remote tool"
-    strings:
-        $pdb1 = "\\Network Administrator" ascii
-        $pdb2 = "\\Binaries\\Plugins\\Tools\\RPCService.pdb" ascii
-        $s1 = "CIntelliAdminRPC" fullword wide
-        $s2 = "IntelliAdmin RPC Service" fullword wide
-        $s3 = "IntelliAdmin Remote Execute v" ascii
-        $s4 = "IntelliAdminRPC" fullword ascii
-    condition:
-        uint16(0) == 0x5a4d and (all of ($pdb*) or 2 of ($s*))
-}
-
-rule INDICATOR_TOOL_PET_SharpWMI {
-    meta:
-        author = "ditekSHen"
-        description = "Detects SharpWMI"
-    strings:
-        $s1 = "scriptKillTimeout" fullword ascii
-        $s2 = "RemoteWMIExecuteWithOutput" fullword ascii
-        $s3 = "RemoteWMIFirewall" fullword ascii
-        $s4 = "iex([char[]](@({0})|%{{$_-bxor{1}}}) -join '')" fullword wide
-        $s5 = "\\\\{0}\\root\\subscription" fullword wide
-        $s6 = "_Context##RANDOM##" fullword wide
-        $s7 = "executevbs" fullword wide
-        $s8 = "scriptb64" fullword wide
-    condition:
-        uint16(0) == 0x5a4d and 4 of them
-}
-
-rule INDICATOR_TOOL_PET_DefenderControl {
-    meta:
-        author = "ditekSHen"
-        description = "Detects Defender Control"
-    strings:
-        $s1 = "Windows Defender Control" wide
-        $s2 = "www.sordum.org" wide ascii
-        $s3 = "dControl" wide
-    condition:
-        uint16(0) == 0x5a4d and 2 of them
-}
-
-rule INDICATOR_TOOL_PET_Mulit_VenomAgent {
-    meta:
-        author = "ditekSHen"
-        description = "Detects Venom Proxy Agent"
-    strings:
-        $s1 = "github.com/Dliv3/Venom/" ascii
-        $s2 = "3HpKQVB3nT3qaNQPT-ZU/SKJ55ofz5TEmg5O3ROWA/CUs_-gfa04tGVO633Z4G/OSeEpRRb0Sq_5R6ArIi-" ascii
-        $s3 = "venom_agent -" ascii
-        $s4 = "bufferssh-userauthtransmitfileunknown portwirep: p->m= != sweepgen" ascii
-        $s5 = "golang.org/x/crypto/ssh.(*handshakeTransport).readPacket"
-    condition:
-        (uint16(0) == 0x5a4d or uint16(0) == 0x457f or uint16(0) == 0xfacf) and 3 of them
-}
-
-rule INDICATOR_TOOL_HFS_WebServer {
-    meta:
-        author = "ditekSHen"
-        description = "Detects HFS Web Server"
-    strings:
-        $s1 = "SOFTWARE\\Borland\\Delphi\\" ascii
-        $s2 = "C:\\code\\mine\\hfs\\scriptLib.pas" fullword ascii
-        $s3 = "hfs.*;*.htm*;descript.ion;*.comment;*.md5;*.corrupted;*.lnk" ascii
-        $s4 = "Server: HFS" ascii
-    condition:
-        uint16(0) == 0x5a4d and all of them
-}
-
-rule INDICATOR_TOOL_PROX_lanproxy {
-    meta:
-        author = "ditekSHen"
-        description = "Detects lanproxy-go-client"
-    strings:
-        $s1 = "serverShare" fullword ascii
-        $s2 = "parkingOnChan" fullword ascii
-        $s3 = "{{join .Names \", \"}}{{\"\\t\"}}{{.Usage}}{{end}}{{end}}{{end}}{{end}}{{" ascii
-        $s4 = "</table></thead></tbody>" fullword ascii
-        $s5 = "value=aacute;abreve;addressagrave;alt -> andand;angmsd;angsph;any -> apacir;approx;articleatilde;barvee;barwed;bdoUxXvbecaus;ber" ascii
-        $s6 = "/dev/urandom127.0.0.1:" ascii
-        $s7 = "non-IPv4 addressnon-IPv6 addressntrianglelefteq;object is remotepacer: H_m_prev=reflect mismatchregexp: Compile(remote I/O error" ascii
-        $s8 = ".WithDeadline(.in-addr.arpa." ascii
-    condition:
-        (uint16(0) == 0x5a4d or uint16(0) == 0x457f) and 6 of them
-}
-
-rule INDICATOR_TOOL_PET_Peirates {
-    meta:
-        author = "ditekSHen"
-        description = "Detects Kubernetes penetration tool Peirates"
-    strings:
-        $s1 = "DeprecatedServiceAccount" fullword ascii
-        $s2 = "LivenessProbe" fullword ascii
-        $s3 = "\\t\\tkubectl expose rs nginx --port=80 --target-port=8000" ascii
-        $s4 = "\\t\\tkubectl run hazelcast --image=hazelcast --port=5701" ascii
-        $s5 = "COMPREPLY[$i]=${COMPREPLY[$i]#\"$colon_word\"}" ascii
-        $s6 = "%*polymorphichelpers.HistoryViewerFunc" ascii
-        $s7 = "ListenAndServeTLS" ascii
-        $s8 = "DownwardAPI" ascii
-        $s9 = "; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);proto:" ascii
-        $s10 = "name: attack-" ascii
-    condition:
-       uint16(0) == 0x457f and 9 of them
-}
-
-rule INDICATOR_TOOL_PET_BOtB {
-    meta:
-        author = "ditekSHen"
-        description = "Detects Break out the Box (BOtB)"
-    strings:
-        $s1 = "to unallocated span%%!%c(*big.Float=%s), RecursionDesired: /usr/share/zoneinfo//{Bucket}/{Key+}?acl/{Bucket}?accelerate/{Bucket}?encryption/{Bucket}?" ascii
-        $s2 = "exploit CVE-2019-5736 with command: [ERROR] In Enabling CGROUP Notifications -> 'echo 1 > [INFO] CGROUP may exist, attempting exploit regardless" ascii
-        $s3 = "main.execShellCmd" ascii
-        $s4 = "[*] Data uploaded to:[+]" ascii
-        $s5 = "whitespace or line breakfailed to find credentials in the environment.failed to get %s EC2 instance role credentialsfirst" ascii
-        $s6 = "This process will exit IF an EXECVE is called in the Container or if the Container is manually stoppedPerform reverse DNS lookups" ascii
-        $s7 = "http: request too largehttp://100.100.100.200/http://169.254.169.254/index out of range" ascii
-    condition:
-       uint16(0) == 0x457f and 6 of them
-}
-
-rule INDICATOR_TOOL_PWS_LSASS_CreateMiniDump {
-    meta:
-        author = "ditekSHen"
-        description = "Detects CreateMiniDump tool"
-    strings:
-        $s1 = "lsass.dmp" fullword wide
-        $s2 = "lsass dumped successfully!" ascii
-        $s3 = "Got lsass.exe PID:" ascii
-        $s4 = "\\experiments\\CreateMiniDump\\CreateMiniDump\\" ascii
-        $s5 = "MiniDumpWriteDump" fullword ascii
-    condition:
-        uint16(0) == 0x5a4d and 2 of them
-}
-
-rule INDICATOR_TOOL_PWS_SecurityXploded_BrowserPasswordDumper {
-    meta:
-        author = "ditekSHen"
-        description = "Detects SecurityXploded Browser Password Dumper tool"
-    strings:
-        $s1 = "\\projects\\windows\\BrowserPasswordDump\\Release\\FireMaster.pdb" ascii
-        $s2 = "%s: Dumping passwords" fullword ascii
-        $s3 = "%s - Found login data file...dumping the passwords from file %s" fullword ascii
-        $s4 = "%s Dumping secrets from login json file %s" fullword ascii
-    condition:
-        uint16(0) == 0x5a4d and 3 of them
-}
-
-rule INDICATOR_TOOL_PWS_SecurityXploded_FTPPasswordDumper {
-    meta:
-        author = "ditekSHen"
-        description = "Detects SecurityXploded FTP Password Dumper tool"
-    strings:
-        $s1 = "\\projects\\windows\\FTPPasswordDump\\Release\\FireMaster.pdb" ascii
-        $s2 = "//Dump all the FTP passwords to a file \"c:\\passlist.txt\"" ascii
-        $s3 = "//Dump all the FTP passwords to console" ascii
-        $s4 = "FTP Password Dump" fullword wide
-    condition:
-        uint16(0) == 0x5a4d and 3 of them
-}
-
-rule INDICATOR_TOOL_PWS_SecurityXploded_EmailPasswordDumper {
-    meta:
-        author = "ditekSHen"
-        description = "Detects SecurityXploded Email Password Dumper tool"
-    strings:
-        $s1 = "\\projects\\windows\\EmailPasswordDump\\Release\\FireMaster.pdb" ascii
-        $s2 = "//Dump all the Email passwords to a file \"c:\\passlist.txt\"" ascii
-        $s3 = "EmailPasswordDump" fullword wide
-        $s4 = "//Dump all the Email passwords to console" ascii
-        $s5 = "Email Password Dump" fullword wide
-    condition:
-        uint16(0) == 0x5a4d and 3 of them
-}
-
-rule INDICATOR_TOOL_PET_SharpSphere {
-    meta:
-        author = "ditekSHen"
-        description = "Detects SharpSphere red teamers tool to interact with the guest operating systems of virtual machines managed by vCenter"
-    strings:
-        $s1 = "get_virtualExecUsage" fullword ascii
-        $s2 = "Command to execute" fullword ascii
-        $s3 = "<guestusername>k__" ascii
-        $s4 = ".VirtualMachineDeviceRuntimeInfoVirtualEthernetCardRuntimeState" ascii
-        $s5 = "datastoreUrl" ascii
-        $s6 = "SharpSphere.vSphere." ascii
-        $s7 = "HelpText+vCenter SDK URL, i.e. https://127.0.0.1/sdk" ascii
-        $s8 = "[x] Execution finished, attempting to retrieve the results" fullword wide
-        $s9 = "C:\\Windows\\System32\\cmd.exe" fullword wide
-        $s10 = "C:\\Users\\Public\\" fullword wide
-    condition:
-        uint16(0) == 0x5a4d and 4 of them
-}
-
-rule INDICATOR_TOOL_ExchangeExploit {
-     meta:
-        author = "ditekSHen"
-        description = "Hunt for executables potentially embedding Exchange Server exploitation artificats"
-    strings:
-        $s1 = "ecp/default.flt?" ascii wide nocase
-        $s2 = "owa/auth/logon.aspx?" ascii wide nocase
-        $s3 = "X-AnonResource-Backend" ascii wide
-        $s4 = "EWS/Exchange.asmx?" ascii wide nocase
-        $s5 = "X-BEResource" ascii wide
-        $s6 = "https://%s/owa/auth/" ascii wide
-    condition:
-        (uint16(0) == 0x5a4d or uint16(0) == 0x457f) and 5 of them
-}
-
-rule INDICATOR_TOOL_GoCLR {
-     meta:
-        author = "ditekSHen"
-        description = "Detects binaries utilizing Go-CLR for hosting the CLR in a Go process and using it to execute a DLL from disk or an assembly from memory"
-    strings:
-        $s1 = "github.com/ropnop/go-clr.(*IC" ascii
-        $s2 = "EnumKeyExWRegEnumValueWRegOpenKeyExWRtlCopyMemoryRtlGetVersionShellExecuteWStartServiceW" ascii
-        $c1 = "ICorRuntimeHost" ascii wide
-        $c2 = "CLRCreateInstance" ascii wide
-        $c3 = "ICLRRuntimeInfo" ascii wide
-        $c4 = "ICLRMetaHost" ascii wide
-        $go = "Go build ID:" ascii wide
-    condition:
-        uint16(0) == 0x5a4d and all of ($s*) or (2 of ($c*) and $go)
-}
-
-/*
-Too many FPs
-rule INDICATOR_TOOL_CppHostCLR {
-     meta:
-        author = "ditekSHen"
-        description = "Detects artificats of CppHostCLR technique"
-    strings:
-        $s1 = "ICorRuntimeHost" ascii wide
-        $s2 = "CLRCreateInstance" ascii wide
-        $s3 = "ICLRRuntimeInfo" ascii wide
-        $s4 = "ICLRMetaHost" ascii wide
-        $go = "Go build ID:" ascii wide
-    condition:
-        uint16(0) == 0x5a4d and (2 of ($s*) and not $go)
-}
-*/
-
-rule INDICATOR_TOOL_EdgeCookiesView {
-     meta:
-        author = "ditekSHen"
-        description = "Detects EdgeCookiesView"
-    strings:
-        $s1 = "AddRemarkCookiesTXT" fullword wide
-        $s2 = "# Netscape HTTP Cookie File" fullword wide
-        $s3 = "/scookiestxt" fullword wide
-        $s4 = "/deleteregkey" fullword wide
-        $s5 = "Load cookies from:" wide
-        $s6 = "Old cookies folder of Edge/IE" wide
-        $pdb = "\\EdgeCookiesView\\Release\\EdgeCookiesView.pdb" ascii
-    condition:
-        uint16(0) == 0x5a4d and (5 of ($s*) or (($pdb) and 2 of ($s*)))
-}
-
-rule INDICATOR_TOOL_SharpNoPSExec {
-     meta:
-        author = "ditekSHen"
-        description = "Detects SharpNoPSExec"
-    strings:
-        $s1 = "|-> Service" wide
-        $s2 = "authenticated as" wide
-        $s3 = "ImpersonateLoggedOnUser failed. Error:{0}" wide
-        $s4 = "uPayload" fullword ascii
-        $s5 = "pcbBytesNeeded" fullword ascii
-        $s6 = "SharpNoPSExec" ascii wide
-        $pdb1 = "SharpNoPSExec\\obj\\Debug\\SharpNoPSExec.pdb" ascii
-        $pdb2 = "SharpNoPSExec\\obj\\Release\\SharpNoPSExec.pdb" ascii
-    condition:
-        uint16(0) == 0x5a4d and (4 of ($s*) or (1 of ($pdb*) and 1 of ($s*)))
-}
-
-rule INDICATOR_TOOL_ChromeCookiesView {
-     meta:
-        author = "ditekSHen"
-        description = "Detects ChromeCookiesView"
-    strings:
-        $s1 = "AddRemarkCookiesTXT" fullword wide
-        $s2 = "Decrypt cookies" wide
-        $s3 = "/scookiestxt" fullword wide
-        $s4 = "/deleteregkey" fullword wide
-        $s5 = "Cookies.txt Format" wide
-        $s6 = "# Netscape HTTP Cookie File" wide
-        $pdb = "\\ChromeCookiesView\\Release\\ChromeCookiesView.pdb" ascii
-    condition:
-        uint16(0) == 0x5a4d and (5 of ($s*) or (($pdb) and 2 of ($s*)))
-}
-
-rule INDICATOR_TOOL_Sliver {
-    meta:
-        author = "ditekSHen"
-        description = "Detects Sliver implant cross-platform adversary emulation/red team"
-        score = 75
-    strings:
-        $x1 = "github.com/bishopfox/sliver/protobuf/sliverpbb." ascii
-        $s1 = ".commonpb.ResponseR" ascii
-        $s2 = ".PortfwdProtocol" ascii
-        $s3 = ".WGTCPForwarder" ascii
-        $s4 = ".WGSocksServerR" ascii
-        $s5 = ".PivotEntryR" ascii
-        $s6 = ".BackdoorReq" ascii
-        $s7 = ".ProcessDumpReq" ascii
-        $s8 = ".InvokeSpawnDllReq" ascii
-        $s9 = ".SpawnDll" ascii
-        $s10 = ".TCPPivotReq" ascii
-    condition:
-        (uint16(0) == 0x5a4d or uint16(0) == 0x457f or uint16(0) == 0xfacf) and (1 of ($x*) or 5 of ($s*))
-}
-
-rule INDICATOR_TOOL_OwlProxy {
-    meta:
-        author = "ditekSHen"
-        description = "Hunt for OwlProxy"
-    strings:
-        $is1 = "call_new command: " wide
-        $is2 = "call_proxy cmd: " wide
-        $is3 = "download_file: " wide
-        $is4 = "cmdhttp_run" wide
-        $is5 = "sub_proxyhttp_run" wide
-        $is6 = "proxyhttp_run" wide
-        $is7 = "webshell_run" wide
-        $is8 = "/exchangetopicservices/" fullword wide
-        $is9 = "c:\\windows\\system32\\wmipd.dll" fullword wide
-        $iu1 = "%s://+:%d%s" wide
-        $iu2 = "%s://+:%d%spp/" wide
-        $iu3 = "%s://+:%d%spx/" wide
-    condition:
-        uint16(0) == 0x5a4d and 6 of ($is*) or (all of ($iu*) and 2 of ($is*))
-}
-
-rule INDICATOR_TOOL_Backstab {
-    meta:
-        author = "ditekSHen"
-        description = "Detect Backstab tool capable of killing antimalware protected processes by leveraging sysinternals Process Explorer (ProcExp) driver"
-    strings:
-        $s1 = "NtLoadDriver: %x" fullword ascii
-        $s2 = "POSIXLY_CORRECT" fullword ascii
-        $s3 = "\\\\.\\PROCEXP" ascii
-        $s4 = "ProcExpOpenProtectedProcess.DeviceIoControl: %" ascii
-        $s5 = "ProcExpKillHandle.DeviceIoControl" ascii
-        $s6 = "[%#llu] [%ws]: %ws" fullword ascii
-        $s7 = "D:P(A;;GA;;;SY)(A;;GRGWGX;;;BA)(A;;GR" wide
-        $s8 = "-k -d c:\\\\driver.sys" ascii
-        $s9 = "backstab.exe -" ascii
-    condition:
-        uint16(0) == 0x5a4d and 6 of them
-}
-
-rule INDICATOR_TOOL_EXP_SharpPrintNightmare {
-    meta:
-        author = "ditekSHen"
-        description = "Detect SharpPrintNightmare"
-    strings:
-        $s1 = "RevertToSelf() Error:" wide
-        $s2 = "NeverGonnaGiveYou" wide
-        $s3 = "\\Amd64\\UNIDRV.DLL" wide
-        $s4 = ":\\Windows\\System32\\DriverStore\\FileRepository\\" wide
-        $s5 = "C:\\Windows\\System32\\spool\\drivers\\x64\\3\\old\\{0}\\{1}" wide
-        $s6 = "\\SharpPrintNightmare\\" ascii
-        $s7 = { 4e 61 6d 65 09 46 75 6c 6c 54 72 75 73 74 01 }
-        $s8 = "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Print\\PackageInstallation\\Windows x64\\DriverPackages" wide
-        $s9 = "ntprint.inf_amd64" wide
-        $s10 = "AddPrinterDriverEx" wide
-        $s11 = "addPrinter" ascii
-        $s12 = "DRIVER_INFO_2" ascii
-        $s13 = "APD_COPY_" ascii
-    condition:
-        uint16(0) == 0x5a4d and 7 of them
-}
-
-rule INDICATOR_TOOL_REC_ADFind {
-    meta:
-        author = "ditekSHen"
-        description = "Detect ADFind"
-    strings:
-        $s1 = "\\AdFind\\AdFind\\AdFind.h" ascii
-        $s2 = "\\AdFind\\AdFind\\AdFind.cpp" ascii
-        $s3 = "\\AdFind\\Release\\AdFind.pdb" ascii
-        $s4 = "joeware_default_adfind.cf" ascii
-    condition:
-        uint16(0) == 0x5a4d and 2 of them
-}
-
-rule INDICATOR_TOOL_CNC_Chisel {
-    meta:
-        author = "ditekSHen"
-        description = "Detect binaries using Chisel"
-    strings:
-        $s1 = "chisel-v" ascii
-        $s2 = "sendchisel-v" ascii
-        $s3 = "<-chiselclosedcookiedomainefenceempty" ascii
-        $ws1 = "Sec-WebSocket-Key" ascii
-        $ws2 = "Sec-WebSocket-Protocol" ascii
-        $ws3 = "Sec-Websocket-Version" ascii
-        $ws4 = "Sec-Websocket-Extensions" ascii
-    condition:
-        uint16(0) == 0x5a4d and (1 of ($s*) and 3 of ($ws*))
-}
-
-rule INDICATOR_TOOL_ANT_SharpEDRChecker {
-    meta:
-        author = "ditekSHen"
-        description = "Detect SharpEDRChecke, C# Implementation of Invoke-EDRChecker"
-    strings:
-        $pdb1 = "\\SharpEDRChecker.pdb" fullword ascii
-        $x1 = "EDRData" fullword ascii
-        $x2 = "bytesNeeded" fullword ascii
-        $x3 = /\] Checking (Directories|drivers|processes|modules|Registry|Services) \[/ wide
-        $s1 = "CheckService" fullword ascii
-        $s2 = "CheckModule" fullword ascii
-        $s3 = "PrivCheck" fullword ascii
-        $s4 = "ServiceChecker" fullword ascii
-        $s5 = "PrivilegeChecker" fullword ascii
-        $s6 = "FileChecker" fullword ascii
-        $s7 = "DriverChecker" fullword ascii
-        $s8 = "ProcessChecker" fullword ascii
-        $s9 = "DirectoryChecker" fullword ascii
-        $s10 = "RegistryChecker" fullword ascii
-        $s11 = "CheckDriver" fullword ascii
-        $s12 = "CheckServices" fullword ascii
-        $s13 = "CheckDirectories" fullword ascii
-        $s14 = "CheckCurrentProcessModules" fullword ascii
-        $s15 = "CheckProcesses" fullword ascii
-        $s16 = "CheckDrivers" fullword ascii
-        $s17 = "CheckProcess" fullword ascii
-        $s18 = "CheckSubDirectory" fullword ascii
-        $s19 = "CheckDirectory" fullword ascii
-        $s20 = "CheckRegistry" fullword ascii
-    condition:
-        uint16(0) == 0x5a4d and (all of ($x*) or 10 of ($s*) or (1 of ($pdb*) and (1 of ($x*) or 2 of ($s*))) or (#x3 > 4 and 2 of them))
-}
-
-rule INDICATOR_TOOL_ANT_InviZzzible {
-    meta:
-        author = "ditekSHen"
-        description = "Detect InviZzzible"
-    strings:
-        $s1 = "\\\\.\\pipe\\task_sched_se" fullword wide
-        $s2 = "\\\\\\.\\NPF_NdisWanIp" fullword wide
-        $s3 = /--action --(dtt|mra|user-input|cfg|dan|evt|pid|exc|wmi|tsh)/ fullword wide
-        $s4 = "cuckoo_%lu.ini" fullword wide
-        $s5 = "sandbox evasion" wide nocase
-        $s6 = "UnbalancedStack" fullword ascii
-        $s7 = "process_with_long_name" fullword ascii
-        $s8 = "DelaysAccumulation" fullword ascii
-        $s9 = "PidReuse" fullword ascii
-        $s10 = "DeadAnalyzer" fullword ascii
-        $s11 = "SleepDummyPatch" fullword ascii
-        $s12 = "AudioDeviceAbsence" fullword ascii
-        $s14 = "\\\\.\\PhysicalDrive%u" fullword ascii
-        $s15 = "\"countermeasures\":" ascii
-        $s16 = "_%.02u%.02u%.02u_%.02u%.02u%.02u.html" ascii
-        $f1 = ".?AVHyperV@SandboxEvasion@@" ascii
-        $f2 = ".?AVJoebox@SandboxEvasion@@" ascii
-        $f3 = ".?AVKVM@SandboxEvasion@@" ascii
-        $f4 = ".?AVMisc@SandboxEvasion@@" ascii
-        $f5 = ".?AVParallels@SandboxEvasion@@" ascii
-        $f6 = ".?AVQEMU@SandboxEvasion@@" ascii
-        $f7 = ".?AVSandboxie@SandboxEvasion@@" ascii
-        $f8 = ".?AVVBOX@SandboxEvasion@@" ascii
-        $f9 = ".?AVVirtualPC@SandboxEvasion@@" ascii
-        $f10 = ".?AVVMWare@SandboxEvasion@@" ascii
-        $f11 = ".?AVWine@SandboxEvasion@@" ascii
-        $f12 = ".?AVXen@SandboxEvasion@@" ascii
-    condition:
-        uint16(0) == 0x5a4d and (6 of ($s*) or 4 of ($f*) or (2 of ($f*) and 2 of ($s*)))
-}
-
-rule INDICATOR_TOOL_EXFIL_SharpBox {
-    meta:
-        author = "ditekSHen"
-        description = "Detect SharpBox, C# tool for compressing, encrypting, and exfiltrating data to Dropbox using the Dropbox API"
-    strings:
-        $s1 = "UploadData" fullword ascii
-        $s2 = "isAttached" fullword ascii
-        $s3 = "DecryptFile" fullword ascii
-        $s4 = "set_dbxPath" fullword ascii
-        $s5 = "set_dbxToken" fullword ascii
-        $s6 = "set_decrypt" fullword ascii
-        $s7 = "GeneratePass" fullword ascii
-        $s8 = "FileUploadToDropbox" fullword ascii
-        $s9 = "\\SharpBox.pdb" ascii
-        $s10 = "https://content.dropboxapi.com/2/files/upload" fullword wide
-        $s12 = "Dropbox-API-Arg: {\"path\":" wide
-        $s13 = "X509Certificate [{0}] Policy Error: '{1}'" fullword wide
-    condition:
-        uint16(0) == 0x5a4d and 7 of them
-}
-
-rule INDICATOR_TOOL_EXP_SeriousSAM01 {
-    meta:
-        author = "ditekSHen"
-        description = "Detect tool variants potentially exploiting SeriousSAM / HiveNightmare CVE-2021-36934"
-    strings:
-        $s1 = "VolumeShadowCopy" fullword wide
-        $s2 = "\\\\?\\GLOBALROOT\\Device\\" fullword wide
-        $s3 = "{0}\\{1}$:aad3b435b51404eeaad3b435b51404ee:{2}" fullword wide
-        $s4 = "ASPNET_WP_PASSWORD" fullword wide
-        $s5 = "<ParseSam>b__" ascii
-        $s6 = "<DumpSecret" ascii
-        $s7 = "<ParseSecret" ascii
-        $s8 = "LsaSecretBlob" fullword ascii
-        $s9 = "systemHive" fullword ascii
-        $s10 = "ImportHiveDump" fullword ascii
-        $s11 = "FindShadowVolumes" fullword ascii
-        $s12 = "GetBootKey" fullword ascii
-        $r1 = "[*] SAM" wide
-        $r2 = "[*] SYSTEM" wide
-        $r3 = "[*] SECURITY" wide
-    condition:
-        uint16(0) == 0x5a4d and (6 of ($s*) or (all of ($r*) and 3 of ($s*)))
-}
-
-rule INDICATOR_TOOL_EXP_SeriousSAM02 {
-    meta:
-        author = "ditekSHen"
-        description = "Detect tool variants potentially exploiting SeriousSAM / HiveNightmare CVE-2021-36934"
-    strings:
-        $s1 = "\\\\?\\GLOBALROOT\\Device\\HarddiskVolumeShadowCopy" fullword wide
-        $s2 = /(Windows\\System32\\config)?\\(SAM|SECURITY|SYSTEM)/ ascii wide
-        $s3 = /(SAM|SECURITY|SYSTEM)-%s/ fullword wide
-        $s4 = /: (SAM|SECURITY|SYSTEM) hive from/ wide
-        $v1 = "VolumeShadowCopy" ascii wide
-        $v2 = "GLOBALROOT" ascii wide
-        $v3 = "Device" ascii wide
-        $n1 = "Block Level Backup Engine Service EXE" ascii wide
-        $n2 = "|TaskID=%08X-%04X-%04X-%02X%02X-%02X%02X%02X%02X%02X%02X" wide
-        $n3 = "[traceprovider-trace] Failed: %ws: %#010x" wide
-        $n4 = "base\\stor\\blb\\engine\\usn\\base\\lib\\usnjournalhelper.cpp" wide
-    condition:
-        // Revise
-        uint16(0) == 0x5a4d and not any of ($n*) and (all of ($s*) or (all of ($v*) and 2 of ($s*)) or (all of ($v*) and #s2 > 2))
-}
-
-rule INDICATOR_TOOL_EXP_PetitPotam01 {
-    meta:
-        author = "ditekSHen"
-        description = "Detect tool potentially exploiting/attempting PetitPotam"
-    strings:
-        $s1 = "\\pipe\\lsarpc" fullword wide
-        $s2 = "\\%s" fullword wide
-        $s3 = "ncacn_np" fullword wide
-        $s4 = /EfsRpc(OpenFileRaw|EncryptFileSrv|DecryptFileSrv|QueryUsersOnFile|QueryRecoveryAgents|RemoveUsersFromFile|AddUsersToFile)/ wide
-        $r1 = "RpcBindingFromStringBindingW" fullword ascii
-        $r2 = "RpcStringBindingComposeW" fullword ascii
-        $r3 = "RpcStringFreeW" fullword ascii
-        $r4 = "RPCRT4.dll" fullword ascii
-        $r5 = "NdrClientCall2" fullword ascii
-    condition:
-        uint16(0) == 0x5a4d and (all of ($s*) and 4 of ($r*))
-}
-
-rule INDICATOR_TOOL_PET_SharpStrike {
-    meta:
-        author = "ditekSHen"
-        description = "Detect SharpStrike post-exploitation tool written in C# that uses either CIM or WMI to query remote systems"
-    strings:
-        $x1 = "SharpStrike v" wide
-        $x2 = "[*] Agent is busy" wide
-        $x3 = "SharpStrike_Fody" fullword ascii
-        $s1 = "ServiceLayer.CIM" fullword ascii
-        $s2 = "Models.CIM" fullword ascii
-        $s3 = "<HandleCommand>b__" ascii
-        $s4 = "MemoryStream" fullword ascii
-        $s5 = "GetCommands" fullword ascii
-    condition:
-        uint16(0) == 0x5a4d and (2 of ($x*) or all of ($s*))
-}
-
-rule INDICATOR_TOOL_LTM_Ladon {
-    meta:
-        author = "ditekSHen"
-        description = "Detect Ladon tool that assists in lateral movement across a network"
-    strings:
-        $d1 = "Ladon.VncSharp.dll" fullword ascii
-        $d2 = "Ladon.Renci.SshNet.dll" fullword ascii
-        $s1 = "Ladon." ascii
-        $s2 = "nowPos" fullword ascii
-        $s3 = "Scan" fullword ascii
-        $s4 = "QLZ_STREAMING_BUFFER" fullword ascii
-        $s5 = "sizeDecompressed" fullword ascii
-        $s6 = "UpdateByte" fullword ascii
-        $s7 = "kNumBitPriceShiftBits" fullword ascii
-    condition:
-        uint16(0) == 0x5a4d and (all of ($d*) or all of ($s*) or (1 of ($d*) and 5 of ($s*)))
-}
-
-rule INDICATOR_TOOL_LTM_LadonExp {
-    meta:
-        author = "ditekSHen"
-        description = "Detect Ladon tool that assists in lateral movement across a network"
-    strings:
-        $s1 = "txt_cscandll.Text" fullword wide
-        $s2 = "CscanWebExpBuild.frmMain.resources" fullword ascii
-        $s3 = "= \"$HttpXforwardedFor$\";" ascii
-        $s4 = "namespace netscan" fullword ascii
-    condition:
-        uint16(0) == 0x5a4d and 3 of them
-}
-
-rule INDICATOR_TOOL_LTM_LadonGo {
-    meta:
-        author = "ditekSHen"
-        description = "Detect LadonGo tool that assists in lateral movement across a network"
-    strings:
-        $f1 = "main.VulDetection" fullword ascii
-        $f2 = "main.BruteFor" fullword ascii
-        $f3 = "main.RemoteExec" fullword ascii
-        $f4 = "main.Exploit" fullword ascii
-        $f5 = "main.Noping" fullword ascii
-        $f6 = "main.LadonScan" fullword ascii
-        $f7 = "main.LadonUrlScan" fullword ascii
-    condition:
-        (uint16(0) == 0x5a4d or uint16(0) == 0x457f or uint16(0) == 0xface) and 5 of ($f*)
-}
-
-rule INDICATOR_TOOL_ENC_DiskCryptor {
-    meta:
-        author = "ditekSHen"
-        description = "Detect DiskCryptor open encryption solution that offers encryption of all disk partitions"
-    strings:
-        // Executable
-        $x1 = "\\DiskCryptor\\DCrypt\\" ascii
-        $s1 = "Error getting %sbootloader configuration" fullword wide
-        $s2 = "loader.iso" fullword wide
-        $s3 = "Bootloader config for [%s]" fullword wide
-        $s4 = "dc_get_mbr_config" fullword ascii
-        $s5 = "dc_encrypt_iso_image" fullword ascii
-        $s6 = "dc_start_re_encrypt" fullword ascii
-        $s7 = "dc_start_encrypt" fullword ascii
-        $s8 = "_w10_reflect_" ascii
-        // Driver
-        $d1 = "\\DosDevices\\dcrypt" fullword wide
-        $d2 = "$dcsys$_fail_%x" fullword wide
-        $d3 = "%s\\$DC_TRIM_%x$" fullword wide
-        $d4 = "\\Device\\dcrypt" fullword wide
-        $d5 = "%s\\$dcsys$" fullword wide
-    condition:
-        uint16(0) == 0x5a4d and ((1 of ($x*) and 2 of ($s*)) or 4 of ($s*) or 3 of ($d*))
-}
-
-rule INDICATOR_TOOL_PRI_InstallerFileTakeOver {
-    meta:
-        author = "ditekSHen"
-        description = "Detect InstallerFileTakeOver CVE-2021-41379"
-    strings:
-        $s1 = "splwow64.exe" fullword ascii
-        $s2 = "notepad.exe" fullword ascii
-        $s3 = "%s\\System32\\cmd.exe" fullword wide
-        $s4 = "[SystemFolder]msiexec.exe" fullword wide
-        $s5 = "microsoft plz" ascii
-        $s6 = "%TEMP%\\" fullword wide
-        $x1 = "\\InstallerFileTakeOver.pdb" ascii
-        $o1 = { 48 b8 fe ff ff ff ff ff ff 7f 48 8b f5 48 83 ce }
-        $o2 = { 4c 8d 62 10 48 c7 c7 ff ff ff ff 48 8b c7 66 0f }
-        $o3 = { ff 15 9a 59 00 00 48 8b d8 e8 ba ff ff ff 45 33 }
-        $o4 = { 49 c7 43 a8 fe ff ff ff 49 89 5b 10 48 8b 05 5a }
-        $o5 = { 66 89 7c 24 50 48 c7 c2 ff ff ff ff 48 ff c2 66 }
-    condition:
-        uint16(0) == 0x5a4d and ((1 of ($x*) and (2 of ($s*) or 3 of ($o*))) or 4 of ($s*) or (all of ($o*) and 2 of them))
-}
-
-rule INDICATOR_TOOL_PRI_JuicyPotato {
-    meta:
-        author = "ditekSHen"
-        description = "Detect JuicyPotato"
-    strings:
-        $x1 = "\\JuicyPotato.pdb" ascii
-        $x2 = "JuicyPotato v%s" fullword ascii
-        $s1 = "hello.stg" fullword wide
-        $s2 = "ppVirtualProcessorRoots" fullword ascii
-        $s3 = "Lock already taken" fullword ascii
-        $s4 = "[+] authresult %d" fullword ascii
-        $s5 = "RPC -> send failed with error: %d" fullword ascii
-        $s6 = "Priv Adjust FALSE" fullword ascii
-    condition:
-        uint16(0) == 0x5a4d and (all of ($x*) or (1 of ($x*) and 3 of ($s*)) or (5 of ($s*)))
-}
-
-rule INDICATOR_TOOL_PWS_LSASS_NanoDump {
-    meta:
-        author = "ditekSHen"
-        description = "Detects NanoDump tool that creates a minidump of the LSASS process"
-    strings:
-        $s1 = "\\Registry\\Machine\\Software\\Microsoft\\Windows\\Windows Error Reporting\\LocalDumps\\" fullword wide
-        $s2 = "\\Registry\\Machine\\Software\\Microsoft\\Windows NT\\CurrentVersion\\SilentProcessExit\\" fullword wide
-        $s3 = "DumpType" fullword wide
-        $s4 = "LocalDumpFolder" fullword wide
-        $s5 = "\\??\\C:\\Windows\\System32\\seclogon.dll" fullword wide
-        $s6 = "minidump %s" ascii
-        $s7 = "--seclogon-" ascii
-        $s8 = "shtinkering" ascii
-        $s9 = "LSASS PID: %ld" ascii
-    condition:
-        uint16(0) == 0x5a4d and 4 of them
-}
-
-rule INDICATOR_TOOL_ENUM_SharpShares {
-    meta:
-        author = "ditekSHen"
-        description = "Detects SharpShares multithreaded C# .NET Assembly to enumerate accessible network shares in a domain"
-    strings:
-        $s1 = "SharpShares." ascii wide
-        $s2 = "GetComputerShares" fullword ascii
-        $s3 = "userAccountControl:1.2.840.113556.1.4.803:=2))(operatingSystem=*server*)(!(userAccountControl:1.2" wide
-        $s4 = "GetAllShares" fullword ascii
-        $s5 = "stealth:" wide
-        $s6 = "(&(objectCategory=computer)(!(userAccountControl:1.2.840.113556.1.4.803:=2))(operatingSystem=*server*))" fullword wide
-        $s7 = /\/targets|ldap|threads/ wide
-        $s8 = "entriesread" fullword ascii
-    condition:
-        uint16(0) == 0x5a4d and 4 of them
-}
-
-rule INDICATOR_TOOL_PROX_revsocks {
-    meta:
-        author = "ditekSHen"
-        description = "Detects revsocks Reverse socks5 tunneler with SSL/TLS and proxy support"
-    strings:
-        $s1 = "main.agentpassword" fullword ascii 
-        $s2 = "main.connectForSocks" fullword ascii 
-        $s3 = "main.connectviaproxy" fullword ascii 
-        $s4 = "main.DnsConnectSocks" fullword ascii 
-        $s5 = "main.listenForAgents" fullword ascii 
-        $s6 = "main.listenForClients" fullword ascii
-        $s7 = "main.getPEMs" fullword ascii
-    condition:
-        (uint16(0) == 0x5a4d or uint16(0) == 0x457f) and 4 of them
-}
-
-rule INDICATOR_TOOL_PWS_azbelt {
-    meta:
-        author = "ditekSHen"
-        description = "Detects azbelt for enumerating Azure related credentials primarily on AAD joined machines"
-    strings:
-        $s1 = "@http://169.254.169.254/metadata/identity/oauth2/token?api-version=" ascii
-        $s2 = "@Partner Customer Delegated Admin Offline Processor" fullword ascii
-        $s3 = "@TargetName: " fullword ascii
-        $s4 = "httpclient.nim" fullword ascii
-        $s5 = "@DSREG_DEVICE_JOIN" fullword ascii
-        $s6 = "@.azure/msal_token_cache.bin" fullword ascii
-        $s7 = "CredEnumerateW" fullword ascii
-        $s8 = "@http://169.254.169.254/metadata/instance?api-version=" ascii
-    condition:
-        uint16(0) == 0x5a4d and 6 of them
-}
-
-rule INDICATOR_TOOL_DontSleep {
-     meta:
-        author = "ditekShen"
-        description = "Detects Keep Host Unlocked (Don't Sleep)"
-    strings:
-        $s1 = ":Repeat###DEL \"%s\"###if exist \"%s\" goto Repeat###DEL \"%s\"###" wide
-        $s2 = "powrprof.dll,SetSuspendState" wide
-        $s3 = "_selfdestruct.bat" wide
-        $s4 = "please_sleep_block_" ascii
-        $s5 = "Browser-Type: MiniBowserOK" wide
-        $s6 = "m_use_all_rule_no_sleep" ascii
-        $s7 = "BlockbyExecutionState: %d on:%d by_enable:%d" fullword wide
-    condition:
-        uint16(0) == 0x5a4d and 4 of them
-}
-
-rule INDICATOR_TOOL_NSudo {
-     meta:
-        author = "ditekShen"
-        description = "Detects NSudo allowing to run processes as TrustedInstaller or System"
-    strings:
-        $x1 = "cmd /c start \"NSudo." wide
-        $x2 = "*\\shell\\NSudo" fullword wide
-        $x3 = "Projects\\NSudo\\Output\\Release\\x64\\NSudo.pdb" ascii
-        $s1 = "-ShowWindowMode=Hide" wide
-        $s2 = "?what@exception@@UEBAPEBDXZ" fullword ascii
-        $s3 = "NSudo.RunAs." ascii
-    condition:
-        uint16(0) == 0x5a4d and (2 of ($x*) or (1 of ($x*) and 2 of ($s*)) or all of ($s*) or 4 of them)
-}
-
-rule INDICATOR_TOOL_Ligolo {
-    meta:
-        author = "ditekSHen"
-        description = "Detects Ligolo tool for establishing SOCKS5 or TCP tunnels from a reverse connection"
-    strings:
-        $p1 = "/ligolo/main.go" ascii
-        $p2 = "/armon/go-socks5" ascii
-        $s1 = "main.StartLigolo" fullword ascii
-        $s2 = "main.handleRelay" fullword ascii
-        $s3 = "main.startSocksProxy" fullword ascii
-        $s4 = "_main.tlsFingerprint" fullword ascii
-        $s5 = "main.verifyTlsCertificate" fullword ascii
-    condition:
-        (uint16(0) == 0x5a4d or uint16(0) == 0x457f or uint16(0) == 0xfacf) and ((all of ($p*) and 1 of ($s*)) or all of ($s*) or (1 of ($p*) and 4 of ($s*)))
-}
-
-rule INDICATOR_TOOL_ExtPassword {
-    meta:
-        author = "ditekSHen"
-        description = "Detects ExtPassword External Drive Password Recovery"
-    strings:
-        $x1 = "ExtPassword!" fullword wide
-        $s2 = "GReading Chrome password file: %s" fullword wide
-        $s3 = "\\\\?\\GLOBALROOT\\Device\\HarddiskVolumeShadowCopy%d" fullword wide
-        $s4 = "2015-07-27 13:49:41 b8e92227a469de677a66da62e4361f099c0b79d0" ascii
-        $s5 = "metadata WHERE id = 'password'" ascii
-        $s6 = /Scanning\s(Credentials\sfolder|Credentials\sfolder|Firefox\sand\sother\sMozilla\sWeb\sbrowsers|Chromium-based\Web\browsers|Outlook\saccounts|Windows\sVault|dialup\/VPN\sitems|wireless\skeys|Windows\ssecurity\squestions|vault\spasswords)/ wide
-        $s7 = "lhelp32Snapsho" fullword ascii
-        $s8 = "SELECT origin_" fullword ascii
-        $s9 = "password#Ck" fullword ascii
-    condition:
-        uint16(0) == 0x5a4d and (1 of ($x*) and 3 of ($s*)) or 6 of ($s*)
-}
-
-rule INDICATOR_TOOL_Ngrok {
-    meta:
-        author = "ditekSHen"
-        description = "Detects Ngrok"
-    strings:
-        $s1 = "dashboard.ngrok.com" ascii
-        $s2 = "go.ngrok.com/cmd/ngrok/main.go" ascii
-        $s3 = "ngrok agent" ascii
-        $s4 = "*ngrok.clientInfo" ascii
-        $s5 = "'%s'  socket: '%s'  port: %d/edges/https/{{ .EdgeID }}/routes/{{ .ID }}/webhook_" ascii
-        $s6 = "/{{ .ID }}/tunnel_sessions/{{ .ID }}/restart" ascii
-    condition:
-        (uint16(0) == 0x5a4d or uint16(0) == 0x457f or uint16(0) == 0xfacf) and (3 of them)
-}
-
-rule INDICATOR_TOOL_SQLRecon {
-    meta:
-        author = "ditekSHen"
-        description = "Detects SQLRecon C# MS-SQL toolkit designed for offensive reconnaissance and post-exploitation"
-    strings:
-        $s1 = "ConvertDLLToSQLBytes" ascii
-        $s2 = "\\SQLRecon.pdb" ascii
-        $s3 = "GetAllSQLServerInfo" ascii
-        $s4 = "<GetMSSQLSPNs>b__" ascii
-        $s5 = "select 1; exec master..xp_cmdshell" wide
-        $s6 = "-> Command Execution" wide
-        $s7 = ";EXEC dbo.sp_add_jobstep @job_name =" wide
-        $s8 = "EXEC sp_drop_trusted_assembly 0x" wide
-        $s9 = "(&(sAMAccountType=805306368)(servicePrincipalName=MSSQL*))" wide
-    condition:
-        uint16(0) == 0x5a4d and 5 of them
-}
-
-rule INDICATOR_TOOL_AtlasReaper {
-    meta:
-        author = "ditekSHen"
-        description = "Detects AtlasReaper command-line tool for Confluence and Jira reconnaissance, credential farming and social engineering"
-    strings:
-        $s1 = "/((?:A3T[A-Z0-9]|AKIA|AGPA|AIDA|AROA|AIPA|ANPA|ANVA|ASIA)[A-Z0-9]{16})/" fullword wide
-        $s2 = "/rest/api/3/search?jql=" fullword wide
-        $s3 = "attachments+IS+NOT+EMPTY&fields=attachment,summary,status" fullword wide
-        $s4 = "<ParseJira>b__" ascii
-        $s5 = "<Atlas_Doc_Format>k__" ascii
-        $s6 = "<ParseConfluence>b__" ascii
-        $s7 = "AtlasReaper_ProcessedByFody" fullword ascii
-        $s8 = /AtlasReaper\.(Jira|Confluence)/ fullword ascii
-    condition:
-        uint16(0) == 0x5a4d and 4 of them
-}
-
-rule INDICATOR_TOOL_NgrokSharp {
-    meta:
-        author = "ditekSHen"
-        description = "Detects NgrokSharp .NET library for Ngrok"
-    strings:
-        $x1 = "NgrokSharp" fullword wide
-        $x2 = "/entvex/NgrokSharp" ascii
-        $s1 = "start --none -region" wide
-        $s2 = "startTunnelDto" fullword wide
-        $s3 = "/tunnels/" fullword wide
-        $s4 = "<StartNgrok" ascii
-        $s5 = "INgrokManager" ascii
-        $s6 = "_tunnel_name"ascii
-        $s7 = "_ngrokDownloadUrl" ascii
-    condition:
-        uint16(0) == 0x5a4d and (all of ($x*) or (1 of ($x*) and 3 of ($s*)) or 4 of ($*))
-}
-
-rule INDICATOR_TOOL_NgrokGo {
-    meta:
-        author = "ditekSHen"
-        description = "Detects Go implementation variant for Ngrok"
-    strings:
-        $s1 = "/codegangsta/inject" fullword wide
-        $s2 = "go.ngrok.com/" ascii
-        $s3 = "GetIsNgrokDomain" ascii
-        $s4 = "GetNgrokMetering" ascii
-        $s5 = "*cli.ngrokService" ascii
-        $s6 = "GetAllowNgrokLink" ascii
-        $s7 = "ngrok {{.Name}}{{if .Flags}}" ascii
-        $s8 = "github.com/nikolay-ngrok/" ascii
-    condition:
-        uint16(0) == 0x5a4d and 4 of them
-}
-
-rule INDICATOR_Tool_Forensia {
-    meta:
-        author = "ditekSHen"
-        description = "Detects Forensia anti-forensics tool used for erasing footprints"
-    strings:
-        $c1 = "for /F \"tokens=*\" %1 in ('wevtutil.exe el') DO wevtutil.exe cl \"%1\"" ascii
-        $c2 = "del /F /Q C:\\Windows\\Prefetch\\*" ascii
-        $c3 = "del C:\\Windows\\AppCompat\\Programs\\RecentFileCache.bcf" ascii
-        $c4 = "del /F /Q %APPDATA%\\Microsoft\\Windows\\Recent\\*" ascii
-        $c5 = "del /F /Q %APPDATA%\\Microsoft\\Windows\\Recent\\CustomDestinations\\*" ascii
-        $c6 = "del /F /Q %APPDATA%\\Microsoft\\Windows\\Recent\\AutomaticDestinations\\*" ascii
-        $c7 = "fsutil.exe usn deletejournal /D C:" ascii
-        $r1 = "\\Memory Management\\PrefetchParameters" wide
-        $r2 = "\\Explorer\\Advanced" wide
-        $r3 = "\\Services\\EventLog" wide
-        $r4 = "\\Shell\\BagMRU" wide
-        $r5 = "\\Control\\FileSystem" wide
-        $r6 = "\\Setup\\VC" wide
-        $s1 = "[LOG] - %s" wide
-        $s2 = "\\forensia\\regedit.hpp" wide
-        $s3 = "NtfsDisableLastAccessUpdate" wide
-        $s4 = "Melting The Executable" wide
-        $s5 = "Sysmon Unloader" wide
-        $s6 = "Rundll32.exe apphelp.dll,ShimFlushCache" ascii
-        $s7 = "\\Debug\\forensia.pdb" ascii
-        $s8 = { 55 00 00 00 aa 00 00 00 92 49 24 00 49 24 92 00
+
+	condition:
+		uint16( 0 ) == 0x5a4d and ( 2 of ( $* ) or 3 of ( $f* ) or all of ( $dll_* ) or any of ( $sys_* ) )
+}
+
+rule INDICATOR_TOOL_SCN_PortScan : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects a port scanner tool observed as second or third stage post-compromise or dropped by malware."
+
+	strings:
+		$s1 = {48 45 41 44 20 2f 20 48 54 54 50 2f 31 2e 30}
+		$s2 = {52 65 73 75 6c 74 2e 74 78 74}
+		$s3 = {45 78 61 6d 70 6c 65 3a 20 25 73 20 53 59 4e 20}
+		$s4 = {50 65 72 66 6f 72 6d 69 6e 67 20 54 69 6d 65 3a 20 25 64 2f 25 64 2f 25 64 20 25 64 3a 25 64 3a 25 64 20 2d 2d 3e}
+		$s5 = {42 69 6e 64 20 4f 6e 20 49 50 3a 20 25 64 2e 25 64 2e 25 64 2e 25 64}
+		$s6 = {53 59 4e 20 53 63 61 6e 3a 20 41 62 6f 75 74 20 54 6f 20 53 63 61 6e 20 25}
+		$s7 = {4e 6f 72 6d 61 6c 20 53 63 61 6e 3a 20 41 62 6f 75 74 20 54 6f 20 53 63 61 6e 20 25}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 5 of them
+}
+
+rule INDICATOR_TOOL_MEM_mXtract : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects mXtract, a linux-based tool that dumps memory for offensive pentration testing and can be used to scan memory for private keys, ips, and passwords using regexes."
+
+	strings:
+		$s1 = {5f 5a 4e 31 38 70 72 6f 63 65 73 73 5f 6f 70 65 72 61 74 69 6f 6e 73 31 30 67 65 74 5f 72 61 6e 67 65 73 45 76}
+		$s2 = {5f 5a 4e 34 6d 69 73 63 31 30 77 72 69 74 65 5f 64 75 6d 70 45 53 73 53 73}
+		$s3 = {5f 5a 54 56 4e 53 74 38 5f 5f 64 65 74 61 69 6c 31 33 5f 53 63 61 6e 6e 65 72 5f 62 61 73 65 45}
+		$s4 = {52 75 6e 6e 69 6e 67 20 61 73 20 72 6f 6f 74 20 69 73 20 72 65 63 6f 6d 6d 65 6e 64 65 64 20 61 73 20 6e 6f 74 20 61 6c 6c 20 50 49 44 73 20 77 69 6c 6c 20 62 65 20 73 63 61 6e 6e 65 64}
+		$s5 = {45 52 52 4f 52 20 41 54 54 41 43 48 49 4e 47 20 54 4f 20 50 52 4f 43 45 53 53}
+		$s6 = {45 52 52 4f 52 20 53 43 41 4e 4e 49 4e 47 20 4d 45 4d 4f 52 59 20 52 41 4e 47 45}
+
+	condition:
+		( uint32( 0 ) == 0x464c457f or uint16( 0 ) == 0x457f ) and 3 of them
+}
+
+rule INDICATOR_TOOL_PWS_SniffPass : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects SniffPass, a password monitoring software that listens on the network and captures passwords over POP3, IMAP4, SMTP, FTP, and HTTP."
+
+	strings:
+		$s1 = {5c 52 65 6c 65 61 73 65 5c 53 6e 69 66 66 50 61 73 73 2e 70 64 62}
+		$s2 = {50 00 61 00 73 00 73 00 77 00 6f 00 72 00 64 00 20 00 20 00 20 00 53 00 6e 00 69 00 66 00 66 00 65 00 72 00}
+		$s3 = {53 6f 66 74 77 61 72 65 5c 4e 69 72 53 6f 66 74 5c 53 6e 69 66 66 50 61 73 73}
+		$s4 = {53 00 6e 00 69 00 66 00 66 00 65 00 64 00 20 00 50 00 61 00 73 00 73 00 77 00 6f 00 72 00 64 00 73 00 43 00 46 00 61 00 69 00 6c 00 65 00 64 00 20 00 74 00 6f 00 20 00 73 00 74 00 61 00 72 00 74 00}
+		$s5 = {50 77 70 63 61 70 2e 64 6c 6c}
+		$s6 = {6e 6d 77 69 66 69 2e 65 78 65}
+		$s7 = {4e 6d 41 70 69 2e 64 6c 6c}
+		$s8 = {6e 70 70 74 6f 6f 6c 73 2e 64 6c 6c}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 4 of them
+}
+
+rule INDICATOR_TOOL_AVBypass_AVIator : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects AVIator, which is a backdoor generator utility, which uses cryptographic and injection techniques in order to bypass AV detection. This was observed to bypass Win.Trojan.AZorult. This rule works for binaries and memory."
+
+	strings:
+		$s1 = {((6d 73 66 76 65 6e 6f 6d 20 2d 70 20 77 69 6e 64 6f 77 73 2f 6d 65 74 65 72 70 72 65 74 65 72) | (6d 00 73 00 66 00 76 00 65 00 6e 00 6f 00 6d 00 20 00 2d 00 70 00 20 00 77 00 69 00 6e 00 64 00 6f 00 77 00 73 00 2f 00 6d 00 65 00 74 00 65 00 72 00 70 00 72 00 65 00 74 00 65 00 72 00))}
+		$s2 = {((70 61 79 6c 6f 61 64 42 6f 78 2e 54 65 78 74) | (70 00 61 00 79 00 6c 00 6f 00 61 00 64 00 42 00 6f 00 78 00 2e 00 54 00 65 00 78 00 74 00))}
+		$s3 = {((41 50 43 49 6e 6a 65 63 74 69 6f 6e 43 68 65 63 6b 42 6f 78) | (41 00 50 00 43 00 49 00 6e 00 6a 00 65 00 63 00 74 00 69 00 6f 00 6e 00 43 00 68 00 65 00 63 00 6b 00 42 00 6f 00 78 00))}
+		$s4 = {((54 68 72 65 61 64 20 48 69 6a 61 63 6b 69 6e 67 20 28 53 68 65 6c 6c 63 6f 64 65 20 41 72 63 68 3a 20 78 38 36 2c 20 4f 53 20 41 72 63 68 3a 20 78 38 36 29) | (54 00 68 00 72 00 65 00 61 00 64 00 20 00 48 00 69 00 6a 00 61 00 63 00 6b 00 69 00 6e 00 67 00 20 00 28 00 53 00 68 00 65 00 6c 00 6c 00 63 00 6f 00 64 00 65 00 20 00 41 00 72 00 63 00 68 00 3a 00 20 00 78 00 38 00 36 00 2c 00 20 00 4f 00 53 00 20 00 41 00 72 00 63 00 68 00 3a 00 20 00 78 00 38 00 36 00 29 00))}
+		$s5 = {((69 6e 6a 65 63 74 45 78 69 73 74 69 6e 67 41 70 70 2e 54 65 78 74) | (69 00 6e 00 6a 00 65 00 63 00 74 00 45 00 78 00 69 00 73 00 74 00 69 00 6e 00 67 00 41 00 70 00 70 00 2e 00 54 00 65 00 78 00 74 00))}
+		$s6 = {((53 74 61 62 6c 65 20 65 78 65 63 75 74 69 6f 6e 20 62 75 74 20 63 61 6e 20 62 65 20 74 72 61 63 65 64 20 62 79 20 6d 6f 73 74 20 41 56 73) | (53 00 74 00 61 00 62 00 6c 00 65 00 20 00 65 00 78 00 65 00 63 00 75 00 74 00 69 00 6f 00 6e 00 20 00 62 00 75 00 74 00 20 00 63 00 61 00 6e 00 20 00 62 00 65 00 20 00 74 00 72 00 61 00 63 00 65 00 64 00 20 00 62 00 79 00 20 00 6d 00 6f 00 73 00 74 00 20 00 41 00 56 00 73 00))}
+		$s7 = {((41 56 2f 5c 74 6f 72) | (41 00 56 00 2f 00 5c 00 74 00 6f 00 72 00))}
+		$s8 = {((41 76 49 61 74 6f 72 2e 50 72 6f 70 65 72 74 69 65 73 2e 52 65 73 6f 75 72 63 65 73) | (41 00 76 00 49 00 61 00 74 00 6f 00 72 00 2e 00 50 00 72 00 6f 00 70 00 65 00 72 00 74 00 69 00 65 00 73 00 2e 00 52 00 65 00 73 00 6f 00 75 00 72 00 63 00 65 00 73 00))}
+		$s9 = {((53 65 6c 65 63 74 20 69 6e 6a 65 63 74 69 6f 6e 20 74 65 63 68 6e 69 71 75 65) | (53 00 65 00 6c 00 65 00 63 00 74 00 20 00 69 00 6e 00 6a 00 65 00 63 00 74 00 69 00 6f 00 6e 00 20 00 74 00 65 00 63 00 68 00 6e 00 69 00 71 00 75 00 65 00))}
+		$s10 = {((74 68 72 65 61 64 48 69 6a 61 63 6b 69 6e 67 5f 6f 70 74 69 6f 6e) | (74 00 68 00 72 00 65 00 61 00 64 00 48 00 69 00 6a 00 61 00 63 00 6b 00 69 00 6e 00 67 00 5f 00 6f 00 70 00 74 00 69 00 6f 00 6e 00))}
+		$pwsh1 = {((43 6f 6e 76 65 72 74 2e 54 6f 42 79 74 65 28 50 61 79 6c 6f 61 64 5f 45 6e 63 72 79 70 74 65 64 5f 57 69 74 68 6f 75 74 5f 64 65 6c 69 6d 69 74 65 72 43 68 61 72 5b) | (43 00 6f 00 6e 00 76 00 65 00 72 00 74 00 2e 00 54 00 6f 00 42 00 79 00 74 00 65 00 28 00 50 00 61 00 79 00 6c 00 6f 00 61 00 64 00 5f 00 45 00 6e 00 63 00 72 00 79 00 70 00 74 00 65 00 64 00 5f 00 57 00 69 00 74 00 68 00 6f 00 75 00 74 00 5f 00 64 00 65 00 6c 00 69 00 6d 00 69 00 74 00 65 00 72 00 43 00 68 00 61 00 72 00 5b 00))}
+		$pwsh2 = {((5b 44 6c 6c 49 6d 70 6f 72 74 28 22 6b 65 72 6e 65 6c 33 32 2e 64 6c 6c 22 2c 20 53 65 74 4c 61 73 74 45 72 72 6f 72 20 3d 20 74 72 75 65 29 5d) | (5b 00 44 00 6c 00 6c 00 49 00 6d 00 70 00 6f 00 72 00 74 00 28 00 22 00 6b 00 65 00 72 00 6e 00 65 00 6c 00 33 00 32 00 2e 00 64 00 6c 00 6c 00 22 00 2c 00 20 00 53 00 65 00 74 00 4c 00 61 00 73 00 74 00 45 00 72 00 72 00 6f 00 72 00 20 00 3d 00 20 00 74 00 72 00 75 00 65 00 29 00 5d 00))}
+		$pwsh3 = {((49 6e 74 50 74 72 20 52 74 6c 41 64 6a 75 73 74 50 72 69 76 69 6c 65 67 65 28) | (49 00 6e 00 74 00 50 00 74 00 72 00 20 00 52 00 74 00 6c 00 41 00 64 00 6a 00 75 00 73 00 74 00 50 00 72 00 69 00 76 00 69 00 6c 00 65 00 67 00 65 00 28 00))}
+		$pwsh4 = /InjectShellcode\.(THREADENTRY32|CONTEXT64|WriteProcessMemory\(|CloseHandle\(|CONTEXT_FLAGS|CONTEXT\(\);|Thread32Next\()/ ascii wide
+		$pwsh5 = {((3d 20 50 61 79 6c 6f 61 64 5f 45 6e 63 72 79 70 74 65 64 2e 53 70 6c 69 74 28 27 2c 27 29 3b) | (3d 00 20 00 50 00 61 00 79 00 6c 00 6f 00 61 00 64 00 5f 00 45 00 6e 00 63 00 72 00 79 00 70 00 74 00 65 00 64 00 2e 00 53 00 70 00 6c 00 69 00 74 00 28 00 27 00 2c 00 27 00 29 00 3b 00))}
+		$pwsh6 = {((6e 61 6d 65 73 70 61 63 65 20 4e 61 74 69 76 65 50 61 79 6c 6f 61 64 5f 52 65 76 65 72 73 65 5f 74 63 70) | (6e 00 61 00 6d 00 65 00 73 00 70 00 61 00 63 00 65 00 20 00 4e 00 61 00 74 00 69 00 76 00 65 00 50 00 61 00 79 00 6c 00 6f 00 61 00 64 00 5f 00 52 00 65 00 76 00 65 00 72 00 73 00 65 00 5f 00 74 00 63 00 70 00))}
+		$pwsh7 = {((62 79 74 65 5b 5d 20 46 69 6e 61 6c 6c 5f 50 61 79 6c 6f 61 64 20 3d 20 44 65 63 72 79 70 74 28 4b 45 59 2c 20 5f 58 5f 74 6f 5f 42 79 74 65 73 29 3b) | (62 00 79 00 74 00 65 00 5b 00 5d 00 20 00 46 00 69 00 6e 00 61 00 6c 00 6c 00 5f 00 50 00 61 00 79 00 6c 00 6f 00 61 00 64 00 20 00 3d 00 20 00 44 00 65 00 63 00 72 00 79 00 70 00 74 00 28 00 4b 00 45 00 59 00 2c 00 20 00 5f 00 58 00 5f 00 74 00 6f 00 5f 00 42 00 79 00 74 00 65 00 73 00 29 00 3b 00))}
+		$pwsh8 = /ConstantsAndExtCalls\.(WriteProcessMemory\(|CreateRemoteThread\()/ ascii wide
+
+	condition:
+		( uint16( 0 ) == 0x5a4d and ( 3 of ( $s* ) or 2 of ( $pwsh* ) ) ) or ( 3 of ( $s* ) or 2 of ( $pwsh* ) )
+}
+
+rule INDICATOR_TOOL_PWS_PwDump7 : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects Pwdump7 password Dumper"
+
+	strings:
+		$s1 = {73 61 76 65 64 75 6d 70 2e 64 61 74}
+		$s2 = {41 73 64 20 2d 5f 2d 20 5f 52 65 67 45 6e 75 6d 4b 65 79 20 66 61 69 6c 21}
+		$s3 = {5c 53 41 4d 5c}
+		$s4 = {55 6e 61 62 6c 65 20 74 6f 20 64 75 6d 70 20 66 69 6c 65 20 25 53}
+		$s5 = {4e 4f 20 50 41 53 53 57 4f 52 44}
+
+	condition:
+		( uint16( 0 ) == 0x5a4d and 4 of them ) or ( all of them )
+}
+
+rule INDICATOR_TOOL_LTM_SharpExec : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects SharpExec lateral movement tool"
+
+	strings:
+		$s1 = {66 69 6c 65 55 70 6c 6f 61 64 65 64}
+		$s2 = {24 37 66 62 61 64 31 32 36 2d 65 32 31 63 2d 34 63 34 65 2d 61 39 66 30 2d 36 31 33 66 63 66 35 38 35 61 37 31}
+		$s3 = {44 45 53 4b 54 4f 50 5f 48 4f 4f 4b 43 4f 4e 54 52 4f 4c}
+		$s4 = /WINSTA_(ACCESSCLIPBOARD|WINSTA_ALL_ACCESS)/ fullword ascii
+		$s5 = /NETBIND(ADD|DISABLE|ENABLE|REMOVE)/ fullword ascii
+		$s6 = /SERVICE_(ALL_ACCESS|WIN32_OWN_PROCESS|INTERROGATE)/ fullword ascii
+		$s7 = /(Sharp|PS|smb)Exec/ fullword ascii
+		$s8 = {6c 70 73 7a 50 61 73 73 77 6f 72 64}
+		$s9 = {6c 70 73 7a 44 6f 6d 61 69 6e}
+		$s10 = {77 6d 69 65 78 65 63}
+		$s11 = {5c 00 43 00 24 00 5c 00 5f 00 5f 00 4c 00 65 00 67 00 69 00 74 00 46 00 69 00 6c 00 65 00}
+		$s12 = {4c 4f 47 4f 4e 33 32 5f 4c 4f 47 4f 4e 5f 4e 45 57 5f 43 52 45 44 45 4e 54 49 41 4c 53}
+
+	condition:
+		( uint16( 0 ) == 0x5a4d and 9 of them ) or ( all of them )
+}
+
+rule INDICATOR_TOOL_PRV_AdvancedRun : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects NirSoft AdvancedRun privialge escalation tool"
+
+	strings:
+		$s1 = {52 00 75 00 6e 00 41 00 73 00 50 00 72 00 6f 00 63 00 65 00 73 00 73 00 4e 00 61 00 6d 00 65 00}
+		$s2 = {50 00 72 00 6f 00 63 00 65 00 73 00 73 00 20 00 49 00 44 00 2f 00 4e 00 61 00 6d 00 65 00 3a 00}
+		$s3 = {73 00 77 00 69 00 6e 00 73 00 74 00 61 00 2e 00 64 00 6c 00 6c 00}
+		$s4 = {55 00 73 00 65 00 72 00 20 00 6f 00 66 00 20 00 74 00 68 00 65 00 20 00 73 00 65 00 6c 00 65 00 63 00 74 00 65 00 64 00 20 00 70 00 72 00 6f 00 63 00 65 00 73 00 73 00 30 00 43 00 68 00 69 00 6c 00 64 00 20 00 6f 00 66 00 20 00 73 00 65 00 6c 00 65 00 63 00 74 00 65 00 64 00 20 00 70 00 72 00 6f 00 63 00 65 00 73 00 73 00 20 00 28 00 55 00 73 00 69 00 6e 00 67 00 20 00 63 00 6f 00 64 00 65 00 20 00 69 00 6e 00 6a 00 65 00 63 00 74 00 69 00 6f 00 6e 00 29 00 20 00 53 00 70 00 65 00 63 00 69 00 66 00 69 00 65 00 64 00 20 00 75 00 73 00 65 00 72 00 20 00 6e 00 61 00 6d 00 65 00 20 00 61 00 6e 00 64 00 20 00 70 00 61 00 73 00 73 00 77 00 6f 00 72 00 64 00}
+		$s5 = {22 00 43 00 75 00 72 00 72 00 65 00 6e 00 74 00 20 00 55 00 73 00 65 00 72 00 20 00 2d 00 20 00 41 00 6c 00 6c 00 6f 00 77 00 20 00 55 00 41 00 43 00 20 00 45 00 6c 00 65 00 76 00 61 00 74 00 69 00 6f 00 6e 00 24 00 43 00 75 00 72 00 72 00 65 00 6e 00 74 00 20 00 55 00 73 00 65 00 72 00 20 00 2d 00 20 00 57 00 69 00 74 00 68 00 6f 00 75 00 74 00 20 00 55 00 41 00 43 00 20 00 45 00 6c 00 65 00 76 00 61 00 74 00 69 00 6f 00 6e 00 23 00 41 00 64 00 6d 00 69 00 6e 00 69 00 73 00 74 00 72 00 61 00 74 00 6f 00 72 00 20 00 28 00 46 00 6f 00 72 00 63 00 65 00 20 00 55 00 41 00 43 00 20 00 45 00 6c 00 65 00 76 00 61 00 74 00 69 00 6f 00 6e 00 29 00}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 3 of them
+}
+
+rule INDICATOR_TOOL_PWS_Amady : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects password stealer DLL. Dropped by Amadey"
+
+	strings:
+		$s1 = {53 6f 66 74 77 61 72 65 5c 4d 69 63 72 6f 73 6f 66 74 5c 57 69 6e 64 6f 77 73 5c 43 75 72 72 65 6e 74 56 65 72 73 69 6f 6e 5c 45 78 70 6c 6f 72 65 72 5c 53 68 65 6c 6c 20 46 6f 6c 64 65 72 73 5c 41 70 70 44 61 74 61}
+		$s2 = {53 6f 66 74 77 61 72 65 5c 4d 69 63 72 6f 73 6f 66 74 5c 57 69 6e 64 6f 77 73 20 4e 54 5c 43 75 72 72 65 6e 74 56 65 72 73 69 6f 6e 5c 57 69 6e 64 6f 77 73 20 4d 65 73 73 61 67 69 6e 67 20 53 75 62 73 79 73 74 65 6d 5c 50 72 6f 66 69 6c 65 73 5c 4f 75 74 6c 6f 6f 6b}
+		$s3 = {5c 4d 69 6b 72 6f 74 69 6b 5c 57 69 6e 62 6f 78 5c 41 64 64 72 65 73 73 65 73 2e 63 64 62}
+		$s4 = {5c 48 6f 73 74 4e 61 6d 65}
+		$s5 = {5c 50 61 73 73 77 6f 72 64}
+		$s6 = {53 4f 46 54 57 41 52 45 5c 52 65 61 6c 56 4e 43 5c}
+		$s7 = {53 4f 46 54 57 41 52 45 5c 54 69 67 68 74 56 4e 43 5c}
+		$s8 = {63 72 65 64 2e 64 6c 6c}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and filesize < 400KB and 7 of them
+}
+
+rule INDICATOR_TOOL_SCR_Amady : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects screenshot stealer DLL. Dropped by Amadey"
+
+	strings:
+		$s1 = {55 73 65 72 2d 41 67 65 6e 74 3a 20 55 70 6c 6f 61 64 6f 72}
+		$s2 = {43 6f 6e 74 65 6e 74 2d 44 69 73 70 6f 73 69 74 69 6f 6e 3a 20 66 6f 72 6d 2d 64 61 74 61 3b 20 6e 61 6d 65 3d 22 64 61 74 61 22 3b 20 66 69 6c 65 6e 61 6d 65 3d 22}
+		$s3 = {57 65 62 55 70 6c 6f 61 64}
+		$s4 = {43 00 61 00 6e 00 6e 00 6f 00 74 00 20 00 61 00 73 00 73 00 69 00 67 00 6e 00 20 00 61 00 20 00 25 00 73 00 20 00 74 00 6f 00 20 00 61 00 20 00 25 00 73 00 25 00 4c 00 69 00 73 00 74 00 20 00 64 00 6f 00 65 00 73 00 20 00 6e 00 6f 00 74 00 20 00 61 00 6c 00 6c 00 6f 00 77 00 20 00 64 00 75 00 70 00 6c 00 69 00 63 00 61 00 74 00 65 00 73 00 20 00 28 00 24 00 30 00 25 00 78 00 29 00 25 00 53 00 74 00 72 00 69 00 6e 00 67 00}
+		$s5 = {73 63 72 2e 64 6c 6c}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and filesize < 700KB and 4 of them
+}
+
+rule INDICATOR_TOOL_EXP_EternalBlue : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects Windows executables containing EternalBlue explitation artifacts"
+
+	strings:
+		$ci1 = {((43 4e 45 46 69 6c 65 49 4f 5f) | (43 00 4e 00 45 00 46 00 69 00 6c 00 65 00 49 00 4f 00 5f 00))}
+		$ci2 = {((63 6f 6c 69 5f) | (63 00 6f 00 6c 00 69 00 5f 00))}
+		$ci3 = {((6d 61 69 6e 57 72 61 70 70 65 72) | (6d 00 61 00 69 00 6e 00 57 00 72 00 61 00 70 00 70 00 65 00 72 00))}
+		$dp1 = {((45 58 50 4c 4f 49 54 5f 53 48 45 4c 4c 43 4f 44 45) | (45 00 58 00 50 00 4c 00 4f 00 49 00 54 00 5f 00 53 00 48 00 45 00 4c 00 4c 00 43 00 4f 00 44 00 45 00))}
+		$dp2 = {((45 54 45 52 4e 41 4c 42 4c 55 45 5f 56 41 4c 49 44 41 54 45 5f 42 41 43 4b 44 4f 4f 52) | (45 00 54 00 45 00 52 00 4e 00 41 00 4c 00 42 00 4c 00 55 00 45 00 5f 00 56 00 41 00 4c 00 49 00 44 00 41 00 54 00 45 00 5f 00 42 00 41 00 43 00 4b 00 44 00 4f 00 4f 00 52 00))}
+		$dp3 = {((45 54 45 52 4e 41 4c 42 4c 55 45 5f 44 4f 55 42 4c 45 50 55 4c 53 41 52 5f 50 52 45 53 45 4e 54) | (45 00 54 00 45 00 52 00 4e 00 41 00 4c 00 42 00 4c 00 55 00 45 00 5f 00 44 00 4f 00 55 00 42 00 4c 00 45 00 50 00 55 00 4c 00 53 00 41 00 52 00 5f 00 50 00 52 00 45 00 53 00 45 00 4e 00 54 00))}
+		$dp4 = {((2f 2f 73 65 72 76 69 63 65 5b 6e 61 6d 65 3d 27 73 6d 62 27 5d 2f 70 6f 72 74) | (2f 00 2f 00 73 00 65 00 72 00 76 00 69 00 63 00 65 00 5b 00 6e 00 61 00 6d 00 65 00 3d 00 27 00 73 00 6d 00 62 00 27 00 5d 00 2f 00 70 00 6f 00 72 00 74 00))}
+		$dp5 = /DOUBLEPULSAR_(PROTOCOL_|ARCHITECTURE_|FUNCTION_|DLL_|PROCESS_|COMMAND_|IS_64_BIT)/
+		$cm1 = {((2d 2d 44 6c 6c 4f 72 64 69 6e 61 6c 20 31 20 50 72 6f 63 65 73 73 4e 61 6d 65 20 6c 73 61 73 73 2e 65 78 65 20 2d 2d 50 72 6f 63 65 73 73 43 6f 6d 6d 61 6e 64 4c 69 6e 65 20 2d 2d 50 72 6f 74 6f 63 6f 6c 20 53 4d 42 20 2d 2d 41 72 63 68 69 74 65 63 74 75 72 65 20 78 36 34 20 2d 2d 46 75 6e 63 74 69 6f 6e 20 52 75 6e 64 6c 6c) | (2d 00 2d 00 44 00 6c 00 6c 00 4f 00 72 00 64 00 69 00 6e 00 61 00 6c 00 20 00 31 00 20 00 50 00 72 00 6f 00 63 00 65 00 73 00 73 00 4e 00 61 00 6d 00 65 00 20 00 6c 00 73 00 61 00 73 00 73 00 2e 00 65 00 78 00 65 00 20 00 2d 00 2d 00 50 00 72 00 6f 00 63 00 65 00 73 00 73 00 43 00 6f 00 6d 00 6d 00 61 00 6e 00 64 00 4c 00 69 00 6e 00 65 00 20 00 2d 00 2d 00 50 00 72 00 6f 00 74 00 6f 00 63 00 6f 00 6c 00 20 00 53 00 4d 00 42 00 20 00 2d 00 2d 00 41 00 72 00 63 00 68 00 69 00 74 00 65 00 63 00 74 00 75 00 72 00 65 00 20 00 78 00 36 00 34 00 20 00 2d 00 2d 00 46 00 75 00 6e 00 63 00 74 00 69 00 6f 00 6e 00 20 00 52 00 75 00 6e 00 64 00 6c 00 6c 00))}
+		$cm2 = {((2d 2d 44 6c 6c 4f 72 64 69 6e 61 6c 20 31 20 50 72 6f 63 65 73 73 4e 61 6d 65 20 6c 73 61 73 73 2e 65 78 65 20 2d 2d 50 72 6f 63 65 73 73 43 6f 6d 6d 61 6e 64 4c 69 6e 65 20 2d 2d 50 72 6f 74 6f 63 6f 6c 20 53 4d 42 20 2d 2d 41 72 63 68 69 74 65 63 74 75 72 65 20 78 38 36 20 2d 2d 46 75 6e 63 74 69 6f 6e 20 52 75 6e 64 6c 6c) | (2d 00 2d 00 44 00 6c 00 6c 00 4f 00 72 00 64 00 69 00 6e 00 61 00 6c 00 20 00 31 00 20 00 50 00 72 00 6f 00 63 00 65 00 73 00 73 00 4e 00 61 00 6d 00 65 00 20 00 6c 00 73 00 61 00 73 00 73 00 2e 00 65 00 78 00 65 00 20 00 2d 00 2d 00 50 00 72 00 6f 00 63 00 65 00 73 00 73 00 43 00 6f 00 6d 00 6d 00 61 00 6e 00 64 00 4c 00 69 00 6e 00 65 00 20 00 2d 00 2d 00 50 00 72 00 6f 00 74 00 6f 00 63 00 6f 00 6c 00 20 00 53 00 4d 00 42 00 20 00 2d 00 2d 00 41 00 72 00 63 00 68 00 69 00 74 00 65 00 63 00 74 00 75 00 72 00 65 00 20 00 78 00 38 00 36 00 20 00 2d 00 2d 00 46 00 75 00 6e 00 63 00 74 00 69 00 6f 00 6e 00 20 00 52 00 75 00 6e 00 64 00 6c 00 6c 00))}
+		$cm3 = {((2d 2d 44 61 76 65 50 72 6f 78 79 50 6f 72 74 3d 30 20 2d 2d 4e 65 74 77 6f 72 6b 54 69 6d 65 6f 75 74 20 33 30 20 2d 2d 54 61 72 67 65 74 50 6f 72 74 20 34 34 35 20 2d 2d 56 65 72 69 66 79 54 61 72 67 65 74 20 54 72 75 65 20 2d 2d 56 65 72 69 66 79 42 61 63 6b 64 6f 6f 72 20 54 72 75 65 20 2d 2d 4d 61 78 45 78 70 6c 6f 69 74 41 74 74 65 6d 70 74 73 20 33 20 2d 2d 47 72 6f 6f 6d 41 6c 6c 6f 63 61 74 69 6f 6e 73 20 31 32 20 2d 2d 4f 75 74 43 6f 6e 66 69 67) | (2d 00 2d 00 44 00 61 00 76 00 65 00 50 00 72 00 6f 00 78 00 79 00 50 00 6f 00 72 00 74 00 3d 00 30 00 20 00 2d 00 2d 00 4e 00 65 00 74 00 77 00 6f 00 72 00 6b 00 54 00 69 00 6d 00 65 00 6f 00 75 00 74 00 20 00 33 00 30 00 20 00 2d 00 2d 00 54 00 61 00 72 00 67 00 65 00 74 00 50 00 6f 00 72 00 74 00 20 00 34 00 34 00 35 00 20 00 2d 00 2d 00 56 00 65 00 72 00 69 00 66 00 79 00 54 00 61 00 72 00 67 00 65 00 74 00 20 00 54 00 72 00 75 00 65 00 20 00 2d 00 2d 00 56 00 65 00 72 00 69 00 66 00 79 00 42 00 61 00 63 00 6b 00 64 00 6f 00 6f 00 72 00 20 00 54 00 72 00 75 00 65 00 20 00 2d 00 2d 00 4d 00 61 00 78 00 45 00 78 00 70 00 6c 00 6f 00 69 00 74 00 41 00 74 00 74 00 65 00 6d 00 70 00 74 00 73 00 20 00 33 00 20 00 2d 00 2d 00 47 00 72 00 6f 00 6f 00 6d 00 41 00 6c 00 6c 00 6f 00 63 00 61 00 74 00 69 00 6f 00 6e 00 73 00 20 00 31 00 32 00 20 00 2d 00 2d 00 4f 00 75 00 74 00 43 00 6f 00 6e 00 66 00 69 00 67 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and ( 2 of ( $ci* ) ) or ( 2 of ( $dp* ) ) or ( 1 of ( $dp* ) and 1 of ( $ci* ) ) or ( 1 of ( $cm* ) )
+}
+
+rule INDICATOR_TOOL_EXP_WebLogic : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects Windows executables containing Weblogic exploits commands"
+
+	strings:
+		$s1 = {63 65 72 74 75 74 69 6c 2e 65 78 65 20 2d 75 72 6c 63 61 63 68 65 20 2d 73 70 6c 69 74 20 2d 66 20 41 41 41 41 41 20 42 42 42 42 42 20 26 20 63 6d 64 2e 65 78 65 20 2f 63 20 42 42 42 42 42}
+		$s2 = {70 6f 77 65 72 73 68 65 6c 6c 20 28 6e 65 77 2d 6f 62 6a 65 63 74 20 53 79 73 74 65 6d 2e 4e 65 74 2e 57 65 62 43 6c 69 65 6e 74 29 2e 44 6f 77 6e 6c 6f 61 64 46 69 6c 65 28 27 41 41 41 41 41 27 2c 27 42 42 42 42 42 27 29}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 1 of them
+}
+
+rule INDICATOR_TOOL_EXP_ApacheStrusts : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects Windows executables containing ApacheStruts exploit artifatcs"
+
+	strings:
+		$x1 = {61 70 61 63 68 65 2e 73 74 72 75 74 73 32 2e 53 65 72 76 6c 65 74 41 63 74 69 6f 6e 43 6f 6e 74 65 78 74 40 67 65 74 52 65 73 70 6f 6e 73 65}
+		$e1 = {2e 67 65 74 57 72 69 74 65 72 28 29}
+		$e2 = {2e 67 65 74 4f 75 74 70 75 74 53 74 72 65 61 6d 28 29}
+		$e3 = {2e 67 65 74 49 6e 70 75 74 53 74 72 65 61 6d 28 29}
+		$x2 = {23 5f 6d 65 6d 62 65 72 41 63 63 65 73 73}
+		$s1 = {6f 67 6e 6c 2e 4f 67 6e 6c 43 6f 6e 74 65 78 74}
+		$s2 = {6f 67 6e 6c 2e 43 6c 61 73 73 52 65 73 6f 6c 76 65 72}
+		$s3 = {6f 67 6e 6c 2e 54 79 70 65 43 6f 6e 76 65 72 74 65 72}
+		$s4 = {6f 67 6e 6c 2e 4d 65 6d 62 65 72 41 63 63 65 73 73}
+
+	condition:
+		( uint16( 0 ) == 0x5a4d or uint16( 0 ) == 0x457f ) and ( $x1 and 2 of ( $e* ) ) or ( $x2 and 1 of ( $s* ) )
+}
+
+rule INDICATOR_TOOL_SCN_SMBTouch : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects SMBTouch scanner EternalBlue, EternalChampion, EternalRomance, EternalSynergy"
+
+	strings:
+		$s1 = {5b 2b 5d 20 53 4d 42 20 54 6f 75 63 68 20 73 74 61 72 74 65 64}
+		$s2 = {5b 2d 5d 20 43 6f 75 6c 64 20 6e 6f 74 20 63 6f 6e 6e 65 63 74 20 74 6f 20 73 68 61 72 65 20 28 30 78 25 30 38 58 20 2d 20 25 73 29}
+		$s3 = {5b 21 5d 20 54 61 72 67 65 74 20 63 6f 75 6c 64 20 62 65 20 65 69 74 68 65 72 20 53 50 25 64 20 6f 72 20 53 50 25 64 2c}
+		$s4 = {5b 21 5d 20 66 6f 72 20 74 68 65 73 65 20 53 4d 42 20 65 78 70 6c 6f 69 74 73 20 74 68 65 79 20 61 72 65 20 65 71 75 69 76 61 6c 65 6e 74}
+		$s5 = {5b 2b 5d 20 54 61 72 67 65 74 20 69 73 20 76 75 6c 6e 65 72 61 62 6c 65 20 74 6f 20 25 64 20 65 78 70 6c 6f 69 74 25 73}
+		$s6 = {5b 2b 5d 20 54 6f 75 63 68 20 63 6f 6d 70 6c 65 74 65 64 20 73 75 63 63 65 73 73 66 75 6c 6c 79}
+		$s7 = {4e 65 74 77 6f 72 6b 20 65 72 72 6f 72 20 77 68 69 6c 65 20 64 65 74 65 72 6d 69 6e 69 6e 67 20 65 78 70 6c 6f 69 74 61 62 69 6c 69 74 79}
+		$s8 = {4e 61 6d 65 64 20 70 69 70 65 20 6f 72 20 73 68 61 72 65 20 72 65 71 75 69 72 65 64 20 66 6f 72 20 65 78 70 6c 6f 69 74}
+		$w1 = {55 73 69 6e 67 4e 62 74}
+		$w2 = {54 61 72 67 65 74 50 6f 72 74}
+		$w3 = {54 61 72 67 65 74 49 70}
+		$w4 = {52 65 64 69 72 65 63 74 65 64 54 61 72 67 65 74 50 6f 72 74}
+		$w5 = {52 65 64 69 72 65 63 74 65 64 54 61 72 67 65 74 49 70}
+		$w6 = {4e 74 6c 6d 48 61 73 68}
+		$w7 = {5c 50 49 50 45 5c 4c 41 4e 4d 41 4e}
+		$w8 = {55 73 65 72 52 65 6a 65 63 74 65 64 3a 20}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and ( 2 of ( $s* ) or all of ( $w* ) )
+}
+
+rule INDICATOR_TOOL_SCN_NBTScan : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects NBTScan scanner for open NETBIOS nameservers on a local or remote TCP/IP network"
+
+	strings:
+		$s1 = {5b 25 73 5d 20 69 73 20 61 6e 20 69 6e 76 61 6c 69 64 20 74 61 72 67 65 74 20 28 62 61 64 20 49 50 2f 68 6f 73 74 6e 61 6d 65 29}
+		$s2 = {45 52 52 4f 52 3a 20 6e 6f 20 70 61 72 73 65 20 66 6f 72 20 25 73 20 2d 2d 20 25 73}
+		$s3 = {61 64 64 5f 74 61 72 67 65 74 20 66 61 69 6c 65 64}
+		$s4 = {20 20 20 2d 70 20 3c 6e 3e 20 20 20 20 62 69 6e 64 20 74 6f 20 55 44 50 20 50 6f 72 74 20 3c 6e 3e 20 28 64 65 66 61 75 6c 74 3d 25 64 29}
+		$s5 = {70 72 6f 63 65 73 73 5f 72 65 73 70 6f 6e 73 65 2e 63}
+		$s6 = {63 75 72 72 54 61 72 67 65 74 20 21 3d 20 30}
+		$s7 = {70 61 72 73 65 5f 74 61 72 67 65 74 2e 63}
+		$s8 = {64 75 6d 70 5f 70 61 63 6b 65 74 2e 63}
+		$s9 = {70 61 72 73 65 5f 74 61 72 67 65 74 5f 63 62 2e 63}
+		$s10 = {44 55 4d 50 20 4f 46 20 50 41 43 4b 45 54}
+		$s11 = {6c 6f 6f 6b 75 70 5f 68 6f 73 74 6e 61 6d 65 2e 63}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 10 of ( $s* )
+}
+
+rule INDICATOR_TOOL_LTM_CompiledImpacket : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects executables of compiled Impacket's python scripts"
+
+	strings:
+		$s1 = {69 6d 70 61 63 6b 65 74 28}
+		$s2 = {69 6d 70 61 63 6b 65 74 2e 64 63 65 72 70 63 28}
+		$s3 = {69 6d 70 61 63 6b 65 74 2e 6b 72 62 35 28}
+		$s4 = {69 6d 70 61 63 6b 65 74 2e 73 6d 62 28}
+		$s5 = {69 6d 70 61 63 6b 65 74 2e 73 6d 62 33 28}
+		$s6 = {69 6d 70 61 63 6b 65 74 2e 77 69 6e 72 65 67 69 73 74 72 79 28}
+		$s7 = {69 6d 70 61 63 6b 65 74 2e 6e 74 6c 6d 28}
+		$m1 = {69 6e 73 70 65 63 74 28}
+		$m2 = {70 69 63 6b 6c 65 28}
+		$m3 = {73 70 73 65 78 65 63}
+		$m4 = {73 63 68 65 63 6b 65 72}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and ( 2 of ( $s* ) or ( 3 of ( $m* ) and 1 of ( $s* ) ) )
+}
+
+rule INDICATOR_TOOL_ENC_BestCrypt : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects BestEncrypt commercial disk encryption and wiping software"
+
+	strings:
+		$s1 = {42 00 65 00 73 00 74 00 43 00 72 00 79 00 70 00 74 00 20 00 56 00 6f 00 6c 00 75 00 6d 00 65 00 20 00 45 00 6e 00 63 00 72 00 79 00 70 00 74 00 69 00 6f 00 6e 00}
+		$s2 = {42 00 43 00 57 00 69 00 70 00 65 00 20 00 66 00 6f 00 72 00 20 00}
+		$s3 = {53 00 6f 00 66 00 74 00 77 00 61 00 72 00 65 00 5c 00 4a 00 65 00 74 00 69 00 63 00 6f 00 5c 00 42 00 65 00 73 00 74 00 43 00 72 00 79 00 70 00 74 00}
+		$s4 = {25 00 63 00 3a 00 5c 00 45 00 46 00 49 00 5c 00 4a 00 65 00 74 00 69 00 63 00 6f 00 5c 00}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and all of them
+}
+
+rule INDICATOR_TOOL_CNC_Earthworm : hardened limited
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects Earthworm C&C Windows/macOS tool"
+
+	strings:
+		$s1 = {6c 63 78 5f 74 72 61 6e 20 30 2e 30 2e 30 2e 30 3a 25 64 20 3c 2d 2d 5b 25 34 64 20 75 73 65 63 5d 2d 2d 3e 20 25 73 3a 25 64}
+		$s2 = {73 73 6f 63 6b 73 64 20 30 2e 30 2e 30 2e 30 3a 25 64 20 3c 2d 2d 5b 25 34 64 20 75 73 65 63 5d 2d 2d 3e 20 73 6f 63 6b 73 20 73 65 72 76 65 72}
+		$s3 = {72 63 73 6f 63 6b 73 20 30 2e 30 2e 30 2e 30 3a 25 64 20 3c 2d 2d 5b 25 34 64 20 75 73 65 63 5d 2d 2d 3e 20 30 2e 30 2e 30 2e 30 3a 25 64}
+		$s4 = {72 73 73 6f 63 6b 73 20 25 73 3a 25 64 20 3c 2d 2d 5b 25 34 64 20 75 73 65 63 5d 2d 2d 3e 20 73 6f 63 6b 73 20 73 65 72 76 65 72}
+		$s5 = {2d 2d 3e 20 25 33 64 20 3c 2d 2d 20 28 63 6c 6f 73 65 29 75 73 65 64 2f 75 6e 75 73 65 64 20 20 25 64 2f 25 64}
+		$s6 = {3c 2d 2d 20 25 33 64 20 2d 2d 3e 20 28 6f 70 65 6e 29 75 73 65 64 2f 75 6e 75 73 65 64 20 20 25 64 2f 25 64}
+		$s7 = {2d 2d 3e 20 25 64 20 73 74 61 72 74 20 73 65 72 76 65 72}
+		$s8 = {45 72 72 6f 72 20 6f 6e 20 63 6f 6e 6e 65 63 74 20 25 73 3a 25 64 20 5b 70 72 6f 74 6f 5f 69 6e 69 74 5f 63 6d 64 5f 72 63 73 6f 63 6b 65 74 5d}
+		$url = {68 74 74 70 3a 2f 2f 72 6f 6f 74 6b 69 74 65 72 2e 63 6f 6d 2f 45 61 72 74 68 57 72 6f 6d 2f}
+
+	condition:
+		( uint16( 0 ) == 0xfacf or uint16( 0 ) == 0x5a4d ) and ( 5 of ( $s* ) or $url )
+}
+
+rule INDICATOR_TOOL_PWS_KeychainDumper : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects macOS certificate/password keychain dumping tool"
+		clamav_sig = "INDICATOR_Osx.Tool.PWS.KeychainDumper"
+
+	strings:
+		$s1 = {5f 67 65 74 45 6d 70 74 79 4b 65 79 63 68 61 69 6e 49 74 65 6d 53 74 72 69 6e 67}
+		$s2 = {4e 64 75 6d 70 4b 65 79 63 68 61 69 6e 45 6e 74 69 74 6c 65 6d 65 6e 74 73}
+		$s3 = {5f 64 75 6d 70 4b 65 79 63 68 61 69 6e 45 6e 74 69 74 6c 65 6d 65 6e 74 73}
+
+	condition:
+		( uint16( 0 ) == 0xfeca or uint16( 0 ) == 0xfacf ) and all of them
+}
+
+rule INDICATOR_TOOL_PET_p0wnedShell : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects compiled executables of p0wnedShell post-exploitation toolkit"
+
+	strings:
+		$s1 = {55 00 73 00 65 00 20 00 57 00 69 00 6e 00 52 00 4d 00 2c 00 20 00 50 00 73 00 45 00 78 00 65 00 63 00 2c 00 20 00 53 00 4d 00 42 00 2f 00 57 00 4d 00 49 00 20 00 74 00 6f 00 20 00 65 00 78 00 65 00 63 00 75 00 74 00 65 00 20 00 63 00 6f 00 6d 00 6d 00 61 00 6e 00 64 00 73 00 20 00 6f 00 6e 00 20 00 72 00 65 00 6d 00 6f 00 74 00 65 00 20 00 73 00 79 00 73 00 74 00 65 00 6d 00 73 00}
+		$s2 = {2d 00 43 00 72 00 65 00 61 00 74 00 65 00 50 00 72 00 6f 00 63 00 65 00 73 00 73 00 20 00 22 00 63 00 6d 00 64 00 2e 00 65 00 78 00 65 00 22 00 20 00 2d 00 55 00 73 00 65 00 72 00 6e 00 61 00 6d 00 65 00 20 00 22 00 6e 00 74 00 20 00 61 00 75 00 74 00 68 00 6f 00 72 00 69 00 74 00 79 00 5c 00 73 00 79 00 73 00 74 00 65 00 6d 00 22 00}
+		$s3 = {2d 00 43 00 6f 00 6d 00 6d 00 61 00 6e 00 64 00 20 00 27 00 22 00 6c 00 73 00 61 00 64 00 75 00 6d 00 70 00 3a 00 3a 00 64 00 63 00 73 00 79 00 6e 00 63 00 20 00 2f 00 75 00 73 00 65 00 72 00 3a 00}
+		$s4 = {2d 00 50 00 61 00 79 00 6c 00 6f 00 61 00 64 00 20 00 77 00 69 00 6e 00 64 00 6f 00 77 00 73 00 2f 00 6d 00 65 00 74 00 65 00 72 00 70 00 72 00 65 00 74 00 65 00 72 00 2f 00 72 00 65 00 76 00 65 00 72 00 73 00 65 00 5f 00 68 00 74 00 74 00 70 00 73 00 20 00 2d 00 4c 00 68 00 6f 00 73 00 74 00}
+		$s5 = {47 00 65 00 74 00 2d 00 43 00 6f 00 6e 00 74 00 65 00 6e 00 74 00 20 00 2e 00 2f 00 45 00 6e 00 63 00 6f 00 64 00 65 00 64 00 50 00 61 00 79 00 6c 00 6f 00 61 00 64 00 2e 00 62 00 61 00 74 00}
+		$e1 = {4f 00 6e 00 59 00 4e 00 41 00 42 00 2b 00 4c 00 43 00 41 00 41 00 41 00 41 00 41 00 41 00 41 00 42 00 41 00 43 00 38 00 76 00 4f 00 65 00 53 00 36 00 30 00 69 00 53 00 4c 00 76 00 68 00 37 00 35 00 79 00 6c 00 79 00 2b 00 72 00 5a 00 5a 00 56 00 78 00 75 00 71 00 43 00 34 00 4b 00 51 00 73 00 33 00 75 00 76 00 4c 00 51 00 68 00 46 00 45 00 4a 00 49 00 41 00 43 00 41 00 4c 00 6f 00 48 00 56 00 75 00 44 00 31 00 6f 00 4b 00 51 00 42 00 4d 00 62 00 75 00 75 00 79 00 2b 00 59 00 34 00 70 00 77 00 38 00 64 00 55 00 54 00 66 00 33 00 52 00 2b 00 62 00 5a 00 6c 00 57 00 56 00 5a 00 48 00 68 00 38 00 37 00 75 00 48 00 68 00 34 00 76 00 50 00 49 00 74 00 76 00 36 00 33 00 5a 00 47 00 72 00 43 00 4d 00 57 00 2b 00 62 00 46 00 37 00 47 00 5a 00 32 00 7a 00 4c 00 2b 00}
+		$e2 = {6b 00 75 00 49 00 65 00 41 00 42 00 2b 00 4c 00 43 00 41 00 41 00 41 00 41 00 41 00 41 00 41 00 42 00 41 00 44 00 73 00 76 00 57 00 74 00 33 00 32 00 37 00 69 00 75 00 4d 00 50 00 77 00 39 00 76 00 30 00 4a 00 76 00 32 00 37 00 57 00 61 00 37 00 44 00 71 00 4a 00 63 00 32 00 6d 00 61 00 35 00 6e 00 6c 00 37 00 31 00 76 00 5a 00 46 00 54 00 70 00 7a 00 78 00 2f 00 5a 00 4a 00 4c 00 2b 00 33 00 54 00 6c 00 79 00 4c 00 5a 00 69 00 71 00 37 00 45 00 74 00 6a 00 79 00 54 00 48 00 63 00 66 00 66 00 5a 00 2f 00 2f 00 30 00 42 00 53 00 45 00 71 00 69 00 4b 00 45 00 71 00 57 00 62 00 4b 00 63 00 7a 00 73 00 38 00 39 00 34 00 31 00 71 00 53 00 32 00 4c 00 67 00 41 00 49 00 41 00 69 00 41 00 49 00 67 00 75 00 44 00 6a 00 66 00 4e 00 70 00 33 00 44 00 48 00 4f 00 71 00}
+		$e3 = {6d 00 5a 00 59 00 49 00 41 00 42 00 2b 00 4c 00 43 00 41 00 41 00 41 00 41 00 41 00 41 00 41 00 42 00 41 00 44 00 73 00 76 00 66 00 6c 00 6a 00 32 00 7a 00 79 00 4f 00 4d 00 50 00 78 00 37 00 2f 00 67 00 70 00 74 00 6d 00 6e 00 66 00 74 00 62 00 42 00 49 00 66 00 75 00 5a 00 70 00 30 00 74 00 2f 00 4f 00 4f 00 66 00 4d 00 5a 00 70 00 37 00 50 00 6a 00 4f 00 30 00 61 00 64 00 66 00 58 00 39 00 6c 00 53 00 62 00 43 00 57 00 79 00 35 00 56 00 70 00 32 00 48 00 47 00 66 00 6d 00 2b 00 64 00 38 00 2f 00 41 00 43 00 51 00 6c 00 36 00 76 00 43 00 52 00 4e 00 70 00 32 00 5a 00 33 00 62 00 56 00 6d 00 6e 00 69 00 6f 00 57 00 53 00 52 00 41 00 45 00 51 00 51 00 41 00 45 00 53 00 66 00 43 00 2f 00 50 00 6d 00 77 00 70 00 38 00 46 00 54 00 74 00 6d 00 54 00 46 00 75 00}
+		$e4 = {75 00 39 00 59 00 47 00 41 00 42 00 2b 00 4c 00 43 00 41 00 41 00 41 00 41 00 41 00 41 00 41 00 42 00 41 00 44 00 73 00 76 00 57 00 31 00 44 00 34 00 30 00 61 00 79 00 4b 00 50 00 77 00 39 00 76 00 30 00 4c 00 72 00 34 00 56 00 37 00 5a 00 45 00 38 00 76 00 59 00 35 00 6d 00 55 00 59 00 39 00 72 00 4b 00 4a 00 42 00 7a 00 4d 00 54 00 6e 00 6d 00 57 00 41 00 67 00 79 00 47 00 54 00 76 00 59 00 54 00 6c 00 43 00 6c 00 75 00 41 00 64 00 6d 00 7a 00 4a 00 4b 00 39 00 6e 00 44 00 73 00 45 00 6e 00 2b 00 2b 00 31 00 4e 00 56 00 2f 00 53 00 36 00 31 00 5a 00 4a 00 6d 00 58 00 5a 00 4a 00 49 00 4e 00 35 00 32 00 77 00 47 00 37 00 4f 00 37 00 71 00 36 00 75 00 72 00 71 00 36 00 71 00 72 00 71 00 71 00 75 00 6f 00 58 00 53 00 66 00 44 00 76 00 65 00 5a 00 67 00 45 00}
+		$e5 = {54 00 33 00 67 00 44 00 41 00 42 00 2b 00 4c 00 43 00 41 00 41 00 41 00 41 00 41 00 41 00 41 00 42 00 41 00 44 00 74 00 76 00 58 00 31 00 66 00 32 00 7a 00 71 00 32 00 4b 00 50 00 7a 00 33 00 79 00 61 00 66 00 51 00 7a 00 75 00 5a 00 63 00 77 00 69 00 35 00 4a 00 45 00 79 00 64 00 51 00 32 00 6e 00 4d 00 37 00 76 00 34 00 63 00 43 00 6e 00 63 00 30 00 7a 00 51 00 4c 00 6d 00 45 00 37 00 6a 00 33 00 7a 00 36 00 2b 00 37 00 4e 00 6d 00 4d 00 51 00 42 00 6e 00 77 00 59 00 37 00 59 00 7a 00 73 00 46 00 54 00 71 00 66 00 66 00 2f 00 57 00 70 00 4a 00 73 00 69 00 33 00 4a 00 6b 00 69 00 30 00 37 00 44 00 6c 00 41 00 32 00 6d 00 54 00 30 00 30 00 38 00 63 00 74 00 61 00 53 00 30 00 74 00 4c 00 36 00 30 00 31 00 4c 00 30 00 6e 00 54 00 68 00 6a 00 53 00 50 00 58 00}
+		$e6 = {7a 00 52 00 67 00 44 00 41 00 42 00 2b 00 4c 00 43 00 41 00 41 00 41 00 41 00 41 00 41 00 41 00 42 00 41 00 44 00 74 00 66 00 57 00 31 00 33 00 32 00 37 00 6a 00 52 00 36 00 4f 00 64 00 48 00 76 00 34 00 4b 00 72 00 39 00 54 00 6d 00 57 00 64 00 69 00 56 00 5a 00 6b 00 6c 00 2b 00 53 00 64 00 5a 00 73 00 39 00 31 00 33 00 47 00 63 00 72 00 6d 00 39 00 74 00 78 00 37 00 57 00 63 00 62 00 76 00 65 00 6b 00 75 00 53 00 34 00 74 00 30 00 54 00 59 00 62 00 69 00 56 00 52 00 4a 00 4b 00 59 00 6d 00 66 00 62 00 66 00 37 00 37 00 78 00 65 00 43 00 4e 00 65 00 43 00 56 00 42 00 69 00 6e 00 4b 00 63 00 62 00 4e 00 53 00 74 00 49 00 35 00 48 00 41 00 59 00 44 00 41 00 59 00 44 00 41 00 61 00 44 00 77 00 63 00 7a 00 4e 00 4d 00 68 00 6f 00 76 00 77 00 6a 00 6a 00 79 00}
+		$e7 = {70 00 78 00 49 00 43 00 41 00 42 00 2b 00 4c 00 43 00 41 00 41 00 41 00 41 00 41 00 41 00 41 00 42 00 41 00 44 00 74 00 76 00 66 00 31 00 37 00 47 00 6b 00 65 00 79 00 4b 00 50 00 79 00 7a 00 2b 00 43 00 76 00 6d 00 6c 00 66 00 77 00 2b 00 67 00 67 00 52 00 68 00 66 00 63 00 58 00 72 00 31 00 58 00 31 00 7a 00 6e 00 73 00 55 00 49 00 78 00 35 00 79 00 56 00 68 00 43 00 37 00 49 00 55 00 62 00 49 00 2b 00 66 00 6e 00 55 00 48 00 47 00 4b 00 52 00 5a 00 77 00 77 00 77 00 37 00 4d 00 31 00 6a 00 57 00 79 00 65 00 5a 00 2f 00 76 00 31 00 58 00 56 00 33 00 7a 00 30 00 39 00 77 00 41 00 42 00 79 00 73 00 6e 00 76 00 69 00 5a 00 31 00 63 00 42 00 70 00 71 00 65 00 36 00 75 00 72 00 71 00 71 00 75 00 71 00 71 00 36 00 75 00 6e 00 6f 00 38 00 6a 00 34 00 5a 00 5a 00}
+		$e8 = {48 00 34 00 73 00 49 00 41 00 41 00 41 00 41 00 41 00 41 00 41 00 45 00 41 00 4e 00 79 00 39 00 65 00 33 00 77 00 54 00 56 00 66 00 6f 00 34 00 50 00 47 00 31 00 53 00 6d 00 6b 00 4c 00 62 00 43 00 64 00 70 00 67 00 46 00 64 00 53 00 67 00 55 00 65 00 75 00 43 00 62 00 4c 00 54 00 41 00 74 00 68 00 59 00 6b 00 30 00 30 00 35 00 67 00 51 00 68 00 4e 00 61 00 68 00 55 00 49 00 56 00 6b 00 43 00 71 00 49 00 71 00 4b 00 69 00 31 00 54 00 61 00 41 00 75 00 49 00 47 00 42 00 61 00 4a 00 52 00 7a 00 47 00 32 00 37 00 4b 00 75 00 75 00 6c 00 35 00 77 00 56 00 33 00 66 00 56 00 31 00 66 00 55 00 75 00 55 00 46 00 78 00 4e 00 4b 00 62 00 54 00 6c 00 33 00 6f 00 4a 00 41 00 75 00 61 00 69 00 6f 00 75 00 45 00 34 00 70 00 61 00 41 00 47 00 42 00 46 00 70 00 42 00 35 00}
+		$k1 = {45 61 73 79 53 79 73 74 65 6d 50 50 49 44}
+		$k2 = {45 61 73 79 53 79 73 74 65 6d 53 68 65 6c 6c}
+		$k3 = {4c 61 74 4d 6f 76 65 6d 65 6e 74}
+		$k4 = {4c 69 73 74 65 6e 65 72 55 52 4c}
+		$k5 = {4d 65 74 65 72 53 74 61 67 65 72}
+		$k6 = {50 61 74 63 68 45 76 65 6e 74 4c 6f 67}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and ( 3 of ( $s* ) or 7 of ( $e* ) or all of ( $k* ) or ( 2 of ( $s* ) and 2 of ( $e* ) and 2 of ( $k* ) ) )
+}
+
+rule INDICATOR_TOOL_PWS_Rubeus : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects Rubeus kerberos defensive/offensive toolset"
+
+	strings:
+		$s1 = {28 00 26 00 28 00 73 00 61 00 6d 00 41 00 63 00 63 00 6f 00 75 00 6e 00 74 00 54 00 79 00 70 00 65 00 3d 00 38 00 30 00 35 00 33 00 30 00 36 00 33 00 36 00 38 00 29 00 28 00 75 00 73 00 65 00 72 00 41 00 63 00 63 00 6f 00 75 00 6e 00 74 00 43 00 6f 00 6e 00 74 00 72 00 6f 00 6c 00 3a 00 31 00 2e 00 32 00 2e 00 38 00 34 00 30 00 2e 00 31 00 31 00 33 00 35 00 35 00 36 00 2e 00 31 00 2e 00 34 00 2e 00 38 00 30 00 33 00 3a 00 3d 00 34 00 31 00 39 00 34 00 33 00 30 00 34 00 29 00 29 00}
+		$s2 = {28 00 21 00 73 00 61 00 6d 00 41 00 63 00 63 00 6f 00 75 00 6e 00 74 00 4e 00 61 00 6d 00 65 00 3d 00 6b 00 72 00 62 00 74 00 67 00 74 00 29 00 28 00 21 00 28 00 55 00 73 00 65 00 72 00 41 00 63 00 63 00 6f 00 75 00 6e 00 74 00 43 00 6f 00 6e 00 74 00 72 00 6f 00 6c 00 3a 00 31 00 2e 00 32 00 2e 00 38 00 34 00 30 00 2e 00 31 00 31 00 33 00 35 00 35 00 36 00 2e 00 31 00 2e 00 34 00 2e 00 38 00 30 00 33 00 3a 00 3d 00 32 00 29 00 29 00}
+		$s3 = {72 00 63 00 34 00 6f 00 70 00 73 00 65 00 63 00}
+		$s4 = {70 00 77 00 64 00 6c 00 61 00 73 00 74 00 73 00 65 00 74 00}
+		$s5 = {4c 73 61 45 6e 75 6d 65 72 61 74 65 4c 6f 67 6f 6e 53 65 73 73 69 6f 6e 73}
+		$s6 = {65 78 74 72 61 63 74 4b 65 72 62 65 72 6f 61 73 74 48 61 73 68}
+		$s7 = {43 6f 6d 70 75 74 65 41 6c 6c 4b 65 72 62 65 72 6f 73 50 61 73 73 77 6f 72 64 48 61 73 68 65 73}
+		$s8 = {6b 65 72 62 65 72 6f 61 73 74 44 6f 6d 61 69 6e}
+		$s9 = {47 65 74 55 73 65 72 6e 61 6d 65 50 61 73 73 77 6f 72 64 54 47 54}
+		$s10 = {57 72 69 74 65 55 73 65 72 50 61 73 73 77 6f 72 64 54 6f 46 69 6c 65}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 8 of them
+}
+
+rule INDICATOR_TOOL_RTK_HiddenRootKit : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects the Hidden public rootkit"
+
+	strings:
+		$h1 = {48 00 69 00 64 00 5f 00 53 00 74 00 61 00 74 00 65 00}
+		$h2 = {48 00 69 00 64 00 5f 00 53 00 74 00 65 00 61 00 6c 00 74 00 68 00 4d 00 6f 00 64 00 65 00}
+		$h3 = {48 00 69 00 64 00 5f 00 48 00 69 00 64 00 65 00 46 00 73 00 44 00 69 00 72 00 73 00}
+		$h4 = {48 00 69 00 64 00 5f 00 48 00 69 00 64 00 65 00 46 00 73 00 46 00 69 00 6c 00 65 00 73 00}
+		$h5 = {48 00 69 00 64 00 5f 00 48 00 69 00 64 00 65 00 52 00 65 00 67 00 4b 00 65 00 79 00 73 00}
+		$h6 = {48 00 69 00 64 00 5f 00 48 00 69 00 64 00 65 00 52 00 65 00 67 00 56 00 61 00 6c 00 75 00 65 00 73 00}
+		$h7 = {48 00 69 00 64 00 5f 00 49 00 67 00 6e 00 6f 00 72 00 65 00 64 00 49 00 6d 00 61 00 67 00 65 00 73 00}
+		$h8 = {48 00 69 00 64 00 5f 00 50 00 72 00 6f 00 74 00 65 00 63 00 74 00 65 00 64 00 49 00 6d 00 61 00 67 00 65 00 73 00}
+		$s1 = {46 4c 54 4d 47 52 2e 53 59 53}
+		$s2 = {48 41 4c 2e 64 6c 6c}
+		$s3 = {5c 00 53 00 79 00 73 00 74 00 65 00 6d 00 52 00 6f 00 6f 00 74 00 5c 00 53 00 79 00 73 00 74 00 65 00 6d 00 33 00 32 00 5c 00 63 00 73 00 72 00 73 00 73 00 2e 00 65 00 78 00 65 00}
+		$s4 = {5c 00 52 00 45 00 47 00 49 00 53 00 54 00 52 00 59 00 5c 00 4d 00 41 00 43 00 48 00 49 00 4e 00 45 00 5c 00 53 00 59 00 53 00 54 00 45 00 4d 00 5c 00 43 00 6f 00 6e 00 74 00 72 00 6f 00 6c 00 53 00 65 00 74 00 30 00 30 00 31 00 5c 00 25 00 77 00 5a 00}
+		$s5 = {49 4e 49 54}
+		$s6 = {5c 68 69 64 64 65 6e 2d 6d 61 73 74 65 72 5c 44 65 62 75 67 5c 51 41 73 73 69 73 74 2e 70 64 62}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and ( 3 of ( $h* ) or 5 of ( $s* ) or ( 2 of ( $s* ) and 2 of ( $h* ) ) )
+}
+
+rule INDICATOR_TOOL_PET_SharpHound : hardened limited
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects BloodHound"
+
+	strings:
+		$id1 = {49 6e 76 6f 6b 65 42 6c 6f 6f 64 48 6f 75 6e 64}
+		$id2 = {53 68 61 72 70 68 6f 75 6e 64}
+		$s1 = {53 61 6d 53 65 72 76 65 72 45 78 65 63 75 74 65}
+		$s2 = {67 65 74 5f 52 65 6d 6f 74 65 44 65 73 6b 74 6f 70 55 73 65 72 73}
+		$s3 = {((63 6f 6d 6d 61 6e 64 6c 69 6e 65 2e 64 6c 6c 2e 63 6f 6d 70 72 65 73 73 65 64) | (63 00 6f 00 6d 00 6d 00 61 00 6e 00 64 00 6c 00 69 00 6e 00 65 00 2e 00 64 00 6c 00 6c 00 2e 00 63 00 6f 00 6d 00 70 00 72 00 65 00 73 00 73 00 65 00 64 00))}
+		$s4 = {6f 00 70 00 65 00 72 00 61 00 74 00 69 00 6e 00 67 00 73 00 79 00 73 00 74 00 65 00 6d 00 73 00 65 00 72 00 76 00 69 00 63 00 65 00 70 00 61 00 63 00 6b 00}
+		$s5 = {4c 00 44 00 41 00 50 00 3a 00 2f 00 2f 00}
+		$s6 = {77 6b 75 69 31 5f 6c 6f 67 6f 6e 5f 64 6f 6d 61 69 6e}
+		$s7 = {47 70 6f 50 72 6f 70 73}
+		$s8 = {61 35 31 37 61 38 64 65 2d 35 38 33 34 2d 34 31 31 64 2d 61 62 64 61 2d 32 64 30 65 31 37 36 36 35 33 39 63}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and ( all of ( $id* ) or 6 of ( $s* ) or ( 1 of ( $id* ) and 4 of ( $s* ) ) )
+}
+
+rule INDICATOR_TOOL_UAC_NSISUAC : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects NSIS UAC plugin"
+
+	strings:
+		$s1 = {48 00 69 00 64 00 65 00 43 00 75 00 72 00 72 00 55 00 73 00 65 00 72 00 4f 00 70 00 74 00}
+		$s2 = {2f 00 55 00 41 00 43 00 3a 00 25 00 58 00 20 00 2f 00 4e 00 43 00 52 00 43 00 25 00 73 00}
+		$s3 = {32 00 4d 00 79 00 52 00 75 00 6e 00 41 00 73 00 53 00 74 00 72 00 69 00 6e 00 67 00 73 00}
+		$s4 = {43 68 65 63 6b 45 6c 65 76 61 74 69 6f 6e 45 6e 61 62 6c 65 64}
+		$s5 = {55 41 43 2e 64 6c 6c}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and all of them
+}
+
+rule INDICATOR_TOOL_REM_IntelliAdmin : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects commerical IntelliAdmin remote tool"
+
+	strings:
+		$pdb1 = {5c 4e 65 74 77 6f 72 6b 20 41 64 6d 69 6e 69 73 74 72 61 74 6f 72}
+		$pdb2 = {5c 42 69 6e 61 72 69 65 73 5c 50 6c 75 67 69 6e 73 5c 54 6f 6f 6c 73 5c 52 50 43 53 65 72 76 69 63 65 2e 70 64 62}
+		$s1 = {43 00 49 00 6e 00 74 00 65 00 6c 00 6c 00 69 00 41 00 64 00 6d 00 69 00 6e 00 52 00 50 00 43 00}
+		$s2 = {49 00 6e 00 74 00 65 00 6c 00 6c 00 69 00 41 00 64 00 6d 00 69 00 6e 00 20 00 52 00 50 00 43 00 20 00 53 00 65 00 72 00 76 00 69 00 63 00 65 00}
+		$s3 = {49 6e 74 65 6c 6c 69 41 64 6d 69 6e 20 52 65 6d 6f 74 65 20 45 78 65 63 75 74 65 20 76}
+		$s4 = {49 6e 74 65 6c 6c 69 41 64 6d 69 6e 52 50 43}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and ( all of ( $pdb* ) or 2 of ( $s* ) )
+}
+
+rule INDICATOR_TOOL_PET_SharpWMI : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects SharpWMI"
+
+	strings:
+		$s1 = {73 63 72 69 70 74 4b 69 6c 6c 54 69 6d 65 6f 75 74}
+		$s2 = {52 65 6d 6f 74 65 57 4d 49 45 78 65 63 75 74 65 57 69 74 68 4f 75 74 70 75 74}
+		$s3 = {52 65 6d 6f 74 65 57 4d 49 46 69 72 65 77 61 6c 6c}
+		$s4 = {69 00 65 00 78 00 28 00 5b 00 63 00 68 00 61 00 72 00 5b 00 5d 00 5d 00 28 00 40 00 28 00 7b 00 30 00 7d 00 29 00 7c 00 25 00 7b 00 7b 00 24 00 5f 00 2d 00 62 00 78 00 6f 00 72 00 7b 00 31 00 7d 00 7d 00 7d 00 29 00 20 00 2d 00 6a 00 6f 00 69 00 6e 00 20 00 27 00 27 00 29 00}
+		$s5 = {5c 00 5c 00 7b 00 30 00 7d 00 5c 00 72 00 6f 00 6f 00 74 00 5c 00 73 00 75 00 62 00 73 00 63 00 72 00 69 00 70 00 74 00 69 00 6f 00 6e 00}
+		$s6 = {5f 00 43 00 6f 00 6e 00 74 00 65 00 78 00 74 00 23 00 23 00 52 00 41 00 4e 00 44 00 4f 00 4d 00 23 00 23 00}
+		$s7 = {65 00 78 00 65 00 63 00 75 00 74 00 65 00 76 00 62 00 73 00}
+		$s8 = {73 00 63 00 72 00 69 00 70 00 74 00 62 00 36 00 34 00}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 4 of them
+}
+
+rule INDICATOR_TOOL_PET_DefenderControl : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects Defender Control"
+
+	strings:
+		$s1 = {57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 44 00 65 00 66 00 65 00 6e 00 64 00 65 00 72 00 20 00 43 00 6f 00 6e 00 74 00 72 00 6f 00 6c 00}
+		$s2 = {((77 77 77 2e 73 6f 72 64 75 6d 2e 6f 72 67) | (77 00 77 00 77 00 2e 00 73 00 6f 00 72 00 64 00 75 00 6d 00 2e 00 6f 00 72 00 67 00))}
+		$s3 = {64 00 43 00 6f 00 6e 00 74 00 72 00 6f 00 6c 00}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 2 of them
+}
+
+rule INDICATOR_TOOL_PET_Mulit_VenomAgent : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects Venom Proxy Agent"
+
+	strings:
+		$s1 = {67 69 74 68 75 62 2e 63 6f 6d 2f 44 6c 69 76 33 2f 56 65 6e 6f 6d 2f}
+		$s2 = {33 48 70 4b 51 56 42 33 6e 54 33 71 61 4e 51 50 54 2d 5a 55 2f 53 4b 4a 35 35 6f 66 7a 35 54 45 6d 67 35 4f 33 52 4f 57 41 2f 43 55 73 5f 2d 67 66 61 30 34 74 47 56 4f 36 33 33 5a 34 47 2f 4f 53 65 45 70 52 52 62 30 53 71 5f 35 52 36 41 72 49 69 2d}
+		$s3 = {76 65 6e 6f 6d 5f 61 67 65 6e 74 20 2d}
+		$s4 = {62 75 66 66 65 72 73 73 68 2d 75 73 65 72 61 75 74 68 74 72 61 6e 73 6d 69 74 66 69 6c 65 75 6e 6b 6e 6f 77 6e 20 70 6f 72 74 77 69 72 65 70 3a 20 70 2d 3e 6d 3d 20 21 3d 20 73 77 65 65 70 67 65 6e}
+		$s5 = {67 6f 6c 61 6e 67 2e 6f 72 67 2f 78 2f 63 72 79 70 74 6f 2f 73 73 68 2e 28 2a 68 61 6e 64 73 68 61 6b 65 54 72 61 6e 73 70 6f 72 74 29 2e 72 65 61 64 50 61 63 6b 65 74}
+
+	condition:
+		( uint16( 0 ) == 0x5a4d or uint16( 0 ) == 0x457f or uint16( 0 ) == 0xfacf ) and 3 of them
+}
+
+rule INDICATOR_TOOL_HFS_WebServer : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects HFS Web Server"
+
+	strings:
+		$s1 = {53 4f 46 54 57 41 52 45 5c 42 6f 72 6c 61 6e 64 5c 44 65 6c 70 68 69 5c}
+		$s2 = {43 3a 5c 63 6f 64 65 5c 6d 69 6e 65 5c 68 66 73 5c 73 63 72 69 70 74 4c 69 62 2e 70 61 73}
+		$s3 = {68 66 73 2e 2a 3b 2a 2e 68 74 6d 2a 3b 64 65 73 63 72 69 70 74 2e 69 6f 6e 3b 2a 2e 63 6f 6d 6d 65 6e 74 3b 2a 2e 6d 64 35 3b 2a 2e 63 6f 72 72 75 70 74 65 64 3b 2a 2e 6c 6e 6b}
+		$s4 = {53 65 72 76 65 72 3a 20 48 46 53}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and all of them
+}
+
+rule INDICATOR_TOOL_PROX_lanproxy : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects lanproxy-go-client"
+
+	strings:
+		$s1 = {73 65 72 76 65 72 53 68 61 72 65}
+		$s2 = {70 61 72 6b 69 6e 67 4f 6e 43 68 61 6e}
+		$s3 = {7b 7b 6a 6f 69 6e 20 2e 4e 61 6d 65 73 20 22 2c 20 22 7d 7d 7b 7b 22 5c 74 22 7d 7d 7b 7b 2e 55 73 61 67 65 7d 7d 7b 7b 65 6e 64 7d 7d 7b 7b 65 6e 64 7d 7d 7b 7b 65 6e 64 7d 7d 7b 7b 65 6e 64 7d 7d 7b 7b}
+		$s4 = {3c 2f 74 61 62 6c 65 3e 3c 2f 74 68 65 61 64 3e 3c 2f 74 62 6f 64 79 3e}
+		$s5 = {76 61 6c 75 65 3d 61 61 63 75 74 65 3b 61 62 72 65 76 65 3b 61 64 64 72 65 73 73 61 67 72 61 76 65 3b 61 6c 74 20 2d 3e 20 61 6e 64 61 6e 64 3b 61 6e 67 6d 73 64 3b 61 6e 67 73 70 68 3b 61 6e 79 20 2d 3e 20 61 70 61 63 69 72 3b 61 70 70 72 6f 78 3b 61 72 74 69 63 6c 65 61 74 69 6c 64 65 3b 62 61 72 76 65 65 3b 62 61 72 77 65 64 3b 62 64 6f 55 78 58 76 62 65 63 61 75 73 3b 62 65 72}
+		$s6 = {2f 64 65 76 2f 75 72 61 6e 64 6f 6d 31 32 37 2e 30 2e 30 2e 31 3a}
+		$s7 = {6e 6f 6e 2d 49 50 76 34 20 61 64 64 72 65 73 73 6e 6f 6e 2d 49 50 76 36 20 61 64 64 72 65 73 73 6e 74 72 69 61 6e 67 6c 65 6c 65 66 74 65 71 3b 6f 62 6a 65 63 74 20 69 73 20 72 65 6d 6f 74 65 70 61 63 65 72 3a 20 48 5f 6d 5f 70 72 65 76 3d 72 65 66 6c 65 63 74 20 6d 69 73 6d 61 74 63 68 72 65 67 65 78 70 3a 20 43 6f 6d 70 69 6c 65 28 72 65 6d 6f 74 65 20 49 2f 4f 20 65 72 72 6f 72}
+		$s8 = {2e 57 69 74 68 44 65 61 64 6c 69 6e 65 28 2e 69 6e 2d 61 64 64 72 2e 61 72 70 61 2e}
+
+	condition:
+		( uint16( 0 ) == 0x5a4d or uint16( 0 ) == 0x457f ) and 6 of them
+}
+
+rule INDICATOR_TOOL_PET_Peirates : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects Kubernetes penetration tool Peirates"
+
+	strings:
+		$s1 = {44 65 70 72 65 63 61 74 65 64 53 65 72 76 69 63 65 41 63 63 6f 75 6e 74}
+		$s2 = {4c 69 76 65 6e 65 73 73 50 72 6f 62 65}
+		$s3 = {5c 74 5c 74 6b 75 62 65 63 74 6c 20 65 78 70 6f 73 65 20 72 73 20 6e 67 69 6e 78 20 2d 2d 70 6f 72 74 3d 38 30 20 2d 2d 74 61 72 67 65 74 2d 70 6f 72 74 3d 38 30 30 30}
+		$s4 = {5c 74 5c 74 6b 75 62 65 63 74 6c 20 72 75 6e 20 68 61 7a 65 6c 63 61 73 74 20 2d 2d 69 6d 61 67 65 3d 68 61 7a 65 6c 63 61 73 74 20 2d 2d 70 6f 72 74 3d 35 37 30 31}
+		$s5 = {43 4f 4d 50 52 45 50 4c 59 5b 24 69 5d 3d 24 7b 43 4f 4d 50 52 45 50 4c 59 5b 24 69 5d 23 22 24 63 6f 6c 6f 6e 5f 77 6f 72 64 22 7d}
+		$s6 = {25 2a 70 6f 6c 79 6d 6f 72 70 68 69 63 68 65 6c 70 65 72 73 2e 48 69 73 74 6f 72 79 56 69 65 77 65 72 46 75 6e 63}
+		$s7 = {4c 69 73 74 65 6e 41 6e 64 53 65 72 76 65 54 4c 53}
+		$s8 = {44 6f 77 6e 77 61 72 64 41 50 49}
+		$s9 = {3b 20 70 6c 75 72 61 6c 3d 28 6e 25 31 30 3d 3d 31 20 26 26 20 6e 25 31 30 30 21 3d 31 31 20 3f 20 30 20 3a 20 6e 20 21 3d 20 30 20 3f 20 31 20 3a 20 32 29 3b 70 72 6f 74 6f 3a}
+		$s10 = {6e 61 6d 65 3a 20 61 74 74 61 63 6b 2d}
+
+	condition:
+		uint16( 0 ) == 0x457f and 9 of them
+}
+
+rule INDICATOR_TOOL_PET_BOtB : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects Break out the Box (BOtB)"
+
+	strings:
+		$s1 = {74 6f 20 75 6e 61 6c 6c 6f 63 61 74 65 64 20 73 70 61 6e 25 25 21 25 63 28 2a 62 69 67 2e 46 6c 6f 61 74 3d 25 73 29 2c 20 52 65 63 75 72 73 69 6f 6e 44 65 73 69 72 65 64 3a 20 2f 75 73 72 2f 73 68 61 72 65 2f 7a 6f 6e 65 69 6e 66 6f 2f 2f 7b 42 75 63 6b 65 74 7d 2f 7b 4b 65 79 2b 7d 3f 61 63 6c 2f 7b 42 75 63 6b 65 74 7d 3f 61 63 63 65 6c 65 72 61 74 65 2f 7b 42 75 63 6b 65 74 7d 3f 65 6e 63 72 79 70 74 69 6f 6e 2f 7b 42 75 63 6b 65 74 7d 3f}
+		$s2 = {65 78 70 6c 6f 69 74 20 43 56 45 2d 32 30 31 39 2d 35 37 33 36 20 77 69 74 68 20 63 6f 6d 6d 61 6e 64 3a 20 5b 45 52 52 4f 52 5d 20 49 6e 20 45 6e 61 62 6c 69 6e 67 20 43 47 52 4f 55 50 20 4e 6f 74 69 66 69 63 61 74 69 6f 6e 73 20 2d 3e 20 27 65 63 68 6f 20 31 20 3e 20 5b 49 4e 46 4f 5d 20 43 47 52 4f 55 50 20 6d 61 79 20 65 78 69 73 74 2c 20 61 74 74 65 6d 70 74 69 6e 67 20 65 78 70 6c 6f 69 74 20 72 65 67 61 72 64 6c 65 73 73}
+		$s3 = {6d 61 69 6e 2e 65 78 65 63 53 68 65 6c 6c 43 6d 64}
+		$s4 = {5b 2a 5d 20 44 61 74 61 20 75 70 6c 6f 61 64 65 64 20 74 6f 3a 5b 2b 5d}
+		$s5 = {77 68 69 74 65 73 70 61 63 65 20 6f 72 20 6c 69 6e 65 20 62 72 65 61 6b 66 61 69 6c 65 64 20 74 6f 20 66 69 6e 64 20 63 72 65 64 65 6e 74 69 61 6c 73 20 69 6e 20 74 68 65 20 65 6e 76 69 72 6f 6e 6d 65 6e 74 2e 66 61 69 6c 65 64 20 74 6f 20 67 65 74 20 25 73 20 45 43 32 20 69 6e 73 74 61 6e 63 65 20 72 6f 6c 65 20 63 72 65 64 65 6e 74 69 61 6c 73 66 69 72 73 74}
+		$s6 = {54 68 69 73 20 70 72 6f 63 65 73 73 20 77 69 6c 6c 20 65 78 69 74 20 49 46 20 61 6e 20 45 58 45 43 56 45 20 69 73 20 63 61 6c 6c 65 64 20 69 6e 20 74 68 65 20 43 6f 6e 74 61 69 6e 65 72 20 6f 72 20 69 66 20 74 68 65 20 43 6f 6e 74 61 69 6e 65 72 20 69 73 20 6d 61 6e 75 61 6c 6c 79 20 73 74 6f 70 70 65 64 50 65 72 66 6f 72 6d 20 72 65 76 65 72 73 65 20 44 4e 53 20 6c 6f 6f 6b 75 70 73}
+		$s7 = {68 74 74 70 3a 20 72 65 71 75 65 73 74 20 74 6f 6f 20 6c 61 72 67 65 68 74 74 70 3a 2f 2f 31 30 30 2e 31 30 30 2e 31 30 30 2e 32 30 30 2f 68 74 74 70 3a 2f 2f 31 36 39 2e 32 35 34 2e 31 36 39 2e 32 35 34 2f 69 6e 64 65 78 20 6f 75 74 20 6f 66 20 72 61 6e 67 65}
+
+	condition:
+		uint16( 0 ) == 0x457f and 6 of them
+}
+
+rule INDICATOR_TOOL_PWS_LSASS_CreateMiniDump : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects CreateMiniDump tool"
+
+	strings:
+		$s1 = {6c 00 73 00 61 00 73 00 73 00 2e 00 64 00 6d 00 70 00}
+		$s2 = {6c 73 61 73 73 20 64 75 6d 70 65 64 20 73 75 63 63 65 73 73 66 75 6c 6c 79 21}
+		$s3 = {47 6f 74 20 6c 73 61 73 73 2e 65 78 65 20 50 49 44 3a}
+		$s4 = {5c 65 78 70 65 72 69 6d 65 6e 74 73 5c 43 72 65 61 74 65 4d 69 6e 69 44 75 6d 70 5c 43 72 65 61 74 65 4d 69 6e 69 44 75 6d 70 5c}
+		$s5 = {4d 69 6e 69 44 75 6d 70 57 72 69 74 65 44 75 6d 70}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 2 of them
+}
+
+rule INDICATOR_TOOL_PWS_SecurityXploded_BrowserPasswordDumper : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects SecurityXploded Browser Password Dumper tool"
+
+	strings:
+		$s1 = {5c 70 72 6f 6a 65 63 74 73 5c 77 69 6e 64 6f 77 73 5c 42 72 6f 77 73 65 72 50 61 73 73 77 6f 72 64 44 75 6d 70 5c 52 65 6c 65 61 73 65 5c 46 69 72 65 4d 61 73 74 65 72 2e 70 64 62}
+		$s2 = {25 73 3a 20 44 75 6d 70 69 6e 67 20 70 61 73 73 77 6f 72 64 73}
+		$s3 = {25 73 20 2d 20 46 6f 75 6e 64 20 6c 6f 67 69 6e 20 64 61 74 61 20 66 69 6c 65 2e 2e 2e 64 75 6d 70 69 6e 67 20 74 68 65 20 70 61 73 73 77 6f 72 64 73 20 66 72 6f 6d 20 66 69 6c 65 20 25 73}
+		$s4 = {25 73 20 44 75 6d 70 69 6e 67 20 73 65 63 72 65 74 73 20 66 72 6f 6d 20 6c 6f 67 69 6e 20 6a 73 6f 6e 20 66 69 6c 65 20 25 73}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 3 of them
+}
+
+rule INDICATOR_TOOL_PWS_SecurityXploded_FTPPasswordDumper : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects SecurityXploded FTP Password Dumper tool"
+
+	strings:
+		$s1 = {5c 70 72 6f 6a 65 63 74 73 5c 77 69 6e 64 6f 77 73 5c 46 54 50 50 61 73 73 77 6f 72 64 44 75 6d 70 5c 52 65 6c 65 61 73 65 5c 46 69 72 65 4d 61 73 74 65 72 2e 70 64 62}
+		$s2 = {2f 2f 44 75 6d 70 20 61 6c 6c 20 74 68 65 20 46 54 50 20 70 61 73 73 77 6f 72 64 73 20 74 6f 20 61 20 66 69 6c 65 20 22 63 3a 5c 70 61 73 73 6c 69 73 74 2e 74 78 74 22}
+		$s3 = {2f 2f 44 75 6d 70 20 61 6c 6c 20 74 68 65 20 46 54 50 20 70 61 73 73 77 6f 72 64 73 20 74 6f 20 63 6f 6e 73 6f 6c 65}
+		$s4 = {46 00 54 00 50 00 20 00 50 00 61 00 73 00 73 00 77 00 6f 00 72 00 64 00 20 00 44 00 75 00 6d 00 70 00}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 3 of them
+}
+
+rule INDICATOR_TOOL_PWS_SecurityXploded_EmailPasswordDumper : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects SecurityXploded Email Password Dumper tool"
+
+	strings:
+		$s1 = {5c 70 72 6f 6a 65 63 74 73 5c 77 69 6e 64 6f 77 73 5c 45 6d 61 69 6c 50 61 73 73 77 6f 72 64 44 75 6d 70 5c 52 65 6c 65 61 73 65 5c 46 69 72 65 4d 61 73 74 65 72 2e 70 64 62}
+		$s2 = {2f 2f 44 75 6d 70 20 61 6c 6c 20 74 68 65 20 45 6d 61 69 6c 20 70 61 73 73 77 6f 72 64 73 20 74 6f 20 61 20 66 69 6c 65 20 22 63 3a 5c 70 61 73 73 6c 69 73 74 2e 74 78 74 22}
+		$s3 = {45 00 6d 00 61 00 69 00 6c 00 50 00 61 00 73 00 73 00 77 00 6f 00 72 00 64 00 44 00 75 00 6d 00 70 00}
+		$s4 = {2f 2f 44 75 6d 70 20 61 6c 6c 20 74 68 65 20 45 6d 61 69 6c 20 70 61 73 73 77 6f 72 64 73 20 74 6f 20 63 6f 6e 73 6f 6c 65}
+		$s5 = {45 00 6d 00 61 00 69 00 6c 00 20 00 50 00 61 00 73 00 73 00 77 00 6f 00 72 00 64 00 20 00 44 00 75 00 6d 00 70 00}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 3 of them
+}
+
+rule INDICATOR_TOOL_PET_SharpSphere : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects SharpSphere red teamers tool to interact with the guest operating systems of virtual machines managed by vCenter"
+
+	strings:
+		$s1 = {67 65 74 5f 76 69 72 74 75 61 6c 45 78 65 63 55 73 61 67 65}
+		$s2 = {43 6f 6d 6d 61 6e 64 20 74 6f 20 65 78 65 63 75 74 65}
+		$s3 = {3c 67 75 65 73 74 75 73 65 72 6e 61 6d 65 3e 6b 5f 5f}
+		$s4 = {2e 56 69 72 74 75 61 6c 4d 61 63 68 69 6e 65 44 65 76 69 63 65 52 75 6e 74 69 6d 65 49 6e 66 6f 56 69 72 74 75 61 6c 45 74 68 65 72 6e 65 74 43 61 72 64 52 75 6e 74 69 6d 65 53 74 61 74 65}
+		$s5 = {64 61 74 61 73 74 6f 72 65 55 72 6c}
+		$s6 = {53 68 61 72 70 53 70 68 65 72 65 2e 76 53 70 68 65 72 65 2e}
+		$s7 = {48 65 6c 70 54 65 78 74 2b 76 43 65 6e 74 65 72 20 53 44 4b 20 55 52 4c 2c 20 69 2e 65 2e 20 68 74 74 70 73 3a 2f 2f 31 32 37 2e 30 2e 30 2e 31 2f 73 64 6b}
+		$s8 = {5b 00 78 00 5d 00 20 00 45 00 78 00 65 00 63 00 75 00 74 00 69 00 6f 00 6e 00 20 00 66 00 69 00 6e 00 69 00 73 00 68 00 65 00 64 00 2c 00 20 00 61 00 74 00 74 00 65 00 6d 00 70 00 74 00 69 00 6e 00 67 00 20 00 74 00 6f 00 20 00 72 00 65 00 74 00 72 00 69 00 65 00 76 00 65 00 20 00 74 00 68 00 65 00 20 00 72 00 65 00 73 00 75 00 6c 00 74 00 73 00}
+		$s9 = {43 00 3a 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 5c 00 53 00 79 00 73 00 74 00 65 00 6d 00 33 00 32 00 5c 00 63 00 6d 00 64 00 2e 00 65 00 78 00 65 00}
+		$s10 = {43 00 3a 00 5c 00 55 00 73 00 65 00 72 00 73 00 5c 00 50 00 75 00 62 00 6c 00 69 00 63 00 5c 00}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 4 of them
+}
+
+rule INDICATOR_TOOL_ExchangeExploit : hardened limited
+{
+	meta:
+		author = "ditekSHen"
+		description = "Hunt for executables potentially embedding Exchange Server exploitation artificats"
+
+	strings:
+		$s1 = {((65 63 70 2f 64 65 66 61 75 6c 74 2e 66 6c 74 3f) | (65 00 63 00 70 00 2f 00 64 00 65 00 66 00 61 00 75 00 6c 00 74 00 2e 00 66 00 6c 00 74 00 3f 00))}
+		$s2 = {((6f 77 61 2f 61 75 74 68 2f 6c 6f 67 6f 6e 2e 61 73 70 78 3f) | (6f 00 77 00 61 00 2f 00 61 00 75 00 74 00 68 00 2f 00 6c 00 6f 00 67 00 6f 00 6e 00 2e 00 61 00 73 00 70 00 78 00 3f 00))}
+		$s3 = {((58 2d 41 6e 6f 6e 52 65 73 6f 75 72 63 65 2d 42 61 63 6b 65 6e 64) | (58 00 2d 00 41 00 6e 00 6f 00 6e 00 52 00 65 00 73 00 6f 00 75 00 72 00 63 00 65 00 2d 00 42 00 61 00 63 00 6b 00 65 00 6e 00 64 00))}
+		$s4 = {((45 57 53 2f 45 78 63 68 61 6e 67 65 2e 61 73 6d 78 3f) | (45 00 57 00 53 00 2f 00 45 00 78 00 63 00 68 00 61 00 6e 00 67 00 65 00 2e 00 61 00 73 00 6d 00 78 00 3f 00))}
+		$s5 = {((58 2d 42 45 52 65 73 6f 75 72 63 65) | (58 00 2d 00 42 00 45 00 52 00 65 00 73 00 6f 00 75 00 72 00 63 00 65 00))}
+		$s6 = {((68 74 74 70 73 3a 2f 2f 25 73 2f 6f 77 61 2f 61 75 74 68 2f) | (68 00 74 00 74 00 70 00 73 00 3a 00 2f 00 2f 00 25 00 73 00 2f 00 6f 00 77 00 61 00 2f 00 61 00 75 00 74 00 68 00 2f 00))}
+
+	condition:
+		( uint16( 0 ) == 0x5a4d or uint16( 0 ) == 0x457f ) and 5 of them
+}
+
+rule INDICATOR_TOOL_GoCLR : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects binaries utilizing Go-CLR for hosting the CLR in a Go process and using it to execute a DLL from disk or an assembly from memory"
+
+	strings:
+		$s1 = {67 69 74 68 75 62 2e 63 6f 6d 2f 72 6f 70 6e 6f 70 2f 67 6f 2d 63 6c 72 2e 28 2a 49 43}
+		$s2 = {45 6e 75 6d 4b 65 79 45 78 57 52 65 67 45 6e 75 6d 56 61 6c 75 65 57 52 65 67 4f 70 65 6e 4b 65 79 45 78 57 52 74 6c 43 6f 70 79 4d 65 6d 6f 72 79 52 74 6c 47 65 74 56 65 72 73 69 6f 6e 53 68 65 6c 6c 45 78 65 63 75 74 65 57 53 74 61 72 74 53 65 72 76 69 63 65 57}
+		$c1 = {((49 43 6f 72 52 75 6e 74 69 6d 65 48 6f 73 74) | (49 00 43 00 6f 00 72 00 52 00 75 00 6e 00 74 00 69 00 6d 00 65 00 48 00 6f 00 73 00 74 00))}
+		$c2 = {((43 4c 52 43 72 65 61 74 65 49 6e 73 74 61 6e 63 65) | (43 00 4c 00 52 00 43 00 72 00 65 00 61 00 74 00 65 00 49 00 6e 00 73 00 74 00 61 00 6e 00 63 00 65 00))}
+		$c3 = {((49 43 4c 52 52 75 6e 74 69 6d 65 49 6e 66 6f) | (49 00 43 00 4c 00 52 00 52 00 75 00 6e 00 74 00 69 00 6d 00 65 00 49 00 6e 00 66 00 6f 00))}
+		$c4 = {((49 43 4c 52 4d 65 74 61 48 6f 73 74) | (49 00 43 00 4c 00 52 00 4d 00 65 00 74 00 61 00 48 00 6f 00 73 00 74 00))}
+		$go = {((47 6f 20 62 75 69 6c 64 20 49 44 3a) | (47 00 6f 00 20 00 62 00 75 00 69 00 6c 00 64 00 20 00 49 00 44 00 3a 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and all of ( $s* ) or ( 2 of ( $c* ) and $go )
+}
+
+rule INDICATOR_TOOL_EdgeCookiesView : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects EdgeCookiesView"
+
+	strings:
+		$s1 = {41 00 64 00 64 00 52 00 65 00 6d 00 61 00 72 00 6b 00 43 00 6f 00 6f 00 6b 00 69 00 65 00 73 00 54 00 58 00 54 00}
+		$s2 = {23 00 20 00 4e 00 65 00 74 00 73 00 63 00 61 00 70 00 65 00 20 00 48 00 54 00 54 00 50 00 20 00 43 00 6f 00 6f 00 6b 00 69 00 65 00 20 00 46 00 69 00 6c 00 65 00}
+		$s3 = {2f 00 73 00 63 00 6f 00 6f 00 6b 00 69 00 65 00 73 00 74 00 78 00 74 00}
+		$s4 = {2f 00 64 00 65 00 6c 00 65 00 74 00 65 00 72 00 65 00 67 00 6b 00 65 00 79 00}
+		$s5 = {4c 00 6f 00 61 00 64 00 20 00 63 00 6f 00 6f 00 6b 00 69 00 65 00 73 00 20 00 66 00 72 00 6f 00 6d 00 3a 00}
+		$s6 = {4f 00 6c 00 64 00 20 00 63 00 6f 00 6f 00 6b 00 69 00 65 00 73 00 20 00 66 00 6f 00 6c 00 64 00 65 00 72 00 20 00 6f 00 66 00 20 00 45 00 64 00 67 00 65 00 2f 00 49 00 45 00}
+		$pdb = {5c 45 64 67 65 43 6f 6f 6b 69 65 73 56 69 65 77 5c 52 65 6c 65 61 73 65 5c 45 64 67 65 43 6f 6f 6b 69 65 73 56 69 65 77 2e 70 64 62}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and ( 5 of ( $s* ) or ( ( $pdb ) and 2 of ( $s* ) ) )
+}
+
+rule INDICATOR_TOOL_SharpNoPSExec : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects SharpNoPSExec"
+
+	strings:
+		$s1 = {7c 00 2d 00 3e 00 20 00 53 00 65 00 72 00 76 00 69 00 63 00 65 00}
+		$s2 = {61 00 75 00 74 00 68 00 65 00 6e 00 74 00 69 00 63 00 61 00 74 00 65 00 64 00 20 00 61 00 73 00}
+		$s3 = {49 00 6d 00 70 00 65 00 72 00 73 00 6f 00 6e 00 61 00 74 00 65 00 4c 00 6f 00 67 00 67 00 65 00 64 00 4f 00 6e 00 55 00 73 00 65 00 72 00 20 00 66 00 61 00 69 00 6c 00 65 00 64 00 2e 00 20 00 45 00 72 00 72 00 6f 00 72 00 3a 00 7b 00 30 00 7d 00}
+		$s4 = {75 50 61 79 6c 6f 61 64}
+		$s5 = {70 63 62 42 79 74 65 73 4e 65 65 64 65 64}
+		$s6 = {((53 68 61 72 70 4e 6f 50 53 45 78 65 63) | (53 00 68 00 61 00 72 00 70 00 4e 00 6f 00 50 00 53 00 45 00 78 00 65 00 63 00))}
+		$pdb1 = {53 68 61 72 70 4e 6f 50 53 45 78 65 63 5c 6f 62 6a 5c 44 65 62 75 67 5c 53 68 61 72 70 4e 6f 50 53 45 78 65 63 2e 70 64 62}
+		$pdb2 = {53 68 61 72 70 4e 6f 50 53 45 78 65 63 5c 6f 62 6a 5c 52 65 6c 65 61 73 65 5c 53 68 61 72 70 4e 6f 50 53 45 78 65 63 2e 70 64 62}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and ( 4 of ( $s* ) or ( 1 of ( $pdb* ) and 1 of ( $s* ) ) )
+}
+
+rule INDICATOR_TOOL_ChromeCookiesView : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects ChromeCookiesView"
+
+	strings:
+		$s1 = {41 00 64 00 64 00 52 00 65 00 6d 00 61 00 72 00 6b 00 43 00 6f 00 6f 00 6b 00 69 00 65 00 73 00 54 00 58 00 54 00}
+		$s2 = {44 00 65 00 63 00 72 00 79 00 70 00 74 00 20 00 63 00 6f 00 6f 00 6b 00 69 00 65 00 73 00}
+		$s3 = {2f 00 73 00 63 00 6f 00 6f 00 6b 00 69 00 65 00 73 00 74 00 78 00 74 00}
+		$s4 = {2f 00 64 00 65 00 6c 00 65 00 74 00 65 00 72 00 65 00 67 00 6b 00 65 00 79 00}
+		$s5 = {43 00 6f 00 6f 00 6b 00 69 00 65 00 73 00 2e 00 74 00 78 00 74 00 20 00 46 00 6f 00 72 00 6d 00 61 00 74 00}
+		$s6 = {23 00 20 00 4e 00 65 00 74 00 73 00 63 00 61 00 70 00 65 00 20 00 48 00 54 00 54 00 50 00 20 00 43 00 6f 00 6f 00 6b 00 69 00 65 00 20 00 46 00 69 00 6c 00 65 00}
+		$pdb = {5c 43 68 72 6f 6d 65 43 6f 6f 6b 69 65 73 56 69 65 77 5c 52 65 6c 65 61 73 65 5c 43 68 72 6f 6d 65 43 6f 6f 6b 69 65 73 56 69 65 77 2e 70 64 62}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and ( 5 of ( $s* ) or ( ( $pdb ) and 2 of ( $s* ) ) )
+}
+
+rule INDICATOR_TOOL_Sliver : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects Sliver implant cross-platform adversary emulation/red team"
+		score = 75
+
+	strings:
+		$x1 = {67 69 74 68 75 62 2e 63 6f 6d 2f 62 69 73 68 6f 70 66 6f 78 2f 73 6c 69 76 65 72 2f 70 72 6f 74 6f 62 75 66 2f 73 6c 69 76 65 72 70 62 62 2e}
+		$s1 = {2e 63 6f 6d 6d 6f 6e 70 62 2e 52 65 73 70 6f 6e 73 65 52}
+		$s2 = {2e 50 6f 72 74 66 77 64 50 72 6f 74 6f 63 6f 6c}
+		$s3 = {2e 57 47 54 43 50 46 6f 72 77 61 72 64 65 72}
+		$s4 = {2e 57 47 53 6f 63 6b 73 53 65 72 76 65 72 52}
+		$s5 = {2e 50 69 76 6f 74 45 6e 74 72 79 52}
+		$s6 = {2e 42 61 63 6b 64 6f 6f 72 52 65 71}
+		$s7 = {2e 50 72 6f 63 65 73 73 44 75 6d 70 52 65 71}
+		$s8 = {2e 49 6e 76 6f 6b 65 53 70 61 77 6e 44 6c 6c 52 65 71}
+		$s9 = {2e 53 70 61 77 6e 44 6c 6c}
+		$s10 = {2e 54 43 50 50 69 76 6f 74 52 65 71}
+
+	condition:
+		( uint16( 0 ) == 0x5a4d or uint16( 0 ) == 0x457f or uint16( 0 ) == 0xfacf ) and ( 1 of ( $x* ) or 5 of ( $s* ) )
+}
+
+rule INDICATOR_TOOL_OwlProxy : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Hunt for OwlProxy"
+
+	strings:
+		$is1 = {63 00 61 00 6c 00 6c 00 5f 00 6e 00 65 00 77 00 20 00 63 00 6f 00 6d 00 6d 00 61 00 6e 00 64 00 3a 00 20 00}
+		$is2 = {63 00 61 00 6c 00 6c 00 5f 00 70 00 72 00 6f 00 78 00 79 00 20 00 63 00 6d 00 64 00 3a 00 20 00}
+		$is3 = {64 00 6f 00 77 00 6e 00 6c 00 6f 00 61 00 64 00 5f 00 66 00 69 00 6c 00 65 00 3a 00 20 00}
+		$is4 = {63 00 6d 00 64 00 68 00 74 00 74 00 70 00 5f 00 72 00 75 00 6e 00}
+		$is5 = {73 00 75 00 62 00 5f 00 70 00 72 00 6f 00 78 00 79 00 68 00 74 00 74 00 70 00 5f 00 72 00 75 00 6e 00}
+		$is6 = {70 00 72 00 6f 00 78 00 79 00 68 00 74 00 74 00 70 00 5f 00 72 00 75 00 6e 00}
+		$is7 = {77 00 65 00 62 00 73 00 68 00 65 00 6c 00 6c 00 5f 00 72 00 75 00 6e 00}
+		$is8 = {2f 00 65 00 78 00 63 00 68 00 61 00 6e 00 67 00 65 00 74 00 6f 00 70 00 69 00 63 00 73 00 65 00 72 00 76 00 69 00 63 00 65 00 73 00 2f 00}
+		$is9 = {63 00 3a 00 5c 00 77 00 69 00 6e 00 64 00 6f 00 77 00 73 00 5c 00 73 00 79 00 73 00 74 00 65 00 6d 00 33 00 32 00 5c 00 77 00 6d 00 69 00 70 00 64 00 2e 00 64 00 6c 00 6c 00}
+		$iu1 = {25 00 73 00 3a 00 2f 00 2f 00 2b 00 3a 00 25 00 64 00 25 00 73 00}
+		$iu2 = {25 00 73 00 3a 00 2f 00 2f 00 2b 00 3a 00 25 00 64 00 25 00 73 00 70 00 70 00 2f 00}
+		$iu3 = {25 00 73 00 3a 00 2f 00 2f 00 2b 00 3a 00 25 00 64 00 25 00 73 00 70 00 78 00 2f 00}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 6 of ( $is* ) or ( all of ( $iu* ) and 2 of ( $is* ) )
+}
+
+rule INDICATOR_TOOL_Backstab : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detect Backstab tool capable of killing antimalware protected processes by leveraging sysinternals Process Explorer (ProcExp) driver"
+
+	strings:
+		$s1 = {4e 74 4c 6f 61 64 44 72 69 76 65 72 3a 20 25 78}
+		$s2 = {50 4f 53 49 58 4c 59 5f 43 4f 52 52 45 43 54}
+		$s3 = {5c 5c 2e 5c 50 52 4f 43 45 58 50}
+		$s4 = {50 72 6f 63 45 78 70 4f 70 65 6e 50 72 6f 74 65 63 74 65 64 50 72 6f 63 65 73 73 2e 44 65 76 69 63 65 49 6f 43 6f 6e 74 72 6f 6c 3a 20 25}
+		$s5 = {50 72 6f 63 45 78 70 4b 69 6c 6c 48 61 6e 64 6c 65 2e 44 65 76 69 63 65 49 6f 43 6f 6e 74 72 6f 6c}
+		$s6 = {5b 25 23 6c 6c 75 5d 20 5b 25 77 73 5d 3a 20 25 77 73}
+		$s7 = {44 00 3a 00 50 00 28 00 41 00 3b 00 3b 00 47 00 41 00 3b 00 3b 00 3b 00 53 00 59 00 29 00 28 00 41 00 3b 00 3b 00 47 00 52 00 47 00 57 00 47 00 58 00 3b 00 3b 00 3b 00 42 00 41 00 29 00 28 00 41 00 3b 00 3b 00 47 00 52 00}
+		$s8 = {2d 6b 20 2d 64 20 63 3a 5c 5c 64 72 69 76 65 72 2e 73 79 73}
+		$s9 = {62 61 63 6b 73 74 61 62 2e 65 78 65 20 2d}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 6 of them
+}
+
+rule INDICATOR_TOOL_EXP_SharpPrintNightmare : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detect SharpPrintNightmare"
+
+	strings:
+		$s1 = {52 00 65 00 76 00 65 00 72 00 74 00 54 00 6f 00 53 00 65 00 6c 00 66 00 28 00 29 00 20 00 45 00 72 00 72 00 6f 00 72 00 3a 00}
+		$s2 = {4e 00 65 00 76 00 65 00 72 00 47 00 6f 00 6e 00 6e 00 61 00 47 00 69 00 76 00 65 00 59 00 6f 00 75 00}
+		$s3 = {5c 00 41 00 6d 00 64 00 36 00 34 00 5c 00 55 00 4e 00 49 00 44 00 52 00 56 00 2e 00 44 00 4c 00 4c 00}
+		$s4 = {3a 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 5c 00 53 00 79 00 73 00 74 00 65 00 6d 00 33 00 32 00 5c 00 44 00 72 00 69 00 76 00 65 00 72 00 53 00 74 00 6f 00 72 00 65 00 5c 00 46 00 69 00 6c 00 65 00 52 00 65 00 70 00 6f 00 73 00 69 00 74 00 6f 00 72 00 79 00 5c 00}
+		$s5 = {43 00 3a 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 5c 00 53 00 79 00 73 00 74 00 65 00 6d 00 33 00 32 00 5c 00 73 00 70 00 6f 00 6f 00 6c 00 5c 00 64 00 72 00 69 00 76 00 65 00 72 00 73 00 5c 00 78 00 36 00 34 00 5c 00 33 00 5c 00 6f 00 6c 00 64 00 5c 00 7b 00 30 00 7d 00 5c 00 7b 00 31 00 7d 00}
+		$s6 = {5c 53 68 61 72 70 50 72 69 6e 74 4e 69 67 68 74 6d 61 72 65 5c}
+		$s7 = { 4e 61 6d 65 09 46 75 6c 6c 54 72 75 73 74 01 }
+		$s8 = {53 00 4f 00 46 00 54 00 57 00 41 00 52 00 45 00 5c 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 4e 00 54 00 5c 00 43 00 75 00 72 00 72 00 65 00 6e 00 74 00 56 00 65 00 72 00 73 00 69 00 6f 00 6e 00 5c 00 50 00 72 00 69 00 6e 00 74 00 5c 00 50 00 61 00 63 00 6b 00 61 00 67 00 65 00 49 00 6e 00 73 00 74 00 61 00 6c 00 6c 00 61 00 74 00 69 00 6f 00 6e 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 78 00 36 00 34 00 5c 00 44 00 72 00 69 00 76 00 65 00 72 00 50 00 61 00 63 00 6b 00 61 00 67 00 65 00 73 00}
+		$s9 = {6e 00 74 00 70 00 72 00 69 00 6e 00 74 00 2e 00 69 00 6e 00 66 00 5f 00 61 00 6d 00 64 00 36 00 34 00}
+		$s10 = {41 00 64 00 64 00 50 00 72 00 69 00 6e 00 74 00 65 00 72 00 44 00 72 00 69 00 76 00 65 00 72 00 45 00 78 00}
+		$s11 = {61 64 64 50 72 69 6e 74 65 72}
+		$s12 = {44 52 49 56 45 52 5f 49 4e 46 4f 5f 32}
+		$s13 = {41 50 44 5f 43 4f 50 59 5f}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 7 of them
+}
+
+rule INDICATOR_TOOL_REC_ADFind : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detect ADFind"
+
+	strings:
+		$s1 = {5c 41 64 46 69 6e 64 5c 41 64 46 69 6e 64 5c 41 64 46 69 6e 64 2e 68}
+		$s2 = {5c 41 64 46 69 6e 64 5c 41 64 46 69 6e 64 5c 41 64 46 69 6e 64 2e 63 70 70}
+		$s3 = {5c 41 64 46 69 6e 64 5c 52 65 6c 65 61 73 65 5c 41 64 46 69 6e 64 2e 70 64 62}
+		$s4 = {6a 6f 65 77 61 72 65 5f 64 65 66 61 75 6c 74 5f 61 64 66 69 6e 64 2e 63 66}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 2 of them
+}
+
+rule INDICATOR_TOOL_CNC_Chisel : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detect binaries using Chisel"
+
+	strings:
+		$s1 = {63 68 69 73 65 6c 2d 76}
+		$s2 = {73 65 6e 64 63 68 69 73 65 6c 2d 76}
+		$s3 = {3c 2d 63 68 69 73 65 6c 63 6c 6f 73 65 64 63 6f 6f 6b 69 65 64 6f 6d 61 69 6e 65 66 65 6e 63 65 65 6d 70 74 79}
+		$ws1 = {53 65 63 2d 57 65 62 53 6f 63 6b 65 74 2d 4b 65 79}
+		$ws2 = {53 65 63 2d 57 65 62 53 6f 63 6b 65 74 2d 50 72 6f 74 6f 63 6f 6c}
+		$ws3 = {53 65 63 2d 57 65 62 73 6f 63 6b 65 74 2d 56 65 72 73 69 6f 6e}
+		$ws4 = {53 65 63 2d 57 65 62 73 6f 63 6b 65 74 2d 45 78 74 65 6e 73 69 6f 6e 73}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and ( 1 of ( $s* ) and 3 of ( $ws* ) )
+}
+
+rule INDICATOR_TOOL_ANT_SharpEDRChecker : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detect SharpEDRChecke, C# Implementation of Invoke-EDRChecker"
+
+	strings:
+		$pdb1 = {5c 53 68 61 72 70 45 44 52 43 68 65 63 6b 65 72 2e 70 64 62}
+		$x1 = {45 44 52 44 61 74 61}
+		$x2 = {62 79 74 65 73 4e 65 65 64 65 64}
+		$x3 = /\] Checking (Directories|drivers|processes|modules|Registry|Services) \[/ wide
+		$s1 = {43 68 65 63 6b 53 65 72 76 69 63 65}
+		$s2 = {43 68 65 63 6b 4d 6f 64 75 6c 65}
+		$s3 = {50 72 69 76 43 68 65 63 6b}
+		$s4 = {53 65 72 76 69 63 65 43 68 65 63 6b 65 72}
+		$s5 = {50 72 69 76 69 6c 65 67 65 43 68 65 63 6b 65 72}
+		$s6 = {46 69 6c 65 43 68 65 63 6b 65 72}
+		$s7 = {44 72 69 76 65 72 43 68 65 63 6b 65 72}
+		$s8 = {50 72 6f 63 65 73 73 43 68 65 63 6b 65 72}
+		$s9 = {44 69 72 65 63 74 6f 72 79 43 68 65 63 6b 65 72}
+		$s10 = {52 65 67 69 73 74 72 79 43 68 65 63 6b 65 72}
+		$s11 = {43 68 65 63 6b 44 72 69 76 65 72}
+		$s12 = {43 68 65 63 6b 53 65 72 76 69 63 65 73}
+		$s13 = {43 68 65 63 6b 44 69 72 65 63 74 6f 72 69 65 73}
+		$s14 = {43 68 65 63 6b 43 75 72 72 65 6e 74 50 72 6f 63 65 73 73 4d 6f 64 75 6c 65 73}
+		$s15 = {43 68 65 63 6b 50 72 6f 63 65 73 73 65 73}
+		$s16 = {43 68 65 63 6b 44 72 69 76 65 72 73}
+		$s17 = {43 68 65 63 6b 50 72 6f 63 65 73 73}
+		$s18 = {43 68 65 63 6b 53 75 62 44 69 72 65 63 74 6f 72 79}
+		$s19 = {43 68 65 63 6b 44 69 72 65 63 74 6f 72 79}
+		$s20 = {43 68 65 63 6b 52 65 67 69 73 74 72 79}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and ( all of ( $x* ) or 10 of ( $s* ) or ( 1 of ( $pdb* ) and ( 1 of ( $x* ) or 2 of ( $s* ) ) ) or ( #x3 > 4 and 2 of them ) )
+}
+
+rule INDICATOR_TOOL_ANT_InviZzzible : hardened limited
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detect InviZzzible"
+
+	strings:
+		$s1 = {5c 00 5c 00 2e 00 5c 00 70 00 69 00 70 00 65 00 5c 00 74 00 61 00 73 00 6b 00 5f 00 73 00 63 00 68 00 65 00 64 00 5f 00 73 00 65 00}
+		$s2 = {5c 00 5c 00 5c 00 2e 00 5c 00 4e 00 50 00 46 00 5f 00 4e 00 64 00 69 00 73 00 57 00 61 00 6e 00 49 00 70 00}
+		$s3 = /--action --(dtt|mra|user-input|cfg|dan|evt|pid|exc|wmi|tsh)/ fullword wide
+		$s4 = {63 00 75 00 63 00 6b 00 6f 00 6f 00 5f 00 25 00 6c 00 75 00 2e 00 69 00 6e 00 69 00}
+		$s5 = {73 00 61 00 6e 00 64 00 62 00 6f 00 78 00 20 00 65 00 76 00 61 00 73 00 69 00 6f 00 6e 00}
+		$s6 = {55 6e 62 61 6c 61 6e 63 65 64 53 74 61 63 6b}
+		$s7 = {70 72 6f 63 65 73 73 5f 77 69 74 68 5f 6c 6f 6e 67 5f 6e 61 6d 65}
+		$s8 = {44 65 6c 61 79 73 41 63 63 75 6d 75 6c 61 74 69 6f 6e}
+		$s9 = {50 69 64 52 65 75 73 65}
+		$s10 = {44 65 61 64 41 6e 61 6c 79 7a 65 72}
+		$s11 = {53 6c 65 65 70 44 75 6d 6d 79 50 61 74 63 68}
+		$s12 = {41 75 64 69 6f 44 65 76 69 63 65 41 62 73 65 6e 63 65}
+		$s14 = {5c 5c 2e 5c 50 68 79 73 69 63 61 6c 44 72 69 76 65 25 75}
+		$s15 = {22 63 6f 75 6e 74 65 72 6d 65 61 73 75 72 65 73 22 3a}
+		$s16 = {5f 25 2e 30 32 75 25 2e 30 32 75 25 2e 30 32 75 5f 25 2e 30 32 75 25 2e 30 32 75 25 2e 30 32 75 2e 68 74 6d 6c}
+		$f1 = {2e 3f 41 56 48 79 70 65 72 56 40 53 61 6e 64 62 6f 78 45 76 61 73 69 6f 6e 40 40}
+		$f2 = {2e 3f 41 56 4a 6f 65 62 6f 78 40 53 61 6e 64 62 6f 78 45 76 61 73 69 6f 6e 40 40}
+		$f3 = {2e 3f 41 56 4b 56 4d 40 53 61 6e 64 62 6f 78 45 76 61 73 69 6f 6e 40 40}
+		$f4 = {2e 3f 41 56 4d 69 73 63 40 53 61 6e 64 62 6f 78 45 76 61 73 69 6f 6e 40 40}
+		$f5 = {2e 3f 41 56 50 61 72 61 6c 6c 65 6c 73 40 53 61 6e 64 62 6f 78 45 76 61 73 69 6f 6e 40 40}
+		$f6 = {2e 3f 41 56 51 45 4d 55 40 53 61 6e 64 62 6f 78 45 76 61 73 69 6f 6e 40 40}
+		$f7 = {2e 3f 41 56 53 61 6e 64 62 6f 78 69 65 40 53 61 6e 64 62 6f 78 45 76 61 73 69 6f 6e 40 40}
+		$f8 = {2e 3f 41 56 56 42 4f 58 40 53 61 6e 64 62 6f 78 45 76 61 73 69 6f 6e 40 40}
+		$f9 = {2e 3f 41 56 56 69 72 74 75 61 6c 50 43 40 53 61 6e 64 62 6f 78 45 76 61 73 69 6f 6e 40 40}
+		$f10 = {2e 3f 41 56 56 4d 57 61 72 65 40 53 61 6e 64 62 6f 78 45 76 61 73 69 6f 6e 40 40}
+		$f11 = {2e 3f 41 56 57 69 6e 65 40 53 61 6e 64 62 6f 78 45 76 61 73 69 6f 6e 40 40}
+		$f12 = {2e 3f 41 56 58 65 6e 40 53 61 6e 64 62 6f 78 45 76 61 73 69 6f 6e 40 40}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and ( 6 of ( $s* ) or 4 of ( $f* ) or ( 2 of ( $f* ) and 2 of ( $s* ) ) )
+}
+
+rule INDICATOR_TOOL_EXFIL_SharpBox : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detect SharpBox, C# tool for compressing, encrypting, and exfiltrating data to Dropbox using the Dropbox API"
+
+	strings:
+		$s1 = {55 70 6c 6f 61 64 44 61 74 61}
+		$s2 = {69 73 41 74 74 61 63 68 65 64}
+		$s3 = {44 65 63 72 79 70 74 46 69 6c 65}
+		$s4 = {73 65 74 5f 64 62 78 50 61 74 68}
+		$s5 = {73 65 74 5f 64 62 78 54 6f 6b 65 6e}
+		$s6 = {73 65 74 5f 64 65 63 72 79 70 74}
+		$s7 = {47 65 6e 65 72 61 74 65 50 61 73 73}
+		$s8 = {46 69 6c 65 55 70 6c 6f 61 64 54 6f 44 72 6f 70 62 6f 78}
+		$s9 = {5c 53 68 61 72 70 42 6f 78 2e 70 64 62}
+		$s10 = {68 00 74 00 74 00 70 00 73 00 3a 00 2f 00 2f 00 63 00 6f 00 6e 00 74 00 65 00 6e 00 74 00 2e 00 64 00 72 00 6f 00 70 00 62 00 6f 00 78 00 61 00 70 00 69 00 2e 00 63 00 6f 00 6d 00 2f 00 32 00 2f 00 66 00 69 00 6c 00 65 00 73 00 2f 00 75 00 70 00 6c 00 6f 00 61 00 64 00}
+		$s12 = {44 00 72 00 6f 00 70 00 62 00 6f 00 78 00 2d 00 41 00 50 00 49 00 2d 00 41 00 72 00 67 00 3a 00 20 00 7b 00 22 00 70 00 61 00 74 00 68 00 22 00 3a 00}
+		$s13 = {58 00 35 00 30 00 39 00 43 00 65 00 72 00 74 00 69 00 66 00 69 00 63 00 61 00 74 00 65 00 20 00 5b 00 7b 00 30 00 7d 00 5d 00 20 00 50 00 6f 00 6c 00 69 00 63 00 79 00 20 00 45 00 72 00 72 00 6f 00 72 00 3a 00 20 00 27 00 7b 00 31 00 7d 00 27 00}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 7 of them
+}
+
+rule INDICATOR_TOOL_EXP_SeriousSAM01 : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detect tool variants potentially exploiting SeriousSAM / HiveNightmare CVE-2021-36934"
+
+	strings:
+		$s1 = {56 00 6f 00 6c 00 75 00 6d 00 65 00 53 00 68 00 61 00 64 00 6f 00 77 00 43 00 6f 00 70 00 79 00}
+		$s2 = {5c 00 5c 00 3f 00 5c 00 47 00 4c 00 4f 00 42 00 41 00 4c 00 52 00 4f 00 4f 00 54 00 5c 00 44 00 65 00 76 00 69 00 63 00 65 00 5c 00}
+		$s3 = {7b 00 30 00 7d 00 5c 00 7b 00 31 00 7d 00 24 00 3a 00 61 00 61 00 64 00 33 00 62 00 34 00 33 00 35 00 62 00 35 00 31 00 34 00 30 00 34 00 65 00 65 00 61 00 61 00 64 00 33 00 62 00 34 00 33 00 35 00 62 00 35 00 31 00 34 00 30 00 34 00 65 00 65 00 3a 00 7b 00 32 00 7d 00}
+		$s4 = {41 00 53 00 50 00 4e 00 45 00 54 00 5f 00 57 00 50 00 5f 00 50 00 41 00 53 00 53 00 57 00 4f 00 52 00 44 00}
+		$s5 = {3c 50 61 72 73 65 53 61 6d 3e 62 5f 5f}
+		$s6 = {3c 44 75 6d 70 53 65 63 72 65 74}
+		$s7 = {3c 50 61 72 73 65 53 65 63 72 65 74}
+		$s8 = {4c 73 61 53 65 63 72 65 74 42 6c 6f 62}
+		$s9 = {73 79 73 74 65 6d 48 69 76 65}
+		$s10 = {49 6d 70 6f 72 74 48 69 76 65 44 75 6d 70}
+		$s11 = {46 69 6e 64 53 68 61 64 6f 77 56 6f 6c 75 6d 65 73}
+		$s12 = {47 65 74 42 6f 6f 74 4b 65 79}
+		$r1 = {5b 00 2a 00 5d 00 20 00 53 00 41 00 4d 00}
+		$r2 = {5b 00 2a 00 5d 00 20 00 53 00 59 00 53 00 54 00 45 00 4d 00}
+		$r3 = {5b 00 2a 00 5d 00 20 00 53 00 45 00 43 00 55 00 52 00 49 00 54 00 59 00}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and ( 6 of ( $s* ) or ( all of ( $r* ) and 3 of ( $s* ) ) )
+}
+
+rule INDICATOR_TOOL_EXP_SeriousSAM02 : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detect tool variants potentially exploiting SeriousSAM / HiveNightmare CVE-2021-36934"
+
+	strings:
+		$s1 = {5c 00 5c 00 3f 00 5c 00 47 00 4c 00 4f 00 42 00 41 00 4c 00 52 00 4f 00 4f 00 54 00 5c 00 44 00 65 00 76 00 69 00 63 00 65 00 5c 00 48 00 61 00 72 00 64 00 64 00 69 00 73 00 6b 00 56 00 6f 00 6c 00 75 00 6d 00 65 00 53 00 68 00 61 00 64 00 6f 00 77 00 43 00 6f 00 70 00 79 00}
+		$s2 = /(Windows\\System32\\config)?\\(SAM|SECURITY|SYSTEM)/ ascii wide
+		$s3 = /(SAM|SECURITY|SYSTEM)-%s/ fullword wide
+		$s4 = /: (SAM|SECURITY|SYSTEM) hive from/ wide
+		$v1 = {((56 6f 6c 75 6d 65 53 68 61 64 6f 77 43 6f 70 79) | (56 00 6f 00 6c 00 75 00 6d 00 65 00 53 00 68 00 61 00 64 00 6f 00 77 00 43 00 6f 00 70 00 79 00))}
+		$v2 = {((47 4c 4f 42 41 4c 52 4f 4f 54) | (47 00 4c 00 4f 00 42 00 41 00 4c 00 52 00 4f 00 4f 00 54 00))}
+		$v3 = {((44 65 76 69 63 65) | (44 00 65 00 76 00 69 00 63 00 65 00))}
+		$n1 = {((42 6c 6f 63 6b 20 4c 65 76 65 6c 20 42 61 63 6b 75 70 20 45 6e 67 69 6e 65 20 53 65 72 76 69 63 65 20 45 58 45) | (42 00 6c 00 6f 00 63 00 6b 00 20 00 4c 00 65 00 76 00 65 00 6c 00 20 00 42 00 61 00 63 00 6b 00 75 00 70 00 20 00 45 00 6e 00 67 00 69 00 6e 00 65 00 20 00 53 00 65 00 72 00 76 00 69 00 63 00 65 00 20 00 45 00 58 00 45 00))}
+		$n2 = {7c 00 54 00 61 00 73 00 6b 00 49 00 44 00 3d 00 25 00 30 00 38 00 58 00 2d 00 25 00 30 00 34 00 58 00 2d 00 25 00 30 00 34 00 58 00 2d 00 25 00 30 00 32 00 58 00 25 00 30 00 32 00 58 00 2d 00 25 00 30 00 32 00 58 00 25 00 30 00 32 00 58 00 25 00 30 00 32 00 58 00 25 00 30 00 32 00 58 00 25 00 30 00 32 00 58 00 25 00 30 00 32 00 58 00}
+		$n3 = {5b 00 74 00 72 00 61 00 63 00 65 00 70 00 72 00 6f 00 76 00 69 00 64 00 65 00 72 00 2d 00 74 00 72 00 61 00 63 00 65 00 5d 00 20 00 46 00 61 00 69 00 6c 00 65 00 64 00 3a 00 20 00 25 00 77 00 73 00 3a 00 20 00 25 00 23 00 30 00 31 00 30 00 78 00}
+		$n4 = {62 00 61 00 73 00 65 00 5c 00 73 00 74 00 6f 00 72 00 5c 00 62 00 6c 00 62 00 5c 00 65 00 6e 00 67 00 69 00 6e 00 65 00 5c 00 75 00 73 00 6e 00 5c 00 62 00 61 00 73 00 65 00 5c 00 6c 00 69 00 62 00 5c 00 75 00 73 00 6e 00 6a 00 6f 00 75 00 72 00 6e 00 61 00 6c 00 68 00 65 00 6c 00 70 00 65 00 72 00 2e 00 63 00 70 00 70 00}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and not any of ( $n* ) and ( all of ( $s* ) or ( all of ( $v* ) and 2 of ( $s* ) ) or ( all of ( $v* ) and #s2 > 2 ) )
+}
+
+rule INDICATOR_TOOL_EXP_PetitPotam01 : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detect tool potentially exploiting/attempting PetitPotam"
+
+	strings:
+		$s1 = {5c 00 70 00 69 00 70 00 65 00 5c 00 6c 00 73 00 61 00 72 00 70 00 63 00}
+		$s2 = {5c 00 25 00 73 00}
+		$s3 = {6e 00 63 00 61 00 63 00 6e 00 5f 00 6e 00 70 00}
+		$s4 = /EfsRpc(OpenFileRaw|EncryptFileSrv|DecryptFileSrv|QueryUsersOnFile|QueryRecoveryAgents|RemoveUsersFromFile|AddUsersToFile)/ wide
+		$r1 = {52 70 63 42 69 6e 64 69 6e 67 46 72 6f 6d 53 74 72 69 6e 67 42 69 6e 64 69 6e 67 57}
+		$r2 = {52 70 63 53 74 72 69 6e 67 42 69 6e 64 69 6e 67 43 6f 6d 70 6f 73 65 57}
+		$r3 = {52 70 63 53 74 72 69 6e 67 46 72 65 65 57}
+		$r4 = {52 50 43 52 54 34 2e 64 6c 6c}
+		$r5 = {4e 64 72 43 6c 69 65 6e 74 43 61 6c 6c 32}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and ( all of ( $s* ) and 4 of ( $r* ) )
+}
+
+rule INDICATOR_TOOL_PET_SharpStrike : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detect SharpStrike post-exploitation tool written in C# that uses either CIM or WMI to query remote systems"
+
+	strings:
+		$x1 = {53 00 68 00 61 00 72 00 70 00 53 00 74 00 72 00 69 00 6b 00 65 00 20 00 76 00}
+		$x2 = {5b 00 2a 00 5d 00 20 00 41 00 67 00 65 00 6e 00 74 00 20 00 69 00 73 00 20 00 62 00 75 00 73 00 79 00}
+		$x3 = {53 68 61 72 70 53 74 72 69 6b 65 5f 46 6f 64 79}
+		$s1 = {53 65 72 76 69 63 65 4c 61 79 65 72 2e 43 49 4d}
+		$s2 = {4d 6f 64 65 6c 73 2e 43 49 4d}
+		$s3 = {3c 48 61 6e 64 6c 65 43 6f 6d 6d 61 6e 64 3e 62 5f 5f}
+		$s4 = {4d 65 6d 6f 72 79 53 74 72 65 61 6d}
+		$s5 = {47 65 74 43 6f 6d 6d 61 6e 64 73}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and ( 2 of ( $x* ) or all of ( $s* ) )
+}
+
+rule INDICATOR_TOOL_LTM_Ladon : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detect Ladon tool that assists in lateral movement across a network"
+
+	strings:
+		$d1 = {4c 61 64 6f 6e 2e 56 6e 63 53 68 61 72 70 2e 64 6c 6c}
+		$d2 = {4c 61 64 6f 6e 2e 52 65 6e 63 69 2e 53 73 68 4e 65 74 2e 64 6c 6c}
+		$s1 = {4c 61 64 6f 6e 2e}
+		$s2 = {6e 6f 77 50 6f 73}
+		$s3 = {53 63 61 6e}
+		$s4 = {51 4c 5a 5f 53 54 52 45 41 4d 49 4e 47 5f 42 55 46 46 45 52}
+		$s5 = {73 69 7a 65 44 65 63 6f 6d 70 72 65 73 73 65 64}
+		$s6 = {55 70 64 61 74 65 42 79 74 65}
+		$s7 = {6b 4e 75 6d 42 69 74 50 72 69 63 65 53 68 69 66 74 42 69 74 73}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and ( all of ( $d* ) or all of ( $s* ) or ( 1 of ( $d* ) and 5 of ( $s* ) ) )
+}
+
+rule INDICATOR_TOOL_LTM_LadonExp : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detect Ladon tool that assists in lateral movement across a network"
+
+	strings:
+		$s1 = {74 00 78 00 74 00 5f 00 63 00 73 00 63 00 61 00 6e 00 64 00 6c 00 6c 00 2e 00 54 00 65 00 78 00 74 00}
+		$s2 = {43 73 63 61 6e 57 65 62 45 78 70 42 75 69 6c 64 2e 66 72 6d 4d 61 69 6e 2e 72 65 73 6f 75 72 63 65 73}
+		$s3 = {3d 20 22 24 48 74 74 70 58 66 6f 72 77 61 72 64 65 64 46 6f 72 24 22 3b}
+		$s4 = {6e 61 6d 65 73 70 61 63 65 20 6e 65 74 73 63 61 6e}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 3 of them
+}
+
+rule INDICATOR_TOOL_LTM_LadonGo : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detect LadonGo tool that assists in lateral movement across a network"
+
+	strings:
+		$f1 = {6d 61 69 6e 2e 56 75 6c 44 65 74 65 63 74 69 6f 6e}
+		$f2 = {6d 61 69 6e 2e 42 72 75 74 65 46 6f 72}
+		$f3 = {6d 61 69 6e 2e 52 65 6d 6f 74 65 45 78 65 63}
+		$f4 = {6d 61 69 6e 2e 45 78 70 6c 6f 69 74}
+		$f5 = {6d 61 69 6e 2e 4e 6f 70 69 6e 67}
+		$f6 = {6d 61 69 6e 2e 4c 61 64 6f 6e 53 63 61 6e}
+		$f7 = {6d 61 69 6e 2e 4c 61 64 6f 6e 55 72 6c 53 63 61 6e}
+
+	condition:
+		( uint16( 0 ) == 0x5a4d or uint16( 0 ) == 0x457f or uint16( 0 ) == 0xface ) and 5 of ( $f* )
+}
+
+rule INDICATOR_TOOL_ENC_DiskCryptor : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detect DiskCryptor open encryption solution that offers encryption of all disk partitions"
+
+	strings:
+		$x1 = {5c 44 69 73 6b 43 72 79 70 74 6f 72 5c 44 43 72 79 70 74 5c}
+		$s1 = {45 00 72 00 72 00 6f 00 72 00 20 00 67 00 65 00 74 00 74 00 69 00 6e 00 67 00 20 00 25 00 73 00 62 00 6f 00 6f 00 74 00 6c 00 6f 00 61 00 64 00 65 00 72 00 20 00 63 00 6f 00 6e 00 66 00 69 00 67 00 75 00 72 00 61 00 74 00 69 00 6f 00 6e 00}
+		$s2 = {6c 00 6f 00 61 00 64 00 65 00 72 00 2e 00 69 00 73 00 6f 00}
+		$s3 = {42 00 6f 00 6f 00 74 00 6c 00 6f 00 61 00 64 00 65 00 72 00 20 00 63 00 6f 00 6e 00 66 00 69 00 67 00 20 00 66 00 6f 00 72 00 20 00 5b 00 25 00 73 00 5d 00}
+		$s4 = {64 63 5f 67 65 74 5f 6d 62 72 5f 63 6f 6e 66 69 67}
+		$s5 = {64 63 5f 65 6e 63 72 79 70 74 5f 69 73 6f 5f 69 6d 61 67 65}
+		$s6 = {64 63 5f 73 74 61 72 74 5f 72 65 5f 65 6e 63 72 79 70 74}
+		$s7 = {64 63 5f 73 74 61 72 74 5f 65 6e 63 72 79 70 74}
+		$s8 = {5f 77 31 30 5f 72 65 66 6c 65 63 74 5f}
+		$d1 = {5c 00 44 00 6f 00 73 00 44 00 65 00 76 00 69 00 63 00 65 00 73 00 5c 00 64 00 63 00 72 00 79 00 70 00 74 00}
+		$d2 = {24 00 64 00 63 00 73 00 79 00 73 00 24 00 5f 00 66 00 61 00 69 00 6c 00 5f 00 25 00 78 00}
+		$d3 = {25 00 73 00 5c 00 24 00 44 00 43 00 5f 00 54 00 52 00 49 00 4d 00 5f 00 25 00 78 00 24 00}
+		$d4 = {5c 00 44 00 65 00 76 00 69 00 63 00 65 00 5c 00 64 00 63 00 72 00 79 00 70 00 74 00}
+		$d5 = {25 00 73 00 5c 00 24 00 64 00 63 00 73 00 79 00 73 00 24 00}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and ( ( 1 of ( $x* ) and 2 of ( $s* ) ) or 4 of ( $s* ) or 3 of ( $d* ) )
+}
+
+rule INDICATOR_TOOL_PRI_InstallerFileTakeOver : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detect InstallerFileTakeOver CVE-2021-41379"
+
+	strings:
+		$s1 = {73 70 6c 77 6f 77 36 34 2e 65 78 65}
+		$s2 = {6e 6f 74 65 70 61 64 2e 65 78 65}
+		$s3 = {25 00 73 00 5c 00 53 00 79 00 73 00 74 00 65 00 6d 00 33 00 32 00 5c 00 63 00 6d 00 64 00 2e 00 65 00 78 00 65 00}
+		$s4 = {5b 00 53 00 79 00 73 00 74 00 65 00 6d 00 46 00 6f 00 6c 00 64 00 65 00 72 00 5d 00 6d 00 73 00 69 00 65 00 78 00 65 00 63 00 2e 00 65 00 78 00 65 00}
+		$s5 = {6d 69 63 72 6f 73 6f 66 74 20 70 6c 7a}
+		$s6 = {25 00 54 00 45 00 4d 00 50 00 25 00 5c 00}
+		$x1 = {5c 49 6e 73 74 61 6c 6c 65 72 46 69 6c 65 54 61 6b 65 4f 76 65 72 2e 70 64 62}
+		$o1 = { 48 b8 fe ff ff ff ff ff ff 7f 48 8b f5 48 83 ce }
+		$o2 = { 4c 8d 62 10 48 c7 c7 ff ff ff ff 48 8b c7 66 0f }
+		$o3 = { ff 15 9a 59 00 00 48 8b d8 e8 ba ff ff ff 45 33 }
+		$o4 = { 49 c7 43 a8 fe ff ff ff 49 89 5b 10 48 8b 05 5a }
+		$o5 = { 66 89 7c 24 50 48 c7 c2 ff ff ff ff 48 ff c2 66 }
+
+	condition:
+		uint16( 0 ) == 0x5a4d and ( ( 1 of ( $x* ) and ( 2 of ( $s* ) or 3 of ( $o* ) ) ) or 4 of ( $s* ) or ( all of ( $o* ) and 2 of them ) )
+}
+
+rule INDICATOR_TOOL_PRI_JuicyPotato : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detect JuicyPotato"
+
+	strings:
+		$x1 = {5c 4a 75 69 63 79 50 6f 74 61 74 6f 2e 70 64 62}
+		$x2 = {4a 75 69 63 79 50 6f 74 61 74 6f 20 76 25 73}
+		$s1 = {68 00 65 00 6c 00 6c 00 6f 00 2e 00 73 00 74 00 67 00}
+		$s2 = {70 70 56 69 72 74 75 61 6c 50 72 6f 63 65 73 73 6f 72 52 6f 6f 74 73}
+		$s3 = {4c 6f 63 6b 20 61 6c 72 65 61 64 79 20 74 61 6b 65 6e}
+		$s4 = {5b 2b 5d 20 61 75 74 68 72 65 73 75 6c 74 20 25 64}
+		$s5 = {52 50 43 20 2d 3e 20 73 65 6e 64 20 66 61 69 6c 65 64 20 77 69 74 68 20 65 72 72 6f 72 3a 20 25 64}
+		$s6 = {50 72 69 76 20 41 64 6a 75 73 74 20 46 41 4c 53 45}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and ( all of ( $x* ) or ( 1 of ( $x* ) and 3 of ( $s* ) ) or ( 5 of ( $s* ) ) )
+}
+
+rule INDICATOR_TOOL_PWS_LSASS_NanoDump : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects NanoDump tool that creates a minidump of the LSASS process"
+
+	strings:
+		$s1 = {5c 00 52 00 65 00 67 00 69 00 73 00 74 00 72 00 79 00 5c 00 4d 00 61 00 63 00 68 00 69 00 6e 00 65 00 5c 00 53 00 6f 00 66 00 74 00 77 00 61 00 72 00 65 00 5c 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 45 00 72 00 72 00 6f 00 72 00 20 00 52 00 65 00 70 00 6f 00 72 00 74 00 69 00 6e 00 67 00 5c 00 4c 00 6f 00 63 00 61 00 6c 00 44 00 75 00 6d 00 70 00 73 00 5c 00}
+		$s2 = {5c 00 52 00 65 00 67 00 69 00 73 00 74 00 72 00 79 00 5c 00 4d 00 61 00 63 00 68 00 69 00 6e 00 65 00 5c 00 53 00 6f 00 66 00 74 00 77 00 61 00 72 00 65 00 5c 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 4e 00 54 00 5c 00 43 00 75 00 72 00 72 00 65 00 6e 00 74 00 56 00 65 00 72 00 73 00 69 00 6f 00 6e 00 5c 00 53 00 69 00 6c 00 65 00 6e 00 74 00 50 00 72 00 6f 00 63 00 65 00 73 00 73 00 45 00 78 00 69 00 74 00 5c 00}
+		$s3 = {44 00 75 00 6d 00 70 00 54 00 79 00 70 00 65 00}
+		$s4 = {4c 00 6f 00 63 00 61 00 6c 00 44 00 75 00 6d 00 70 00 46 00 6f 00 6c 00 64 00 65 00 72 00}
+		$s5 = {5c 00 3f 00 3f 00 5c 00 43 00 3a 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 5c 00 53 00 79 00 73 00 74 00 65 00 6d 00 33 00 32 00 5c 00 73 00 65 00 63 00 6c 00 6f 00 67 00 6f 00 6e 00 2e 00 64 00 6c 00 6c 00}
+		$s6 = {6d 69 6e 69 64 75 6d 70 20 25 73}
+		$s7 = {2d 2d 73 65 63 6c 6f 67 6f 6e 2d}
+		$s8 = {73 68 74 69 6e 6b 65 72 69 6e 67}
+		$s9 = {4c 53 41 53 53 20 50 49 44 3a 20 25 6c 64}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 4 of them
+}
+
+rule INDICATOR_TOOL_ENUM_SharpShares : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects SharpShares multithreaded C# .NET Assembly to enumerate accessible network shares in a domain"
+
+	strings:
+		$s1 = {((53 68 61 72 70 53 68 61 72 65 73 2e) | (53 00 68 00 61 00 72 00 70 00 53 00 68 00 61 00 72 00 65 00 73 00 2e 00))}
+		$s2 = {47 65 74 43 6f 6d 70 75 74 65 72 53 68 61 72 65 73}
+		$s3 = {75 00 73 00 65 00 72 00 41 00 63 00 63 00 6f 00 75 00 6e 00 74 00 43 00 6f 00 6e 00 74 00 72 00 6f 00 6c 00 3a 00 31 00 2e 00 32 00 2e 00 38 00 34 00 30 00 2e 00 31 00 31 00 33 00 35 00 35 00 36 00 2e 00 31 00 2e 00 34 00 2e 00 38 00 30 00 33 00 3a 00 3d 00 32 00 29 00 29 00 28 00 6f 00 70 00 65 00 72 00 61 00 74 00 69 00 6e 00 67 00 53 00 79 00 73 00 74 00 65 00 6d 00 3d 00 2a 00 73 00 65 00 72 00 76 00 65 00 72 00 2a 00 29 00 28 00 21 00 28 00 75 00 73 00 65 00 72 00 41 00 63 00 63 00 6f 00 75 00 6e 00 74 00 43 00 6f 00 6e 00 74 00 72 00 6f 00 6c 00 3a 00 31 00 2e 00 32 00}
+		$s4 = {47 65 74 41 6c 6c 53 68 61 72 65 73}
+		$s5 = {73 00 74 00 65 00 61 00 6c 00 74 00 68 00 3a 00}
+		$s6 = {28 00 26 00 28 00 6f 00 62 00 6a 00 65 00 63 00 74 00 43 00 61 00 74 00 65 00 67 00 6f 00 72 00 79 00 3d 00 63 00 6f 00 6d 00 70 00 75 00 74 00 65 00 72 00 29 00 28 00 21 00 28 00 75 00 73 00 65 00 72 00 41 00 63 00 63 00 6f 00 75 00 6e 00 74 00 43 00 6f 00 6e 00 74 00 72 00 6f 00 6c 00 3a 00 31 00 2e 00 32 00 2e 00 38 00 34 00 30 00 2e 00 31 00 31 00 33 00 35 00 35 00 36 00 2e 00 31 00 2e 00 34 00 2e 00 38 00 30 00 33 00 3a 00 3d 00 32 00 29 00 29 00 28 00 6f 00 70 00 65 00 72 00 61 00 74 00 69 00 6e 00 67 00 53 00 79 00 73 00 74 00 65 00 6d 00 3d 00 2a 00 73 00 65 00 72 00 76 00 65 00 72 00 2a 00 29 00 29 00}
+		$s7 = /\/targets|ldap|threads/ wide
+		$s8 = {65 6e 74 72 69 65 73 72 65 61 64}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 4 of them
+}
+
+rule INDICATOR_TOOL_PROX_revsocks : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects revsocks Reverse socks5 tunneler with SSL/TLS and proxy support"
+
+	strings:
+		$s1 = {6d 61 69 6e 2e 61 67 65 6e 74 70 61 73 73 77 6f 72 64}
+		$s2 = {6d 61 69 6e 2e 63 6f 6e 6e 65 63 74 46 6f 72 53 6f 63 6b 73}
+		$s3 = {6d 61 69 6e 2e 63 6f 6e 6e 65 63 74 76 69 61 70 72 6f 78 79}
+		$s4 = {6d 61 69 6e 2e 44 6e 73 43 6f 6e 6e 65 63 74 53 6f 63 6b 73}
+		$s5 = {6d 61 69 6e 2e 6c 69 73 74 65 6e 46 6f 72 41 67 65 6e 74 73}
+		$s6 = {6d 61 69 6e 2e 6c 69 73 74 65 6e 46 6f 72 43 6c 69 65 6e 74 73}
+		$s7 = {6d 61 69 6e 2e 67 65 74 50 45 4d 73}
+
+	condition:
+		( uint16( 0 ) == 0x5a4d or uint16( 0 ) == 0x457f ) and 4 of them
+}
+
+rule INDICATOR_TOOL_PWS_azbelt : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects azbelt for enumerating Azure related credentials primarily on AAD joined machines"
+
+	strings:
+		$s1 = {40 68 74 74 70 3a 2f 2f 31 36 39 2e 32 35 34 2e 31 36 39 2e 32 35 34 2f 6d 65 74 61 64 61 74 61 2f 69 64 65 6e 74 69 74 79 2f 6f 61 75 74 68 32 2f 74 6f 6b 65 6e 3f 61 70 69 2d 76 65 72 73 69 6f 6e 3d}
+		$s2 = {40 50 61 72 74 6e 65 72 20 43 75 73 74 6f 6d 65 72 20 44 65 6c 65 67 61 74 65 64 20 41 64 6d 69 6e 20 4f 66 66 6c 69 6e 65 20 50 72 6f 63 65 73 73 6f 72}
+		$s3 = {40 54 61 72 67 65 74 4e 61 6d 65 3a 20}
+		$s4 = {68 74 74 70 63 6c 69 65 6e 74 2e 6e 69 6d}
+		$s5 = {40 44 53 52 45 47 5f 44 45 56 49 43 45 5f 4a 4f 49 4e}
+		$s6 = {40 2e 61 7a 75 72 65 2f 6d 73 61 6c 5f 74 6f 6b 65 6e 5f 63 61 63 68 65 2e 62 69 6e}
+		$s7 = {43 72 65 64 45 6e 75 6d 65 72 61 74 65 57}
+		$s8 = {40 68 74 74 70 3a 2f 2f 31 36 39 2e 32 35 34 2e 31 36 39 2e 32 35 34 2f 6d 65 74 61 64 61 74 61 2f 69 6e 73 74 61 6e 63 65 3f 61 70 69 2d 76 65 72 73 69 6f 6e 3d}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 6 of them
+}
+
+rule INDICATOR_TOOL_DontSleep : hardened
+{
+	meta:
+		author = "ditekShen"
+		description = "Detects Keep Host Unlocked (Don't Sleep)"
+
+	strings:
+		$s1 = {3a 00 52 00 65 00 70 00 65 00 61 00 74 00 23 00 23 00 23 00 44 00 45 00 4c 00 20 00 22 00 25 00 73 00 22 00 23 00 23 00 23 00 69 00 66 00 20 00 65 00 78 00 69 00 73 00 74 00 20 00 22 00 25 00 73 00 22 00 20 00 67 00 6f 00 74 00 6f 00 20 00 52 00 65 00 70 00 65 00 61 00 74 00 23 00 23 00 23 00 44 00 45 00 4c 00 20 00 22 00 25 00 73 00 22 00 23 00 23 00 23 00}
+		$s2 = {70 00 6f 00 77 00 72 00 70 00 72 00 6f 00 66 00 2e 00 64 00 6c 00 6c 00 2c 00 53 00 65 00 74 00 53 00 75 00 73 00 70 00 65 00 6e 00 64 00 53 00 74 00 61 00 74 00 65 00}
+		$s3 = {5f 00 73 00 65 00 6c 00 66 00 64 00 65 00 73 00 74 00 72 00 75 00 63 00 74 00 2e 00 62 00 61 00 74 00}
+		$s4 = {70 6c 65 61 73 65 5f 73 6c 65 65 70 5f 62 6c 6f 63 6b 5f}
+		$s5 = {42 00 72 00 6f 00 77 00 73 00 65 00 72 00 2d 00 54 00 79 00 70 00 65 00 3a 00 20 00 4d 00 69 00 6e 00 69 00 42 00 6f 00 77 00 73 00 65 00 72 00 4f 00 4b 00}
+		$s6 = {6d 5f 75 73 65 5f 61 6c 6c 5f 72 75 6c 65 5f 6e 6f 5f 73 6c 65 65 70}
+		$s7 = {42 00 6c 00 6f 00 63 00 6b 00 62 00 79 00 45 00 78 00 65 00 63 00 75 00 74 00 69 00 6f 00 6e 00 53 00 74 00 61 00 74 00 65 00 3a 00 20 00 25 00 64 00 20 00 6f 00 6e 00 3a 00 25 00 64 00 20 00 62 00 79 00 5f 00 65 00 6e 00 61 00 62 00 6c 00 65 00 3a 00 25 00 64 00}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 4 of them
+}
+
+rule INDICATOR_TOOL_NSudo : hardened
+{
+	meta:
+		author = "ditekShen"
+		description = "Detects NSudo allowing to run processes as TrustedInstaller or System"
+
+	strings:
+		$x1 = {63 00 6d 00 64 00 20 00 2f 00 63 00 20 00 73 00 74 00 61 00 72 00 74 00 20 00 22 00 4e 00 53 00 75 00 64 00 6f 00 2e 00}
+		$x2 = {2a 00 5c 00 73 00 68 00 65 00 6c 00 6c 00 5c 00 4e 00 53 00 75 00 64 00 6f 00}
+		$x3 = {50 72 6f 6a 65 63 74 73 5c 4e 53 75 64 6f 5c 4f 75 74 70 75 74 5c 52 65 6c 65 61 73 65 5c 78 36 34 5c 4e 53 75 64 6f 2e 70 64 62}
+		$s1 = {2d 00 53 00 68 00 6f 00 77 00 57 00 69 00 6e 00 64 00 6f 00 77 00 4d 00 6f 00 64 00 65 00 3d 00 48 00 69 00 64 00 65 00}
+		$s2 = {3f 77 68 61 74 40 65 78 63 65 70 74 69 6f 6e 40 40 55 45 42 41 50 45 42 44 58 5a}
+		$s3 = {4e 53 75 64 6f 2e 52 75 6e 41 73 2e}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and ( 2 of ( $x* ) or ( 1 of ( $x* ) and 2 of ( $s* ) ) or all of ( $s* ) or 4 of them )
+}
+
+rule INDICATOR_TOOL_Ligolo : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects Ligolo tool for establishing SOCKS5 or TCP tunnels from a reverse connection"
+
+	strings:
+		$p1 = {2f 6c 69 67 6f 6c 6f 2f 6d 61 69 6e 2e 67 6f}
+		$p2 = {2f 61 72 6d 6f 6e 2f 67 6f 2d 73 6f 63 6b 73 35}
+		$s1 = {6d 61 69 6e 2e 53 74 61 72 74 4c 69 67 6f 6c 6f}
+		$s2 = {6d 61 69 6e 2e 68 61 6e 64 6c 65 52 65 6c 61 79}
+		$s3 = {6d 61 69 6e 2e 73 74 61 72 74 53 6f 63 6b 73 50 72 6f 78 79}
+		$s4 = {5f 6d 61 69 6e 2e 74 6c 73 46 69 6e 67 65 72 70 72 69 6e 74}
+		$s5 = {6d 61 69 6e 2e 76 65 72 69 66 79 54 6c 73 43 65 72 74 69 66 69 63 61 74 65}
+
+	condition:
+		( uint16( 0 ) == 0x5a4d or uint16( 0 ) == 0x457f or uint16( 0 ) == 0xfacf ) and ( ( all of ( $p* ) and 1 of ( $s* ) ) or all of ( $s* ) or ( 1 of ( $p* ) and 4 of ( $s* ) ) )
+}
+
+rule INDICATOR_TOOL_ExtPassword : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects ExtPassword External Drive Password Recovery"
+
+	strings:
+		$x1 = {45 00 78 00 74 00 50 00 61 00 73 00 73 00 77 00 6f 00 72 00 64 00 21 00}
+		$s2 = {47 00 52 00 65 00 61 00 64 00 69 00 6e 00 67 00 20 00 43 00 68 00 72 00 6f 00 6d 00 65 00 20 00 70 00 61 00 73 00 73 00 77 00 6f 00 72 00 64 00 20 00 66 00 69 00 6c 00 65 00 3a 00 20 00 25 00 73 00}
+		$s3 = {5c 00 5c 00 3f 00 5c 00 47 00 4c 00 4f 00 42 00 41 00 4c 00 52 00 4f 00 4f 00 54 00 5c 00 44 00 65 00 76 00 69 00 63 00 65 00 5c 00 48 00 61 00 72 00 64 00 64 00 69 00 73 00 6b 00 56 00 6f 00 6c 00 75 00 6d 00 65 00 53 00 68 00 61 00 64 00 6f 00 77 00 43 00 6f 00 70 00 79 00 25 00 64 00}
+		$s4 = {32 30 31 35 2d 30 37 2d 32 37 20 31 33 3a 34 39 3a 34 31 20 62 38 65 39 32 32 32 37 61 34 36 39 64 65 36 37 37 61 36 36 64 61 36 32 65 34 33 36 31 66 30 39 39 63 30 62 37 39 64 30}
+		$s5 = {6d 65 74 61 64 61 74 61 20 57 48 45 52 45 20 69 64 20 3d 20 27 70 61 73 73 77 6f 72 64 27}
+		$s6 = /Scanning\s(Credentials\sfolder|Credentials\sfolder|Firefox\sand\sother\sMozilla\sWeb\sbrowsers|Chromium-based\Web\browsers|Outlook\saccounts|Windows\sVault|dialup\/VPN\sitems|wireless\skeys|Windows\ssecurity\squestions|vault\spasswords)/ wide
+		$s7 = {6c 68 65 6c 70 33 32 53 6e 61 70 73 68 6f}
+		$s8 = {53 45 4c 45 43 54 20 6f 72 69 67 69 6e 5f}
+		$s9 = {70 61 73 73 77 6f 72 64 23 43 6b}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and ( 1 of ( $x* ) and 3 of ( $s* ) ) or 6 of ( $s* )
+}
+
+rule INDICATOR_TOOL_Ngrok : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects Ngrok"
+
+	strings:
+		$s1 = {64 61 73 68 62 6f 61 72 64 2e 6e 67 72 6f 6b 2e 63 6f 6d}
+		$s2 = {67 6f 2e 6e 67 72 6f 6b 2e 63 6f 6d 2f 63 6d 64 2f 6e 67 72 6f 6b 2f 6d 61 69 6e 2e 67 6f}
+		$s3 = {6e 67 72 6f 6b 20 61 67 65 6e 74}
+		$s4 = {2a 6e 67 72 6f 6b 2e 63 6c 69 65 6e 74 49 6e 66 6f}
+		$s5 = {27 25 73 27 20 20 73 6f 63 6b 65 74 3a 20 27 25 73 27 20 20 70 6f 72 74 3a 20 25 64 2f 65 64 67 65 73 2f 68 74 74 70 73 2f 7b 7b 20 2e 45 64 67 65 49 44 20 7d 7d 2f 72 6f 75 74 65 73 2f 7b 7b 20 2e 49 44 20 7d 7d 2f 77 65 62 68 6f 6f 6b 5f}
+		$s6 = {2f 7b 7b 20 2e 49 44 20 7d 7d 2f 74 75 6e 6e 65 6c 5f 73 65 73 73 69 6f 6e 73 2f 7b 7b 20 2e 49 44 20 7d 7d 2f 72 65 73 74 61 72 74}
+
+	condition:
+		( uint16( 0 ) == 0x5a4d or uint16( 0 ) == 0x457f or uint16( 0 ) == 0xfacf ) and ( 3 of them )
+}
+
+rule INDICATOR_TOOL_SQLRecon : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects SQLRecon C# MS-SQL toolkit designed for offensive reconnaissance and post-exploitation"
+
+	strings:
+		$s1 = {43 6f 6e 76 65 72 74 44 4c 4c 54 6f 53 51 4c 42 79 74 65 73}
+		$s2 = {5c 53 51 4c 52 65 63 6f 6e 2e 70 64 62}
+		$s3 = {47 65 74 41 6c 6c 53 51 4c 53 65 72 76 65 72 49 6e 66 6f}
+		$s4 = {3c 47 65 74 4d 53 53 51 4c 53 50 4e 73 3e 62 5f 5f}
+		$s5 = {73 00 65 00 6c 00 65 00 63 00 74 00 20 00 31 00 3b 00 20 00 65 00 78 00 65 00 63 00 20 00 6d 00 61 00 73 00 74 00 65 00 72 00 2e 00 2e 00 78 00 70 00 5f 00 63 00 6d 00 64 00 73 00 68 00 65 00 6c 00 6c 00}
+		$s6 = {2d 00 3e 00 20 00 43 00 6f 00 6d 00 6d 00 61 00 6e 00 64 00 20 00 45 00 78 00 65 00 63 00 75 00 74 00 69 00 6f 00 6e 00}
+		$s7 = {3b 00 45 00 58 00 45 00 43 00 20 00 64 00 62 00 6f 00 2e 00 73 00 70 00 5f 00 61 00 64 00 64 00 5f 00 6a 00 6f 00 62 00 73 00 74 00 65 00 70 00 20 00 40 00 6a 00 6f 00 62 00 5f 00 6e 00 61 00 6d 00 65 00 20 00 3d 00}
+		$s8 = {45 00 58 00 45 00 43 00 20 00 73 00 70 00 5f 00 64 00 72 00 6f 00 70 00 5f 00 74 00 72 00 75 00 73 00 74 00 65 00 64 00 5f 00 61 00 73 00 73 00 65 00 6d 00 62 00 6c 00 79 00 20 00 30 00 78 00}
+		$s9 = {28 00 26 00 28 00 73 00 41 00 4d 00 41 00 63 00 63 00 6f 00 75 00 6e 00 74 00 54 00 79 00 70 00 65 00 3d 00 38 00 30 00 35 00 33 00 30 00 36 00 33 00 36 00 38 00 29 00 28 00 73 00 65 00 72 00 76 00 69 00 63 00 65 00 50 00 72 00 69 00 6e 00 63 00 69 00 70 00 61 00 6c 00 4e 00 61 00 6d 00 65 00 3d 00 4d 00 53 00 53 00 51 00 4c 00 2a 00 29 00 29 00}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 5 of them
+}
+
+rule INDICATOR_TOOL_AtlasReaper : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects AtlasReaper command-line tool for Confluence and Jira reconnaissance, credential farming and social engineering"
+
+	strings:
+		$s1 = {2f 00 28 00 28 00 3f 00 3a 00 41 00 33 00 54 00 5b 00 41 00 2d 00 5a 00 30 00 2d 00 39 00 5d 00 7c 00 41 00 4b 00 49 00 41 00 7c 00 41 00 47 00 50 00 41 00 7c 00 41 00 49 00 44 00 41 00 7c 00 41 00 52 00 4f 00 41 00 7c 00 41 00 49 00 50 00 41 00 7c 00 41 00 4e 00 50 00 41 00 7c 00 41 00 4e 00 56 00 41 00 7c 00 41 00 53 00 49 00 41 00 29 00 5b 00 41 00 2d 00 5a 00 30 00 2d 00 39 00 5d 00 7b 00 31 00 36 00 7d 00 29 00 2f 00}
+		$s2 = {2f 00 72 00 65 00 73 00 74 00 2f 00 61 00 70 00 69 00 2f 00 33 00 2f 00 73 00 65 00 61 00 72 00 63 00 68 00 3f 00 6a 00 71 00 6c 00 3d 00}
+		$s3 = {61 00 74 00 74 00 61 00 63 00 68 00 6d 00 65 00 6e 00 74 00 73 00 2b 00 49 00 53 00 2b 00 4e 00 4f 00 54 00 2b 00 45 00 4d 00 50 00 54 00 59 00 26 00 66 00 69 00 65 00 6c 00 64 00 73 00 3d 00 61 00 74 00 74 00 61 00 63 00 68 00 6d 00 65 00 6e 00 74 00 2c 00 73 00 75 00 6d 00 6d 00 61 00 72 00 79 00 2c 00 73 00 74 00 61 00 74 00 75 00 73 00}
+		$s4 = {3c 50 61 72 73 65 4a 69 72 61 3e 62 5f 5f}
+		$s5 = {3c 41 74 6c 61 73 5f 44 6f 63 5f 46 6f 72 6d 61 74 3e 6b 5f 5f}
+		$s6 = {3c 50 61 72 73 65 43 6f 6e 66 6c 75 65 6e 63 65 3e 62 5f 5f}
+		$s7 = {41 74 6c 61 73 52 65 61 70 65 72 5f 50 72 6f 63 65 73 73 65 64 42 79 46 6f 64 79}
+		$s8 = /AtlasReaper\.(Jira|Confluence)/ fullword ascii
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 4 of them
+}
+
+rule INDICATOR_TOOL_NgrokSharp : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects NgrokSharp .NET library for Ngrok"
+
+	strings:
+		$x1 = {4e 00 67 00 72 00 6f 00 6b 00 53 00 68 00 61 00 72 00 70 00}
+		$x2 = {2f 65 6e 74 76 65 78 2f 4e 67 72 6f 6b 53 68 61 72 70}
+		$s1 = {73 00 74 00 61 00 72 00 74 00 20 00 2d 00 2d 00 6e 00 6f 00 6e 00 65 00 20 00 2d 00 72 00 65 00 67 00 69 00 6f 00 6e 00}
+		$s2 = {73 00 74 00 61 00 72 00 74 00 54 00 75 00 6e 00 6e 00 65 00 6c 00 44 00 74 00 6f 00}
+		$s3 = {2f 00 74 00 75 00 6e 00 6e 00 65 00 6c 00 73 00 2f 00}
+		$s4 = {3c 53 74 61 72 74 4e 67 72 6f 6b}
+		$s5 = {49 4e 67 72 6f 6b 4d 61 6e 61 67 65 72}
+		$s6 = {5f 74 75 6e 6e 65 6c 5f 6e 61 6d 65}
+		$s7 = {5f 6e 67 72 6f 6b 44 6f 77 6e 6c 6f 61 64 55 72 6c}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and ( all of ( $x* ) or ( 1 of ( $x* ) and 3 of ( $s* ) ) or 4 of ( $* ) )
+}
+
+rule INDICATOR_TOOL_NgrokGo : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects Go implementation variant for Ngrok"
+
+	strings:
+		$s1 = {2f 00 63 00 6f 00 64 00 65 00 67 00 61 00 6e 00 67 00 73 00 74 00 61 00 2f 00 69 00 6e 00 6a 00 65 00 63 00 74 00}
+		$s2 = {67 6f 2e 6e 67 72 6f 6b 2e 63 6f 6d 2f}
+		$s3 = {47 65 74 49 73 4e 67 72 6f 6b 44 6f 6d 61 69 6e}
+		$s4 = {47 65 74 4e 67 72 6f 6b 4d 65 74 65 72 69 6e 67}
+		$s5 = {2a 63 6c 69 2e 6e 67 72 6f 6b 53 65 72 76 69 63 65}
+		$s6 = {47 65 74 41 6c 6c 6f 77 4e 67 72 6f 6b 4c 69 6e 6b}
+		$s7 = {6e 67 72 6f 6b 20 7b 7b 2e 4e 61 6d 65 7d 7d 7b 7b 69 66 20 2e 46 6c 61 67 73 7d 7d}
+		$s8 = {67 69 74 68 75 62 2e 63 6f 6d 2f 6e 69 6b 6f 6c 61 79 2d 6e 67 72 6f 6b 2f}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 4 of them
+}
+
+rule INDICATOR_Tool_Forensia : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects Forensia anti-forensics tool used for erasing footprints"
+
+	strings:
+		$c1 = {66 6f 72 20 2f 46 20 22 74 6f 6b 65 6e 73 3d 2a 22 20 25 31 20 69 6e 20 28 27 77 65 76 74 75 74 69 6c 2e 65 78 65 20 65 6c 27 29 20 44 4f 20 77 65 76 74 75 74 69 6c 2e 65 78 65 20 63 6c 20 22 25 31 22}
+		$c2 = {64 65 6c 20 2f 46 20 2f 51 20 43 3a 5c 57 69 6e 64 6f 77 73 5c 50 72 65 66 65 74 63 68 5c 2a}
+		$c3 = {64 65 6c 20 43 3a 5c 57 69 6e 64 6f 77 73 5c 41 70 70 43 6f 6d 70 61 74 5c 50 72 6f 67 72 61 6d 73 5c 52 65 63 65 6e 74 46 69 6c 65 43 61 63 68 65 2e 62 63 66}
+		$c4 = {64 65 6c 20 2f 46 20 2f 51 20 25 41 50 50 44 41 54 41 25 5c 4d 69 63 72 6f 73 6f 66 74 5c 57 69 6e 64 6f 77 73 5c 52 65 63 65 6e 74 5c 2a}
+		$c5 = {64 65 6c 20 2f 46 20 2f 51 20 25 41 50 50 44 41 54 41 25 5c 4d 69 63 72 6f 73 6f 66 74 5c 57 69 6e 64 6f 77 73 5c 52 65 63 65 6e 74 5c 43 75 73 74 6f 6d 44 65 73 74 69 6e 61 74 69 6f 6e 73 5c 2a}
+		$c6 = {64 65 6c 20 2f 46 20 2f 51 20 25 41 50 50 44 41 54 41 25 5c 4d 69 63 72 6f 73 6f 66 74 5c 57 69 6e 64 6f 77 73 5c 52 65 63 65 6e 74 5c 41 75 74 6f 6d 61 74 69 63 44 65 73 74 69 6e 61 74 69 6f 6e 73 5c 2a}
+		$c7 = {66 73 75 74 69 6c 2e 65 78 65 20 75 73 6e 20 64 65 6c 65 74 65 6a 6f 75 72 6e 61 6c 20 2f 44 20 43 3a}
+		$r1 = {5c 00 4d 00 65 00 6d 00 6f 00 72 00 79 00 20 00 4d 00 61 00 6e 00 61 00 67 00 65 00 6d 00 65 00 6e 00 74 00 5c 00 50 00 72 00 65 00 66 00 65 00 74 00 63 00 68 00 50 00 61 00 72 00 61 00 6d 00 65 00 74 00 65 00 72 00 73 00}
+		$r2 = {5c 00 45 00 78 00 70 00 6c 00 6f 00 72 00 65 00 72 00 5c 00 41 00 64 00 76 00 61 00 6e 00 63 00 65 00 64 00}
+		$r3 = {5c 00 53 00 65 00 72 00 76 00 69 00 63 00 65 00 73 00 5c 00 45 00 76 00 65 00 6e 00 74 00 4c 00 6f 00 67 00}
+		$r4 = {5c 00 53 00 68 00 65 00 6c 00 6c 00 5c 00 42 00 61 00 67 00 4d 00 52 00 55 00}
+		$r5 = {5c 00 43 00 6f 00 6e 00 74 00 72 00 6f 00 6c 00 5c 00 46 00 69 00 6c 00 65 00 53 00 79 00 73 00 74 00 65 00 6d 00}
+		$r6 = {5c 00 53 00 65 00 74 00 75 00 70 00 5c 00 56 00 43 00}
+		$s1 = {5b 00 4c 00 4f 00 47 00 5d 00 20 00 2d 00 20 00 25 00 73 00}
+		$s2 = {5c 00 66 00 6f 00 72 00 65 00 6e 00 73 00 69 00 61 00 5c 00 72 00 65 00 67 00 65 00 64 00 69 00 74 00 2e 00 68 00 70 00 70 00}
+		$s3 = {4e 00 74 00 66 00 73 00 44 00 69 00 73 00 61 00 62 00 6c 00 65 00 4c 00 61 00 73 00 74 00 41 00 63 00 63 00 65 00 73 00 73 00 55 00 70 00 64 00 61 00 74 00 65 00}
+		$s4 = {4d 00 65 00 6c 00 74 00 69 00 6e 00 67 00 20 00 54 00 68 00 65 00 20 00 45 00 78 00 65 00 63 00 75 00 74 00 61 00 62 00 6c 00 65 00}
+		$s5 = {53 00 79 00 73 00 6d 00 6f 00 6e 00 20 00 55 00 6e 00 6c 00 6f 00 61 00 64 00 65 00 72 00}
+		$s6 = {52 75 6e 64 6c 6c 33 32 2e 65 78 65 20 61 70 70 68 65 6c 70 2e 64 6c 6c 2c 53 68 69 6d 46 6c 75 73 68 43 61 63 68 65}
+		$s7 = {5c 44 65 62 75 67 5c 66 6f 72 65 6e 73 69 61 2e 70 64 62}
+		$s8 = { 55 00 00 00 aa 00 00 00 92 49 24 00 49 24 92 00
                 24 92 49 00 00 00 00 00 11 00 00 00 22 00 00 00
                 33 00 00 00 44 00 00 00 66 00 00 00 88 00 00 00
                 99 00 00 00 bb 00 00 00 cc 00 00 00 dd 00 00 00
                 ee 00 00 00 ff 00 00 00 6d b6 db 00 b6 db 6d 00
                 db 6d b6 }
-    condition:
-        uint16(0) == 0x5a4d and ((4 of ($c*) and 2 of ($r*)) or (4 of ($r*) and 2 of ($c*)) or 6 of ($s*) or (3 of ($s*) and 2 of ($r*) and 1 of ($c*)))
+
+	condition:
+		uint16( 0 ) == 0x5a4d and ( ( 4 of ( $c* ) and 2 of ( $r* ) ) or ( 4 of ( $r* ) and 2 of ( $c* ) ) or 6 of ( $s* ) or ( 3 of ( $s* ) and 2 of ( $r* ) and 1 of ( $c* ) ) )
 }
 
-rule INDICATOR_TOOL_DWAgentLIB {
-    meta:
-        author = "ditekSHen"
-        description = "Detect DWAgent Remote Administration Tool library"
-    strings:
-        $s1 = "DWAgentLib" fullword wide
-        $s2 = "PYTHONHOME" fullword wide
-        $s3 = "isTaskRunning" fullword ascii
-        $s4 = "isUserInAdminGroup" fullword ascii
-        $s5 = "setFilePermissionEveryone" fullword ascii
-        $s6 = "startProcessInActiveConsole" fullword ascii
-        $s7 = "taskKill" fullword ascii
-    condition:
-        uint16(0) == 0x5a4d and all of them
+rule INDICATOR_TOOL_DWAgentLIB : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detect DWAgent Remote Administration Tool library"
+
+	strings:
+		$s1 = {44 00 57 00 41 00 67 00 65 00 6e 00 74 00 4c 00 69 00 62 00}
+		$s2 = {50 00 59 00 54 00 48 00 4f 00 4e 00 48 00 4f 00 4d 00 45 00}
+		$s3 = {69 73 54 61 73 6b 52 75 6e 6e 69 6e 67}
+		$s4 = {69 73 55 73 65 72 49 6e 41 64 6d 69 6e 47 72 6f 75 70}
+		$s5 = {73 65 74 46 69 6c 65 50 65 72 6d 69 73 73 69 6f 6e 45 76 65 72 79 6f 6e 65}
+		$s6 = {73 74 61 72 74 50 72 6f 63 65 73 73 49 6e 41 63 74 69 76 65 43 6f 6e 73 6f 6c 65}
+		$s7 = {74 61 73 6b 4b 69 6c 6c}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and all of them
 }
 
-rule INDICATOR_TOOL_DWAgentSVC {
-    meta:
-        author = "ditekSHen"
-        description = "Detect DWAgent Remote Administration Tool service"
-    strings:
-        $s1 = "\\native\\dwagupd.dll" wide
-        $s2 = "\\native\\dwagsvc.exe\" run" wide
-        $s3 = "CreateServiceW" fullword ascii
-        $s4 = /dwagent\.(pid|start|stop)/ wide
-        $s5 = "Check updating..." wide
-    condition:
-        uint16(0) == 0x5a4d and 4 of them
+rule INDICATOR_TOOL_DWAgentSVC : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detect DWAgent Remote Administration Tool service"
+
+	strings:
+		$s1 = {5c 00 6e 00 61 00 74 00 69 00 76 00 65 00 5c 00 64 00 77 00 61 00 67 00 75 00 70 00 64 00 2e 00 64 00 6c 00 6c 00}
+		$s2 = {5c 00 6e 00 61 00 74 00 69 00 76 00 65 00 5c 00 64 00 77 00 61 00 67 00 73 00 76 00 63 00 2e 00 65 00 78 00 65 00 22 00 20 00 72 00 75 00 6e 00}
+		$s3 = {43 72 65 61 74 65 53 65 72 76 69 63 65 57}
+		$s4 = /dwagent\.(pid|start|stop)/ wide
+		$s5 = {43 00 68 00 65 00 63 00 6b 00 20 00 75 00 70 00 64 00 61 00 74 00 69 00 6e 00 67 00 2e 00 2e 00 2e 00}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 4 of them
 }
 
-rule INDICATOR_TOOL_DWAgent_ScreenCapture {
-    meta:
-        author = "ditekSHen"
-        description = "Detect DWAgent Remote Administration Tool Screen Capture Module"
-    strings:
-        $s1 = "DWAgentLib" fullword wide
-        $s2 = "PYTHONHOME" wide
-        $s3 = "VirtualBox" wide
-        $s4 = "VMware" wide
-        $s5 = "ScreenCapture::prepareCursor#" ascii
-        $s6 = "ScreenCapture::getMonitorCount#" ascii
-        $s7 = "ScreenCapture::token" ascii
-        $s8 = "dwascreencapture" ascii
-        $s9 = "inputKeyboard CTRLALTCANC" ascii
-        $s10 = "_Z34ScreenCaptureNativeMonitorEnumProc" ascii
-        $s11 = "_Z41ScreenCaptureNativeCreateWindowThreadProc" ascii
-        $s12 = "_ZN13ScreenCapture" ascii
-        $s13 = "isUserInAdminGroup" ascii
-    condition:
-        uint16(0) == 0x5a4d and 7 of them
+rule INDICATOR_TOOL_DWAgent_ScreenCapture : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detect DWAgent Remote Administration Tool Screen Capture Module"
+
+	strings:
+		$s1 = {44 00 57 00 41 00 67 00 65 00 6e 00 74 00 4c 00 69 00 62 00}
+		$s2 = {50 00 59 00 54 00 48 00 4f 00 4e 00 48 00 4f 00 4d 00 45 00}
+		$s3 = {56 00 69 00 72 00 74 00 75 00 61 00 6c 00 42 00 6f 00 78 00}
+		$s4 = {56 00 4d 00 77 00 61 00 72 00 65 00}
+		$s5 = {53 63 72 65 65 6e 43 61 70 74 75 72 65 3a 3a 70 72 65 70 61 72 65 43 75 72 73 6f 72 23}
+		$s6 = {53 63 72 65 65 6e 43 61 70 74 75 72 65 3a 3a 67 65 74 4d 6f 6e 69 74 6f 72 43 6f 75 6e 74 23}
+		$s7 = {53 63 72 65 65 6e 43 61 70 74 75 72 65 3a 3a 74 6f 6b 65 6e}
+		$s8 = {64 77 61 73 63 72 65 65 6e 63 61 70 74 75 72 65}
+		$s9 = {69 6e 70 75 74 4b 65 79 62 6f 61 72 64 20 43 54 52 4c 41 4c 54 43 41 4e 43}
+		$s10 = {5f 5a 33 34 53 63 72 65 65 6e 43 61 70 74 75 72 65 4e 61 74 69 76 65 4d 6f 6e 69 74 6f 72 45 6e 75 6d 50 72 6f 63}
+		$s11 = {5f 5a 34 31 53 63 72 65 65 6e 43 61 70 74 75 72 65 4e 61 74 69 76 65 43 72 65 61 74 65 57 69 6e 64 6f 77 54 68 72 65 61 64 50 72 6f 63}
+		$s12 = {5f 5a 4e 31 33 53 63 72 65 65 6e 43 61 70 74 75 72 65}
+		$s13 = {69 73 55 73 65 72 49 6e 41 64 6d 69 6e 47 72 6f 75 70}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 7 of them
 }
 
-rule INDICATOR_TOOL_DWAgent_SoundCapture {
-    meta:
-        author = "ditekSHen"
-        description = "Detect DWAgent Remote Administration Tool Sound Capture Module"
-    strings:
-        $s1 = "DWASoundCapture" ascii
-        $s2 = /_Z\d{2}DWASoundCapture/ ascii
-        $s3 = "_Z6recordPvS_" ascii
-    condition:
-        uint16(0) == 0x5a4d and all of them
+rule INDICATOR_TOOL_DWAgent_SoundCapture : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detect DWAgent Remote Administration Tool Sound Capture Module"
+
+	strings:
+		$s1 = {44 57 41 53 6f 75 6e 64 43 61 70 74 75 72 65}
+		$s2 = /_Z\d{2}DWASoundCapture/ ascii
+		$s3 = {5f 5a 36 72 65 63 6f 72 64 50 76 53 5f}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and all of them
 }
 
-rule INDICATOR_TOOL_DogzProxy {
-    meta:
-        author = "ditekSHen"
-        description = "Detects Dogz proxy tool"
-    strings:
-        $s1 = "LOGONSERVER=" fullword wide
-        $s2 = "DOGZ_E_" ascii
-        $s3 = "got handshake_id=%d" ascii
-        $s4 = "responser send connect ack" ascii
-        $s5 = "dogz " ascii
-    condition:
-        uint16(0) == 0x5a4d and 4 of them
+rule INDICATOR_TOOL_DogzProxy : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects Dogz proxy tool"
+
+	strings:
+		$s1 = {4c 00 4f 00 47 00 4f 00 4e 00 53 00 45 00 52 00 56 00 45 00 52 00 3d 00}
+		$s2 = {44 4f 47 5a 5f 45 5f}
+		$s3 = {67 6f 74 20 68 61 6e 64 73 68 61 6b 65 5f 69 64 3d 25 64}
+		$s4 = {72 65 73 70 6f 6e 73 65 72 20 73 65 6e 64 20 63 6f 6e 6e 65 63 74 20 61 63 6b}
+		$s5 = {64 6f 67 7a 20}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 4 of them
 }
 
-rule INDICATOR_TOOL_FastReverseProxy {
-    meta:
-        author = "ditekSHen"
-        description = "Detects Fast Reverse Proxy (FRP) tool"
-    strings:
-        $x1 = "<title>frp client admin UI</title>" ascii
-        $x2 = "https://github.com/fatedier/frp" ascii
-        $s1 = ").SetLogin" ascii
-        $s2 = ").SetPing" ascii
-        $s3 = ").SetNewWorkConn" ascii
-        $s4 = ").ServeHTTP" ascii
-        $s5 = ").Middleware" ascii
-        $s6 = "frpc proxy config error:" ascii
-        $s7 = "frpc sudp visitor proxy is close" ascii
-    condition:
-        uint16(0) == 0x5a4d and (all of ($x*) or (1 of ($x*) and 4 of ($s*)) or (all of ($s*)))
+rule INDICATOR_TOOL_FastReverseProxy : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects Fast Reverse Proxy (FRP) tool"
+
+	strings:
+		$x1 = {3c 74 69 74 6c 65 3e 66 72 70 20 63 6c 69 65 6e 74 20 61 64 6d 69 6e 20 55 49 3c 2f 74 69 74 6c 65 3e}
+		$x2 = {68 74 74 70 73 3a 2f 2f 67 69 74 68 75 62 2e 63 6f 6d 2f 66 61 74 65 64 69 65 72 2f 66 72 70}
+		$s1 = {29 2e 53 65 74 4c 6f 67 69 6e}
+		$s2 = {29 2e 53 65 74 50 69 6e 67}
+		$s3 = {29 2e 53 65 74 4e 65 77 57 6f 72 6b 43 6f 6e 6e}
+		$s4 = {29 2e 53 65 72 76 65 48 54 54 50}
+		$s5 = {29 2e 4d 69 64 64 6c 65 77 61 72 65}
+		$s6 = {66 72 70 63 20 70 72 6f 78 79 20 63 6f 6e 66 69 67 20 65 72 72 6f 72 3a}
+		$s7 = {66 72 70 63 20 73 75 64 70 20 76 69 73 69 74 6f 72 20 70 72 6f 78 79 20 69 73 20 63 6c 6f 73 65}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and ( all of ( $x* ) or ( 1 of ( $x* ) and 4 of ( $s* ) ) or ( all of ( $s* ) ) )
 }
 
-rule INDICATOR_TOOL_GoGoScan {
-    meta:
-        author = "ditekSHen"
-        description = "Detects GoGo scan tool"
-    strings:
-        $s1 = "(conn) (scan  (scan) MB in  Value>" ascii
-        $s2 = "sweep sysmontargettelnet" ascii
-        $s3 = "%d bytes(?i) (.*SESS.*?ID)([a-z0-9])([A-Z]+)" ascii
-        $s4 = "prepareForSweep" ascii
-        $s5 = "Scanned %s with %d ports, found %d" ascii
-        $s6 = "/chainreactors/gogo/" ascii
-        $s7 = "Starting task %s ,total ports: %d , mod: %s" ascii
-    condition:
-        uint16(0) == 0x5a4d and 6 of them
+rule INDICATOR_TOOL_GoGoScan : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects GoGo scan tool"
+
+	strings:
+		$s1 = {28 63 6f 6e 6e 29 20 28 73 63 61 6e 20 20 28 73 63 61 6e 29 20 4d 42 20 69 6e 20 20 56 61 6c 75 65 3e}
+		$s2 = {73 77 65 65 70 20 73 79 73 6d 6f 6e 74 61 72 67 65 74 74 65 6c 6e 65 74}
+		$s3 = {25 64 20 62 79 74 65 73 28 3f 69 29 20 28 2e 2a 53 45 53 53 2e 2a 3f 49 44 29 28 5b 61 2d 7a 30 2d 39 5d 29 28 5b 41 2d 5a 5d 2b 29}
+		$s4 = {70 72 65 70 61 72 65 46 6f 72 53 77 65 65 70}
+		$s5 = {53 63 61 6e 6e 65 64 20 25 73 20 77 69 74 68 20 25 64 20 70 6f 72 74 73 2c 20 66 6f 75 6e 64 20 25 64}
+		$s6 = {2f 63 68 61 69 6e 72 65 61 63 74 6f 72 73 2f 67 6f 67 6f 2f}
+		$s7 = {53 74 61 72 74 69 6e 67 20 74 61 73 6b 20 25 73 20 2c 74 6f 74 61 6c 20 70 6f 72 74 73 3a 20 25 64 20 2c 20 6d 6f 64 3a 20 25 73}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 6 of them
 }
 
-rule INDICATOR_TOOL_GoGoProcDump {
-    meta:
-        author = "ditekSHen"
-        description = "Detects GoGo (lsass) process dump tool"
-    strings:
-        $s1 = "C:\\temp" ascii
-        $s2 = "gogo" fullword ascii
-        $s3 = "/DumpLsass-master/SilentProcessExit/" ascii
-        $s4 = "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Time Zone" ascii
-        $s5 = "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\SilentProcessExit\\lsass.exe" ascii
-        $s6 = "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\lsass.exe" ascii
-    condition:
-        uint16(0) == 0x5a4d and 4 of them
+rule INDICATOR_TOOL_GoGoProcDump : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects GoGo (lsass) process dump tool"
+
+	strings:
+		$s1 = {43 3a 5c 74 65 6d 70}
+		$s2 = {67 6f 67 6f}
+		$s3 = {2f 44 75 6d 70 4c 73 61 73 73 2d 6d 61 73 74 65 72 2f 53 69 6c 65 6e 74 50 72 6f 63 65 73 73 45 78 69 74 2f}
+		$s4 = {53 4f 46 54 57 41 52 45 5c 4d 69 63 72 6f 73 6f 66 74 5c 57 69 6e 64 6f 77 73 20 4e 54 5c 43 75 72 72 65 6e 74 56 65 72 73 69 6f 6e 5c 54 69 6d 65 20 5a 6f 6e 65}
+		$s5 = {53 4f 46 54 57 41 52 45 5c 4d 69 63 72 6f 73 6f 66 74 5c 57 69 6e 64 6f 77 73 20 4e 54 5c 43 75 72 72 65 6e 74 56 65 72 73 69 6f 6e 5c 53 69 6c 65 6e 74 50 72 6f 63 65 73 73 45 78 69 74 5c 6c 73 61 73 73 2e 65 78 65}
+		$s6 = {53 4f 46 54 57 41 52 45 5c 4d 69 63 72 6f 73 6f 66 74 5c 57 69 6e 64 6f 77 73 20 4e 54 5c 43 75 72 72 65 6e 74 56 65 72 73 69 6f 6e 5c 49 6d 61 67 65 20 46 69 6c 65 20 45 78 65 63 75 74 69 6f 6e 20 4f 70 74 69 6f 6e 73 5c 6c 73 61 73 73 2e 65 78 65}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 4 of them
 }
 
-rule INDICATOR_TOOL_FScan {
-    meta:
-        author = "ditekSHen"
-        description = "Detects GoGo scan tool"
-    strings:
-        $s1 = "fscan version:" ascii
-        $s2 = "Citrix-ConfProxyCitrix-MetaframeCitrix-NetScalerCitrix-XenServerCitrix_Netscaler" ascii
-        $s3 = "(AkamaiGHost)(DESCRIPTION=(Typecho</a>)(^.+)([0-9]+)(confluence.)(dotDefender)" ascii
-        $s4 = "/fscan/" ascii
-        $s5 = "WebScan.CheckDatas" ascii
-        $s6 = "'Exploit.Test" ascii
-        $s7 = "rules:" ascii
-    condition:
-        uint16(0) == 0x5a4d and 4 of them
+rule INDICATOR_TOOL_FScan : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects GoGo scan tool"
+
+	strings:
+		$s1 = {66 73 63 61 6e 20 76 65 72 73 69 6f 6e 3a}
+		$s2 = {43 69 74 72 69 78 2d 43 6f 6e 66 50 72 6f 78 79 43 69 74 72 69 78 2d 4d 65 74 61 66 72 61 6d 65 43 69 74 72 69 78 2d 4e 65 74 53 63 61 6c 65 72 43 69 74 72 69 78 2d 58 65 6e 53 65 72 76 65 72 43 69 74 72 69 78 5f 4e 65 74 73 63 61 6c 65 72}
+		$s3 = {28 41 6b 61 6d 61 69 47 48 6f 73 74 29 28 44 45 53 43 52 49 50 54 49 4f 4e 3d 28 54 79 70 65 63 68 6f 3c 2f 61 3e 29 28 5e 2e 2b 29 28 5b 30 2d 39 5d 2b 29 28 63 6f 6e 66 6c 75 65 6e 63 65 2e 29 28 64 6f 74 44 65 66 65 6e 64 65 72 29}
+		$s4 = {2f 66 73 63 61 6e 2f}
+		$s5 = {57 65 62 53 63 61 6e 2e 43 68 65 63 6b 44 61 74 61 73}
+		$s6 = {27 45 78 70 6c 6f 69 74 2e 54 65 73 74}
+		$s7 = {72 75 6c 65 73 3a}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 4 of them
 }
 
-rule INDICATOR_TOOL_BURTNCIGAR {
-    meta:
-        author = "ditekSHen"
-        description = "Detects BURNTCIGAR a utility which terminates processes associated with endpoint security software"
-        clamav1 = "INDICATOR.Win.TOOL.BURNTCIGAR"
-    strings:
-        $s1 = "Kill PID =" ascii
-        $s2 = "CreateFile Error =" ascii
-        $s3 = "\\KillAV" ascii
-        $s4 = "DeviceIoControl" ascii
-    condition:
-        uint16(0) == 0x5a4d and 3 of them
+rule INDICATOR_TOOL_BURTNCIGAR : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects BURNTCIGAR a utility which terminates processes associated with endpoint security software"
+		clamav1 = "INDICATOR.Win.TOOL.BURNTCIGAR"
+
+	strings:
+		$s1 = {4b 69 6c 6c 20 50 49 44 20 3d}
+		$s2 = {43 72 65 61 74 65 46 69 6c 65 20 45 72 72 6f 72 20 3d}
+		$s3 = {5c 4b 69 6c 6c 41 56}
+		$s4 = {44 65 76 69 63 65 49 6f 43 6f 6e 74 72 6f 6c}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 3 of them
 }
 
-rule INDICATOR_TOOL_WEDGECUT {
-    meta:
-        author = "ditekSHen"
-        description = "Detects WEDGECUT a reconnaissance tool to checks hosts are online using ICMP packets"
-        clamav1 = "INDICATOR.Win.TOOL.WEDGECUT"
-    strings:
-        $s1 = "-name" fullword ascii
-        $s2 = "-full" fullword ascii
-        $s3 = "\\CheckOnline" ascii
-        $s4 = "IcmpSendEcho" fullword ascii
-        $s5 = "IcmpCloseHandle" fullword ascii
-        $s6 = "IcmpCreateFile" fullword ascii
-    condition:
-        uint16(0) == 0x5a4d and 4 of them
+rule INDICATOR_TOOL_WEDGECUT : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects WEDGECUT a reconnaissance tool to checks hosts are online using ICMP packets"
+		clamav1 = "INDICATOR.Win.TOOL.WEDGECUT"
+
+	strings:
+		$s1 = {2d 6e 61 6d 65}
+		$s2 = {2d 66 75 6c 6c}
+		$s3 = {5c 43 68 65 63 6b 4f 6e 6c 69 6e 65}
+		$s4 = {49 63 6d 70 53 65 6e 64 45 63 68 6f}
+		$s5 = {49 63 6d 70 43 6c 6f 73 65 48 61 6e 64 6c 65}
+		$s6 = {49 63 6d 70 43 72 65 61 74 65 46 69 6c 65}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 4 of them
 }
 
-rule INDICATOR_TOOL_PPLBLade {
-    meta:
-        author = "ditekSHen"
-        description = "Detects PPLBlade Protected Process Dumper Tool that support obfuscating memory dump and transferring it on remote workstations without dropping it onto the disk"
-    strings:
-        $x1 = "PPLBlade" ascii
-        $x2 = "/PPLBlade/" ascii
-        $x3 = "PPLBlade.exe --mode" ascii
-        $x4 = "PPLBLADE.SYSPPLBlade.dmp" ascii
-        $s1 = "Dump bytes sent at %s:%d. Protocol: %s" ascii
-        $s2 = "Deobfuscated dump saved in file %s" ascii
-        $m1 = "main.WriteDriverOnDisk" ascii
-        $m2 = "main.ProcExpOpenProc" ascii
-        $m3 = "main.miniDumpCallback" ascii
-        $m4 = "main.copyDumpBytes" ascii
-        $m5 = "main.MiniDumpGetBytes" ascii
-        $m6 = "main.SendBytesRaw" ascii
-        $m7 = "main.SendBytesSMB" ascii
-        $m8 = "main.DeobfuscateDump" ascii
-        $m9 = "main.dumpMutex" ascii
-        $m10 = "main.dbghelpDLL" ascii
-        $m11 = "main.miniDumpWriteDump" ascii
-    condition:
-        uint16(0) == 0x5a4d and (3 of ($x*) or (1 of ($x*) and (1 of ($s*) or 3 of ($m*))) or (all of ($s*) and 3 of ($m*)) or (7 of ($m*)))
+rule INDICATOR_TOOL_PPLBLade : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects PPLBlade Protected Process Dumper Tool that support obfuscating memory dump and transferring it on remote workstations without dropping it onto the disk"
+
+	strings:
+		$x1 = {50 50 4c 42 6c 61 64 65}
+		$x2 = {2f 50 50 4c 42 6c 61 64 65 2f}
+		$x3 = {50 50 4c 42 6c 61 64 65 2e 65 78 65 20 2d 2d 6d 6f 64 65}
+		$x4 = {50 50 4c 42 4c 41 44 45 2e 53 59 53 50 50 4c 42 6c 61 64 65 2e 64 6d 70}
+		$s1 = {44 75 6d 70 20 62 79 74 65 73 20 73 65 6e 74 20 61 74 20 25 73 3a 25 64 2e 20 50 72 6f 74 6f 63 6f 6c 3a 20 25 73}
+		$s2 = {44 65 6f 62 66 75 73 63 61 74 65 64 20 64 75 6d 70 20 73 61 76 65 64 20 69 6e 20 66 69 6c 65 20 25 73}
+		$m1 = {6d 61 69 6e 2e 57 72 69 74 65 44 72 69 76 65 72 4f 6e 44 69 73 6b}
+		$m2 = {6d 61 69 6e 2e 50 72 6f 63 45 78 70 4f 70 65 6e 50 72 6f 63}
+		$m3 = {6d 61 69 6e 2e 6d 69 6e 69 44 75 6d 70 43 61 6c 6c 62 61 63 6b}
+		$m4 = {6d 61 69 6e 2e 63 6f 70 79 44 75 6d 70 42 79 74 65 73}
+		$m5 = {6d 61 69 6e 2e 4d 69 6e 69 44 75 6d 70 47 65 74 42 79 74 65 73}
+		$m6 = {6d 61 69 6e 2e 53 65 6e 64 42 79 74 65 73 52 61 77}
+		$m7 = {6d 61 69 6e 2e 53 65 6e 64 42 79 74 65 73 53 4d 42}
+		$m8 = {6d 61 69 6e 2e 44 65 6f 62 66 75 73 63 61 74 65 44 75 6d 70}
+		$m9 = {6d 61 69 6e 2e 64 75 6d 70 4d 75 74 65 78}
+		$m10 = {6d 61 69 6e 2e 64 62 67 68 65 6c 70 44 4c 4c}
+		$m11 = {6d 61 69 6e 2e 6d 69 6e 69 44 75 6d 70 57 72 69 74 65 44 75 6d 70}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and ( 3 of ( $x* ) or ( 1 of ( $x* ) and ( 1 of ( $s* ) or 3 of ( $m* ) ) ) or ( all of ( $s* ) and 3 of ( $m* ) ) or ( 7 of ( $m* ) ) )
 }
 
-rule INDICATOR_TOOL_SharpLDAP {
-    meta:
-        author = "ditekSHen"
-        description = "Detects SharpLDAP tool written in C# that aims to do enumeration via LDAP queries"
-    strings:
-        $x1 = "SharpLDAP" ascii wide
-        $x2 = "SharpLDAP.pdb" ascii
-        $s1 = "(&(objectCategory=computer)(userAccountControl:1.2.840.113556.1.4.803:=8192))" wide
-        $s2 = "(&(servicePrincipalName=*))" wide
-        $s3 = "/Enumerating (Domain|Enterprise|Organizational|Service|Members|Users|Computers)/" wide
-        $s4 = "ListMembers" fullword ascii
-        $s5 = "GroupMembers" fullword ascii
-        $s6 = "get_SamAccountName" fullword ascii
-    condition:
-        uint16(0) == 0x5a4d and ((1 of ($x*) and 4 of ($s*)) or (5 of ($s*)))
+rule INDICATOR_TOOL_SharpLDAP : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects SharpLDAP tool written in C# that aims to do enumeration via LDAP queries"
+
+	strings:
+		$x1 = {((53 68 61 72 70 4c 44 41 50) | (53 00 68 00 61 00 72 00 70 00 4c 00 44 00 41 00 50 00))}
+		$x2 = {53 68 61 72 70 4c 44 41 50 2e 70 64 62}
+		$s1 = {28 00 26 00 28 00 6f 00 62 00 6a 00 65 00 63 00 74 00 43 00 61 00 74 00 65 00 67 00 6f 00 72 00 79 00 3d 00 63 00 6f 00 6d 00 70 00 75 00 74 00 65 00 72 00 29 00 28 00 75 00 73 00 65 00 72 00 41 00 63 00 63 00 6f 00 75 00 6e 00 74 00 43 00 6f 00 6e 00 74 00 72 00 6f 00 6c 00 3a 00 31 00 2e 00 32 00 2e 00 38 00 34 00 30 00 2e 00 31 00 31 00 33 00 35 00 35 00 36 00 2e 00 31 00 2e 00 34 00 2e 00 38 00 30 00 33 00 3a 00 3d 00 38 00 31 00 39 00 32 00 29 00 29 00}
+		$s2 = {28 00 26 00 28 00 73 00 65 00 72 00 76 00 69 00 63 00 65 00 50 00 72 00 69 00 6e 00 63 00 69 00 70 00 61 00 6c 00 4e 00 61 00 6d 00 65 00 3d 00 2a 00 29 00 29 00}
+		$s3 = {2f 00 45 00 6e 00 75 00 6d 00 65 00 72 00 61 00 74 00 69 00 6e 00 67 00 20 00 28 00 44 00 6f 00 6d 00 61 00 69 00 6e 00 7c 00 45 00 6e 00 74 00 65 00 72 00 70 00 72 00 69 00 73 00 65 00 7c 00 4f 00 72 00 67 00 61 00 6e 00 69 00 7a 00 61 00 74 00 69 00 6f 00 6e 00 61 00 6c 00 7c 00 53 00 65 00 72 00 76 00 69 00 63 00 65 00 7c 00 4d 00 65 00 6d 00 62 00 65 00 72 00 73 00 7c 00 55 00 73 00 65 00 72 00 73 00 7c 00 43 00 6f 00 6d 00 70 00 75 00 74 00 65 00 72 00 73 00 29 00 2f 00}
+		$s4 = {4c 69 73 74 4d 65 6d 62 65 72 73}
+		$s5 = {47 72 6f 75 70 4d 65 6d 62 65 72 73}
+		$s6 = {67 65 74 5f 53 61 6d 41 63 63 6f 75 6e 74 4e 61 6d 65}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and ( ( 1 of ( $x* ) and 4 of ( $s* ) ) or ( 5 of ( $s* ) ) )
 }
 
-rule INDICATOR_TOOL_Pandora {
-    meta:
-        author = "ditekSHen"
-        description = "Detects Pandora tool to extract credentials from password managers"
-    strings:
-        $s1 = "process PID:" fullword wide
-        $s2 = "Dump file created:" fullword wide
-        $s3 = "System.Security.AccessControl.FileSystemAccessRule('Everyone', 'FullControl', 'Allow')" ascii
-        $s4 = "{[math]::Round($_.PrivateMemorySize64" ascii
-        $s5 = "rundll32.exe C:\\Windows\\System32\\comsvcs.dll, MiniDump $" ascii
-        $s6 = "\"payload\":{\"logins\":" ascii
-        $s7 = "\\pandora.pdb" ascii
-    condition:
-        uint16(0) == 0x5a4d and 5 of them
+rule INDICATOR_TOOL_Pandora : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects Pandora tool to extract credentials from password managers"
+
+	strings:
+		$s1 = {70 00 72 00 6f 00 63 00 65 00 73 00 73 00 20 00 50 00 49 00 44 00 3a 00}
+		$s2 = {44 00 75 00 6d 00 70 00 20 00 66 00 69 00 6c 00 65 00 20 00 63 00 72 00 65 00 61 00 74 00 65 00 64 00 3a 00}
+		$s3 = {53 79 73 74 65 6d 2e 53 65 63 75 72 69 74 79 2e 41 63 63 65 73 73 43 6f 6e 74 72 6f 6c 2e 46 69 6c 65 53 79 73 74 65 6d 41 63 63 65 73 73 52 75 6c 65 28 27 45 76 65 72 79 6f 6e 65 27 2c 20 27 46 75 6c 6c 43 6f 6e 74 72 6f 6c 27 2c 20 27 41 6c 6c 6f 77 27 29}
+		$s4 = {7b 5b 6d 61 74 68 5d 3a 3a 52 6f 75 6e 64 28 24 5f 2e 50 72 69 76 61 74 65 4d 65 6d 6f 72 79 53 69 7a 65 36 34}
+		$s5 = {72 75 6e 64 6c 6c 33 32 2e 65 78 65 20 43 3a 5c 57 69 6e 64 6f 77 73 5c 53 79 73 74 65 6d 33 32 5c 63 6f 6d 73 76 63 73 2e 64 6c 6c 2c 20 4d 69 6e 69 44 75 6d 70 20 24}
+		$s6 = {22 70 61 79 6c 6f 61 64 22 3a 7b 22 6c 6f 67 69 6e 73 22 3a}
+		$s7 = {5c 70 61 6e 64 6f 72 61 2e 70 64 62}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 5 of them
 }
 
-rule INDICATOR_TOOL_Havoc {
-    meta:
-        author = "ditekSHen"
-        description = "Detects Havoc Demon"
-    strings:
-        $x1 = "X-Havoc:" wide
-        $x2 = "X-Havoc-Agent:" wide
-        $s1 = "\\Werfault.exe" wide
-        $s2 = "/funny_cat.gif" wide
-    condition:
-        uint16(0) == 0x5a4d and (all of ($x*) or 3 of them or
-            (
-                pe.number_of_imports == 0 and 
-                pe.number_of_exports == 0 and 
-                2 of them
-            ) 
-        )
+import "pe"
+
+rule INDICATOR_TOOL_Havoc : hardened
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects Havoc Demon"
+
+	strings:
+		$x1 = {58 00 2d 00 48 00 61 00 76 00 6f 00 63 00 3a 00}
+		$x2 = {58 00 2d 00 48 00 61 00 76 00 6f 00 63 00 2d 00 41 00 67 00 65 00 6e 00 74 00 3a 00}
+		$s1 = {5c 00 57 00 65 00 72 00 66 00 61 00 75 00 6c 00 74 00 2e 00 65 00 78 00 65 00}
+		$s2 = {2f 00 66 00 75 00 6e 00 6e 00 79 00 5f 00 63 00 61 00 74 00 2e 00 67 00 69 00 66 00}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and ( all of ( $x* ) or 3 of them or ( pe.number_of_imports == 0 and pe.number_of_exports == 0 and 2 of them ) )
 }
 
-rule INDICATOR_TOOLS_LocalPotato {
-    meta:
-        author = "ditekShen"
-        description = "Detects LocalPotato"
-    strings:
-       $x1 = "LocalPotato.stg" fullword wide
-       $x2 = "we always love potatoes" fullword ascii
-       $s1 = "{00000306-0000-0000-c000-000000000046}" wide
-       $s2 = "{854A20FB-2D44-457D-992F-EF13785D2B51}" wide
-       $s3 = "cifs/127.0.0.1" wide
-       $s4 = "\\\\127.0.0.1\\c$" wide
-       $s5 = "complete failed: 0x%08x" ascii
-       $s6 = "Authorization: NTLM %s" ascii
-       $s7 = "Objref Moniker Display Name = %S" ascii
-       $s8 = "SMB Connect Tree: %S" ascii
-       $s9 = "b64type=%s" fullword ascii
-       $s10 = "decodes=%s" fullword ascii
-       $s11 = { 53 4d 42 72 00 00 00 00 18 01 48 00 00 00 00 00
+rule INDICATOR_TOOLS_LocalPotato : hardened
+{
+	meta:
+		author = "ditekShen"
+		description = "Detects LocalPotato"
+
+	strings:
+		$x1 = {4c 00 6f 00 63 00 61 00 6c 00 50 00 6f 00 74 00 61 00 74 00 6f 00 2e 00 73 00 74 00 67 00}
+		$x2 = {77 65 20 61 6c 77 61 79 73 20 6c 6f 76 65 20 70 6f 74 61 74 6f 65 73}
+		$s1 = {7b 00 30 00 30 00 30 00 30 00 30 00 33 00 30 00 36 00 2d 00 30 00 30 00 30 00 30 00 2d 00 30 00 30 00 30 00 30 00 2d 00 63 00 30 00 30 00 30 00 2d 00 30 00 30 00 30 00 30 00 30 00 30 00 30 00 30 00 30 00 30 00 34 00 36 00 7d 00}
+		$s2 = {7b 00 38 00 35 00 34 00 41 00 32 00 30 00 46 00 42 00 2d 00 32 00 44 00 34 00 34 00 2d 00 34 00 35 00 37 00 44 00 2d 00 39 00 39 00 32 00 46 00 2d 00 45 00 46 00 31 00 33 00 37 00 38 00 35 00 44 00 32 00 42 00 35 00 31 00 7d 00}
+		$s3 = {63 00 69 00 66 00 73 00 2f 00 31 00 32 00 37 00 2e 00 30 00 2e 00 30 00 2e 00 31 00}
+		$s4 = {5c 00 5c 00 31 00 32 00 37 00 2e 00 30 00 2e 00 30 00 2e 00 31 00 5c 00 63 00 24 00}
+		$s5 = {63 6f 6d 70 6c 65 74 65 20 66 61 69 6c 65 64 3a 20 30 78 25 30 38 78}
+		$s6 = {41 75 74 68 6f 72 69 7a 61 74 69 6f 6e 3a 20 4e 54 4c 4d 20 25 73}
+		$s7 = {4f 62 6a 72 65 66 20 4d 6f 6e 69 6b 65 72 20 44 69 73 70 6c 61 79 20 4e 61 6d 65 20 3d 20 25 53}
+		$s8 = {53 4d 42 20 43 6f 6e 6e 65 63 74 20 54 72 65 65 3a 20 25 53}
+		$s9 = {62 36 34 74 79 70 65 3d 25 73}
+		$s10 = {64 65 63 6f 64 65 73 3d 25 73}
+		$s11 = { 53 4d 42 72 00 00 00 00 18 01 48 00 00 00 00 00
                00 00 00 00 00 00 00 ff ff ac 7b 00 00 00 00 00
                22 00 02 4e 54 20 4c 4d 20 30 2e 31 32 00 02 53
                4d 42 20 32 2e 30 30 32 00 02 53 4d 42 20 32 2e
                3f 3f 3f 00 00 00 00 00 00 00 00 00 00 00 68 fe
                53 4d 42 40 }
-      $o1 = { 44 8b 4c 24 34 48 8d 44 24 38 48 89 44 24 28 4c }
-      $o2 = { e8 c4 ff ff ff 33 d2 48 8d 4d f0 41 b8 d0 04 00 }
-      $o3 = { 83 7b 0c 00 75 42 8b 03 25 ff ff ff 1f 3d 21 05 }
-      $o4 = { 3c 68 74 6c 3c 6a 74 5c 3c 6c 74 34 3c 74 74 24 }
-      $o5 = { e9 39 ff ff ff cc 48 89 5c 24 08 4c 89 4c 24 20 }
-      $o6 = { 48 b9 ff ff ff ff ff ff 0f 00 48 8b c2 41 b8 0c }
-    condition:
-        uint16(0) == 0x5a4d and (all of ($x*) or (1 of ($x*) and 5 of ($s*)) or 8 of($s*) or (4 of ($o*) and (1 of ($x*) or 5 of ($s*))))
+		$o1 = { 44 8b 4c 24 34 48 8d 44 24 38 48 89 44 24 28 4c }
+		$o2 = { e8 c4 ff ff ff 33 d2 48 8d 4d f0 41 b8 d0 04 00 }
+		$o3 = { 83 7b 0c 00 75 42 8b 03 25 ff ff ff 1f 3d 21 05 }
+		$o4 = { 3c 68 74 6c 3c 6a 74 5c 3c 6c 74 34 3c 74 74 24 }
+		$o5 = { e9 39 ff ff ff cc 48 89 5c 24 08 4c 89 4c 24 20 }
+		$o6 = { 48 b9 ff ff ff ff ff ff 0f 00 48 8b c2 41 b8 0c }
+
+	condition:
+		uint16( 0 ) == 0x5a4d and ( all of ( $x* ) or ( 1 of ( $x* ) and 5 of ( $s* ) ) or 8 of ( $s* ) or ( 4 of ( $o* ) and ( 1 of ( $x* ) or 5 of ( $s* ) ) ) )
 }
 
-rule INDICATOR_TOOLS_EDRSandBlast {
-    meta:
-        author = "ditekShen"
-        description = "Detects EDRSandBlast"
-    strings:
-        $s1 = "credguard" fullword wide
-        $s2 = "\\cmd.exe" fullword wide
-        $s3 = "ci_%s.dll" fullword wide
-        $s4 = "cmd /c sc" wide
-        $s5 = "fltmgr_%s.sys" fullword wide
-        $s6 = "ntoskrnl_%s.exe" fullword wide
-        $s7 = "ProductDir" fullword wide
-        $s8 = "lsass.exe" fullword wide
-        $s9 = "0x%p;%ws;%ws;;;" ascii
-        $s10 = "MiniDumpWriteDump" ascii
-        $s11 = "EDRSB_Init: %u" ascii
-        $s12 = "ntoskrnloffsets.csv" fullword wide nocase
-        $s13 = "wdigestoffsets.csv" fullword wide nocase
-        $o1 = { eb 0e 8b 85 34 15 00 00 ff c0 89 85 34 15 00 00 }
-        $o2 = { 74 48 8b 85 34 15 00 00 41 b9 04 01 00 00 4c 8d }
-    condition:
-        uint16(0) == 0x5a4d and 7 of them
+rule INDICATOR_TOOLS_EDRSandBlast : hardened limited
+{
+	meta:
+		author = "ditekShen"
+		description = "Detects EDRSandBlast"
+
+	strings:
+		$s1 = {63 00 72 00 65 00 64 00 67 00 75 00 61 00 72 00 64 00}
+		$s2 = {5c 00 63 00 6d 00 64 00 2e 00 65 00 78 00 65 00}
+		$s3 = {63 00 69 00 5f 00 25 00 73 00 2e 00 64 00 6c 00 6c 00}
+		$s4 = {63 00 6d 00 64 00 20 00 2f 00 63 00 20 00 73 00 63 00}
+		$s5 = {66 00 6c 00 74 00 6d 00 67 00 72 00 5f 00 25 00 73 00 2e 00 73 00 79 00 73 00}
+		$s6 = {6e 00 74 00 6f 00 73 00 6b 00 72 00 6e 00 6c 00 5f 00 25 00 73 00 2e 00 65 00 78 00 65 00}
+		$s7 = {50 00 72 00 6f 00 64 00 75 00 63 00 74 00 44 00 69 00 72 00}
+		$s8 = {6c 00 73 00 61 00 73 00 73 00 2e 00 65 00 78 00 65 00}
+		$s9 = {30 78 25 70 3b 25 77 73 3b 25 77 73 3b 3b 3b}
+		$s10 = {4d 69 6e 69 44 75 6d 70 57 72 69 74 65 44 75 6d 70}
+		$s11 = {45 44 52 53 42 5f 49 6e 69 74 3a 20 25 75}
+		$s12 = {6e 00 74 00 6f 00 73 00 6b 00 72 00 6e 00 6c 00 6f 00 66 00 66 00 73 00 65 00 74 00 73 00 2e 00 63 00 73 00 76 00}
+		$s13 = {77 00 64 00 69 00 67 00 65 00 73 00 74 00 6f 00 66 00 66 00 73 00 65 00 74 00 73 00 2e 00 63 00 73 00 76 00}
+		$o1 = { eb 0e 8b 85 34 15 00 00 ff c0 89 85 34 15 00 00 }
+		$o2 = { 74 48 8b 85 34 15 00 00 41 b9 04 01 00 00 4c 8d }
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 7 of them
 }
 
-rule INDICATOR_TOOLS_rsockstun {
-    meta:
-        author = "ditekShen"
-        description = "Detects rsockstun"
-    strings:
-        $s1 = "main.connectviaproxy" ascii
-        $s2 = "main.connectForSocks" ascii
-        $s3 = "main.listenForClients" ascii
-        $s4 = "main.listenForSocks" ascii
-        $s5 = "Proxy-Authorization: NTLM TlRMTVNTUAABAAAABoIIAAAAAAAAAAAAAAAAAAAAAAA=" ascii
-    condition:
-        (uint16(0) == 0x5a4d or uint16(0) == 0x457f) and all of them
+rule INDICATOR_TOOLS_rsockstun : hardened
+{
+	meta:
+		author = "ditekShen"
+		description = "Detects rsockstun"
+
+	strings:
+		$s1 = {6d 61 69 6e 2e 63 6f 6e 6e 65 63 74 76 69 61 70 72 6f 78 79}
+		$s2 = {6d 61 69 6e 2e 63 6f 6e 6e 65 63 74 46 6f 72 53 6f 63 6b 73}
+		$s3 = {6d 61 69 6e 2e 6c 69 73 74 65 6e 46 6f 72 43 6c 69 65 6e 74 73}
+		$s4 = {6d 61 69 6e 2e 6c 69 73 74 65 6e 46 6f 72 53 6f 63 6b 73}
+		$s5 = {50 72 6f 78 79 2d 41 75 74 68 6f 72 69 7a 61 74 69 6f 6e 3a 20 4e 54 4c 4d 20 54 6c 52 4d 54 56 4e 54 55 41 41 42 41 41 41 41 42 6f 49 49 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 3d}
+
+	condition:
+		( uint16( 0 ) == 0x5a4d or uint16( 0 ) == 0x457f ) and all of them
 }
 
-rule INDICATOR_TOOL_SCMalDevInj_Go {
-   meta:
-        author = "ditekShen"
-        description = "Detects Go shell/malware dev injector"
-    strings:
-        $s1 = "hooka/shellcode.go" ascii
-        $s2 = "/maldev\x09v" ascii
-        $s3 = "Binject/debug/pe." ascii
-    condition:
-       uint16(0) == 0x5a4d and all of them
+rule INDICATOR_TOOL_SCMalDevInj_Go : hardened
+{
+	meta:
+		author = "ditekShen"
+		description = "Detects Go shell/malware dev injector"
+
+	strings:
+		$s1 = {68 6f 6f 6b 61 2f 73 68 65 6c 6c 63 6f 64 65 2e 67 6f}
+		$s2 = {2f 6d 61 6c 64 65 76 09 76}
+		$s3 = {42 69 6e 6a 65 63 74 2f 64 65 62 75 67 2f 70 65 2e}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and all of them
 }
 
-rule INDICATOR_TOOL_ReverseSSH_Go {
-   meta:
-        author = "ditekShen"
-        description = "Detects golang reverse ssh tool"
-    strings:
-        $s1 = "/reverse_ssh/" ascii
-        $s2 = "main.rsshService" ascii
-    condition:
-       uint16(0) == 0x5a4d and all of them
+rule INDICATOR_TOOL_ReverseSSH_Go : hardened
+{
+	meta:
+		author = "ditekShen"
+		description = "Detects golang reverse ssh tool"
+
+	strings:
+		$s1 = {2f 72 65 76 65 72 73 65 5f 73 73 68 2f}
+		$s2 = {6d 61 69 6e 2e 72 73 73 68 53 65 72 76 69 63 65}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and all of them
 }
 
-rule INDICATOR_TOOL_SharpGhostTask {
-    meta:
-        author = "ditekSHen"
-        description = "Detects SharpGhostTask"
-    strings:
-        $x1 = "Ghosted" wide
-        $x2 = /--target(binary|task)/ fullword wide
-        $x3 = "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Schedule\\TaskCache\\T" wide nocase
-        $s4 = "__GhostTask|" ascii
-    condition:
-        uint16(0) == 0x5a4d and 3 of them
+rule INDICATOR_TOOL_SharpGhostTask : hardened limited
+{
+	meta:
+		author = "ditekSHen"
+		description = "Detects SharpGhostTask"
+
+	strings:
+		$x1 = {47 00 68 00 6f 00 73 00 74 00 65 00 64 00}
+		$x2 = /--target(binary|task)/ fullword wide
+		$x3 = {53 00 4f 00 46 00 54 00 57 00 41 00 52 00 45 00 5c 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 4e 00 54 00 5c 00 43 00 75 00 72 00 72 00 65 00 6e 00 74 00 56 00 65 00 72 00 73 00 69 00 6f 00 6e 00 5c 00 53 00 63 00 68 00 65 00 64 00 75 00 6c 00 65 00 5c 00 54 00 61 00 73 00 6b 00 43 00 61 00 63 00 68 00 65 00 5c 00 54 00}
+		$s4 = {5f 5f 47 68 6f 73 74 54 61 73 6b 7c}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and 3 of them
 }
+

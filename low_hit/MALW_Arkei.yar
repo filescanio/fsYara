@@ -1,22 +1,19 @@
-/*
-    This Yara ruleset is under the GNU-GPLv2 license (http://www.gnu.org/licenses/gpl-2.0.html) and open to any user or organization, as    long as you use it under this license.
-*/
-
-rule Arkei : Arkei 
+rule Arkei : Arkei hardened
 {
-    meta:
-        Author = "Fumik0_" 
-        Description = "Arkei Stealer"
-        Date = "2018/07/10"
-        Hash = "5632c89fe4c7c2c87b69d787bbf0a5b4cc535f1aa02699792888c60e0ef88fc5"
+	meta:
+		Author = "Fumik0_"
+		Description = "Arkei Stealer"
+		Date = "2018/07/10"
+		Hash = "5632c89fe4c7c2c87b69d787bbf0a5b4cc535f1aa02699792888c60e0ef88fc5"
 
-    strings:
-        $s1 = "Arkei" wide ascii
-        $s2 = "/server/gate" wide ascii
-        $s3 = "/server/grubConfig" wide ascii
-        $s4 = "\\files\\" wide ascii
-        $s5 = "SQLite" wide ascii
+	strings:
+		$s1 = {((41 72 6b 65 69) | (41 00 72 00 6b 00 65 00 69 00))}
+		$s2 = {((2f 73 65 72 76 65 72 2f 67 61 74 65) | (2f 00 73 00 65 00 72 00 76 00 65 00 72 00 2f 00 67 00 61 00 74 00 65 00))}
+		$s3 = {((2f 73 65 72 76 65 72 2f 67 72 75 62 43 6f 6e 66 69 67) | (2f 00 73 00 65 00 72 00 76 00 65 00 72 00 2f 00 67 00 72 00 75 00 62 00 43 00 6f 00 6e 00 66 00 69 00 67 00))}
+		$s4 = {((5c 66 69 6c 65 73 5c) | (5c 00 66 00 69 00 6c 00 65 00 73 00 5c 00))}
+		$s5 = {((53 51 4c 69 74 65) | (53 00 51 00 4c 00 69 00 74 00 65 00))}
 
-    condition:
-        all of ($s*)	
+	condition:
+		all of ( $s* )
 }
+

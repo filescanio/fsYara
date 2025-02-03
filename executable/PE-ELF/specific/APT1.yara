@@ -1,1186 +1,1173 @@
-// source AlienVaultLabs/malware_analysis/CommentCrew/apt1.yara
-
-rule LIGHTDART_APT1 {
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
-
-        strings:
-                $s1 = "ret.log" wide ascii
-                $s2 = "Microsoft Internet Explorer 6.0" wide ascii
-                $s3 = "szURL Fail" wide ascii
-                $s4 = "szURL Successfully" wide ascii
-                $s5 = "%s&sdate=%04ld-%02ld-%02ld" wide ascii
-        condition:
-                all of them
-}
-
-rule AURIGA_APT1 {
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
-
-        strings:
-                $s1 = "superhard corp." wide ascii
-                $s2 = "microsoft corp." wide ascii
-                $s3 = "[Insert]" wide ascii
-                $s4 = "[Delete]" wide ascii
-                $s5 = "[End]" wide ascii
-                $s6 = "!(*@)(!@KEY" wide ascii
-                $s7 = "!(*@)(!@SID=" wide ascii
-        condition:
-                all of them
-}
-
-rule AURIGA_driver_APT1 {
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
-
-        strings:
-                $s1 = "Services\\riodrv32" wide ascii
-                $s2 = "riodrv32.sys" wide ascii
-                $s3 = "svchost.exe" wide ascii
-                $s4 = "wuauserv.dll" wide ascii
-                $s5 = "arp.exe" wide ascii
-                $pdb = "projects\\auriga" wide ascii
-
-        condition:
-                all of ($s*) or $pdb
-}
-
-rule BANGAT_APT1 {
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
-
-        strings:
-                $s1 = "superhard corp." wide ascii
-                $s2 = "microsoft corp." wide ascii
-                $s3 = "[Insert]" wide ascii
-                $s4 = "[Delete]" wide ascii
-                $s5 = "[End]" wide ascii
-                $s6 = "!(*@)(!@KEY" wide ascii
-                $s7 = "!(*@)(!@SID=" wide ascii
-                $s8 = "end      binary output" wide ascii
-                $s9 = "XriteProcessMemory" wide ascii
-                $s10 = "IE:Password-Protected sites" wide ascii
-                $s11 = "pstorec.dll" wide ascii
-
-        condition:
-                all of them
-}
-
-rule BISCUIT_GREENCAT_APT1 {
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
-
-        strings:
-                $s1 = "zxdosml" wide ascii
-                $s2 = "get user name error!" wide ascii
-                $s3 = "get computer name error!" wide ascii
-                $s4 = "----client system info----" wide ascii
-                $s5 = "stfile" wide ascii
-                $s6 = "cmd success!" wide ascii
-
-        condition:
-                all of them
-}
-
-rule BOUNCER_APT1 {
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
-
-        strings:
-                $s1 = "*Qd9kdgba33*%Wkda0Qd3kvn$*&><(*&%$E#%$#1234asdgKNAg@!gy565dtfbasdg" wide ascii
-                $s2 = "IDR_DATA%d" wide ascii
-
-                $s3 = "asdfqwe123cxz" wide ascii
-                $s4 = "Mode must be 0(encrypt) or 1(decrypt)." wide ascii
-
-        condition:
-                ($s1 and $s2) or ($s3 and $s4)
-
-}
-
-rule BOUNCER_DLL_APT1 {
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
-
-        strings:
-                $s1 = "new_connection_to_bounce():" wide ascii
-                $s2 = "usage:%s IP port [proxip] [port] [key]" wide ascii
-
-        condition:
-                all of them
-}
-
-rule CALENDAR_APT1 {
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
-
-        strings:
-                $s1 = "content" wide ascii
-                $s2 = "title" wide ascii
-                $s3 = "entry" wide ascii
-                $s4 = "feed" wide ascii
-                $s5 = "DownRun success" wide ascii
-                $s6 = "%s@gmail.com" wide ascii
-                $s7 = "<!--%s-->" wide ascii
-
-                $b8 = "W4qKihsb+So=" wide ascii
-                $b9 = "PoqKigY7ggH+VcnqnTcmhFCo9w==" wide ascii
-                $b10 = "8oqKiqb5880/uJLzAsY=" wide ascii
-
-        condition:
-                all of ($s*) or all of ($b*)
-}
-
-rule COMBOS_APT1 {
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
-
-        strings:
-                $s1 = "Mozilla4.0 (compatible; MSIE 7.0; Win32)" wide ascii
-                $s2 = "Mozilla5.1 (compatible; MSIE 8.0; Win32)" wide ascii
-                $s3 = "Delay" wide ascii
-                $s4 = "Getfile" wide ascii
-                $s5 = "Putfile" wide ascii
-                $s6 = "---[ Virtual Shell]---" wide ascii
-                $s7 = "Not Comming From Our Server %s." wide ascii
-
-
-        condition:
-                all of them
-}
-
-rule DAIRY_APT1 {
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
-
-        strings:
-                $s1 = "Mozilla/4.0 (compatible; MSIE 7.0;)" wide ascii
-                $s2 = "KilFail" wide ascii
-                $s3 = "KilSucc" wide ascii
-                $s4 = "pkkill" wide ascii
-                $s5 = "pklist" wide ascii
-
-
-        condition:
-                all of them
-}
-
-rule GLOOXMAIL_APT1 {
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
-
-        strings:
-                $s1 = "Kill process success!" wide ascii
-                $s2 = "Kill process failed!" wide ascii
-                $s3 = "Sleep success!" wide ascii
-                $s4 = "based on gloox" wide ascii
-
-                $pdb = "glooxtest.pdb" wide ascii
-
-        condition:
-                all of ($s*) or $pdb
-}
-
-// same as GLOOXMAIL_APT1
-//rule GOGGLES_APT1 {
-//    meta:
-//        author = "AlienVault Labs"
-//        info = "CommentCrew-threat-apt1"
-//
-//        strings:
-//                $s1 = "Kill process success!" wide ascii
-//                $s2 = "Kill process failed!" wide ascii
-//                $s3 = "Sleep success!" wide ascii
-//                $s4 = "based on gloox" wide ascii
-//
-//                $pdb = "glooxtest.pdb" wide ascii
-//
-//        condition:
-//                all of ($s*) or $pdb
-//}
-
-rule HACKSFASE1_APT1 {
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
-
-        strings:
-                $s1 = {cb 39 82 49 42 be 1f 3a}
-
-        condition:
-                all of them
-}
-
-rule HACKSFASE2_APT1 {
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
-
-        strings:
-                $s1 = "Send to Server failed." wide ascii
-                $s2 = "HandShake with the server failed. Error:" wide ascii
-                $s3 = "Decryption Failed. Context Expired." wide ascii
-
-        condition:
-                all of them
-}
-
-rule KURTON_APT1 {
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
-
-        strings:
-                $s1 = "Mozilla/4.0 (compatible; MSIE8.0; Windows NT 5.1)" wide ascii
-                $s2 = "!(*@)(!@PORT!(*@)(!@URL" wide ascii
-                $s3 = "MyTmpFile.Dat" wide ascii
-                $s4 = "SvcHost.DLL.log" wide ascii
-
-        condition:
-                all of them
-}
-
-rule LONGRUN_APT1 {
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
-
-        strings:
-                $s1 = "Mozilla/4.0 (compatible; Windows NT 5.1; MSIE 7.0; Trident/4.0)" wide ascii
-                $s2 = "%s\\%c%c%c%c%c%c%c" wide ascii
-                $s3 = "wait:" wide ascii
-                $s4 = "Dcryption Error! Invalid Character" wide ascii
-
-        condition:
-                all of them
-}
-
-rule MACROMAIL_APT1 {
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
-
-        strings:
-                $s1 = "svcMsn.dll" wide ascii
-                $s2 = "RundllInstall" wide ascii
-                $s3 = "Config service %s ok." wide ascii
-                $s4 = "svchost.exe" wide ascii
-
-        condition:
-                all of them
-}
-
-rule MANITSME_APT1 {
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
-
-        strings:
-                $s1 = "Install an Service hosted by SVCHOST." wide ascii
-                $s2 = "The Dll file that to be released." wide ascii
-                $s3 = "SYSTEM\\CurrentControlSet\\Services\\" wide ascii
-                $s4 = "svchost.exe" wide ascii
-
-                $e1 = "Man,it's me" wide ascii
-                $e2 = "Oh,shit" wide ascii
-                $e3 = "Hallelujah" wide ascii
-                $e4 = "nRet == SOCKET_ERROR" wide ascii
-
-                $pdb1 = "rouji\\release\\Install.pdb" wide ascii
-                $pdb2 = "rouji\\SvcMain.pdb" wide ascii
-
-        condition:
-                (all of ($s*)) or (all of ($e*)) or $pdb1 or $pdb2
-}
-
-rule MINIASP_APT1 {
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
-
-        strings:
-                $s1 = "miniasp" wide ascii
-                $s2 = "wakeup=" wide ascii
-                $s3 = "download ok!" wide ascii
-                $s4 = "command is null!" wide ascii
-                $s5 = "device_input.asp?device_t=" wide ascii
-
-
-        condition:
-                all of them
-}
-
-rule NEWSREELS_APT1 {
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
-
-        strings:
-                $s1 = "Mozilla/4.0 (compatible; Windows NT 5.1; MSIE 7.0)" wide ascii
-                $s2 = "name=%s&userid=%04d&other=%c%s" wide ascii
-                $s3 = "download ok!" wide ascii
-                $s4 = "command is null!" wide ascii
-                $s5 = "noclient" wide ascii
-                $s6 = "wait" wide ascii
-                $s7 = "active" wide ascii
-                $s8 = "hello" wide ascii
-
-
-        condition:
-                all of them
-}
-
-rule SEASALT_APT1 {
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
-
-        strings:
-                $s1 = "User-Agent: Mozilla/4.0 (compatible; MSIE 5.00; Windows 98) KSMM" wide ascii
-                $s2 = "upfileok" wide ascii
-                $s3 = "download ok!" wide ascii
-                $s4 = "upfileer" wide ascii
-                $s5 = "fxftest" wide ascii
-
-
-        condition:
-                all of them
-}
-
-rule STARSYPOUND_APT1 {
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
-        score = 60
-
-        strings:
-                $s1 = "*(SY)# cmd" wide ascii
-                $s2 = "send = %d" wide ascii
-                $s3 = "cmd.exe" wide ascii
-                $s4 = "*(SY)#" wide ascii
-
-
-        condition:
-                all of them
-}
-
-rule SWORD_APT1 {
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
-
-        strings:
-                $s1 = "@***@*@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>" wide ascii
-                $s2 = "sleep:" wide ascii
-                $s3 = "down:" wide ascii
-                $s4 = "*========== Bye Bye ! ==========*" wide ascii
-
-
-        condition:
-                all of them
-}
-
-
-rule thequickbrow_APT1 {
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
-
-        strings:
-                $s1 = "thequickbrownfxjmpsvalzydg" wide ascii
-
-
-        condition:
-                all of them
-}
-
-
-rule TABMSGSQL_APT1 {
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
-
-        strings:
-                $s1 = "letusgohtppmmv2.0.0.1" wide ascii
-                $s2 = "Mozilla/4.0 (compatible; )" wide ascii
-                $s3 = "filestoc" wide ascii
-                $s4 = "filectos" wide ascii
-                $s5 = "reshell" wide ascii
-
-        condition:
-                all of them
-}
-
-rule CCREWBACK1
+rule LIGHTDART_APT1 : hardened
 {
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
+	meta:
+		author = "AlienVault Labs"
+		info = "CommentCrew-threat-apt1"
 
-  strings:
-    $a = "postvalue" wide ascii
-    $b = "postdata" wide ascii
-    $c = "postfile" wide ascii
-    $d = "hostname" wide ascii
-    $e = "clientkey" wide ascii
-    $f = "start Cmd Failure!" wide ascii
-    $g = "sleep:" wide ascii
-    $h = "downloadcopy:" wide ascii
-    $i = "download:" wide ascii
-    $j = "geturl:" wide ascii
-    $k = "1.234.1.68" wide ascii
+	strings:
+		$s1 = {((72 65 74 2e 6c 6f 67) | (72 00 65 00 74 00 2e 00 6c 00 6f 00 67 00))}
+		$s2 = {((4d 69 63 72 6f 73 6f 66 74 20 49 6e 74 65 72 6e 65 74 20 45 78 70 6c 6f 72 65 72 20 36 2e 30) | (4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 20 00 49 00 6e 00 74 00 65 00 72 00 6e 00 65 00 74 00 20 00 45 00 78 00 70 00 6c 00 6f 00 72 00 65 00 72 00 20 00 36 00 2e 00 30 00))}
+		$s3 = {((73 7a 55 52 4c 20 46 61 69 6c) | (73 00 7a 00 55 00 52 00 4c 00 20 00 46 00 61 00 69 00 6c 00))}
+		$s4 = {((73 7a 55 52 4c 20 53 75 63 63 65 73 73 66 75 6c 6c 79) | (73 00 7a 00 55 00 52 00 4c 00 20 00 53 00 75 00 63 00 63 00 65 00 73 00 73 00 66 00 75 00 6c 00 6c 00 79 00))}
+		$s5 = {((25 73 26 73 64 61 74 65 3d 25 30 34 6c 64 2d 25 30 32 6c 64 2d 25 30 32 6c 64) | (25 00 73 00 26 00 73 00 64 00 61 00 74 00 65 00 3d 00 25 00 30 00 34 00 6c 00 64 00 2d 00 25 00 30 00 32 00 6c 00 64 00 2d 00 25 00 30 00 32 00 6c 00 64 00))}
 
-  condition:
-    4 of ($a,$b,$c,$d,$e) or $f or 3 of ($g,$h,$i,$j) or $k
+	condition:
+		all of them
 }
 
-rule TrojanCookies_CCREW
+rule AURIGA_APT1 : hardened
 {
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
+	meta:
+		author = "AlienVault Labs"
+		info = "CommentCrew-threat-apt1"
 
-  strings:
-    $a = "sleep:" wide ascii
-    $b = "content=" wide ascii
-    $c = "reqpath=" wide ascii
-    $d = "savepath=" wide ascii
-    $e = "command=" wide ascii
+	strings:
+		$s1 = {((73 75 70 65 72 68 61 72 64 20 63 6f 72 70 2e) | (73 00 75 00 70 00 65 00 72 00 68 00 61 00 72 00 64 00 20 00 63 00 6f 00 72 00 70 00 2e 00))}
+		$s2 = {((6d 69 63 72 6f 73 6f 66 74 20 63 6f 72 70 2e) | (6d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 20 00 63 00 6f 00 72 00 70 00 2e 00))}
+		$s3 = {((5b 49 6e 73 65 72 74 5d) | (5b 00 49 00 6e 00 73 00 65 00 72 00 74 00 5d 00))}
+		$s4 = {((5b 44 65 6c 65 74 65 5d) | (5b 00 44 00 65 00 6c 00 65 00 74 00 65 00 5d 00))}
+		$s5 = {((5b 45 6e 64 5d) | (5b 00 45 00 6e 00 64 00 5d 00))}
+		$s6 = {((21 28 2a 40 29 28 21 40 4b 45 59) | (21 00 28 00 2a 00 40 00 29 00 28 00 21 00 40 00 4b 00 45 00 59 00))}
+		$s7 = {((21 28 2a 40 29 28 21 40 53 49 44 3d) | (21 00 28 00 2a 00 40 00 29 00 28 00 21 00 40 00 53 00 49 00 44 00 3d 00))}
 
-
-  condition:
-    4 of ($a,$b,$c,$d,$e)
+	condition:
+		all of them
 }
 
-rule GEN_CCREW1
+rule AURIGA_driver_APT1 : hardened
 {
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
+	meta:
+		author = "AlienVault Labs"
+		info = "CommentCrew-threat-apt1"
 
-  strings:
-    $a = "W!r@o#n$g" wide ascii
-    $b = "KerNel32.dll" wide ascii
+	strings:
+		$s1 = {((53 65 72 76 69 63 65 73 5c 72 69 6f 64 72 76 33 32) | (53 00 65 00 72 00 76 00 69 00 63 00 65 00 73 00 5c 00 72 00 69 00 6f 00 64 00 72 00 76 00 33 00 32 00))}
+		$s2 = {((72 69 6f 64 72 76 33 32 2e 73 79 73) | (72 00 69 00 6f 00 64 00 72 00 76 00 33 00 32 00 2e 00 73 00 79 00 73 00))}
+		$s3 = {((73 76 63 68 6f 73 74 2e 65 78 65) | (73 00 76 00 63 00 68 00 6f 00 73 00 74 00 2e 00 65 00 78 00 65 00))}
+		$s4 = {((77 75 61 75 73 65 72 76 2e 64 6c 6c) | (77 00 75 00 61 00 75 00 73 00 65 00 72 00 76 00 2e 00 64 00 6c 00 6c 00))}
+		$s5 = {((61 72 70 2e 65 78 65) | (61 00 72 00 70 00 2e 00 65 00 78 00 65 00))}
+		$pdb = {((70 72 6f 6a 65 63 74 73 5c 61 75 72 69 67 61) | (70 00 72 00 6f 00 6a 00 65 00 63 00 74 00 73 00 5c 00 61 00 75 00 72 00 69 00 67 00 61 00))}
 
-  condition:
-    any of them
+	condition:
+		all of ( $s* ) or $pdb
 }
 
-rule Elise
+rule BANGAT_APT1 : hardened
 {
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
+	meta:
+		author = "AlienVault Labs"
+		info = "CommentCrew-threat-apt1"
 
-  strings:
-    $a = "SetElise.pdb" wide ascii
+	strings:
+		$s1 = {((73 75 70 65 72 68 61 72 64 20 63 6f 72 70 2e) | (73 00 75 00 70 00 65 00 72 00 68 00 61 00 72 00 64 00 20 00 63 00 6f 00 72 00 70 00 2e 00))}
+		$s2 = {((6d 69 63 72 6f 73 6f 66 74 20 63 6f 72 70 2e) | (6d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 20 00 63 00 6f 00 72 00 70 00 2e 00))}
+		$s3 = {((5b 49 6e 73 65 72 74 5d) | (5b 00 49 00 6e 00 73 00 65 00 72 00 74 00 5d 00))}
+		$s4 = {((5b 44 65 6c 65 74 65 5d) | (5b 00 44 00 65 00 6c 00 65 00 74 00 65 00 5d 00))}
+		$s5 = {((5b 45 6e 64 5d) | (5b 00 45 00 6e 00 64 00 5d 00))}
+		$s6 = {((21 28 2a 40 29 28 21 40 4b 45 59) | (21 00 28 00 2a 00 40 00 29 00 28 00 21 00 40 00 4b 00 45 00 59 00))}
+		$s7 = {((21 28 2a 40 29 28 21 40 53 49 44 3d) | (21 00 28 00 2a 00 40 00 29 00 28 00 21 00 40 00 53 00 49 00 44 00 3d 00))}
+		$s8 = {((65 6e 64 20 20 20 20 20 20 62 69 6e 61 72 79 20 6f 75 74 70 75 74) | (65 00 6e 00 64 00 20 00 20 00 20 00 20 00 20 00 20 00 62 00 69 00 6e 00 61 00 72 00 79 00 20 00 6f 00 75 00 74 00 70 00 75 00 74 00))}
+		$s9 = {((58 72 69 74 65 50 72 6f 63 65 73 73 4d 65 6d 6f 72 79) | (58 00 72 00 69 00 74 00 65 00 50 00 72 00 6f 00 63 00 65 00 73 00 73 00 4d 00 65 00 6d 00 6f 00 72 00 79 00))}
+		$s10 = {((49 45 3a 50 61 73 73 77 6f 72 64 2d 50 72 6f 74 65 63 74 65 64 20 73 69 74 65 73) | (49 00 45 00 3a 00 50 00 61 00 73 00 73 00 77 00 6f 00 72 00 64 00 2d 00 50 00 72 00 6f 00 74 00 65 00 63 00 74 00 65 00 64 00 20 00 73 00 69 00 74 00 65 00 73 00))}
+		$s11 = {((70 73 74 6f 72 65 63 2e 64 6c 6c) | (70 00 73 00 74 00 6f 00 72 00 65 00 63 00 2e 00 64 00 6c 00 6c 00))}
 
-  condition:
-    $a
+	condition:
+		all of them
 }
 
-rule EclipseSunCloudRAT
+rule BISCUIT_GREENCAT_APT1 : hardened
 {
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
+	meta:
+		author = "AlienVault Labs"
+		info = "CommentCrew-threat-apt1"
 
-  strings:
-    $a = "Eclipse_A" wide ascii
-    $b = "\\PJTS\\" wide ascii
-    $c = "Eclipse_Client_B.pdb" wide ascii
-    $d = "XiaoME" wide ascii
-    $e = "SunCloud-Code" wide ascii
-    $f = "/uc_server/data/forum.asp" wide ascii
+	strings:
+		$s1 = {((7a 78 64 6f 73 6d 6c) | (7a 00 78 00 64 00 6f 00 73 00 6d 00 6c 00))}
+		$s2 = {((67 65 74 20 75 73 65 72 20 6e 61 6d 65 20 65 72 72 6f 72 21) | (67 00 65 00 74 00 20 00 75 00 73 00 65 00 72 00 20 00 6e 00 61 00 6d 00 65 00 20 00 65 00 72 00 72 00 6f 00 72 00 21 00))}
+		$s3 = {((67 65 74 20 63 6f 6d 70 75 74 65 72 20 6e 61 6d 65 20 65 72 72 6f 72 21) | (67 00 65 00 74 00 20 00 63 00 6f 00 6d 00 70 00 75 00 74 00 65 00 72 00 20 00 6e 00 61 00 6d 00 65 00 20 00 65 00 72 00 72 00 6f 00 72 00 21 00))}
+		$s4 = {((2d 2d 2d 2d 63 6c 69 65 6e 74 20 73 79 73 74 65 6d 20 69 6e 66 6f 2d 2d 2d 2d) | (2d 00 2d 00 2d 00 2d 00 63 00 6c 00 69 00 65 00 6e 00 74 00 20 00 73 00 79 00 73 00 74 00 65 00 6d 00 20 00 69 00 6e 00 66 00 6f 00 2d 00 2d 00 2d 00 2d 00))}
+		$s5 = {((73 74 66 69 6c 65) | (73 00 74 00 66 00 69 00 6c 00 65 00))}
+		$s6 = {((63 6d 64 20 73 75 63 63 65 73 73 21) | (63 00 6d 00 64 00 20 00 73 00 75 00 63 00 63 00 65 00 73 00 73 00 21 00))}
 
-  condition:
-    any of them
+	condition:
+		all of them
 }
 
-rule MoonProject
+rule BOUNCER_APT1 : hardened
 {
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
+	meta:
+		author = "AlienVault Labs"
+		info = "CommentCrew-threat-apt1"
 
-  strings:
-    $a = "Serverfile is smaller than Clientfile" wide ascii
-    $b = "\\M tools\\" wide ascii
-    $c = "MoonDLL" wide ascii
-        $d = "\\M tools\\" wide ascii
+	strings:
+		$s1 = {((2a 51 64 39 6b 64 67 62 61 33 33 2a 25 57 6b 64 61 30 51 64 33 6b 76 6e 24 2a 26 3e 3c 28 2a 26 25 24 45 23 25 24 23 31 32 33 34 61 73 64 67 4b 4e 41 67 40 21 67 79 35 36 35 64 74 66 62 61 73 64 67) | (2a 00 51 00 64 00 39 00 6b 00 64 00 67 00 62 00 61 00 33 00 33 00 2a 00 25 00 57 00 6b 00 64 00 61 00 30 00 51 00 64 00 33 00 6b 00 76 00 6e 00 24 00 2a 00 26 00 3e 00 3c 00 28 00 2a 00 26 00 25 00 24 00 45 00 23 00 25 00 24 00 23 00 31 00 32 00 33 00 34 00 61 00 73 00 64 00 67 00 4b 00 4e 00 41 00 67 00 40 00 21 00 67 00 79 00 35 00 36 00 35 00 64 00 74 00 66 00 62 00 61 00 73 00 64 00 67 00))}
+		$s2 = {((49 44 52 5f 44 41 54 41 25 64) | (49 00 44 00 52 00 5f 00 44 00 41 00 54 00 41 00 25 00 64 00))}
+		$s3 = {((61 73 64 66 71 77 65 31 32 33 63 78 7a) | (61 00 73 00 64 00 66 00 71 00 77 00 65 00 31 00 32 00 33 00 63 00 78 00 7a 00))}
+		$s4 = {((4d 6f 64 65 20 6d 75 73 74 20 62 65 20 30 28 65 6e 63 72 79 70 74 29 20 6f 72 20 31 28 64 65 63 72 79 70 74 29 2e) | (4d 00 6f 00 64 00 65 00 20 00 6d 00 75 00 73 00 74 00 20 00 62 00 65 00 20 00 30 00 28 00 65 00 6e 00 63 00 72 00 79 00 70 00 74 00 29 00 20 00 6f 00 72 00 20 00 31 00 28 00 64 00 65 00 63 00 72 00 79 00 70 00 74 00 29 00 2e 00))}
 
-  condition:
-    any of them
+	condition:
+		($s1 and $s2 ) or ( $s3 and $s4 )
 }
 
-rule ccrewDownloader1
+rule BOUNCER_DLL_APT1 : hardened
 {
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
+	meta:
+		author = "AlienVault Labs"
+		info = "CommentCrew-threat-apt1"
 
-  strings:
-    $a = {DD B5 61 F0 20 47 20 57 D6 65 9C CB 31 1B 65 42}
+	strings:
+		$s1 = {((6e 65 77 5f 63 6f 6e 6e 65 63 74 69 6f 6e 5f 74 6f 5f 62 6f 75 6e 63 65 28 29 3a) | (6e 00 65 00 77 00 5f 00 63 00 6f 00 6e 00 6e 00 65 00 63 00 74 00 69 00 6f 00 6e 00 5f 00 74 00 6f 00 5f 00 62 00 6f 00 75 00 6e 00 63 00 65 00 28 00 29 00 3a 00))}
+		$s2 = {((75 73 61 67 65 3a 25 73 20 49 50 20 70 6f 72 74 20 5b 70 72 6f 78 69 70 5d 20 5b 70 6f 72 74 5d 20 5b 6b 65 79 5d) | (75 00 73 00 61 00 67 00 65 00 3a 00 25 00 73 00 20 00 49 00 50 00 20 00 70 00 6f 00 72 00 74 00 20 00 5b 00 70 00 72 00 6f 00 78 00 69 00 70 00 5d 00 20 00 5b 00 70 00 6f 00 72 00 74 00 5d 00 20 00 5b 00 6b 00 65 00 79 00 5d 00))}
 
-  condition:
-    any of them
+	condition:
+		all of them
 }
 
-rule ccrewDownloader2
+rule CALENDAR_APT1 : hardened
 {
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
+	meta:
+		author = "AlienVault Labs"
+		info = "CommentCrew-threat-apt1"
 
-  strings:
-    $a = "3gZFQOBtY3sifNOl" wide ascii
-        $b = "docbWUWsc2gRMv9HN7TFnvnKcrWUUFdAEem9DkqRALoD" wide ascii
-        $c = "6QVSOZHQPCMc2A8HXdsfuNZcmUnIqWrOIjrjwOeagILnnScxadKEr1H2MZNwSnaJ" wide ascii
+	strings:
+		$s1 = {((63 6f 6e 74 65 6e 74) | (63 00 6f 00 6e 00 74 00 65 00 6e 00 74 00))}
+		$s2 = {((74 69 74 6c 65) | (74 00 69 00 74 00 6c 00 65 00))}
+		$s3 = {((65 6e 74 72 79) | (65 00 6e 00 74 00 72 00 79 00))}
+		$s4 = {((66 65 65 64) | (66 00 65 00 65 00 64 00))}
+		$s5 = {((44 6f 77 6e 52 75 6e 20 73 75 63 63 65 73 73) | (44 00 6f 00 77 00 6e 00 52 00 75 00 6e 00 20 00 73 00 75 00 63 00 63 00 65 00 73 00 73 00))}
+		$s6 = {((25 73 40 67 6d 61 69 6c 2e 63 6f 6d) | (25 00 73 00 40 00 67 00 6d 00 61 00 69 00 6c 00 2e 00 63 00 6f 00 6d 00))}
+		$s7 = {((3c 21 2d 2d 25 73 2d 2d 3e) | (3c 00 21 00 2d 00 2d 00 25 00 73 00 2d 00 2d 00 3e 00))}
+		$b8 = {((57 34 71 4b 69 68 73 62 2b 53 6f 3d) | (57 00 34 00 71 00 4b 00 69 00 68 00 73 00 62 00 2b 00 53 00 6f 00 3d 00))}
+		$b9 = {((50 6f 71 4b 69 67 59 37 67 67 48 2b 56 63 6e 71 6e 54 63 6d 68 46 43 6f 39 77 3d 3d) | (50 00 6f 00 71 00 4b 00 69 00 67 00 59 00 37 00 67 00 67 00 48 00 2b 00 56 00 63 00 6e 00 71 00 6e 00 54 00 63 00 6d 00 68 00 46 00 43 00 6f 00 39 00 77 00 3d 00 3d 00))}
+		$b10 = {((38 6f 71 4b 69 71 62 35 38 38 30 2f 75 4a 4c 7a 41 73 59 3d) | (38 00 6f 00 71 00 4b 00 69 00 71 00 62 00 35 00 38 00 38 00 30 00 2f 00 75 00 4a 00 4c 00 7a 00 41 00 73 00 59 00 3d 00))}
 
-  condition:
-    any of them
+	condition:
+		all of ( $s* ) or all of ( $b* )
 }
 
-
-//rule ccrewMiniasp
-//{
-//    meta:
-//        author = "AlienVault Labs"
-//        info = "CommentCrew-threat-apt1"
-//
-//  strings:
-//    $a = "MiniAsp.pdb" wide ascii
-//    $b = "device_t=" wide ascii
-//
-//  condition:
-//    any of them
-//}
-
-
-rule ccrewSSLBack2
+rule COMBOS_APT1 : hardened
 {
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
+	meta:
+		author = "AlienVault Labs"
+		info = "CommentCrew-threat-apt1"
 
-  strings:
-    $a = {39 82 49 42 BE 1F 3A}
+	strings:
+		$s1 = {((4d 6f 7a 69 6c 6c 61 34 2e 30 20 28 63 6f 6d 70 61 74 69 62 6c 65 3b 20 4d 53 49 45 20 37 2e 30 3b 20 57 69 6e 33 32 29) | (4d 00 6f 00 7a 00 69 00 6c 00 6c 00 61 00 34 00 2e 00 30 00 20 00 28 00 63 00 6f 00 6d 00 70 00 61 00 74 00 69 00 62 00 6c 00 65 00 3b 00 20 00 4d 00 53 00 49 00 45 00 20 00 37 00 2e 00 30 00 3b 00 20 00 57 00 69 00 6e 00 33 00 32 00 29 00))}
+		$s2 = {((4d 6f 7a 69 6c 6c 61 35 2e 31 20 28 63 6f 6d 70 61 74 69 62 6c 65 3b 20 4d 53 49 45 20 38 2e 30 3b 20 57 69 6e 33 32 29) | (4d 00 6f 00 7a 00 69 00 6c 00 6c 00 61 00 35 00 2e 00 31 00 20 00 28 00 63 00 6f 00 6d 00 70 00 61 00 74 00 69 00 62 00 6c 00 65 00 3b 00 20 00 4d 00 53 00 49 00 45 00 20 00 38 00 2e 00 30 00 3b 00 20 00 57 00 69 00 6e 00 33 00 32 00 29 00))}
+		$s3 = {((44 65 6c 61 79) | (44 00 65 00 6c 00 61 00 79 00))}
+		$s4 = {((47 65 74 66 69 6c 65) | (47 00 65 00 74 00 66 00 69 00 6c 00 65 00))}
+		$s5 = {((50 75 74 66 69 6c 65) | (50 00 75 00 74 00 66 00 69 00 6c 00 65 00))}
+		$s6 = {((2d 2d 2d 5b 20 56 69 72 74 75 61 6c 20 53 68 65 6c 6c 5d 2d 2d 2d) | (2d 00 2d 00 2d 00 5b 00 20 00 56 00 69 00 72 00 74 00 75 00 61 00 6c 00 20 00 53 00 68 00 65 00 6c 00 6c 00 5d 00 2d 00 2d 00 2d 00))}
+		$s7 = {((4e 6f 74 20 43 6f 6d 6d 69 6e 67 20 46 72 6f 6d 20 4f 75 72 20 53 65 72 76 65 72 20 25 73 2e) | (4e 00 6f 00 74 00 20 00 43 00 6f 00 6d 00 6d 00 69 00 6e 00 67 00 20 00 46 00 72 00 6f 00 6d 00 20 00 4f 00 75 00 72 00 20 00 53 00 65 00 72 00 76 00 65 00 72 00 20 00 25 00 73 00 2e 00))}
 
-  condition:
-    any of them
+	condition:
+		all of them
 }
 
-rule ccrewSSLBack3
+rule DAIRY_APT1 : hardened
 {
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
+	meta:
+		author = "AlienVault Labs"
+		info = "CommentCrew-threat-apt1"
 
-  strings:
-    $a = "SLYHKAAY" wide ascii
+	strings:
+		$s1 = {((4d 6f 7a 69 6c 6c 61 2f 34 2e 30 20 28 63 6f 6d 70 61 74 69 62 6c 65 3b 20 4d 53 49 45 20 37 2e 30 3b 29) | (4d 00 6f 00 7a 00 69 00 6c 00 6c 00 61 00 2f 00 34 00 2e 00 30 00 20 00 28 00 63 00 6f 00 6d 00 70 00 61 00 74 00 69 00 62 00 6c 00 65 00 3b 00 20 00 4d 00 53 00 49 00 45 00 20 00 37 00 2e 00 30 00 3b 00 29 00))}
+		$s2 = {((4b 69 6c 46 61 69 6c) | (4b 00 69 00 6c 00 46 00 61 00 69 00 6c 00))}
+		$s3 = {((4b 69 6c 53 75 63 63) | (4b 00 69 00 6c 00 53 00 75 00 63 00 63 00))}
+		$s4 = {((70 6b 6b 69 6c 6c) | (70 00 6b 00 6b 00 69 00 6c 00 6c 00))}
+		$s5 = {((70 6b 6c 69 73 74) | (70 00 6b 00 6c 00 69 00 73 00 74 00))}
 
-  condition:
-    any of them
+	condition:
+		all of them
 }
 
-
-rule ccrewSSLBack1
+rule GLOOXMAIL_APT1 : hardened
 {
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
+	meta:
+		author = "AlienVault Labs"
+		info = "CommentCrew-threat-apt1"
 
-  strings:
-    $a = "!@#%$^#@!" wide ascii
-    $b = "64.91.80.6" wide ascii
+	strings:
+		$s1 = {((4b 69 6c 6c 20 70 72 6f 63 65 73 73 20 73 75 63 63 65 73 73 21) | (4b 00 69 00 6c 00 6c 00 20 00 70 00 72 00 6f 00 63 00 65 00 73 00 73 00 20 00 73 00 75 00 63 00 63 00 65 00 73 00 73 00 21 00))}
+		$s2 = {((4b 69 6c 6c 20 70 72 6f 63 65 73 73 20 66 61 69 6c 65 64 21) | (4b 00 69 00 6c 00 6c 00 20 00 70 00 72 00 6f 00 63 00 65 00 73 00 73 00 20 00 66 00 61 00 69 00 6c 00 65 00 64 00 21 00))}
+		$s3 = {((53 6c 65 65 70 20 73 75 63 63 65 73 73 21) | (53 00 6c 00 65 00 65 00 70 00 20 00 73 00 75 00 63 00 63 00 65 00 73 00 73 00 21 00))}
+		$s4 = {((62 61 73 65 64 20 6f 6e 20 67 6c 6f 6f 78) | (62 00 61 00 73 00 65 00 64 00 20 00 6f 00 6e 00 20 00 67 00 6c 00 6f 00 6f 00 78 00))}
+		$pdb = {((67 6c 6f 6f 78 74 65 73 74 2e 70 64 62) | (67 00 6c 00 6f 00 6f 00 78 00 74 00 65 00 73 00 74 00 2e 00 70 00 64 00 62 00))}
 
-  condition:
-    any of them
+	condition:
+		all of ( $s* ) or $pdb
 }
 
-rule ccrewDownloader3
+rule HACKSFASE1_APT1 : hardened
 {
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
+	meta:
+		author = "AlienVault Labs"
+		info = "CommentCrew-threat-apt1"
 
-  strings:
-    $a = "ejlcmbv" wide ascii
-        $b = "bhxjuisv" wide ascii
-        $c = "yqzgrh" wide ascii
-        $d = "uqusofrp" wide ascii
-        $e = "Ljpltmivvdcbb" wide ascii
-        $f = "frfogjviirr" wide ascii
-        $g = "ximhttoskop" wide ascii
-  condition:
-    4 of them
+	strings:
+		$s1 = {cb 39 82 49 42 be 1f 3a}
+
+	condition:
+		all of them
 }
 
-
-//rule ccrewQAZ
-//{
-//    meta:
-//        author = "AlienVault Labs"
-//        info = "CommentCrew-threat-apt1"
-//
-//  strings:
-//    $a = "!QAZ@WSX" wide ascii
-//
-//  condition:
-//    $a
-//}
-
-rule metaxcd
+rule HACKSFASE2_APT1 : hardened
 {
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
+	meta:
+		author = "AlienVault Labs"
+		info = "CommentCrew-threat-apt1"
 
-  strings:
-    $a = "<meta xcd=" wide ascii
+	strings:
+		$s1 = {((53 65 6e 64 20 74 6f 20 53 65 72 76 65 72 20 66 61 69 6c 65 64 2e) | (53 00 65 00 6e 00 64 00 20 00 74 00 6f 00 20 00 53 00 65 00 72 00 76 00 65 00 72 00 20 00 66 00 61 00 69 00 6c 00 65 00 64 00 2e 00))}
+		$s2 = {((48 61 6e 64 53 68 61 6b 65 20 77 69 74 68 20 74 68 65 20 73 65 72 76 65 72 20 66 61 69 6c 65 64 2e 20 45 72 72 6f 72 3a) | (48 00 61 00 6e 00 64 00 53 00 68 00 61 00 6b 00 65 00 20 00 77 00 69 00 74 00 68 00 20 00 74 00 68 00 65 00 20 00 73 00 65 00 72 00 76 00 65 00 72 00 20 00 66 00 61 00 69 00 6c 00 65 00 64 00 2e 00 20 00 45 00 72 00 72 00 6f 00 72 00 3a 00))}
+		$s3 = {((44 65 63 72 79 70 74 69 6f 6e 20 46 61 69 6c 65 64 2e 20 43 6f 6e 74 65 78 74 20 45 78 70 69 72 65 64 2e) | (44 00 65 00 63 00 72 00 79 00 70 00 74 00 69 00 6f 00 6e 00 20 00 46 00 61 00 69 00 6c 00 65 00 64 00 2e 00 20 00 43 00 6f 00 6e 00 74 00 65 00 78 00 74 00 20 00 45 00 78 00 70 00 69 00 72 00 65 00 64 00 2e 00))}
 
-  condition:
-    $a
+	condition:
+		all of them
 }
 
-rule MiniASP
+rule KURTON_APT1 : hardened
 {
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
+	meta:
+		author = "AlienVault Labs"
+		info = "CommentCrew-threat-apt1"
 
-strings:
-    $KEY = { 71 30 6E 63 39 77 38 65 64 61 6F 69 75 6B 32 6D 7A 72 66 79 33 78 74 31 70 35 6C 73 36 37 67 34 62 76 68 6A }
-    $PDB = "MiniAsp.pdb" nocase wide ascii
+	strings:
+		$s1 = {((4d 6f 7a 69 6c 6c 61 2f 34 2e 30 20 28 63 6f 6d 70 61 74 69 62 6c 65 3b 20 4d 53 49 45 38 2e 30 3b 20 57 69 6e 64 6f 77 73 20 4e 54 20 35 2e 31 29) | (4d 00 6f 00 7a 00 69 00 6c 00 6c 00 61 00 2f 00 34 00 2e 00 30 00 20 00 28 00 63 00 6f 00 6d 00 70 00 61 00 74 00 69 00 62 00 6c 00 65 00 3b 00 20 00 4d 00 53 00 49 00 45 00 38 00 2e 00 30 00 3b 00 20 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 4e 00 54 00 20 00 35 00 2e 00 31 00 29 00))}
+		$s2 = {((21 28 2a 40 29 28 21 40 50 4f 52 54 21 28 2a 40 29 28 21 40 55 52 4c) | (21 00 28 00 2a 00 40 00 29 00 28 00 21 00 40 00 50 00 4f 00 52 00 54 00 21 00 28 00 2a 00 40 00 29 00 28 00 21 00 40 00 55 00 52 00 4c 00))}
+		$s3 = {((4d 79 54 6d 70 46 69 6c 65 2e 44 61 74) | (4d 00 79 00 54 00 6d 00 70 00 46 00 69 00 6c 00 65 00 2e 00 44 00 61 00 74 00))}
+		$s4 = {((53 76 63 48 6f 73 74 2e 44 4c 4c 2e 6c 6f 67) | (53 00 76 00 63 00 48 00 6f 00 73 00 74 00 2e 00 44 00 4c 00 4c 00 2e 00 6c 00 6f 00 67 00))}
 
-condition:
-    any of them
+	condition:
+		all of them
 }
 
-rule DownloaderPossibleCCrew
+rule LONGRUN_APT1 : hardened
 {
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
+	meta:
+		author = "AlienVault Labs"
+		info = "CommentCrew-threat-apt1"
 
-  strings:
-    $a = "%s?%.6u" wide ascii
-    $b = "szFileUrl=%s" wide ascii
-    $c = "status=%u" wide ascii
-    $d = "down file success" wide ascii
-        $e = "Mozilla/4.0 (compatible; MSIE 6.0; Win32)" wide ascii
+	strings:
+		$s1 = {((4d 6f 7a 69 6c 6c 61 2f 34 2e 30 20 28 63 6f 6d 70 61 74 69 62 6c 65 3b 20 57 69 6e 64 6f 77 73 20 4e 54 20 35 2e 31 3b 20 4d 53 49 45 20 37 2e 30 3b 20 54 72 69 64 65 6e 74 2f 34 2e 30 29) | (4d 00 6f 00 7a 00 69 00 6c 00 6c 00 61 00 2f 00 34 00 2e 00 30 00 20 00 28 00 63 00 6f 00 6d 00 70 00 61 00 74 00 69 00 62 00 6c 00 65 00 3b 00 20 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 4e 00 54 00 20 00 35 00 2e 00 31 00 3b 00 20 00 4d 00 53 00 49 00 45 00 20 00 37 00 2e 00 30 00 3b 00 20 00 54 00 72 00 69 00 64 00 65 00 6e 00 74 00 2f 00 34 00 2e 00 30 00 29 00))}
+		$s2 = {((25 73 5c 25 63 25 63 25 63 25 63 25 63 25 63 25 63) | (25 00 73 00 5c 00 25 00 63 00 25 00 63 00 25 00 63 00 25 00 63 00 25 00 63 00 25 00 63 00 25 00 63 00))}
+		$s3 = {((77 61 69 74 3a) | (77 00 61 00 69 00 74 00 3a 00))}
+		$s4 = {((44 63 72 79 70 74 69 6f 6e 20 45 72 72 6f 72 21 20 49 6e 76 61 6c 69 64 20 43 68 61 72 61 63 74 65 72) | (44 00 63 00 72 00 79 00 70 00 74 00 69 00 6f 00 6e 00 20 00 45 00 72 00 72 00 6f 00 72 00 21 00 20 00 49 00 6e 00 76 00 61 00 6c 00 69 00 64 00 20 00 43 00 68 00 61 00 72 00 61 00 63 00 74 00 65 00 72 00))}
 
-  condition:
-    all of them
+	condition:
+		all of them
 }
 
-rule APT1_MAPIGET
+rule MACROMAIL_APT1 : hardened
 {
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
+	meta:
+		author = "AlienVault Labs"
+		info = "CommentCrew-threat-apt1"
 
-    strings:
-        $s1 = "%s\\Attachment.dat" wide ascii
-        $s2 = "MyOutlook" wide ascii
-        $s3 = "mail.txt" wide ascii
-        $s4 = "Recv Time:" wide ascii
-        $s5 = "Subject:" wide ascii
+	strings:
+		$s1 = {((73 76 63 4d 73 6e 2e 64 6c 6c) | (73 00 76 00 63 00 4d 00 73 00 6e 00 2e 00 64 00 6c 00 6c 00))}
+		$s2 = {((52 75 6e 64 6c 6c 49 6e 73 74 61 6c 6c) | (52 00 75 00 6e 00 64 00 6c 00 6c 00 49 00 6e 00 73 00 74 00 61 00 6c 00 6c 00))}
+		$s3 = {((43 6f 6e 66 69 67 20 73 65 72 76 69 63 65 20 25 73 20 6f 6b 2e) | (43 00 6f 00 6e 00 66 00 69 00 67 00 20 00 73 00 65 00 72 00 76 00 69 00 63 00 65 00 20 00 25 00 73 00 20 00 6f 00 6b 00 2e 00))}
+		$s4 = {((73 76 63 68 6f 73 74 2e 65 78 65) | (73 00 76 00 63 00 68 00 6f 00 73 00 74 00 2e 00 65 00 78 00 65 00))}
 
-    condition:
-        all of them
+	condition:
+		all of them
 }
 
-rule APT1_LIGHTBOLT
+rule MANITSME_APT1 : hardened
 {
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
+	meta:
+		author = "AlienVault Labs"
+		info = "CommentCrew-threat-apt1"
 
-    strings:
-        $str1 = "bits.exe" wide ascii
-        $str2 = "PDFBROW" wide ascii
-        $str3 = "Browser.exe" wide ascii
-        $str4 = "Protect!" wide ascii
-    condition:
-        2 of them
+	strings:
+		$s1 = {((49 6e 73 74 61 6c 6c 20 61 6e 20 53 65 72 76 69 63 65 20 68 6f 73 74 65 64 20 62 79 20 53 56 43 48 4f 53 54 2e) | (49 00 6e 00 73 00 74 00 61 00 6c 00 6c 00 20 00 61 00 6e 00 20 00 53 00 65 00 72 00 76 00 69 00 63 00 65 00 20 00 68 00 6f 00 73 00 74 00 65 00 64 00 20 00 62 00 79 00 20 00 53 00 56 00 43 00 48 00 4f 00 53 00 54 00 2e 00))}
+		$s2 = {((54 68 65 20 44 6c 6c 20 66 69 6c 65 20 74 68 61 74 20 74 6f 20 62 65 20 72 65 6c 65 61 73 65 64 2e) | (54 00 68 00 65 00 20 00 44 00 6c 00 6c 00 20 00 66 00 69 00 6c 00 65 00 20 00 74 00 68 00 61 00 74 00 20 00 74 00 6f 00 20 00 62 00 65 00 20 00 72 00 65 00 6c 00 65 00 61 00 73 00 65 00 64 00 2e 00))}
+		$s3 = {((53 59 53 54 45 4d 5c 43 75 72 72 65 6e 74 43 6f 6e 74 72 6f 6c 53 65 74 5c 53 65 72 76 69 63 65 73 5c) | (53 00 59 00 53 00 54 00 45 00 4d 00 5c 00 43 00 75 00 72 00 72 00 65 00 6e 00 74 00 43 00 6f 00 6e 00 74 00 72 00 6f 00 6c 00 53 00 65 00 74 00 5c 00 53 00 65 00 72 00 76 00 69 00 63 00 65 00 73 00 5c 00))}
+		$s4 = {((73 76 63 68 6f 73 74 2e 65 78 65) | (73 00 76 00 63 00 68 00 6f 00 73 00 74 00 2e 00 65 00 78 00 65 00))}
+		$e1 = {((4d 61 6e 2c 69 74 27 73 20 6d 65) | (4d 00 61 00 6e 00 2c 00 69 00 74 00 27 00 73 00 20 00 6d 00 65 00))}
+		$e2 = {((4f 68 2c 73 68 69 74) | (4f 00 68 00 2c 00 73 00 68 00 69 00 74 00))}
+		$e3 = {((48 61 6c 6c 65 6c 75 6a 61 68) | (48 00 61 00 6c 00 6c 00 65 00 6c 00 75 00 6a 00 61 00 68 00))}
+		$e4 = {((6e 52 65 74 20 3d 3d 20 53 4f 43 4b 45 54 5f 45 52 52 4f 52) | (6e 00 52 00 65 00 74 00 20 00 3d 00 3d 00 20 00 53 00 4f 00 43 00 4b 00 45 00 54 00 5f 00 45 00 52 00 52 00 4f 00 52 00))}
+		$pdb1 = {((72 6f 75 6a 69 5c 72 65 6c 65 61 73 65 5c 49 6e 73 74 61 6c 6c 2e 70 64 62) | (72 00 6f 00 75 00 6a 00 69 00 5c 00 72 00 65 00 6c 00 65 00 61 00 73 00 65 00 5c 00 49 00 6e 00 73 00 74 00 61 00 6c 00 6c 00 2e 00 70 00 64 00 62 00))}
+		$pdb2 = {((72 6f 75 6a 69 5c 53 76 63 4d 61 69 6e 2e 70 64 62) | (72 00 6f 00 75 00 6a 00 69 00 5c 00 53 00 76 00 63 00 4d 00 61 00 69 00 6e 00 2e 00 70 00 64 00 62 00))}
+
+	condition:
+		( all of ( $s* ) ) or ( all of ( $e* ) ) or $pdb1 or $pdb2
 }
 
-rule APT1_GETMAIL
+rule MINIASP_APT1 : hardened
 {
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
+	meta:
+		author = "AlienVault Labs"
+		info = "CommentCrew-threat-apt1"
 
-    strings:
-        $stra1 = "pls give the FULL path" wide ascii
-        $stra2 = "mapi32.dll" wide ascii
-        $stra3 = "doCompress" wide ascii
+	strings:
+		$s1 = {((6d 69 6e 69 61 73 70) | (6d 00 69 00 6e 00 69 00 61 00 73 00 70 00))}
+		$s2 = {((77 61 6b 65 75 70 3d) | (77 00 61 00 6b 00 65 00 75 00 70 00 3d 00))}
+		$s3 = {((64 6f 77 6e 6c 6f 61 64 20 6f 6b 21) | (64 00 6f 00 77 00 6e 00 6c 00 6f 00 61 00 64 00 20 00 6f 00 6b 00 21 00))}
+		$s4 = {((63 6f 6d 6d 61 6e 64 20 69 73 20 6e 75 6c 6c 21) | (63 00 6f 00 6d 00 6d 00 61 00 6e 00 64 00 20 00 69 00 73 00 20 00 6e 00 75 00 6c 00 6c 00 21 00))}
+		$s5 = {((64 65 76 69 63 65 5f 69 6e 70 75 74 2e 61 73 70 3f 64 65 76 69 63 65 5f 74 3d) | (64 00 65 00 76 00 69 00 63 00 65 00 5f 00 69 00 6e 00 70 00 75 00 74 00 2e 00 61 00 73 00 70 00 3f 00 64 00 65 00 76 00 69 00 63 00 65 00 5f 00 74 00 3d 00))}
 
-        $strb1 = "getmail.dll" wide ascii
-        $strb2 = "doCompress" wide ascii
-        $strb3 = "love" wide ascii
-    condition:
-        all of ($stra*) or all of ($strb*)
+	condition:
+		all of them
 }
 
-rule APT1_GDOCUPLOAD
+rule NEWSREELS_APT1 : hardened
 {
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
+	meta:
+		author = "AlienVault Labs"
+		info = "CommentCrew-threat-apt1"
 
-    strings:
-        $str1 = "name=\"GALX\"" wide ascii
-        $str2 = "User-Agent: Shockwave Flash" wide ascii
-        $str3 = "add cookie failed..." wide ascii
-        $str4 = ",speed=%f" wide ascii
-    condition:
-        3 of them
+	strings:
+		$s1 = {((4d 6f 7a 69 6c 6c 61 2f 34 2e 30 20 28 63 6f 6d 70 61 74 69 62 6c 65 3b 20 57 69 6e 64 6f 77 73 20 4e 54 20 35 2e 31 3b 20 4d 53 49 45 20 37 2e 30 29) | (4d 00 6f 00 7a 00 69 00 6c 00 6c 00 61 00 2f 00 34 00 2e 00 30 00 20 00 28 00 63 00 6f 00 6d 00 70 00 61 00 74 00 69 00 62 00 6c 00 65 00 3b 00 20 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 4e 00 54 00 20 00 35 00 2e 00 31 00 3b 00 20 00 4d 00 53 00 49 00 45 00 20 00 37 00 2e 00 30 00 29 00))}
+		$s2 = {((6e 61 6d 65 3d 25 73 26 75 73 65 72 69 64 3d 25 30 34 64 26 6f 74 68 65 72 3d 25 63 25 73) | (6e 00 61 00 6d 00 65 00 3d 00 25 00 73 00 26 00 75 00 73 00 65 00 72 00 69 00 64 00 3d 00 25 00 30 00 34 00 64 00 26 00 6f 00 74 00 68 00 65 00 72 00 3d 00 25 00 63 00 25 00 73 00))}
+		$s3 = {((64 6f 77 6e 6c 6f 61 64 20 6f 6b 21) | (64 00 6f 00 77 00 6e 00 6c 00 6f 00 61 00 64 00 20 00 6f 00 6b 00 21 00))}
+		$s4 = {((63 6f 6d 6d 61 6e 64 20 69 73 20 6e 75 6c 6c 21) | (63 00 6f 00 6d 00 6d 00 61 00 6e 00 64 00 20 00 69 00 73 00 20 00 6e 00 75 00 6c 00 6c 00 21 00))}
+		$s5 = {((6e 6f 63 6c 69 65 6e 74) | (6e 00 6f 00 63 00 6c 00 69 00 65 00 6e 00 74 00))}
+		$s6 = {((77 61 69 74) | (77 00 61 00 69 00 74 00))}
+		$s7 = {((61 63 74 69 76 65) | (61 00 63 00 74 00 69 00 76 00 65 00))}
+		$s8 = {((68 65 6c 6c 6f) | (68 00 65 00 6c 00 6c 00 6f 00))}
+
+	condition:
+		all of them
 }
 
-rule APT1_WEBC2_Y21K
+rule SEASALT_APT1 : hardened
 {
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
+	meta:
+		author = "AlienVault Labs"
+		info = "CommentCrew-threat-apt1"
 
-    strings:
-        $1 = "Y29ubmVjdA" wide ascii // connect
-        $2 = "c2xlZXA" wide ascii // sleep
-        $3 = "cXVpdA" wide ascii // quit
-        $4 = "Y21k" wide ascii // cmd
-        $5 = "dW5zdXBwb3J0" wide ascii // unsupport
-    condition:
-        4 of them
+	strings:
+		$s1 = {((55 73 65 72 2d 41 67 65 6e 74 3a 20 4d 6f 7a 69 6c 6c 61 2f 34 2e 30 20 28 63 6f 6d 70 61 74 69 62 6c 65 3b 20 4d 53 49 45 20 35 2e 30 30 3b 20 57 69 6e 64 6f 77 73 20 39 38 29 20 4b 53 4d 4d) | (55 00 73 00 65 00 72 00 2d 00 41 00 67 00 65 00 6e 00 74 00 3a 00 20 00 4d 00 6f 00 7a 00 69 00 6c 00 6c 00 61 00 2f 00 34 00 2e 00 30 00 20 00 28 00 63 00 6f 00 6d 00 70 00 61 00 74 00 69 00 62 00 6c 00 65 00 3b 00 20 00 4d 00 53 00 49 00 45 00 20 00 35 00 2e 00 30 00 30 00 3b 00 20 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 39 00 38 00 29 00 20 00 4b 00 53 00 4d 00 4d 00))}
+		$s2 = {((75 70 66 69 6c 65 6f 6b) | (75 00 70 00 66 00 69 00 6c 00 65 00 6f 00 6b 00))}
+		$s3 = {((64 6f 77 6e 6c 6f 61 64 20 6f 6b 21) | (64 00 6f 00 77 00 6e 00 6c 00 6f 00 61 00 64 00 20 00 6f 00 6b 00 21 00))}
+		$s4 = {((75 70 66 69 6c 65 65 72) | (75 00 70 00 66 00 69 00 6c 00 65 00 65 00 72 00))}
+		$s5 = {((66 78 66 74 65 73 74) | (66 00 78 00 66 00 74 00 65 00 73 00 74 00))}
+
+	condition:
+		all of them
 }
 
-rule APT1_WEBC2_YAHOO
+rule STARSYPOUND_APT1 : hardened
 {
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
+	meta:
+		author = "AlienVault Labs"
+		info = "CommentCrew-threat-apt1"
+		score = 60
 
-    strings:
-        $http1 = "HTTP/1.0" wide ascii
-        $http2 = "Content-Type:" wide ascii
-        $uagent = "IPHONE8.5(host:%s,ip:%s)" wide ascii
-    condition:
-        all of them
+	strings:
+		$s1 = {((2a 28 53 59 29 23 20 63 6d 64) | (2a 00 28 00 53 00 59 00 29 00 23 00 20 00 63 00 6d 00 64 00))}
+		$s2 = {((73 65 6e 64 20 3d 20 25 64) | (73 00 65 00 6e 00 64 00 20 00 3d 00 20 00 25 00 64 00))}
+		$s3 = {((63 6d 64 2e 65 78 65) | (63 00 6d 00 64 00 2e 00 65 00 78 00 65 00))}
+		$s4 = {((2a 28 53 59 29 23) | (2a 00 28 00 53 00 59 00 29 00 23 00))}
+
+	condition:
+		all of them
 }
 
-rule APT1_WEBC2_UGX
+rule SWORD_APT1 : hardened
 {
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
+	meta:
+		author = "AlienVault Labs"
+		info = "CommentCrew-threat-apt1"
 
-    strings:
-        $persis = "SOFTWARE\\MICROSOFT\\WINDOWS\\CURRENTVERSION\\RUN" wide ascii
-        $exe = "DefWatch.exe" wide ascii
-        $html = "index1.html" wide ascii
-        $cmd1 = "!@#tiuq#@!" wide ascii
-        $cmd2 = "!@#dmc#@!" wide ascii
-        $cmd3 = "!@#troppusnu#@!" wide ascii
-    condition:
-        3 of them
+	strings:
+		$s1 = {((40 2a 2a 2a 40 2a 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 3e 3e 3e) | (40 00 2a 00 2a 00 2a 00 40 00 2a 00 40 00 40 00 40 00 40 00 40 00 40 00 40 00 40 00 40 00 40 00 40 00 40 00 40 00 40 00 40 00 40 00 40 00 40 00 40 00 40 00 40 00 40 00 40 00 40 00 40 00 40 00 40 00 40 00 40 00 40 00 40 00 40 00 40 00 40 00 40 00 40 00 40 00 40 00 40 00 40 00 40 00 40 00 40 00 40 00 40 00 40 00 40 00 40 00 40 00 40 00 40 00 3e 00 3e 00 3e 00))}
+		$s2 = {((73 6c 65 65 70 3a) | (73 00 6c 00 65 00 65 00 70 00 3a 00))}
+		$s3 = {((64 6f 77 6e 3a) | (64 00 6f 00 77 00 6e 00 3a 00))}
+		$s4 = {((2a 3d 3d 3d 3d 3d 3d 3d 3d 3d 3d 20 42 79 65 20 42 79 65 20 21 20 3d 3d 3d 3d 3d 3d 3d 3d 3d 3d 2a) | (2a 00 3d 00 3d 00 3d 00 3d 00 3d 00 3d 00 3d 00 3d 00 3d 00 3d 00 20 00 42 00 79 00 65 00 20 00 42 00 79 00 65 00 20 00 21 00 20 00 3d 00 3d 00 3d 00 3d 00 3d 00 3d 00 3d 00 3d 00 3d 00 3d 00 2a 00))}
+
+	condition:
+		all of them
 }
 
-rule APT1_WEBC2_TOCK
+rule thequickbrow_APT1 : hardened
 {
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
+	meta:
+		author = "AlienVault Labs"
+		info = "CommentCrew-threat-apt1"
 
-    strings:
-        $1 = "InprocServer32" wide ascii
-        $2 = "HKEY_PERFORMANCE_DATA" wide ascii
-        $3 = "<!---[<if IE 5>]id=" wide ascii
-    condition:
-        all of them
+	strings:
+		$s1 = {((74 68 65 71 75 69 63 6b 62 72 6f 77 6e 66 78 6a 6d 70 73 76 61 6c 7a 79 64 67) | (74 00 68 00 65 00 71 00 75 00 69 00 63 00 6b 00 62 00 72 00 6f 00 77 00 6e 00 66 00 78 00 6a 00 6d 00 70 00 73 00 76 00 61 00 6c 00 7a 00 79 00 64 00 67 00))}
+
+	condition:
+		all of them
 }
 
-rule APT1_WEBC2_TABLE
+rule TABMSGSQL_APT1 : hardened
 {
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
+	meta:
+		author = "AlienVault Labs"
+		info = "CommentCrew-threat-apt1"
 
-    strings:
-        $msg1 = "Fail To Execute The Command" wide ascii
-        $msg2 = "Execute The Command Successfully" wide ascii
-        $gif1 = /\w+\.gif/
-        $gif2 = "GIF89" wide ascii
-    condition:
-        3 of them
+	strings:
+		$s1 = {((6c 65 74 75 73 67 6f 68 74 70 70 6d 6d 76 32 2e 30 2e 30 2e 31) | (6c 00 65 00 74 00 75 00 73 00 67 00 6f 00 68 00 74 00 70 00 70 00 6d 00 6d 00 76 00 32 00 2e 00 30 00 2e 00 30 00 2e 00 31 00))}
+		$s2 = {((4d 6f 7a 69 6c 6c 61 2f 34 2e 30 20 28 63 6f 6d 70 61 74 69 62 6c 65 3b 20 29) | (4d 00 6f 00 7a 00 69 00 6c 00 6c 00 61 00 2f 00 34 00 2e 00 30 00 20 00 28 00 63 00 6f 00 6d 00 70 00 61 00 74 00 69 00 62 00 6c 00 65 00 3b 00 20 00 29 00))}
+		$s3 = {((66 69 6c 65 73 74 6f 63) | (66 00 69 00 6c 00 65 00 73 00 74 00 6f 00 63 00))}
+		$s4 = {((66 69 6c 65 63 74 6f 73) | (66 00 69 00 6c 00 65 00 63 00 74 00 6f 00 73 00))}
+		$s5 = {((72 65 73 68 65 6c 6c) | (72 00 65 00 73 00 68 00 65 00 6c 00 6c 00))}
+
+	condition:
+		all of them
 }
 
-rule APT1_WEBC2_RAVE
+rule CCREWBACK1 : hardened
 {
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
+	meta:
+		author = "AlienVault Labs"
+		info = "CommentCrew-threat-apt1"
 
-    strings:
-        $1 = "iniet.exe" wide ascii
-        $2 = "cmd.exe" wide ascii
-        $3 = "SYSTEM\\CurrentControlSet\\Services\\DEVFS" wide ascii
-        $4 = "Device File System" wide ascii
-    condition:
-        3 of them
+	strings:
+		$a = {((70 6f 73 74 76 61 6c 75 65) | (70 00 6f 00 73 00 74 00 76 00 61 00 6c 00 75 00 65 00))}
+		$b = {((70 6f 73 74 64 61 74 61) | (70 00 6f 00 73 00 74 00 64 00 61 00 74 00 61 00))}
+		$c = {((70 6f 73 74 66 69 6c 65) | (70 00 6f 00 73 00 74 00 66 00 69 00 6c 00 65 00))}
+		$d = {((68 6f 73 74 6e 61 6d 65) | (68 00 6f 00 73 00 74 00 6e 00 61 00 6d 00 65 00))}
+		$e = {((63 6c 69 65 6e 74 6b 65 79) | (63 00 6c 00 69 00 65 00 6e 00 74 00 6b 00 65 00 79 00))}
+		$f = {((73 74 61 72 74 20 43 6d 64 20 46 61 69 6c 75 72 65 21) | (73 00 74 00 61 00 72 00 74 00 20 00 43 00 6d 00 64 00 20 00 46 00 61 00 69 00 6c 00 75 00 72 00 65 00 21 00))}
+		$g = {((73 6c 65 65 70 3a) | (73 00 6c 00 65 00 65 00 70 00 3a 00))}
+		$h = {((64 6f 77 6e 6c 6f 61 64 63 6f 70 79 3a) | (64 00 6f 00 77 00 6e 00 6c 00 6f 00 61 00 64 00 63 00 6f 00 70 00 79 00 3a 00))}
+		$i = {((64 6f 77 6e 6c 6f 61 64 3a) | (64 00 6f 00 77 00 6e 00 6c 00 6f 00 61 00 64 00 3a 00))}
+		$j = {((67 65 74 75 72 6c 3a) | (67 00 65 00 74 00 75 00 72 00 6c 00 3a 00))}
+		$k = {((31 2e 32 33 34 2e 31 2e 36 38) | (31 00 2e 00 32 00 33 00 34 00 2e 00 31 00 2e 00 36 00 38 00))}
+
+	condition:
+		4 of ( $a , $b , $c , $d , $e ) or $f or 3 of ( $g , $h , $i , $j ) or $k
 }
 
-rule APT1_WEBC2_QBP
+rule TrojanCookies_CCREW : hardened
 {
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
+	meta:
+		author = "AlienVault Labs"
+		info = "CommentCrew-threat-apt1"
 
-    strings:
-        $1 = "2010QBP" wide ascii
-        $2 = "adobe_sl.exe" wide ascii
-        $3 = "URLDownloadToCacheFile" wide ascii
-        $4 = "dnsapi.dll" wide ascii
-        $5 = "urlmon.dll" wide ascii
-    condition:
-        4 of them
+	strings:
+		$a = {((73 6c 65 65 70 3a) | (73 00 6c 00 65 00 65 00 70 00 3a 00))}
+		$b = {((63 6f 6e 74 65 6e 74 3d) | (63 00 6f 00 6e 00 74 00 65 00 6e 00 74 00 3d 00))}
+		$c = {((72 65 71 70 61 74 68 3d) | (72 00 65 00 71 00 70 00 61 00 74 00 68 00 3d 00))}
+		$d = {((73 61 76 65 70 61 74 68 3d) | (73 00 61 00 76 00 65 00 70 00 61 00 74 00 68 00 3d 00))}
+		$e = {((63 6f 6d 6d 61 6e 64 3d) | (63 00 6f 00 6d 00 6d 00 61 00 6e 00 64 00 3d 00))}
+
+	condition:
+		4 of ( $a , $b , $c , $d , $e )
 }
 
-rule APT1_WEBC2_KT3
+rule GEN_CCREW1 : hardened
 {
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
+	meta:
+		author = "AlienVault Labs"
+		info = "CommentCrew-threat-apt1"
 
-    strings:
-        $1 = "*!Kt3+v|" wide ascii
-        $2 = " s:" wide ascii
-        $3 = " dne" wide ascii
-    condition:
-        all of them
+	strings:
+		$a = {((57 21 72 40 6f 23 6e 24 67) | (57 00 21 00 72 00 40 00 6f 00 23 00 6e 00 24 00 67 00))}
+		$b = {((4b 65 72 4e 65 6c 33 32 2e 64 6c 6c) | (4b 00 65 00 72 00 4e 00 65 00 6c 00 33 00 32 00 2e 00 64 00 6c 00 6c 00))}
+
+	condition:
+		any of them
 }
 
-rule APT1_WEBC2_HEAD
+rule Elise : hardened
 {
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
+	meta:
+		author = "AlienVault Labs"
+		info = "CommentCrew-threat-apt1"
 
-    strings:
-        $1 = "Ready!" wide ascii
-        $2 = "connect ok" wide ascii
-        $3 = "WinHTTP 1.0" wide ascii
-        $4 = "<head>" wide ascii
-    condition:
-        all of them
+	strings:
+		$a = {((53 65 74 45 6c 69 73 65 2e 70 64 62) | (53 00 65 00 74 00 45 00 6c 00 69 00 73 00 65 00 2e 00 70 00 64 00 62 00))}
+
+	condition:
+		$a
 }
 
-rule APT1_WEBC2_GREENCAT
+rule EclipseSunCloudRAT : hardened
 {
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
+	meta:
+		author = "AlienVault Labs"
+		info = "CommentCrew-threat-apt1"
 
-    strings:
-        $1 = "reader_sl.exe" wide ascii
-        $2 = "MS80547.bat" wide ascii
-        $3 = "ADR32" wide ascii
-        $4 = "ControlService failed!" wide ascii
-    condition:
-        3 of them
+	strings:
+		$a = {((45 63 6c 69 70 73 65 5f 41) | (45 00 63 00 6c 00 69 00 70 00 73 00 65 00 5f 00 41 00))}
+		$b = {((5c 50 4a 54 53 5c) | (5c 00 50 00 4a 00 54 00 53 00 5c 00))}
+		$c = {((45 63 6c 69 70 73 65 5f 43 6c 69 65 6e 74 5f 42 2e 70 64 62) | (45 00 63 00 6c 00 69 00 70 00 73 00 65 00 5f 00 43 00 6c 00 69 00 65 00 6e 00 74 00 5f 00 42 00 2e 00 70 00 64 00 62 00))}
+		$d = {((58 69 61 6f 4d 45) | (58 00 69 00 61 00 6f 00 4d 00 45 00))}
+		$e = {((53 75 6e 43 6c 6f 75 64 2d 43 6f 64 65) | (53 00 75 00 6e 00 43 00 6c 00 6f 00 75 00 64 00 2d 00 43 00 6f 00 64 00 65 00))}
+		$f = {((2f 75 63 5f 73 65 72 76 65 72 2f 64 61 74 61 2f 66 6f 72 75 6d 2e 61 73 70) | (2f 00 75 00 63 00 5f 00 73 00 65 00 72 00 76 00 65 00 72 00 2f 00 64 00 61 00 74 00 61 00 2f 00 66 00 6f 00 72 00 75 00 6d 00 2e 00 61 00 73 00 70 00))}
+
+	condition:
+		any of them
 }
 
-rule APT1_WEBC2_DIV
+rule MoonProject : hardened
 {
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
+	meta:
+		author = "AlienVault Labs"
+		info = "CommentCrew-threat-apt1"
 
-    strings:
-        $1 = "3DC76854-C328-43D7-9E07-24BF894F8EF5" wide ascii
-        $2 = "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run" wide ascii
-        $3 = "Hello from MFC!" wide ascii
-        $4 = "Microsoft Internet Explorer" wide ascii
-    condition:
-        3 of them
+	strings:
+		$a = {((53 65 72 76 65 72 66 69 6c 65 20 69 73 20 73 6d 61 6c 6c 65 72 20 74 68 61 6e 20 43 6c 69 65 6e 74 66 69 6c 65) | (53 00 65 00 72 00 76 00 65 00 72 00 66 00 69 00 6c 00 65 00 20 00 69 00 73 00 20 00 73 00 6d 00 61 00 6c 00 6c 00 65 00 72 00 20 00 74 00 68 00 61 00 6e 00 20 00 43 00 6c 00 69 00 65 00 6e 00 74 00 66 00 69 00 6c 00 65 00))}
+		$b = {((5c 4d 20 74 6f 6f 6c 73 5c) | (5c 00 4d 00 20 00 74 00 6f 00 6f 00 6c 00 73 00 5c 00))}
+		$c = {((4d 6f 6f 6e 44 4c 4c) | (4d 00 6f 00 6f 00 6e 00 44 00 4c 00 4c 00))}
+		$d = {((5c 4d 20 74 6f 6f 6c 73 5c) | (5c 00 4d 00 20 00 74 00 6f 00 6f 00 6c 00 73 00 5c 00))}
+
+	condition:
+		any of them
 }
 
-rule APT1_WEBC2_CSON
+rule ccrewDownloader1 : hardened
 {
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
+	meta:
+		author = "AlienVault Labs"
+		info = "CommentCrew-threat-apt1"
 
-    strings:
-        $httpa1 = "/Default.aspx?INDEX=" wide ascii
-        $httpa2 = "/Default.aspx?ID=" wide ascii
-        $httpb1 = "Win32" wide ascii
-        $httpb2 = "Accept: text*/*" wide ascii
-        $exe1 = "xcmd.exe" wide ascii
-        $exe2 = "Google.exe" wide ascii
-    condition:
-        1 of ($exe*) and 1 of ($httpa*) and all of ($httpb*)
+	strings:
+		$a = {DD B5 61 F0 20 47 20 57 D6 65 9C CB 31 1B 65 42}
+
+	condition:
+		any of them
 }
 
-rule APT1_WEBC2_CLOVER
+rule ccrewDownloader2 : hardened
 {
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
+	meta:
+		author = "AlienVault Labs"
+		info = "CommentCrew-threat-apt1"
 
-    strings:
-        $msg1 = "BUILD ERROR!" wide ascii
-        $msg2 = "SUCCESS!" wide ascii
-        $msg3 = "wild scan" wide ascii
-        $msg4 = "Code too clever" wide ascii
-        $msg5 = "insufficient lookahead" wide ascii
-        $ua1 = "Mozilla/4.0 (compatible; MSIE 6.1; Windows NT 5.1; SV1)" wide ascii
-        $ua2 = "Mozilla/5.0 (Windows; Windows NT 5.1; en-US; rv:1.8.0.12) Firefox/1.5.0.12" wide ascii
-    condition:
-        2 of ($msg*) and 1 of ($ua*)
+	strings:
+		$a = {((33 67 5a 46 51 4f 42 74 59 33 73 69 66 4e 4f 6c) | (33 00 67 00 5a 00 46 00 51 00 4f 00 42 00 74 00 59 00 33 00 73 00 69 00 66 00 4e 00 4f 00 6c 00))}
+		$b = {((64 6f 63 62 57 55 57 73 63 32 67 52 4d 76 39 48 4e 37 54 46 6e 76 6e 4b 63 72 57 55 55 46 64 41 45 65 6d 39 44 6b 71 52 41 4c 6f 44) | (64 00 6f 00 63 00 62 00 57 00 55 00 57 00 73 00 63 00 32 00 67 00 52 00 4d 00 76 00 39 00 48 00 4e 00 37 00 54 00 46 00 6e 00 76 00 6e 00 4b 00 63 00 72 00 57 00 55 00 55 00 46 00 64 00 41 00 45 00 65 00 6d 00 39 00 44 00 6b 00 71 00 52 00 41 00 4c 00 6f 00 44 00))}
+		$c = {((36 51 56 53 4f 5a 48 51 50 43 4d 63 32 41 38 48 58 64 73 66 75 4e 5a 63 6d 55 6e 49 71 57 72 4f 49 6a 72 6a 77 4f 65 61 67 49 4c 6e 6e 53 63 78 61 64 4b 45 72 31 48 32 4d 5a 4e 77 53 6e 61 4a) | (36 00 51 00 56 00 53 00 4f 00 5a 00 48 00 51 00 50 00 43 00 4d 00 63 00 32 00 41 00 38 00 48 00 58 00 64 00 73 00 66 00 75 00 4e 00 5a 00 63 00 6d 00 55 00 6e 00 49 00 71 00 57 00 72 00 4f 00 49 00 6a 00 72 00 6a 00 77 00 4f 00 65 00 61 00 67 00 49 00 4c 00 6e 00 6e 00 53 00 63 00 78 00 61 00 64 00 4b 00 45 00 72 00 31 00 48 00 32 00 4d 00 5a 00 4e 00 77 00 53 00 6e 00 61 00 4a 00))}
+
+	condition:
+		any of them
 }
 
-rule APT1_WEBC2_BOLID
+rule ccrewSSLBack2 : hardened
 {
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
+	meta:
+		author = "AlienVault Labs"
+		info = "CommentCrew-threat-apt1"
 
-    strings:
-        $vm = "VMProtect" wide ascii
-        $http = "http://[c2_location]/[page].html" wide ascii
-    condition:
-        all of them
+	strings:
+		$a = {39 82 49 42 BE 1F 3A}
+
+	condition:
+		any of them
 }
 
-rule APT1_WEBC2_ADSPACE
+rule ccrewSSLBack3 : hardened
 {
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
+	meta:
+		author = "AlienVault Labs"
+		info = "CommentCrew-threat-apt1"
 
-    strings:
-        $1 = "<!---HEADER ADSPACE style=" wide ascii
-        $2 = "ERSVC.DLL" wide ascii
-    condition:
-        all of them
+	strings:
+		$a = {((53 4c 59 48 4b 41 41 59) | (53 00 4c 00 59 00 48 00 4b 00 41 00 41 00 59 00))}
+
+	condition:
+		any of them
 }
 
-rule APT1_WEBC2_AUSOV
+rule ccrewSSLBack1 : hardened
 {
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
+	meta:
+		author = "AlienVault Labs"
+		info = "CommentCrew-threat-apt1"
 
-    strings:
-        $1 = "ntshrui.dll" wide ascii
-        $2 = "%SystemRoot%\\System32\\" wide ascii
-        $3 = "<!--DOCHTML" wide ascii
-        $4 = "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)" wide ascii
-        $5 = "Ausov" wide ascii
-    condition:
-        4 of them
+	strings:
+		$a = {((21 40 23 25 24 5e 23 40 21) | (21 00 40 00 23 00 25 00 24 00 5e 00 23 00 40 00 21 00))}
+		$b = {((36 34 2e 39 31 2e 38 30 2e 36) | (36 00 34 00 2e 00 39 00 31 00 2e 00 38 00 30 00 2e 00 36 00))}
+
+	condition:
+		any of them
 }
 
-rule APT1_WARP
+rule ccrewDownloader3 : hardened
 {
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
+	meta:
+		author = "AlienVault Labs"
+		info = "CommentCrew-threat-apt1"
 
-    strings:
-        $err1 = "exception..." wide ascii
-        $err2 = "failed..." wide ascii
-        $err3 = "opened..." wide ascii
-        $exe1 = "cmd.exe" wide ascii
-        $exe2 = "ISUN32.EXE" wide ascii
-    condition:
-        2 of ($err*) and all of ($exe*)
+	strings:
+		$a = {((65 6a 6c 63 6d 62 76) | (65 00 6a 00 6c 00 63 00 6d 00 62 00 76 00))}
+		$b = {((62 68 78 6a 75 69 73 76) | (62 00 68 00 78 00 6a 00 75 00 69 00 73 00 76 00))}
+		$c = {((79 71 7a 67 72 68) | (79 00 71 00 7a 00 67 00 72 00 68 00))}
+		$d = {((75 71 75 73 6f 66 72 70) | (75 00 71 00 75 00 73 00 6f 00 66 00 72 00 70 00))}
+		$e = {((4c 6a 70 6c 74 6d 69 76 76 64 63 62 62) | (4c 00 6a 00 70 00 6c 00 74 00 6d 00 69 00 76 00 76 00 64 00 63 00 62 00 62 00))}
+		$f = {((66 72 66 6f 67 6a 76 69 69 72 72) | (66 00 72 00 66 00 6f 00 67 00 6a 00 76 00 69 00 69 00 72 00 72 00))}
+		$g = {((78 69 6d 68 74 74 6f 73 6b 6f 70) | (78 00 69 00 6d 00 68 00 74 00 74 00 6f 00 73 00 6b 00 6f 00 70 00))}
+
+	condition:
+		4 of them
 }
 
-rule APT1_TARSIP_ECLIPSE
+rule metaxcd : hardened
 {
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
+	meta:
+		author = "AlienVault Labs"
+		info = "CommentCrew-threat-apt1"
 
-    strings:
-        $1 = "\\pipe\\ssnp" wide ascii
-        $2 = "toobu.ini" wide ascii
-        $3 = "Serverfile is not bigger than Clientfile" wide ascii
-        $4 = "URL download success" wide ascii
-    condition:
-        3 of them
+	strings:
+		$a = {((3c 6d 65 74 61 20 78 63 64 3d) | (3c 00 6d 00 65 00 74 00 61 00 20 00 78 00 63 00 64 00 3d 00))}
+
+	condition:
+		$a
 }
 
-rule APT1_TARSIP_MOON
+rule MiniASP : hardened limited
 {
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
+	meta:
+		author = "AlienVault Labs"
+		info = "CommentCrew-threat-apt1"
 
-    strings:
-        $s1 = "\\XiaoME\\SunCloud-Code\\moon" wide ascii
-        $s2 = "URL download success!" wide ascii
-        $s3 = "Kugoosoft" wide ascii
-        $msg1 = "Modify file failed!! So strange!" wide ascii
-        $msg2 = "Create cmd process failed!" wide ascii
-        $msg3 = "The command has not been implemented!" wide ascii
-        $msg4 = "Runas success!" wide ascii
-        $onec1 = "onec.php" wide ascii
-        $onec2 = "/bin/onec" wide ascii
-    condition:
-        1 of ($s*) and 1 of ($msg*) and 1 of ($onec*)
+	strings:
+		$KEY = { 71 30 6E 63 39 77 38 65 64 61 6F 69 75 6B 32 6D 7A 72 66 79 33 78 74 31 70 35 6C 73 36 37 67 34 62 76 68 6A }
+		$PDB = {((4d 69 6e 69 41 73 70 2e 70 64 62) | (4d 00 69 00 6e 00 69 00 41 00 73 00 70 00 2e 00 70 00 64 00 62 00))}
+
+	condition:
+		any of them
 }
 
-private rule APT1_payloads
+rule DownloaderPossibleCCrew : hardened
 {
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
+	meta:
+		author = "AlienVault Labs"
+		info = "CommentCrew-threat-apt1"
 
-    strings:
-        $pay1 = "rusinfo.exe" wide ascii
-        $pay2 = "cmd.exe" wide ascii
-        $pay3 = "AdobeUpdater.exe" wide ascii
-        $pay4 = "buildout.exe" wide ascii
-        $pay5 = "DefWatch.exe" wide ascii
-        $pay6 = "d.exe" wide ascii
-        $pay7 = "em.exe" wide ascii
-        $pay8 = "IMSCMig.exe" wide ascii
-        $pay9 = "localfile.exe" wide ascii
-        $pay10 = "md.exe" wide ascii
-        $pay11 = "mdm.exe" wide ascii
-        $pay12 = "mimikatz.exe" wide ascii
-        $pay13 = "msdev.exe" wide ascii
-        $pay14 = "ntoskrnl.exe" wide ascii
-        $pay15 = "p.exe" wide ascii
-        $pay16 = "otepad.exe" wide ascii
-        $pay17 = "reg.exe" wide ascii
-        $pay18 = "regsvr.exe" wide ascii
-        $pay19 = "runinfo.exe" wide ascii
-        $pay20 = "AdobeUpdate.exe" wide ascii
-        $pay21 = "inetinfo.exe" wide ascii
-        $pay22 = "svehost.exe" wide ascii
-        $pay23 = "update.exe" wide ascii
-        $pay24 = "NTLMHash.exe" wide ascii
-        $pay25 = "wpnpinst.exe" wide ascii
-        $pay26 = "WSDbg.exe" wide ascii
-        $pay27 = "xcmd.exe" wide ascii
-        $pay28 = "adobeup.exe" wide ascii
-        $pay29 = "0830.bin" wide ascii
-        $pay30 = "1001.bin" wide ascii
-        $pay31 = "a.bin" wide ascii
-        $pay32 = "ISUN32.EXE" wide ascii
-        $pay33 = "AcroRD32.EXE" wide ascii
-        $pay34 = "INETINFO.EXE" wide ascii
-    condition:
-        1 of them
+	strings:
+		$a = {((25 73 3f 25 2e 36 75) | (25 00 73 00 3f 00 25 00 2e 00 36 00 75 00))}
+		$b = {((73 7a 46 69 6c 65 55 72 6c 3d 25 73) | (73 00 7a 00 46 00 69 00 6c 00 65 00 55 00 72 00 6c 00 3d 00 25 00 73 00))}
+		$c = {((73 74 61 74 75 73 3d 25 75) | (73 00 74 00 61 00 74 00 75 00 73 00 3d 00 25 00 75 00))}
+		$d = {((64 6f 77 6e 20 66 69 6c 65 20 73 75 63 63 65 73 73) | (64 00 6f 00 77 00 6e 00 20 00 66 00 69 00 6c 00 65 00 20 00 73 00 75 00 63 00 63 00 65 00 73 00 73 00))}
+		$e = {((4d 6f 7a 69 6c 6c 61 2f 34 2e 30 20 28 63 6f 6d 70 61 74 69 62 6c 65 3b 20 4d 53 49 45 20 36 2e 30 3b 20 57 69 6e 33 32 29) | (4d 00 6f 00 7a 00 69 00 6c 00 6c 00 61 00 2f 00 34 00 2e 00 30 00 20 00 28 00 63 00 6f 00 6d 00 70 00 61 00 74 00 69 00 62 00 6c 00 65 00 3b 00 20 00 4d 00 53 00 49 00 45 00 20 00 36 00 2e 00 30 00 3b 00 20 00 57 00 69 00 6e 00 33 00 32 00 29 00))}
+
+	condition:
+		all of them
 }
 
-private rule APT1_RARSilent_EXE_PDF
+rule APT1_MAPIGET : hardened
 {
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
+	meta:
+		author = "AlienVault Labs"
+		info = "CommentCrew-threat-apt1"
 
-    strings:
-        $winrar1 = "WINRAR.SFX" wide ascii
-        $winrar2 = ";The comment below contains SFX script commands" wide ascii
-        $winrar3 = "Silent=1" wide ascii
+	strings:
+		$s1 = {((25 73 5c 41 74 74 61 63 68 6d 65 6e 74 2e 64 61 74) | (25 00 73 00 5c 00 41 00 74 00 74 00 61 00 63 00 68 00 6d 00 65 00 6e 00 74 00 2e 00 64 00 61 00 74 00))}
+		$s2 = {((4d 79 4f 75 74 6c 6f 6f 6b) | (4d 00 79 00 4f 00 75 00 74 00 6c 00 6f 00 6f 00 6b 00))}
+		$s3 = {((6d 61 69 6c 2e 74 78 74) | (6d 00 61 00 69 00 6c 00 2e 00 74 00 78 00 74 00))}
+		$s4 = {((52 65 63 76 20 54 69 6d 65 3a) | (52 00 65 00 63 00 76 00 20 00 54 00 69 00 6d 00 65 00 3a 00))}
+		$s5 = {((53 75 62 6a 65 63 74 3a) | (53 00 75 00 62 00 6a 00 65 00 63 00 74 00 3a 00))}
 
-        $str1 = /Setup=[\s\w\"]+\.(exe|pdf|doc)/
-        $str2 = "Steup=\"" wide ascii
-    condition:
-        all of ($winrar*) and 1 of ($str*)
+	condition:
+		all of them
 }
 
-rule APT1_aspnetreport
+rule APT1_LIGHTBOLT : hardened
 {
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
+	meta:
+		author = "AlienVault Labs"
+		info = "CommentCrew-threat-apt1"
 
-    strings:
-        $url = "aspnet_client/report.asp" wide ascii
-        $param = "name=%s&Gender=%c&Random=%04d&SessionKey=%s" wide ascii
-    condition:
-        $url and $param and APT1_payloads
+	strings:
+		$str1 = {((62 69 74 73 2e 65 78 65) | (62 00 69 00 74 00 73 00 2e 00 65 00 78 00 65 00))}
+		$str2 = {((50 44 46 42 52 4f 57) | (50 00 44 00 46 00 42 00 52 00 4f 00 57 00))}
+		$str3 = {((42 72 6f 77 73 65 72 2e 65 78 65) | (42 00 72 00 6f 00 77 00 73 00 65 00 72 00 2e 00 65 00 78 00 65 00))}
+		$str4 = {((50 72 6f 74 65 63 74 21) | (50 00 72 00 6f 00 74 00 65 00 63 00 74 00 21 00))}
+
+	condition:
+		2 of them
 }
 
-rule APT1_Revird_svc
+rule APT1_GETMAIL : hardened
 {
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
+	meta:
+		author = "AlienVault Labs"
+		info = "CommentCrew-threat-apt1"
 
-    strings:
-        $dll1 = "nwwwks.dll" wide ascii
-        $dll2 = "rdisk.dll" wide ascii
-        $dll3 = "skeys.dll" wide ascii
-        $dll4 = "SvcHost.DLL.log" wide ascii
-        $svc1 = "InstallService" wide ascii
-        $svc2 = "RundllInstallA" wide ascii
-        $svc3 = "RundllUninstallA" wide ascii
-        $svc4 = "ServiceMain" wide ascii
-        $svc5 = "UninstallService" wide ascii
-    condition:
-        1 of ($dll*) and 2 of ($svc*)
+	strings:
+		$stra1 = {((70 6c 73 20 67 69 76 65 20 74 68 65 20 46 55 4c 4c 20 70 61 74 68) | (70 00 6c 00 73 00 20 00 67 00 69 00 76 00 65 00 20 00 74 00 68 00 65 00 20 00 46 00 55 00 4c 00 4c 00 20 00 70 00 61 00 74 00 68 00))}
+		$stra2 = {((6d 61 70 69 33 32 2e 64 6c 6c) | (6d 00 61 00 70 00 69 00 33 00 32 00 2e 00 64 00 6c 00 6c 00))}
+		$stra3 = {((64 6f 43 6f 6d 70 72 65 73 73) | (64 00 6f 00 43 00 6f 00 6d 00 70 00 72 00 65 00 73 00 73 00))}
+		$strb1 = {((67 65 74 6d 61 69 6c 2e 64 6c 6c) | (67 00 65 00 74 00 6d 00 61 00 69 00 6c 00 2e 00 64 00 6c 00 6c 00))}
+		$strb2 = {((64 6f 43 6f 6d 70 72 65 73 73) | (64 00 6f 00 43 00 6f 00 6d 00 70 00 72 00 65 00 73 00 73 00))}
+		$strb3 = {((6c 6f 76 65) | (6c 00 6f 00 76 00 65 00))}
+
+	condition:
+		all of ( $stra* ) or all of ( $strb* )
 }
 
-rule APT1_letusgo
+rule APT1_GDOCUPLOAD : hardened
 {
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
+	meta:
+		author = "AlienVault Labs"
+		info = "CommentCrew-threat-apt1"
 
-    strings:
-        $letus = /letusgo[\w]+v\d\d?\./
-    condition:
-        $letus
+	strings:
+		$str1 = {((6e 61 6d 65 3d 22 47 41 4c 58 22) | (6e 00 61 00 6d 00 65 00 3d 00 22 00 47 00 41 00 4c 00 58 00 22 00))}
+		$str2 = {((55 73 65 72 2d 41 67 65 6e 74 3a 20 53 68 6f 63 6b 77 61 76 65 20 46 6c 61 73 68) | (55 00 73 00 65 00 72 00 2d 00 41 00 67 00 65 00 6e 00 74 00 3a 00 20 00 53 00 68 00 6f 00 63 00 6b 00 77 00 61 00 76 00 65 00 20 00 46 00 6c 00 61 00 73 00 68 00))}
+		$str3 = {((61 64 64 20 63 6f 6f 6b 69 65 20 66 61 69 6c 65 64 2e 2e 2e) | (61 00 64 00 64 00 20 00 63 00 6f 00 6f 00 6b 00 69 00 65 00 20 00 66 00 61 00 69 00 6c 00 65 00 64 00 2e 00 2e 00 2e 00))}
+		$str4 = {((2c 73 70 65 65 64 3d 25 66) | (2c 00 73 00 70 00 65 00 65 00 64 00 3d 00 25 00 66 00))}
+
+	condition:
+		3 of them
 }
 
-rule APT1_dbg_mess
+rule APT1_WEBC2_Y21K : hardened
 {
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
+	meta:
+		author = "AlienVault Labs"
+		info = "CommentCrew-threat-apt1"
 
-    strings:
-        $dbg1 = "Down file ok!" wide ascii
-        $dbg2 = "Send file ok!" wide ascii
-        $dbg3 = "Command Error!" wide ascii
-        $dbg4 = "Pls choose target first!" wide ascii
-        $dbg5 = "Alert!" wide ascii
-        $dbg6 = "Pls press enter to make sure!" wide ascii
-        $dbg7 = "Are you sure to " wide ascii
-    condition:
-        4 of them and APT1_payloads
+	strings:
+		$1 = {((59 32 39 75 62 6d 56 6a 64 41) | (59 00 32 00 39 00 75 00 62 00 6d 00 56 00 6a 00 64 00 41 00))}
+		$2 = {((63 32 78 6c 5a 58 41) | (63 00 32 00 78 00 6c 00 5a 00 58 00 41 00))}
+		$3 = {((63 58 56 70 64 41) | (63 00 58 00 56 00 70 00 64 00 41 00))}
+		$4 = {((59 32 31 6b) | (59 00 32 00 31 00 6b 00))}
+		$5 = {((64 57 35 7a 64 58 42 77 62 33 4a 30) | (64 00 57 00 35 00 7a 00 64 00 58 00 42 00 77 00 62 00 33 00 4a 00 30 00))}
+
+	condition:
+		4 of them
 }
 
-rule APT1_known_malicious_RARSilent
+rule APT1_WEBC2_YAHOO : hardened
 {
-    meta:
-        author = "AlienVault Labs"
-        info = "CommentCrew-threat-apt1"
+	meta:
+		author = "AlienVault Labs"
+		info = "CommentCrew-threat-apt1"
 
-    strings:
-        $str1 = "Analysis And Outlook.doc\"" wide ascii
-        $str2 = "North Korean launch.pdf\"" wide ascii
-        $str3 = "Dollar General.doc\"" wide ascii
-        $str4 = "Dow Corning Corp.pdf\"" wide ascii
-    condition:
-        1 of them and APT1_RARSilent_EXE_PDF
+	strings:
+		$http1 = {((48 54 54 50 2f 31 2e 30) | (48 00 54 00 54 00 50 00 2f 00 31 00 2e 00 30 00))}
+		$http2 = {((43 6f 6e 74 65 6e 74 2d 54 79 70 65 3a) | (43 00 6f 00 6e 00 74 00 65 00 6e 00 74 00 2d 00 54 00 79 00 70 00 65 00 3a 00))}
+		$uagent = {((49 50 48 4f 4e 45 38 2e 35 28 68 6f 73 74 3a 25 73 2c 69 70 3a 25 73 29) | (49 00 50 00 48 00 4f 00 4e 00 45 00 38 00 2e 00 35 00 28 00 68 00 6f 00 73 00 74 00 3a 00 25 00 73 00 2c 00 69 00 70 00 3a 00 25 00 73 00 29 00))}
+
+	condition:
+		all of them
 }
+
+rule APT1_WEBC2_UGX : hardened
+{
+	meta:
+		author = "AlienVault Labs"
+		info = "CommentCrew-threat-apt1"
+
+	strings:
+		$persis = {((53 4f 46 54 57 41 52 45 5c 4d 49 43 52 4f 53 4f 46 54 5c 57 49 4e 44 4f 57 53 5c 43 55 52 52 45 4e 54 56 45 52 53 49 4f 4e 5c 52 55 4e) | (53 00 4f 00 46 00 54 00 57 00 41 00 52 00 45 00 5c 00 4d 00 49 00 43 00 52 00 4f 00 53 00 4f 00 46 00 54 00 5c 00 57 00 49 00 4e 00 44 00 4f 00 57 00 53 00 5c 00 43 00 55 00 52 00 52 00 45 00 4e 00 54 00 56 00 45 00 52 00 53 00 49 00 4f 00 4e 00 5c 00 52 00 55 00 4e 00))}
+		$exe = {((44 65 66 57 61 74 63 68 2e 65 78 65) | (44 00 65 00 66 00 57 00 61 00 74 00 63 00 68 00 2e 00 65 00 78 00 65 00))}
+		$html = {((69 6e 64 65 78 31 2e 68 74 6d 6c) | (69 00 6e 00 64 00 65 00 78 00 31 00 2e 00 68 00 74 00 6d 00 6c 00))}
+		$cmd1 = {((21 40 23 74 69 75 71 23 40 21) | (21 00 40 00 23 00 74 00 69 00 75 00 71 00 23 00 40 00 21 00))}
+		$cmd2 = {((21 40 23 64 6d 63 23 40 21) | (21 00 40 00 23 00 64 00 6d 00 63 00 23 00 40 00 21 00))}
+		$cmd3 = {((21 40 23 74 72 6f 70 70 75 73 6e 75 23 40 21) | (21 00 40 00 23 00 74 00 72 00 6f 00 70 00 70 00 75 00 73 00 6e 00 75 00 23 00 40 00 21 00))}
+
+	condition:
+		3 of them
+}
+
+rule APT1_WEBC2_TOCK : hardened
+{
+	meta:
+		author = "AlienVault Labs"
+		info = "CommentCrew-threat-apt1"
+
+	strings:
+		$1 = {((49 6e 70 72 6f 63 53 65 72 76 65 72 33 32) | (49 00 6e 00 70 00 72 00 6f 00 63 00 53 00 65 00 72 00 76 00 65 00 72 00 33 00 32 00))}
+		$2 = {((48 4b 45 59 5f 50 45 52 46 4f 52 4d 41 4e 43 45 5f 44 41 54 41) | (48 00 4b 00 45 00 59 00 5f 00 50 00 45 00 52 00 46 00 4f 00 52 00 4d 00 41 00 4e 00 43 00 45 00 5f 00 44 00 41 00 54 00 41 00))}
+		$3 = {((3c 21 2d 2d 2d 5b 3c 69 66 20 49 45 20 35 3e 5d 69 64 3d) | (3c 00 21 00 2d 00 2d 00 2d 00 5b 00 3c 00 69 00 66 00 20 00 49 00 45 00 20 00 35 00 3e 00 5d 00 69 00 64 00 3d 00))}
+
+	condition:
+		all of them
+}
+
+rule APT1_WEBC2_TABLE : hardened
+{
+	meta:
+		author = "AlienVault Labs"
+		info = "CommentCrew-threat-apt1"
+
+	strings:
+		$msg1 = {((46 61 69 6c 20 54 6f 20 45 78 65 63 75 74 65 20 54 68 65 20 43 6f 6d 6d 61 6e 64) | (46 00 61 00 69 00 6c 00 20 00 54 00 6f 00 20 00 45 00 78 00 65 00 63 00 75 00 74 00 65 00 20 00 54 00 68 00 65 00 20 00 43 00 6f 00 6d 00 6d 00 61 00 6e 00 64 00))}
+		$msg2 = {((45 78 65 63 75 74 65 20 54 68 65 20 43 6f 6d 6d 61 6e 64 20 53 75 63 63 65 73 73 66 75 6c 6c 79) | (45 00 78 00 65 00 63 00 75 00 74 00 65 00 20 00 54 00 68 00 65 00 20 00 43 00 6f 00 6d 00 6d 00 61 00 6e 00 64 00 20 00 53 00 75 00 63 00 63 00 65 00 73 00 73 00 66 00 75 00 6c 00 6c 00 79 00))}
+		$gif1 = /\w+\.gif/
+		$gif2 = {((47 49 46 38 39) | (47 00 49 00 46 00 38 00 39 00))}
+
+	condition:
+		3 of them
+}
+
+rule APT1_WEBC2_RAVE : hardened
+{
+	meta:
+		author = "AlienVault Labs"
+		info = "CommentCrew-threat-apt1"
+
+	strings:
+		$1 = {((69 6e 69 65 74 2e 65 78 65) | (69 00 6e 00 69 00 65 00 74 00 2e 00 65 00 78 00 65 00))}
+		$2 = {((63 6d 64 2e 65 78 65) | (63 00 6d 00 64 00 2e 00 65 00 78 00 65 00))}
+		$3 = {((53 59 53 54 45 4d 5c 43 75 72 72 65 6e 74 43 6f 6e 74 72 6f 6c 53 65 74 5c 53 65 72 76 69 63 65 73 5c 44 45 56 46 53) | (53 00 59 00 53 00 54 00 45 00 4d 00 5c 00 43 00 75 00 72 00 72 00 65 00 6e 00 74 00 43 00 6f 00 6e 00 74 00 72 00 6f 00 6c 00 53 00 65 00 74 00 5c 00 53 00 65 00 72 00 76 00 69 00 63 00 65 00 73 00 5c 00 44 00 45 00 56 00 46 00 53 00))}
+		$4 = {((44 65 76 69 63 65 20 46 69 6c 65 20 53 79 73 74 65 6d) | (44 00 65 00 76 00 69 00 63 00 65 00 20 00 46 00 69 00 6c 00 65 00 20 00 53 00 79 00 73 00 74 00 65 00 6d 00))}
+
+	condition:
+		3 of them
+}
+
+rule APT1_WEBC2_QBP : hardened
+{
+	meta:
+		author = "AlienVault Labs"
+		info = "CommentCrew-threat-apt1"
+
+	strings:
+		$1 = {((32 30 31 30 51 42 50) | (32 00 30 00 31 00 30 00 51 00 42 00 50 00))}
+		$2 = {((61 64 6f 62 65 5f 73 6c 2e 65 78 65) | (61 00 64 00 6f 00 62 00 65 00 5f 00 73 00 6c 00 2e 00 65 00 78 00 65 00))}
+		$3 = {((55 52 4c 44 6f 77 6e 6c 6f 61 64 54 6f 43 61 63 68 65 46 69 6c 65) | (55 00 52 00 4c 00 44 00 6f 00 77 00 6e 00 6c 00 6f 00 61 00 64 00 54 00 6f 00 43 00 61 00 63 00 68 00 65 00 46 00 69 00 6c 00 65 00))}
+		$4 = {((64 6e 73 61 70 69 2e 64 6c 6c) | (64 00 6e 00 73 00 61 00 70 00 69 00 2e 00 64 00 6c 00 6c 00))}
+		$5 = {((75 72 6c 6d 6f 6e 2e 64 6c 6c) | (75 00 72 00 6c 00 6d 00 6f 00 6e 00 2e 00 64 00 6c 00 6c 00))}
+
+	condition:
+		4 of them
+}
+
+rule APT1_WEBC2_KT3 : hardened
+{
+	meta:
+		author = "AlienVault Labs"
+		info = "CommentCrew-threat-apt1"
+
+	strings:
+		$1 = {((2a 21 4b 74 33 2b 76 7c) | (2a 00 21 00 4b 00 74 00 33 00 2b 00 76 00 7c 00))}
+		$2 = {((20 73 3a) | (20 00 73 00 3a 00))}
+		$3 = {((20 64 6e 65) | (20 00 64 00 6e 00 65 00))}
+
+	condition:
+		all of them
+}
+
+rule APT1_WEBC2_HEAD : hardened
+{
+	meta:
+		author = "AlienVault Labs"
+		info = "CommentCrew-threat-apt1"
+
+	strings:
+		$1 = {((52 65 61 64 79 21) | (52 00 65 00 61 00 64 00 79 00 21 00))}
+		$2 = {((63 6f 6e 6e 65 63 74 20 6f 6b) | (63 00 6f 00 6e 00 6e 00 65 00 63 00 74 00 20 00 6f 00 6b 00))}
+		$3 = {((57 69 6e 48 54 54 50 20 31 2e 30) | (57 00 69 00 6e 00 48 00 54 00 54 00 50 00 20 00 31 00 2e 00 30 00))}
+		$4 = {((3c 68 65 61 64 3e) | (3c 00 68 00 65 00 61 00 64 00 3e 00))}
+
+	condition:
+		all of them
+}
+
+rule APT1_WEBC2_GREENCAT : hardened
+{
+	meta:
+		author = "AlienVault Labs"
+		info = "CommentCrew-threat-apt1"
+
+	strings:
+		$1 = {((72 65 61 64 65 72 5f 73 6c 2e 65 78 65) | (72 00 65 00 61 00 64 00 65 00 72 00 5f 00 73 00 6c 00 2e 00 65 00 78 00 65 00))}
+		$2 = {((4d 53 38 30 35 34 37 2e 62 61 74) | (4d 00 53 00 38 00 30 00 35 00 34 00 37 00 2e 00 62 00 61 00 74 00))}
+		$3 = {((41 44 52 33 32) | (41 00 44 00 52 00 33 00 32 00))}
+		$4 = {((43 6f 6e 74 72 6f 6c 53 65 72 76 69 63 65 20 66 61 69 6c 65 64 21) | (43 00 6f 00 6e 00 74 00 72 00 6f 00 6c 00 53 00 65 00 72 00 76 00 69 00 63 00 65 00 20 00 66 00 61 00 69 00 6c 00 65 00 64 00 21 00))}
+
+	condition:
+		3 of them
+}
+
+rule APT1_WEBC2_DIV : hardened
+{
+	meta:
+		author = "AlienVault Labs"
+		info = "CommentCrew-threat-apt1"
+
+	strings:
+		$1 = {((33 44 43 37 36 38 35 34 2d 43 33 32 38 2d 34 33 44 37 2d 39 45 30 37 2d 32 34 42 46 38 39 34 46 38 45 46 35) | (33 00 44 00 43 00 37 00 36 00 38 00 35 00 34 00 2d 00 43 00 33 00 32 00 38 00 2d 00 34 00 33 00 44 00 37 00 2d 00 39 00 45 00 30 00 37 00 2d 00 32 00 34 00 42 00 46 00 38 00 39 00 34 00 46 00 38 00 45 00 46 00 35 00))}
+		$2 = {((48 4b 45 59 5f 43 55 52 52 45 4e 54 5f 55 53 45 52 5c 53 6f 66 74 77 61 72 65 5c 4d 69 63 72 6f 73 6f 66 74 5c 57 69 6e 64 6f 77 73 5c 43 75 72 72 65 6e 74 56 65 72 73 69 6f 6e 5c 52 75 6e) | (48 00 4b 00 45 00 59 00 5f 00 43 00 55 00 52 00 52 00 45 00 4e 00 54 00 5f 00 55 00 53 00 45 00 52 00 5c 00 53 00 6f 00 66 00 74 00 77 00 61 00 72 00 65 00 5c 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 5c 00 43 00 75 00 72 00 72 00 65 00 6e 00 74 00 56 00 65 00 72 00 73 00 69 00 6f 00 6e 00 5c 00 52 00 75 00 6e 00))}
+		$3 = {((48 65 6c 6c 6f 20 66 72 6f 6d 20 4d 46 43 21) | (48 00 65 00 6c 00 6c 00 6f 00 20 00 66 00 72 00 6f 00 6d 00 20 00 4d 00 46 00 43 00 21 00))}
+		$4 = {((4d 69 63 72 6f 73 6f 66 74 20 49 6e 74 65 72 6e 65 74 20 45 78 70 6c 6f 72 65 72) | (4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 20 00 49 00 6e 00 74 00 65 00 72 00 6e 00 65 00 74 00 20 00 45 00 78 00 70 00 6c 00 6f 00 72 00 65 00 72 00))}
+
+	condition:
+		3 of them
+}
+
+rule APT1_WEBC2_CSON : hardened
+{
+	meta:
+		author = "AlienVault Labs"
+		info = "CommentCrew-threat-apt1"
+
+	strings:
+		$httpa1 = {((2f 44 65 66 61 75 6c 74 2e 61 73 70 78 3f 49 4e 44 45 58 3d) | (2f 00 44 00 65 00 66 00 61 00 75 00 6c 00 74 00 2e 00 61 00 73 00 70 00 78 00 3f 00 49 00 4e 00 44 00 45 00 58 00 3d 00))}
+		$httpa2 = {((2f 44 65 66 61 75 6c 74 2e 61 73 70 78 3f 49 44 3d) | (2f 00 44 00 65 00 66 00 61 00 75 00 6c 00 74 00 2e 00 61 00 73 00 70 00 78 00 3f 00 49 00 44 00 3d 00))}
+		$httpb1 = {((57 69 6e 33 32) | (57 00 69 00 6e 00 33 00 32 00))}
+		$httpb2 = {((41 63 63 65 70 74 3a 20 74 65 78 74 2a 2f 2a) | (41 00 63 00 63 00 65 00 70 00 74 00 3a 00 20 00 74 00 65 00 78 00 74 00 2a 00 2f 00 2a 00))}
+		$exe1 = {((78 63 6d 64 2e 65 78 65) | (78 00 63 00 6d 00 64 00 2e 00 65 00 78 00 65 00))}
+		$exe2 = {((47 6f 6f 67 6c 65 2e 65 78 65) | (47 00 6f 00 6f 00 67 00 6c 00 65 00 2e 00 65 00 78 00 65 00))}
+
+	condition:
+		1 of ( $exe* ) and 1 of ( $httpa* ) and all of ( $httpb* )
+}
+
+rule APT1_WEBC2_CLOVER : hardened
+{
+	meta:
+		author = "AlienVault Labs"
+		info = "CommentCrew-threat-apt1"
+
+	strings:
+		$msg1 = {((42 55 49 4c 44 20 45 52 52 4f 52 21) | (42 00 55 00 49 00 4c 00 44 00 20 00 45 00 52 00 52 00 4f 00 52 00 21 00))}
+		$msg2 = {((53 55 43 43 45 53 53 21) | (53 00 55 00 43 00 43 00 45 00 53 00 53 00 21 00))}
+		$msg3 = {((77 69 6c 64 20 73 63 61 6e) | (77 00 69 00 6c 00 64 00 20 00 73 00 63 00 61 00 6e 00))}
+		$msg4 = {((43 6f 64 65 20 74 6f 6f 20 63 6c 65 76 65 72) | (43 00 6f 00 64 00 65 00 20 00 74 00 6f 00 6f 00 20 00 63 00 6c 00 65 00 76 00 65 00 72 00))}
+		$msg5 = {((69 6e 73 75 66 66 69 63 69 65 6e 74 20 6c 6f 6f 6b 61 68 65 61 64) | (69 00 6e 00 73 00 75 00 66 00 66 00 69 00 63 00 69 00 65 00 6e 00 74 00 20 00 6c 00 6f 00 6f 00 6b 00 61 00 68 00 65 00 61 00 64 00))}
+		$ua1 = {((4d 6f 7a 69 6c 6c 61 2f 34 2e 30 20 28 63 6f 6d 70 61 74 69 62 6c 65 3b 20 4d 53 49 45 20 36 2e 31 3b 20 57 69 6e 64 6f 77 73 20 4e 54 20 35 2e 31 3b 20 53 56 31 29) | (4d 00 6f 00 7a 00 69 00 6c 00 6c 00 61 00 2f 00 34 00 2e 00 30 00 20 00 28 00 63 00 6f 00 6d 00 70 00 61 00 74 00 69 00 62 00 6c 00 65 00 3b 00 20 00 4d 00 53 00 49 00 45 00 20 00 36 00 2e 00 31 00 3b 00 20 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 4e 00 54 00 20 00 35 00 2e 00 31 00 3b 00 20 00 53 00 56 00 31 00 29 00))}
+		$ua2 = {((4d 6f 7a 69 6c 6c 61 2f 35 2e 30 20 28 57 69 6e 64 6f 77 73 3b 20 57 69 6e 64 6f 77 73 20 4e 54 20 35 2e 31 3b 20 65 6e 2d 55 53 3b 20 72 76 3a 31 2e 38 2e 30 2e 31 32 29 20 46 69 72 65 66 6f 78 2f 31 2e 35 2e 30 2e 31 32) | (4d 00 6f 00 7a 00 69 00 6c 00 6c 00 61 00 2f 00 35 00 2e 00 30 00 20 00 28 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 3b 00 20 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 4e 00 54 00 20 00 35 00 2e 00 31 00 3b 00 20 00 65 00 6e 00 2d 00 55 00 53 00 3b 00 20 00 72 00 76 00 3a 00 31 00 2e 00 38 00 2e 00 30 00 2e 00 31 00 32 00 29 00 20 00 46 00 69 00 72 00 65 00 66 00 6f 00 78 00 2f 00 31 00 2e 00 35 00 2e 00 30 00 2e 00 31 00 32 00))}
+
+	condition:
+		2 of ( $msg* ) and 1 of ( $ua* )
+}
+
+rule APT1_WEBC2_BOLID : hardened
+{
+	meta:
+		author = "AlienVault Labs"
+		info = "CommentCrew-threat-apt1"
+
+	strings:
+		$vm = {((56 4d 50 72 6f 74 65 63 74) | (56 00 4d 00 50 00 72 00 6f 00 74 00 65 00 63 00 74 00))}
+		$http = {((68 74 74 70 3a 2f 2f 5b 63 32 5f 6c 6f 63 61 74 69 6f 6e 5d 2f 5b 70 61 67 65 5d 2e 68 74 6d 6c) | (68 00 74 00 74 00 70 00 3a 00 2f 00 2f 00 5b 00 63 00 32 00 5f 00 6c 00 6f 00 63 00 61 00 74 00 69 00 6f 00 6e 00 5d 00 2f 00 5b 00 70 00 61 00 67 00 65 00 5d 00 2e 00 68 00 74 00 6d 00 6c 00))}
+
+	condition:
+		all of them
+}
+
+rule APT1_WEBC2_ADSPACE : hardened
+{
+	meta:
+		author = "AlienVault Labs"
+		info = "CommentCrew-threat-apt1"
+
+	strings:
+		$1 = {((3c 21 2d 2d 2d 48 45 41 44 45 52 20 41 44 53 50 41 43 45 20 73 74 79 6c 65 3d) | (3c 00 21 00 2d 00 2d 00 2d 00 48 00 45 00 41 00 44 00 45 00 52 00 20 00 41 00 44 00 53 00 50 00 41 00 43 00 45 00 20 00 73 00 74 00 79 00 6c 00 65 00 3d 00))}
+		$2 = {((45 52 53 56 43 2e 44 4c 4c) | (45 00 52 00 53 00 56 00 43 00 2e 00 44 00 4c 00 4c 00))}
+
+	condition:
+		all of them
+}
+
+rule APT1_WEBC2_AUSOV : hardened
+{
+	meta:
+		author = "AlienVault Labs"
+		info = "CommentCrew-threat-apt1"
+
+	strings:
+		$1 = {((6e 74 73 68 72 75 69 2e 64 6c 6c) | (6e 00 74 00 73 00 68 00 72 00 75 00 69 00 2e 00 64 00 6c 00 6c 00))}
+		$2 = {((25 53 79 73 74 65 6d 52 6f 6f 74 25 5c 53 79 73 74 65 6d 33 32 5c) | (25 00 53 00 79 00 73 00 74 00 65 00 6d 00 52 00 6f 00 6f 00 74 00 25 00 5c 00 53 00 79 00 73 00 74 00 65 00 6d 00 33 00 32 00 5c 00))}
+		$3 = {((3c 21 2d 2d 44 4f 43 48 54 4d 4c) | (3c 00 21 00 2d 00 2d 00 44 00 4f 00 43 00 48 00 54 00 4d 00 4c 00))}
+		$4 = {((4d 6f 7a 69 6c 6c 61 2f 34 2e 30 20 28 63 6f 6d 70 61 74 69 62 6c 65 3b 20 4d 53 49 45 20 36 2e 30 3b 20 57 69 6e 64 6f 77 73 20 4e 54 20 35 2e 31 29) | (4d 00 6f 00 7a 00 69 00 6c 00 6c 00 61 00 2f 00 34 00 2e 00 30 00 20 00 28 00 63 00 6f 00 6d 00 70 00 61 00 74 00 69 00 62 00 6c 00 65 00 3b 00 20 00 4d 00 53 00 49 00 45 00 20 00 36 00 2e 00 30 00 3b 00 20 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 4e 00 54 00 20 00 35 00 2e 00 31 00 29 00))}
+		$5 = {((41 75 73 6f 76) | (41 00 75 00 73 00 6f 00 76 00))}
+
+	condition:
+		4 of them
+}
+
+rule APT1_WARP : hardened
+{
+	meta:
+		author = "AlienVault Labs"
+		info = "CommentCrew-threat-apt1"
+
+	strings:
+		$err1 = {((65 78 63 65 70 74 69 6f 6e 2e 2e 2e) | (65 00 78 00 63 00 65 00 70 00 74 00 69 00 6f 00 6e 00 2e 00 2e 00 2e 00))}
+		$err2 = {((66 61 69 6c 65 64 2e 2e 2e) | (66 00 61 00 69 00 6c 00 65 00 64 00 2e 00 2e 00 2e 00))}
+		$err3 = {((6f 70 65 6e 65 64 2e 2e 2e) | (6f 00 70 00 65 00 6e 00 65 00 64 00 2e 00 2e 00 2e 00))}
+		$exe1 = {((63 6d 64 2e 65 78 65) | (63 00 6d 00 64 00 2e 00 65 00 78 00 65 00))}
+		$exe2 = {((49 53 55 4e 33 32 2e 45 58 45) | (49 00 53 00 55 00 4e 00 33 00 32 00 2e 00 45 00 58 00 45 00))}
+
+	condition:
+		2 of ( $err* ) and all of ( $exe* )
+}
+
+rule APT1_TARSIP_ECLIPSE : hardened
+{
+	meta:
+		author = "AlienVault Labs"
+		info = "CommentCrew-threat-apt1"
+
+	strings:
+		$1 = {((5c 70 69 70 65 5c 73 73 6e 70) | (5c 00 70 00 69 00 70 00 65 00 5c 00 73 00 73 00 6e 00 70 00))}
+		$2 = {((74 6f 6f 62 75 2e 69 6e 69) | (74 00 6f 00 6f 00 62 00 75 00 2e 00 69 00 6e 00 69 00))}
+		$3 = {((53 65 72 76 65 72 66 69 6c 65 20 69 73 20 6e 6f 74 20 62 69 67 67 65 72 20 74 68 61 6e 20 43 6c 69 65 6e 74 66 69 6c 65) | (53 00 65 00 72 00 76 00 65 00 72 00 66 00 69 00 6c 00 65 00 20 00 69 00 73 00 20 00 6e 00 6f 00 74 00 20 00 62 00 69 00 67 00 67 00 65 00 72 00 20 00 74 00 68 00 61 00 6e 00 20 00 43 00 6c 00 69 00 65 00 6e 00 74 00 66 00 69 00 6c 00 65 00))}
+		$4 = {((55 52 4c 20 64 6f 77 6e 6c 6f 61 64 20 73 75 63 63 65 73 73) | (55 00 52 00 4c 00 20 00 64 00 6f 00 77 00 6e 00 6c 00 6f 00 61 00 64 00 20 00 73 00 75 00 63 00 63 00 65 00 73 00 73 00))}
+
+	condition:
+		3 of them
+}
+
+rule APT1_TARSIP_MOON : hardened
+{
+	meta:
+		author = "AlienVault Labs"
+		info = "CommentCrew-threat-apt1"
+
+	strings:
+		$s1 = {((5c 58 69 61 6f 4d 45 5c 53 75 6e 43 6c 6f 75 64 2d 43 6f 64 65 5c 6d 6f 6f 6e) | (5c 00 58 00 69 00 61 00 6f 00 4d 00 45 00 5c 00 53 00 75 00 6e 00 43 00 6c 00 6f 00 75 00 64 00 2d 00 43 00 6f 00 64 00 65 00 5c 00 6d 00 6f 00 6f 00 6e 00))}
+		$s2 = {((55 52 4c 20 64 6f 77 6e 6c 6f 61 64 20 73 75 63 63 65 73 73 21) | (55 00 52 00 4c 00 20 00 64 00 6f 00 77 00 6e 00 6c 00 6f 00 61 00 64 00 20 00 73 00 75 00 63 00 63 00 65 00 73 00 73 00 21 00))}
+		$s3 = {((4b 75 67 6f 6f 73 6f 66 74) | (4b 00 75 00 67 00 6f 00 6f 00 73 00 6f 00 66 00 74 00))}
+		$msg1 = {((4d 6f 64 69 66 79 20 66 69 6c 65 20 66 61 69 6c 65 64 21 21 20 53 6f 20 73 74 72 61 6e 67 65 21) | (4d 00 6f 00 64 00 69 00 66 00 79 00 20 00 66 00 69 00 6c 00 65 00 20 00 66 00 61 00 69 00 6c 00 65 00 64 00 21 00 21 00 20 00 53 00 6f 00 20 00 73 00 74 00 72 00 61 00 6e 00 67 00 65 00 21 00))}
+		$msg2 = {((43 72 65 61 74 65 20 63 6d 64 20 70 72 6f 63 65 73 73 20 66 61 69 6c 65 64 21) | (43 00 72 00 65 00 61 00 74 00 65 00 20 00 63 00 6d 00 64 00 20 00 70 00 72 00 6f 00 63 00 65 00 73 00 73 00 20 00 66 00 61 00 69 00 6c 00 65 00 64 00 21 00))}
+		$msg3 = {((54 68 65 20 63 6f 6d 6d 61 6e 64 20 68 61 73 20 6e 6f 74 20 62 65 65 6e 20 69 6d 70 6c 65 6d 65 6e 74 65 64 21) | (54 00 68 00 65 00 20 00 63 00 6f 00 6d 00 6d 00 61 00 6e 00 64 00 20 00 68 00 61 00 73 00 20 00 6e 00 6f 00 74 00 20 00 62 00 65 00 65 00 6e 00 20 00 69 00 6d 00 70 00 6c 00 65 00 6d 00 65 00 6e 00 74 00 65 00 64 00 21 00))}
+		$msg4 = {((52 75 6e 61 73 20 73 75 63 63 65 73 73 21) | (52 00 75 00 6e 00 61 00 73 00 20 00 73 00 75 00 63 00 63 00 65 00 73 00 73 00 21 00))}
+		$onec1 = {((6f 6e 65 63 2e 70 68 70) | (6f 00 6e 00 65 00 63 00 2e 00 70 00 68 00 70 00))}
+		$onec2 = {((2f 62 69 6e 2f 6f 6e 65 63) | (2f 00 62 00 69 00 6e 00 2f 00 6f 00 6e 00 65 00 63 00))}
+
+	condition:
+		1 of ( $s* ) and 1 of ( $msg* ) and 1 of ( $onec* )
+}
+
+private rule APT1_payloads : hardened
+{
+	meta:
+		author = "AlienVault Labs"
+		info = "CommentCrew-threat-apt1"
+
+	strings:
+		$pay1 = {((72 75 73 69 6e 66 6f 2e 65 78 65) | (72 00 75 00 73 00 69 00 6e 00 66 00 6f 00 2e 00 65 00 78 00 65 00))}
+		$pay2 = {((63 6d 64 2e 65 78 65) | (63 00 6d 00 64 00 2e 00 65 00 78 00 65 00))}
+		$pay3 = {((41 64 6f 62 65 55 70 64 61 74 65 72 2e 65 78 65) | (41 00 64 00 6f 00 62 00 65 00 55 00 70 00 64 00 61 00 74 00 65 00 72 00 2e 00 65 00 78 00 65 00))}
+		$pay4 = {((62 75 69 6c 64 6f 75 74 2e 65 78 65) | (62 00 75 00 69 00 6c 00 64 00 6f 00 75 00 74 00 2e 00 65 00 78 00 65 00))}
+		$pay5 = {((44 65 66 57 61 74 63 68 2e 65 78 65) | (44 00 65 00 66 00 57 00 61 00 74 00 63 00 68 00 2e 00 65 00 78 00 65 00))}
+		$pay6 = {((64 2e 65 78 65) | (64 00 2e 00 65 00 78 00 65 00))}
+		$pay7 = {((65 6d 2e 65 78 65) | (65 00 6d 00 2e 00 65 00 78 00 65 00))}
+		$pay8 = {((49 4d 53 43 4d 69 67 2e 65 78 65) | (49 00 4d 00 53 00 43 00 4d 00 69 00 67 00 2e 00 65 00 78 00 65 00))}
+		$pay9 = {((6c 6f 63 61 6c 66 69 6c 65 2e 65 78 65) | (6c 00 6f 00 63 00 61 00 6c 00 66 00 69 00 6c 00 65 00 2e 00 65 00 78 00 65 00))}
+		$pay10 = {((6d 64 2e 65 78 65) | (6d 00 64 00 2e 00 65 00 78 00 65 00))}
+		$pay11 = {((6d 64 6d 2e 65 78 65) | (6d 00 64 00 6d 00 2e 00 65 00 78 00 65 00))}
+		$pay12 = {((6d 69 6d 69 6b 61 74 7a 2e 65 78 65) | (6d 00 69 00 6d 00 69 00 6b 00 61 00 74 00 7a 00 2e 00 65 00 78 00 65 00))}
+		$pay13 = {((6d 73 64 65 76 2e 65 78 65) | (6d 00 73 00 64 00 65 00 76 00 2e 00 65 00 78 00 65 00))}
+		$pay14 = {((6e 74 6f 73 6b 72 6e 6c 2e 65 78 65) | (6e 00 74 00 6f 00 73 00 6b 00 72 00 6e 00 6c 00 2e 00 65 00 78 00 65 00))}
+		$pay15 = {((70 2e 65 78 65) | (70 00 2e 00 65 00 78 00 65 00))}
+		$pay16 = {((6f 74 65 70 61 64 2e 65 78 65) | (6f 00 74 00 65 00 70 00 61 00 64 00 2e 00 65 00 78 00 65 00))}
+		$pay17 = {((72 65 67 2e 65 78 65) | (72 00 65 00 67 00 2e 00 65 00 78 00 65 00))}
+		$pay18 = {((72 65 67 73 76 72 2e 65 78 65) | (72 00 65 00 67 00 73 00 76 00 72 00 2e 00 65 00 78 00 65 00))}
+		$pay19 = {((72 75 6e 69 6e 66 6f 2e 65 78 65) | (72 00 75 00 6e 00 69 00 6e 00 66 00 6f 00 2e 00 65 00 78 00 65 00))}
+		$pay20 = {((41 64 6f 62 65 55 70 64 61 74 65 2e 65 78 65) | (41 00 64 00 6f 00 62 00 65 00 55 00 70 00 64 00 61 00 74 00 65 00 2e 00 65 00 78 00 65 00))}
+		$pay21 = {((69 6e 65 74 69 6e 66 6f 2e 65 78 65) | (69 00 6e 00 65 00 74 00 69 00 6e 00 66 00 6f 00 2e 00 65 00 78 00 65 00))}
+		$pay22 = {((73 76 65 68 6f 73 74 2e 65 78 65) | (73 00 76 00 65 00 68 00 6f 00 73 00 74 00 2e 00 65 00 78 00 65 00))}
+		$pay23 = {((75 70 64 61 74 65 2e 65 78 65) | (75 00 70 00 64 00 61 00 74 00 65 00 2e 00 65 00 78 00 65 00))}
+		$pay24 = {((4e 54 4c 4d 48 61 73 68 2e 65 78 65) | (4e 00 54 00 4c 00 4d 00 48 00 61 00 73 00 68 00 2e 00 65 00 78 00 65 00))}
+		$pay25 = {((77 70 6e 70 69 6e 73 74 2e 65 78 65) | (77 00 70 00 6e 00 70 00 69 00 6e 00 73 00 74 00 2e 00 65 00 78 00 65 00))}
+		$pay26 = {((57 53 44 62 67 2e 65 78 65) | (57 00 53 00 44 00 62 00 67 00 2e 00 65 00 78 00 65 00))}
+		$pay27 = {((78 63 6d 64 2e 65 78 65) | (78 00 63 00 6d 00 64 00 2e 00 65 00 78 00 65 00))}
+		$pay28 = {((61 64 6f 62 65 75 70 2e 65 78 65) | (61 00 64 00 6f 00 62 00 65 00 75 00 70 00 2e 00 65 00 78 00 65 00))}
+		$pay29 = {((30 38 33 30 2e 62 69 6e) | (30 00 38 00 33 00 30 00 2e 00 62 00 69 00 6e 00))}
+		$pay30 = {((31 30 30 31 2e 62 69 6e) | (31 00 30 00 30 00 31 00 2e 00 62 00 69 00 6e 00))}
+		$pay31 = {((61 2e 62 69 6e) | (61 00 2e 00 62 00 69 00 6e 00))}
+		$pay32 = {((49 53 55 4e 33 32 2e 45 58 45) | (49 00 53 00 55 00 4e 00 33 00 32 00 2e 00 45 00 58 00 45 00))}
+		$pay33 = {((41 63 72 6f 52 44 33 32 2e 45 58 45) | (41 00 63 00 72 00 6f 00 52 00 44 00 33 00 32 00 2e 00 45 00 58 00 45 00))}
+		$pay34 = {((49 4e 45 54 49 4e 46 4f 2e 45 58 45) | (49 00 4e 00 45 00 54 00 49 00 4e 00 46 00 4f 00 2e 00 45 00 58 00 45 00))}
+
+	condition:
+		1 of them
+}
+
+private rule APT1_RARSilent_EXE_PDF : hardened
+{
+	meta:
+		author = "AlienVault Labs"
+		info = "CommentCrew-threat-apt1"
+
+	strings:
+		$winrar1 = {((57 49 4e 52 41 52 2e 53 46 58) | (57 00 49 00 4e 00 52 00 41 00 52 00 2e 00 53 00 46 00 58 00))}
+		$winrar2 = {((3b 54 68 65 20 63 6f 6d 6d 65 6e 74 20 62 65 6c 6f 77 20 63 6f 6e 74 61 69 6e 73 20 53 46 58 20 73 63 72 69 70 74 20 63 6f 6d 6d 61 6e 64 73) | (3b 00 54 00 68 00 65 00 20 00 63 00 6f 00 6d 00 6d 00 65 00 6e 00 74 00 20 00 62 00 65 00 6c 00 6f 00 77 00 20 00 63 00 6f 00 6e 00 74 00 61 00 69 00 6e 00 73 00 20 00 53 00 46 00 58 00 20 00 73 00 63 00 72 00 69 00 70 00 74 00 20 00 63 00 6f 00 6d 00 6d 00 61 00 6e 00 64 00 73 00))}
+		$winrar3 = {((53 69 6c 65 6e 74 3d 31) | (53 00 69 00 6c 00 65 00 6e 00 74 00 3d 00 31 00))}
+		$str1 = /Setup=[\s\w\"]+\.(exe|pdf|doc)/
+		$str2 = {((53 74 65 75 70 3d 22) | (53 00 74 00 65 00 75 00 70 00 3d 00 22 00))}
+
+	condition:
+		all of ( $winrar* ) and 1 of ( $str* )
+}
+
+rule APT1_aspnetreport : hardened
+{
+	meta:
+		author = "AlienVault Labs"
+		info = "CommentCrew-threat-apt1"
+
+	strings:
+		$url = {((61 73 70 6e 65 74 5f 63 6c 69 65 6e 74 2f 72 65 70 6f 72 74 2e 61 73 70) | (61 00 73 00 70 00 6e 00 65 00 74 00 5f 00 63 00 6c 00 69 00 65 00 6e 00 74 00 2f 00 72 00 65 00 70 00 6f 00 72 00 74 00 2e 00 61 00 73 00 70 00))}
+		$param = {((6e 61 6d 65 3d 25 73 26 47 65 6e 64 65 72 3d 25 63 26 52 61 6e 64 6f 6d 3d 25 30 34 64 26 53 65 73 73 69 6f 6e 4b 65 79 3d 25 73) | (6e 00 61 00 6d 00 65 00 3d 00 25 00 73 00 26 00 47 00 65 00 6e 00 64 00 65 00 72 00 3d 00 25 00 63 00 26 00 52 00 61 00 6e 00 64 00 6f 00 6d 00 3d 00 25 00 30 00 34 00 64 00 26 00 53 00 65 00 73 00 73 00 69 00 6f 00 6e 00 4b 00 65 00 79 00 3d 00 25 00 73 00))}
+
+	condition:
+		$url and $param and APT1_payloads
+}
+
+rule APT1_Revird_svc : hardened
+{
+	meta:
+		author = "AlienVault Labs"
+		info = "CommentCrew-threat-apt1"
+
+	strings:
+		$dll1 = {((6e 77 77 77 6b 73 2e 64 6c 6c) | (6e 00 77 00 77 00 77 00 6b 00 73 00 2e 00 64 00 6c 00 6c 00))}
+		$dll2 = {((72 64 69 73 6b 2e 64 6c 6c) | (72 00 64 00 69 00 73 00 6b 00 2e 00 64 00 6c 00 6c 00))}
+		$dll3 = {((73 6b 65 79 73 2e 64 6c 6c) | (73 00 6b 00 65 00 79 00 73 00 2e 00 64 00 6c 00 6c 00))}
+		$dll4 = {((53 76 63 48 6f 73 74 2e 44 4c 4c 2e 6c 6f 67) | (53 00 76 00 63 00 48 00 6f 00 73 00 74 00 2e 00 44 00 4c 00 4c 00 2e 00 6c 00 6f 00 67 00))}
+		$svc1 = {((49 6e 73 74 61 6c 6c 53 65 72 76 69 63 65) | (49 00 6e 00 73 00 74 00 61 00 6c 00 6c 00 53 00 65 00 72 00 76 00 69 00 63 00 65 00))}
+		$svc2 = {((52 75 6e 64 6c 6c 49 6e 73 74 61 6c 6c 41) | (52 00 75 00 6e 00 64 00 6c 00 6c 00 49 00 6e 00 73 00 74 00 61 00 6c 00 6c 00 41 00))}
+		$svc3 = {((52 75 6e 64 6c 6c 55 6e 69 6e 73 74 61 6c 6c 41) | (52 00 75 00 6e 00 64 00 6c 00 6c 00 55 00 6e 00 69 00 6e 00 73 00 74 00 61 00 6c 00 6c 00 41 00))}
+		$svc4 = {((53 65 72 76 69 63 65 4d 61 69 6e) | (53 00 65 00 72 00 76 00 69 00 63 00 65 00 4d 00 61 00 69 00 6e 00))}
+		$svc5 = {((55 6e 69 6e 73 74 61 6c 6c 53 65 72 76 69 63 65) | (55 00 6e 00 69 00 6e 00 73 00 74 00 61 00 6c 00 6c 00 53 00 65 00 72 00 76 00 69 00 63 00 65 00))}
+
+	condition:
+		1 of ( $dll* ) and 2 of ( $svc* )
+}
+
+rule APT1_letusgo : hardened
+{
+	meta:
+		author = "AlienVault Labs"
+		info = "CommentCrew-threat-apt1"
+
+	strings:
+		$letus = /letusgo[\w]+v\d\d?\./
+
+	condition:
+		$letus
+}
+
+rule APT1_dbg_mess : hardened
+{
+	meta:
+		author = "AlienVault Labs"
+		info = "CommentCrew-threat-apt1"
+
+	strings:
+		$dbg1 = {((44 6f 77 6e 20 66 69 6c 65 20 6f 6b 21) | (44 00 6f 00 77 00 6e 00 20 00 66 00 69 00 6c 00 65 00 20 00 6f 00 6b 00 21 00))}
+		$dbg2 = {((53 65 6e 64 20 66 69 6c 65 20 6f 6b 21) | (53 00 65 00 6e 00 64 00 20 00 66 00 69 00 6c 00 65 00 20 00 6f 00 6b 00 21 00))}
+		$dbg3 = {((43 6f 6d 6d 61 6e 64 20 45 72 72 6f 72 21) | (43 00 6f 00 6d 00 6d 00 61 00 6e 00 64 00 20 00 45 00 72 00 72 00 6f 00 72 00 21 00))}
+		$dbg4 = {((50 6c 73 20 63 68 6f 6f 73 65 20 74 61 72 67 65 74 20 66 69 72 73 74 21) | (50 00 6c 00 73 00 20 00 63 00 68 00 6f 00 6f 00 73 00 65 00 20 00 74 00 61 00 72 00 67 00 65 00 74 00 20 00 66 00 69 00 72 00 73 00 74 00 21 00))}
+		$dbg5 = {((41 6c 65 72 74 21) | (41 00 6c 00 65 00 72 00 74 00 21 00))}
+		$dbg6 = {((50 6c 73 20 70 72 65 73 73 20 65 6e 74 65 72 20 74 6f 20 6d 61 6b 65 20 73 75 72 65 21) | (50 00 6c 00 73 00 20 00 70 00 72 00 65 00 73 00 73 00 20 00 65 00 6e 00 74 00 65 00 72 00 20 00 74 00 6f 00 20 00 6d 00 61 00 6b 00 65 00 20 00 73 00 75 00 72 00 65 00 21 00))}
+		$dbg7 = {((41 72 65 20 79 6f 75 20 73 75 72 65 20 74 6f 20) | (41 00 72 00 65 00 20 00 79 00 6f 00 75 00 20 00 73 00 75 00 72 00 65 00 20 00 74 00 6f 00 20 00))}
+
+	condition:
+		4 of them and APT1_payloads
+}
+
+rule APT1_known_malicious_RARSilent : hardened
+{
+	meta:
+		author = "AlienVault Labs"
+		info = "CommentCrew-threat-apt1"
+
+	strings:
+		$str1 = {((41 6e 61 6c 79 73 69 73 20 41 6e 64 20 4f 75 74 6c 6f 6f 6b 2e 64 6f 63 22) | (41 00 6e 00 61 00 6c 00 79 00 73 00 69 00 73 00 20 00 41 00 6e 00 64 00 20 00 4f 00 75 00 74 00 6c 00 6f 00 6f 00 6b 00 2e 00 64 00 6f 00 63 00 22 00))}
+		$str2 = {((4e 6f 72 74 68 20 4b 6f 72 65 61 6e 20 6c 61 75 6e 63 68 2e 70 64 66 22) | (4e 00 6f 00 72 00 74 00 68 00 20 00 4b 00 6f 00 72 00 65 00 61 00 6e 00 20 00 6c 00 61 00 75 00 6e 00 63 00 68 00 2e 00 70 00 64 00 66 00 22 00))}
+		$str3 = {((44 6f 6c 6c 61 72 20 47 65 6e 65 72 61 6c 2e 64 6f 63 22) | (44 00 6f 00 6c 00 6c 00 61 00 72 00 20 00 47 00 65 00 6e 00 65 00 72 00 61 00 6c 00 2e 00 64 00 6f 00 63 00 22 00))}
+		$str4 = {((44 6f 77 20 43 6f 72 6e 69 6e 67 20 43 6f 72 70 2e 70 64 66 22) | (44 00 6f 00 77 00 20 00 43 00 6f 00 72 00 6e 00 69 00 6e 00 67 00 20 00 43 00 6f 00 72 00 70 00 2e 00 70 00 64 00 66 00 22 00))}
+
+	condition:
+		1 of them and APT1_RARSilent_EXE_PDF
+}
+

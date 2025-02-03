@@ -1,45 +1,32 @@
-/*
-   This Yara ruleset is under the GNU-GPLv2 license 
-   (http://www.gnu.org/licenses/gpl-2.0.html) and open to any user or 
-   organization, as long as you use it under this license.
-*/
+rule win_asyncrat_j1 : hardened
+{
+	meta:
+		author = "Johannes Bader @viql"
+		date = "2020-04-26"
+		description = "detects AsyncRAT"
+		references = "https://github.com/NYAN-x-CAT/AsyncRAT-C-Sharp"
+		tlp = "white"
+		vetted_family = "AsyncRAT"
 
-rule win_asyncrat_j1 {
+	strings:
+		$str_anti_1 = {56 00 49 00 52 00 54 00 55 00 41 00 4c 00}
+		$str_anti_2 = {76 00 6d 00 77 00 61 00 72 00 65 00}
+		$str_anti_3 = {56 00 69 00 72 00 74 00 75 00 61 00 6c 00 42 00 6f 00 78 00}
+		$str_anti_4 = {53 00 62 00 69 00 65 00 44 00 6c 00 6c 00 2e 00 64 00 6c 00 6c 00}
+		$str_miner_1 = {2d 00 2d 00 64 00 6f 00 6e 00 61 00 74 00 65 00 2d 00 6c 00 65 00 76 00 65 00 6c 00 3d 00}
+		$str_b_rev_run = {5c 00 6e 00 75 00 52 00 5c 00 6e 00 6f 00 69 00 73 00 72 00 65 00 56 00 74 00 6e 00 65 00 72 00 72 00 75 00 43 00 5c 00 73 00 77 00 6f 00 64 00 6e 00 69 00 57 00 5c 00 74 00 66 00 6f 00 73 00 6f 00 72 00 63 00 69 00 4d 00 5c 00 65 00 72 00 61 00 77 00 74 00 66 00 6f 00 53 00}
+		$str_b_msg_pack_1 = {28 00 65 00 78 00 74 00 38 00 2c 00 65 00 78 00 74 00 31 00 36 00 2c 00 65 00 78 00 33 00 32 00 29 00 20 00 74 00 79 00 70 00 65 00 20 00 24 00 63 00 37 00 2c 00 24 00 63 00 38 00 2c 00 24 00 63 00 39 00}
+		$str_b_msg_pack_2 = {28 00 6e 00 65 00 76 00 65 00 72 00 20 00 75 00 73 00 65 00 64 00 29 00 20 00 74 00 79 00 70 00 65 00 20 00 24 00 63 00 31 00}
+		$str_b_schtask_1 = {2f 00 63 00 72 00 65 00 61 00 74 00 65 00 20 00 2f 00 66 00 20 00 2f 00 73 00 63 00 20 00 4f 00 4e 00 4c 00 4f 00 47 00 4f 00 4e 00 20 00 2f 00 52 00 4c 00 20 00 48 00 49 00 47 00 48 00 45 00 53 00 54 00 20 00 2f 00 74 00 6e 00 20 00 22 00 27 00}
+		$str_b_schtask_2 = {22 00 27 00 20 00 2f 00 74 00 72 00 20 00 22 00 27 00}
+		$str_config_1 = {41 00 6e 00 74 00 69 00 76 00 69 00 72 00 75 00 73 00}
+		$str_config_2 = {50 00 61 00 73 00 74 00 65 00 62 00 69 00 6e 00}
+		$str_config_3 = {48 00 57 00 49 00 44 00}
+		$str_config_4 = {49 00 6e 00 73 00 74 00 61 00 6c 00 6c 00 65 00 64 00}
+		$str_config_5 = {50 00 6f 00 6e 00 67 00}
+		$str_config_6 = {50 00 65 00 72 00 66 00 6f 00 72 00 6d 00 61 00 6e 00 63 00 65 00}
 
-    meta:
-        author      = "Johannes Bader @viql"
-        date        = "2020-04-26"
-        description = "detects AsyncRAT"
-        references  = "https://github.com/NYAN-x-CAT/AsyncRAT-C-Sharp"
-        tlp         = "white"
-        vetted_family = "AsyncRAT"
-
-    strings:
-        $str_anti_1 = "VIRTUAL" wide
-        $str_anti_2 = "vmware" wide
-        $str_anti_3 = "VirtualBox" wide
-        $str_anti_4 = "SbieDll.dll" wide
-
-        $str_miner_1 = "--donate-level=" wide
-
-        $str_b_rev_run    = "\\nuR\\noisreVtnerruC\\swodniW\\tfosorciM\\erawtfoS" wide
-        $str_b_msg_pack_1 = "(ext8,ext16,ex32) type $c7,$c8,$c9" wide
-        $str_b_msg_pack_2 = "(never used) type $c1" wide
-        $str_b_schtask_1  = "/create /f /sc ONLOGON /RL HIGHEST /tn \"'" wide
-        $str_b_schtask_2  = "\"' /tr \"'" wide
-
-        $str_config_1 = "Antivirus" wide
-        $str_config_2 = "Pastebin" wide
-        $str_config_3 = "HWID" wide
-        $str_config_4 = "Installed" wide
-        $str_config_5 = "Pong" wide
-        $str_config_6 = "Performance" wide
-
-    condition:
-        all of ($str_anti_*)  and 
-        4 of ($str_config_*) and ( 
-            all of ($str_miner_*) or 
-            3 of ($str_b_*)
-        )
-        
+	condition:
+		all of ( $str_anti_* ) and 4 of ( $str_config_* ) and ( all of ( $str_miner_* ) or 3 of ( $str_b_* ) )
 }
+

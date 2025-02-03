@@ -1,12 +1,4 @@
-// source: https://github.com/Yara-Rules/rules/blob/0f93570194a80d2f2032869055808b0ddcdfb360/malware/RAT_PoisonIvy.yar
-/*
-    This Yara ruleset is under the GNU-GPLv2 license (http://www.gnu.org/licenses/gpl-2.0.html) and open to any user or organization, as    long as you use it under this license.
-
-*/
-
-import "pe"
-
-rule poisonivy_1 : rat
+rule poisonivy_1 : rat hardened
 {
 	meta:
 		description = "Poison Ivy"
@@ -23,36 +15,35 @@ rule poisonivy_1 : rat
 		$a
 }
 
-rule PoisonIvy_Generic_3 {
+rule PoisonIvy_Generic_3 : hardened
+{
 	meta:
 		description = "PoisonIvy RAT Generic Rule"
 		author = "Florian Roth"
 		date = "2015-05-14"
 		hash = "e1cbdf740785f97c93a0a7a01ef2614be792afcd"
+
 	strings:
-		$k1 = "Tiger324{" fullword ascii
+		$k1 = {54 69 67 65 72 33 32 34 7b}
+		$s2 = {57 49 4e 49 4e 45 54 2e 64 6c 6c}
+		$s3 = {6d 00 73 00 63 00 6f 00 72 00 65 00 65 00 2e 00 64 00 6c 00 6c 00}
+		$s4 = {57 53 32 5f 33 32 2e 64 6c 6c}
+		$s5 = {45 00 78 00 70 00 6c 00 6f 00 72 00 65 00 72 00 2e 00 65 00 78 00 65 00}
+		$s6 = {55 53 45 52 33 32 2e 44 4c 4c}
+		$s7 = {43 4f 4e 4f 55 54 24}
+		$s8 = {6c 6f 67 69 6e 2e 61 73 70}
+		$h1 = {48 54 54 50 2f 31 2e 30}
+		$h2 = {50 4f 53 54}
+		$h3 = {6c 6f 67 69 6e 2e 61 73 70}
+		$h4 = {63 68 65 63 6b 2e 61 73 70}
+		$h5 = {72 65 73 75 6c 74 2e 61 73 70}
+		$h6 = {75 70 6c 6f 61 64 2e 61 73 70}
 
-		$s2 = "WININET.dll" fullword ascii
-		$s3 = "mscoree.dll" fullword wide
-		$s4 = "WS2_32.dll" fullword
-		$s5 = "Explorer.exe" fullword wide
-		$s6 = "USER32.DLL"
-		$s7 = "CONOUT$"
-		$s8 = "login.asp"
-
-		$h1 = "HTTP/1.0"
-		$h2 = "POST"
-		$h3 = "login.asp"
-		$h4 = "check.asp"
-		$h5 = "result.asp"
-		$h6 = "upload.asp"
 	condition:
-		uint16(0) == 0x5a4d and filesize < 500KB and
-			(
-				$k1 or all of ($s*) or all of ($h*)
-			)
+		uint16( 0 ) == 0x5a4d and filesize < 500KB and ( $k1 or all of ( $s* ) or all of ( $h* ) )
 }
-rule PoisonIvy_2
+
+rule PoisonIvy_2 : hardened
 {
 	meta:
 		author = " Kevin Breen <kevin@techanarchy.net>"
@@ -61,13 +52,15 @@ rule PoisonIvy_2
 		maltype = "Remote Access Trojan"
 		filetype = "exe"
 
-    strings:
-    	$stub = {04 08 00 53 74 75 62 50 61 74 68 18 04}
-        $string1 = "CONNECT %s:%i HTTP/1.0"
-        $string2 = "ws2_32"
-        $string3 = "cks=u"
-        $string4 = "thj@h"
-        $string5 = "advpack"
-    condition:
-		$stub at 0x1620 and all of ($string*) or (all of them)
+	strings:
+		$stub = {04 08 00 53 74 75 62 50 61 74 68 18 04}
+		$string1 = {43 4f 4e 4e 45 43 54 20 25 73 3a 25 69 20 48 54 54 50 2f 31 2e 30}
+		$string2 = {77 73 32 5f 33 32}
+		$string3 = {63 6b 73 3d 75}
+		$string4 = {74 68 6a 40 68}
+		$string5 = {61 64 76 70 61 63 6b}
+
+	condition:
+		$stub at 0x1620 and all of ( $string* ) or ( all of them )
 }
+

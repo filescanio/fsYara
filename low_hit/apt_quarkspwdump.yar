@@ -1,5 +1,5 @@
-
-rule QuarksPwDump_Gen {
+rule QuarksPwDump_Gen : hardened
+{
 	meta:
 		description = "Detects all QuarksPWDump versions"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -14,11 +14,14 @@ rule QuarksPwDump_Gen {
 		hash6 = "d3a1eb1f47588e953b9759a76dfa3f07a3b95fab8d8aa59000fd98251d499674"
 		hash7 = "8a81b3a75e783765fe4335a2a6d1e126b12e09380edc4da8319efd9288d88819"
 		id = "7de4f59e-6cf5-5ad7-ae1f-8532d9e80c9e"
+
 	strings:
-		$s1 = "OpenProcessToken() error: 0x%08X" fullword ascii
-		$s2 = "%d dumped" fullword ascii
-		$s3 = "AdjustTokenPrivileges() error: 0x%08X" fullword ascii
-		$s4 = "\\SAM-%u.dmp" ascii
+		$s1 = {4f 70 65 6e 50 72 6f 63 65 73 73 54 6f 6b 65 6e 28 29 20 65 72 72 6f 72 3a 20 30 78 25 30 38 58}
+		$s2 = {25 64 20 64 75 6d 70 65 64}
+		$s3 = {41 64 6a 75 73 74 54 6f 6b 65 6e 50 72 69 76 69 6c 65 67 65 73 28 29 20 65 72 72 6f 72 3a 20 30 78 25 30 38 58}
+		$s4 = {5c 53 41 4d 2d 25 75 2e 64 6d 70}
+
 	condition:
 		all of them
 }
+

@@ -1,118 +1,89 @@
-// source: https://github.com/Yara-Rules/rules/blob/master/malware/RANSOM_Petya_MS17_010.yar
+rule FE_CPE_MS17_010_RANSOMWARE : hardened limited
+{
+	meta:
+		version = "1.1"
+		author = "Ian.Ahl@fireeye.com @TekDefense, Nicholas.Carr@mandiant.com @ItsReallyNick"
+		date = "2017-06-27"
+		score = 70
+		description = "Probable PETYA ransomware using ETERNALBLUE, WMIC, PsExec"
+		reference = "https://www.fireeye.com/blog/threat-research/2017/06/petya-ransomware-spreading-via-eternalblue-exploit.html"
 
-rule FE_CPE_MS17_010_RANSOMWARE {
-meta:version="1.1"
-      //filetype="PE"
-      author="Ian.Ahl@fireeye.com @TekDefense, Nicholas.Carr@mandiant.com @ItsReallyNick"
-      date="2017-06-27"
-      score = 70
-      description="Probable PETYA ransomware using ETERNALBLUE, WMIC, PsExec"
-      reference = "https://www.fireeye.com/blog/threat-research/2017/06/petya-ransomware-spreading-via-eternalblue-exploit.html"
-strings:
-      // DRIVE USAGE
-      $dmap01 = "\\\\.\\PhysicalDrive" nocase ascii wide
-      $dmap02 = "\\\\.\\PhysicalDrive0" nocase ascii wide
-      $dmap03 = "\\\\.\\C:" nocase ascii wide
-      $dmap04 = "TERMSRV" nocase ascii wide
-      $dmap05 = "\\admin$" nocase ascii wide
-      $dmap06 = "GetLogicalDrives" nocase ascii wide
-      $dmap07 = "GetDriveTypeW" nocase ascii wide
+	strings:
+		$dmap01 = {((5c 5c 2e 5c 50 68 79 73 69 63 61 6c 44 72 69 76 65) | (5c 00 5c 00 2e 00 5c 00 50 00 68 00 79 00 73 00 69 00 63 00 61 00 6c 00 44 00 72 00 69 00 76 00 65 00))}
+		$dmap02 = {((5c 5c 2e 5c 50 68 79 73 69 63 61 6c 44 72 69 76 65 30) | (5c 00 5c 00 2e 00 5c 00 50 00 68 00 79 00 73 00 69 00 63 00 61 00 6c 00 44 00 72 00 69 00 76 00 65 00 30 00))}
+		$dmap03 = {((5c 5c 2e 5c 43 3a) | (5c 00 5c 00 2e 00 5c 00 43 00 3a 00))}
+		$dmap04 = {((54 45 52 4d 53 52 56) | (54 00 45 00 52 00 4d 00 53 00 52 00 56 00))}
+		$dmap05 = {((5c 61 64 6d 69 6e 24) | (5c 00 61 00 64 00 6d 00 69 00 6e 00 24 00))}
+		$dmap06 = {((47 65 74 4c 6f 67 69 63 61 6c 44 72 69 76 65 73) | (47 00 65 00 74 00 4c 00 6f 00 67 00 69 00 63 00 61 00 6c 00 44 00 72 00 69 00 76 00 65 00 73 00))}
+		$dmap07 = {((47 65 74 44 72 69 76 65 54 79 70 65 57) | (47 00 65 00 74 00 44 00 72 00 69 00 76 00 65 00 54 00 79 00 70 00 65 00 57 00))}
+		$msg01 = {((57 41 52 4e 49 4e 47 3a 20 44 4f 20 4e 4f 54 20 54 55 52 4e 20 4f 46 46 20 59 4f 55 52 20 50 43 21) | (57 00 41 00 52 00 4e 00 49 00 4e 00 47 00 3a 00 20 00 44 00 4f 00 20 00 4e 00 4f 00 54 00 20 00 54 00 55 00 52 00 4e 00 20 00 4f 00 46 00 46 00 20 00 59 00 4f 00 55 00 52 00 20 00 50 00 43 00 21 00))}
+		$msg02 = {((49 46 20 59 4f 55 20 41 42 4f 52 54 20 54 48 49 53 20 50 52 4f 43 45 53 53) | (49 00 46 00 20 00 59 00 4f 00 55 00 20 00 41 00 42 00 4f 00 52 00 54 00 20 00 54 00 48 00 49 00 53 00 20 00 50 00 52 00 4f 00 43 00 45 00 53 00 53 00))}
+		$msg03 = {((44 45 53 54 52 4f 59 20 41 4c 4c 20 4f 46 20 59 4f 55 52 20 44 41 54 41 21) | (44 00 45 00 53 00 54 00 52 00 4f 00 59 00 20 00 41 00 4c 00 4c 00 20 00 4f 00 46 00 20 00 59 00 4f 00 55 00 52 00 20 00 44 00 41 00 54 00 41 00 21 00))}
+		$msg04 = {((50 4c 45 41 53 45 20 45 4e 53 55 52 45 20 54 48 41 54 20 59 4f 55 52 20 50 4f 57 45 52 20 43 41 42 4c 45 20 49 53 20 50 4c 55 47 47 45 44) | (50 00 4c 00 45 00 41 00 53 00 45 00 20 00 45 00 4e 00 53 00 55 00 52 00 45 00 20 00 54 00 48 00 41 00 54 00 20 00 59 00 4f 00 55 00 52 00 20 00 50 00 4f 00 57 00 45 00 52 00 20 00 43 00 41 00 42 00 4c 00 45 00 20 00 49 00 53 00 20 00 50 00 4c 00 55 00 47 00 47 00 45 00 44 00))}
+		$msg05 = {((79 6f 75 72 20 69 6d 70 6f 72 74 61 6e 74 20 66 69 6c 65 73 20 61 72 65 20 65 6e 63 72 79 70 74 65 64) | (79 00 6f 00 75 00 72 00 20 00 69 00 6d 00 70 00 6f 00 72 00 74 00 61 00 6e 00 74 00 20 00 66 00 69 00 6c 00 65 00 73 00 20 00 61 00 72 00 65 00 20 00 65 00 6e 00 63 00 72 00 79 00 70 00 74 00 65 00 64 00))}
+		$msg06 = {((59 6f 75 72 20 70 65 72 73 6f 6e 61 6c 20 69 6e 73 74 61 6c 6c 61 74 69 6f 6e 20 6b 65 79) | (59 00 6f 00 75 00 72 00 20 00 70 00 65 00 72 00 73 00 6f 00 6e 00 61 00 6c 00 20 00 69 00 6e 00 73 00 74 00 61 00 6c 00 6c 00 61 00 74 00 69 00 6f 00 6e 00 20 00 6b 00 65 00 79 00))}
+		$msg07 = {((77 6f 72 74 68 20 6f 66 20 42 69 74 63 6f 69 6e 20 74 6f 20 66 6f 6c 6c 6f 77 69 6e 67 20 61 64 64 72 65 73 73) | (77 00 6f 00 72 00 74 00 68 00 20 00 6f 00 66 00 20 00 42 00 69 00 74 00 63 00 6f 00 69 00 6e 00 20 00 74 00 6f 00 20 00 66 00 6f 00 6c 00 6c 00 6f 00 77 00 69 00 6e 00 67 00 20 00 61 00 64 00 64 00 72 00 65 00 73 00 73 00))}
+		$msg08 = {((43 48 4b 44 53 4b 20 69 73 20 72 65 70 61 69 72 69 6e 67 20 73 65 63 74 6f 72) | (43 00 48 00 4b 00 44 00 53 00 4b 00 20 00 69 00 73 00 20 00 72 00 65 00 70 00 61 00 69 00 72 00 69 00 6e 00 67 00 20 00 73 00 65 00 63 00 74 00 6f 00 72 00))}
+		$msg09 = {((52 65 70 61 69 72 69 6e 67 20 66 69 6c 65 20 73 79 73 74 65 6d 20 6f 6e 20) | (52 00 65 00 70 00 61 00 69 00 72 00 69 00 6e 00 67 00 20 00 66 00 69 00 6c 00 65 00 20 00 73 00 79 00 73 00 74 00 65 00 6d 00 20 00 6f 00 6e 00 20 00))}
+		$msg10 = {((42 69 74 63 6f 69 6e 20 77 61 6c 6c 65 74 20 49 44) | (42 00 69 00 74 00 63 00 6f 00 69 00 6e 00 20 00 77 00 61 00 6c 00 6c 00 65 00 74 00 20 00 49 00 44 00))}
+		$msg11 = {((77 6f 77 73 6d 69 74 68 31 32 33 34 35 36 40 70 6f 73 74 65 6f 2e 6e 65 74) | (77 00 6f 00 77 00 73 00 6d 00 69 00 74 00 68 00 31 00 32 00 33 00 34 00 35 00 36 00 40 00 70 00 6f 00 73 00 74 00 65 00 6f 00 2e 00 6e 00 65 00 74 00))}
+		$msg12 = {((31 4d 7a 37 31 35 33 48 4d 75 78 58 54 75 52 32 52 31 74 37 38 6d 47 53 64 7a 61 41 74 4e 62 42 57 58) | (31 00 4d 00 7a 00 37 00 31 00 35 00 33 00 48 00 4d 00 75 00 78 00 58 00 54 00 75 00 52 00 32 00 52 00 31 00 74 00 37 00 38 00 6d 00 47 00 53 00 64 00 7a 00 61 00 41 00 74 00 4e 00 62 00 42 00 57 00 58 00))}
+		$msg_pcre = /(en|de)crypt(ion|ed\.)/
+		$functions01 = {((6e 65 65 64 20 64 69 63 74 69 6f 6e 61 72 79) | (6e 00 65 00 65 00 64 00 20 00 64 00 69 00 63 00 74 00 69 00 6f 00 6e 00 61 00 72 00 79 00))}
+		$functions02 = {((63 6f 6d 73 70 65 63) | (63 00 6f 00 6d 00 73 00 70 00 65 00 63 00))}
+		$functions03 = {((4f 70 65 6e 50 72 6f 63 65 73 73 54 6f 6b 65 6e) | (4f 00 70 00 65 00 6e 00 50 00 72 00 6f 00 63 00 65 00 73 00 73 00 54 00 6f 00 6b 00 65 00 6e 00))}
+		$functions04 = {((43 6c 6f 73 65 48 61 6e 64 6c 65) | (43 00 6c 00 6f 00 73 00 65 00 48 00 61 00 6e 00 64 00 6c 00 65 00))}
+		$functions05 = {((45 6e 74 65 72 43 72 69 74 69 63 61 6c 53 65 63 74 69 6f 6e) | (45 00 6e 00 74 00 65 00 72 00 43 00 72 00 69 00 74 00 69 00 63 00 61 00 6c 00 53 00 65 00 63 00 74 00 69 00 6f 00 6e 00))}
+		$functions06 = {((45 78 69 74 50 72 6f 63 65 73 73) | (45 00 78 00 69 00 74 00 50 00 72 00 6f 00 63 00 65 00 73 00 73 00))}
+		$functions07 = {((47 65 74 43 75 72 72 65 6e 74 50 72 6f 63 65 73 73) | (47 00 65 00 74 00 43 00 75 00 72 00 72 00 65 00 6e 00 74 00 50 00 72 00 6f 00 63 00 65 00 73 00 73 00))}
+		$functions08 = {((47 65 74 50 72 6f 63 41 64 64 72 65 73 73) | (47 00 65 00 74 00 50 00 72 00 6f 00 63 00 41 00 64 00 64 00 72 00 65 00 73 00 73 00))}
+		$functions09 = {((4c 65 61 76 65 43 72 69 74 69 63 61 6c 53 65 63 74 69 6f 6e) | (4c 00 65 00 61 00 76 00 65 00 43 00 72 00 69 00 74 00 69 00 63 00 61 00 6c 00 53 00 65 00 63 00 74 00 69 00 6f 00 6e 00))}
+		$functions10 = {((4d 75 6c 74 69 42 79 74 65 54 6f 57 69 64 65 43 68 61 72) | (4d 00 75 00 6c 00 74 00 69 00 42 00 79 00 74 00 65 00 54 00 6f 00 57 00 69 00 64 00 65 00 43 00 68 00 61 00 72 00))}
+		$functions11 = {((57 69 64 65 43 68 61 72 54 6f 4d 75 6c 74 69 42 79 74 65) | (57 00 69 00 64 00 65 00 43 00 68 00 61 00 72 00 54 00 6f 00 4d 00 75 00 6c 00 74 00 69 00 42 00 79 00 74 00 65 00))}
+		$functions12 = {((57 72 69 74 65 46 69 6c 65) | (57 00 72 00 69 00 74 00 65 00 46 00 69 00 6c 00 65 00))}
+		$functions13 = {((43 6f 54 61 73 6b 4d 65 6d 46 72 65 65) | (43 00 6f 00 54 00 61 00 73 00 6b 00 4d 00 65 00 6d 00 46 00 72 00 65 00 65 00))}
+		$functions14 = {((4e 61 6d 65 64 50 69 70 65) | (4e 00 61 00 6d 00 65 00 64 00 50 00 69 00 70 00 65 00))}
+		$functions15 = {((53 6c 65 65 70) | (53 00 6c 00 65 00 65 00 70 00))}
+		$cmd01 = {((77 65 76 74 75 74 69 6c 20 63 6c 20 53 65 74 75 70) | (77 00 65 00 76 00 74 00 75 00 74 00 69 00 6c 00 20 00 63 00 6c 00 20 00 53 00 65 00 74 00 75 00 70 00))}
+		$cmd02 = {((77 65 76 74 75 74 69 6c 20 63 6c 20 53 79 73 74 65 6d) | (77 00 65 00 76 00 74 00 75 00 74 00 69 00 6c 00 20 00 63 00 6c 00 20 00 53 00 79 00 73 00 74 00 65 00 6d 00))}
+		$cmd03 = {((77 65 76 74 75 74 69 6c 20 63 6c 20 53 65 63 75 72 69 74 79) | (77 00 65 00 76 00 74 00 75 00 74 00 69 00 6c 00 20 00 63 00 6c 00 20 00 53 00 65 00 63 00 75 00 72 00 69 00 74 00 79 00))}
+		$cmd04 = {((77 65 76 74 75 74 69 6c 20 63 6c 20 41 70 70 6c 69 63 61 74 69 6f 6e) | (77 00 65 00 76 00 74 00 75 00 74 00 69 00 6c 00 20 00 63 00 6c 00 20 00 41 00 70 00 70 00 6c 00 69 00 63 00 61 00 74 00 69 00 6f 00 6e 00))}
+		$cmd05 = {((66 73 75 74 69 6c 20 75 73 6e 20 64 65 6c 65 74 65 6a 6f 75 72 6e 61 6c) | (66 00 73 00 75 00 74 00 69 00 6c 00 20 00 75 00 73 00 6e 00 20 00 64 00 65 00 6c 00 65 00 74 00 65 00 6a 00 6f 00 75 00 72 00 6e 00 61 00 6c 00))}
+		$cmd06 = {((73 63 68 74 61 73 6b 73 20) | (73 00 63 00 68 00 74 00 61 00 73 00 6b 00 73 00 20 00))}
+		$cmd07 = {((2f 43 72 65 61 74 65 20 2f 53 43 20) | (2f 00 43 00 72 00 65 00 61 00 74 00 65 00 20 00 2f 00 53 00 43 00 20 00))}
+		$cmd08 = {((20 2f 54 4e 20) | (20 00 2f 00 54 00 4e 00 20 00))}
+		$cmd09 = {((61 74 20 25 30 32 64 3a 25 30 32 64 20 25 77 73) | (61 00 74 00 20 00 25 00 30 00 32 00 64 00 3a 00 25 00 30 00 32 00 64 00 20 00 25 00 77 00 73 00))}
+		$cmd10 = {((73 68 75 74 64 6f 77 6e 2e 65 78 65 20 2f 72 20 2f 66) | (73 00 68 00 75 00 74 00 64 00 6f 00 77 00 6e 00 2e 00 65 00 78 00 65 00 20 00 2f 00 72 00 20 00 2f 00 66 00))}
+		$cmd11 = {((2d 61 63 63 65 70 74 65 75 6c 61 20 2d 73) | (2d 00 61 00 63 00 63 00 65 00 70 00 74 00 65 00 75 00 6c 00 61 00 20 00 2d 00 73 00))}
+		$cmd12 = {77 6d 69 63}
+		$cmd13 = {((2f 6e 6f 64 65 3a) | (2f 00 6e 00 6f 00 64 00 65 00 3a 00))}
+		$cmd14 = {((70 72 6f 63 65 73 73 20 63 61 6c 6c 20 63 72 65 61 74 65) | (70 00 72 00 6f 00 63 00 65 00 73 00 73 00 20 00 63 00 61 00 6c 00 6c 00 20 00 63 00 72 00 65 00 61 00 74 00 65 00))}
 
-      // RANSOMNOTE
-      $msg01 = "WARNING: DO NOT TURN OFF YOUR PC!" nocase ascii wide
-      $msg02 = "IF YOU ABORT THIS PROCESS" nocase ascii wide
-      $msg03 = "DESTROY ALL OF YOUR DATA!" nocase ascii wide
-      $msg04 = "PLEASE ENSURE THAT YOUR POWER CABLE IS PLUGGED" nocase ascii wide
-      $msg05 = "your important files are encrypted" ascii wide
-      $msg06 = "Your personal installation key" nocase ascii wide
-      $msg07 = "worth of Bitcoin to following address" nocase ascii wide
-      $msg08 = "CHKDSK is repairing sector" nocase ascii wide
-      $msg09 = "Repairing file system on " nocase ascii wide
-      $msg10 = "Bitcoin wallet ID" nocase ascii wide
-      $msg11 = "wowsmith123456@posteo.net" nocase ascii wide
-      $msg12 = "1Mz7153HMuxXTuR2R1t78mGSdzaAtNbBWX" nocase ascii wide
-      $msg_pcre = /(en|de)crypt(ion|ed\.)/     
-
-      // FUNCTIONALITY, APIS
-      $functions01 = "need dictionary" nocase ascii wide
-      $functions02 = "comspec" nocase ascii wide
-      $functions03 = "OpenProcessToken" nocase ascii wide
-      $functions04 = "CloseHandle" nocase ascii wide
-      $functions05 = "EnterCriticalSection" nocase ascii wide
-      $functions06 = "ExitProcess" nocase ascii wide
-      $functions07 = "GetCurrentProcess" nocase ascii wide
-      $functions08 = "GetProcAddress" nocase ascii wide
-      $functions09 = "LeaveCriticalSection" nocase ascii wide
-      $functions10 = "MultiByteToWideChar" nocase ascii wide
-      $functions11 = "WideCharToMultiByte" nocase ascii wide
-      $functions12 = "WriteFile" nocase ascii wide
-      $functions13 = "CoTaskMemFree" nocase ascii wide
-      $functions14 = "NamedPipe" nocase ascii wide
-      $functions15 = "Sleep" nocase ascii wide // imported, not in strings     
-
-      // COMMANDS
-      //  -- Clearing event logs & USNJrnl
-      $cmd01 = "wevtutil cl Setup" ascii wide nocase
-      $cmd02 = "wevtutil cl System" ascii wide nocase
-      $cmd03 = "wevtutil cl Security" ascii wide nocase
-      $cmd04 = "wevtutil cl Application" ascii wide nocase
-      $cmd05 = "fsutil usn deletejournal" ascii wide nocase
-      // -- Scheduled task
-      $cmd06 = "schtasks " nocase ascii wide
-      $cmd07 = "/Create /SC " nocase ascii wide
-      $cmd08 = " /TN " nocase ascii wide
-      $cmd09 = "at %02d:%02d %ws" nocase ascii wide
-      $cmd10 = "shutdown.exe /r /f" nocase ascii wide
-      // -- Sysinternals/PsExec and WMIC
-      $cmd11 = "-accepteula -s" nocase ascii wide
-      $cmd12 = "wmic"
-      $cmd13 = "/node:" nocase ascii wide
-      $cmd14 = "process call create" nocase ascii wide
-
-condition:
-      // (uint16(0) == 0x5A4D)
-      3 of ($dmap*)
-      and 2 of ($msg*)
-      and 9 of ($functions*)
-      and 7 of ($cmd*)
-}         
-
-rule petya_eternalblue : petya_eternalblue {
-    meta:
-        author      = "blueliv"
-        description =  "Based on spreading petya version: 2017-06-28"
-        reference = "https://blueliv.com/petya-ransomware-cyber-attack-is-spreading-across-the-globe-part-2/"
-    strings:
-        /* Some commands executed by the Petya variant */
-       $cmd01 = "schtasks %ws/Create /SC once /TN \"\" /TR \"%ws\" /ST %02d:%0" wide
-       $cmd02 = "shutdown.exe /r /f" wide
-       $cmd03 = "%s \\\\%s -accepteula -s" wide
-       $cmd04 = "process call create \"C:\\Windows\\System32\\rundll32.exe \\\"C:\\Windows\\%s\\\" #1" wide
-       /* Strings of encrypted files */
-       $str01 = "they have been encrypted. Perhaps you are busy looking" wide
-        /* MBR/VBR payload */
-        $mbr01 = {00 00 00 55 aa e9 ?? ??}
-    condition:
-        all of them
+	condition:
+		3 of ( $dmap* ) and 2 of ( $msg* ) and 9 of ( $functions* ) and 7 of ( $cmd* )
 }
 
-// source: https://github.com/Yara-Rules/rules/blob/master/malware/RANSOM_Petya.yar
+rule petya_eternalblue : petya_eternalblue hardened
+{
+	meta:
+		author = "blueliv"
+		description = "Based on spreading petya version: 2017-06-28"
+		reference = "https://blueliv.com/petya-ransomware-cyber-attack-is-spreading-across-the-globe-part-2/"
 
-/*
-    This Yara ruleset is under the GNU-GPLv2 license (http://www.gnu.org/licenses/gpl-2.0.html) and open to any user or organization, as    long as you use it under this license.
+	strings:
+		$cmd01 = {73 00 63 00 68 00 74 00 61 00 73 00 6b 00 73 00 20 00 25 00 77 00 73 00 2f 00 43 00 72 00 65 00 61 00 74 00 65 00 20 00 2f 00 53 00 43 00 20 00 6f 00 6e 00 63 00 65 00 20 00 2f 00 54 00 4e 00 20 00 22 00 22 00 20 00 2f 00 54 00 52 00 20 00 22 00 25 00 77 00 73 00 22 00 20 00 2f 00 53 00 54 00 20 00 25 00 30 00 32 00 64 00 3a 00 25 00 30 00}
+		$cmd02 = {73 00 68 00 75 00 74 00 64 00 6f 00 77 00 6e 00 2e 00 65 00 78 00 65 00 20 00 2f 00 72 00 20 00 2f 00 66 00}
+		$cmd03 = {25 00 73 00 20 00 5c 00 5c 00 25 00 73 00 20 00 2d 00 61 00 63 00 63 00 65 00 70 00 74 00 65 00 75 00 6c 00 61 00 20 00 2d 00 73 00}
+		$cmd04 = {70 00 72 00 6f 00 63 00 65 00 73 00 73 00 20 00 63 00 61 00 6c 00 6c 00 20 00 63 00 72 00 65 00 61 00 74 00 65 00 20 00 22 00 43 00 3a 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 5c 00 53 00 79 00 73 00 74 00 65 00 6d 00 33 00 32 00 5c 00 72 00 75 00 6e 00 64 00 6c 00 6c 00 33 00 32 00 2e 00 65 00 78 00 65 00 20 00 5c 00 5c 00 22 00 43 00 3a 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 5c 00 25 00 73 00 5c 00 5c 00 22 00 20 00 23 00 31 00}
+		$str01 = {74 00 68 00 65 00 79 00 20 00 68 00 61 00 76 00 65 00 20 00 62 00 65 00 65 00 6e 00 20 00 65 00 6e 00 63 00 72 00 79 00 70 00 74 00 65 00 64 00 2e 00 20 00 50 00 65 00 72 00 68 00 61 00 70 00 73 00 20 00 79 00 6f 00 75 00 20 00 61 00 72 00 65 00 20 00 62 00 75 00 73 00 79 00 20 00 6c 00 6f 00 6f 00 6b 00 69 00 6e 00 67 00}
+		$mbr01 = {00 00 00 55 aa e9 ?? ??}
 
-*/
+	condition:
+		all of them
+}
 
-/*
-	Yara Rule Set
-	Author: Florian Roth
-	Date: 2016-03-24
-	Identifier: Petya Ransomware
-*/
-
-/* Rule Set ----------------------------------------------------------------- */
-
-rule Petya_Ransomware {
+rule Petya_Ransomware : hardened
+{
 	meta:
 		description = "Detects Petya Ransomware"
 		author = "Florian Roth"
@@ -120,28 +91,33 @@ rule Petya_Ransomware {
 		date = "2016-03-24"
 		score = 60
 		hash = "26b4699a7b9eeb16e76305d843d4ab05e94d43f3201436927e13b3ebafa90739"
+
 	strings:
-		$a1 = "<description>WinRAR SFX module</description>" fullword ascii
+		$a1 = {3c 64 65 73 63 72 69 70 74 69 6f 6e 3e 57 69 6e 52 41 52 20 53 46 58 20 6d 6f 64 75 6c 65 3c 2f 64 65 73 63 72 69 70 74 69 6f 6e 3e}
+		$s1 = {42 00 58 00 2d 00 50 00 72 00 6f 00 78 00 79 00 2d 00 4d 00 61 00 6e 00 75 00 61 00 6c 00 2d 00 41 00 75 00 74 00 68 00}
+		$s2 = {3c 21 2d 2d 54 68 65 20 49 44 20 62 65 6c 6f 77 20 69 6e 64 69 63 61 74 65 73 20 61 70 70 6c 69 63 61 74 69 6f 6e 20 73 75 70 70 6f 72 74 20 66 6f 72 20 57 69 6e 64 6f 77 73 20 31 30 20 2d 2d 3e}
+		$s3 = {58 00 2d 00 48 00 54 00 54 00 50 00 2d 00 41 00 74 00 74 00 65 00 6d 00 70 00 74 00 73 00}
+		$s4 = {40 00 43 00 6f 00 6d 00 6d 00 61 00 6e 00 64 00 4c 00 69 00 6e 00 65 00 4d 00 6f 00 64 00 65 00}
+		$s5 = {58 00 2d 00 52 00 65 00 74 00 72 00 79 00 2d 00 41 00 66 00 74 00 65 00 72 00}
 
-		$s1 = "BX-Proxy-Manual-Auth" fullword wide
-		$s2 = "<!--The ID below indicates application support for Windows 10 -->" fullword ascii
-		$s3 = "X-HTTP-Attempts" fullword wide
-		$s4 = "@CommandLineMode" fullword wide
-		$s5 = "X-Retry-After" fullword wide
 	condition:
-		uint16(0) == 0x5a4d and filesize < 500KB and $a1 and 3 of ($s*)
+		uint16( 0 ) == 0x5a4d and filesize < 500KB and $a1 and 3 of ( $s* )
 }
 
-rule Ransom_Petya {
-meta:
-    description = "Regla para detectar Ransom.Petya con md5 AF2379CC4D607A45AC44D62135FB7015"
-    author = "CCN-CERT"
-    version = "1.0"
-    score = 70
-strings:
-    $a1 = { C1 C8 14 2B F0 03 F0 2B F0 03 F0 C1 C0 14 03 C2 }
-    $a2 = { 46 F7 D8 81 EA 5A 93 F0 12 F7 DF C1 CB 10 81 F6 }
-    $a3 = { 0C 88 B9 07 87 C6 C1 C3 01 03 C5 48 81 C3 A3 01 00 00 }
-condition:
-    all of them
+rule Ransom_Petya : hardened
+{
+	meta:
+		description = "Regla para detectar Ransom.Petya con md5 AF2379CC4D607A45AC44D62135FB7015"
+		author = "CCN-CERT"
+		version = "1.0"
+		score = 70
+
+	strings:
+		$a1 = { C1 C8 14 2B F0 03 F0 2B F0 03 F0 C1 C0 14 03 C2 }
+		$a2 = { 46 F7 D8 81 EA 5A 93 F0 12 F7 DF C1 CB 10 81 F6 }
+		$a3 = { 0C 88 B9 07 87 C6 C1 C3 01 03 C5 48 81 C3 A3 01 00 00 }
+
+	condition:
+		all of them
 }
+

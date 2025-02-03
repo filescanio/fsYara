@@ -1,4 +1,4 @@
-rule RisePro
+rule RisePro : hardened
 {
 	meta:
 		author = "kevoreilly"
@@ -16,11 +16,10 @@ rule RisePro
 		$c2 = {FF 75 30 83 3D [4] 10 BA [4] B9 [4] 0F 43 15 [4] 83 3D [4] 10 0F 43 0D [4] E8 [4] A3}
 
 	condition:
-		uint16(0)==0x5A4D and 
-		any of them
+		uint16( 0 ) == 0x5A4D and any of them
 }
 
-rule win_risepro_auto
+rule win_risepro_auto : hardened
 {
 	meta:
 		author = "Felix Bilstein - yara-signator at cocacoding dot com"
@@ -54,11 +53,10 @@ rule win_risepro_auto
 		$sequence_9 = { 85ff 780f 3b3d???????? 7307 }
 
 	condition:
-		7 of them and 
-		filesize <280576
+		7 of them and filesize < 280576
 }
 
-rule risepro
+rule risepro : hardened
 {
 	meta:
 		author = "c3rb3ru5d3d53c"
@@ -212,12 +210,10 @@ rule risepro
             45 ?? 81 fa 80 00 00 00 73 06}
 
 	condition:
-		uint16(0)==0x5a4d and 
-		uint32( uint32(0x3c))==0x00004550 and 
-		7 of them
+		uint16( 0 ) == 0x5a4d and uint32( uint32( 0x3c ) ) == 0x00004550 and 7 of them
 }
 
-rule RisePro_1
+rule RisePro_1 : hardened limited
 {
 	meta:
 		author = "ditekShen"
@@ -230,12 +226,12 @@ rule RisePro_1
 		score = 75
 
 	strings:
-		$x1 = "t.me/riseprosupport" ascii wide nocase
-		$s1 = "failed readpacket" fullword wide
-		$s2 = "faield sendpacket" fullword wide
-		$s3 = "PersistWal" fullword wide
+		$x1 = {((74 2e 6d 65 2f 72 69 73 65 70 72 6f 73 75 70 70 6f 72 74) | (74 00 2e 00 6d 00 65 00 2f 00 72 00 69 00 73 00 65 00 70 00 72 00 6f 00 73 00 75 00 70 00 70 00 6f 00 72 00 74 00))}
+		$s1 = {66 00 61 00 69 00 6c 00 65 00 64 00 20 00 72 00 65 00 61 00 64 00 70 00 61 00 63 00 6b 00 65 00 74 00}
+		$s2 = {66 00 61 00 69 00 65 00 6c 00 64 00 20 00 73 00 65 00 6e 00 64 00 70 00 61 00 63 00 6b 00 65 00 74 00}
+		$s3 = {50 00 65 00 72 00 73 00 69 00 73 00 74 00 57 00 61 00 6c 00}
 		$s4 = /CRED_ENUMERATE_(ALL|SESSION)_CREDENTIALS/ fullword ascii
-		$s5 = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36" fullword wide
+		$s5 = {4d 00 6f 00 7a 00 69 00 6c 00 6c 00 61 00 2f 00 35 00 2e 00 30 00 20 00 28 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 4e 00 54 00 20 00 31 00 30 00 2e 00 30 00 3b 00 20 00 57 00 69 00 6e 00 36 00 34 00 3b 00 20 00 78 00 36 00 34 00 29 00 20 00 41 00 70 00 70 00 6c 00 65 00 57 00 65 00 62 00 4b 00 69 00 74 00 2f 00 35 00 33 00 37 00 2e 00 33 00 36 00 20 00 28 00 4b 00 48 00 54 00 4d 00 4c 00 2c 00 20 00 6c 00 69 00 6b 00 65 00 20 00 47 00 65 00 63 00 6b 00 6f 00 29 00 20 00 43 00 68 00 72 00 6f 00 6d 00 65 00 2f 00 31 00 31 00 35 00 2e 00 30 00 2e 00 30 00 2e 00 30 00 20 00 53 00 61 00 66 00 61 00 72 00 69 00 2f 00 35 00 33 00 37 00 2e 00 33 00 36 00}
 		$s6 = { 4c 00 6f 00 67 00 69 00 6e 00 20 00 44 00 61 00
                 74 00 61 [10] 57 00 65 00 62 00 20 00 44 00 61 00
                 74 00 61 [2] 48 00 69 00 73 00 74 00 6f 00 72 00
@@ -255,12 +251,10 @@ rule RisePro_1
 		$s9 = /catch (save )?(windows cred|screen|pluginscrypto|historyCC|autofill|cookies|passwords|passwords sql|autofills sql|dwnlhistory sql|discordToken|quantum|isDropped)/ fullword wide
 
 	condition:
-		uint16(0)==0x5a4d and 
-		(1 of ($x*) or 
-			6 of ($s*))
+		uint16( 0 ) == 0x5a4d and ( 1 of ( $x* ) or 6 of ( $s* ) )
 }
 
-rule win_risepro_auto_1
+rule win_risepro_auto_1 : hardened
 {
 	meta:
 		author = "Felix Bilstein - yara-signator at cocacoding dot com"
@@ -295,11 +289,10 @@ rule win_risepro_auto_1
 		$sequence_9 = { 51 0fb655d0 52 0fb645cf 50 }
 
 	condition:
-		7 of them and 
-		filesize <280576
+		7 of them and filesize < 280576
 }
 
-rule RisePro_2
+rule RisePro_2 : hardened
 {
 	meta:
 		author = "ANY.RUN"
@@ -319,7 +312,7 @@ rule RisePro_2
 		any of them
 }
 
-rule RisePro_stealer
+rule RisePro_stealer : hardened
 {
 	meta:
 		version = "1.0"
@@ -338,13 +331,10 @@ rule RisePro_stealer
 		$mov_dword_ptr2 = {c7 45}
 
 	condition:
-		uint16be(0)==0x4d5a and 
-		#mov_dword_ptr1>5000 and 
-		#mov_dword_ptr2>800 and 
-		#pxor>1000
+		uint16be( 0 ) == 0x4d5a and #mov_dword_ptr1 > 5000 and #mov_dword_ptr2 > 800 and #pxor > 1000
 }
 
-rule win_risepro_auto_2
+rule win_risepro_auto_2 : hardened
 {
 	meta:
 		author = "Felix Bilstein - yara-signator at cocacoding dot com"
@@ -381,11 +371,10 @@ rule win_risepro_auto_2
 		$sequence_9 = { e8???????? 50 8d4dd4 e8???????? 8d5320 }
 
 	condition:
-		7 of them and 
-		filesize <280576
+		7 of them and filesize < 280576
 }
 
-rule fsRisePro
+rule fsRisePro : hardened
 {
 	meta:
 		description = "FsYARA - Malware Trends"
@@ -393,13 +382,6 @@ rule fsRisePro
 		score = 75
 
 	condition:
-		RisePro or 
-		win_risepro_auto or 
-		risepro or 
-		RisePro_1 or 
-		win_risepro_auto_1 or 
-		RisePro_2 or 
-		RisePro_stealer or 
-		win_risepro_auto_2
+		RisePro or win_risepro_auto or risepro or RisePro_1 or win_risepro_auto_1 or RisePro_2 or RisePro_stealer or win_risepro_auto_2
 }
 

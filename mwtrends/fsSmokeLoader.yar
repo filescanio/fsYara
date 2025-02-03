@@ -1,4 +1,4 @@
-rule SmokeLoader
+rule SmokeLoader : hardened
 {
 	meta:
 		author = "kevoreilly"
@@ -20,7 +20,7 @@ rule SmokeLoader
 		2 of them
 }
 
-rule Windows_Trojan_Smokeloader_4e31426e
+rule Windows_Trojan_Smokeloader_4e31426e : hardened
 {
 	meta:
 		author = "Elastic Security"
@@ -47,7 +47,7 @@ rule Windows_Trojan_Smokeloader_4e31426e
 		all of them
 }
 
-rule Windows_Trojan_Smokeloader_4ee15b92
+rule Windows_Trojan_Smokeloader_4ee15b92 : hardened
 {
 	meta:
 		author = "Elastic Security"
@@ -74,7 +74,7 @@ rule Windows_Trojan_Smokeloader_4ee15b92
 		all of them
 }
 
-rule Windows_Trojan_Smokeloader_ea14b2a5
+rule Windows_Trojan_Smokeloader_ea14b2a5 : hardened
 {
 	meta:
 		author = "Elastic Security"
@@ -102,7 +102,7 @@ rule Windows_Trojan_Smokeloader_ea14b2a5
 		all of them
 }
 
-rule Windows_Trojan_Smokeloader_de52ed44
+rule Windows_Trojan_Smokeloader_de52ed44 : hardened
 {
 	meta:
 		author = "Elastic Security"
@@ -130,7 +130,7 @@ rule Windows_Trojan_Smokeloader_de52ed44
 		all of them
 }
 
-rule win_smokeloader_auto
+rule win_smokeloader_auto : hardened
 {
 	meta:
 		author = "Felix Bilstein - yara-signator at cocacoding dot com"
@@ -219,11 +219,10 @@ rule win_smokeloader_auto
 		$sequence_64 = { 5d 5d 285829 5e cb }
 
 	condition:
-		7 of them and 
-		filesize <245760
+		7 of them and filesize < 245760
 }
 
-rule malware_SmokeLoader
+rule malware_SmokeLoader : hardened
 {
 	meta:
 		description = "detect SmokeLoader in memory"
@@ -242,12 +241,10 @@ rule malware_SmokeLoader
 		$c1 = { C7 ?? ?? ?? 25 73 25 73 }
 
 	condition:
-		$a1 and 
-		$b1 and 
-		$c1
+		$a1 and $b1 and $c1
 }
 
-rule Windows_Trojan_Smokeloader_3687686f
+rule Windows_Trojan_Smokeloader_3687686f : hardened
 {
 	meta:
 		author = "Elastic Security"
@@ -274,7 +271,7 @@ rule Windows_Trojan_Smokeloader_3687686f
 		all of them
 }
 
-rule SmokeLoader_1
+rule SmokeLoader_1 : hardened
 {
 	meta:
 		author = "kev"
@@ -292,10 +289,10 @@ rule SmokeLoader_1
 		$decrypt32_1 = {03 EE 8B D7 2B C7 8B F8 8B 4D 01 8A 04 17 6A 04 0F C9 5B 32 C1 C1 F9 08 4B 75 F8 F6 D0 88 02 42 4E 75 E5 8B 7C 24 14 8B C7 5F 5E 5D 5B 59 59 C3}
 
 	condition:
-		any of ($decrypt*)
+		any of ( $decrypt* )
 }
 
-rule fsSmokeLoader
+rule fsSmokeLoader : hardened
 {
 	meta:
 		description = "FsYARA - Malware Trends"
@@ -303,14 +300,6 @@ rule fsSmokeLoader
 		score = 75
 
 	condition:
-		SmokeLoader or 
-		Windows_Trojan_Smokeloader_4e31426e or 
-		Windows_Trojan_Smokeloader_4ee15b92 or 
-		Windows_Trojan_Smokeloader_ea14b2a5 or 
-		Windows_Trojan_Smokeloader_de52ed44 or 
-		win_smokeloader_auto or 
-		malware_SmokeLoader or 
-		Windows_Trojan_Smokeloader_3687686f or 
-		SmokeLoader_1
+		SmokeLoader or Windows_Trojan_Smokeloader_4e31426e or Windows_Trojan_Smokeloader_4ee15b92 or Windows_Trojan_Smokeloader_ea14b2a5 or Windows_Trojan_Smokeloader_de52ed44 or win_smokeloader_auto or malware_SmokeLoader or Windows_Trojan_Smokeloader_3687686f or SmokeLoader_1
 }
 

@@ -1,44 +1,37 @@
-// source: https://github.com/advanced-threat-research/Yara-Rules/blob/master/ransomware/RANSOM_amba.yar
+rule amba_ransomware : hardened
+{
+	meta:
+		description = "Rule to detect Amba Ransomware"
+		author = "Marc Rivero | McAfee ATR Team"
+		date = "2017-07-03"
+		score = 70
+		rule_version = "v1"
+		malware_type = "ransomware"
+		malware_family = "Ransom:W32/Amba"
+		actor_type = "Cybercrime"
+		actor_group = "Unknown"
+		reference = "https://www.enigmasoftware.com/ambaransomware-removal/"
+		hash = "b9b6045a45dd22fcaf2fc13d39eba46180d489cb4eb152c87568c2404aecac2f"
 
-rule amba_ransomware {
-   
-   meta:
+	strings:
+		$s1 = {36 00 34 00 44 00 43 00 52 00 59 00 50 00 54 00 2e 00 53 00 59 00 53 00}
+		$s2 = {33 00 32 00 44 00 43 00 52 00 59 00 50 00 54 00 2e 00 53 00 59 00 53 00}
+		$s3 = {36 00 34 00 44 00 43 00 49 00 4e 00 53 00 54 00 2e 00 45 00 58 00 45 00}
+		$s4 = {33 00 32 00 44 00 43 00 49 00 4e 00 53 00 54 00 2e 00 45 00 58 00 45 00}
+		$s5 = {33 00 32 00 44 00 43 00 43 00 4f 00 4e 00 2e 00 45 00 58 00 45 00}
+		$s6 = {36 00 34 00 44 00 43 00 43 00 4f 00 4e 00 2e 00 45 00 58 00 45 00}
+		$s8 = {33 00 32 00 44 00 43 00 41 00 50 00 49 00 2e 00 44 00 4c 00 4c 00}
+		$s9 = {36 00 34 00 44 00 43 00 41 00 50 00 49 00 2e 00 44 00 4c 00 4c 00}
+		$s10 = {49 43 59 67 63 32 68 31 64 47 52 76 64 32 34 67 4c 32 59 67 4c 33 49 67 4c 33 51 67 4d 41 3d 3d}
+		$s11 = {51 7a 70 63 56 58 4e 6c 63 6e 4e 63 51 55 4a 44 52 46 78 75 5a 58 52 77 59 58 4e 7a 4c 6e 52 34 64 41 3d 3d}
+		$s12 = {29 21 70 73 73 78 7d 76 21 70 73 73 78 7d 76 29 29 21 70 73 73 78 7d 76 21 70 73 73 78 7d 76 29 29 21 70 73 73 78 7d 76 21 70 73 73 78 7d 76 29 29 21 70 73 73 78 7d 76 21 70 73 73 78 7d 76 29 29 21 70 73 73 78 7d 76 21 70 73 73 78 7d 76 29 29 21 70 73 73 78 7d 76 21 70 73 73 78 7d 76 29 29 21 70 73 73 78 7d 76 21 70 73 73 78 7d 76 29}
+		$s13 = {52 47 56 6d 63 6d 46 6e 62 57 56 75 64 46 4e 6c 63 6e 5a 70 59 32 55 3d}
+		$s14 = {4c 57 56 75 59 33 4a 35 63 48 51 67 63 48 51 35 49 43 31 77 49 41 3d 3d}
+		$s15 = {4c 57 56 75 59 33 4a 35 63 48 51 67 63 48 51 33 49 43 31 77 49 41 3d 3d}
+		$s16 = {4c 57 56 75 59 33 4a 35 63 48 51 67 63 48 51 32 49 43 31 77 49 41 3d 3d}
+		$s17 = {4c 57 56 75 59 33 4a 35 63 48 51 67 63 48 51 7a 49 43 31 77 49 41 3d 3d}
 
-      description = "Rule to detect Amba Ransomware"
-      author = "Marc Rivero | McAfee ATR Team"
-      date = "2017-07-03"
-      score = 70
-      rule_version = "v1"
-      malware_type = "ransomware"
-      malware_family = "Ransom:W32/Amba"
-      actor_type = "Cybercrime"
-      actor_group = "Unknown"
-      reference = "https://www.enigmasoftware.com/ambaransomware-removal/"
-      hash = "b9b6045a45dd22fcaf2fc13d39eba46180d489cb4eb152c87568c2404aecac2f"
-
-   strings:
-
-      $s1 = "64DCRYPT.SYS" fullword wide
-      $s2 = "32DCRYPT.SYS" fullword wide
-      $s3 = "64DCINST.EXE" fullword wide
-      $s4 = "32DCINST.EXE" fullword wide
-      $s5 = "32DCCON.EXE" fullword wide
-      $s6 = "64DCCON.EXE" fullword wide
-      $s8 = "32DCAPI.DLL" fullword wide
-      $s9 = "64DCAPI.DLL" fullword wide
-      $s10 = "ICYgc2h1dGRvd24gL2YgL3IgL3QgMA==" fullword ascii 
-      $s11 = "QzpcVXNlcnNcQUJDRFxuZXRwYXNzLnR4dA==" fullword ascii 
-      $s12 = ")!pssx}v!pssx}v))!pssx}v!pssx}v))!pssx}v!pssx}v))!pssx}v!pssx}v))!pssx}v!pssx}v))!pssx}v!pssx}v))!pssx}v!pssx}v)" fullword ascii
-      $s13 = "RGVmcmFnbWVudFNlcnZpY2U=" 
-      $s14 = "LWVuY3J5cHQgcHQ5IC1wIA==" 
-      $s15 = "LWVuY3J5cHQgcHQ3IC1wIA==" 
-      $s16 = "LWVuY3J5cHQgcHQ2IC1wIA==" 
-      $s17 = "LWVuY3J5cHQgcHQzIC1wIA==" 
-
-   condition:
-   
-      ( uint16(0) == 0x5a4d and
-      filesize < 3000KB and
-      ( 8 of them )) or
-      ( all of them )
+	condition:
+		( uint16( 0 ) == 0x5a4d and filesize < 3000KB and ( 8 of them ) ) or ( all of them )
 }
+

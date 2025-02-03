@@ -1,13 +1,15 @@
-rule MAL_Kwampirs_Apr18 {
-    meta:
-        author = "Symantec"
-        family = "Kwampirs"
-        description = "Kwampirs dropper and main payload components"
-        reference = "https://www.symantec.com/blogs/threat-intelligence/orangeworm-targets-healthcare-us-europe-asia"
-        date = "2018-04-23"
-        id = "298e2868-e90e-55b4-9115-9f0b43521266"
-    strings:
-        $pubkey = {
+rule MAL_Kwampirs_Apr18 : hardened
+{
+	meta:
+		author = "Symantec"
+		family = "Kwampirs"
+		description = "Kwampirs dropper and main payload components"
+		reference = "https://www.symantec.com/blogs/threat-intelligence/orangeworm-targets-healthcare-us-europe-asia"
+		date = "2018-04-23"
+		id = "298e2868-e90e-55b4-9115-9f0b43521266"
+
+	strings:
+		$pubkey = {
             06 02 00 00 00 A4 00 00 52 53 41 31 00 08 00 00
             01 00 01 00 CD 74 15 BC 47 7E 0A 5E E4 35 22 A5
             97 0C 65 BE E0 33 22 F2 94 9D F5 40 97 3C 53 F9
@@ -27,8 +29,7 @@ rule MAL_Kwampirs_Apr18 {
             90 DC 6C 26 5D 70 B4 78 F9 5E C9 7D 59 10 61 DF
             F7 E4 0C B3
         }
-
-        $network_xor_key = {
+		$network_xor_key = {
             B7 E9 F9 2D F8 3E 18 57 B9 18 2B 1F 5F D9 A5 38
             C8 E7 67 E9 C6 62 9C 50 4E 8D 00 A6 59 F8 72 E0
             91 42 FF 18 A6 D1 81 F2 2B C8 29 EB B9 87 6F 58
@@ -46,8 +47,7 @@ rule MAL_Kwampirs_Apr18 {
             45 0E 05 ED 69 8D CF C5 40 50 B1 AA 13 74 33 0F
             DF 41 82 3B 1A 79 DC 3B 9D C3 BD EA B1 3E 04 33
         }
-
-        $decrypt_string = {
+		$decrypt_string = {
             85 DB 75 09 85 F6 74 05 89 1E B0 01 C3 85 FF 74
             4F F6 C3 01 75 4A 85 F6 74 46 8B C3 D1 E8 33 C9
             40 BA 02 00 00 00 F7 E2 0F 90 C1 F7 D9 0B C8 51
@@ -56,8 +56,7 @@ rule MAL_Kwampirs_Apr18 {
             40 88 11 41 3B C3 72 EA 66 C7 01 00 00 B0 01 C3
             32 C0 C3
         }
-
-        $init_strings = {
+		$init_strings = {
             55 8B EC 83 EC 10 33 C9 B8 0D 00 00 00 BA 02 00
             00 00 F7 E2 0F 90 C1 53 56 57 F7 D9 0B C8 51 E8
             B3 27 00 00 BF 05 00 00 00 8D 77 FE BB 4A 35 02
@@ -65,6 +64,8 @@ rule MAL_Kwampirs_Apr18 {
             10 83 C4 04 2B DF A3 C8 FC 03 10 C7 45 FC 00 00
             00 00 8D 4F FC 89 55 F8 89 5D F0 EB 06
         }
-    condition:
-        2 of them
+
+	condition:
+		2 of them
 }
+

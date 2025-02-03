@@ -1,62 +1,51 @@
-// source: https://github.com/Neo23x0/signature-base/blob/99cc905c67522a1dea4e97cb15b13ff578118d6f/yara/apt_olympic_destroyer.yar
-/*
-   Yara Rule Set
-   Author: Florian Roth
-   Date: 2018-02-12
-   Identifier: Olympic Destroyer
-   Reference: http://blog.talosintelligence.com/2018/02/olympic-destroyer.html
-*/
+rule Destructive_Ransomware_Gen1 : hardened
+{
+	meta:
+		description = "Detects destructive malware"
+		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
+		author = "Florian Roth (Nextron Systems)"
+		reference = "http://blog.talosintelligence.com/2018/02/olympic-destroyer.html"
+		date = "2018-02-12"
+		hash1 = "ae9a4e244a9b3c77d489dee8aeaf35a7c3ba31b210e76d81ef2e91790f052c85"
+		id = "3a7ce55e-fb28-577b-91bb-fe02d7b3d73c"
+
+	strings:
+		$x1 = {2f 00 73 00 65 00 74 00 20 00 7b 00 64 00 65 00 66 00 61 00 75 00 6c 00 74 00 7d 00 20 00 62 00 6f 00 6f 00 74 00 73 00 74 00 61 00 74 00 75 00 73 00 70 00 6f 00 6c 00 69 00 63 00 79 00 20 00 69 00 67 00 6e 00 6f 00 72 00 65 00 61 00 6c 00 6c 00 66 00 61 00 69 00 6c 00 75 00 72 00 65 00 73 00 20 00 26 00 20 00 62 00 63 00 64 00 65 00 64 00 69 00 74 00 20 00 2f 00 73 00 65 00 74 00 20 00 7b 00 64 00 65 00 66 00 61 00 75 00 6c 00 74 00 7d 00 20 00 72 00 65 00 63 00 6f 00 76 00 65 00 72 00 79 00 65 00 6e 00 61 00 62 00 6c 00 65 00 64 00 20 00 6e 00 6f 00}
+		$x2 = {64 00 65 00 6c 00 65 00 74 00 65 00 20 00 73 00 68 00 61 00 64 00 6f 00 77 00 73 00 20 00 2f 00 61 00 6c 00 6c 00 20 00 2f 00 71 00 75 00 69 00 65 00 74 00}
+		$x3 = {64 00 65 00 6c 00 65 00 74 00 65 00 20 00 63 00 61 00 74 00 61 00 6c 00 6f 00 67 00 20 00 2d 00 71 00 75 00 69 00 65 00 74 00}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and filesize < 100KB and 1 of them
+}
 
 import "pe"
 
-/* Rule Set ----------------------------------------------------------------- */
+rule OlympicDestroyer_Gen2 : hardened
+{
+	meta:
+		description = "Detects Olympic Destroyer malware"
+		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
+		author = "Florian Roth (Nextron Systems)"
+		reference = "http://blog.talosintelligence.com/2018/02/olympic-destroyer.html"
+		date = "2018-02-12"
+		hash1 = "d934cb8d0eadb93f8a57a9b8853c5db218d5db78c16a35f374e413884d915016"
+		hash2 = "3e27b6b287f0b9f7e85bfe18901d961110ae969d58b44af15b1d75be749022c2"
+		hash3 = "edb1ff2521fb4bf748111f92786d260d40407a2e8463dcd24bb09f908ee13eb9"
+		hash4 = "28858cc6e05225f7d156d1c6a21ed11188777fa0a752cb7b56038d79a88627cc"
+		id = "8d0cbb7b-6650-53ed-8d58-176f8b4af880"
+		score = 75
 
-rule Destructive_Ransomware_Gen1 {
-   meta:
-      description = "Detects destructive malware"
-      license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
-      author = "Florian Roth (Nextron Systems)"
-      reference = "http://blog.talosintelligence.com/2018/02/olympic-destroyer.html"
-      date = "2018-02-12"
-      hash1 = "ae9a4e244a9b3c77d489dee8aeaf35a7c3ba31b210e76d81ef2e91790f052c85"
-      id = "3a7ce55e-fb28-577b-91bb-fe02d7b3d73c"
-   strings:
-      $x1 = "/set {default} bootstatuspolicy ignoreallfailures & bcdedit /set {default} recoveryenabled no" fullword wide
-      $x2 = "delete shadows /all /quiet" fullword wide
-      $x3 = "delete catalog -quiet" fullword wide
-   condition:
-      uint16(0) == 0x5a4d and filesize < 100KB and 1 of them
+	strings:
+		$x1 = {63 00 6d 00 64 00 2e 00 65 00 78 00 65 00 20 00 2f 00 63 00 20 00 28 00 70 00 69 00 6e 00 67 00 20 00 30 00 2e 00 30 00 2e 00 30 00 2e 00 30 00 20 00 3e 00 20 00 6e 00 75 00 6c 00 29 00 20 00 26 00 26 00 20 00 69 00 66 00 20 00 65 00 78 00 69 00 73 00 74 00 20 00 25 00 70 00 72 00 6f 00 67 00 72 00 61 00 6d 00 64 00 61 00 74 00 61 00 25 00 5c 00 65 00 76 00 74 00 63 00 68 00 6b 00 2e 00 74 00 78 00 74 00}
+		$x2 = {63 00 6d 00 64 00 2e 00 65 00 78 00 65 00 20 00 2f 00 63 00 20 00 28 00 65 00 63 00 68 00 6f 00 20 00 73 00 74 00 72 00 50 00 61 00 74 00 68 00 20 00 3d 00 20 00 57 00 73 00 63 00 72 00 69 00 70 00 74 00 2e 00 53 00 63 00 72 00 69 00 70 00 74 00 46 00 75 00 6c 00 6c 00 4e 00 61 00 6d 00 65 00 20 00 26 00 20 00 65 00 63 00 68 00 6f 00 2e 00 53 00 65 00 74 00 20 00 46 00 53 00 4f 00 20 00 3d 00 20 00 43 00 72 00 65 00 61 00 74 00 65 00 4f 00 62 00 6a 00 65 00 63 00 74 00 5e 00 28 00 22 00 53 00 63 00 72 00 69 00 70 00 74 00 69 00 6e 00 67 00 2e 00 46 00 69 00 6c 00 65 00 53 00 79 00 73 00 74 00 65 00 6d 00 4f 00 62 00 6a 00 65 00 63 00 74 00 22 00 5e 00 29 00}
+		$x3 = {64 00 65 00 6c 00 20 00 25 00 70 00 72 00 6f 00 67 00 72 00 61 00 6d 00 64 00 61 00 74 00 61 00 25 00 5c 00 65 00 76 00 74 00 63 00 68 00 6b 00 2e 00 74 00 78 00 74 00}
+		$x4 = {50 79 65 6f 6e 67 63 68 61 6e 67 32 30 31 38 2e 63 6f 6d 5c 73 76 63 5f 61 6c 6c 5f 73 77 64 5f 69 6e 73 74 61 6c 6c 63}
+		$s1 = {3c 00 53 00 54 00 41 00 52 00 54 00 43 00 52 00 45 00 44 00 3e 00}
+		$s2 = {53 00 45 00 4c 00 45 00 43 00 54 00 20 00 64 00 73 00 5f 00 63 00 6e 00 20 00 46 00 52 00 4f 00 4d 00 20 00 64 00 73 00 5f 00 63 00 6f 00 6d 00 70 00 75 00 74 00 65 00 72 00}
+		$s3 = {5c 00 73 00 79 00 73 00 74 00 65 00 6d 00 33 00 32 00 5c 00 6e 00 6f 00 74 00 65 00 70 00 61 00 64 00 2e 00 65 00 78 00 65 00}
+		$s4 = {25 73 20 5c 5c 25 73 20 2d 75 20 22 25 73 22 20 2d 70 20 22 25 73 22 20 2d 61 63 63 65 70 74 65 75 6c 61 20 2d 64 20 25 73 20 25 73 20 22 25 73 22}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and filesize < 5000KB and ( pe.imphash ( ) == "fd7200dcd5c0d9d4d277a26d951210aa" or pe.imphash ( ) == "975087e9286238a80895b195efb3968d" or pe.imphash ( ) == "da1c2d7acfe54df797bfb1f470257bc3" or 1 of ( $x* ) or 3 of them )
 }
 
-rule OlympicDestroyer_Gen2 {
-   meta:
-      description = "Detects Olympic Destroyer malware"
-      license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
-      author = "Florian Roth (Nextron Systems)"
-      reference = "http://blog.talosintelligence.com/2018/02/olympic-destroyer.html"
-      date = "2018-02-12"
-      hash1 = "d934cb8d0eadb93f8a57a9b8853c5db218d5db78c16a35f374e413884d915016"
-      hash2 = "3e27b6b287f0b9f7e85bfe18901d961110ae969d58b44af15b1d75be749022c2"
-      hash3 = "edb1ff2521fb4bf748111f92786d260d40407a2e8463dcd24bb09f908ee13eb9"
-      hash4 = "28858cc6e05225f7d156d1c6a21ed11188777fa0a752cb7b56038d79a88627cc"
-      id = "8d0cbb7b-6650-53ed-8d58-176f8b4af880"
-      score = 75
-   strings:
-      $x1 = "cmd.exe /c (ping 0.0.0.0 > nul) && if exist %programdata%\\evtchk.txt" fullword wide
-      $x2 = "cmd.exe /c (echo strPath = Wscript.ScriptFullName & echo.Set FSO = CreateObject^(\"Scripting.FileSystemObject\"^)" wide
-      $x3 = "del %programdata%\\evtchk.txt" fullword wide
-      $x4 = "Pyeongchang2018.com\\svc_all_swd_installc" fullword ascii
-
-      $s1 = "<STARTCRED>" fullword wide
-      $s2 = "SELECT ds_cn FROM ds_computer" fullword wide
-      $s3 = "\\system32\\notepad.exe" wide
-      $s4 = "%s \\\\%s -u \"%s\" -p \"%s\" -accepteula -d %s %s \"%s\"" fullword ascii
-   condition:
-      uint16(0) == 0x5a4d and filesize < 5000KB and (
-         pe.imphash() == "fd7200dcd5c0d9d4d277a26d951210aa" or
-         pe.imphash() == "975087e9286238a80895b195efb3968d" or
-         pe.imphash() == "da1c2d7acfe54df797bfb1f470257bc3" or
-         1 of ($x*) or
-         3 of them
-      )
-}

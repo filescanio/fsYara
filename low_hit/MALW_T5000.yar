@@ -1,44 +1,38 @@
-/*
-    This Yara ruleset is under the GNU-GPLv2 license (http://www.gnu.org/licenses/gpl-2.0.html) and open to any user or organization, as    long as you use it under this license.
-
-*/
-
-import "pe"
-
-rule T5000Strings : T5000 Family
+rule T5000Strings : T5000 Family hardened
 {
-    meta:
-        description = "T5000 Identifying Strings"
-        author = "Seth Hardy"
-        last_modified = "2014-06-26"
-        
-    strings:
-        $ = "_tmpR.vbs"
-        $ = "_tmpg.vbs"
-        $ = "Dtl.dat" wide ascii
-        $ = "3C6FB3CA-69B1-454f-8B2F-BD157762810E"
-        $ = "EED5CA6C-9958-4611-B7A7-1238F2E1B17E"
-        $ = "8A8FF8AD-D1DE-4cef-B87C-82627677662E"
-        $ = "43EE34A9-9063-4d2c-AACD-F5C62B849089"
-        $ = "A8859547-C62D-4e8b-A82D-BE1479C684C9"
-        $ = "A59CF429-D0DD-4207-88A1-04090680F714"
-        $ = "utd_CE31" wide ascii
-        $ = "f:\\Project\\T5000\\Src\\Target\\1 KjetDll.pdb"
-        $ = "l:\\MyProject\\Vc 7.1\\T5000\\T5000Ver1.28\\Target\\4 CaptureDLL.pdb"
-        $ = "f:\\Project\\T5000\\Src\\Target\\4 CaptureDLL.pdb"
-        $ = "E:\\VS2010\\xPlat2\\Release\\InstRes32.pdb"
-        
-    condition:
-       any of them
+	meta:
+		description = "T5000 Identifying Strings"
+		author = "Seth Hardy"
+		last_modified = "2014-06-26"
+
+	strings:
+		$ = {5f 74 6d 70 52 2e 76 62 73}
+		$ = {5f 74 6d 70 67 2e 76 62 73}
+		$ = {((44 74 6c 2e 64 61 74) | (44 00 74 00 6c 00 2e 00 64 00 61 00 74 00))}
+		$ = {33 43 36 46 42 33 43 41 2d 36 39 42 31 2d 34 35 34 66 2d 38 42 32 46 2d 42 44 31 35 37 37 36 32 38 31 30 45}
+		$ = {45 45 44 35 43 41 36 43 2d 39 39 35 38 2d 34 36 31 31 2d 42 37 41 37 2d 31 32 33 38 46 32 45 31 42 31 37 45}
+		$ = {38 41 38 46 46 38 41 44 2d 44 31 44 45 2d 34 63 65 66 2d 42 38 37 43 2d 38 32 36 32 37 36 37 37 36 36 32 45}
+		$ = {34 33 45 45 33 34 41 39 2d 39 30 36 33 2d 34 64 32 63 2d 41 41 43 44 2d 46 35 43 36 32 42 38 34 39 30 38 39}
+		$ = {41 38 38 35 39 35 34 37 2d 43 36 32 44 2d 34 65 38 62 2d 41 38 32 44 2d 42 45 31 34 37 39 43 36 38 34 43 39}
+		$ = {41 35 39 43 46 34 32 39 2d 44 30 44 44 2d 34 32 30 37 2d 38 38 41 31 2d 30 34 30 39 30 36 38 30 46 37 31 34}
+		$ = {((75 74 64 5f 43 45 33 31) | (75 00 74 00 64 00 5f 00 43 00 45 00 33 00 31 00))}
+		$ = {66 3a 5c 50 72 6f 6a 65 63 74 5c 54 35 30 30 30 5c 53 72 63 5c 54 61 72 67 65 74 5c 31 20 4b 6a 65 74 44 6c 6c 2e 70 64 62}
+		$ = {6c 3a 5c 4d 79 50 72 6f 6a 65 63 74 5c 56 63 20 37 2e 31 5c 54 35 30 30 30 5c 54 35 30 30 30 56 65 72 31 2e 32 38 5c 54 61 72 67 65 74 5c 34 20 43 61 70 74 75 72 65 44 4c 4c 2e 70 64 62}
+		$ = {66 3a 5c 50 72 6f 6a 65 63 74 5c 54 35 30 30 30 5c 53 72 63 5c 54 61 72 67 65 74 5c 34 20 43 61 70 74 75 72 65 44 4c 4c 2e 70 64 62}
+		$ = {45 3a 5c 56 53 32 30 31 30 5c 78 50 6c 61 74 32 5c 52 65 6c 65 61 73 65 5c 49 6e 73 74 52 65 73 33 32 2e 70 64 62}
+
+	condition:
+		any of them
 }
 
-rule T5000 : Family
+rule T5000 : Family hardened
 {
-    meta:
-        description = "T5000"
-        author = "Seth Hardy"
-        last_modified = "2014-06-26"
-        
-    condition:
-        T5000Strings
+	meta:
+		description = "T5000"
+		author = "Seth Hardy"
+		last_modified = "2014-06-26"
+
+	condition:
+		T5000Strings
 }
+

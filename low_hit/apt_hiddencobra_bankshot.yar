@@ -1,92 +1,80 @@
-/*
-   Yara Rule Set
-   Author: Florian Roth
-   Date: 2017-12-26
-   Identifier: Hidden Cobra - BANKSHOT
-   Reference: https://www.us-cert.gov/HIDDEN-COBRA-North-Korean-Malicious-Cyber-Activity
-*/
+rule HiddenCobra_BANKSHOT_Gen : hardened
+{
+	meta:
+		description = "Detects Hidden Cobra BANKSHOT trojan"
+		author = "Florian Roth (Nextron Systems)"
+		reference = "https://www.us-cert.gov/HIDDEN-COBRA-North-Korean-Malicious-Cyber-Activity"
+		date = "2017-12-26"
+		modified = "2022-06-10"
+		hash1 = "89775a2fbb361d6507de6810d2ca71711d5103b113179f1e1411ccf75e6fc486"
+		hash2 = "8b2d084a8bb165b236d3e5436d6cb6fa1fda6431f99c4f34973dc735b4f2d247"
+		hash3 = "b766ee0f46c92a746f6db3773735ee245f36c1849de985bbc3a37b15f7187f24"
+		hash4 = "daf5facbd67f949981f8388a6ca38828de2300cb702ad530e005430782802b75"
+		hash5 = "ef6f8b43caa25c5f9c7749e52c8ab61e8aec8053b9f073edeca4b35312a0a699"
+		hash6 = "d900ee8a499e288a11f1c75e151569b518864e14c58cc72c47f95309956b3eff"
+		hash7 = "ec44ecd57401b3c78d849115f08ff046011b6eb933898203b7641942d4ee3af9"
+		hash8 = "3e6d575b327a1474f4767803f94799140e16a729e7d00f1bea40cd6174d8a8a6"
+		hash9 = "6db37a52517653afe608fd84cc57a2d12c4598c36f521f503fd8413cbef9adca"
+		id = "fbf9dd32-cb9a-51f2-bd03-0387fbf44baa"
 
-/* Rule Set ----------------------------------------------------------------- */
+	strings:
+		$s1 = {4d 00 6f 00 7a 00 69 00 6c 00 6c 00 61 00 2f 00 34 00 2e 00 30 00 20 00 28 00 63 00 6f 00 6d 00 70 00 61 00 74 00 69 00 62 00 6c 00 65 00 3b 00 20 00 4d 00 53 00 49 00 45 00 20 00 38 00 2e 00 30 00 3b 00 20 00 57 00 69 00 6e 00 33 00 32 00 29 00}
+		$s2 = {72 00 48 00 54 00 54 00 50 00 2f 00 31 00 2e 00 31 00 20 00 32 00 30 00 30 00 20 00 43 00 6f 00 6e 00 6e 00 65 00 63 00 74 00 69 00 6f 00 6e 00 20 00 65 00 73 00 74 00 61 00 62 00 6c 00 69 00 73 00 68 00 65 00 64 00}
+		$s3 = {50 00 72 00 6f 00 78 00 79 00 2d 00 43 00 6f 00 6e 00 6e 00 65 00 63 00 74 00 69 00 6f 00 6e 00 3a 00 20 00 6b 00 65 00 65 00 70 00 2d 00 61 00 6c 00 69 00 76 00 65 00}
+		$s4 = {5c 00 6d 00 73 00 6e 00 63 00 66 00 2e 00 64 00 61 00 74 00}
+		$s5 = {6d 73 76 63 72 75 33 32 2e 62 61 74}
+		$s6 = {72 65 67 20 64 65 6c 65 74 65 20 22 48 4b 45 59 5f 4c 4f 43 41 4c 5f 4d 41 43 48 49 4e 45 5c 53 4f 46 54 57 41 52 45 5c 4d 69 63 72 6f 73 6f 66 74 5c 57 69 6e 64 6f 77 73 5c 43 75 72 72 65 6e 74 56 65 72 73 69 6f 6e 5c 52 75 6e 22 20 2f 76 20 22 25 73 22 20 2f 66}
+		$s7 = {4d 58 49 4e 46 4f 2e 44 4c 4c}
+		$s8 = {75 73 72 76 63 33 32 2e 62 61 74}
+		$s9 = {70 69 6e 67 20 2d 6e 20 31 20 31 32 37 2e 30 2e 30 2e 31}
+		$s10 = {25 73 64 2e 65 25 73 63 20 22 25 73 20 3e 20 25 73 20 32 3e 26 31 22}
+		$s11 = {44 57 53 2a 2e 74 6d 70}
+		$s12 = {43 00 53 00 2a 00 2e 00 74 00 6d 00 70 00}
+		$s13 = {57 00 4d 00 2a 00 2e 00 74 00 6d 00 70 00}
+		$x1 = {43 67 70 61 69 70 49 64 64 77 73 70 77 65 33 32 48 6e 61 65 68 73 64 69}
+		$x2 = {52 70 69 50 6d 74 69 43 64 6f 70 49 73 67 70 61 6f}
+		$x3 = {52 70 69 4c 74 6e 6f 64 6c 68 4f 74 67 70 63 69 64 67 79 41}
+		$x4 = {4c 61 74 69 51 64 67 48 74 6e 72 77 70 44 62 75 70 63 69}
+		$x6 = {5c 73 79 73 74 65 6d 33 32 5c 6d 73 6e 63 66 2e 64 61 74}
+		$x7 = {47 70 72 74 68 69 70 67 48 70 67 6b 74 63 70 43 69 67 77 53 61 6e 6f 77 70 67 41}
+		$a1 = {6c 69 76 65 2e 64 72 6f 70 62 6f 78 2e 63 6f 6d}
+		$a2 = {74 61 74 61 64 6f 63 6f 6d 6f 2e 79 61 68 6f 6f 2e 63 6f 6d}
+		$a3 = {77 69 64 67 65 74 73 2e 74 77 69 6d 67 2e 63 6f 6d}
+		$a4 = {68 69 73 74 6f 72 79 2e 70 61 79 70 61 6c 2e 63 6f 6d}
+		$a5 = {77 77 77 2e 62 69 74 63 6f 69 6e 2e 6f 72 67}
+		$a6 = {77 65 62 2e 77 68 61 74 73 61 70 70 2e 63 6f 6d}
 
-rule HiddenCobra_BANKSHOT_Gen {
-   meta:
-      description = "Detects Hidden Cobra BANKSHOT trojan"
-      author = "Florian Roth (Nextron Systems)"
-      reference = "https://www.us-cert.gov/HIDDEN-COBRA-North-Korean-Malicious-Cyber-Activity"
-      date = "2017-12-26"
-      modified = "2022-06-10"
-      hash1 = "89775a2fbb361d6507de6810d2ca71711d5103b113179f1e1411ccf75e6fc486"
-      hash2 = "8b2d084a8bb165b236d3e5436d6cb6fa1fda6431f99c4f34973dc735b4f2d247"
-      hash3 = "b766ee0f46c92a746f6db3773735ee245f36c1849de985bbc3a37b15f7187f24"
-      hash4 = "daf5facbd67f949981f8388a6ca38828de2300cb702ad530e005430782802b75"
-      hash5 = "ef6f8b43caa25c5f9c7749e52c8ab61e8aec8053b9f073edeca4b35312a0a699"
-      hash6 = "d900ee8a499e288a11f1c75e151569b518864e14c58cc72c47f95309956b3eff"
-      hash7 = "ec44ecd57401b3c78d849115f08ff046011b6eb933898203b7641942d4ee3af9"
-      hash8 = "3e6d575b327a1474f4767803f94799140e16a729e7d00f1bea40cd6174d8a8a6"
-      hash9 = "6db37a52517653afe608fd84cc57a2d12c4598c36f521f503fd8413cbef9adca"
-      id = "fbf9dd32-cb9a-51f2-bd03-0387fbf44baa"
-   strings:
-      $s1 = "Mozilla/4.0 (compatible; MSIE 8.0; Win32)" fullword wide
-      $s2 = "rHTTP/1.1 200 Connection established" fullword wide
-      $s3 = "Proxy-Connection: keep-alive" fullword wide
-      $s4 = "\\msncf.dat" wide
-      $s5 = "msvcru32.bat" fullword ascii
-      $s6 = "reg delete \"HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\" /v \"%s\" /f" fullword ascii
-      $s7 = "MXINFO.DLL" fullword ascii
-      $s8 = "usrvc32.bat" fullword ascii
-      $s9 = "ping -n 1 127.0.0.1" fullword ascii
-      $s10 = "%sd.e%sc \"%s > %s 2>&1\"" ascii fullword
-      $s11 = "DWS*.tmp" ascii fullword
-      $s12 = "CS*.tmp" fullword wide
-      $s13 = "WM*.tmp" fullword wide
-
-      $x1 = "CgpaipIddwspwe32Hnaehsdi" fullword ascii
-      $x2 = "RpiPmtiCdopIsgpao" fullword ascii
-      $x3 = "RpiLtnodlhOtgpcidgyA" fullword ascii
-      $x4 = "LatiQdgHtnrwpDbupci" fullword ascii
-      /* $x5 = "vchost.exe" fullword ascii */
-      $x6 = "\\system32\\msncf.dat" ascii
-      $x7 = "GprthipgHpgktcpCigwSanowpgA" fullword ascii
-
-      $a1 = "live.dropbox.com" fullword ascii
-      $a2 = "tatadocomo.yahoo.com" fullword ascii
-      $a3 = "widgets.twimg.com" fullword ascii
-      $a4 = "history.paypal.com" fullword ascii
-      $a5 = "www.bitcoin.org" fullword ascii
-      $a6 = "web.whatsapp.com" fullword ascii
-   condition:
-      uint16(0) == 0x5a4d and filesize < 500KB and (
-         1 of ($x*) or
-         2 of ($s*) or
-         4 of ($a*)
-      )
+	condition:
+		uint16( 0 ) == 0x5a4d and filesize < 500KB and ( 1 of ( $x* ) or 2 of ( $s* ) or 4 of ( $a* ) )
 }
 
-/* US CERT Rule */
+rule Unauthorized_Proxy_Server_RAT : hardened
+{
+	meta:
+		author = "US-CERT Code Analysis Team"
+		reference = "https://www.us-cert.gov/HIDDEN-COBRA-North-Korean-Malicious-Cyber-Activity"
+		hash1 = "C74E289AD927E81D2A1A56BC73E394AB"
+		hash2 = "2950E3741D7AF69E0CA0C5013ABC4209"
+		desscription = "Detects Proxy Server RAT"
+		id = "378573e3-17a7-5862-aae5-a8e84102e237"
 
-rule Unauthorized_Proxy_Server_RAT {
-   meta:
-      author = "US-CERT Code Analysis Team"
-      reference = "https://www.us-cert.gov/HIDDEN-COBRA-North-Korean-Malicious-Cyber-Activity"
-      hash1 = "C74E289AD927E81D2A1A56BC73E394AB"
-      hash2 = "2950E3741D7AF69E0CA0C5013ABC4209"
-      desscription = "Detects Proxy Server RAT"
-      id = "378573e3-17a7-5862-aae5-a8e84102e237"
-   strings:
-      $s0 = {8A043132C288043125FF00000003C299F73D40404900A14440490003D0413BCF72DE5E5FC3}
-      $s1 = {8A04318844241432C28804318B44241425FF00000003C299F73D40404900A14440490003D0413BCF72D65E5FC3}
-      $s2 = {8A04318844241432C28804318B44241425FF00000003C299F73D5C394100A16039410003D0413BCF72D65E5FC3}
-      $s3 = {8A043132C288043125FF00000003C299F73D5C394100A16039410003D0413BCF72DE5E5FC3}
-      $s4 = {B91A7900008A140780F29A8810404975F4}
-      $s5 = {399FE192769F839DCE9F2A9D2C9EAD9CEB9FD19CA59F7E9F539CEF9F029F969C6C9E5C9D949FC99F}
-      $s6 = {8A04318844241432C28804318B44241425FF00000003C299F73D40600910A14460091003D0413BCF72D65E5FC3}
-      $s7 = {3C5C75208A41014184C074183C72740C3C7474083C6274043C2275088A41014184C075DC}
-      $s8 = {8B063D9534120077353D59341200722E668B4604663DE8037F24}
-      $s9 = {8BC88B74241CC1E1052BC88B7C2418C1E1048B5C241403C88D04888B4C242083F9018944240C7523}
-      $s10 = {8B063D9034120077353D59341200722E668B4604663DE8037F246685C0}
-      $s11 = {30110FB60148FFC102C20FBEC09941F7F94103D249FFC875E7}
-      $s12 = {448BE8B84FECC44E41F7EDC1FA038BCAC1E91F03D16BD21A442BEA4183C541}
-      $s13 = {8A0A80F9627C2380F9797F1E80F9647C0A80F96D7F0580C10BEB0D80F96F7C0A80F9787F05}
-   condition:
-      any of them
+	strings:
+		$s0 = {8A043132C288043125FF00000003C299F73D40404900A14440490003D0413BCF72DE5E5FC3}
+		$s1 = {8A04318844241432C28804318B44241425FF00000003C299F73D40404900A14440490003D0413BCF72D65E5FC3}
+		$s2 = {8A04318844241432C28804318B44241425FF00000003C299F73D5C394100A16039410003D0413BCF72D65E5FC3}
+		$s3 = {8A043132C288043125FF00000003C299F73D5C394100A16039410003D0413BCF72DE5E5FC3}
+		$s4 = {B91A7900008A140780F29A8810404975F4}
+		$s5 = {399FE192769F839DCE9F2A9D2C9EAD9CEB9FD19CA59F7E9F539CEF9F029F969C6C9E5C9D949FC99F}
+		$s6 = {8A04318844241432C28804318B44241425FF00000003C299F73D40600910A14460091003D0413BCF72D65E5FC3}
+		$s7 = {3C5C75208A41014184C074183C72740C3C7474083C6274043C2275088A41014184C075DC}
+		$s8 = {8B063D9534120077353D59341200722E668B4604663DE8037F24}
+		$s9 = {8BC88B74241CC1E1052BC88B7C2418C1E1048B5C241403C88D04888B4C242083F9018944240C7523}
+		$s10 = {8B063D9034120077353D59341200722E668B4604663DE8037F246685C0}
+		$s11 = {30110FB60148FFC102C20FBEC09941F7F94103D249FFC875E7}
+		$s12 = {448BE8B84FECC44E41F7EDC1FA038BCAC1E91F03D16BD21A442BEA4183C541}
+		$s13 = {8A0A80F9627C2380F9797F1E80F9647C0A80F96D7F0580C10BEB0D80F96F7C0A80F9787F05}
+
+	condition:
+		any of them
 }
+

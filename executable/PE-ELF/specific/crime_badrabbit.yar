@@ -1,62 +1,55 @@
-// source: https://github.com/Neo23x0/signature-base/blob/master/yara/crime_badrabbit.yar
+rule BadRabbit_Gen : hardened
+{
+	meta:
+		description = "Detects BadRabbit Ransomware"
+		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
+		author = "Florian Roth (Nextron Systems)"
+		reference = "https://pastebin.com/Y7pJv3tK"
+		date = "2017-10-25"
+		score = 70
+		hash1 = "8ebc97e05c8e1073bda2efb6f4d00ad7e789260afa2c276f0c72740b838a0a93"
+		hash2 = "579fd8a0385482fb4c789561a30b09f25671e86422f40ef5cca2036b28f99648"
+		hash3 = "630325cac09ac3fab908f903e3b00d0dadd5fdaa0875ed8496fcbb97a558d0da"
+		id = "272e50f8-5aef-52ec-a5d0-01e8504d6c55"
 
-/*
-   Yara Rule Set
-   Author: Florian Roth
-   Date: 2017-10-25
-   Identifier: BadRabbit
-   Reference: https://pastebin.com/Y7pJv3tK
-*/
+	strings:
+		$x1 = {73 00 63 00 68 00 74 00 61 00 73 00 6b 00 73 00 20 00 2f 00 43 00 72 00 65 00 61 00 74 00 65 00 20 00 2f 00 53 00 43 00 20 00 4f 00 4e 00 43 00 45 00 20 00 2f 00 54 00 4e 00 20 00 76 00 69 00 73 00 65 00 72 00 69 00 6f 00 6e 00 5f 00 25 00 75 00 20 00 2f 00 52 00 55 00 20 00 53 00 59 00 53 00 54 00 45 00 4d 00 20 00 2f 00 54 00 52 00 20 00 22 00 25 00 77 00 73 00 22 00 20 00 2f 00 53 00 54 00}
+		$x2 = {73 00 63 00 68 00 74 00 61 00 73 00 6b 00 73 00 20 00 2f 00 43 00 72 00 65 00 61 00 74 00 65 00 20 00 2f 00 52 00 55 00 20 00 53 00 59 00 53 00 54 00 45 00 4d 00 20 00 2f 00 53 00 43 00 20 00 4f 00 4e 00 53 00 54 00 41 00 52 00 54 00 20 00 2f 00 54 00 4e 00 20 00 72 00 68 00 61 00 65 00 67 00 61 00 6c 00 20 00 2f 00 54 00 52 00 20 00 22 00 25 00 77 00 73 00 20 00 2f 00 43 00 20 00 53 00 74 00 61 00 72 00 74 00 20 00 5c 00 5c 00 22 00 5c 00 5c 00 22 00 20 00 5c 00 5c 00 22 00 25 00 77 00 73 00 64 00 69 00 73 00 70 00 63 00 69 00 2e 00 65 00 78 00 65 00 5c 00 5c 00 22 00}
+		$x3 = {43 00 3a 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 5c 00 69 00 6e 00 66 00 70 00 75 00 62 00 2e 00 64 00 61 00 74 00}
+		$x4 = {43 00 3a 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 5c 00 63 00 73 00 63 00 63 00 2e 00 64 00 61 00 74 00}
+		$s1 = {6e 65 65 64 20 74 6f 20 64 6f 20 69 73 20 73 75 62 6d 69 74 20 74 68 65 20 70 61 79 6d 65 6e 74 20 61 6e 64 20 67 65 74 20 74 68 65 20 64 65 63 72 79 70 74 69 6f 6e 20 70 61 73 73 77 6f 72 64 2e}
+		$s2 = {5c 00 5c 00 2e 00 5c 00 47 00 4c 00 4f 00 42 00 41 00 4c 00 52 00 4f 00 4f 00 54 00 5c 00 41 00 72 00 63 00 4e 00 61 00 6d 00 65 00 5c 00 6d 00 75 00 6c 00 74 00 69 00 28 00 30 00 29 00 64 00 69 00 73 00 6b 00 28 00 30 00 29 00 72 00 64 00 69 00 73 00 6b 00 28 00 30 00 29 00 70 00 61 00 72 00 74 00 69 00 74 00 69 00 6f 00 6e 00 28 00 31 00 29 00}
+		$s3 = {5c 00 5c 00 2e 00 5c 00 70 00 69 00 70 00 65 00 5c 00 25 00 77 00 73 00}
+		$s4 = {66 00 73 00 75 00 74 00 69 00 6c 00 20 00 75 00 73 00 6e 00 20 00 64 00 65 00 6c 00 65 00 74 00 65 00 6a 00 6f 00 75 00 72 00 6e 00 61 00 6c 00 20 00 2f 00 44 00 20 00 25 00 63 00 3a 00}
+		$s5 = {52 75 6e 20 44 45 43 52 59 50 54 20 61 70 70 20 61 74 20 79 6f 75 72 20 64 65 73 6b 74 6f 70 20 61 66 74 65 72 20 73 79 73 74 65 6d 20 62 6f 6f 74}
+		$s6 = {46 00 69 00 6c 00 65 00 73 00 20 00 64 00 65 00 63 00 72 00 79 00 70 00 74 00 69 00 6f 00 6e 00 20 00 63 00 6f 00 6d 00 70 00 6c 00 65 00 74 00 65 00 64 00}
+		$s7 = {44 00 69 00 73 00 61 00 62 00 6c 00 65 00 20 00 79 00 6f 00 75 00 72 00 20 00 61 00 6e 00 74 00 69 00 2d 00 76 00 69 00 72 00 75 00 73 00 20 00 61 00 6e 00 64 00 20 00 61 00 6e 00 74 00 69 00 2d 00 6d 00 61 00 6c 00 77 00 61 00 72 00 65 00 20 00 70 00 72 00 6f 00 67 00 72 00 61 00 6d 00 73 00}
+		$s8 = {53 00 59 00 53 00 54 00 45 00 4d 00 5c 00 43 00 75 00 72 00 72 00 65 00 6e 00 74 00 43 00 6f 00 6e 00 74 00 72 00 6f 00 6c 00 53 00 65 00 74 00 5c 00 73 00 65 00 72 00 76 00 69 00 63 00 65 00 73 00 5c 00 25 00 77 00 73 00}
+		$s9 = {70 00 72 00 6f 00 63 00 65 00 73 00 73 00 20 00 63 00 61 00 6c 00 6c 00 20 00 63 00 72 00 65 00 61 00 74 00 65 00 20 00 22 00 43 00 3a 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 5c 00 53 00 79 00 73 00 74 00 65 00 6d 00 33 00 32 00 5c 00 72 00 75 00 6e 00 64 00 6c 00 6c 00 33 00 32 00 2e 00 65 00 78 00 65 00}
+		$s10 = {25 00 77 00 73 00 20 00 43 00 3a 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 5c 00 25 00 77 00 73 00 2c 00 23 00 31 00 20 00 25 00 77 00 73 00}
 
-/* Rule Set ----------------------------------------------------------------- */
-
-rule BadRabbit_Gen {
-   meta:
-      description = "Detects BadRabbit Ransomware"
-      license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
-      author = "Florian Roth (Nextron Systems)"
-      reference = "https://pastebin.com/Y7pJv3tK"
-      date = "2017-10-25"
-      score = 70
-      hash1 = "8ebc97e05c8e1073bda2efb6f4d00ad7e789260afa2c276f0c72740b838a0a93"
-      hash2 = "579fd8a0385482fb4c789561a30b09f25671e86422f40ef5cca2036b28f99648"
-      hash3 = "630325cac09ac3fab908f903e3b00d0dadd5fdaa0875ed8496fcbb97a558d0da"
-      id = "272e50f8-5aef-52ec-a5d0-01e8504d6c55"
-   strings:
-      $x1 = "schtasks /Create /SC ONCE /TN viserion_%u /RU SYSTEM /TR \"%ws\" /ST" fullword wide
-      $x2 = "schtasks /Create /RU SYSTEM /SC ONSTART /TN rhaegal /TR \"%ws /C Start \\\"\\\" \\\"%wsdispci.exe\\\"" fullword wide
-      $x3 = "C:\\Windows\\infpub.dat" fullword wide
-      $x4 = "C:\\Windows\\cscc.dat" fullword wide
-
-      $s1 = "need to do is submit the payment and get the decryption password." fullword ascii
-      $s2 = "\\\\.\\GLOBALROOT\\ArcName\\multi(0)disk(0)rdisk(0)partition(1)" fullword wide
-      $s3 = "\\\\.\\pipe\\%ws" fullword wide
-      $s4 = "fsutil usn deletejournal /D %c:" fullword wide
-      $s5 = "Run DECRYPT app at your desktop after system boot" fullword ascii
-      $s6 = "Files decryption completed" fullword wide
-      $s7 = "Disable your anti-virus and anti-malware programs" fullword wide
-      $s8 = "SYSTEM\\CurrentControlSet\\services\\%ws" fullword wide
-      $s9 = "process call create \"C:\\Windows\\System32\\rundll32.exe" fullword wide
-      $s10 = "%ws C:\\Windows\\%ws,#1 %ws" fullword wide
-   condition:
-      uint16(0) == 0x5a4d and filesize < 700KB and ( 1 of ($x*) or 2 of them )
+	condition:
+		uint16( 0 ) == 0x5a4d and filesize < 700KB and ( 1 of ( $x* ) or 2 of them )
 }
 
-rule BadRabbit_Mimikatz_Comp {
-   meta:
-      description = "Auto-generated rule"
-      license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
-      author = "Florian Roth (Nextron Systems)"
-      reference = "https://pastebin.com/Y7pJv3tK"
-      date = "2017-10-25"
-      hash1 = "2f8c54f9fa8e47596a3beff0031f85360e56840c77f71c6a573ace6f46412035"
-      id = "52affd3f-6bf9-55f6-92a5-69314a2e76e0"
-   strings:
-      $s1 = "%lS%lS%lS:%lS" fullword wide
-      $s2 = "lsasrv" fullword wide
-      $s3 = "CredentialKeys" ascii
-      /* Primary\x00m\x00s\x00v */
-      $s4 = { 50 72 69 6D 61 72 79 00 6D 00 73 00 76 00 }
-   condition:
-      ( uint16(0) == 0x5a4d and filesize < 200KB and 3 of them )
+rule BadRabbit_Mimikatz_Comp : hardened
+{
+	meta:
+		description = "Auto-generated rule"
+		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
+		author = "Florian Roth (Nextron Systems)"
+		reference = "https://pastebin.com/Y7pJv3tK"
+		date = "2017-10-25"
+		hash1 = "2f8c54f9fa8e47596a3beff0031f85360e56840c77f71c6a573ace6f46412035"
+		id = "52affd3f-6bf9-55f6-92a5-69314a2e76e0"
+
+	strings:
+		$s1 = {25 00 6c 00 53 00 25 00 6c 00 53 00 25 00 6c 00 53 00 3a 00 25 00 6c 00 53 00}
+		$s2 = {6c 00 73 00 61 00 73 00 72 00 76 00}
+		$s3 = {43 72 65 64 65 6e 74 69 61 6c 4b 65 79 73}
+		$s4 = { 50 72 69 6D 61 72 79 00 6D 00 73 00 76 00 }
+
+	condition:
+		( uint16( 0 ) == 0x5a4d and filesize < 200KB and 3 of them )
 }
+

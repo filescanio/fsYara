@@ -1,37 +1,33 @@
-//source: https://github.com/Neo23x0/signature-base/blob/e2471126858160b1c64e146d3e5756367fbf3a88/yara/gen_anomalies_keyword_combos.yar
-
 import "pe"
 
-rule SUSP_NullSoftInst_Combo_Oct20_1 {
-   meta:
-      description = "Detects suspicious NullSoft Installer combination with common Copyright strings"
-      author = "Florian Roth (Nextron Systems)"
-      reference = "https://twitter.com/malwrhunterteam/status/1313023627177193472"
-      date = "2020-10-06"
-      score = 60
-      hash1 = "686b5240e5e503528cc5ac8d764883413a260716dd290f114a60af873ee6a65f"
-      hash2 = "93951379e57e4f159bb62fd7dd563d1ac2f3f23c80ba89f2da2e395b8a647dcf"
-      hash3 = "a9ca1d6a981ccc8d8b144f337c259891a67eb6b85ee41b03699baacf4aae9a78"
-      id = "380f30a6-df6b-50c6-bb2d-b8785564bbac"
-   strings:
-      $a1 = "NullsoftInst" ascii
+rule SUSP_NullSoftInst_Combo_Oct20_1 : hardened
+{
+	meta:
+		description = "Detects suspicious NullSoft Installer combination with common Copyright strings"
+		author = "Florian Roth (Nextron Systems)"
+		reference = "https://twitter.com/malwrhunterteam/status/1313023627177193472"
+		date = "2020-10-06"
+		score = 60
+		hash1 = "686b5240e5e503528cc5ac8d764883413a260716dd290f114a60af873ee6a65f"
+		hash2 = "93951379e57e4f159bb62fd7dd563d1ac2f3f23c80ba89f2da2e395b8a647dcf"
+		hash3 = "a9ca1d6a981ccc8d8b144f337c259891a67eb6b85ee41b03699baacf4aae9a78"
+		id = "380f30a6-df6b-50c6-bb2d-b8785564bbac"
 
-      $b1 = "Microsoft Corporation" wide fullword
-      $b2 = "Apache Software Foundation" ascii wide fullword
-      $b3 = "Simon Tatham" wide fullword
+	strings:
+		$a1 = {4e 75 6c 6c 73 6f 66 74 49 6e 73 74}
+		$b1 = {4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 20 00 43 00 6f 00 72 00 70 00 6f 00 72 00 61 00 74 00 69 00 6f 00 6e 00}
+		$b2 = {((41 70 61 63 68 65 20 53 6f 66 74 77 61 72 65 20 46 6f 75 6e 64 61 74 69 6f 6e) | (41 00 70 00 61 00 63 00 68 00 65 00 20 00 53 00 6f 00 66 00 74 00 77 00 61 00 72 00 65 00 20 00 46 00 6f 00 75 00 6e 00 64 00 61 00 74 00 69 00 6f 00 6e 00))}
+		$b3 = {53 00 69 00 6d 00 6f 00 6e 00 20 00 54 00 61 00 74 00 68 00 61 00 6d 00}
+		$fp1 = {6e 73 69 73 69 6e 73 74 61 6c 6c}
+		$fp2 = {5c 00 52 00 45 00 47 00 49 00 53 00 54 00 52 00 59 00 5c 00 4d 00 41 00 43 00 48 00 49 00 4e 00 45 00 5c 00 53 00 6f 00 66 00 74 00 77 00 61 00 72 00 65 00 5c 00}
+		$fp3 = {41 00 70 00 61 00 63 00 68 00 65 00 20 00 54 00 6f 00 6d 00 63 00 61 00 74 00}
+		$fp4 = {42 00 6f 00 74 00 20 00 46 00 72 00 61 00 6d 00 65 00 77 00 6f 00 72 00 6b 00 20 00 45 00 6d 00 75 00 6c 00 61 00 74 00 6f 00 72 00}
+		$fp5 = {46 00 69 00 72 00 65 00 66 00 6f 00 78 00 20 00 48 00 65 00 6c 00 70 00 65 00 72 00}
+		$fp6 = {50 00 61 00 69 00 6e 00 74 00 2e 00 4e 00 45 00 54 00 20 00 53 00 65 00 74 00 75 00 70 00}
+		$fp7 = {4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 20 00 2e 00 4e 00 45 00 54 00 20 00 53 00 65 00 72 00 76 00 69 00 63 00 65 00 73 00 20 00 49 00 6e 00 73 00 74 00 61 00 6c 00 6c 00 61 00 74 00 69 00 6f 00 6e 00 20 00 55 00 74 00 69 00 6c 00 69 00 74 00 79 00}
+		$fp8 = {4c 00 69 00 63 00 65 00 6e 00 73 00 65 00 3a 00 20 00 4d 00 50 00 4c 00 20 00 32 00}
 
-      $fp1 = "nsisinstall" fullword ascii
-      $fp2 = "\\REGISTRY\\MACHINE\\Software\\" wide
-      $fp3 = "Apache Tomcat" wide fullword
-      $fp4 = "Bot Framework Emulator" wide fullword
-      $fp5 = "Firefox Helper" wide fullword
-      $fp6 = "Paint.NET Setup" wide fullword
-      $fp7 = "Microsoft .NET Services Installation Utility" wide fullword
-      $fp8 = "License: MPL 2" wide
-   condition:
-      uint16(0) == 0x5a4d and
-      filesize < 2000KB and
-      $a1 and 1 of ($b*) and
-      not 1 of ($fp*)
-      and pe.number_of_signatures > 0
+	condition:
+		uint16( 0 ) == 0x5a4d and filesize < 2000KB and $a1 and 1 of ( $b* ) and not 1 of ( $fp* ) and pe.number_of_signatures > 0
 }
+

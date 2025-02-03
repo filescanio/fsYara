@@ -1,31 +1,28 @@
-rule MALW_KeyBase
+rule MALW_KeyBase : hardened
 {
-meta:
-	description = "Identifies KeyBase aka Kibex."
-	author = "@bartblaze"
-	date = "2019-02"
-	tlp = "White"
+	meta:
+		description = "Identifies KeyBase aka Kibex."
+		author = "@bartblaze"
+		date = "2019-02"
+		tlp = "White"
 
-strings:	
-	$s1 = " End:]" ascii wide
-	$s2 = "Keystrokes typed:" ascii wide
-	$s3 = "Machine Time:" ascii wide
-	$s4 = "Text:" ascii wide
-	$s5 = "Time:" ascii wide
-	$s6 = "Window title:" ascii wide
-	
-	$x1 = "&application=" ascii wide
-	$x2 = "&clipboardtext=" ascii wide
-	$x3 = "&keystrokestyped=" ascii wide
-	$x4 = "&link=" ascii wide
-	$x5 = "&username=" ascii wide
-	$x6 = "&windowtitle=" ascii wide
-	$x7 = "=drowssap&" ascii wide
-	$x8 = "=emitenihcam&" ascii wide
+	strings:
+		$s1 = {((20 45 6e 64 3a 5d) | (20 00 45 00 6e 00 64 00 3a 00 5d 00))}
+		$s2 = {((4b 65 79 73 74 72 6f 6b 65 73 20 74 79 70 65 64 3a) | (4b 00 65 00 79 00 73 00 74 00 72 00 6f 00 6b 00 65 00 73 00 20 00 74 00 79 00 70 00 65 00 64 00 3a 00))}
+		$s3 = {((4d 61 63 68 69 6e 65 20 54 69 6d 65 3a) | (4d 00 61 00 63 00 68 00 69 00 6e 00 65 00 20 00 54 00 69 00 6d 00 65 00 3a 00))}
+		$s4 = {((54 65 78 74 3a) | (54 00 65 00 78 00 74 00 3a 00))}
+		$s5 = {((54 69 6d 65 3a) | (54 00 69 00 6d 00 65 00 3a 00))}
+		$s6 = {((57 69 6e 64 6f 77 20 74 69 74 6c 65 3a) | (57 00 69 00 6e 00 64 00 6f 00 77 00 20 00 74 00 69 00 74 00 6c 00 65 00 3a 00))}
+		$x1 = {((26 61 70 70 6c 69 63 61 74 69 6f 6e 3d) | (26 00 61 00 70 00 70 00 6c 00 69 00 63 00 61 00 74 00 69 00 6f 00 6e 00 3d 00))}
+		$x2 = {((26 63 6c 69 70 62 6f 61 72 64 74 65 78 74 3d) | (26 00 63 00 6c 00 69 00 70 00 62 00 6f 00 61 00 72 00 64 00 74 00 65 00 78 00 74 00 3d 00))}
+		$x3 = {((26 6b 65 79 73 74 72 6f 6b 65 73 74 79 70 65 64 3d) | (26 00 6b 00 65 00 79 00 73 00 74 00 72 00 6f 00 6b 00 65 00 73 00 74 00 79 00 70 00 65 00 64 00 3d 00))}
+		$x4 = {((26 6c 69 6e 6b 3d) | (26 00 6c 00 69 00 6e 00 6b 00 3d 00))}
+		$x5 = {((26 75 73 65 72 6e 61 6d 65 3d) | (26 00 75 00 73 00 65 00 72 00 6e 00 61 00 6d 00 65 00 3d 00))}
+		$x6 = {((26 77 69 6e 64 6f 77 74 69 74 6c 65 3d) | (26 00 77 00 69 00 6e 00 64 00 6f 00 77 00 74 00 69 00 74 00 6c 00 65 00 3d 00))}
+		$x7 = {((3d 64 72 6f 77 73 73 61 70 26) | (3d 00 64 00 72 00 6f 00 77 00 73 00 73 00 61 00 70 00 26 00))}
+		$x8 = {((3d 65 6d 69 74 65 6e 69 68 63 61 6d 26) | (3d 00 65 00 6d 00 69 00 74 00 65 00 6e 00 69 00 68 00 63 00 61 00 6d 00 26 00))}
 
-condition:
-	uint16(0) == 0x5a4d and (
-		5 of ($s*) or 6 of ($x*) or
-		( 4 of ($s*) and 4 of ($x*) )
-	)
+	condition:
+		uint16( 0 ) == 0x5a4d and ( 5 of ( $s* ) or 6 of ( $x* ) or ( 4 of ( $s* ) and 4 of ( $x* ) ) )
 }
+

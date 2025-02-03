@@ -1,67 +1,58 @@
-// source: https://github.com/Yara-Rules/rules/blob/0f93570194a80d2f2032869055808b0ddcdfb360/malware/APT_Duqu2.yar
-// source: https://github.com/Neo23x0/signature-base/blob/758d5b0ab4f443bc9ae08f7eea680409cf70ed9a/yara/apt_kaspersky_duqu2.yar
-
-/*
-	Yara Rule Set
-	Author: Mixed - Kasperksy & Florian Roth
-	Date: 2015-06-10
-	Identifier: Duqu2
-*/
-
-/* Rules by Kaspersky ------------------------------------------------------ */
-
-rule APT_apt_duqu2_loaders {
+rule APT_apt_duqu2_loaders : hardened limited
+{
 	meta:
 		copyright = "Kaspersky Lab"
 		description = "Rule to detect Duqu 2.0 samples"
 		last_modified = "2015-06-09"
 		version = "1.0"
 		id = "22db52c2-18e7-537e-a9c5-38ccfd3a0d30"
+
 	strings:
-		$a1 = "{AAFFC4F0-E04B-4C7C-B40A-B45DE971E81E}" wide
-		$a2 = "\\\\.\\pipe\\{AAFFC4F0-E04B-4C7C-B40A-B45DE971E81E}" wide
-		$a4 = "\\\\.\\pipe\\{AB6172ED-8105-4996-9D2A-597B5F827501}" wide
-		$a5 = "Global\\{B54E3268-DE1E-4c1e-A667-2596751403AD}" wide
-		$a8 = "SELECT `Data` FROM `Binary` WHERE `Name`='%s%i'" wide
-		$a9 = "SELECT `Data` FROM `Binary` WHERE `Name`='CryptHash%i'" wide
-		$a7 = "SELECT `%s` FROM `%s` WHERE `%s`='CAData%i'" wide
-		$b1 = "MSI.dll"
-		$b2 = "msi.dll"
-		$b3 = "StartAction"
-		$c1 = "msisvc_32@" wide
-		$c2 = "PROP=" wide
-		$c3 = "-Embedding" wide
-		$c4 = "S:(ML;;NW;;;LW)" wide
-		$d1 = "NameTypeBinaryDataCustomActionActionSourceTargetInstallExecuteSequenceConditionSequencePropertyValueMicrosoftManufacturer" nocase
+		$a1 = {7b 00 41 00 41 00 46 00 46 00 43 00 34 00 46 00 30 00 2d 00 45 00 30 00 34 00 42 00 2d 00 34 00 43 00 37 00 43 00 2d 00 42 00 34 00 30 00 41 00 2d 00 42 00 34 00 35 00 44 00 45 00 39 00 37 00 31 00 45 00 38 00 31 00 45 00 7d 00}
+		$a2 = {5c 00 5c 00 2e 00 5c 00 70 00 69 00 70 00 65 00 5c 00 7b 00 41 00 41 00 46 00 46 00 43 00 34 00 46 00 30 00 2d 00 45 00 30 00 34 00 42 00 2d 00 34 00 43 00 37 00 43 00 2d 00 42 00 34 00 30 00 41 00 2d 00 42 00 34 00 35 00 44 00 45 00 39 00 37 00 31 00 45 00 38 00 31 00 45 00 7d 00}
+		$a4 = {5c 00 5c 00 2e 00 5c 00 70 00 69 00 70 00 65 00 5c 00 7b 00 41 00 42 00 36 00 31 00 37 00 32 00 45 00 44 00 2d 00 38 00 31 00 30 00 35 00 2d 00 34 00 39 00 39 00 36 00 2d 00 39 00 44 00 32 00 41 00 2d 00 35 00 39 00 37 00 42 00 35 00 46 00 38 00 32 00 37 00 35 00 30 00 31 00 7d 00}
+		$a5 = {47 00 6c 00 6f 00 62 00 61 00 6c 00 5c 00 7b 00 42 00 35 00 34 00 45 00 33 00 32 00 36 00 38 00 2d 00 44 00 45 00 31 00 45 00 2d 00 34 00 63 00 31 00 65 00 2d 00 41 00 36 00 36 00 37 00 2d 00 32 00 35 00 39 00 36 00 37 00 35 00 31 00 34 00 30 00 33 00 41 00 44 00 7d 00}
+		$a8 = {53 00 45 00 4c 00 45 00 43 00 54 00 20 00 60 00 44 00 61 00 74 00 61 00 60 00 20 00 46 00 52 00 4f 00 4d 00 20 00 60 00 42 00 69 00 6e 00 61 00 72 00 79 00 60 00 20 00 57 00 48 00 45 00 52 00 45 00 20 00 60 00 4e 00 61 00 6d 00 65 00 60 00 3d 00 27 00 25 00 73 00 25 00 69 00 27 00}
+		$a9 = {53 00 45 00 4c 00 45 00 43 00 54 00 20 00 60 00 44 00 61 00 74 00 61 00 60 00 20 00 46 00 52 00 4f 00 4d 00 20 00 60 00 42 00 69 00 6e 00 61 00 72 00 79 00 60 00 20 00 57 00 48 00 45 00 52 00 45 00 20 00 60 00 4e 00 61 00 6d 00 65 00 60 00 3d 00 27 00 43 00 72 00 79 00 70 00 74 00 48 00 61 00 73 00 68 00 25 00 69 00 27 00}
+		$a7 = {53 00 45 00 4c 00 45 00 43 00 54 00 20 00 60 00 25 00 73 00 60 00 20 00 46 00 52 00 4f 00 4d 00 20 00 60 00 25 00 73 00 60 00 20 00 57 00 48 00 45 00 52 00 45 00 20 00 60 00 25 00 73 00 60 00 3d 00 27 00 43 00 41 00 44 00 61 00 74 00 61 00 25 00 69 00 27 00}
+		$b1 = {4d 53 49 2e 64 6c 6c}
+		$b2 = {6d 73 69 2e 64 6c 6c}
+		$b3 = {53 74 61 72 74 41 63 74 69 6f 6e}
+		$c1 = {6d 00 73 00 69 00 73 00 76 00 63 00 5f 00 33 00 32 00 40 00}
+		$c2 = {50 00 52 00 4f 00 50 00 3d 00}
+		$c3 = {2d 00 45 00 6d 00 62 00 65 00 64 00 64 00 69 00 6e 00 67 00}
+		$c4 = {53 00 3a 00 28 00 4d 00 4c 00 3b 00 3b 00 4e 00 57 00 3b 00 3b 00 3b 00 4c 00 57 00 29 00}
+		$d1 = {4e 61 6d 65 54 79 70 65 42 69 6e 61 72 79 44 61 74 61 43 75 73 74 6f 6d 41 63 74 69 6f 6e 41 63 74 69 6f 6e 53 6f 75 72 63 65 54 61 72 67 65 74 49 6e 73 74 61 6c 6c 45 78 65 63 75 74 65 53 65 71 75 65 6e 63 65 43 6f 6e 64 69 74 69 6f 6e 53 65 71 75 65 6e 63 65 50 72 6f 70 65 72 74 79 56 61 6c 75 65 4d 69 63 72 6f 73 6f 66 74 4d 61 6e 75 66 61 63 74 75 72 65 72}
 		$d2 = {2E 3F 41 56 3F 24 5F 42 69 6E 64 40 24 30 30 58 55 3F 24 5F 50 6D 66 5F 77 72 61 70 40 50 38 43 4C 52 ?? 40 40 41 45 58 58 5A 58 56 31 40 24 24 24 56 40 73 74 64 40 40 51 41 56 43 4C 52 ?? 40 40 40 73 74 64 40 40}
+
 	condition:
-		( (uint16(0) == 0x5a4d) and ( (any of ($a*)) or (all of ($b*)) or (all of ($c*)) ) and filesize < 100000 )
-		or
-		( (uint32(0) == 0xe011cfd0) and ( (any of ($a*)) or (all of ($b*)) or (all of ($c*)) or (any of ($d*)) ) and filesize < 20000000 )
+		(( uint16( 0 ) == 0x5a4d ) and ( ( any of ( $a* ) ) or ( all of ( $b* ) ) or ( all of ( $c* ) ) ) and filesize < 100000 ) or ( ( uint32( 0 ) == 0xe011cfd0 ) and ( ( any of ( $a* ) ) or ( all of ( $b* ) ) or ( all of ( $c* ) ) or ( any of ( $d* ) ) ) and filesize < 20000000 )
 }
 
-rule APT_apt_duqu2_drivers {
+rule APT_apt_duqu2_drivers : hardened limited
+{
 	meta:
 		copyright = "Kaspersky Lab"
 		description = "Rule to detect Duqu 2.0 drivers"
 		last_modified = "2015-06-09"
 		version = "1.0"
 		id = "714d5151-9f80-582e-a628-1de9d83a072d"
+
 	strings:
-		$a1 = "\\DosDevices\\port_optimizer" wide nocase
-		$a2 = "romanian.antihacker"
-		$a3 = "PortOptimizerTermSrv" wide
-		$a4 = "ugly.gorilla1"
-		$b1 = "NdisIMCopySendCompletePerPacketInfo"
-		$b2 = "NdisReEnumerateProtocolBindings"
-		$b3 = "NdisOpenProtocolConfiguration"
+		$a1 = {5c 00 44 00 6f 00 73 00 44 00 65 00 76 00 69 00 63 00 65 00 73 00 5c 00 70 00 6f 00 72 00 74 00 5f 00 6f 00 70 00 74 00 69 00 6d 00 69 00 7a 00 65 00 72 00}
+		$a2 = {72 6f 6d 61 6e 69 61 6e 2e 61 6e 74 69 68 61 63 6b 65 72}
+		$a3 = {50 00 6f 00 72 00 74 00 4f 00 70 00 74 00 69 00 6d 00 69 00 7a 00 65 00 72 00 54 00 65 00 72 00 6d 00 53 00 72 00 76 00}
+		$a4 = {75 67 6c 79 2e 67 6f 72 69 6c 6c 61 31}
+		$b1 = {4e 64 69 73 49 4d 43 6f 70 79 53 65 6e 64 43 6f 6d 70 6c 65 74 65 50 65 72 50 61 63 6b 65 74 49 6e 66 6f}
+		$b2 = {4e 64 69 73 52 65 45 6e 75 6d 65 72 61 74 65 50 72 6f 74 6f 63 6f 6c 42 69 6e 64 69 6e 67 73}
+		$b3 = {4e 64 69 73 4f 70 65 6e 50 72 6f 74 6f 63 6f 6c 43 6f 6e 66 69 67 75 72 61 74 69 6f 6e}
+
 	condition:
-		uint16(0) == 0x5A4D and (any of ($a*) ) and (2 of ($b*)) and filesize < 100000
+		uint16( 0 ) == 0x5A4D and ( any of ( $a* ) ) and ( 2 of ( $b* ) ) and filesize < 100000
 }
 
-/* Action Loader Samples --------------------------------------------------- */
-
-rule Duqu2_Generic1 {
+rule Duqu2_Generic1 : hardened
+{
 	meta:
 		description = "Kaspersky APT Report - Duqu2 Sample - Generic Rule"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -82,17 +73,20 @@ rule Duqu2_Generic1 {
 		hash10 = "29cd99a9b6d11a09615b3f9ef63f1f3cffe7ead8"
 		hash11 = "dfe1cb775719b529138e054e7246717304db00b1"
 		id = "0e03eda5-d65b-5400-aceb-bc37559d9a6e"
+
 	strings:
-		$s0 = "Global\\{B54E3268-DE1E-4c1e-A667-2596751403AD}" fullword wide
-		$s1 = "SetSecurityDescriptorSacl" fullword ascii /* PEStudio Blacklist: strings */ /* Goodware String - occured 189 times */
-		$s2 = "msisvc_32@" fullword wide
-		$s3 = "CompareStringA" fullword ascii /* PEStudio Blacklist: strings */ /* Goodware String - occured 1392 times */
-		$s4 = "GetCommandLineW" fullword ascii /* PEStudio Blacklist: strings */ /* Goodware String - occured 1680 times */
+		$s0 = {47 00 6c 00 6f 00 62 00 61 00 6c 00 5c 00 7b 00 42 00 35 00 34 00 45 00 33 00 32 00 36 00 38 00 2d 00 44 00 45 00 31 00 45 00 2d 00 34 00 63 00 31 00 65 00 2d 00 41 00 36 00 36 00 37 00 2d 00 32 00 35 00 39 00 36 00 37 00 35 00 31 00 34 00 30 00 33 00 41 00 44 00 7d 00}
+		$s1 = {53 65 74 53 65 63 75 72 69 74 79 44 65 73 63 72 69 70 74 6f 72 53 61 63 6c}
+		$s2 = {6d 00 73 00 69 00 73 00 76 00 63 00 5f 00 33 00 32 00 40 00}
+		$s3 = {43 6f 6d 70 61 72 65 53 74 72 69 6e 67 41}
+		$s4 = {47 65 74 43 6f 6d 6d 61 6e 64 4c 69 6e 65 57}
+
 	condition:
-		uint16(0) == 0x5a4d and filesize < 150KB and all of them
+		uint16( 0 ) == 0x5a4d and filesize < 150KB and all of them
 }
 
-rule APT_Kaspersky_Duqu2_procexp {
+rule APT_Kaspersky_Duqu2_procexp : hardened
+{
 	meta:
 		description = "Kaspersky APT Report - Duqu2 Sample - Malicious MSI"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -103,20 +97,22 @@ rule APT_Kaspersky_Duqu2_procexp {
 		hash2 = "b120620b5d82b05fee2c2153ceaf305807fa9f79"
 		hash3 = "288ebfe21a71f83b5575dfcc92242579fb13910d"
 		id = "d7fd48d5-2416-5eff-a751-ece09ce27767"
-	strings:
-		$x1 = "svcmsi_32.dll" fullword wide
-		$x2 = "msi3_32.dll" fullword wide
-		$x3 = "msi4_32.dll" fullword wide
-		$x4 = "MSI.dll" fullword ascii
 
-		$s1 = "SELECT `Data` FROM `Binary` WHERE `Name`='%s%i'" fullword wide
-		$s2 = "Sysinternals installer" fullword wide /* PEStudio Blacklist: strings */
-		$s3 = "Process Explorer" fullword wide /* PEStudio Blacklist: strings */ /* Goodware String - occured 5 times */
+	strings:
+		$x1 = {73 00 76 00 63 00 6d 00 73 00 69 00 5f 00 33 00 32 00 2e 00 64 00 6c 00 6c 00}
+		$x2 = {6d 00 73 00 69 00 33 00 5f 00 33 00 32 00 2e 00 64 00 6c 00 6c 00}
+		$x3 = {6d 00 73 00 69 00 34 00 5f 00 33 00 32 00 2e 00 64 00 6c 00 6c 00}
+		$x4 = {4d 53 49 2e 64 6c 6c}
+		$s1 = {53 00 45 00 4c 00 45 00 43 00 54 00 20 00 60 00 44 00 61 00 74 00 61 00 60 00 20 00 46 00 52 00 4f 00 4d 00 20 00 60 00 42 00 69 00 6e 00 61 00 72 00 79 00 60 00 20 00 57 00 48 00 45 00 52 00 45 00 20 00 60 00 4e 00 61 00 6d 00 65 00 60 00 3d 00 27 00 25 00 73 00 25 00 69 00 27 00}
+		$s2 = {53 00 79 00 73 00 69 00 6e 00 74 00 65 00 72 00 6e 00 61 00 6c 00 73 00 20 00 69 00 6e 00 73 00 74 00 61 00 6c 00 6c 00 65 00 72 00}
+		$s3 = {50 00 72 00 6f 00 63 00 65 00 73 00 73 00 20 00 45 00 78 00 70 00 6c 00 6f 00 72 00 65 00 72 00}
+
 	condition:
-		uint16(0) == 0x5a4d and filesize < 100KB and ( 1 of ($x*) ) and ( all of ($s*) )
+		uint16( 0 ) == 0x5a4d and filesize < 100KB and ( 1 of ( $x* ) ) and ( all of ( $s* ) )
 }
 
-rule APT_Kaspersky_Duqu2_SamsungPrint {
+rule APT_Kaspersky_Duqu2_SamsungPrint : hardened
+{
 	meta:
 		description = "Kaspersky APT Report - Duqu2 Sample"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -125,18 +121,21 @@ rule APT_Kaspersky_Duqu2_SamsungPrint {
 		date = "2015-06-10"
 		hash = "ce39f41eb4506805efca7993d3b0b506ab6776ca"
 		id = "cc4bc00e-f38b-577f-8f00-637c0549894c"
+
 	strings:
-		$s0 = "Installer for printer drivers and applications" fullword wide /* PEStudio Blacklist: strings */
-		$s1 = "msi4_32.dll" fullword wide
-		$s2 = "HASHVAL" fullword wide
-		$s3 = "SELECT `%s` FROM `%s` WHERE `%s`='CAData%i'" fullword wide
-		$s4 = "ca.dll" fullword ascii
-		$s5 = "Samsung Electronics Co., Ltd." fullword wide
+		$s0 = {49 00 6e 00 73 00 74 00 61 00 6c 00 6c 00 65 00 72 00 20 00 66 00 6f 00 72 00 20 00 70 00 72 00 69 00 6e 00 74 00 65 00 72 00 20 00 64 00 72 00 69 00 76 00 65 00 72 00 73 00 20 00 61 00 6e 00 64 00 20 00 61 00 70 00 70 00 6c 00 69 00 63 00 61 00 74 00 69 00 6f 00 6e 00 73 00}
+		$s1 = {6d 00 73 00 69 00 34 00 5f 00 33 00 32 00 2e 00 64 00 6c 00 6c 00}
+		$s2 = {48 00 41 00 53 00 48 00 56 00 41 00 4c 00}
+		$s3 = {53 00 45 00 4c 00 45 00 43 00 54 00 20 00 60 00 25 00 73 00 60 00 20 00 46 00 52 00 4f 00 4d 00 20 00 60 00 25 00 73 00 60 00 20 00 57 00 48 00 45 00 52 00 45 00 20 00 60 00 25 00 73 00 60 00 3d 00 27 00 43 00 41 00 44 00 61 00 74 00 61 00 25 00 69 00 27 00}
+		$s4 = {63 61 2e 64 6c 6c}
+		$s5 = {53 00 61 00 6d 00 73 00 75 00 6e 00 67 00 20 00 45 00 6c 00 65 00 63 00 74 00 72 00 6f 00 6e 00 69 00 63 00 73 00 20 00 43 00 6f 00 2e 00 2c 00 20 00 4c 00 74 00 64 00 2e 00}
+
 	condition:
-		uint16(0) == 0x5a4d and filesize < 82KB and all of them
+		uint16( 0 ) == 0x5a4d and filesize < 82KB and all of them
 }
 
-rule APT_Kaspersky_Duqu2_msi3_32 {
+rule APT_Kaspersky_Duqu2_msi3_32 : hardened
+{
 	meta:
 		description = "Kaspersky APT Report - Duqu2 Sample"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -145,16 +144,19 @@ rule APT_Kaspersky_Duqu2_msi3_32 {
 		date = "2015-06-10"
 		hash = "53d9ef9e0267f10cc10f78331a9e491b3211046b"
 		id = "6cbea2e7-f406-57cf-b9c8-9d84b1480035"
+
 	strings:
-		$s0 = "ProcessUserAccounts" fullword ascii /* PEStudio Blacklist: strings */
-		$s1 = "SELECT `UserName`, `Password`, `Attributes` FROM `CustomUserAccounts`" fullword wide /* PEStudio Blacklist: strings */
-		$s2 = "SELECT `UserName` FROM `CustomUserAccounts`" fullword wide /* PEStudio Blacklist: strings */
-		$s3 = "SELECT `Data` FROM `Binary` WHERE `Name`='CryptHash%i'" fullword wide
-		$s4 = "msi3_32.dll" fullword wide
-		$s5 = "RunDLL" fullword ascii
-		$s6 = "MSI Custom Action v3" fullword wide
-		$s7 = "msi3_32" fullword wide
-		$s8 = "Operating System" fullword wide /* PEStudio Blacklist: strings */ /* Goodware String - occured 9203 times */
+		$s0 = {50 72 6f 63 65 73 73 55 73 65 72 41 63 63 6f 75 6e 74 73}
+		$s1 = {53 00 45 00 4c 00 45 00 43 00 54 00 20 00 60 00 55 00 73 00 65 00 72 00 4e 00 61 00 6d 00 65 00 60 00 2c 00 20 00 60 00 50 00 61 00 73 00 73 00 77 00 6f 00 72 00 64 00 60 00 2c 00 20 00 60 00 41 00 74 00 74 00 72 00 69 00 62 00 75 00 74 00 65 00 73 00 60 00 20 00 46 00 52 00 4f 00 4d 00 20 00 60 00 43 00 75 00 73 00 74 00 6f 00 6d 00 55 00 73 00 65 00 72 00 41 00 63 00 63 00 6f 00 75 00 6e 00 74 00 73 00 60 00}
+		$s2 = {53 00 45 00 4c 00 45 00 43 00 54 00 20 00 60 00 55 00 73 00 65 00 72 00 4e 00 61 00 6d 00 65 00 60 00 20 00 46 00 52 00 4f 00 4d 00 20 00 60 00 43 00 75 00 73 00 74 00 6f 00 6d 00 55 00 73 00 65 00 72 00 41 00 63 00 63 00 6f 00 75 00 6e 00 74 00 73 00 60 00}
+		$s3 = {53 00 45 00 4c 00 45 00 43 00 54 00 20 00 60 00 44 00 61 00 74 00 61 00 60 00 20 00 46 00 52 00 4f 00 4d 00 20 00 60 00 42 00 69 00 6e 00 61 00 72 00 79 00 60 00 20 00 57 00 48 00 45 00 52 00 45 00 20 00 60 00 4e 00 61 00 6d 00 65 00 60 00 3d 00 27 00 43 00 72 00 79 00 70 00 74 00 48 00 61 00 73 00 68 00 25 00 69 00 27 00}
+		$s4 = {6d 00 73 00 69 00 33 00 5f 00 33 00 32 00 2e 00 64 00 6c 00 6c 00}
+		$s5 = {52 75 6e 44 4c 4c}
+		$s6 = {4d 00 53 00 49 00 20 00 43 00 75 00 73 00 74 00 6f 00 6d 00 20 00 41 00 63 00 74 00 69 00 6f 00 6e 00 20 00 76 00 33 00}
+		$s7 = {6d 00 73 00 69 00 33 00 5f 00 33 00 32 00}
+		$s8 = {4f 00 70 00 65 00 72 00 61 00 74 00 69 00 6e 00 67 00 20 00 53 00 79 00 73 00 74 00 65 00 6d 00}
+
 	condition:
-		uint16(0) == 0x5a4d and filesize < 72KB and all of them
+		uint16( 0 ) == 0x5a4d and filesize < 72KB and all of them
 }
+

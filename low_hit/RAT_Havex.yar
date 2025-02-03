@@ -1,93 +1,87 @@
-/*
-    This Yara ruleset is under the GNU-GPLv2 license (http://www.gnu.org/licenses/gpl-2.0.html) and open to any user or organization, as    long as you use it under this license.
-
-*/
-
-import "pe"
-
-
-rule Win32OPCHavex
+rule Win32OPCHavex : hardened
 {
-    meta:
-        Author      = "BAE Systems"
-        Date        = "2014/06/23"
-        Description = "Rule for identifying OPC version of HAVEX"
-        Reference   = "www.f-secure.com/weblog/archives/00002718.html"
+	meta:
+		Author = "BAE Systems"
+		Date = "2014/06/23"
+		Description = "Rule for identifying OPC version of HAVEX"
+		Reference = "www.f-secure.com/weblog/archives/00002718.html"
 
-    strings:
-        $mzhdr = "MZ"
-        $dll = "7CFC52CD3F87.dll"
-        $a1 = "Start finging of LAN hosts..." wide
-        $a2 = "Finding was fault. Unexpective error" wide
-        $a3 = "Was found %i hosts in LAN:" wide
-        $a4 = "Hosts was't found." wide
-        $a5 = "Start finging of OPC Servers..." wide
-        $a6 = "Was found %i OPC Servers." wide
-        $a7 = "OPC Servers not found. Programm finished" wide
-        $a8 = "%s[%s]!!!EXEPTION %i!!!" wide
-        $a9 = "Start finging of OPC Tags..." wide
+	strings:
+		$mzhdr = {4d 5a}
+		$dll = {37 43 46 43 35 32 43 44 33 46 38 37 2e 64 6c 6c}
+		$a1 = {53 00 74 00 61 00 72 00 74 00 20 00 66 00 69 00 6e 00 67 00 69 00 6e 00 67 00 20 00 6f 00 66 00 20 00 4c 00 41 00 4e 00 20 00 68 00 6f 00 73 00 74 00 73 00 2e 00 2e 00 2e 00}
+		$a2 = {46 00 69 00 6e 00 64 00 69 00 6e 00 67 00 20 00 77 00 61 00 73 00 20 00 66 00 61 00 75 00 6c 00 74 00 2e 00 20 00 55 00 6e 00 65 00 78 00 70 00 65 00 63 00 74 00 69 00 76 00 65 00 20 00 65 00 72 00 72 00 6f 00 72 00}
+		$a3 = {57 00 61 00 73 00 20 00 66 00 6f 00 75 00 6e 00 64 00 20 00 25 00 69 00 20 00 68 00 6f 00 73 00 74 00 73 00 20 00 69 00 6e 00 20 00 4c 00 41 00 4e 00 3a 00}
+		$a4 = {48 00 6f 00 73 00 74 00 73 00 20 00 77 00 61 00 73 00 27 00 74 00 20 00 66 00 6f 00 75 00 6e 00 64 00 2e 00}
+		$a5 = {53 00 74 00 61 00 72 00 74 00 20 00 66 00 69 00 6e 00 67 00 69 00 6e 00 67 00 20 00 6f 00 66 00 20 00 4f 00 50 00 43 00 20 00 53 00 65 00 72 00 76 00 65 00 72 00 73 00 2e 00 2e 00 2e 00}
+		$a6 = {57 00 61 00 73 00 20 00 66 00 6f 00 75 00 6e 00 64 00 20 00 25 00 69 00 20 00 4f 00 50 00 43 00 20 00 53 00 65 00 72 00 76 00 65 00 72 00 73 00 2e 00}
+		$a7 = {4f 00 50 00 43 00 20 00 53 00 65 00 72 00 76 00 65 00 72 00 73 00 20 00 6e 00 6f 00 74 00 20 00 66 00 6f 00 75 00 6e 00 64 00 2e 00 20 00 50 00 72 00 6f 00 67 00 72 00 61 00 6d 00 6d 00 20 00 66 00 69 00 6e 00 69 00 73 00 68 00 65 00 64 00}
+		$a8 = {25 00 73 00 5b 00 25 00 73 00 5d 00 21 00 21 00 21 00 45 00 58 00 45 00 50 00 54 00 49 00 4f 00 4e 00 20 00 25 00 69 00 21 00 21 00 21 00}
+		$a9 = {53 00 74 00 61 00 72 00 74 00 20 00 66 00 69 00 6e 00 67 00 69 00 6e 00 67 00 20 00 6f 00 66 00 20 00 4f 00 50 00 43 00 20 00 54 00 61 00 67 00 73 00 2e 00 2e 00 2e 00}
 
-    condition:
-        $mzhdr at 0 and ($dll or (any of ($a*)))
+	condition:
+		$mzhdr at 0 and ( $dll or ( any of ( $a* ) ) )
 }
 
-rule Win32FertgerHavex
+rule Win32FertgerHavex : hardened
 {
-    meta:
-        Author      = "BAE Systems"
-        Date        = "2014/06/23"
-        Description = "Rule for identifying Fertger version of HAVEX"
-        Reference   = "www.f-secure.com/weblog/archives/00002718.html"
+	meta:
+		Author = "BAE Systems"
+		Date = "2014/06/23"
+		Description = "Rule for identifying Fertger version of HAVEX"
+		Reference = "www.f-secure.com/weblog/archives/00002718.html"
 
-    strings:
-        $mz = "MZ"
-        $a1="\\\\.\\pipe\\mypipe-f" wide
-        $a2="\\\\.\\pipe\\mypipe-h" wide
-        $a3="\\qln.dbx" wide
-        $a4="*.yls" wide
-        $a5="\\*.xmd" wide
-        $a6="fertger" wide
-        $a7="havex"
-    
-    condition:
-        $mz at 0 and 3 of ($a*) 
+	strings:
+		$mz = {4d 5a}
+		$a1 = {5c 00 5c 00 2e 00 5c 00 70 00 69 00 70 00 65 00 5c 00 6d 00 79 00 70 00 69 00 70 00 65 00 2d 00 66 00}
+		$a2 = {5c 00 5c 00 2e 00 5c 00 70 00 69 00 70 00 65 00 5c 00 6d 00 79 00 70 00 69 00 70 00 65 00 2d 00 68 00}
+		$a3 = {5c 00 71 00 6c 00 6e 00 2e 00 64 00 62 00 78 00}
+		$a4 = {2a 00 2e 00 79 00 6c 00 73 00}
+		$a5 = {5c 00 2a 00 2e 00 78 00 6d 00 64 00}
+		$a6 = {66 00 65 00 72 00 74 00 67 00 65 00 72 00}
+		$a7 = {68 61 76 65 78}
+
+	condition:
+		$mz at 0 and 3 of ( $a* )
 }
 
-rule Havex_Trojan_PHP_Server
+rule Havex_Trojan_PHP_Server : hardened
 {
-    meta:
-        Author      = "Florian Roth"
-        Date        = "2014/06/24"
-        Description = "Detects the PHP server component of the Havex RAT"
-        Reference   = "www.f-secure.com/weblog/archives/00002718.html"
+	meta:
+		Author = "Florian Roth"
+		Date = "2014/06/24"
+		Description = "Detects the PHP server component of the Havex RAT"
+		Reference = "www.f-secure.com/weblog/archives/00002718.html"
 
-    strings:
-        $s1 = "havex--></body></head>"
-        $s2 = "ANSWERTAG_START"
-        $s3 = "PATH_BLOCKFILE"
+	strings:
+		$s1 = {68 61 76 65 78 2d 2d 3e 3c 2f 62 6f 64 79 3e 3c 2f 68 65 61 64 3e}
+		$s2 = {41 4e 53 57 45 52 54 41 47 5f 53 54 41 52 54}
+		$s3 = {50 41 54 48 5f 42 4c 4f 43 4b 46 49 4c 45}
 
-    condition:
-        all of them
-} 
-rule SANS_ICS_Cybersecurity_Challenge_400_Havex_Memdump : memory
-	{
+	condition:
+		all of them
+}
+
+rule SANS_ICS_Cybersecurity_Challenge_400_Havex_Memdump : memory hardened
+{
 	meta:
 		description = "Detects Havex Windows process executable from memory dump"
 		date = "2015-12-2"
 		author = "Chris Sistrunk"
 		hash = "8065674de8d79d1c0e7b3baf81246e7d"
+
 	strings:
-		$magic = { 4d 5a }	
-	
-	        $s1 = "~tracedscn.yls" fullword wide
-		$s2 = "[!]Start" fullword wide
-		$s3 = "[+]Get WSADATA" fullword wide
-		$s4 = "[-]Can not get local ip" fullword wide
-		$s5 = "[+]Local:" fullword wide
-		$s6 = "[-]Threads number > Hosts number" fullword wide
-		$s7 = "[-]Connection error" fullword wide
-		
-		$x1 = "bddd4e2b84fa2ad61eb065e7797270ff.exe" fullword wide
+		$magic = { 4d 5a }
+		$s1 = {7e 00 74 00 72 00 61 00 63 00 65 00 64 00 73 00 63 00 6e 00 2e 00 79 00 6c 00 73 00}
+		$s2 = {5b 00 21 00 5d 00 53 00 74 00 61 00 72 00 74 00}
+		$s3 = {5b 00 2b 00 5d 00 47 00 65 00 74 00 20 00 57 00 53 00 41 00 44 00 41 00 54 00 41 00}
+		$s4 = {5b 00 2d 00 5d 00 43 00 61 00 6e 00 20 00 6e 00 6f 00 74 00 20 00 67 00 65 00 74 00 20 00 6c 00 6f 00 63 00 61 00 6c 00 20 00 69 00 70 00}
+		$s5 = {5b 00 2b 00 5d 00 4c 00 6f 00 63 00 61 00 6c 00 3a 00}
+		$s6 = {5b 00 2d 00 5d 00 54 00 68 00 72 00 65 00 61 00 64 00 73 00 20 00 6e 00 75 00 6d 00 62 00 65 00 72 00 20 00 3e 00 20 00 48 00 6f 00 73 00 74 00 73 00 20 00 6e 00 75 00 6d 00 62 00 65 00 72 00}
+		$s7 = {5b 00 2d 00 5d 00 43 00 6f 00 6e 00 6e 00 65 00 63 00 74 00 69 00 6f 00 6e 00 20 00 65 00 72 00 72 00 6f 00 72 00}
+		$x1 = {62 00 64 00 64 00 64 00 34 00 65 00 32 00 62 00 38 00 34 00 66 00 61 00 32 00 61 00 64 00 36 00 31 00 65 00 62 00 30 00 36 00 35 00 65 00 37 00 37 00 39 00 37 00 32 00 37 00 30 00 66 00 66 00 2e 00 65 00 78 00 65 00}
+
 	condition:
-	    $magic at 0 and ( 3 of ($s*) or $x1 )
+		$magic at 0 and ( 3 of ( $s* ) or $x1 )
 }
+

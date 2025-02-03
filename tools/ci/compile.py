@@ -9,8 +9,15 @@ ERROR = -1
 try:
     process = subprocess.run(cmd, check=False)
     ERROR = process.returncode
-    tmpfile.unlink()
 except Exception as e:
-    pass
+    print(f'[COMPILER] Process Exception happened: {e}')
+
+try:
+    tmpfile.unlink()
+except FileNotFoundError as e:
+    if ERROR == 0:
+        ERROR = -2
+except Exception as e:
+    print(f'[COMPILER] File Exception happened: {e}')
 
 sys.exit(ERROR)

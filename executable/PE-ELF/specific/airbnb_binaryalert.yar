@@ -1,627 +1,664 @@
-// https://raw.githubusercontent.com/Neo23x0/signature-base/master/vendor/yara/airbnb_binaryalert.yar
-/*
-   Yara Rule Set
-   Author: (see the author field in the rules)
-   Date: 2017-10-20
-   Sync Date: 2017-10-20
-   Identifier: Binary Alert Rules
-   Reference: https://github.com/airbnb/binaryalert
-
-   Note: Applied some modifications to avoid false positives during full disk file system scans
-*/
-
-/* Private Rules */
-
-private rule MachO
+private rule MachO : hardened
 {
-    meta:
-        description = "Mach-O binaries"
-    condition:
-        uint32(0) == 0xfeedface or uint32(0) == 0xcefaedfe or uint32(0) == 0xfeedfacf or uint32(0) == 0xcffaedfe or uint32(0) == 0xcafebabe or uint32(0) == 0xbebafeca
+	meta:
+		description = "Mach-O binaries"
+
+	condition:
+		uint32( 0 ) == 0xfeedface or uint32( 0 ) == 0xcefaedfe or uint32( 0 ) == 0xfeedfacf or uint32( 0 ) == 0xcffaedfe or uint32( 0 ) == 0xcafebabe or uint32( 0 ) == 0xbebafeca
 }
 
-/* ./rules/public/hacktool/macos */
-
-rule hacktool_macos_exploit_cve_5889
+rule hacktool_macos_exploit_cve_5889 : hardened
 {
-    meta:
-        description = "http://www.cvedetails.com/cve/cve-2015-5889"
-        reference = "https://www.exploit-db.com/exploits/38371/"
-        author = "@mimeframe"
-    strings:
-        $a1 = "/etc/sudoers" fullword wide ascii
-        $a2 = "/etc/crontab" fullword wide ascii
-        $a3 = "* * * * * root echo" wide ascii
-        $a4 = "ALL ALL=(ALL) NOPASSWD: ALL" wide ascii
-        $a5 = "/usr/bin/rsh" fullword wide ascii
-        $a6 = "localhost" fullword wide ascii
-    condition:
-        all of ($a*)
+	meta:
+		description = "http://www.cvedetails.com/cve/cve-2015-5889"
+		reference = "https://www.exploit-db.com/exploits/38371/"
+		author = "@mimeframe"
+
+	strings:
+		$a1 = {((2f 65 74 63 2f 73 75 64 6f 65 72 73) | (2f 00 65 00 74 00 63 00 2f 00 73 00 75 00 64 00 6f 00 65 00 72 00 73 00))}
+		$a2 = {((2f 65 74 63 2f 63 72 6f 6e 74 61 62) | (2f 00 65 00 74 00 63 00 2f 00 63 00 72 00 6f 00 6e 00 74 00 61 00 62 00))}
+		$a3 = {((2a 20 2a 20 2a 20 2a 20 2a 20 72 6f 6f 74 20 65 63 68 6f) | (2a 00 20 00 2a 00 20 00 2a 00 20 00 2a 00 20 00 2a 00 20 00 72 00 6f 00 6f 00 74 00 20 00 65 00 63 00 68 00 6f 00))}
+		$a4 = {((41 4c 4c 20 41 4c 4c 3d 28 41 4c 4c 29 20 4e 4f 50 41 53 53 57 44 3a 20 41 4c 4c) | (41 00 4c 00 4c 00 20 00 41 00 4c 00 4c 00 3d 00 28 00 41 00 4c 00 4c 00 29 00 20 00 4e 00 4f 00 50 00 41 00 53 00 53 00 57 00 44 00 3a 00 20 00 41 00 4c 00 4c 00))}
+		$a5 = {((2f 75 73 72 2f 62 69 6e 2f 72 73 68) | (2f 00 75 00 73 00 72 00 2f 00 62 00 69 00 6e 00 2f 00 72 00 73 00 68 00))}
+		$a6 = {((6c 6f 63 61 6c 68 6f 73 74) | (6c 00 6f 00 63 00 61 00 6c 00 68 00 6f 00 73 00 74 00))}
+
+	condition:
+		all of ( $a* )
 }
 
-rule hacktool_macos_exploit_tpwn
+rule hacktool_macos_exploit_tpwn : hardened
 {
-    meta:
-        description = "tpwn exploits a null pointer dereference in XNU to escalate privileges to root."
-        reference = "https://www.rapid7.com/db/modules/exploit/osx/local/tpwn"
-        author = "@mimeframe"
-    strings:
-        $a1 = "[-] Couldn't find a ROP gadget, aborting." wide ascii
-        $a2 = "leaked kaslr slide," wide ascii
-        $a3 = "didn't get root, but this system is vulnerable." wide ascii
-        $a4 = "Escalating privileges! -qwertyoruiop" wide ascii
-    condition:
-        2 of ($a*)
+	meta:
+		description = "tpwn exploits a null pointer dereference in XNU to escalate privileges to root."
+		reference = "https://www.rapid7.com/db/modules/exploit/osx/local/tpwn"
+		author = "@mimeframe"
+
+	strings:
+		$a1 = {((5b 2d 5d 20 43 6f 75 6c 64 6e 27 74 20 66 69 6e 64 20 61 20 52 4f 50 20 67 61 64 67 65 74 2c 20 61 62 6f 72 74 69 6e 67 2e) | (5b 00 2d 00 5d 00 20 00 43 00 6f 00 75 00 6c 00 64 00 6e 00 27 00 74 00 20 00 66 00 69 00 6e 00 64 00 20 00 61 00 20 00 52 00 4f 00 50 00 20 00 67 00 61 00 64 00 67 00 65 00 74 00 2c 00 20 00 61 00 62 00 6f 00 72 00 74 00 69 00 6e 00 67 00 2e 00))}
+		$a2 = {((6c 65 61 6b 65 64 20 6b 61 73 6c 72 20 73 6c 69 64 65 2c) | (6c 00 65 00 61 00 6b 00 65 00 64 00 20 00 6b 00 61 00 73 00 6c 00 72 00 20 00 73 00 6c 00 69 00 64 00 65 00 2c 00))}
+		$a3 = {((64 69 64 6e 27 74 20 67 65 74 20 72 6f 6f 74 2c 20 62 75 74 20 74 68 69 73 20 73 79 73 74 65 6d 20 69 73 20 76 75 6c 6e 65 72 61 62 6c 65 2e) | (64 00 69 00 64 00 6e 00 27 00 74 00 20 00 67 00 65 00 74 00 20 00 72 00 6f 00 6f 00 74 00 2c 00 20 00 62 00 75 00 74 00 20 00 74 00 68 00 69 00 73 00 20 00 73 00 79 00 73 00 74 00 65 00 6d 00 20 00 69 00 73 00 20 00 76 00 75 00 6c 00 6e 00 65 00 72 00 61 00 62 00 6c 00 65 00 2e 00))}
+		$a4 = {((45 73 63 61 6c 61 74 69 6e 67 20 70 72 69 76 69 6c 65 67 65 73 21 20 2d 71 77 65 72 74 79 6f 72 75 69 6f 70) | (45 00 73 00 63 00 61 00 6c 00 61 00 74 00 69 00 6e 00 67 00 20 00 70 00 72 00 69 00 76 00 69 00 6c 00 65 00 67 00 65 00 73 00 21 00 20 00 2d 00 71 00 77 00 65 00 72 00 74 00 79 00 6f 00 72 00 75 00 69 00 6f 00 70 00))}
+
+	condition:
+		2 of ( $a* )
 }
 
-rule hacktool_macos_juuso_keychaindump
+rule hacktool_macos_juuso_keychaindump : hardened
 {
-    meta:
-        description = "For reading OS X keychain passwords as root."
-        reference = "https://github.com/juuso/keychaindump"
-        author = "@mimeframe"
-    strings:
-        $a1 = "[-] Too many candidate keys to fit in memory" wide ascii
-        $a2 = "[-] Could not allocate memory for key search" wide ascii
-        $a3 = "[-] Too many credentials to fit in memory" wide ascii
-        $a4 = "[-] The target file is not a keychain file" wide ascii
-        $a5 = "[-] Could not find the securityd process" wide ascii
-        $a6 = "[-] No root privileges, please run with sudo" wide ascii
-    condition:
-        4 of ($a*)
+	meta:
+		description = "For reading OS X keychain passwords as root."
+		reference = "https://github.com/juuso/keychaindump"
+		author = "@mimeframe"
+
+	strings:
+		$a1 = {((5b 2d 5d 20 54 6f 6f 20 6d 61 6e 79 20 63 61 6e 64 69 64 61 74 65 20 6b 65 79 73 20 74 6f 20 66 69 74 20 69 6e 20 6d 65 6d 6f 72 79) | (5b 00 2d 00 5d 00 20 00 54 00 6f 00 6f 00 20 00 6d 00 61 00 6e 00 79 00 20 00 63 00 61 00 6e 00 64 00 69 00 64 00 61 00 74 00 65 00 20 00 6b 00 65 00 79 00 73 00 20 00 74 00 6f 00 20 00 66 00 69 00 74 00 20 00 69 00 6e 00 20 00 6d 00 65 00 6d 00 6f 00 72 00 79 00))}
+		$a2 = {((5b 2d 5d 20 43 6f 75 6c 64 20 6e 6f 74 20 61 6c 6c 6f 63 61 74 65 20 6d 65 6d 6f 72 79 20 66 6f 72 20 6b 65 79 20 73 65 61 72 63 68) | (5b 00 2d 00 5d 00 20 00 43 00 6f 00 75 00 6c 00 64 00 20 00 6e 00 6f 00 74 00 20 00 61 00 6c 00 6c 00 6f 00 63 00 61 00 74 00 65 00 20 00 6d 00 65 00 6d 00 6f 00 72 00 79 00 20 00 66 00 6f 00 72 00 20 00 6b 00 65 00 79 00 20 00 73 00 65 00 61 00 72 00 63 00 68 00))}
+		$a3 = {((5b 2d 5d 20 54 6f 6f 20 6d 61 6e 79 20 63 72 65 64 65 6e 74 69 61 6c 73 20 74 6f 20 66 69 74 20 69 6e 20 6d 65 6d 6f 72 79) | (5b 00 2d 00 5d 00 20 00 54 00 6f 00 6f 00 20 00 6d 00 61 00 6e 00 79 00 20 00 63 00 72 00 65 00 64 00 65 00 6e 00 74 00 69 00 61 00 6c 00 73 00 20 00 74 00 6f 00 20 00 66 00 69 00 74 00 20 00 69 00 6e 00 20 00 6d 00 65 00 6d 00 6f 00 72 00 79 00))}
+		$a4 = {((5b 2d 5d 20 54 68 65 20 74 61 72 67 65 74 20 66 69 6c 65 20 69 73 20 6e 6f 74 20 61 20 6b 65 79 63 68 61 69 6e 20 66 69 6c 65) | (5b 00 2d 00 5d 00 20 00 54 00 68 00 65 00 20 00 74 00 61 00 72 00 67 00 65 00 74 00 20 00 66 00 69 00 6c 00 65 00 20 00 69 00 73 00 20 00 6e 00 6f 00 74 00 20 00 61 00 20 00 6b 00 65 00 79 00 63 00 68 00 61 00 69 00 6e 00 20 00 66 00 69 00 6c 00 65 00))}
+		$a5 = {((5b 2d 5d 20 43 6f 75 6c 64 20 6e 6f 74 20 66 69 6e 64 20 74 68 65 20 73 65 63 75 72 69 74 79 64 20 70 72 6f 63 65 73 73) | (5b 00 2d 00 5d 00 20 00 43 00 6f 00 75 00 6c 00 64 00 20 00 6e 00 6f 00 74 00 20 00 66 00 69 00 6e 00 64 00 20 00 74 00 68 00 65 00 20 00 73 00 65 00 63 00 75 00 72 00 69 00 74 00 79 00 64 00 20 00 70 00 72 00 6f 00 63 00 65 00 73 00 73 00))}
+		$a6 = {((5b 2d 5d 20 4e 6f 20 72 6f 6f 74 20 70 72 69 76 69 6c 65 67 65 73 2c 20 70 6c 65 61 73 65 20 72 75 6e 20 77 69 74 68 20 73 75 64 6f) | (5b 00 2d 00 5d 00 20 00 4e 00 6f 00 20 00 72 00 6f 00 6f 00 74 00 20 00 70 00 72 00 69 00 76 00 69 00 6c 00 65 00 67 00 65 00 73 00 2c 00 20 00 70 00 6c 00 65 00 61 00 73 00 65 00 20 00 72 00 75 00 6e 00 20 00 77 00 69 00 74 00 68 00 20 00 73 00 75 00 64 00 6f 00))}
+
+	condition:
+		4 of ( $a* )
 }
 
-rule hacktool_macos_keylogger_b4rsby_swiftlog
+rule hacktool_macos_keylogger_b4rsby_swiftlog : hardened
 {
-    meta:
-        description = "Dirty user level command line keylogger hacked together in Swift."
-        reference = "https://github.com/b4rsby/SwiftLog"
-        author = "@mimeframe"
-    strings:
-        $a1 = "You need to enable the keylogger in the System Prefrences" wide ascii
-    condition:
-        all of ($a*)
+	meta:
+		description = "Dirty user level command line keylogger hacked together in Swift."
+		reference = "https://github.com/b4rsby/SwiftLog"
+		author = "@mimeframe"
+
+	strings:
+		$a1 = {((59 6f 75 20 6e 65 65 64 20 74 6f 20 65 6e 61 62 6c 65 20 74 68 65 20 6b 65 79 6c 6f 67 67 65 72 20 69 6e 20 74 68 65 20 53 79 73 74 65 6d 20 50 72 65 66 72 65 6e 63 65 73) | (59 00 6f 00 75 00 20 00 6e 00 65 00 65 00 64 00 20 00 74 00 6f 00 20 00 65 00 6e 00 61 00 62 00 6c 00 65 00 20 00 74 00 68 00 65 00 20 00 6b 00 65 00 79 00 6c 00 6f 00 67 00 67 00 65 00 72 00 20 00 69 00 6e 00 20 00 74 00 68 00 65 00 20 00 53 00 79 00 73 00 74 00 65 00 6d 00 20 00 50 00 72 00 65 00 66 00 72 00 65 00 6e 00 63 00 65 00 73 00))}
+
+	condition:
+		all of ( $a* )
 }
 
-rule hacktool_macos_keylogger_caseyscarborough
+rule hacktool_macos_keylogger_caseyscarborough : hardened
 {
-    meta:
-        description = "A simple and easy to use keylogger for macOS."
-        reference = "https://github.com/caseyscarborough/keylogger"
-        author = "@mimeframe"
-    strings:
-        $a1 = "/var/log/keystroke.log" wide ascii
-        $a2 = "ERROR: Unable to create event tap." wide ascii
-        $a3 = "Keylogging has begun." wide ascii
-        $a4 = "ERROR: Unable to open log file. Ensure that you have the proper permissions." wide ascii
-    condition:
-        2 of ($a*)
+	meta:
+		description = "A simple and easy to use keylogger for macOS."
+		reference = "https://github.com/caseyscarborough/keylogger"
+		author = "@mimeframe"
+
+	strings:
+		$a1 = {((2f 76 61 72 2f 6c 6f 67 2f 6b 65 79 73 74 72 6f 6b 65 2e 6c 6f 67) | (2f 00 76 00 61 00 72 00 2f 00 6c 00 6f 00 67 00 2f 00 6b 00 65 00 79 00 73 00 74 00 72 00 6f 00 6b 00 65 00 2e 00 6c 00 6f 00 67 00))}
+		$a2 = {((45 52 52 4f 52 3a 20 55 6e 61 62 6c 65 20 74 6f 20 63 72 65 61 74 65 20 65 76 65 6e 74 20 74 61 70 2e) | (45 00 52 00 52 00 4f 00 52 00 3a 00 20 00 55 00 6e 00 61 00 62 00 6c 00 65 00 20 00 74 00 6f 00 20 00 63 00 72 00 65 00 61 00 74 00 65 00 20 00 65 00 76 00 65 00 6e 00 74 00 20 00 74 00 61 00 70 00 2e 00))}
+		$a3 = {((4b 65 79 6c 6f 67 67 69 6e 67 20 68 61 73 20 62 65 67 75 6e 2e) | (4b 00 65 00 79 00 6c 00 6f 00 67 00 67 00 69 00 6e 00 67 00 20 00 68 00 61 00 73 00 20 00 62 00 65 00 67 00 75 00 6e 00 2e 00))}
+		$a4 = {((45 52 52 4f 52 3a 20 55 6e 61 62 6c 65 20 74 6f 20 6f 70 65 6e 20 6c 6f 67 20 66 69 6c 65 2e 20 45 6e 73 75 72 65 20 74 68 61 74 20 79 6f 75 20 68 61 76 65 20 74 68 65 20 70 72 6f 70 65 72 20 70 65 72 6d 69 73 73 69 6f 6e 73 2e) | (45 00 52 00 52 00 4f 00 52 00 3a 00 20 00 55 00 6e 00 61 00 62 00 6c 00 65 00 20 00 74 00 6f 00 20 00 6f 00 70 00 65 00 6e 00 20 00 6c 00 6f 00 67 00 20 00 66 00 69 00 6c 00 65 00 2e 00 20 00 45 00 6e 00 73 00 75 00 72 00 65 00 20 00 74 00 68 00 61 00 74 00 20 00 79 00 6f 00 75 00 20 00 68 00 61 00 76 00 65 00 20 00 74 00 68 00 65 00 20 00 70 00 72 00 6f 00 70 00 65 00 72 00 20 00 70 00 65 00 72 00 6d 00 69 00 73 00 73 00 69 00 6f 00 6e 00 73 00 2e 00))}
+
+	condition:
+		2 of ( $a* )
 }
 
-rule hacktool_macos_keylogger_dannvix
+rule hacktool_macos_keylogger_dannvix : hardened
 {
-    meta:
-        description = "A simple keylogger for macOS."
-        reference = "https://github.com/dannvix/keylogger-osx"
-        author = "@mimeframe"
-    strings:
-        $a1 = "/var/log/keystroke.log" wide ascii
-        $a2 = "<forward-delete>" wide ascii
-        $a3 = "<unknown>" wide ascii
-    condition:
-        all of ($a*)
+	meta:
+		description = "A simple keylogger for macOS."
+		reference = "https://github.com/dannvix/keylogger-osx"
+		author = "@mimeframe"
+
+	strings:
+		$a1 = {((2f 76 61 72 2f 6c 6f 67 2f 6b 65 79 73 74 72 6f 6b 65 2e 6c 6f 67) | (2f 00 76 00 61 00 72 00 2f 00 6c 00 6f 00 67 00 2f 00 6b 00 65 00 79 00 73 00 74 00 72 00 6f 00 6b 00 65 00 2e 00 6c 00 6f 00 67 00))}
+		$a2 = {((3c 66 6f 72 77 61 72 64 2d 64 65 6c 65 74 65 3e) | (3c 00 66 00 6f 00 72 00 77 00 61 00 72 00 64 00 2d 00 64 00 65 00 6c 00 65 00 74 00 65 00 3e 00))}
+		$a3 = {((3c 75 6e 6b 6e 6f 77 6e 3e) | (3c 00 75 00 6e 00 6b 00 6e 00 6f 00 77 00 6e 00 3e 00))}
+
+	condition:
+		all of ( $a* )
 }
 
-rule hacktool_macos_keylogger_eldeveloper_keystats
+rule hacktool_macos_keylogger_eldeveloper_keystats : hardened
 {
-    meta:
-        description = "A simple keylogger for macOS."
-        reference = "https://github.com/ElDeveloper/keystats"
-        author = "@mimeframe"
-    strings:
-        $a1 = "YVBKeyLoggerPerishedNotification" wide ascii
-        $a2 = "YVBKeyLoggerPerishedByLackOfResponseNotification" wide ascii
-        $a3 = "YVBKeyLoggerPerishedByUserChangeNotification" wide ascii
-    condition:
-        2 of ($a*)
+	meta:
+		description = "A simple keylogger for macOS."
+		reference = "https://github.com/ElDeveloper/keystats"
+		author = "@mimeframe"
+
+	strings:
+		$a1 = {((59 56 42 4b 65 79 4c 6f 67 67 65 72 50 65 72 69 73 68 65 64 4e 6f 74 69 66 69 63 61 74 69 6f 6e) | (59 00 56 00 42 00 4b 00 65 00 79 00 4c 00 6f 00 67 00 67 00 65 00 72 00 50 00 65 00 72 00 69 00 73 00 68 00 65 00 64 00 4e 00 6f 00 74 00 69 00 66 00 69 00 63 00 61 00 74 00 69 00 6f 00 6e 00))}
+		$a2 = {((59 56 42 4b 65 79 4c 6f 67 67 65 72 50 65 72 69 73 68 65 64 42 79 4c 61 63 6b 4f 66 52 65 73 70 6f 6e 73 65 4e 6f 74 69 66 69 63 61 74 69 6f 6e) | (59 00 56 00 42 00 4b 00 65 00 79 00 4c 00 6f 00 67 00 67 00 65 00 72 00 50 00 65 00 72 00 69 00 73 00 68 00 65 00 64 00 42 00 79 00 4c 00 61 00 63 00 6b 00 4f 00 66 00 52 00 65 00 73 00 70 00 6f 00 6e 00 73 00 65 00 4e 00 6f 00 74 00 69 00 66 00 69 00 63 00 61 00 74 00 69 00 6f 00 6e 00))}
+		$a3 = {((59 56 42 4b 65 79 4c 6f 67 67 65 72 50 65 72 69 73 68 65 64 42 79 55 73 65 72 43 68 61 6e 67 65 4e 6f 74 69 66 69 63 61 74 69 6f 6e) | (59 00 56 00 42 00 4b 00 65 00 79 00 4c 00 6f 00 67 00 67 00 65 00 72 00 50 00 65 00 72 00 69 00 73 00 68 00 65 00 64 00 42 00 79 00 55 00 73 00 65 00 72 00 43 00 68 00 61 00 6e 00 67 00 65 00 4e 00 6f 00 74 00 69 00 66 00 69 00 63 00 61 00 74 00 69 00 6f 00 6e 00))}
+
+	condition:
+		2 of ( $a* )
 }
 
-rule hacktool_macos_keylogger_giacomolaw
+rule hacktool_macos_keylogger_giacomolaw : hardened
 {
-    meta:
-        description = "A simple keylogger for macOS."
-        reference = "https://github.com/GiacomoLaw/Keylogger"
-        author = "@mimeframe"
-    strings:
-        $a1 = "ERROR: Unable to access keystroke log file. Please make sure you have the correct permissions." wide ascii
-        $a2 = "ERROR: Unable to create event tap." wide ascii
-        $a3 = "Keystrokes are now being recorded" wide ascii
-    condition:
-        2 of ($a*)
+	meta:
+		description = "A simple keylogger for macOS."
+		reference = "https://github.com/GiacomoLaw/Keylogger"
+		author = "@mimeframe"
+
+	strings:
+		$a1 = {((45 52 52 4f 52 3a 20 55 6e 61 62 6c 65 20 74 6f 20 61 63 63 65 73 73 20 6b 65 79 73 74 72 6f 6b 65 20 6c 6f 67 20 66 69 6c 65 2e 20 50 6c 65 61 73 65 20 6d 61 6b 65 20 73 75 72 65 20 79 6f 75 20 68 61 76 65 20 74 68 65 20 63 6f 72 72 65 63 74 20 70 65 72 6d 69 73 73 69 6f 6e 73 2e) | (45 00 52 00 52 00 4f 00 52 00 3a 00 20 00 55 00 6e 00 61 00 62 00 6c 00 65 00 20 00 74 00 6f 00 20 00 61 00 63 00 63 00 65 00 73 00 73 00 20 00 6b 00 65 00 79 00 73 00 74 00 72 00 6f 00 6b 00 65 00 20 00 6c 00 6f 00 67 00 20 00 66 00 69 00 6c 00 65 00 2e 00 20 00 50 00 6c 00 65 00 61 00 73 00 65 00 20 00 6d 00 61 00 6b 00 65 00 20 00 73 00 75 00 72 00 65 00 20 00 79 00 6f 00 75 00 20 00 68 00 61 00 76 00 65 00 20 00 74 00 68 00 65 00 20 00 63 00 6f 00 72 00 72 00 65 00 63 00 74 00 20 00 70 00 65 00 72 00 6d 00 69 00 73 00 73 00 69 00 6f 00 6e 00 73 00 2e 00))}
+		$a2 = {((45 52 52 4f 52 3a 20 55 6e 61 62 6c 65 20 74 6f 20 63 72 65 61 74 65 20 65 76 65 6e 74 20 74 61 70 2e) | (45 00 52 00 52 00 4f 00 52 00 3a 00 20 00 55 00 6e 00 61 00 62 00 6c 00 65 00 20 00 74 00 6f 00 20 00 63 00 72 00 65 00 61 00 74 00 65 00 20 00 65 00 76 00 65 00 6e 00 74 00 20 00 74 00 61 00 70 00 2e 00))}
+		$a3 = {((4b 65 79 73 74 72 6f 6b 65 73 20 61 72 65 20 6e 6f 77 20 62 65 69 6e 67 20 72 65 63 6f 72 64 65 64) | (4b 00 65 00 79 00 73 00 74 00 72 00 6f 00 6b 00 65 00 73 00 20 00 61 00 72 00 65 00 20 00 6e 00 6f 00 77 00 20 00 62 00 65 00 69 00 6e 00 67 00 20 00 72 00 65 00 63 00 6f 00 72 00 64 00 65 00 64 00))}
+
+	condition:
+		2 of ( $a* )
 }
 
-rule hacktool_macos_keylogger_logkext
+rule hacktool_macos_keylogger_logkext : hardened
 {
-    meta:
-        description = "LogKext is an open source keylogger for Mac OS X, a product of FSB software."
-        reference = "https://github.com/SlEePlEs5/logKext"
-        author = "@mimeframe"
-    strings:
-        // daemon
-        $a1 = "logKextPassKey" wide ascii
-        $a2 = "Couldn't get system keychain:" wide ascii
-        $a3 = "Error finding secret in keychain" wide ascii
-        $a4 = "com_fsb_iokit_logKext" wide ascii
-        // client
-        $b1 = "logKext Password:" wide ascii
-        $b2 = "Logging controls whether the daemon is logging keystrokes (default is on)." wide ascii
-        // logkextkeygen
-        $c1 = "logKextPassKey" wide ascii
-        $c2 = "Error: couldn't create secAccess" wide ascii
-        // logkext
-        $d1 = "IOHIKeyboard" wide ascii
-        $d2 = "Clear keyboards called with kextkeys" wide ascii
-        $d3 = "Added notification for keyboard" wide ascii
-    condition:
-        3 of ($a*) or all of ($b*) or all of ($c*) or all of ($d*)
+	meta:
+		description = "LogKext is an open source keylogger for Mac OS X, a product of FSB software."
+		reference = "https://github.com/SlEePlEs5/logKext"
+		author = "@mimeframe"
+
+	strings:
+		$a1 = {((6c 6f 67 4b 65 78 74 50 61 73 73 4b 65 79) | (6c 00 6f 00 67 00 4b 00 65 00 78 00 74 00 50 00 61 00 73 00 73 00 4b 00 65 00 79 00))}
+		$a2 = {((43 6f 75 6c 64 6e 27 74 20 67 65 74 20 73 79 73 74 65 6d 20 6b 65 79 63 68 61 69 6e 3a) | (43 00 6f 00 75 00 6c 00 64 00 6e 00 27 00 74 00 20 00 67 00 65 00 74 00 20 00 73 00 79 00 73 00 74 00 65 00 6d 00 20 00 6b 00 65 00 79 00 63 00 68 00 61 00 69 00 6e 00 3a 00))}
+		$a3 = {((45 72 72 6f 72 20 66 69 6e 64 69 6e 67 20 73 65 63 72 65 74 20 69 6e 20 6b 65 79 63 68 61 69 6e) | (45 00 72 00 72 00 6f 00 72 00 20 00 66 00 69 00 6e 00 64 00 69 00 6e 00 67 00 20 00 73 00 65 00 63 00 72 00 65 00 74 00 20 00 69 00 6e 00 20 00 6b 00 65 00 79 00 63 00 68 00 61 00 69 00 6e 00))}
+		$a4 = {((63 6f 6d 5f 66 73 62 5f 69 6f 6b 69 74 5f 6c 6f 67 4b 65 78 74) | (63 00 6f 00 6d 00 5f 00 66 00 73 00 62 00 5f 00 69 00 6f 00 6b 00 69 00 74 00 5f 00 6c 00 6f 00 67 00 4b 00 65 00 78 00 74 00))}
+		$b1 = {((6c 6f 67 4b 65 78 74 20 50 61 73 73 77 6f 72 64 3a) | (6c 00 6f 00 67 00 4b 00 65 00 78 00 74 00 20 00 50 00 61 00 73 00 73 00 77 00 6f 00 72 00 64 00 3a 00))}
+		$b2 = {((4c 6f 67 67 69 6e 67 20 63 6f 6e 74 72 6f 6c 73 20 77 68 65 74 68 65 72 20 74 68 65 20 64 61 65 6d 6f 6e 20 69 73 20 6c 6f 67 67 69 6e 67 20 6b 65 79 73 74 72 6f 6b 65 73 20 28 64 65 66 61 75 6c 74 20 69 73 20 6f 6e 29 2e) | (4c 00 6f 00 67 00 67 00 69 00 6e 00 67 00 20 00 63 00 6f 00 6e 00 74 00 72 00 6f 00 6c 00 73 00 20 00 77 00 68 00 65 00 74 00 68 00 65 00 72 00 20 00 74 00 68 00 65 00 20 00 64 00 61 00 65 00 6d 00 6f 00 6e 00 20 00 69 00 73 00 20 00 6c 00 6f 00 67 00 67 00 69 00 6e 00 67 00 20 00 6b 00 65 00 79 00 73 00 74 00 72 00 6f 00 6b 00 65 00 73 00 20 00 28 00 64 00 65 00 66 00 61 00 75 00 6c 00 74 00 20 00 69 00 73 00 20 00 6f 00 6e 00 29 00 2e 00))}
+		$c1 = {((6c 6f 67 4b 65 78 74 50 61 73 73 4b 65 79) | (6c 00 6f 00 67 00 4b 00 65 00 78 00 74 00 50 00 61 00 73 00 73 00 4b 00 65 00 79 00))}
+		$c2 = {((45 72 72 6f 72 3a 20 63 6f 75 6c 64 6e 27 74 20 63 72 65 61 74 65 20 73 65 63 41 63 63 65 73 73) | (45 00 72 00 72 00 6f 00 72 00 3a 00 20 00 63 00 6f 00 75 00 6c 00 64 00 6e 00 27 00 74 00 20 00 63 00 72 00 65 00 61 00 74 00 65 00 20 00 73 00 65 00 63 00 41 00 63 00 63 00 65 00 73 00 73 00))}
+		$d1 = {((49 4f 48 49 4b 65 79 62 6f 61 72 64) | (49 00 4f 00 48 00 49 00 4b 00 65 00 79 00 62 00 6f 00 61 00 72 00 64 00))}
+		$d2 = {((43 6c 65 61 72 20 6b 65 79 62 6f 61 72 64 73 20 63 61 6c 6c 65 64 20 77 69 74 68 20 6b 65 78 74 6b 65 79 73) | (43 00 6c 00 65 00 61 00 72 00 20 00 6b 00 65 00 79 00 62 00 6f 00 61 00 72 00 64 00 73 00 20 00 63 00 61 00 6c 00 6c 00 65 00 64 00 20 00 77 00 69 00 74 00 68 00 20 00 6b 00 65 00 78 00 74 00 6b 00 65 00 79 00 73 00))}
+		$d3 = {((41 64 64 65 64 20 6e 6f 74 69 66 69 63 61 74 69 6f 6e 20 66 6f 72 20 6b 65 79 62 6f 61 72 64) | (41 00 64 00 64 00 65 00 64 00 20 00 6e 00 6f 00 74 00 69 00 66 00 69 00 63 00 61 00 74 00 69 00 6f 00 6e 00 20 00 66 00 6f 00 72 00 20 00 6b 00 65 00 79 00 62 00 6f 00 61 00 72 00 64 00))}
+
+	condition:
+		3 of ( $a* ) or all of ( $b* ) or all of ( $c* ) or all of ( $d* )
 }
 
-rule hacktool_macos_keylogger_roxlu_ofxkeylogger
+rule hacktool_macos_keylogger_roxlu_ofxkeylogger : hardened
 {
-    meta:
-        description = "ofxKeylogger keylogger."
-        reference = "https://github.com/roxlu/ofxKeylogger"
-        author = "@mimeframe"
-    strings:
-        $a1 = "keylogger_init" wide ascii
-        $a2 = "install_keylogger_hook function not found in dll." wide ascii
-        $a3 = "keylogger_set_callback" wide ascii
-    condition:
-        all of ($a*)
+	meta:
+		description = "ofxKeylogger keylogger."
+		reference = "https://github.com/roxlu/ofxKeylogger"
+		author = "@mimeframe"
+
+	strings:
+		$a1 = {((6b 65 79 6c 6f 67 67 65 72 5f 69 6e 69 74) | (6b 00 65 00 79 00 6c 00 6f 00 67 00 67 00 65 00 72 00 5f 00 69 00 6e 00 69 00 74 00))}
+		$a2 = {((69 6e 73 74 61 6c 6c 5f 6b 65 79 6c 6f 67 67 65 72 5f 68 6f 6f 6b 20 66 75 6e 63 74 69 6f 6e 20 6e 6f 74 20 66 6f 75 6e 64 20 69 6e 20 64 6c 6c 2e) | (69 00 6e 00 73 00 74 00 61 00 6c 00 6c 00 5f 00 6b 00 65 00 79 00 6c 00 6f 00 67 00 67 00 65 00 72 00 5f 00 68 00 6f 00 6f 00 6b 00 20 00 66 00 75 00 6e 00 63 00 74 00 69 00 6f 00 6e 00 20 00 6e 00 6f 00 74 00 20 00 66 00 6f 00 75 00 6e 00 64 00 20 00 69 00 6e 00 20 00 64 00 6c 00 6c 00 2e 00))}
+		$a3 = {((6b 65 79 6c 6f 67 67 65 72 5f 73 65 74 5f 63 61 6c 6c 62 61 63 6b) | (6b 00 65 00 79 00 6c 00 6f 00 67 00 67 00 65 00 72 00 5f 00 73 00 65 00 74 00 5f 00 63 00 61 00 6c 00 6c 00 62 00 61 00 63 00 6b 00))}
+
+	condition:
+		all of ( $a* )
 }
 
-rule hacktool_macos_keylogger_skreweverything_swift
+rule hacktool_macos_keylogger_skreweverything_swift : hardened
 {
-    meta:
-        description = "It is a simple and easy to use keylogger for macOS written in Swift."
-        reference = "https://github.com/SkrewEverything/Swift-Keylogger"
-        author = "@mimeframe"
-    strings:
-        $a1 = "Can't create directories!" wide ascii
-        $a2 = "Can't create manager" wide ascii
-        $a3 = "Can't open HID!" wide ascii
-        $a4 = "PRINTSCREEN" wide ascii
-        $a5 = "LEFTARROW" wide ascii
-    condition:
-        4 of ($a*)
+	meta:
+		description = "It is a simple and easy to use keylogger for macOS written in Swift."
+		reference = "https://github.com/SkrewEverything/Swift-Keylogger"
+		author = "@mimeframe"
+
+	strings:
+		$a1 = {((43 61 6e 27 74 20 63 72 65 61 74 65 20 64 69 72 65 63 74 6f 72 69 65 73 21) | (43 00 61 00 6e 00 27 00 74 00 20 00 63 00 72 00 65 00 61 00 74 00 65 00 20 00 64 00 69 00 72 00 65 00 63 00 74 00 6f 00 72 00 69 00 65 00 73 00 21 00))}
+		$a2 = {((43 61 6e 27 74 20 63 72 65 61 74 65 20 6d 61 6e 61 67 65 72) | (43 00 61 00 6e 00 27 00 74 00 20 00 63 00 72 00 65 00 61 00 74 00 65 00 20 00 6d 00 61 00 6e 00 61 00 67 00 65 00 72 00))}
+		$a3 = {((43 61 6e 27 74 20 6f 70 65 6e 20 48 49 44 21) | (43 00 61 00 6e 00 27 00 74 00 20 00 6f 00 70 00 65 00 6e 00 20 00 48 00 49 00 44 00 21 00))}
+		$a4 = {((50 52 49 4e 54 53 43 52 45 45 4e) | (50 00 52 00 49 00 4e 00 54 00 53 00 43 00 52 00 45 00 45 00 4e 00))}
+		$a5 = {((4c 45 46 54 41 52 52 4f 57) | (4c 00 45 00 46 00 54 00 41 00 52 00 52 00 4f 00 57 00))}
+
+	condition:
+		4 of ( $a* )
 }
 
-rule hacktool_macos_macpmem
+rule hacktool_macos_macpmem : hardened
 {
-    meta:
-        description = "MacPmem enables read/write access to physical memory on macOS. Can be used by CSIRT teams and attackers."
-        reference = "https://github.com/google/rekall/tree/master/tools/osx/MacPmem"
-        author = "@mimeframe"
-    strings:
-        // osxpmem
-        $a1 = "%s/MacPmem.kext" wide ascii
-        $a2 = "The Pmem physical memory imager." wide ascii
-        $a3 = "The OSXPmem memory imager." wide ascii
-        $a4 = "These AFF4 Volumes will be loaded and their metadata will be parsed before the program runs." wide ascii
-        $a5 = "Pmem driver version incompatible. Reported" wide ascii
-        $a6 = "Memory access driver left loaded since you specified the -l flag." wide ascii
-        // kext
-        $b1 = "Unloading MacPmem" wide ascii
-        $b2 = "MacPmem load tag is" wide ascii
-    condition:
-        MachO and 2 of ($a*) or all of ($b*)
+	meta:
+		description = "MacPmem enables read/write access to physical memory on macOS. Can be used by CSIRT teams and attackers."
+		reference = "https://github.com/google/rekall/tree/master/tools/osx/MacPmem"
+		author = "@mimeframe"
+
+	strings:
+		$a1 = {((25 73 2f 4d 61 63 50 6d 65 6d 2e 6b 65 78 74) | (25 00 73 00 2f 00 4d 00 61 00 63 00 50 00 6d 00 65 00 6d 00 2e 00 6b 00 65 00 78 00 74 00))}
+		$a2 = {((54 68 65 20 50 6d 65 6d 20 70 68 79 73 69 63 61 6c 20 6d 65 6d 6f 72 79 20 69 6d 61 67 65 72 2e) | (54 00 68 00 65 00 20 00 50 00 6d 00 65 00 6d 00 20 00 70 00 68 00 79 00 73 00 69 00 63 00 61 00 6c 00 20 00 6d 00 65 00 6d 00 6f 00 72 00 79 00 20 00 69 00 6d 00 61 00 67 00 65 00 72 00 2e 00))}
+		$a3 = {((54 68 65 20 4f 53 58 50 6d 65 6d 20 6d 65 6d 6f 72 79 20 69 6d 61 67 65 72 2e) | (54 00 68 00 65 00 20 00 4f 00 53 00 58 00 50 00 6d 00 65 00 6d 00 20 00 6d 00 65 00 6d 00 6f 00 72 00 79 00 20 00 69 00 6d 00 61 00 67 00 65 00 72 00 2e 00))}
+		$a4 = {((54 68 65 73 65 20 41 46 46 34 20 56 6f 6c 75 6d 65 73 20 77 69 6c 6c 20 62 65 20 6c 6f 61 64 65 64 20 61 6e 64 20 74 68 65 69 72 20 6d 65 74 61 64 61 74 61 20 77 69 6c 6c 20 62 65 20 70 61 72 73 65 64 20 62 65 66 6f 72 65 20 74 68 65 20 70 72 6f 67 72 61 6d 20 72 75 6e 73 2e) | (54 00 68 00 65 00 73 00 65 00 20 00 41 00 46 00 46 00 34 00 20 00 56 00 6f 00 6c 00 75 00 6d 00 65 00 73 00 20 00 77 00 69 00 6c 00 6c 00 20 00 62 00 65 00 20 00 6c 00 6f 00 61 00 64 00 65 00 64 00 20 00 61 00 6e 00 64 00 20 00 74 00 68 00 65 00 69 00 72 00 20 00 6d 00 65 00 74 00 61 00 64 00 61 00 74 00 61 00 20 00 77 00 69 00 6c 00 6c 00 20 00 62 00 65 00 20 00 70 00 61 00 72 00 73 00 65 00 64 00 20 00 62 00 65 00 66 00 6f 00 72 00 65 00 20 00 74 00 68 00 65 00 20 00 70 00 72 00 6f 00 67 00 72 00 61 00 6d 00 20 00 72 00 75 00 6e 00 73 00 2e 00))}
+		$a5 = {((50 6d 65 6d 20 64 72 69 76 65 72 20 76 65 72 73 69 6f 6e 20 69 6e 63 6f 6d 70 61 74 69 62 6c 65 2e 20 52 65 70 6f 72 74 65 64) | (50 00 6d 00 65 00 6d 00 20 00 64 00 72 00 69 00 76 00 65 00 72 00 20 00 76 00 65 00 72 00 73 00 69 00 6f 00 6e 00 20 00 69 00 6e 00 63 00 6f 00 6d 00 70 00 61 00 74 00 69 00 62 00 6c 00 65 00 2e 00 20 00 52 00 65 00 70 00 6f 00 72 00 74 00 65 00 64 00))}
+		$a6 = {((4d 65 6d 6f 72 79 20 61 63 63 65 73 73 20 64 72 69 76 65 72 20 6c 65 66 74 20 6c 6f 61 64 65 64 20 73 69 6e 63 65 20 79 6f 75 20 73 70 65 63 69 66 69 65 64 20 74 68 65 20 2d 6c 20 66 6c 61 67 2e) | (4d 00 65 00 6d 00 6f 00 72 00 79 00 20 00 61 00 63 00 63 00 65 00 73 00 73 00 20 00 64 00 72 00 69 00 76 00 65 00 72 00 20 00 6c 00 65 00 66 00 74 00 20 00 6c 00 6f 00 61 00 64 00 65 00 64 00 20 00 73 00 69 00 6e 00 63 00 65 00 20 00 79 00 6f 00 75 00 20 00 73 00 70 00 65 00 63 00 69 00 66 00 69 00 65 00 64 00 20 00 74 00 68 00 65 00 20 00 2d 00 6c 00 20 00 66 00 6c 00 61 00 67 00 2e 00))}
+		$b1 = {((55 6e 6c 6f 61 64 69 6e 67 20 4d 61 63 50 6d 65 6d) | (55 00 6e 00 6c 00 6f 00 61 00 64 00 69 00 6e 00 67 00 20 00 4d 00 61 00 63 00 50 00 6d 00 65 00 6d 00))}
+		$b2 = {((4d 61 63 50 6d 65 6d 20 6c 6f 61 64 20 74 61 67 20 69 73) | (4d 00 61 00 63 00 50 00 6d 00 65 00 6d 00 20 00 6c 00 6f 00 61 00 64 00 20 00 74 00 61 00 67 00 20 00 69 00 73 00))}
+
+	condition:
+		MachO and 2 of ( $a* ) or all of ( $b* )
 }
 
-rule hacktool_macos_manwhoami_icloudcontacts
+rule hacktool_macos_manwhoami_icloudcontacts : hardened
 {
-    meta:
-        description = "Pulls iCloud Contacts for an account. No dependencies. No user notification."
-        reference = "https://github.com/manwhoami/iCloudContacts"
-        author = "@mimeframe"
-    strings:
-        $a1 = "https://setup.icloud.com/setup/authenticate/" wide ascii
-        $a2 = "https://p04-contacts.icloud.com/" wide ascii
-        $a3 = "HTTP Error 401: Unauthorized. Are you sure the credentials are correct?" wide ascii
-        $a4 = "HTTP Error 404: URL not found. Did you enter a username?" wide ascii
-    condition:
-        3 of ($a*)
+	meta:
+		description = "Pulls iCloud Contacts for an account. No dependencies. No user notification."
+		reference = "https://github.com/manwhoami/iCloudContacts"
+		author = "@mimeframe"
+
+	strings:
+		$a1 = {((68 74 74 70 73 3a 2f 2f 73 65 74 75 70 2e 69 63 6c 6f 75 64 2e 63 6f 6d 2f 73 65 74 75 70 2f 61 75 74 68 65 6e 74 69 63 61 74 65 2f) | (68 00 74 00 74 00 70 00 73 00 3a 00 2f 00 2f 00 73 00 65 00 74 00 75 00 70 00 2e 00 69 00 63 00 6c 00 6f 00 75 00 64 00 2e 00 63 00 6f 00 6d 00 2f 00 73 00 65 00 74 00 75 00 70 00 2f 00 61 00 75 00 74 00 68 00 65 00 6e 00 74 00 69 00 63 00 61 00 74 00 65 00 2f 00))}
+		$a2 = {((68 74 74 70 73 3a 2f 2f 70 30 34 2d 63 6f 6e 74 61 63 74 73 2e 69 63 6c 6f 75 64 2e 63 6f 6d 2f) | (68 00 74 00 74 00 70 00 73 00 3a 00 2f 00 2f 00 70 00 30 00 34 00 2d 00 63 00 6f 00 6e 00 74 00 61 00 63 00 74 00 73 00 2e 00 69 00 63 00 6c 00 6f 00 75 00 64 00 2e 00 63 00 6f 00 6d 00 2f 00))}
+		$a3 = {((48 54 54 50 20 45 72 72 6f 72 20 34 30 31 3a 20 55 6e 61 75 74 68 6f 72 69 7a 65 64 2e 20 41 72 65 20 79 6f 75 20 73 75 72 65 20 74 68 65 20 63 72 65 64 65 6e 74 69 61 6c 73 20 61 72 65 20 63 6f 72 72 65 63 74 3f) | (48 00 54 00 54 00 50 00 20 00 45 00 72 00 72 00 6f 00 72 00 20 00 34 00 30 00 31 00 3a 00 20 00 55 00 6e 00 61 00 75 00 74 00 68 00 6f 00 72 00 69 00 7a 00 65 00 64 00 2e 00 20 00 41 00 72 00 65 00 20 00 79 00 6f 00 75 00 20 00 73 00 75 00 72 00 65 00 20 00 74 00 68 00 65 00 20 00 63 00 72 00 65 00 64 00 65 00 6e 00 74 00 69 00 61 00 6c 00 73 00 20 00 61 00 72 00 65 00 20 00 63 00 6f 00 72 00 72 00 65 00 63 00 74 00 3f 00))}
+		$a4 = {((48 54 54 50 20 45 72 72 6f 72 20 34 30 34 3a 20 55 52 4c 20 6e 6f 74 20 66 6f 75 6e 64 2e 20 44 69 64 20 79 6f 75 20 65 6e 74 65 72 20 61 20 75 73 65 72 6e 61 6d 65 3f) | (48 00 54 00 54 00 50 00 20 00 45 00 72 00 72 00 6f 00 72 00 20 00 34 00 30 00 34 00 3a 00 20 00 55 00 52 00 4c 00 20 00 6e 00 6f 00 74 00 20 00 66 00 6f 00 75 00 6e 00 64 00 2e 00 20 00 44 00 69 00 64 00 20 00 79 00 6f 00 75 00 20 00 65 00 6e 00 74 00 65 00 72 00 20 00 61 00 20 00 75 00 73 00 65 00 72 00 6e 00 61 00 6d 00 65 00 3f 00))}
+
+	condition:
+		3 of ( $a* )
 }
 
-rule hacktool_macos_manwhoami_mmetokendecrypt
+rule hacktool_macos_manwhoami_mmetokendecrypt : hardened
 {
-    meta:
-        description = "This program decrypts / extracts all authorization tokens on macOS / OS X / OSX."
-        reference = "https://github.com/manwhoami/MMeTokenDecrypt"
-        author = "@mimeframe"
-    strings:
-        $a1 = "security find-generic-password -ws 'iCloud'" wide ascii
-        $a2 = "ERROR getting iCloud Decryption Key" wide ascii
-        $a3 = "Could not find MMeTokenFile. You can specify the file manually." wide ascii
-        $a4 = "Decrypting token plist ->" wide ascii
-        $a5 = "Successfully decrypted token plist!" wide ascii
-    condition:
-        3 of ($a*)
+	meta:
+		description = "This program decrypts / extracts all authorization tokens on macOS / OS X / OSX."
+		reference = "https://github.com/manwhoami/MMeTokenDecrypt"
+		author = "@mimeframe"
+
+	strings:
+		$a1 = {((73 65 63 75 72 69 74 79 20 66 69 6e 64 2d 67 65 6e 65 72 69 63 2d 70 61 73 73 77 6f 72 64 20 2d 77 73 20 27 69 43 6c 6f 75 64 27) | (73 00 65 00 63 00 75 00 72 00 69 00 74 00 79 00 20 00 66 00 69 00 6e 00 64 00 2d 00 67 00 65 00 6e 00 65 00 72 00 69 00 63 00 2d 00 70 00 61 00 73 00 73 00 77 00 6f 00 72 00 64 00 20 00 2d 00 77 00 73 00 20 00 27 00 69 00 43 00 6c 00 6f 00 75 00 64 00 27 00))}
+		$a2 = {((45 52 52 4f 52 20 67 65 74 74 69 6e 67 20 69 43 6c 6f 75 64 20 44 65 63 72 79 70 74 69 6f 6e 20 4b 65 79) | (45 00 52 00 52 00 4f 00 52 00 20 00 67 00 65 00 74 00 74 00 69 00 6e 00 67 00 20 00 69 00 43 00 6c 00 6f 00 75 00 64 00 20 00 44 00 65 00 63 00 72 00 79 00 70 00 74 00 69 00 6f 00 6e 00 20 00 4b 00 65 00 79 00))}
+		$a3 = {((43 6f 75 6c 64 20 6e 6f 74 20 66 69 6e 64 20 4d 4d 65 54 6f 6b 65 6e 46 69 6c 65 2e 20 59 6f 75 20 63 61 6e 20 73 70 65 63 69 66 79 20 74 68 65 20 66 69 6c 65 20 6d 61 6e 75 61 6c 6c 79 2e) | (43 00 6f 00 75 00 6c 00 64 00 20 00 6e 00 6f 00 74 00 20 00 66 00 69 00 6e 00 64 00 20 00 4d 00 4d 00 65 00 54 00 6f 00 6b 00 65 00 6e 00 46 00 69 00 6c 00 65 00 2e 00 20 00 59 00 6f 00 75 00 20 00 63 00 61 00 6e 00 20 00 73 00 70 00 65 00 63 00 69 00 66 00 79 00 20 00 74 00 68 00 65 00 20 00 66 00 69 00 6c 00 65 00 20 00 6d 00 61 00 6e 00 75 00 61 00 6c 00 6c 00 79 00 2e 00))}
+		$a4 = {((44 65 63 72 79 70 74 69 6e 67 20 74 6f 6b 65 6e 20 70 6c 69 73 74 20 2d 3e) | (44 00 65 00 63 00 72 00 79 00 70 00 74 00 69 00 6e 00 67 00 20 00 74 00 6f 00 6b 00 65 00 6e 00 20 00 70 00 6c 00 69 00 73 00 74 00 20 00 2d 00 3e 00))}
+		$a5 = {((53 75 63 63 65 73 73 66 75 6c 6c 79 20 64 65 63 72 79 70 74 65 64 20 74 6f 6b 65 6e 20 70 6c 69 73 74 21) | (53 00 75 00 63 00 63 00 65 00 73 00 73 00 66 00 75 00 6c 00 6c 00 79 00 20 00 64 00 65 00 63 00 72 00 79 00 70 00 74 00 65 00 64 00 20 00 74 00 6f 00 6b 00 65 00 6e 00 20 00 70 00 6c 00 69 00 73 00 74 00 21 00))}
+
+	condition:
+		3 of ( $a* )
 }
 
-rule hacktool_macos_manwhoami_osxchromedecrypt
+rule hacktool_macos_manwhoami_osxchromedecrypt : hardened
 {
-    meta:
-        description = "Decrypt Google Chrome / Chromium passwords and credit cards on macOS / OS X."
-        reference = "https://github.com/manwhoami/OSXChromeDecrypt"
-        author = "@mimeframe"
-    strings:
-        $a1 = "Credit Cards for Chrome Profile" wide ascii
-        $a2 = "Passwords for Chrome Profile" wide ascii
-        $a3 = "Unknown Card Issuer" wide ascii
-        $a4 = "ERROR getting Chrome Safe Storage Key" wide ascii
-        $b1 = "select name_on_card, card_number_encrypted, expiration_month, expiration_year from credit_cards" wide ascii
-        $b2 = "select username_value, password_value, origin_url, submit_element from logins" wide ascii
-    condition:
-        3 of ($a*) or all of ($b*)
+	meta:
+		description = "Decrypt Google Chrome / Chromium passwords and credit cards on macOS / OS X."
+		reference = "https://github.com/manwhoami/OSXChromeDecrypt"
+		author = "@mimeframe"
+
+	strings:
+		$a1 = {((43 72 65 64 69 74 20 43 61 72 64 73 20 66 6f 72 20 43 68 72 6f 6d 65 20 50 72 6f 66 69 6c 65) | (43 00 72 00 65 00 64 00 69 00 74 00 20 00 43 00 61 00 72 00 64 00 73 00 20 00 66 00 6f 00 72 00 20 00 43 00 68 00 72 00 6f 00 6d 00 65 00 20 00 50 00 72 00 6f 00 66 00 69 00 6c 00 65 00))}
+		$a2 = {((50 61 73 73 77 6f 72 64 73 20 66 6f 72 20 43 68 72 6f 6d 65 20 50 72 6f 66 69 6c 65) | (50 00 61 00 73 00 73 00 77 00 6f 00 72 00 64 00 73 00 20 00 66 00 6f 00 72 00 20 00 43 00 68 00 72 00 6f 00 6d 00 65 00 20 00 50 00 72 00 6f 00 66 00 69 00 6c 00 65 00))}
+		$a3 = {((55 6e 6b 6e 6f 77 6e 20 43 61 72 64 20 49 73 73 75 65 72) | (55 00 6e 00 6b 00 6e 00 6f 00 77 00 6e 00 20 00 43 00 61 00 72 00 64 00 20 00 49 00 73 00 73 00 75 00 65 00 72 00))}
+		$a4 = {((45 52 52 4f 52 20 67 65 74 74 69 6e 67 20 43 68 72 6f 6d 65 20 53 61 66 65 20 53 74 6f 72 61 67 65 20 4b 65 79) | (45 00 52 00 52 00 4f 00 52 00 20 00 67 00 65 00 74 00 74 00 69 00 6e 00 67 00 20 00 43 00 68 00 72 00 6f 00 6d 00 65 00 20 00 53 00 61 00 66 00 65 00 20 00 53 00 74 00 6f 00 72 00 61 00 67 00 65 00 20 00 4b 00 65 00 79 00))}
+		$b1 = {((73 65 6c 65 63 74 20 6e 61 6d 65 5f 6f 6e 5f 63 61 72 64 2c 20 63 61 72 64 5f 6e 75 6d 62 65 72 5f 65 6e 63 72 79 70 74 65 64 2c 20 65 78 70 69 72 61 74 69 6f 6e 5f 6d 6f 6e 74 68 2c 20 65 78 70 69 72 61 74 69 6f 6e 5f 79 65 61 72 20 66 72 6f 6d 20 63 72 65 64 69 74 5f 63 61 72 64 73) | (73 00 65 00 6c 00 65 00 63 00 74 00 20 00 6e 00 61 00 6d 00 65 00 5f 00 6f 00 6e 00 5f 00 63 00 61 00 72 00 64 00 2c 00 20 00 63 00 61 00 72 00 64 00 5f 00 6e 00 75 00 6d 00 62 00 65 00 72 00 5f 00 65 00 6e 00 63 00 72 00 79 00 70 00 74 00 65 00 64 00 2c 00 20 00 65 00 78 00 70 00 69 00 72 00 61 00 74 00 69 00 6f 00 6e 00 5f 00 6d 00 6f 00 6e 00 74 00 68 00 2c 00 20 00 65 00 78 00 70 00 69 00 72 00 61 00 74 00 69 00 6f 00 6e 00 5f 00 79 00 65 00 61 00 72 00 20 00 66 00 72 00 6f 00 6d 00 20 00 63 00 72 00 65 00 64 00 69 00 74 00 5f 00 63 00 61 00 72 00 64 00 73 00))}
+		$b2 = {((73 65 6c 65 63 74 20 75 73 65 72 6e 61 6d 65 5f 76 61 6c 75 65 2c 20 70 61 73 73 77 6f 72 64 5f 76 61 6c 75 65 2c 20 6f 72 69 67 69 6e 5f 75 72 6c 2c 20 73 75 62 6d 69 74 5f 65 6c 65 6d 65 6e 74 20 66 72 6f 6d 20 6c 6f 67 69 6e 73) | (73 00 65 00 6c 00 65 00 63 00 74 00 20 00 75 00 73 00 65 00 72 00 6e 00 61 00 6d 00 65 00 5f 00 76 00 61 00 6c 00 75 00 65 00 2c 00 20 00 70 00 61 00 73 00 73 00 77 00 6f 00 72 00 64 00 5f 00 76 00 61 00 6c 00 75 00 65 00 2c 00 20 00 6f 00 72 00 69 00 67 00 69 00 6e 00 5f 00 75 00 72 00 6c 00 2c 00 20 00 73 00 75 00 62 00 6d 00 69 00 74 00 5f 00 65 00 6c 00 65 00 6d 00 65 00 6e 00 74 00 20 00 66 00 72 00 6f 00 6d 00 20 00 6c 00 6f 00 67 00 69 00 6e 00 73 00))}
+
+	condition:
+		3 of ( $a* ) or all of ( $b* )
 }
 
-rule hacktool_macos_n0fate_chainbreaker
+rule hacktool_macos_n0fate_chainbreaker : hardened
 {
-    meta:
-        description = "chainbreaker can extract user credential in a Keychain file with Master Key or user password in forensically sound manner."
-        reference = "https://github.com/n0fate/chainbreaker"
-        author = "@mimeframe"
-    strings:
-        $a1 = "[!] Private Key Table is not available" wide ascii
-        $a2 = "[!] Public Key Table is not available" wide ascii
-        $a3 = "[-] Decrypted Private Key" wide ascii
-    condition:
-        all of ($a*)
+	meta:
+		description = "chainbreaker can extract user credential in a Keychain file with Master Key or user password in forensically sound manner."
+		reference = "https://github.com/n0fate/chainbreaker"
+		author = "@mimeframe"
+
+	strings:
+		$a1 = {((5b 21 5d 20 50 72 69 76 61 74 65 20 4b 65 79 20 54 61 62 6c 65 20 69 73 20 6e 6f 74 20 61 76 61 69 6c 61 62 6c 65) | (5b 00 21 00 5d 00 20 00 50 00 72 00 69 00 76 00 61 00 74 00 65 00 20 00 4b 00 65 00 79 00 20 00 54 00 61 00 62 00 6c 00 65 00 20 00 69 00 73 00 20 00 6e 00 6f 00 74 00 20 00 61 00 76 00 61 00 69 00 6c 00 61 00 62 00 6c 00 65 00))}
+		$a2 = {((5b 21 5d 20 50 75 62 6c 69 63 20 4b 65 79 20 54 61 62 6c 65 20 69 73 20 6e 6f 74 20 61 76 61 69 6c 61 62 6c 65) | (5b 00 21 00 5d 00 20 00 50 00 75 00 62 00 6c 00 69 00 63 00 20 00 4b 00 65 00 79 00 20 00 54 00 61 00 62 00 6c 00 65 00 20 00 69 00 73 00 20 00 6e 00 6f 00 74 00 20 00 61 00 76 00 61 00 69 00 6c 00 61 00 62 00 6c 00 65 00))}
+		$a3 = {((5b 2d 5d 20 44 65 63 72 79 70 74 65 64 20 50 72 69 76 61 74 65 20 4b 65 79) | (5b 00 2d 00 5d 00 20 00 44 00 65 00 63 00 72 00 79 00 70 00 74 00 65 00 64 00 20 00 50 00 72 00 69 00 76 00 61 00 74 00 65 00 20 00 4b 00 65 00 79 00))}
+
+	condition:
+		all of ( $a* )
 }
 
-rule hacktool_macos_ptoomey3_keychain_dumper
+rule hacktool_macos_ptoomey3_keychain_dumper : hardened
 {
-    meta:
-        description = "Keychain dumping utility."
-        reference = "https://github.com/ptoomey3/Keychain-Dumper"
-        author = "@mimeframe"
-    strings:
-        $a1 = "keychain_dumper" wide ascii
-        $a2 = "/var/Keychains/keychain-2.db" wide ascii
-        $a3 = "<key>keychain-access-groups</key>" wide ascii
-        $a4 = "SELECT DISTINCT agrp FROM genp UNION SELECT DISTINCT agrp FROM inet" wide ascii
-        $a5 = "dumpEntitlements" wide ascii
-    condition:
-        all of ($a*)
+	meta:
+		description = "Keychain dumping utility."
+		reference = "https://github.com/ptoomey3/Keychain-Dumper"
+		author = "@mimeframe"
+
+	strings:
+		$a1 = {((6b 65 79 63 68 61 69 6e 5f 64 75 6d 70 65 72) | (6b 00 65 00 79 00 63 00 68 00 61 00 69 00 6e 00 5f 00 64 00 75 00 6d 00 70 00 65 00 72 00))}
+		$a2 = {((2f 76 61 72 2f 4b 65 79 63 68 61 69 6e 73 2f 6b 65 79 63 68 61 69 6e 2d 32 2e 64 62) | (2f 00 76 00 61 00 72 00 2f 00 4b 00 65 00 79 00 63 00 68 00 61 00 69 00 6e 00 73 00 2f 00 6b 00 65 00 79 00 63 00 68 00 61 00 69 00 6e 00 2d 00 32 00 2e 00 64 00 62 00))}
+		$a3 = {((3c 6b 65 79 3e 6b 65 79 63 68 61 69 6e 2d 61 63 63 65 73 73 2d 67 72 6f 75 70 73 3c 2f 6b 65 79 3e) | (3c 00 6b 00 65 00 79 00 3e 00 6b 00 65 00 79 00 63 00 68 00 61 00 69 00 6e 00 2d 00 61 00 63 00 63 00 65 00 73 00 73 00 2d 00 67 00 72 00 6f 00 75 00 70 00 73 00 3c 00 2f 00 6b 00 65 00 79 00 3e 00))}
+		$a4 = {((53 45 4c 45 43 54 20 44 49 53 54 49 4e 43 54 20 61 67 72 70 20 46 52 4f 4d 20 67 65 6e 70 20 55 4e 49 4f 4e 20 53 45 4c 45 43 54 20 44 49 53 54 49 4e 43 54 20 61 67 72 70 20 46 52 4f 4d 20 69 6e 65 74) | (53 00 45 00 4c 00 45 00 43 00 54 00 20 00 44 00 49 00 53 00 54 00 49 00 4e 00 43 00 54 00 20 00 61 00 67 00 72 00 70 00 20 00 46 00 52 00 4f 00 4d 00 20 00 67 00 65 00 6e 00 70 00 20 00 55 00 4e 00 49 00 4f 00 4e 00 20 00 53 00 45 00 4c 00 45 00 43 00 54 00 20 00 44 00 49 00 53 00 54 00 49 00 4e 00 43 00 54 00 20 00 61 00 67 00 72 00 70 00 20 00 46 00 52 00 4f 00 4d 00 20 00 69 00 6e 00 65 00 74 00))}
+		$a5 = {((64 75 6d 70 45 6e 74 69 74 6c 65 6d 65 6e 74 73) | (64 00 75 00 6d 00 70 00 45 00 6e 00 74 00 69 00 74 00 6c 00 65 00 6d 00 65 00 6e 00 74 00 73 00))}
+
+	condition:
+		all of ( $a* )
 }
 
-/* ./rules/public/hacktool/multi */
-
-rule hacktool_multi_bloodhound_owned
+rule hacktool_multi_bloodhound_owned : hardened
 {
-    meta:
-        description = "Bloodhound: Custom queries to document a compromise, find collateral spread of owned nodes, and visualize deltas in privilege gains"
-        reference = "https://github.com/porterhau5/BloodHound-Owned/"
-        author = "@fusionrace"
-    strings:
-        $s1 = "Find all owned Domain Admins" fullword ascii wide
-        $s2 = "Find Shortest Path from owned node to Domain Admins" fullword ascii wide
-        $s3 = "List all directly owned nodes" fullword ascii wide
-        $s4 = "Set owned and wave properties for a node" fullword ascii wide
-        $s5 = "Find spread of compromise for owned nodes in wave" fullword ascii wide
-        $s6 = "Show clusters of password reuse" fullword ascii wide
-        $s7 = "Something went wrong when creating SharesPasswordWith relationship" fullword ascii wide
-        $s8 = "reference doc of custom Cypher queries for BloodHound" fullword ascii wide
-        $s9 = "Created SharesPasswordWith relationship between" fullword ascii wide
-        $s10 = "Skipping finding spread of compromise due to" fullword ascii wide
-    condition:
-        any of them
+	meta:
+		description = "Bloodhound: Custom queries to document a compromise, find collateral spread of owned nodes, and visualize deltas in privilege gains"
+		reference = "https://github.com/porterhau5/BloodHound-Owned/"
+		author = "@fusionrace"
+
+	strings:
+		$s1 = {((46 69 6e 64 20 61 6c 6c 20 6f 77 6e 65 64 20 44 6f 6d 61 69 6e 20 41 64 6d 69 6e 73) | (46 00 69 00 6e 00 64 00 20 00 61 00 6c 00 6c 00 20 00 6f 00 77 00 6e 00 65 00 64 00 20 00 44 00 6f 00 6d 00 61 00 69 00 6e 00 20 00 41 00 64 00 6d 00 69 00 6e 00 73 00))}
+		$s2 = {((46 69 6e 64 20 53 68 6f 72 74 65 73 74 20 50 61 74 68 20 66 72 6f 6d 20 6f 77 6e 65 64 20 6e 6f 64 65 20 74 6f 20 44 6f 6d 61 69 6e 20 41 64 6d 69 6e 73) | (46 00 69 00 6e 00 64 00 20 00 53 00 68 00 6f 00 72 00 74 00 65 00 73 00 74 00 20 00 50 00 61 00 74 00 68 00 20 00 66 00 72 00 6f 00 6d 00 20 00 6f 00 77 00 6e 00 65 00 64 00 20 00 6e 00 6f 00 64 00 65 00 20 00 74 00 6f 00 20 00 44 00 6f 00 6d 00 61 00 69 00 6e 00 20 00 41 00 64 00 6d 00 69 00 6e 00 73 00))}
+		$s3 = {((4c 69 73 74 20 61 6c 6c 20 64 69 72 65 63 74 6c 79 20 6f 77 6e 65 64 20 6e 6f 64 65 73) | (4c 00 69 00 73 00 74 00 20 00 61 00 6c 00 6c 00 20 00 64 00 69 00 72 00 65 00 63 00 74 00 6c 00 79 00 20 00 6f 00 77 00 6e 00 65 00 64 00 20 00 6e 00 6f 00 64 00 65 00 73 00))}
+		$s4 = {((53 65 74 20 6f 77 6e 65 64 20 61 6e 64 20 77 61 76 65 20 70 72 6f 70 65 72 74 69 65 73 20 66 6f 72 20 61 20 6e 6f 64 65) | (53 00 65 00 74 00 20 00 6f 00 77 00 6e 00 65 00 64 00 20 00 61 00 6e 00 64 00 20 00 77 00 61 00 76 00 65 00 20 00 70 00 72 00 6f 00 70 00 65 00 72 00 74 00 69 00 65 00 73 00 20 00 66 00 6f 00 72 00 20 00 61 00 20 00 6e 00 6f 00 64 00 65 00))}
+		$s5 = {((46 69 6e 64 20 73 70 72 65 61 64 20 6f 66 20 63 6f 6d 70 72 6f 6d 69 73 65 20 66 6f 72 20 6f 77 6e 65 64 20 6e 6f 64 65 73 20 69 6e 20 77 61 76 65) | (46 00 69 00 6e 00 64 00 20 00 73 00 70 00 72 00 65 00 61 00 64 00 20 00 6f 00 66 00 20 00 63 00 6f 00 6d 00 70 00 72 00 6f 00 6d 00 69 00 73 00 65 00 20 00 66 00 6f 00 72 00 20 00 6f 00 77 00 6e 00 65 00 64 00 20 00 6e 00 6f 00 64 00 65 00 73 00 20 00 69 00 6e 00 20 00 77 00 61 00 76 00 65 00))}
+		$s6 = {((53 68 6f 77 20 63 6c 75 73 74 65 72 73 20 6f 66 20 70 61 73 73 77 6f 72 64 20 72 65 75 73 65) | (53 00 68 00 6f 00 77 00 20 00 63 00 6c 00 75 00 73 00 74 00 65 00 72 00 73 00 20 00 6f 00 66 00 20 00 70 00 61 00 73 00 73 00 77 00 6f 00 72 00 64 00 20 00 72 00 65 00 75 00 73 00 65 00))}
+		$s7 = {((53 6f 6d 65 74 68 69 6e 67 20 77 65 6e 74 20 77 72 6f 6e 67 20 77 68 65 6e 20 63 72 65 61 74 69 6e 67 20 53 68 61 72 65 73 50 61 73 73 77 6f 72 64 57 69 74 68 20 72 65 6c 61 74 69 6f 6e 73 68 69 70) | (53 00 6f 00 6d 00 65 00 74 00 68 00 69 00 6e 00 67 00 20 00 77 00 65 00 6e 00 74 00 20 00 77 00 72 00 6f 00 6e 00 67 00 20 00 77 00 68 00 65 00 6e 00 20 00 63 00 72 00 65 00 61 00 74 00 69 00 6e 00 67 00 20 00 53 00 68 00 61 00 72 00 65 00 73 00 50 00 61 00 73 00 73 00 77 00 6f 00 72 00 64 00 57 00 69 00 74 00 68 00 20 00 72 00 65 00 6c 00 61 00 74 00 69 00 6f 00 6e 00 73 00 68 00 69 00 70 00))}
+		$s8 = {((72 65 66 65 72 65 6e 63 65 20 64 6f 63 20 6f 66 20 63 75 73 74 6f 6d 20 43 79 70 68 65 72 20 71 75 65 72 69 65 73 20 66 6f 72 20 42 6c 6f 6f 64 48 6f 75 6e 64) | (72 00 65 00 66 00 65 00 72 00 65 00 6e 00 63 00 65 00 20 00 64 00 6f 00 63 00 20 00 6f 00 66 00 20 00 63 00 75 00 73 00 74 00 6f 00 6d 00 20 00 43 00 79 00 70 00 68 00 65 00 72 00 20 00 71 00 75 00 65 00 72 00 69 00 65 00 73 00 20 00 66 00 6f 00 72 00 20 00 42 00 6c 00 6f 00 6f 00 64 00 48 00 6f 00 75 00 6e 00 64 00))}
+		$s9 = {((43 72 65 61 74 65 64 20 53 68 61 72 65 73 50 61 73 73 77 6f 72 64 57 69 74 68 20 72 65 6c 61 74 69 6f 6e 73 68 69 70 20 62 65 74 77 65 65 6e) | (43 00 72 00 65 00 61 00 74 00 65 00 64 00 20 00 53 00 68 00 61 00 72 00 65 00 73 00 50 00 61 00 73 00 73 00 77 00 6f 00 72 00 64 00 57 00 69 00 74 00 68 00 20 00 72 00 65 00 6c 00 61 00 74 00 69 00 6f 00 6e 00 73 00 68 00 69 00 70 00 20 00 62 00 65 00 74 00 77 00 65 00 65 00 6e 00))}
+		$s10 = {((53 6b 69 70 70 69 6e 67 20 66 69 6e 64 69 6e 67 20 73 70 72 65 61 64 20 6f 66 20 63 6f 6d 70 72 6f 6d 69 73 65 20 64 75 65 20 74 6f) | (53 00 6b 00 69 00 70 00 70 00 69 00 6e 00 67 00 20 00 66 00 69 00 6e 00 64 00 69 00 6e 00 67 00 20 00 73 00 70 00 72 00 65 00 61 00 64 00 20 00 6f 00 66 00 20 00 63 00 6f 00 6d 00 70 00 72 00 6f 00 6d 00 69 00 73 00 65 00 20 00 64 00 75 00 65 00 20 00 74 00 6f 00))}
+
+	condition:
+		any of them
 }
 
-rule hacktool_multi_jtesta_ssh_mitm
+rule hacktool_multi_jtesta_ssh_mitm : hardened
 {
-    meta:
-        description = "intercepts ssh connections to capture credentials"
-        reference = "https://github.com/jtesta/ssh-mitm"
-        author = "@fusionrace"
-    strings:
-        $a1 = "INTERCEPTED PASSWORD:" wide ascii
-        $a2 = "more sshbuf problems." wide ascii
-    condition:
-        all of ($a*)
+	meta:
+		description = "intercepts ssh connections to capture credentials"
+		reference = "https://github.com/jtesta/ssh-mitm"
+		author = "@fusionrace"
+
+	strings:
+		$a1 = {((49 4e 54 45 52 43 45 50 54 45 44 20 50 41 53 53 57 4f 52 44 3a) | (49 00 4e 00 54 00 45 00 52 00 43 00 45 00 50 00 54 00 45 00 44 00 20 00 50 00 41 00 53 00 53 00 57 00 4f 00 52 00 44 00 3a 00))}
+		$a2 = {((6d 6f 72 65 20 73 73 68 62 75 66 20 70 72 6f 62 6c 65 6d 73 2e) | (6d 00 6f 00 72 00 65 00 20 00 73 00 73 00 68 00 62 00 75 00 66 00 20 00 70 00 72 00 6f 00 62 00 6c 00 65 00 6d 00 73 00 2e 00))}
+
+	condition:
+		all of ( $a* )
 }
 
-rule hacktool_multi_masscan
+rule hacktool_multi_masscan : hardened
 {
-    meta:
-        description = "masscan is a performant port scanner, it produces results similar to nmap"
-        reference = "https://github.com/robertdavidgraham/masscan"
-        author = "@mimeframe"
-        score = 90
-    strings:
-        $a1 = "EHLO masscan" fullword wide ascii
-        $a2 = "User-Agent: masscan/" wide ascii
-        $a3 = "/etc/masscan/masscan.conf" fullword wide ascii
-        $b1 = "nmap(%s): unsupported. This code will never do DNS lookups." wide ascii
-        $b2 = "nmap(%s): unsupported, we do timing WAY different than nmap" wide ascii
-        $b3 = "[hint] I've got some local priv escalation 0days that might work" wide ascii
-        $b4 = "[hint] VMware on Macintosh doesn't support masscan" wide ascii
-    condition:
-        all of ($a*) or any of ($b*)
+	meta:
+		description = "masscan is a performant port scanner, it produces results similar to nmap"
+		reference = "https://github.com/robertdavidgraham/masscan"
+		author = "@mimeframe"
+		score = 90
+
+	strings:
+		$a1 = {((45 48 4c 4f 20 6d 61 73 73 63 61 6e) | (45 00 48 00 4c 00 4f 00 20 00 6d 00 61 00 73 00 73 00 63 00 61 00 6e 00))}
+		$a2 = {((55 73 65 72 2d 41 67 65 6e 74 3a 20 6d 61 73 73 63 61 6e 2f) | (55 00 73 00 65 00 72 00 2d 00 41 00 67 00 65 00 6e 00 74 00 3a 00 20 00 6d 00 61 00 73 00 73 00 63 00 61 00 6e 00 2f 00))}
+		$a3 = {((2f 65 74 63 2f 6d 61 73 73 63 61 6e 2f 6d 61 73 73 63 61 6e 2e 63 6f 6e 66) | (2f 00 65 00 74 00 63 00 2f 00 6d 00 61 00 73 00 73 00 63 00 61 00 6e 00 2f 00 6d 00 61 00 73 00 73 00 63 00 61 00 6e 00 2e 00 63 00 6f 00 6e 00 66 00))}
+		$b1 = {((6e 6d 61 70 28 25 73 29 3a 20 75 6e 73 75 70 70 6f 72 74 65 64 2e 20 54 68 69 73 20 63 6f 64 65 20 77 69 6c 6c 20 6e 65 76 65 72 20 64 6f 20 44 4e 53 20 6c 6f 6f 6b 75 70 73 2e) | (6e 00 6d 00 61 00 70 00 28 00 25 00 73 00 29 00 3a 00 20 00 75 00 6e 00 73 00 75 00 70 00 70 00 6f 00 72 00 74 00 65 00 64 00 2e 00 20 00 54 00 68 00 69 00 73 00 20 00 63 00 6f 00 64 00 65 00 20 00 77 00 69 00 6c 00 6c 00 20 00 6e 00 65 00 76 00 65 00 72 00 20 00 64 00 6f 00 20 00 44 00 4e 00 53 00 20 00 6c 00 6f 00 6f 00 6b 00 75 00 70 00 73 00 2e 00))}
+		$b2 = {((6e 6d 61 70 28 25 73 29 3a 20 75 6e 73 75 70 70 6f 72 74 65 64 2c 20 77 65 20 64 6f 20 74 69 6d 69 6e 67 20 57 41 59 20 64 69 66 66 65 72 65 6e 74 20 74 68 61 6e 20 6e 6d 61 70) | (6e 00 6d 00 61 00 70 00 28 00 25 00 73 00 29 00 3a 00 20 00 75 00 6e 00 73 00 75 00 70 00 70 00 6f 00 72 00 74 00 65 00 64 00 2c 00 20 00 77 00 65 00 20 00 64 00 6f 00 20 00 74 00 69 00 6d 00 69 00 6e 00 67 00 20 00 57 00 41 00 59 00 20 00 64 00 69 00 66 00 66 00 65 00 72 00 65 00 6e 00 74 00 20 00 74 00 68 00 61 00 6e 00 20 00 6e 00 6d 00 61 00 70 00))}
+		$b3 = {((5b 68 69 6e 74 5d 20 49 27 76 65 20 67 6f 74 20 73 6f 6d 65 20 6c 6f 63 61 6c 20 70 72 69 76 20 65 73 63 61 6c 61 74 69 6f 6e 20 30 64 61 79 73 20 74 68 61 74 20 6d 69 67 68 74 20 77 6f 72 6b) | (5b 00 68 00 69 00 6e 00 74 00 5d 00 20 00 49 00 27 00 76 00 65 00 20 00 67 00 6f 00 74 00 20 00 73 00 6f 00 6d 00 65 00 20 00 6c 00 6f 00 63 00 61 00 6c 00 20 00 70 00 72 00 69 00 76 00 20 00 65 00 73 00 63 00 61 00 6c 00 61 00 74 00 69 00 6f 00 6e 00 20 00 30 00 64 00 61 00 79 00 73 00 20 00 74 00 68 00 61 00 74 00 20 00 6d 00 69 00 67 00 68 00 74 00 20 00 77 00 6f 00 72 00 6b 00))}
+		$b4 = {((5b 68 69 6e 74 5d 20 56 4d 77 61 72 65 20 6f 6e 20 4d 61 63 69 6e 74 6f 73 68 20 64 6f 65 73 6e 27 74 20 73 75 70 70 6f 72 74 20 6d 61 73 73 63 61 6e) | (5b 00 68 00 69 00 6e 00 74 00 5d 00 20 00 56 00 4d 00 77 00 61 00 72 00 65 00 20 00 6f 00 6e 00 20 00 4d 00 61 00 63 00 69 00 6e 00 74 00 6f 00 73 00 68 00 20 00 64 00 6f 00 65 00 73 00 6e 00 27 00 74 00 20 00 73 00 75 00 70 00 70 00 6f 00 72 00 74 00 20 00 6d 00 61 00 73 00 73 00 63 00 61 00 6e 00))}
+
+	condition:
+		all of ( $a* ) or any of ( $b* )
 }
 
-rule hacktool_multi_ncc_ABPTTS
+rule hacktool_multi_ncc_ABPTTS : hardened
 {
-    meta:
-        description = "Allows for TCP tunneling over HTTP"
-        reference = "https://github.com/nccgroup/ABPTTS"
-        author = "@mimeframe"
-    strings:
-        $s1 = "---===[[[ A Black Path Toward The Sun ]]]===---" ascii wide
-        $s2 = "https://vulnerableserver/EStatus/" ascii wide
-        $s3 = "Error: no ABPTTS forwarding URL was specified. This utility will now exit." ascii wide
-        // access key
-        $s4 = "tQgGur6TFdW9YMbiyuaj9g6yBJb2tCbcgrEq" fullword ascii wide
-        // encryption key
-        $s5 = "63688c4f211155c76f2948ba21ebaf83" fullword ascii wide
-        // log file
-        $s6 = "ABPTTSClient-log.txt" fullword ascii wide
-    condition:
-        any of them
+	meta:
+		description = "Allows for TCP tunneling over HTTP"
+		reference = "https://github.com/nccgroup/ABPTTS"
+		author = "@mimeframe"
+
+	strings:
+		$s1 = {((2d 2d 2d 3d 3d 3d 5b 5b 5b 20 41 20 42 6c 61 63 6b 20 50 61 74 68 20 54 6f 77 61 72 64 20 54 68 65 20 53 75 6e 20 5d 5d 5d 3d 3d 3d 2d 2d 2d) | (2d 00 2d 00 2d 00 3d 00 3d 00 3d 00 5b 00 5b 00 5b 00 20 00 41 00 20 00 42 00 6c 00 61 00 63 00 6b 00 20 00 50 00 61 00 74 00 68 00 20 00 54 00 6f 00 77 00 61 00 72 00 64 00 20 00 54 00 68 00 65 00 20 00 53 00 75 00 6e 00 20 00 5d 00 5d 00 5d 00 3d 00 3d 00 3d 00 2d 00 2d 00 2d 00))}
+		$s2 = {((68 74 74 70 73 3a 2f 2f 76 75 6c 6e 65 72 61 62 6c 65 73 65 72 76 65 72 2f 45 53 74 61 74 75 73 2f) | (68 00 74 00 74 00 70 00 73 00 3a 00 2f 00 2f 00 76 00 75 00 6c 00 6e 00 65 00 72 00 61 00 62 00 6c 00 65 00 73 00 65 00 72 00 76 00 65 00 72 00 2f 00 45 00 53 00 74 00 61 00 74 00 75 00 73 00 2f 00))}
+		$s3 = {((45 72 72 6f 72 3a 20 6e 6f 20 41 42 50 54 54 53 20 66 6f 72 77 61 72 64 69 6e 67 20 55 52 4c 20 77 61 73 20 73 70 65 63 69 66 69 65 64 2e 20 54 68 69 73 20 75 74 69 6c 69 74 79 20 77 69 6c 6c 20 6e 6f 77 20 65 78 69 74 2e) | (45 00 72 00 72 00 6f 00 72 00 3a 00 20 00 6e 00 6f 00 20 00 41 00 42 00 50 00 54 00 54 00 53 00 20 00 66 00 6f 00 72 00 77 00 61 00 72 00 64 00 69 00 6e 00 67 00 20 00 55 00 52 00 4c 00 20 00 77 00 61 00 73 00 20 00 73 00 70 00 65 00 63 00 69 00 66 00 69 00 65 00 64 00 2e 00 20 00 54 00 68 00 69 00 73 00 20 00 75 00 74 00 69 00 6c 00 69 00 74 00 79 00 20 00 77 00 69 00 6c 00 6c 00 20 00 6e 00 6f 00 77 00 20 00 65 00 78 00 69 00 74 00 2e 00))}
+		$s4 = {((74 51 67 47 75 72 36 54 46 64 57 39 59 4d 62 69 79 75 61 6a 39 67 36 79 42 4a 62 32 74 43 62 63 67 72 45 71) | (74 00 51 00 67 00 47 00 75 00 72 00 36 00 54 00 46 00 64 00 57 00 39 00 59 00 4d 00 62 00 69 00 79 00 75 00 61 00 6a 00 39 00 67 00 36 00 79 00 42 00 4a 00 62 00 32 00 74 00 43 00 62 00 63 00 67 00 72 00 45 00 71 00))}
+		$s5 = {((36 33 36 38 38 63 34 66 32 31 31 31 35 35 63 37 36 66 32 39 34 38 62 61 32 31 65 62 61 66 38 33) | (36 00 33 00 36 00 38 00 38 00 63 00 34 00 66 00 32 00 31 00 31 00 31 00 35 00 35 00 63 00 37 00 36 00 66 00 32 00 39 00 34 00 38 00 62 00 61 00 32 00 31 00 65 00 62 00 61 00 66 00 38 00 33 00))}
+		$s6 = {((41 42 50 54 54 53 43 6c 69 65 6e 74 2d 6c 6f 67 2e 74 78 74) | (41 00 42 00 50 00 54 00 54 00 53 00 43 00 6c 00 69 00 65 00 6e 00 74 00 2d 00 6c 00 6f 00 67 00 2e 00 74 00 78 00 74 00))}
+
+	condition:
+		any of them
 }
 
-rule hacktool_multi_ntlmrelayx
+rule hacktool_multi_ntlmrelayx : hardened
 {
-    meta:
-        description = "https://www.fox-it.com/en/insights/blogs/blog/inside-windows-network/"
-        reference = "https://github.com/CoreSecurity/impacket/blob/master/examples/ntlmrelayx.py"
-        author = "@mimeframe"
-    strings:
-        $a1 = "Started interactive SMB client shell via TCP" wide ascii
-        $a2 = "Service Installed.. CONNECT!" wide ascii
-        $a3 = "Done dumping SAM hashes for host:" wide ascii
-        $a4 = "DA already added. Refusing to add another" wide ascii
-        $a5 = "Domain info dumped into lootdir!" wide ascii
-    condition:
-        any of ($a*)
+	meta:
+		description = "https://www.fox-it.com/en/insights/blogs/blog/inside-windows-network/"
+		reference = "https://github.com/CoreSecurity/impacket/blob/master/examples/ntlmrelayx.py"
+		author = "@mimeframe"
+
+	strings:
+		$a1 = {((53 74 61 72 74 65 64 20 69 6e 74 65 72 61 63 74 69 76 65 20 53 4d 42 20 63 6c 69 65 6e 74 20 73 68 65 6c 6c 20 76 69 61 20 54 43 50) | (53 00 74 00 61 00 72 00 74 00 65 00 64 00 20 00 69 00 6e 00 74 00 65 00 72 00 61 00 63 00 74 00 69 00 76 00 65 00 20 00 53 00 4d 00 42 00 20 00 63 00 6c 00 69 00 65 00 6e 00 74 00 20 00 73 00 68 00 65 00 6c 00 6c 00 20 00 76 00 69 00 61 00 20 00 54 00 43 00 50 00))}
+		$a2 = {((53 65 72 76 69 63 65 20 49 6e 73 74 61 6c 6c 65 64 2e 2e 20 43 4f 4e 4e 45 43 54 21) | (53 00 65 00 72 00 76 00 69 00 63 00 65 00 20 00 49 00 6e 00 73 00 74 00 61 00 6c 00 6c 00 65 00 64 00 2e 00 2e 00 20 00 43 00 4f 00 4e 00 4e 00 45 00 43 00 54 00 21 00))}
+		$a3 = {((44 6f 6e 65 20 64 75 6d 70 69 6e 67 20 53 41 4d 20 68 61 73 68 65 73 20 66 6f 72 20 68 6f 73 74 3a) | (44 00 6f 00 6e 00 65 00 20 00 64 00 75 00 6d 00 70 00 69 00 6e 00 67 00 20 00 53 00 41 00 4d 00 20 00 68 00 61 00 73 00 68 00 65 00 73 00 20 00 66 00 6f 00 72 00 20 00 68 00 6f 00 73 00 74 00 3a 00))}
+		$a4 = {((44 41 20 61 6c 72 65 61 64 79 20 61 64 64 65 64 2e 20 52 65 66 75 73 69 6e 67 20 74 6f 20 61 64 64 20 61 6e 6f 74 68 65 72) | (44 00 41 00 20 00 61 00 6c 00 72 00 65 00 61 00 64 00 79 00 20 00 61 00 64 00 64 00 65 00 64 00 2e 00 20 00 52 00 65 00 66 00 75 00 73 00 69 00 6e 00 67 00 20 00 74 00 6f 00 20 00 61 00 64 00 64 00 20 00 61 00 6e 00 6f 00 74 00 68 00 65 00 72 00))}
+		$a5 = {((44 6f 6d 61 69 6e 20 69 6e 66 6f 20 64 75 6d 70 65 64 20 69 6e 74 6f 20 6c 6f 6f 74 64 69 72 21) | (44 00 6f 00 6d 00 61 00 69 00 6e 00 20 00 69 00 6e 00 66 00 6f 00 20 00 64 00 75 00 6d 00 70 00 65 00 64 00 20 00 69 00 6e 00 74 00 6f 00 20 00 6c 00 6f 00 6f 00 74 00 64 00 69 00 72 00 21 00))}
+
+	condition:
+		any of ( $a* )
 }
 
-rule hacktool_multi_pyrasite_py
+rule hacktool_multi_pyrasite_py : hardened
 {
-    meta:
-        description = "A tool for injecting arbitrary code into running Python processes."
-        reference = "https://github.com/lmacken/pyrasite"
-        author = "@fusionrace"
-    strings:
-        $s1 = "WARNING: ptrace is disabled. Injection will not work." fullword ascii wide
-        $s2 = "A payload that connects to a given host:port and receives commands" fullword ascii wide
-        $s3 = "A reverse Python connection payload." fullword ascii wide
-        $s4 = "pyrasite - inject code into a running python process" fullword ascii wide
-        $s5 = "The ID of the process to inject code into" fullword ascii wide
-        $s6 = "This file is part of pyrasite." fullword ascii wide
-        $s7 = "https://github.com/lmacken/pyrasite" fullword ascii wide
-        $s8 = "Setup a communication socket with the process by injecting" fullword ascii wide
-        $s9 = "a reverse subshell and having it connect back to us." fullword ascii wide
-        $s10 = "Write out a reverse python connection payload with a custom port" fullword ascii wide
-        $s11 = "Wait for the injected payload to connect back to us" fullword ascii wide
-        $s12 = "PyrasiteIPC" fullword ascii wide
-        $s13 = "A reverse Python shell that behaves like Python interactive interpreter." fullword ascii wide
-        $s14 = "pyrasite cannot establish reverse" fullword ascii wide
-    condition:
-        any of them
+	meta:
+		description = "A tool for injecting arbitrary code into running Python processes."
+		reference = "https://github.com/lmacken/pyrasite"
+		author = "@fusionrace"
+
+	strings:
+		$s1 = {((57 41 52 4e 49 4e 47 3a 20 70 74 72 61 63 65 20 69 73 20 64 69 73 61 62 6c 65 64 2e 20 49 6e 6a 65 63 74 69 6f 6e 20 77 69 6c 6c 20 6e 6f 74 20 77 6f 72 6b 2e) | (57 00 41 00 52 00 4e 00 49 00 4e 00 47 00 3a 00 20 00 70 00 74 00 72 00 61 00 63 00 65 00 20 00 69 00 73 00 20 00 64 00 69 00 73 00 61 00 62 00 6c 00 65 00 64 00 2e 00 20 00 49 00 6e 00 6a 00 65 00 63 00 74 00 69 00 6f 00 6e 00 20 00 77 00 69 00 6c 00 6c 00 20 00 6e 00 6f 00 74 00 20 00 77 00 6f 00 72 00 6b 00 2e 00))}
+		$s2 = {((41 20 70 61 79 6c 6f 61 64 20 74 68 61 74 20 63 6f 6e 6e 65 63 74 73 20 74 6f 20 61 20 67 69 76 65 6e 20 68 6f 73 74 3a 70 6f 72 74 20 61 6e 64 20 72 65 63 65 69 76 65 73 20 63 6f 6d 6d 61 6e 64 73) | (41 00 20 00 70 00 61 00 79 00 6c 00 6f 00 61 00 64 00 20 00 74 00 68 00 61 00 74 00 20 00 63 00 6f 00 6e 00 6e 00 65 00 63 00 74 00 73 00 20 00 74 00 6f 00 20 00 61 00 20 00 67 00 69 00 76 00 65 00 6e 00 20 00 68 00 6f 00 73 00 74 00 3a 00 70 00 6f 00 72 00 74 00 20 00 61 00 6e 00 64 00 20 00 72 00 65 00 63 00 65 00 69 00 76 00 65 00 73 00 20 00 63 00 6f 00 6d 00 6d 00 61 00 6e 00 64 00 73 00))}
+		$s3 = {((41 20 72 65 76 65 72 73 65 20 50 79 74 68 6f 6e 20 63 6f 6e 6e 65 63 74 69 6f 6e 20 70 61 79 6c 6f 61 64 2e) | (41 00 20 00 72 00 65 00 76 00 65 00 72 00 73 00 65 00 20 00 50 00 79 00 74 00 68 00 6f 00 6e 00 20 00 63 00 6f 00 6e 00 6e 00 65 00 63 00 74 00 69 00 6f 00 6e 00 20 00 70 00 61 00 79 00 6c 00 6f 00 61 00 64 00 2e 00))}
+		$s4 = {((70 79 72 61 73 69 74 65 20 2d 20 69 6e 6a 65 63 74 20 63 6f 64 65 20 69 6e 74 6f 20 61 20 72 75 6e 6e 69 6e 67 20 70 79 74 68 6f 6e 20 70 72 6f 63 65 73 73) | (70 00 79 00 72 00 61 00 73 00 69 00 74 00 65 00 20 00 2d 00 20 00 69 00 6e 00 6a 00 65 00 63 00 74 00 20 00 63 00 6f 00 64 00 65 00 20 00 69 00 6e 00 74 00 6f 00 20 00 61 00 20 00 72 00 75 00 6e 00 6e 00 69 00 6e 00 67 00 20 00 70 00 79 00 74 00 68 00 6f 00 6e 00 20 00 70 00 72 00 6f 00 63 00 65 00 73 00 73 00))}
+		$s5 = {((54 68 65 20 49 44 20 6f 66 20 74 68 65 20 70 72 6f 63 65 73 73 20 74 6f 20 69 6e 6a 65 63 74 20 63 6f 64 65 20 69 6e 74 6f) | (54 00 68 00 65 00 20 00 49 00 44 00 20 00 6f 00 66 00 20 00 74 00 68 00 65 00 20 00 70 00 72 00 6f 00 63 00 65 00 73 00 73 00 20 00 74 00 6f 00 20 00 69 00 6e 00 6a 00 65 00 63 00 74 00 20 00 63 00 6f 00 64 00 65 00 20 00 69 00 6e 00 74 00 6f 00))}
+		$s6 = {((54 68 69 73 20 66 69 6c 65 20 69 73 20 70 61 72 74 20 6f 66 20 70 79 72 61 73 69 74 65 2e) | (54 00 68 00 69 00 73 00 20 00 66 00 69 00 6c 00 65 00 20 00 69 00 73 00 20 00 70 00 61 00 72 00 74 00 20 00 6f 00 66 00 20 00 70 00 79 00 72 00 61 00 73 00 69 00 74 00 65 00 2e 00))}
+		$s7 = {((68 74 74 70 73 3a 2f 2f 67 69 74 68 75 62 2e 63 6f 6d 2f 6c 6d 61 63 6b 65 6e 2f 70 79 72 61 73 69 74 65) | (68 00 74 00 74 00 70 00 73 00 3a 00 2f 00 2f 00 67 00 69 00 74 00 68 00 75 00 62 00 2e 00 63 00 6f 00 6d 00 2f 00 6c 00 6d 00 61 00 63 00 6b 00 65 00 6e 00 2f 00 70 00 79 00 72 00 61 00 73 00 69 00 74 00 65 00))}
+		$s8 = {((53 65 74 75 70 20 61 20 63 6f 6d 6d 75 6e 69 63 61 74 69 6f 6e 20 73 6f 63 6b 65 74 20 77 69 74 68 20 74 68 65 20 70 72 6f 63 65 73 73 20 62 79 20 69 6e 6a 65 63 74 69 6e 67) | (53 00 65 00 74 00 75 00 70 00 20 00 61 00 20 00 63 00 6f 00 6d 00 6d 00 75 00 6e 00 69 00 63 00 61 00 74 00 69 00 6f 00 6e 00 20 00 73 00 6f 00 63 00 6b 00 65 00 74 00 20 00 77 00 69 00 74 00 68 00 20 00 74 00 68 00 65 00 20 00 70 00 72 00 6f 00 63 00 65 00 73 00 73 00 20 00 62 00 79 00 20 00 69 00 6e 00 6a 00 65 00 63 00 74 00 69 00 6e 00 67 00))}
+		$s9 = {((61 20 72 65 76 65 72 73 65 20 73 75 62 73 68 65 6c 6c 20 61 6e 64 20 68 61 76 69 6e 67 20 69 74 20 63 6f 6e 6e 65 63 74 20 62 61 63 6b 20 74 6f 20 75 73 2e) | (61 00 20 00 72 00 65 00 76 00 65 00 72 00 73 00 65 00 20 00 73 00 75 00 62 00 73 00 68 00 65 00 6c 00 6c 00 20 00 61 00 6e 00 64 00 20 00 68 00 61 00 76 00 69 00 6e 00 67 00 20 00 69 00 74 00 20 00 63 00 6f 00 6e 00 6e 00 65 00 63 00 74 00 20 00 62 00 61 00 63 00 6b 00 20 00 74 00 6f 00 20 00 75 00 73 00 2e 00))}
+		$s10 = {((57 72 69 74 65 20 6f 75 74 20 61 20 72 65 76 65 72 73 65 20 70 79 74 68 6f 6e 20 63 6f 6e 6e 65 63 74 69 6f 6e 20 70 61 79 6c 6f 61 64 20 77 69 74 68 20 61 20 63 75 73 74 6f 6d 20 70 6f 72 74) | (57 00 72 00 69 00 74 00 65 00 20 00 6f 00 75 00 74 00 20 00 61 00 20 00 72 00 65 00 76 00 65 00 72 00 73 00 65 00 20 00 70 00 79 00 74 00 68 00 6f 00 6e 00 20 00 63 00 6f 00 6e 00 6e 00 65 00 63 00 74 00 69 00 6f 00 6e 00 20 00 70 00 61 00 79 00 6c 00 6f 00 61 00 64 00 20 00 77 00 69 00 74 00 68 00 20 00 61 00 20 00 63 00 75 00 73 00 74 00 6f 00 6d 00 20 00 70 00 6f 00 72 00 74 00))}
+		$s11 = {((57 61 69 74 20 66 6f 72 20 74 68 65 20 69 6e 6a 65 63 74 65 64 20 70 61 79 6c 6f 61 64 20 74 6f 20 63 6f 6e 6e 65 63 74 20 62 61 63 6b 20 74 6f 20 75 73) | (57 00 61 00 69 00 74 00 20 00 66 00 6f 00 72 00 20 00 74 00 68 00 65 00 20 00 69 00 6e 00 6a 00 65 00 63 00 74 00 65 00 64 00 20 00 70 00 61 00 79 00 6c 00 6f 00 61 00 64 00 20 00 74 00 6f 00 20 00 63 00 6f 00 6e 00 6e 00 65 00 63 00 74 00 20 00 62 00 61 00 63 00 6b 00 20 00 74 00 6f 00 20 00 75 00 73 00))}
+		$s12 = {((50 79 72 61 73 69 74 65 49 50 43) | (50 00 79 00 72 00 61 00 73 00 69 00 74 00 65 00 49 00 50 00 43 00))}
+		$s13 = {((41 20 72 65 76 65 72 73 65 20 50 79 74 68 6f 6e 20 73 68 65 6c 6c 20 74 68 61 74 20 62 65 68 61 76 65 73 20 6c 69 6b 65 20 50 79 74 68 6f 6e 20 69 6e 74 65 72 61 63 74 69 76 65 20 69 6e 74 65 72 70 72 65 74 65 72 2e) | (41 00 20 00 72 00 65 00 76 00 65 00 72 00 73 00 65 00 20 00 50 00 79 00 74 00 68 00 6f 00 6e 00 20 00 73 00 68 00 65 00 6c 00 6c 00 20 00 74 00 68 00 61 00 74 00 20 00 62 00 65 00 68 00 61 00 76 00 65 00 73 00 20 00 6c 00 69 00 6b 00 65 00 20 00 50 00 79 00 74 00 68 00 6f 00 6e 00 20 00 69 00 6e 00 74 00 65 00 72 00 61 00 63 00 74 00 69 00 76 00 65 00 20 00 69 00 6e 00 74 00 65 00 72 00 70 00 72 00 65 00 74 00 65 00 72 00 2e 00))}
+		$s14 = {((70 79 72 61 73 69 74 65 20 63 61 6e 6e 6f 74 20 65 73 74 61 62 6c 69 73 68 20 72 65 76 65 72 73 65) | (70 00 79 00 72 00 61 00 73 00 69 00 74 00 65 00 20 00 63 00 61 00 6e 00 6e 00 6f 00 74 00 20 00 65 00 73 00 74 00 61 00 62 00 6c 00 69 00 73 00 68 00 20 00 72 00 65 00 76 00 65 00 72 00 73 00 65 00))}
+
+	condition:
+		any of them
 }
 
-rule hacktool_multi_responder_py
+rule hacktool_multi_responder_py : hardened
 {
-    meta:
-        description = "Responder is a LLMNR, NBT-NS and MDNS poisoner, with built-in HTTP/SMB/MSSQL/FTP/LDAP rogue authentication server"
-        reference = "http://www.c0d3xpl0it.com/2017/02/compromising-domain-admin-in-internal-pentest.html"
-        author = "@fusionrace"
-    strings:
-        $s1 = "Poison all requests with another IP address than Responder's one." fullword ascii wide
-        $s2 = "Responder is in analyze mode. No NBT-NS, LLMNR, MDNS requests will be poisoned." fullword ascii wide
-        $s3 = "Enable answers for netbios wredir suffix queries. Answering to wredir will likely break stuff on the network." fullword ascii wide
-        $s4 = "This option allows you to fingerprint a host that issued an NBT-NS or LLMNR query." fullword ascii wide
-        $s5 = "Upstream HTTP proxy used by the rogue WPAD Proxy for outgoing requests (format: host:port)" fullword ascii wide
-        $s6 = "31mOSX detected, -i mandatory option is missing" fullword ascii wide
-        $s7 = "This option allows you to fingerprint a host that issued an NBT-NS or LLMNR query." fullword ascii wide
-    condition:
-        any of them
+	meta:
+		description = "Responder is a LLMNR, NBT-NS and MDNS poisoner, with built-in HTTP/SMB/MSSQL/FTP/LDAP rogue authentication server"
+		reference = "http://www.c0d3xpl0it.com/2017/02/compromising-domain-admin-in-internal-pentest.html"
+		author = "@fusionrace"
+
+	strings:
+		$s1 = {((50 6f 69 73 6f 6e 20 61 6c 6c 20 72 65 71 75 65 73 74 73 20 77 69 74 68 20 61 6e 6f 74 68 65 72 20 49 50 20 61 64 64 72 65 73 73 20 74 68 61 6e 20 52 65 73 70 6f 6e 64 65 72 27 73 20 6f 6e 65 2e) | (50 00 6f 00 69 00 73 00 6f 00 6e 00 20 00 61 00 6c 00 6c 00 20 00 72 00 65 00 71 00 75 00 65 00 73 00 74 00 73 00 20 00 77 00 69 00 74 00 68 00 20 00 61 00 6e 00 6f 00 74 00 68 00 65 00 72 00 20 00 49 00 50 00 20 00 61 00 64 00 64 00 72 00 65 00 73 00 73 00 20 00 74 00 68 00 61 00 6e 00 20 00 52 00 65 00 73 00 70 00 6f 00 6e 00 64 00 65 00 72 00 27 00 73 00 20 00 6f 00 6e 00 65 00 2e 00))}
+		$s2 = {((52 65 73 70 6f 6e 64 65 72 20 69 73 20 69 6e 20 61 6e 61 6c 79 7a 65 20 6d 6f 64 65 2e 20 4e 6f 20 4e 42 54 2d 4e 53 2c 20 4c 4c 4d 4e 52 2c 20 4d 44 4e 53 20 72 65 71 75 65 73 74 73 20 77 69 6c 6c 20 62 65 20 70 6f 69 73 6f 6e 65 64 2e) | (52 00 65 00 73 00 70 00 6f 00 6e 00 64 00 65 00 72 00 20 00 69 00 73 00 20 00 69 00 6e 00 20 00 61 00 6e 00 61 00 6c 00 79 00 7a 00 65 00 20 00 6d 00 6f 00 64 00 65 00 2e 00 20 00 4e 00 6f 00 20 00 4e 00 42 00 54 00 2d 00 4e 00 53 00 2c 00 20 00 4c 00 4c 00 4d 00 4e 00 52 00 2c 00 20 00 4d 00 44 00 4e 00 53 00 20 00 72 00 65 00 71 00 75 00 65 00 73 00 74 00 73 00 20 00 77 00 69 00 6c 00 6c 00 20 00 62 00 65 00 20 00 70 00 6f 00 69 00 73 00 6f 00 6e 00 65 00 64 00 2e 00))}
+		$s3 = {((45 6e 61 62 6c 65 20 61 6e 73 77 65 72 73 20 66 6f 72 20 6e 65 74 62 69 6f 73 20 77 72 65 64 69 72 20 73 75 66 66 69 78 20 71 75 65 72 69 65 73 2e 20 41 6e 73 77 65 72 69 6e 67 20 74 6f 20 77 72 65 64 69 72 20 77 69 6c 6c 20 6c 69 6b 65 6c 79 20 62 72 65 61 6b 20 73 74 75 66 66 20 6f 6e 20 74 68 65 20 6e 65 74 77 6f 72 6b 2e) | (45 00 6e 00 61 00 62 00 6c 00 65 00 20 00 61 00 6e 00 73 00 77 00 65 00 72 00 73 00 20 00 66 00 6f 00 72 00 20 00 6e 00 65 00 74 00 62 00 69 00 6f 00 73 00 20 00 77 00 72 00 65 00 64 00 69 00 72 00 20 00 73 00 75 00 66 00 66 00 69 00 78 00 20 00 71 00 75 00 65 00 72 00 69 00 65 00 73 00 2e 00 20 00 41 00 6e 00 73 00 77 00 65 00 72 00 69 00 6e 00 67 00 20 00 74 00 6f 00 20 00 77 00 72 00 65 00 64 00 69 00 72 00 20 00 77 00 69 00 6c 00 6c 00 20 00 6c 00 69 00 6b 00 65 00 6c 00 79 00 20 00 62 00 72 00 65 00 61 00 6b 00 20 00 73 00 74 00 75 00 66 00 66 00 20 00 6f 00 6e 00 20 00 74 00 68 00 65 00 20 00 6e 00 65 00 74 00 77 00 6f 00 72 00 6b 00 2e 00))}
+		$s4 = {((54 68 69 73 20 6f 70 74 69 6f 6e 20 61 6c 6c 6f 77 73 20 79 6f 75 20 74 6f 20 66 69 6e 67 65 72 70 72 69 6e 74 20 61 20 68 6f 73 74 20 74 68 61 74 20 69 73 73 75 65 64 20 61 6e 20 4e 42 54 2d 4e 53 20 6f 72 20 4c 4c 4d 4e 52 20 71 75 65 72 79 2e) | (54 00 68 00 69 00 73 00 20 00 6f 00 70 00 74 00 69 00 6f 00 6e 00 20 00 61 00 6c 00 6c 00 6f 00 77 00 73 00 20 00 79 00 6f 00 75 00 20 00 74 00 6f 00 20 00 66 00 69 00 6e 00 67 00 65 00 72 00 70 00 72 00 69 00 6e 00 74 00 20 00 61 00 20 00 68 00 6f 00 73 00 74 00 20 00 74 00 68 00 61 00 74 00 20 00 69 00 73 00 73 00 75 00 65 00 64 00 20 00 61 00 6e 00 20 00 4e 00 42 00 54 00 2d 00 4e 00 53 00 20 00 6f 00 72 00 20 00 4c 00 4c 00 4d 00 4e 00 52 00 20 00 71 00 75 00 65 00 72 00 79 00 2e 00))}
+		$s5 = {((55 70 73 74 72 65 61 6d 20 48 54 54 50 20 70 72 6f 78 79 20 75 73 65 64 20 62 79 20 74 68 65 20 72 6f 67 75 65 20 57 50 41 44 20 50 72 6f 78 79 20 66 6f 72 20 6f 75 74 67 6f 69 6e 67 20 72 65 71 75 65 73 74 73 20 28 66 6f 72 6d 61 74 3a 20 68 6f 73 74 3a 70 6f 72 74 29) | (55 00 70 00 73 00 74 00 72 00 65 00 61 00 6d 00 20 00 48 00 54 00 54 00 50 00 20 00 70 00 72 00 6f 00 78 00 79 00 20 00 75 00 73 00 65 00 64 00 20 00 62 00 79 00 20 00 74 00 68 00 65 00 20 00 72 00 6f 00 67 00 75 00 65 00 20 00 57 00 50 00 41 00 44 00 20 00 50 00 72 00 6f 00 78 00 79 00 20 00 66 00 6f 00 72 00 20 00 6f 00 75 00 74 00 67 00 6f 00 69 00 6e 00 67 00 20 00 72 00 65 00 71 00 75 00 65 00 73 00 74 00 73 00 20 00 28 00 66 00 6f 00 72 00 6d 00 61 00 74 00 3a 00 20 00 68 00 6f 00 73 00 74 00 3a 00 70 00 6f 00 72 00 74 00 29 00))}
+		$s6 = {((33 31 6d 4f 53 58 20 64 65 74 65 63 74 65 64 2c 20 2d 69 20 6d 61 6e 64 61 74 6f 72 79 20 6f 70 74 69 6f 6e 20 69 73 20 6d 69 73 73 69 6e 67) | (33 00 31 00 6d 00 4f 00 53 00 58 00 20 00 64 00 65 00 74 00 65 00 63 00 74 00 65 00 64 00 2c 00 20 00 2d 00 69 00 20 00 6d 00 61 00 6e 00 64 00 61 00 74 00 6f 00 72 00 79 00 20 00 6f 00 70 00 74 00 69 00 6f 00 6e 00 20 00 69 00 73 00 20 00 6d 00 69 00 73 00 73 00 69 00 6e 00 67 00))}
+		$s7 = {((54 68 69 73 20 6f 70 74 69 6f 6e 20 61 6c 6c 6f 77 73 20 79 6f 75 20 74 6f 20 66 69 6e 67 65 72 70 72 69 6e 74 20 61 20 68 6f 73 74 20 74 68 61 74 20 69 73 73 75 65 64 20 61 6e 20 4e 42 54 2d 4e 53 20 6f 72 20 4c 4c 4d 4e 52 20 71 75 65 72 79 2e) | (54 00 68 00 69 00 73 00 20 00 6f 00 70 00 74 00 69 00 6f 00 6e 00 20 00 61 00 6c 00 6c 00 6f 00 77 00 73 00 20 00 79 00 6f 00 75 00 20 00 74 00 6f 00 20 00 66 00 69 00 6e 00 67 00 65 00 72 00 70 00 72 00 69 00 6e 00 74 00 20 00 61 00 20 00 68 00 6f 00 73 00 74 00 20 00 74 00 68 00 61 00 74 00 20 00 69 00 73 00 73 00 75 00 65 00 64 00 20 00 61 00 6e 00 20 00 4e 00 42 00 54 00 2d 00 4e 00 53 00 20 00 6f 00 72 00 20 00 4c 00 4c 00 4d 00 4e 00 52 00 20 00 71 00 75 00 65 00 72 00 79 00 2e 00))}
+
+	condition:
+		any of them
 }
 
-/* ./rules/public/hacktool/windows */
-
-rule hacktool_windows_hot_potato
+rule hacktool_windows_hot_potato : hardened
 {
-    meta:
-        description = "https://foxglovesecurity.com/2016/01/16/hot-potato/"
-        reference = "https://github.com/foxglovesec/Potato"
-        author = "@mimeframe"
-    strings:
-        $a1 = "Parsing initial NTLM auth..." wide ascii
-        $a2 = "Got PROPFIND for /test..." wide ascii
-        $a3 = "Starting NBNS spoofer..." wide ascii
-        $a4 = "Exhausting UDP source ports so DNS lookups will fail..." wide ascii
-        $a5 = "Usage: potato.exe -ip" wide ascii
-    condition:
-        any of ($a*)
+	meta:
+		description = "https://foxglovesecurity.com/2016/01/16/hot-potato/"
+		reference = "https://github.com/foxglovesec/Potato"
+		author = "@mimeframe"
+
+	strings:
+		$a1 = {((50 61 72 73 69 6e 67 20 69 6e 69 74 69 61 6c 20 4e 54 4c 4d 20 61 75 74 68 2e 2e 2e) | (50 00 61 00 72 00 73 00 69 00 6e 00 67 00 20 00 69 00 6e 00 69 00 74 00 69 00 61 00 6c 00 20 00 4e 00 54 00 4c 00 4d 00 20 00 61 00 75 00 74 00 68 00 2e 00 2e 00 2e 00))}
+		$a2 = {((47 6f 74 20 50 52 4f 50 46 49 4e 44 20 66 6f 72 20 2f 74 65 73 74 2e 2e 2e) | (47 00 6f 00 74 00 20 00 50 00 52 00 4f 00 50 00 46 00 49 00 4e 00 44 00 20 00 66 00 6f 00 72 00 20 00 2f 00 74 00 65 00 73 00 74 00 2e 00 2e 00 2e 00))}
+		$a3 = {((53 74 61 72 74 69 6e 67 20 4e 42 4e 53 20 73 70 6f 6f 66 65 72 2e 2e 2e) | (53 00 74 00 61 00 72 00 74 00 69 00 6e 00 67 00 20 00 4e 00 42 00 4e 00 53 00 20 00 73 00 70 00 6f 00 6f 00 66 00 65 00 72 00 2e 00 2e 00 2e 00))}
+		$a4 = {((45 78 68 61 75 73 74 69 6e 67 20 55 44 50 20 73 6f 75 72 63 65 20 70 6f 72 74 73 20 73 6f 20 44 4e 53 20 6c 6f 6f 6b 75 70 73 20 77 69 6c 6c 20 66 61 69 6c 2e 2e 2e) | (45 00 78 00 68 00 61 00 75 00 73 00 74 00 69 00 6e 00 67 00 20 00 55 00 44 00 50 00 20 00 73 00 6f 00 75 00 72 00 63 00 65 00 20 00 70 00 6f 00 72 00 74 00 73 00 20 00 73 00 6f 00 20 00 44 00 4e 00 53 00 20 00 6c 00 6f 00 6f 00 6b 00 75 00 70 00 73 00 20 00 77 00 69 00 6c 00 6c 00 20 00 66 00 61 00 69 00 6c 00 2e 00 2e 00 2e 00))}
+		$a5 = {((55 73 61 67 65 3a 20 70 6f 74 61 74 6f 2e 65 78 65 20 2d 69 70) | (55 00 73 00 61 00 67 00 65 00 3a 00 20 00 70 00 6f 00 74 00 61 00 74 00 6f 00 2e 00 65 00 78 00 65 00 20 00 2d 00 69 00 70 00))}
+
+	condition:
+		any of ( $a* )
 }
 
-rule hacktool_windows_moyix_creddump
+rule hacktool_windows_moyix_creddump : hardened
 {
-    meta:
-        description = "creddump is a python tool to extract credentials and secrets from Windows registry hives."
-        reference = "https://github.com/moyix/creddump"
-        author = "@mimeframe"
-    strings:
-        $a1 = "!@#$%^&*()qwertyUIOPAzxcvbnmQQQQQQQQQQQQ)(*@&%" wide ascii
-        $a2 = "0123456789012345678901234567890123456789" wide ascii
-        $a3 = "NTPASSWORD" wide ascii
-        $a4 = "LMPASSWORD" wide ascii
-        $a5 = "aad3b435b51404eeaad3b435b51404ee" wide ascii
-        $a6 = "31d6cfe0d16ae931b73c59d7e0c089c0" wide ascii
-    condition:
-        all of ($a*)
+	meta:
+		description = "creddump is a python tool to extract credentials and secrets from Windows registry hives."
+		reference = "https://github.com/moyix/creddump"
+		author = "@mimeframe"
+
+	strings:
+		$a1 = {((21 40 23 24 25 5e 26 2a 28 29 71 77 65 72 74 79 55 49 4f 50 41 7a 78 63 76 62 6e 6d 51 51 51 51 51 51 51 51 51 51 51 51 29 28 2a 40 26 25) | (21 00 40 00 23 00 24 00 25 00 5e 00 26 00 2a 00 28 00 29 00 71 00 77 00 65 00 72 00 74 00 79 00 55 00 49 00 4f 00 50 00 41 00 7a 00 78 00 63 00 76 00 62 00 6e 00 6d 00 51 00 51 00 51 00 51 00 51 00 51 00 51 00 51 00 51 00 51 00 51 00 51 00 29 00 28 00 2a 00 40 00 26 00 25 00))}
+		$a2 = {((30 31 32 33 34 35 36 37 38 39 30 31 32 33 34 35 36 37 38 39 30 31 32 33 34 35 36 37 38 39 30 31 32 33 34 35 36 37 38 39) | (30 00 31 00 32 00 33 00 34 00 35 00 36 00 37 00 38 00 39 00 30 00 31 00 32 00 33 00 34 00 35 00 36 00 37 00 38 00 39 00 30 00 31 00 32 00 33 00 34 00 35 00 36 00 37 00 38 00 39 00 30 00 31 00 32 00 33 00 34 00 35 00 36 00 37 00 38 00 39 00))}
+		$a3 = {((4e 54 50 41 53 53 57 4f 52 44) | (4e 00 54 00 50 00 41 00 53 00 53 00 57 00 4f 00 52 00 44 00))}
+		$a4 = {((4c 4d 50 41 53 53 57 4f 52 44) | (4c 00 4d 00 50 00 41 00 53 00 53 00 57 00 4f 00 52 00 44 00))}
+		$a5 = {((61 61 64 33 62 34 33 35 62 35 31 34 30 34 65 65 61 61 64 33 62 34 33 35 62 35 31 34 30 34 65 65) | (61 00 61 00 64 00 33 00 62 00 34 00 33 00 35 00 62 00 35 00 31 00 34 00 30 00 34 00 65 00 65 00 61 00 61 00 64 00 33 00 62 00 34 00 33 00 35 00 62 00 35 00 31 00 34 00 30 00 34 00 65 00 65 00))}
+		$a6 = {((33 31 64 36 63 66 65 30 64 31 36 61 65 39 33 31 62 37 33 63 35 39 64 37 65 30 63 30 38 39 63 30) | (33 00 31 00 64 00 36 00 63 00 66 00 65 00 30 00 64 00 31 00 36 00 61 00 65 00 39 00 33 00 31 00 62 00 37 00 33 00 63 00 35 00 39 00 64 00 37 00 65 00 30 00 63 00 30 00 38 00 39 00 63 00 30 00))}
+
+	condition:
+		all of ( $a* )
 }
 
-rule hacktool_windows_ncc_wmicmd : FILE {
-    meta:
-        description = "Command shell wrapper for WMI"
-        reference = "https://github.com/nccgroup/WMIcmd"
-        author = "@mimeframe"
-    strings:
-        $a1 = "Need to specify a username, domain and password for non local connections" wide ascii
-        $a2 = "WS-Management is running on the remote host" wide ascii
-        $a3 = "firewall (if enabled) allows connections" wide ascii
-        $a4 = "WARNING: Didn't see stdout output finished marker - output may be truncated" wide ascii
-        $a5 = "Command sleep in milliseconds - increase if getting truncated output" wide ascii
-        $b1 = "0x800706BA" wide ascii
-        $b2 = "NTLMDOMAIN:" wide ascii
-        $b3 = "cimv2" wide ascii
-    condition:
-        any of ($a*) or all of ($b*)
-}
-
-rule hacktool_windows_rdp_cmd_delivery
+rule hacktool_windows_ncc_wmicmd : FILE hardened
 {
-    meta:
-        description = "Delivers a text payload via RDP (rubber ducky)"
-        reference = "https://github.com/nopernik/mytools/blob/master/rdp-cmd-delivery.sh"
-        author = "@fusionrace"
-    strings:
-        $s1 = "Usage: rdp-cmd-delivery.sh OPTIONS" ascii wide
-        $s2 = "[--tofile 'c:\\test.txt' local.ps1 #will copy contents of local.ps1 to c:\\test.txt" ascii wide
-        $s3 = "-cmdfile local.bat                #will execute everything from local.bat" ascii wide
-        $s4 = "To deliver powershell payload, use '--cmdfile script.ps1' but inside powershell console" ascii wide
-    condition:
-        any of them
+	meta:
+		description = "Command shell wrapper for WMI"
+		reference = "https://github.com/nccgroup/WMIcmd"
+		author = "@mimeframe"
+
+	strings:
+		$a1 = {((4e 65 65 64 20 74 6f 20 73 70 65 63 69 66 79 20 61 20 75 73 65 72 6e 61 6d 65 2c 20 64 6f 6d 61 69 6e 20 61 6e 64 20 70 61 73 73 77 6f 72 64 20 66 6f 72 20 6e 6f 6e 20 6c 6f 63 61 6c 20 63 6f 6e 6e 65 63 74 69 6f 6e 73) | (4e 00 65 00 65 00 64 00 20 00 74 00 6f 00 20 00 73 00 70 00 65 00 63 00 69 00 66 00 79 00 20 00 61 00 20 00 75 00 73 00 65 00 72 00 6e 00 61 00 6d 00 65 00 2c 00 20 00 64 00 6f 00 6d 00 61 00 69 00 6e 00 20 00 61 00 6e 00 64 00 20 00 70 00 61 00 73 00 73 00 77 00 6f 00 72 00 64 00 20 00 66 00 6f 00 72 00 20 00 6e 00 6f 00 6e 00 20 00 6c 00 6f 00 63 00 61 00 6c 00 20 00 63 00 6f 00 6e 00 6e 00 65 00 63 00 74 00 69 00 6f 00 6e 00 73 00))}
+		$a2 = {((57 53 2d 4d 61 6e 61 67 65 6d 65 6e 74 20 69 73 20 72 75 6e 6e 69 6e 67 20 6f 6e 20 74 68 65 20 72 65 6d 6f 74 65 20 68 6f 73 74) | (57 00 53 00 2d 00 4d 00 61 00 6e 00 61 00 67 00 65 00 6d 00 65 00 6e 00 74 00 20 00 69 00 73 00 20 00 72 00 75 00 6e 00 6e 00 69 00 6e 00 67 00 20 00 6f 00 6e 00 20 00 74 00 68 00 65 00 20 00 72 00 65 00 6d 00 6f 00 74 00 65 00 20 00 68 00 6f 00 73 00 74 00))}
+		$a3 = {((66 69 72 65 77 61 6c 6c 20 28 69 66 20 65 6e 61 62 6c 65 64 29 20 61 6c 6c 6f 77 73 20 63 6f 6e 6e 65 63 74 69 6f 6e 73) | (66 00 69 00 72 00 65 00 77 00 61 00 6c 00 6c 00 20 00 28 00 69 00 66 00 20 00 65 00 6e 00 61 00 62 00 6c 00 65 00 64 00 29 00 20 00 61 00 6c 00 6c 00 6f 00 77 00 73 00 20 00 63 00 6f 00 6e 00 6e 00 65 00 63 00 74 00 69 00 6f 00 6e 00 73 00))}
+		$a4 = {((57 41 52 4e 49 4e 47 3a 20 44 69 64 6e 27 74 20 73 65 65 20 73 74 64 6f 75 74 20 6f 75 74 70 75 74 20 66 69 6e 69 73 68 65 64 20 6d 61 72 6b 65 72 20 2d 20 6f 75 74 70 75 74 20 6d 61 79 20 62 65 20 74 72 75 6e 63 61 74 65 64) | (57 00 41 00 52 00 4e 00 49 00 4e 00 47 00 3a 00 20 00 44 00 69 00 64 00 6e 00 27 00 74 00 20 00 73 00 65 00 65 00 20 00 73 00 74 00 64 00 6f 00 75 00 74 00 20 00 6f 00 75 00 74 00 70 00 75 00 74 00 20 00 66 00 69 00 6e 00 69 00 73 00 68 00 65 00 64 00 20 00 6d 00 61 00 72 00 6b 00 65 00 72 00 20 00 2d 00 20 00 6f 00 75 00 74 00 70 00 75 00 74 00 20 00 6d 00 61 00 79 00 20 00 62 00 65 00 20 00 74 00 72 00 75 00 6e 00 63 00 61 00 74 00 65 00 64 00))}
+		$a5 = {((43 6f 6d 6d 61 6e 64 20 73 6c 65 65 70 20 69 6e 20 6d 69 6c 6c 69 73 65 63 6f 6e 64 73 20 2d 20 69 6e 63 72 65 61 73 65 20 69 66 20 67 65 74 74 69 6e 67 20 74 72 75 6e 63 61 74 65 64 20 6f 75 74 70 75 74) | (43 00 6f 00 6d 00 6d 00 61 00 6e 00 64 00 20 00 73 00 6c 00 65 00 65 00 70 00 20 00 69 00 6e 00 20 00 6d 00 69 00 6c 00 6c 00 69 00 73 00 65 00 63 00 6f 00 6e 00 64 00 73 00 20 00 2d 00 20 00 69 00 6e 00 63 00 72 00 65 00 61 00 73 00 65 00 20 00 69 00 66 00 20 00 67 00 65 00 74 00 74 00 69 00 6e 00 67 00 20 00 74 00 72 00 75 00 6e 00 63 00 61 00 74 00 65 00 64 00 20 00 6f 00 75 00 74 00 70 00 75 00 74 00))}
+		$b1 = {((30 78 38 30 30 37 30 36 42 41) | (30 00 78 00 38 00 30 00 30 00 37 00 30 00 36 00 42 00 41 00))}
+		$b2 = {((4e 54 4c 4d 44 4f 4d 41 49 4e 3a) | (4e 00 54 00 4c 00 4d 00 44 00 4f 00 4d 00 41 00 49 00 4e 00 3a 00))}
+		$b3 = {((63 69 6d 76 32) | (63 00 69 00 6d 00 76 00 32 00))}
+
+	condition:
+		any of ( $a* ) or all of ( $b* )
 }
 
-rule hacktool_windows_wmi_implant
+rule hacktool_windows_rdp_cmd_delivery : hardened
 {
-    meta:
-        description = "A PowerShell based tool that is designed to act like a RAT"
-        reference = "https://www.fireeye.com/blog/threat-research/2017/03/wmimplant_a_wmi_ba.html"
-        author = "@fusionrace"
-    strings:
-        $s1 = "This really isn't applicable unless you are using WMImplant interactively." fullword ascii wide
-        $s2 = "What command do you want to run on the remote system? >" fullword ascii wide
-        $s3 = "Do you want to [create] or [delete] a string registry value? >" fullword ascii wide
-        $s4 = "Do you want to run a WMImplant against a list of computers from a file? [yes] or [no] >" fullword ascii wide
-        $s5 = "What is the name of the service you are targeting? >" fullword ascii wide
-        $s6 = "This function enables the user to upload or download files to/from the attacking machine to/from the targeted machine" fullword ascii wide
-        $s7 = "gen_cli - Generate the CLI command to execute a command via WMImplant" fullword ascii wide
-        $s8 = "exit - Exit WMImplant" fullword ascii wide
-        $s9 = "Lateral Movement Facilitation" fullword ascii wide
-        $s10 = "vacant_system - Determine if a user is away from the system." fullword ascii wide
-        $s11 = "Please provide the ProcessID or ProcessName flag to specify the process to kill!" fullword ascii wide
-    condition:
-        any of them
+	meta:
+		description = "Delivers a text payload via RDP (rubber ducky)"
+		reference = "https://github.com/nopernik/mytools/blob/master/rdp-cmd-delivery.sh"
+		author = "@fusionrace"
+
+	strings:
+		$s1 = {((55 73 61 67 65 3a 20 72 64 70 2d 63 6d 64 2d 64 65 6c 69 76 65 72 79 2e 73 68 20 4f 50 54 49 4f 4e 53) | (55 00 73 00 61 00 67 00 65 00 3a 00 20 00 72 00 64 00 70 00 2d 00 63 00 6d 00 64 00 2d 00 64 00 65 00 6c 00 69 00 76 00 65 00 72 00 79 00 2e 00 73 00 68 00 20 00 4f 00 50 00 54 00 49 00 4f 00 4e 00 53 00))}
+		$s2 = {((5b 2d 2d 74 6f 66 69 6c 65 20 27 63 3a 5c 74 65 73 74 2e 74 78 74 27 20 6c 6f 63 61 6c 2e 70 73 31 20 23 77 69 6c 6c 20 63 6f 70 79 20 63 6f 6e 74 65 6e 74 73 20 6f 66 20 6c 6f 63 61 6c 2e 70 73 31 20 74 6f 20 63 3a 5c 74 65 73 74 2e 74 78 74) | (5b 00 2d 00 2d 00 74 00 6f 00 66 00 69 00 6c 00 65 00 20 00 27 00 63 00 3a 00 5c 00 74 00 65 00 73 00 74 00 2e 00 74 00 78 00 74 00 27 00 20 00 6c 00 6f 00 63 00 61 00 6c 00 2e 00 70 00 73 00 31 00 20 00 23 00 77 00 69 00 6c 00 6c 00 20 00 63 00 6f 00 70 00 79 00 20 00 63 00 6f 00 6e 00 74 00 65 00 6e 00 74 00 73 00 20 00 6f 00 66 00 20 00 6c 00 6f 00 63 00 61 00 6c 00 2e 00 70 00 73 00 31 00 20 00 74 00 6f 00 20 00 63 00 3a 00 5c 00 74 00 65 00 73 00 74 00 2e 00 74 00 78 00 74 00))}
+		$s3 = {((2d 63 6d 64 66 69 6c 65 20 6c 6f 63 61 6c 2e 62 61 74 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 23 77 69 6c 6c 20 65 78 65 63 75 74 65 20 65 76 65 72 79 74 68 69 6e 67 20 66 72 6f 6d 20 6c 6f 63 61 6c 2e 62 61 74) | (2d 00 63 00 6d 00 64 00 66 00 69 00 6c 00 65 00 20 00 6c 00 6f 00 63 00 61 00 6c 00 2e 00 62 00 61 00 74 00 20 00 20 00 20 00 20 00 20 00 20 00 20 00 20 00 20 00 20 00 20 00 20 00 20 00 20 00 20 00 20 00 23 00 77 00 69 00 6c 00 6c 00 20 00 65 00 78 00 65 00 63 00 75 00 74 00 65 00 20 00 65 00 76 00 65 00 72 00 79 00 74 00 68 00 69 00 6e 00 67 00 20 00 66 00 72 00 6f 00 6d 00 20 00 6c 00 6f 00 63 00 61 00 6c 00 2e 00 62 00 61 00 74 00))}
+		$s4 = {((54 6f 20 64 65 6c 69 76 65 72 20 70 6f 77 65 72 73 68 65 6c 6c 20 70 61 79 6c 6f 61 64 2c 20 75 73 65 20 27 2d 2d 63 6d 64 66 69 6c 65 20 73 63 72 69 70 74 2e 70 73 31 27 20 62 75 74 20 69 6e 73 69 64 65 20 70 6f 77 65 72 73 68 65 6c 6c 20 63 6f 6e 73 6f 6c 65) | (54 00 6f 00 20 00 64 00 65 00 6c 00 69 00 76 00 65 00 72 00 20 00 70 00 6f 00 77 00 65 00 72 00 73 00 68 00 65 00 6c 00 6c 00 20 00 70 00 61 00 79 00 6c 00 6f 00 61 00 64 00 2c 00 20 00 75 00 73 00 65 00 20 00 27 00 2d 00 2d 00 63 00 6d 00 64 00 66 00 69 00 6c 00 65 00 20 00 73 00 63 00 72 00 69 00 70 00 74 00 2e 00 70 00 73 00 31 00 27 00 20 00 62 00 75 00 74 00 20 00 69 00 6e 00 73 00 69 00 64 00 65 00 20 00 70 00 6f 00 77 00 65 00 72 00 73 00 68 00 65 00 6c 00 6c 00 20 00 63 00 6f 00 6e 00 73 00 6f 00 6c 00 65 00))}
+
+	condition:
+		any of them
 }
 
-rule hacktool_windows_mimikatz_copywrite
+rule hacktool_windows_wmi_implant : hardened
 {
-    meta:
-        description = "Mimikatz credential dump tool: Author copywrite"
-        reference = "https://github.com/gentilkiwi/mimikatz"
-        author = "@fusionrace"
-        md5_1 = "0c87c0ca04f0ab626b5137409dded15ac66c058be6df09e22a636cc2bcb021b8"
-        md5_2 = "0c91f4ca25aedf306d68edaea63b84efec0385321eacf25419a3050f2394ee3b"
-        md5_3 = "0fee62bae204cf89d954d2cbf82a76b771744b981aef4c651caab43436b5a143"
-        md5_4 = "004c07dcd04b4e81f73aacd99c7351337f894e4dac6c91dcfaadb4a1510a967c"
-        md5_5 = "09c542ff784bf98b2c4899900d4e699c5b2e2619a4c5eff68f6add14c74444ca"
-        md5_6 = "09054be3cc568f57321be32e769ae3ccaf21653e5d1e3db85b5af4421c200669"
-    strings:
-        $s1 = "Kiwi en C" fullword ascii wide
-        $s2 = "Benjamin DELPY `gentilkiwi`" fullword ascii wide
-        $s3 = "http://blog.gentilkiwi.com/mimikatz" fullword ascii wide
-        $s4 = "Build with love for POC only" fullword ascii wide
-        $s5 = "gentilkiwi (Benjamin DELPY)" fullword wide
-        $s6 = "KiwiSSP" fullword wide
-        $s7 = "Kiwi Security Support Provider" fullword wide
-        $s8 = "kiwi flavor !" fullword wide
-    condition:
-        uint16(0) == 0x5a4d and filesize < 800KB and /* Added by Florian Roth to avoid false positives */
-        any of them
+	meta:
+		description = "A PowerShell based tool that is designed to act like a RAT"
+		reference = "https://www.fireeye.com/blog/threat-research/2017/03/wmimplant_a_wmi_ba.html"
+		author = "@fusionrace"
+
+	strings:
+		$s1 = {((54 68 69 73 20 72 65 61 6c 6c 79 20 69 73 6e 27 74 20 61 70 70 6c 69 63 61 62 6c 65 20 75 6e 6c 65 73 73 20 79 6f 75 20 61 72 65 20 75 73 69 6e 67 20 57 4d 49 6d 70 6c 61 6e 74 20 69 6e 74 65 72 61 63 74 69 76 65 6c 79 2e) | (54 00 68 00 69 00 73 00 20 00 72 00 65 00 61 00 6c 00 6c 00 79 00 20 00 69 00 73 00 6e 00 27 00 74 00 20 00 61 00 70 00 70 00 6c 00 69 00 63 00 61 00 62 00 6c 00 65 00 20 00 75 00 6e 00 6c 00 65 00 73 00 73 00 20 00 79 00 6f 00 75 00 20 00 61 00 72 00 65 00 20 00 75 00 73 00 69 00 6e 00 67 00 20 00 57 00 4d 00 49 00 6d 00 70 00 6c 00 61 00 6e 00 74 00 20 00 69 00 6e 00 74 00 65 00 72 00 61 00 63 00 74 00 69 00 76 00 65 00 6c 00 79 00 2e 00))}
+		$s2 = {((57 68 61 74 20 63 6f 6d 6d 61 6e 64 20 64 6f 20 79 6f 75 20 77 61 6e 74 20 74 6f 20 72 75 6e 20 6f 6e 20 74 68 65 20 72 65 6d 6f 74 65 20 73 79 73 74 65 6d 3f 20 3e) | (57 00 68 00 61 00 74 00 20 00 63 00 6f 00 6d 00 6d 00 61 00 6e 00 64 00 20 00 64 00 6f 00 20 00 79 00 6f 00 75 00 20 00 77 00 61 00 6e 00 74 00 20 00 74 00 6f 00 20 00 72 00 75 00 6e 00 20 00 6f 00 6e 00 20 00 74 00 68 00 65 00 20 00 72 00 65 00 6d 00 6f 00 74 00 65 00 20 00 73 00 79 00 73 00 74 00 65 00 6d 00 3f 00 20 00 3e 00))}
+		$s3 = {((44 6f 20 79 6f 75 20 77 61 6e 74 20 74 6f 20 5b 63 72 65 61 74 65 5d 20 6f 72 20 5b 64 65 6c 65 74 65 5d 20 61 20 73 74 72 69 6e 67 20 72 65 67 69 73 74 72 79 20 76 61 6c 75 65 3f 20 3e) | (44 00 6f 00 20 00 79 00 6f 00 75 00 20 00 77 00 61 00 6e 00 74 00 20 00 74 00 6f 00 20 00 5b 00 63 00 72 00 65 00 61 00 74 00 65 00 5d 00 20 00 6f 00 72 00 20 00 5b 00 64 00 65 00 6c 00 65 00 74 00 65 00 5d 00 20 00 61 00 20 00 73 00 74 00 72 00 69 00 6e 00 67 00 20 00 72 00 65 00 67 00 69 00 73 00 74 00 72 00 79 00 20 00 76 00 61 00 6c 00 75 00 65 00 3f 00 20 00 3e 00))}
+		$s4 = {((44 6f 20 79 6f 75 20 77 61 6e 74 20 74 6f 20 72 75 6e 20 61 20 57 4d 49 6d 70 6c 61 6e 74 20 61 67 61 69 6e 73 74 20 61 20 6c 69 73 74 20 6f 66 20 63 6f 6d 70 75 74 65 72 73 20 66 72 6f 6d 20 61 20 66 69 6c 65 3f 20 5b 79 65 73 5d 20 6f 72 20 5b 6e 6f 5d 20 3e) | (44 00 6f 00 20 00 79 00 6f 00 75 00 20 00 77 00 61 00 6e 00 74 00 20 00 74 00 6f 00 20 00 72 00 75 00 6e 00 20 00 61 00 20 00 57 00 4d 00 49 00 6d 00 70 00 6c 00 61 00 6e 00 74 00 20 00 61 00 67 00 61 00 69 00 6e 00 73 00 74 00 20 00 61 00 20 00 6c 00 69 00 73 00 74 00 20 00 6f 00 66 00 20 00 63 00 6f 00 6d 00 70 00 75 00 74 00 65 00 72 00 73 00 20 00 66 00 72 00 6f 00 6d 00 20 00 61 00 20 00 66 00 69 00 6c 00 65 00 3f 00 20 00 5b 00 79 00 65 00 73 00 5d 00 20 00 6f 00 72 00 20 00 5b 00 6e 00 6f 00 5d 00 20 00 3e 00))}
+		$s5 = {((57 68 61 74 20 69 73 20 74 68 65 20 6e 61 6d 65 20 6f 66 20 74 68 65 20 73 65 72 76 69 63 65 20 79 6f 75 20 61 72 65 20 74 61 72 67 65 74 69 6e 67 3f 20 3e) | (57 00 68 00 61 00 74 00 20 00 69 00 73 00 20 00 74 00 68 00 65 00 20 00 6e 00 61 00 6d 00 65 00 20 00 6f 00 66 00 20 00 74 00 68 00 65 00 20 00 73 00 65 00 72 00 76 00 69 00 63 00 65 00 20 00 79 00 6f 00 75 00 20 00 61 00 72 00 65 00 20 00 74 00 61 00 72 00 67 00 65 00 74 00 69 00 6e 00 67 00 3f 00 20 00 3e 00))}
+		$s6 = {((54 68 69 73 20 66 75 6e 63 74 69 6f 6e 20 65 6e 61 62 6c 65 73 20 74 68 65 20 75 73 65 72 20 74 6f 20 75 70 6c 6f 61 64 20 6f 72 20 64 6f 77 6e 6c 6f 61 64 20 66 69 6c 65 73 20 74 6f 2f 66 72 6f 6d 20 74 68 65 20 61 74 74 61 63 6b 69 6e 67 20 6d 61 63 68 69 6e 65 20 74 6f 2f 66 72 6f 6d 20 74 68 65 20 74 61 72 67 65 74 65 64 20 6d 61 63 68 69 6e 65) | (54 00 68 00 69 00 73 00 20 00 66 00 75 00 6e 00 63 00 74 00 69 00 6f 00 6e 00 20 00 65 00 6e 00 61 00 62 00 6c 00 65 00 73 00 20 00 74 00 68 00 65 00 20 00 75 00 73 00 65 00 72 00 20 00 74 00 6f 00 20 00 75 00 70 00 6c 00 6f 00 61 00 64 00 20 00 6f 00 72 00 20 00 64 00 6f 00 77 00 6e 00 6c 00 6f 00 61 00 64 00 20 00 66 00 69 00 6c 00 65 00 73 00 20 00 74 00 6f 00 2f 00 66 00 72 00 6f 00 6d 00 20 00 74 00 68 00 65 00 20 00 61 00 74 00 74 00 61 00 63 00 6b 00 69 00 6e 00 67 00 20 00 6d 00 61 00 63 00 68 00 69 00 6e 00 65 00 20 00 74 00 6f 00 2f 00 66 00 72 00 6f 00 6d 00 20 00 74 00 68 00 65 00 20 00 74 00 61 00 72 00 67 00 65 00 74 00 65 00 64 00 20 00 6d 00 61 00 63 00 68 00 69 00 6e 00 65 00))}
+		$s7 = {((67 65 6e 5f 63 6c 69 20 2d 20 47 65 6e 65 72 61 74 65 20 74 68 65 20 43 4c 49 20 63 6f 6d 6d 61 6e 64 20 74 6f 20 65 78 65 63 75 74 65 20 61 20 63 6f 6d 6d 61 6e 64 20 76 69 61 20 57 4d 49 6d 70 6c 61 6e 74) | (67 00 65 00 6e 00 5f 00 63 00 6c 00 69 00 20 00 2d 00 20 00 47 00 65 00 6e 00 65 00 72 00 61 00 74 00 65 00 20 00 74 00 68 00 65 00 20 00 43 00 4c 00 49 00 20 00 63 00 6f 00 6d 00 6d 00 61 00 6e 00 64 00 20 00 74 00 6f 00 20 00 65 00 78 00 65 00 63 00 75 00 74 00 65 00 20 00 61 00 20 00 63 00 6f 00 6d 00 6d 00 61 00 6e 00 64 00 20 00 76 00 69 00 61 00 20 00 57 00 4d 00 49 00 6d 00 70 00 6c 00 61 00 6e 00 74 00))}
+		$s8 = {((65 78 69 74 20 2d 20 45 78 69 74 20 57 4d 49 6d 70 6c 61 6e 74) | (65 00 78 00 69 00 74 00 20 00 2d 00 20 00 45 00 78 00 69 00 74 00 20 00 57 00 4d 00 49 00 6d 00 70 00 6c 00 61 00 6e 00 74 00))}
+		$s9 = {((4c 61 74 65 72 61 6c 20 4d 6f 76 65 6d 65 6e 74 20 46 61 63 69 6c 69 74 61 74 69 6f 6e) | (4c 00 61 00 74 00 65 00 72 00 61 00 6c 00 20 00 4d 00 6f 00 76 00 65 00 6d 00 65 00 6e 00 74 00 20 00 46 00 61 00 63 00 69 00 6c 00 69 00 74 00 61 00 74 00 69 00 6f 00 6e 00))}
+		$s10 = {((76 61 63 61 6e 74 5f 73 79 73 74 65 6d 20 2d 20 44 65 74 65 72 6d 69 6e 65 20 69 66 20 61 20 75 73 65 72 20 69 73 20 61 77 61 79 20 66 72 6f 6d 20 74 68 65 20 73 79 73 74 65 6d 2e) | (76 00 61 00 63 00 61 00 6e 00 74 00 5f 00 73 00 79 00 73 00 74 00 65 00 6d 00 20 00 2d 00 20 00 44 00 65 00 74 00 65 00 72 00 6d 00 69 00 6e 00 65 00 20 00 69 00 66 00 20 00 61 00 20 00 75 00 73 00 65 00 72 00 20 00 69 00 73 00 20 00 61 00 77 00 61 00 79 00 20 00 66 00 72 00 6f 00 6d 00 20 00 74 00 68 00 65 00 20 00 73 00 79 00 73 00 74 00 65 00 6d 00 2e 00))}
+		$s11 = {((50 6c 65 61 73 65 20 70 72 6f 76 69 64 65 20 74 68 65 20 50 72 6f 63 65 73 73 49 44 20 6f 72 20 50 72 6f 63 65 73 73 4e 61 6d 65 20 66 6c 61 67 20 74 6f 20 73 70 65 63 69 66 79 20 74 68 65 20 70 72 6f 63 65 73 73 20 74 6f 20 6b 69 6c 6c 21) | (50 00 6c 00 65 00 61 00 73 00 65 00 20 00 70 00 72 00 6f 00 76 00 69 00 64 00 65 00 20 00 74 00 68 00 65 00 20 00 50 00 72 00 6f 00 63 00 65 00 73 00 73 00 49 00 44 00 20 00 6f 00 72 00 20 00 50 00 72 00 6f 00 63 00 65 00 73 00 73 00 4e 00 61 00 6d 00 65 00 20 00 66 00 6c 00 61 00 67 00 20 00 74 00 6f 00 20 00 73 00 70 00 65 00 63 00 69 00 66 00 79 00 20 00 74 00 68 00 65 00 20 00 70 00 72 00 6f 00 63 00 65 00 73 00 73 00 20 00 74 00 6f 00 20 00 6b 00 69 00 6c 00 6c 00 21 00))}
+
+	condition:
+		any of them
 }
 
-rule hacktool_windows_mimikatz_errors
+rule hacktool_windows_mimikatz_copywrite : hardened
 {
-    meta:
-        description = "Mimikatz credential dump tool: Error messages"
-        reference = "https://github.com/gentilkiwi/mimikatz"
-        author = "@fusionrace"
-        score = 75
-        md5_1 = "09054be3cc568f57321be32e769ae3ccaf21653e5d1e3db85b5af4421c200669"
-        md5_2 = "004c07dcd04b4e81f73aacd99c7351337f894e4dac6c91dcfaadb4a1510a967c"
-    strings:
-        $s1 = "[ERROR] [LSA] Symbols" fullword ascii wide
-        $s2 = "[ERROR] [CRYPTO] Acquire keys" fullword ascii wide
-        $s3 = "[ERROR] [CRYPTO] Symbols" fullword ascii wide
-        $s4 = "[ERROR] [CRYPTO] Init" fullword ascii wide
-    condition:
-        all of them
+	meta:
+		description = "Mimikatz credential dump tool: Author copywrite"
+		reference = "https://github.com/gentilkiwi/mimikatz"
+		author = "@fusionrace"
+		md5_1 = "0c87c0ca04f0ab626b5137409dded15ac66c058be6df09e22a636cc2bcb021b8"
+		md5_2 = "0c91f4ca25aedf306d68edaea63b84efec0385321eacf25419a3050f2394ee3b"
+		md5_3 = "0fee62bae204cf89d954d2cbf82a76b771744b981aef4c651caab43436b5a143"
+		md5_4 = "004c07dcd04b4e81f73aacd99c7351337f894e4dac6c91dcfaadb4a1510a967c"
+		md5_5 = "09c542ff784bf98b2c4899900d4e699c5b2e2619a4c5eff68f6add14c74444ca"
+		md5_6 = "09054be3cc568f57321be32e769ae3ccaf21653e5d1e3db85b5af4421c200669"
+
+	strings:
+		$s1 = {((4b 69 77 69 20 65 6e 20 43) | (4b 00 69 00 77 00 69 00 20 00 65 00 6e 00 20 00 43 00))}
+		$s2 = {((42 65 6e 6a 61 6d 69 6e 20 44 45 4c 50 59 20 60 67 65 6e 74 69 6c 6b 69 77 69 60) | (42 00 65 00 6e 00 6a 00 61 00 6d 00 69 00 6e 00 20 00 44 00 45 00 4c 00 50 00 59 00 20 00 60 00 67 00 65 00 6e 00 74 00 69 00 6c 00 6b 00 69 00 77 00 69 00 60 00))}
+		$s3 = {((68 74 74 70 3a 2f 2f 62 6c 6f 67 2e 67 65 6e 74 69 6c 6b 69 77 69 2e 63 6f 6d 2f 6d 69 6d 69 6b 61 74 7a) | (68 00 74 00 74 00 70 00 3a 00 2f 00 2f 00 62 00 6c 00 6f 00 67 00 2e 00 67 00 65 00 6e 00 74 00 69 00 6c 00 6b 00 69 00 77 00 69 00 2e 00 63 00 6f 00 6d 00 2f 00 6d 00 69 00 6d 00 69 00 6b 00 61 00 74 00 7a 00))}
+		$s4 = {((42 75 69 6c 64 20 77 69 74 68 20 6c 6f 76 65 20 66 6f 72 20 50 4f 43 20 6f 6e 6c 79) | (42 00 75 00 69 00 6c 00 64 00 20 00 77 00 69 00 74 00 68 00 20 00 6c 00 6f 00 76 00 65 00 20 00 66 00 6f 00 72 00 20 00 50 00 4f 00 43 00 20 00 6f 00 6e 00 6c 00 79 00))}
+		$s5 = {67 00 65 00 6e 00 74 00 69 00 6c 00 6b 00 69 00 77 00 69 00 20 00 28 00 42 00 65 00 6e 00 6a 00 61 00 6d 00 69 00 6e 00 20 00 44 00 45 00 4c 00 50 00 59 00 29 00}
+		$s6 = {4b 00 69 00 77 00 69 00 53 00 53 00 50 00}
+		$s7 = {4b 00 69 00 77 00 69 00 20 00 53 00 65 00 63 00 75 00 72 00 69 00 74 00 79 00 20 00 53 00 75 00 70 00 70 00 6f 00 72 00 74 00 20 00 50 00 72 00 6f 00 76 00 69 00 64 00 65 00 72 00}
+		$s8 = {6b 00 69 00 77 00 69 00 20 00 66 00 6c 00 61 00 76 00 6f 00 72 00 20 00 21 00}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and filesize < 800KB and any of them
 }
 
-rule hacktool_windows_mimikatz_files
+rule hacktool_windows_mimikatz_errors : hardened
 {
-    meta:
-        description = "Mimikatz credential dump tool: Files"
-        reference = "https://github.com/gentilkiwi/mimikatz"
-        author = "@fusionrace"
-        md5_1 = "09054be3cc568f57321be32e769ae3ccaf21653e5d1e3db85b5af4421c200669"
-        md5_2 = "004c07dcd04b4e81f73aacd99c7351337f894e4dac6c91dcfaadb4a1510a967c"
-        score = 75
-    strings:
-        $s1 = "kiwifilter.log" fullword wide
-        $s2 = "kiwissp.log" fullword wide
-        $s3 = "mimilib.dll" fullword ascii wide
-    condition:
-        uint16(0) == 0x5a4d and filesize < 800KB and /* Added by Florian Roth to avoid false positives */
-        any of them
+	meta:
+		description = "Mimikatz credential dump tool: Error messages"
+		reference = "https://github.com/gentilkiwi/mimikatz"
+		author = "@fusionrace"
+		score = 75
+		md5_1 = "09054be3cc568f57321be32e769ae3ccaf21653e5d1e3db85b5af4421c200669"
+		md5_2 = "004c07dcd04b4e81f73aacd99c7351337f894e4dac6c91dcfaadb4a1510a967c"
+
+	strings:
+		$s1 = {((5b 45 52 52 4f 52 5d 20 5b 4c 53 41 5d 20 53 79 6d 62 6f 6c 73) | (5b 00 45 00 52 00 52 00 4f 00 52 00 5d 00 20 00 5b 00 4c 00 53 00 41 00 5d 00 20 00 53 00 79 00 6d 00 62 00 6f 00 6c 00 73 00))}
+		$s2 = {((5b 45 52 52 4f 52 5d 20 5b 43 52 59 50 54 4f 5d 20 41 63 71 75 69 72 65 20 6b 65 79 73) | (5b 00 45 00 52 00 52 00 4f 00 52 00 5d 00 20 00 5b 00 43 00 52 00 59 00 50 00 54 00 4f 00 5d 00 20 00 41 00 63 00 71 00 75 00 69 00 72 00 65 00 20 00 6b 00 65 00 79 00 73 00))}
+		$s3 = {((5b 45 52 52 4f 52 5d 20 5b 43 52 59 50 54 4f 5d 20 53 79 6d 62 6f 6c 73) | (5b 00 45 00 52 00 52 00 4f 00 52 00 5d 00 20 00 5b 00 43 00 52 00 59 00 50 00 54 00 4f 00 5d 00 20 00 53 00 79 00 6d 00 62 00 6f 00 6c 00 73 00))}
+		$s4 = {((5b 45 52 52 4f 52 5d 20 5b 43 52 59 50 54 4f 5d 20 49 6e 69 74) | (5b 00 45 00 52 00 52 00 4f 00 52 00 5d 00 20 00 5b 00 43 00 52 00 59 00 50 00 54 00 4f 00 5d 00 20 00 49 00 6e 00 69 00 74 00))}
+
+	condition:
+		all of them
 }
 
-rule hacktool_windows_mimikatz_modules
+rule hacktool_windows_mimikatz_files : hardened
 {
-    meta:
-        description = "Mimikatz credential dump tool: Modules"
-        reference = "https://github.com/gentilkiwi/mimikatz"
-        author = "@fusionrace"
-        modified = "2023-07-26"
-        md5_1 = "0c87c0ca04f0ab626b5137409dded15ac66c058be6df09e22a636cc2bcb021b8"
-        md5_2 = "0c91f4ca25aedf306d68edaea63b84efec0385321eacf25419a3050f2394ee3b"
-        md5_3 = "09054be3cc568f57321be32e769ae3ccaf21653e5d1e3db85b5af4421c200669"
-        md5_4 = "004c07dcd04b4e81f73aacd99c7351337f894e4dac6c91dcfaadb4a1510a967c"
-        md5_5 = "0fee62bae204cf89d954d2cbf82a76b771744b981aef4c651caab43436b5a143"
-    strings:
-        $s1 = "mimilib" fullword ascii wide
-        $s2 = "mimidrv" fullword ascii wide
-        $s3 = "mimilove" fullword ascii wide
+	meta:
+		description = "Mimikatz credential dump tool: Files"
+		reference = "https://github.com/gentilkiwi/mimikatz"
+		author = "@fusionrace"
+		md5_1 = "09054be3cc568f57321be32e769ae3ccaf21653e5d1e3db85b5af4421c200669"
+		md5_2 = "004c07dcd04b4e81f73aacd99c7351337f894e4dac6c91dcfaadb4a1510a967c"
+		score = 75
 
-        $fp1 = "SgrmEnclave" wide
-        $fp2 = "Kaspersky Lab Anti-Rootkit Monitor Driver" wide
-    condition:
-        uint16(0) == 0x5a4d and filesize < 800KB and /* Added by Florian Roth to avoid false positives */
-        1 of ($s*) and 
-        not 1 of ($fp*)
+	strings:
+		$s1 = {6b 00 69 00 77 00 69 00 66 00 69 00 6c 00 74 00 65 00 72 00 2e 00 6c 00 6f 00 67 00}
+		$s2 = {6b 00 69 00 77 00 69 00 73 00 73 00 70 00 2e 00 6c 00 6f 00 67 00}
+		$s3 = {((6d 69 6d 69 6c 69 62 2e 64 6c 6c) | (6d 00 69 00 6d 00 69 00 6c 00 69 00 62 00 2e 00 64 00 6c 00 6c 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and filesize < 800KB and any of them
 }
 
-rule hacktool_windows_mimikatz_sekurlsa
+rule hacktool_windows_mimikatz_modules : hardened
 {
-    meta:
-        description = "Mimikatz credential dump tool"
-        reference = "https://github.com/gentilkiwi/mimikatz"
-        author = "@fusionrace"
-        score = 75
-        SHA256_1 = "09054be3cc568f57321be32e769ae3ccaf21653e5d1e3db85b5af4421c200669"
-        SHA256_2 = "004c07dcd04b4e81f73aacd99c7351337f894e4dac6c91dcfaadb4a1510a967c"
-    strings:
-        $s1 = "dpapisrv!g_MasterKeyCacheList" fullword ascii wide
-        $s2 = "lsasrv!g_MasterKeyCacheList" fullword ascii wide
-        $s3 = "!SspCredentialList" ascii wide
-        $s4 = "livessp!LiveGlobalLogonSessionList" fullword ascii wide
-        $s5 = "wdigest!l_LogSessList" fullword ascii wide
-        $s6 = "tspkg!TSGlobalCredTable" fullword ascii wide
-    condition:
-        all of them
+	meta:
+		description = "Mimikatz credential dump tool: Modules"
+		reference = "https://github.com/gentilkiwi/mimikatz"
+		author = "@fusionrace"
+		modified = "2023-07-26"
+		md5_1 = "0c87c0ca04f0ab626b5137409dded15ac66c058be6df09e22a636cc2bcb021b8"
+		md5_2 = "0c91f4ca25aedf306d68edaea63b84efec0385321eacf25419a3050f2394ee3b"
+		md5_3 = "09054be3cc568f57321be32e769ae3ccaf21653e5d1e3db85b5af4421c200669"
+		md5_4 = "004c07dcd04b4e81f73aacd99c7351337f894e4dac6c91dcfaadb4a1510a967c"
+		md5_5 = "0fee62bae204cf89d954d2cbf82a76b771744b981aef4c651caab43436b5a143"
+
+	strings:
+		$s1 = {((6d 69 6d 69 6c 69 62) | (6d 00 69 00 6d 00 69 00 6c 00 69 00 62 00))}
+		$s2 = {((6d 69 6d 69 64 72 76) | (6d 00 69 00 6d 00 69 00 64 00 72 00 76 00))}
+		$s3 = {((6d 69 6d 69 6c 6f 76 65) | (6d 00 69 00 6d 00 69 00 6c 00 6f 00 76 00 65 00))}
+		$fp1 = {53 00 67 00 72 00 6d 00 45 00 6e 00 63 00 6c 00 61 00 76 00 65 00}
+		$fp2 = {4b 00 61 00 73 00 70 00 65 00 72 00 73 00 6b 00 79 00 20 00 4c 00 61 00 62 00 20 00 41 00 6e 00 74 00 69 00 2d 00 52 00 6f 00 6f 00 74 00 6b 00 69 00 74 00 20 00 4d 00 6f 00 6e 00 69 00 74 00 6f 00 72 00 20 00 44 00 72 00 69 00 76 00 65 00 72 00}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and filesize < 800KB and 1 of ( $s* ) and not 1 of ( $fp* )
 }
+
+rule hacktool_windows_mimikatz_sekurlsa : hardened
+{
+	meta:
+		description = "Mimikatz credential dump tool"
+		reference = "https://github.com/gentilkiwi/mimikatz"
+		author = "@fusionrace"
+		score = 75
+		SHA256_1 = "09054be3cc568f57321be32e769ae3ccaf21653e5d1e3db85b5af4421c200669"
+		SHA256_2 = "004c07dcd04b4e81f73aacd99c7351337f894e4dac6c91dcfaadb4a1510a967c"
+
+	strings:
+		$s1 = {((64 70 61 70 69 73 72 76 21 67 5f 4d 61 73 74 65 72 4b 65 79 43 61 63 68 65 4c 69 73 74) | (64 00 70 00 61 00 70 00 69 00 73 00 72 00 76 00 21 00 67 00 5f 00 4d 00 61 00 73 00 74 00 65 00 72 00 4b 00 65 00 79 00 43 00 61 00 63 00 68 00 65 00 4c 00 69 00 73 00 74 00))}
+		$s2 = {((6c 73 61 73 72 76 21 67 5f 4d 61 73 74 65 72 4b 65 79 43 61 63 68 65 4c 69 73 74) | (6c 00 73 00 61 00 73 00 72 00 76 00 21 00 67 00 5f 00 4d 00 61 00 73 00 74 00 65 00 72 00 4b 00 65 00 79 00 43 00 61 00 63 00 68 00 65 00 4c 00 69 00 73 00 74 00))}
+		$s3 = {((21 53 73 70 43 72 65 64 65 6e 74 69 61 6c 4c 69 73 74) | (21 00 53 00 73 00 70 00 43 00 72 00 65 00 64 00 65 00 6e 00 74 00 69 00 61 00 6c 00 4c 00 69 00 73 00 74 00))}
+		$s4 = {((6c 69 76 65 73 73 70 21 4c 69 76 65 47 6c 6f 62 61 6c 4c 6f 67 6f 6e 53 65 73 73 69 6f 6e 4c 69 73 74) | (6c 00 69 00 76 00 65 00 73 00 73 00 70 00 21 00 4c 00 69 00 76 00 65 00 47 00 6c 00 6f 00 62 00 61 00 6c 00 4c 00 6f 00 67 00 6f 00 6e 00 53 00 65 00 73 00 73 00 69 00 6f 00 6e 00 4c 00 69 00 73 00 74 00))}
+		$s5 = {((77 64 69 67 65 73 74 21 6c 5f 4c 6f 67 53 65 73 73 4c 69 73 74) | (77 00 64 00 69 00 67 00 65 00 73 00 74 00 21 00 6c 00 5f 00 4c 00 6f 00 67 00 53 00 65 00 73 00 73 00 4c 00 69 00 73 00 74 00))}
+		$s6 = {((74 73 70 6b 67 21 54 53 47 6c 6f 62 61 6c 43 72 65 64 54 61 62 6c 65) | (74 00 73 00 70 00 6b 00 67 00 21 00 54 00 53 00 47 00 6c 00 6f 00 62 00 61 00 6c 00 43 00 72 00 65 00 64 00 54 00 61 00 62 00 6c 00 65 00))}
+
+	condition:
+		all of them
+}
+

@@ -1,39 +1,31 @@
-/*
-   Yara Rule Set
-   Author: Florian Roth
-   Date: 2018-01-09
-   Identifier: NK Miner Malware
-   Reference: https://goo.gl/PChE1z
-*/
+rule NK_Miner_Malware_Jan18_1 : hardened
+{
+	meta:
+		description = "Detects Noth Korean Monero Miner mentioned in AlienVault report"
+		author = "Florian Roth (Nextron Systems) (original rule by Chris Doman)"
+		reference = "https://goo.gl/PChE1z"
+		date = "2018-01-09"
+		hash1 = "0024e32c0199ded445c0b968601f21cc92fc0c534d2642f2dd64c1c978ff01f3"
+		hash2 = "42300b6a09f183ae167d7a11d9c6df21d022a5f02df346350d3d875d557d3b76"
+		id = "40f53c36-9e14-5307-9740-e6f514afc7ec"
 
-/* Rule Set ----------------------------------------------------------------- */
-
-rule NK_Miner_Malware_Jan18_1 {
-   meta:
-      description = "Detects Noth Korean Monero Miner mentioned in AlienVault report"
-      author = "Florian Roth (Nextron Systems) (original rule by Chris Doman)"
-      reference = "https://goo.gl/PChE1z"
-      date = "2018-01-09"
-      hash1 = "0024e32c0199ded445c0b968601f21cc92fc0c534d2642f2dd64c1c978ff01f3"
-      hash2 = "42300b6a09f183ae167d7a11d9c6df21d022a5f02df346350d3d875d557d3b76"
-      id = "40f53c36-9e14-5307-9740-e6f514afc7ec"
-   strings:
-      $x0 = "c:\\users\\jawhar\\documents\\" ascii
-      $x1 = "C:\\Users\\Jawhar\\documents\\" ascii
-      $x2 = "The number of processors on this computer is {0}." fullword wide
-      $x3 = { 00 00 1F 43 00 3A 00 5C 00 4E 00 65 00 77 00 44
+	strings:
+		$x0 = {63 3a 5c 75 73 65 72 73 5c 6a 61 77 68 61 72 5c 64 6f 63 75 6d 65 6e 74 73 5c}
+		$x1 = {43 3a 5c 55 73 65 72 73 5c 4a 61 77 68 61 72 5c 64 6f 63 75 6d 65 6e 74 73 5c}
+		$x2 = {54 00 68 00 65 00 20 00 6e 00 75 00 6d 00 62 00 65 00 72 00 20 00 6f 00 66 00 20 00 70 00 72 00 6f 00 63 00 65 00 73 00 73 00 6f 00 72 00 73 00 20 00 6f 00 6e 00 20 00 74 00 68 00 69 00 73 00 20 00 63 00 6f 00 6d 00 70 00 75 00 74 00 65 00 72 00 20 00 69 00 73 00 20 00 7b 00 30 00 7d 00 2e 00}
+		$x3 = { 00 00 1F 43 00 3A 00 5C 00 4E 00 65 00 77 00 44
               00 69 00 72 00 65 00 63 00 74 00 6F 00 72 00 79
               00 00 }
-      $x4 = "Le fichier Hello txt n'existe pas" fullword wide
-      $x5 = "C:\\NewDirectory2\\info2" fullword wide
+		$x4 = {4c 00 65 00 20 00 66 00 69 00 63 00 68 00 69 00 65 00 72 00 20 00 48 00 65 00 6c 00 6c 00 6f 00 20 00 74 00 78 00 74 00 20 00 6e 00 27 00 65 00 78 00 69 00 73 00 74 00 65 00 20 00 70 00 61 00 73 00}
+		$x5 = {43 00 3a 00 5c 00 4e 00 65 00 77 00 44 00 69 00 72 00 65 00 63 00 74 00 6f 00 72 00 79 00 32 00 5c 00 69 00 6e 00 66 00 6f 00 32 00}
+		$a = {38 32 65 39 39 39 66 62 2d 61 36 65 30 2d 34 30 39 34 2d 61 61 31 66 2d 31 61 33 30 36 30 36 39 64 31 61 35}
+		$b = {34 4a 55 64 47 7a 76 72 4d 46 44 57 72 55 55 77 59 33 74 6f 4a 41 54 53 65 4e 77 6a 6e 35 34 4c 6b 43 6e 4b 42 50 52 7a 44 75 68 7a 69 35 76 53 65 70 48 66 55 63 6b 4a 4e 78 52 4c 32 67 6a 6b 4e 72 53 71 74 43 6f 52 55 72 45 44 41 67 52 77 73 51 76 56 43 6a 5a 62 52 79 35 59 65 46 43 71 67 6f 55 4d 6e 7a 75 6d 76 53}
+		$c = {((62 61 72 6a 75 6f 6b 2e 72 79 6f 6e 67 6e 61 6d 73 61 6e 2e 65 64 75 2e 6b 70) | (62 00 61 00 72 00 6a 00 75 00 6f 00 6b 00 2e 00 72 00 79 00 6f 00 6e 00 67 00 6e 00 61 00 6d 00 73 00 61 00 6e 00 2e 00 65 00 64 00 75 00 2e 00 6b 00 70 00))}
+		$d = {((43 3a 5c 53 6f 66 74 77 61 72 65 73 49 6e 73 74 61 6c 6c 5c 73 6f 66 74) | (43 00 3a 00 5c 00 53 00 6f 00 66 00 74 00 77 00 61 00 72 00 65 00 73 00 49 00 6e 00 73 00 74 00 61 00 6c 00 6c 00 5c 00 73 00 6f 00 66 00 74 00))}
+		$e = {((43 3a 5c 57 69 6e 64 6f 77 73 5c 53 79 73 36 34 5c 69 6e 74 65 6c 73 65 72 76 69 63 65 2e 65 78 65) | (43 00 3a 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 5c 00 53 00 79 00 73 00 36 00 34 00 5c 00 69 00 6e 00 74 00 65 00 6c 00 73 00 65 00 72 00 76 00 69 00 63 00 65 00 2e 00 65 00 78 00 65 00))}
+		$f = {((43 3a 5c 57 69 6e 64 6f 77 73 5c 53 79 73 36 34 5c 75 70 64 61 74 65 72 2e 65 78 65) | (43 00 3a 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 5c 00 53 00 79 00 73 00 36 00 34 00 5c 00 75 00 70 00 64 00 61 00 74 00 65 00 72 00 2e 00 65 00 78 00 65 00))}
 
-      /* Incorported from Chris Doman's rule - https://goo.gl/PChE1z*/
-      $a = "82e999fb-a6e0-4094-aa1f-1a306069d1a5" ascii
-      $b = "4JUdGzvrMFDWrUUwY3toJATSeNwjn54LkCnKBPRzDuhzi5vSepHfUckJNxRL2gjkNrSqtCoRUrEDAgRwsQvVCjZbRy5YeFCqgoUMnzumvS" ascii
-      $c = "barjuok.ryongnamsan.edu.kp" wide ascii
-      $d = "C:\\SoftwaresInstall\\soft" wide ascii
-      $e = "C:\\Windows\\Sys64\\intelservice.exe" wide ascii
-      $f = "C:\\Windows\\Sys64\\updater.exe" wide ascii
-   condition:
-      uint16(0) == 0x5a4d and filesize < 30KB and 1 of them
+	condition:
+		uint16( 0 ) == 0x5a4d and filesize < 30KB and 1 of them
 }
+

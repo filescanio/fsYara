@@ -1,35 +1,37 @@
-rule Revil_Ransomware : ransomware {
-   meta:
-      author = "Josh Lemon"
-      description = "Detects REvil Linux - Revix 1.1 and 1.2"
-      reference = "https://angle.ankura.com/post/102hcny/revix-linux-ransomware"
-      date = "2021-11-04"
-      version = "1.1"
-      hash1 = "f864922f947a6bb7d894245b53795b54b9378c0f7633c521240488e86f60c2c5"
-      hash2 = "559e9c0a2ef6898fabaf0a5fb10ac4a0f8d721edde4758351910200fe16b5fa7"
-      hash3 = "ea1872b2835128e3cb49a0bc27e4727ca33c4e6eba1e80422db19b505f965bc4"
-   strings:
-      $s1 = "Usage example: elf.exe --path /vmfs/ --threads 5" fullword ascii 
-      $s2 = "uname -a && echo \" | \" && hostname" fullword ascii
-      $s3 = "esxcli --formatter=csv --format-param=fields==\"WorldID,DisplayName\" vm process list" ascii
-      $s4 = "awk -F \"\\\"*,\\\"*\" '{system(\"esxcli" ascii
-      $s5 = "--silent (-s) use for not stoping VMs mode" fullword ascii
-      $s6 = "!!!BY DEFAULT THIS SOFTWARE USES 50 THREADS!!!" fullword ascii
-      $s7 = "%d:%d: Comment not allowed here" fullword ascii
-      $s8 = "Error decoding user_id %d " fullword ascii 
-      $s9 = "Error read urandm line %d!" fullword ascii
-      $s10 = "%d:%d: Unexpected `%c` in comment opening sequence" fullword ascii
-      $s11 = "%d:%d: Unexpected EOF in block comment" fullword ascii
-      $s12 = "Using silent mode, if you on esxi - stop VMs manualy" fullword ascii
-      $s13 = "rand: try to read %hu but get %lu bytes" fullword ascii
-      $s14 = "Revix" fullword ascii
-      $s15 = "without --path encrypts current dir" fullword ascii
-      
-      $e1 = "[%s] already encrypted" fullword ascii
-      $e2 = "File [%s] was encrypted" fullword ascii
-      $e3 = "File [%s] was NOT encrypted" fullword ascii
-      $e4 = "Encrypting [%s]" fullword ascii
+rule Revil_Ransomware : ransomware hardened
+{
+	meta:
+		author = "Josh Lemon"
+		description = "Detects REvil Linux - Revix 1.1 and 1.2"
+		reference = "https://angle.ankura.com/post/102hcny/revix-linux-ransomware"
+		date = "2021-11-04"
+		version = "1.1"
+		hash1 = "f864922f947a6bb7d894245b53795b54b9378c0f7633c521240488e86f60c2c5"
+		hash2 = "559e9c0a2ef6898fabaf0a5fb10ac4a0f8d721edde4758351910200fe16b5fa7"
+		hash3 = "ea1872b2835128e3cb49a0bc27e4727ca33c4e6eba1e80422db19b505f965bc4"
 
-   condition:
-      uint16(0) == 0x457f and filesize < 300KB and ( 4 of ($s*) and 2 of ($e*))
+	strings:
+		$s1 = {55 73 61 67 65 20 65 78 61 6d 70 6c 65 3a 20 65 6c 66 2e 65 78 65 20 2d 2d 70 61 74 68 20 2f 76 6d 66 73 2f 20 2d 2d 74 68 72 65 61 64 73 20 35}
+		$s2 = {75 6e 61 6d 65 20 2d 61 20 26 26 20 65 63 68 6f 20 22 20 7c 20 22 20 26 26 20 68 6f 73 74 6e 61 6d 65}
+		$s3 = {65 73 78 63 6c 69 20 2d 2d 66 6f 72 6d 61 74 74 65 72 3d 63 73 76 20 2d 2d 66 6f 72 6d 61 74 2d 70 61 72 61 6d 3d 66 69 65 6c 64 73 3d 3d 22 57 6f 72 6c 64 49 44 2c 44 69 73 70 6c 61 79 4e 61 6d 65 22 20 76 6d 20 70 72 6f 63 65 73 73 20 6c 69 73 74}
+		$s4 = {61 77 6b 20 2d 46 20 22 5c 5c 22 2a 2c 5c 5c 22 2a 22 20 27 7b 73 79 73 74 65 6d 28 22 65 73 78 63 6c 69}
+		$s5 = {2d 2d 73 69 6c 65 6e 74 20 28 2d 73 29 20 75 73 65 20 66 6f 72 20 6e 6f 74 20 73 74 6f 70 69 6e 67 20 56 4d 73 20 6d 6f 64 65}
+		$s6 = {21 21 21 42 59 20 44 45 46 41 55 4c 54 20 54 48 49 53 20 53 4f 46 54 57 41 52 45 20 55 53 45 53 20 35 30 20 54 48 52 45 41 44 53 21 21 21}
+		$s7 = {25 64 3a 25 64 3a 20 43 6f 6d 6d 65 6e 74 20 6e 6f 74 20 61 6c 6c 6f 77 65 64 20 68 65 72 65}
+		$s8 = {45 72 72 6f 72 20 64 65 63 6f 64 69 6e 67 20 75 73 65 72 5f 69 64 20 25 64 20}
+		$s9 = {45 72 72 6f 72 20 72 65 61 64 20 75 72 61 6e 64 6d 20 6c 69 6e 65 20 25 64 21}
+		$s10 = {25 64 3a 25 64 3a 20 55 6e 65 78 70 65 63 74 65 64 20 60 25 63 60 20 69 6e 20 63 6f 6d 6d 65 6e 74 20 6f 70 65 6e 69 6e 67 20 73 65 71 75 65 6e 63 65}
+		$s11 = {25 64 3a 25 64 3a 20 55 6e 65 78 70 65 63 74 65 64 20 45 4f 46 20 69 6e 20 62 6c 6f 63 6b 20 63 6f 6d 6d 65 6e 74}
+		$s12 = {55 73 69 6e 67 20 73 69 6c 65 6e 74 20 6d 6f 64 65 2c 20 69 66 20 79 6f 75 20 6f 6e 20 65 73 78 69 20 2d 20 73 74 6f 70 20 56 4d 73 20 6d 61 6e 75 61 6c 79}
+		$s13 = {72 61 6e 64 3a 20 74 72 79 20 74 6f 20 72 65 61 64 20 25 68 75 20 62 75 74 20 67 65 74 20 25 6c 75 20 62 79 74 65 73}
+		$s14 = {52 65 76 69 78}
+		$s15 = {77 69 74 68 6f 75 74 20 2d 2d 70 61 74 68 20 65 6e 63 72 79 70 74 73 20 63 75 72 72 65 6e 74 20 64 69 72}
+		$e1 = {5b 25 73 5d 20 61 6c 72 65 61 64 79 20 65 6e 63 72 79 70 74 65 64}
+		$e2 = {46 69 6c 65 20 5b 25 73 5d 20 77 61 73 20 65 6e 63 72 79 70 74 65 64}
+		$e3 = {46 69 6c 65 20 5b 25 73 5d 20 77 61 73 20 4e 4f 54 20 65 6e 63 72 79 70 74 65 64}
+		$e4 = {45 6e 63 72 79 70 74 69 6e 67 20 5b 25 73 5d}
+
+	condition:
+		uint16( 0 ) == 0x457f and filesize < 300KB and ( 4 of ( $s* ) and 2 of ( $e* ) )
 }
+

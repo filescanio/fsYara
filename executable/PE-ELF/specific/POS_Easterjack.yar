@@ -1,19 +1,18 @@
-//source: https://github.com/Yara-Rules/rules/blob/master/malware/POS_Easterjack.yar
-/*
-    This Yara ruleset is under the GNU-GPLv2 license (http://www.gnu.org/licenses/gpl-2.0.html) and open to any user or organization, as
-    long as you use it under this license.
-*/
-rule easterjackpos {
-    meta:
-        author = "Brian Wallace @botnet_hunter"
-        author_email = "bwall@ballastsecurity.net"
-        date = "2014-09-02"
-        description = "Identify JackPOS"
-        score = 70
+rule easterjackpos : hardened
+{
+	meta:
+		author = "Brian Wallace @botnet_hunter"
+		author_email = "bwall@ballastsecurity.net"
+		date = "2014-09-02"
+		description = "Identify JackPOS"
+		score = 70
+
 	strings:
-	    $s1 = "updateinterval="
-        $s2 = "cardinterval="
-        $s3 = "{[!17!]}{[!18!]}"
-    condition:
-        all of them
+		$s1 = {75 70 64 61 74 65 69 6e 74 65 72 76 61 6c 3d}
+		$s2 = {63 61 72 64 69 6e 74 65 72 76 61 6c 3d}
+		$s3 = {7b 5b 21 31 37 21 5d 7d 7b 5b 21 31 38 21 5d 7d}
+
+	condition:
+		all of them
 }
+

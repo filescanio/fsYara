@@ -1,5 +1,4 @@
-// source: https://github.com/Yara-Rules/rules/blob/0f93570194a80d2f2032869055808b0ddcdfb360/malware/RANSOM_Erebus.yar#L4
-rule Erebus: ransom
+rule Erebus : ransom hardened
 {
 	meta:
 		description = "Erebus Ransomware"
@@ -10,9 +9,12 @@ rule Erebus: ransom
 		SHA256 = "0b7996bca486575be15e68dba7cbd802b1e5f90436ba23f802da66292c8a055f"
 		ref1 = "http://blog.trendmicro.com/trendlabs-security-intelligence/erebus-resurfaces-as-linux-ransomware/"
 		score = 75
+
 	strings:
-		$a = "/{5f58d6f0-bb9c-46e2-a4da-8ebc746f24a5}//log.log"
-		$b = "EREBUS IS BEST."
+		$a = {2f 7b 35 66 35 38 64 36 66 30 2d 62 62 39 63 2d 34 36 65 32 2d 61 34 64 61 2d 38 65 62 63 37 34 36 66 32 34 61 35 7d 2f 2f 6c 6f 67 2e 6c 6f 67}
+		$b = {45 52 45 42 55 53 20 49 53 20 42 45 53 54 2e}
+
 	condition:
 		all of them
 }
+

@@ -1,44 +1,46 @@
-// source: https://github.com/jeFF0Falltrades/rat_king_parser/blob/master/src/rat_king_parser/yara_utils/rules.yar
-// source: https://github.com/RussianPanda95/Yara-Rules/blob/main/XWorm/win_mal_XWorm.yar
+rule win_mal_XWorm : hardened
+{
+	meta:
+		author = "RussianPanda"
+		description = "Detects XWorm RAT"
+		vetted_family = "xworm"
+		score = 75
+		date = "3/11/2024"
+		hash = "fc422800144383ef6e2e0eee37e7d6ba"
 
-rule win_mal_XWorm {
-    meta:
-        author = "RussianPanda"
-        description = "Detects XWorm RAT"
-        vetted_family = "xworm"
-        score = 75
-        date = "3/11/2024"
-        hash = "fc422800144383ef6e2e0eee37e7d6ba"
-    strings:
-        $s1 = {4D 00 6F 00 64 00 69 00 66 00 69 00 65 00 64 00 20 00 73 00 75 00 63 00 63 00 65 00 73 00 73 00 66 00 75 00 6C 00 6C 00 79 00 21}
-        $s2 = {50 00 6C 00 75 00 67 00 69 00 6E 00 73 00 20 00 52 00 65 00 6D 00 6F 00 76 00 65 00 64 00 21}
-        $s3 = {73 00 65 00 6E 00 64 00 50 00 6C 00 75 00 67 00 69 00 6E}
-        $s4 = {4D 00 6F 00 64 00 69 00 66 00 69 00 65 00 64 00 20 00 73 00 75 00 63 00 63 00 65 00 73 00 73 00 66 00 75 00 6C 00 6C 00 79 00 21}
-        $s5 = "_CorExeMain"
-    condition:
-        uint16(0) == 0x5A4D and all of them
+	strings:
+		$s1 = {4D 00 6F 00 64 00 69 00 66 00 69 00 65 00 64 00 20 00 73 00 75 00 63 00 63 00 65 00 73 00 73 00 66 00 75 00 6C 00 6C 00 79 00 21}
+		$s2 = {50 00 6C 00 75 00 67 00 69 00 6E 00 73 00 20 00 52 00 65 00 6D 00 6F 00 76 00 65 00 64 00 21}
+		$s3 = {73 00 65 00 6E 00 64 00 50 00 6C 00 75 00 67 00 69 00 6E}
+		$s4 = {4D 00 6F 00 64 00 69 00 66 00 69 00 65 00 64 00 20 00 73 00 75 00 63 00 63 00 65 00 73 00 73 00 66 00 75 00 6C 00 6C 00 79 00 21}
+		$s5 = {5f 43 6f 72 45 78 65 4d 61 69 6e}
+
+	condition:
+		uint16( 0 ) == 0x5A4D and all of them
 }
 
+rule xworm : refined hardened limited
+{
+	meta:
+		author = "jeFF0Falltrades"
+		vetted_family = "xworm"
+		score = 75
 
-rule xworm : refined {
-    meta:
-        author = "jeFF0Falltrades"
-        vetted_family = "xworm"
-        score = 75
-    strings:
-        $str_xworm = "xworm" wide ascii nocase
-        $str_xwormmm = "Xwormmm" wide ascii
-        $str_xclient = "XClient" wide ascii
-        $str_xlogger = "XLogger" wide ascii
-        $str_xchat = "Xchat" wide ascii
-        $str_default_log = "\\Log.tmp" wide ascii
-        $str_create_proc = "/create /f /RL HIGHEST /sc minute /mo 1 /t" wide ascii 
-        $str_ddos_start = "StartDDos" wide ascii 
-        $str_ddos_stop = "StopDDos" wide ascii
-        $str_timeout = "timeout 3 > NUL" wide ascii
-        $byte_md5_hash = { 7e [3] 04 28 [3] 06 6f }
-        $patt_config = { 72 [3] 70 80 [3] 04 }
+	strings:
+		$str_xworm = {((78 77 6f 72 6d) | (78 00 77 00 6f 00 72 00 6d 00))}
+		$str_xwormmm = {((58 77 6f 72 6d 6d 6d) | (58 00 77 00 6f 00 72 00 6d 00 6d 00 6d 00))}
+		$str_xclient = {((58 43 6c 69 65 6e 74) | (58 00 43 00 6c 00 69 00 65 00 6e 00 74 00))}
+		$str_xlogger = {((58 4c 6f 67 67 65 72) | (58 00 4c 00 6f 00 67 00 67 00 65 00 72 00))}
+		$str_xchat = {((58 63 68 61 74) | (58 00 63 00 68 00 61 00 74 00))}
+		$str_default_log = {((5c 4c 6f 67 2e 74 6d 70) | (5c 00 4c 00 6f 00 67 00 2e 00 74 00 6d 00 70 00))}
+		$str_create_proc = {((2f 63 72 65 61 74 65 20 2f 66 20 2f 52 4c 20 48 49 47 48 45 53 54 20 2f 73 63 20 6d 69 6e 75 74 65 20 2f 6d 6f 20 31 20 2f 74) | (2f 00 63 00 72 00 65 00 61 00 74 00 65 00 20 00 2f 00 66 00 20 00 2f 00 52 00 4c 00 20 00 48 00 49 00 47 00 48 00 45 00 53 00 54 00 20 00 2f 00 73 00 63 00 20 00 6d 00 69 00 6e 00 75 00 74 00 65 00 20 00 2f 00 6d 00 6f 00 20 00 31 00 20 00 2f 00 74 00))}
+		$str_ddos_start = {((53 74 61 72 74 44 44 6f 73) | (53 00 74 00 61 00 72 00 74 00 44 00 44 00 6f 00 73 00))}
+		$str_ddos_stop = {((53 74 6f 70 44 44 6f 73) | (53 00 74 00 6f 00 70 00 44 00 44 00 6f 00 73 00))}
+		$str_timeout = {((74 69 6d 65 6f 75 74 20 33 20 3e 20 4e 55 4c) | (74 00 69 00 6d 00 65 00 6f 00 75 00 74 00 20 00 33 00 20 00 3e 00 20 00 4e 00 55 00 4c 00))}
+		$byte_md5_hash = { 7e [3] 04 28 [3] 06 6f }
+		$patt_config = { 72 [3] 70 80 [3] 04 }
 
-    condition:
-        uint16(0) == 0x5A4D and 5 of them and #patt_config >= 5
- }
+	condition:
+		uint16( 0 ) == 0x5A4D and 5 of them and #patt_config >= 5
+}
+

@@ -1,19 +1,19 @@
-// source: https://github.com/Neo23x0/signature-base/blob/master/yara/apt_ua_hermetic_wiper.yar
+rule APT_UA_Hermetic_Wiper_Feb22_1 : hardened
+{
+	meta:
+		description = "Detects Hermetic Wiper malware"
+		author = "Florian Roth (Nextron Systems)"
+		reference = "https://www.sentinelone.com/labs/hermetic-wiper-ukraine-under-attack/"
+		date = "2022-02-24"
+		score = 75
+		hash1 = "0385eeab00e946a302b24a91dea4187c1210597b8e17cd9e2230450f5ece21da"
+		hash2 = "3c557727953a8f6b4788984464fb77741b821991acbf5e746aebdd02615b1767"
+		hash3 = "2c10b2ec0b995b88c27d141d6f7b14d6b8177c52818687e4ff8e6ecf53adf5bf"
+		hash4 = "1bc44eef75779e3ca1eefb8ff5a64807dbc942b1e4a2672d77b9f6928d292591"
+		id = "2cbe4a69-e31a-5f5f-ab1a-9d71d16fb30f"
 
-rule APT_UA_Hermetic_Wiper_Feb22_1 {
-   meta:
-      description = "Detects Hermetic Wiper malware"
-      author = "Florian Roth (Nextron Systems)"
-      reference = "https://www.sentinelone.com/labs/hermetic-wiper-ukraine-under-attack/"
-      date = "2022-02-24"
-      score = 75
-      hash1 = "0385eeab00e946a302b24a91dea4187c1210597b8e17cd9e2230450f5ece21da"
-      hash2 = "3c557727953a8f6b4788984464fb77741b821991acbf5e746aebdd02615b1767"
-      hash3 = "2c10b2ec0b995b88c27d141d6f7b14d6b8177c52818687e4ff8e6ecf53adf5bf"
-      hash4 = "1bc44eef75779e3ca1eefb8ff5a64807dbc942b1e4a2672d77b9f6928d292591"
-      id = "2cbe4a69-e31a-5f5f-ab1a-9d71d16fb30f"
-   strings:
-      $xc1 = { 00 5C 00 5C 00 2E 00 5C 00 50 00 68 00 79 00 73
+	strings:
+		$xc1 = { 00 5C 00 5C 00 2E 00 5C 00 50 00 68 00 79 00 73
                00 69 00 63 00 61 00 6C 00 44 00 72 00 69 00 76
                00 65 00 25 00 75 00 00 00 5C 00 5C 00 2E 00 5C
                00 45 00 50 00 4D 00 4E 00 54 00 44 00 52 00 56
@@ -22,68 +22,66 @@ rule APT_UA_Hermetic_Wiper_Feb22_1 {
                00 00 00 00 00 24 00 42 00 69 00 74 00 6D 00 61
                00 70 00 00 00 24 00 4C 00 6F 00 67 00 46 00 69
                00 6C 00 65 }
-      $sc1 = { 00 44 00 72 00 69 00 76 00 65 00 72 00 73 00 00
+		$sc1 = { 00 44 00 72 00 69 00 76 00 65 00 72 00 73 00 00
                00 64 00 72 00 76 00 00 00 53 00 79 00 73 00 74
                00 65 00 6D 00 33 00 32 }
+		$s1 = {5c 00 5c 00 3f 00 5c 00 43 00 3a 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 5c 00 53 00 79 00 73 00 74 00 65 00 6d 00 33 00 32 00 5c 00 77 00 69 00 6e 00 65 00 76 00 74 00 5c 00 4c 00 6f 00 67 00 73 00}
+		$s2 = {5c 00 5c 00 2e 00 5c 00 45 00 50 00 4d 00 4e 00 54 00 44 00 52 00 56 00 5c 00 25 00 75 00}
+		$s3 = {44 00 52 00 56 00 5f 00 58 00 50 00 5f 00 58 00 36 00 34 00}
+		$s4 = {25 00 77 00 73 00 25 00 2e 00 32 00 77 00 73 00}
+		$op1 = { 8b 7e 08 0f 57 c0 8b 46 0c 83 ef 01 66 0f 13 44 24 20 83 d8 00 89 44 24 18 0f 88 3b 01 00 00 }
+		$op2 = { 13 fa 8b 55 f4 4e 3b f3 7f e6 8a 45 0f 01 4d f0 0f 57 c0 }
 
-      $s1 = "\\\\?\\C:\\Windows\\System32\\winevt\\Logs" wide fullword
-      $s2 = "\\\\.\\EPMNTDRV\\%u" wide fullword
-      $s3 = "DRV_XP_X64" wide fullword
-      $s4 = "%ws%.2ws" wide fullword
-
-      $op1 = { 8b 7e 08 0f 57 c0 8b 46 0c 83 ef 01 66 0f 13 44 24 20 83 d8 00 89 44 24 18 0f 88 3b 01 00 00 }
-      $op2 = { 13 fa 8b 55 f4 4e 3b f3 7f e6 8a 45 0f 01 4d f0 0f 57 c0 }
-   condition:
-      ( uint16(0) == 0x5a53 or uint16(0) == 0x5a4d ) and
-      filesize < 400KB and ( 1 of ($x*) or 3 of them )
+	condition:
+		( uint16( 0 ) == 0x5a53 or uint16( 0 ) == 0x5a4d ) and filesize < 400KB and ( 1 of ( $x* ) or 3 of them )
 }
 
-rule APT_UA_Hermetic_Wiper_Artefacts_Feb22_1 {
-   meta:
-      description = "Detects artefacts found in Hermetic Wiper malware related intrusions"
-      author = "Florian Roth (Nextron Systems)"
-      reference = "https://symantec-enterprise-blogs.security.com/blogs/threat-intelligence/ukraine-wiper-malware-russia"
-      date = "2022-02-25"
-      score = 75
-      id = "77f793c1-b02c-59c3-b3e4-75758f5b3b8d"
-   strings:
-      $sx1 = "/c powershell -c \"rundll32 C:\\windows\\system32\\comsvcs.dll MiniDump" ascii wide
-      $sx2 = "appdata\\local\\microsoft\\windows\\winupd.log" ascii wide
-      $sx3 = "AppData\\Local\\Microsoft\\Windows\\Winupd.log" ascii wide
-      $sx4 = "CSIDL_SYSTEM_DRIVE\\temp\\sys.tmp1" ascii wide
-      $sx5 = "\\policydefinitions\\postgresql.exe" ascii wide
+rule APT_UA_Hermetic_Wiper_Artefacts_Feb22_1 : hardened
+{
+	meta:
+		description = "Detects artefacts found in Hermetic Wiper malware related intrusions"
+		author = "Florian Roth (Nextron Systems)"
+		reference = "https://symantec-enterprise-blogs.security.com/blogs/threat-intelligence/ukraine-wiper-malware-russia"
+		date = "2022-02-25"
+		score = 75
+		id = "77f793c1-b02c-59c3-b3e4-75758f5b3b8d"
 
-      $sx6 = "powershell -v 2 -exec bypass -File text.ps1" ascii wide
-      $sx7 = "powershell -exec bypass gp.ps1" ascii wide
-      $sx8 = "powershell -exec bypass -File link.ps1" ascii wide
+	strings:
+		$sx1 = {((2f 63 20 70 6f 77 65 72 73 68 65 6c 6c 20 2d 63 20 22 72 75 6e 64 6c 6c 33 32 20 43 3a 5c 77 69 6e 64 6f 77 73 5c 73 79 73 74 65 6d 33 32 5c 63 6f 6d 73 76 63 73 2e 64 6c 6c 20 4d 69 6e 69 44 75 6d 70) | (2f 00 63 00 20 00 70 00 6f 00 77 00 65 00 72 00 73 00 68 00 65 00 6c 00 6c 00 20 00 2d 00 63 00 20 00 22 00 72 00 75 00 6e 00 64 00 6c 00 6c 00 33 00 32 00 20 00 43 00 3a 00 5c 00 77 00 69 00 6e 00 64 00 6f 00 77 00 73 00 5c 00 73 00 79 00 73 00 74 00 65 00 6d 00 33 00 32 00 5c 00 63 00 6f 00 6d 00 73 00 76 00 63 00 73 00 2e 00 64 00 6c 00 6c 00 20 00 4d 00 69 00 6e 00 69 00 44 00 75 00 6d 00 70 00))}
+		$sx2 = {((61 70 70 64 61 74 61 5c 6c 6f 63 61 6c 5c 6d 69 63 72 6f 73 6f 66 74 5c 77 69 6e 64 6f 77 73 5c 77 69 6e 75 70 64 2e 6c 6f 67) | (61 00 70 00 70 00 64 00 61 00 74 00 61 00 5c 00 6c 00 6f 00 63 00 61 00 6c 00 5c 00 6d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 5c 00 77 00 69 00 6e 00 64 00 6f 00 77 00 73 00 5c 00 77 00 69 00 6e 00 75 00 70 00 64 00 2e 00 6c 00 6f 00 67 00))}
+		$sx3 = {((41 70 70 44 61 74 61 5c 4c 6f 63 61 6c 5c 4d 69 63 72 6f 73 6f 66 74 5c 57 69 6e 64 6f 77 73 5c 57 69 6e 75 70 64 2e 6c 6f 67) | (41 00 70 00 70 00 44 00 61 00 74 00 61 00 5c 00 4c 00 6f 00 63 00 61 00 6c 00 5c 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 5c 00 57 00 69 00 6e 00 75 00 70 00 64 00 2e 00 6c 00 6f 00 67 00))}
+		$sx4 = {((43 53 49 44 4c 5f 53 59 53 54 45 4d 5f 44 52 49 56 45 5c 74 65 6d 70 5c 73 79 73 2e 74 6d 70 31) | (43 00 53 00 49 00 44 00 4c 00 5f 00 53 00 59 00 53 00 54 00 45 00 4d 00 5f 00 44 00 52 00 49 00 56 00 45 00 5c 00 74 00 65 00 6d 00 70 00 5c 00 73 00 79 00 73 00 2e 00 74 00 6d 00 70 00 31 00))}
+		$sx5 = {((5c 70 6f 6c 69 63 79 64 65 66 69 6e 69 74 69 6f 6e 73 5c 70 6f 73 74 67 72 65 73 71 6c 2e 65 78 65) | (5c 00 70 00 6f 00 6c 00 69 00 63 00 79 00 64 00 65 00 66 00 69 00 6e 00 69 00 74 00 69 00 6f 00 6e 00 73 00 5c 00 70 00 6f 00 73 00 74 00 67 00 72 00 65 00 73 00 71 00 6c 00 2e 00 65 00 78 00 65 00))}
+		$sx6 = {((70 6f 77 65 72 73 68 65 6c 6c 20 2d 76 20 32 20 2d 65 78 65 63 20 62 79 70 61 73 73 20 2d 46 69 6c 65 20 74 65 78 74 2e 70 73 31) | (70 00 6f 00 77 00 65 00 72 00 73 00 68 00 65 00 6c 00 6c 00 20 00 2d 00 76 00 20 00 32 00 20 00 2d 00 65 00 78 00 65 00 63 00 20 00 62 00 79 00 70 00 61 00 73 00 73 00 20 00 2d 00 46 00 69 00 6c 00 65 00 20 00 74 00 65 00 78 00 74 00 2e 00 70 00 73 00 31 00))}
+		$sx7 = {((70 6f 77 65 72 73 68 65 6c 6c 20 2d 65 78 65 63 20 62 79 70 61 73 73 20 67 70 2e 70 73 31) | (70 00 6f 00 77 00 65 00 72 00 73 00 68 00 65 00 6c 00 6c 00 20 00 2d 00 65 00 78 00 65 00 63 00 20 00 62 00 79 00 70 00 61 00 73 00 73 00 20 00 67 00 70 00 2e 00 70 00 73 00 31 00))}
+		$sx8 = {((70 6f 77 65 72 73 68 65 6c 6c 20 2d 65 78 65 63 20 62 79 70 61 73 73 20 2d 46 69 6c 65 20 6c 69 6e 6b 2e 70 73 31) | (70 00 6f 00 77 00 65 00 72 00 73 00 68 00 65 00 6c 00 6c 00 20 00 2d 00 65 00 78 00 65 00 63 00 20 00 62 00 79 00 70 00 61 00 73 00 73 00 20 00 2d 00 46 00 69 00 6c 00 65 00 20 00 6c 00 69 00 6e 00 6b 00 2e 00 70 00 73 00 31 00))}
+		$sx9 = {((20 31 3e 20 5c 5c 31 32 37 2e 30 2e 30 2e 31 5c 41 44 4d 49 4e 24 5c 5f 5f 31 36) | (20 00 31 00 3e 00 20 00 5c 00 5c 00 31 00 32 00 37 00 2e 00 30 00 2e 00 30 00 2e 00 31 00 5c 00 41 00 44 00 4d 00 49 00 4e 00 24 00 5c 00 5f 00 5f 00 31 00 36 00))}
+		$sa1 = {((28 4e 65 77 2d 4f 62 6a 65 63 74 20 53 79 73 74 65 6d 2e 4e 65 74 2e 57 65 62 43 6c 69 65 6e 74 29 2e 44 6f 77 6e 6c 6f 61 64 46 69 6c 65 28) | (28 00 4e 00 65 00 77 00 2d 00 4f 00 62 00 6a 00 65 00 63 00 74 00 20 00 53 00 79 00 73 00 74 00 65 00 6d 00 2e 00 4e 00 65 00 74 00 2e 00 57 00 65 00 62 00 43 00 6c 00 69 00 65 00 6e 00 74 00 29 00 2e 00 44 00 6f 00 77 00 6e 00 6c 00 6f 00 61 00 64 00 46 00 69 00 6c 00 65 00 28 00))}
+		$sa2 = {((43 53 49 44 4c 5f 53 59 53 54 45 4d 5f 44 52 49 56 45 5c 74 65 6d 70 5c) | (43 00 53 00 49 00 44 00 4c 00 5f 00 53 00 59 00 53 00 54 00 45 00 4d 00 5f 00 44 00 52 00 49 00 56 00 45 00 5c 00 74 00 65 00 6d 00 70 00 5c 00))}
+		$sa3 = {((31 3e 20 5c 5c 31 32 37 2e 30 2e 30 2e 31 5c 41 44 4d 49 4e 24) | (31 00 3e 00 20 00 5c 00 5c 00 31 00 32 00 37 00 2e 00 30 00 2e 00 30 00 2e 00 31 00 5c 00 41 00 44 00 4d 00 49 00 4e 00 24 00))}
+		$fp1 = {3c 68 74 6d 6c}
 
-      /* 16 is the prefix of an epoch timestamp that shouldn't change until the 14th of November 2023 */
-      $sx9 = " 1> \\\\127.0.0.1\\ADMIN$\\__16" ascii wide
-      
-      $sa1 = "(New-Object System.Net.WebClient).DownloadFile(" ascii wide
-      $sa2 = "CSIDL_SYSTEM_DRIVE\\temp\\" ascii wide
-      $sa3 = "1> \\\\127.0.0.1\\ADMIN$" ascii wide
-
-      $fp1 = "<html" ascii
-   condition:
-      1 of ($sx*) or all of ($sa*)
-      and not 1 of ($fp*)
+	condition:
+		1 of ( $sx* ) or all of ( $sa* ) and not 1 of ( $fp* )
 }
 
-rule APT_UA_Hermetic_Wiper_Scheduled_Task_Feb22_1 {
-   meta:
-      description = "Detects scheduled task pattern found in Hermetic Wiper malware related intrusions"
-      author = "Florian Roth (Nextron Systems)"
-      reference = "https://symantec-enterprise-blogs.security.com/blogs/threat-intelligence/ukraine-wiper-malware-russia"
-      date = "2022-02-25"
-      score = 85
-      id = "a628f773-9c71-5979-a4db-37b6b6bd6a56"
-   strings:
-      $a0 = "<Task version=" ascii wide
+rule APT_UA_Hermetic_Wiper_Scheduled_Task_Feb22_1 : hardened
+{
+	meta:
+		description = "Detects scheduled task pattern found in Hermetic Wiper malware related intrusions"
+		author = "Florian Roth (Nextron Systems)"
+		reference = "https://symantec-enterprise-blogs.security.com/blogs/threat-intelligence/ukraine-wiper-malware-russia"
+		date = "2022-02-25"
+		score = 85
+		id = "a628f773-9c71-5979-a4db-37b6b6bd6a56"
 
-      $sa1 = "CSIDL_SYSTEM_DRIVE\\temp" ascii wide
-      $sa2 = "postgresql.exe 1> \\\\127.0.0.1\\ADMIN$" ascii wide
-      $sa3 = "cmd.exe /Q /c move CSIDL_SYSTEM_DRIVE" ascii wide
-   condition:
-      $a0 and 1 of ($s*)
+	strings:
+		$a0 = {((3c 54 61 73 6b 20 76 65 72 73 69 6f 6e 3d) | (3c 00 54 00 61 00 73 00 6b 00 20 00 76 00 65 00 72 00 73 00 69 00 6f 00 6e 00 3d 00))}
+		$sa1 = {((43 53 49 44 4c 5f 53 59 53 54 45 4d 5f 44 52 49 56 45 5c 74 65 6d 70) | (43 00 53 00 49 00 44 00 4c 00 5f 00 53 00 59 00 53 00 54 00 45 00 4d 00 5f 00 44 00 52 00 49 00 56 00 45 00 5c 00 74 00 65 00 6d 00 70 00))}
+		$sa2 = {((70 6f 73 74 67 72 65 73 71 6c 2e 65 78 65 20 31 3e 20 5c 5c 31 32 37 2e 30 2e 30 2e 31 5c 41 44 4d 49 4e 24) | (70 00 6f 00 73 00 74 00 67 00 72 00 65 00 73 00 71 00 6c 00 2e 00 65 00 78 00 65 00 20 00 31 00 3e 00 20 00 5c 00 5c 00 31 00 32 00 37 00 2e 00 30 00 2e 00 30 00 2e 00 31 00 5c 00 41 00 44 00 4d 00 49 00 4e 00 24 00))}
+		$sa3 = {((63 6d 64 2e 65 78 65 20 2f 51 20 2f 63 20 6d 6f 76 65 20 43 53 49 44 4c 5f 53 59 53 54 45 4d 5f 44 52 49 56 45) | (63 00 6d 00 64 00 2e 00 65 00 78 00 65 00 20 00 2f 00 51 00 20 00 2f 00 63 00 20 00 6d 00 6f 00 76 00 65 00 20 00 43 00 53 00 49 00 44 00 4c 00 5f 00 53 00 59 00 53 00 54 00 45 00 4d 00 5f 00 44 00 52 00 49 00 56 00 45 00))}
+
+	condition:
+		$a0 and 1 of ( $s* )
 }
+

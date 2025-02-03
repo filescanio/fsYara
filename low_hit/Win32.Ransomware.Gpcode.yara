@@ -1,28 +1,24 @@
-rule Win32_Ransomware_GPCode : tc_detection malicious
+rule Win32_Ransomware_GPCode : tc_detection malicious hardened
 {
-    meta:
+	meta:
+		author = "ReversingLabs"
+		source = "ReversingLabs"
+		status = "RELEASED"
+		sharing = "TLP:WHITE"
+		category = "MALWARE"
+		malware = "GPCODE"
+		description = "Yara rule that detects Gpcode ransomware."
+		tc_detection_type = "Ransomware"
+		tc_detection_name = "GPCode"
+		tc_detection_factor = 5
 
-        author              = "ReversingLabs"
-
-        source              = "ReversingLabs"
-        status              = "RELEASED"
-        sharing             = "TLP:WHITE"
-        category            = "MALWARE"
-        malware             = "GPCODE"
-        description         = "Yara rule that detects Gpcode ransomware."
-
-        tc_detection_type   = "Ransomware"
-        tc_detection_name   = "GPCode"
-        tc_detection_factor = 5
-
-    strings:
-        $drive_loop = {
+	strings:
+		$drive_loop = {
             B9 19 00 00 00 BB 01 00 00 00 D3 E3 23 D8 74 ?? 80
             C1 ?? 88 0D ?? ?? ?? ?? 80 E9 ?? C7 05 ?? ?? ?? ??
             ?? ?? ?? ?? 50 51 E8 ?? ?? ?? ?? 59 58 49 7D 
         }
-
-        $encrypt_routine = {
+		$encrypt_routine = {
             FF 75 ?? FF 75 ?? E8 ?? ?? ?? ?? 83 F8 ?? 75 ?? [0-10] 
             E9 ?? ?? ?? ?? 6A ?? [1-10] FF 75 ?? FF 35 ?? ?? 
             ?? ?? FF 75 ?? E8 ?? ?? ?? ?? 0B C0 75 ?? E9 ?? 
@@ -32,8 +28,7 @@ rule Win32_Ransomware_GPCode : tc_detection malicious
             [2-10] FF 75 ?? FF 75 ?? E8 ?? ?? ?? ?? 83 F8 ?? 
             75 ?? [10-40] FF 35 ?? ?? ?? ?? FF 75 ?? E8
         }
-
-        $set_ransom_wallpaper = {
+		$set_ransom_wallpaper = {
              0F B6 05 ?? ?? ?? ?? 83 F8 01 0F 85 ?? ?? ?? ?? 
              B9 ?? ?? ?? ?? BF ?? ?? ?? ?? 51 57 [2-20] 5F 
              59 25 ?? ?? ?? ?? C1 E8 ?? 83 C0 ?? AA E2 ?? 33 
@@ -41,8 +36,7 @@ rule Win32_Ransomware_GPCode : tc_detection malicious
              ?? 68 ?? ?? ?? ?? 68 ?? ?? ?? ?? E8 ?? ?? ?? ?? 
              68 ?? ?? ?? ?? (E8 | FF 15)
         }
-
-        $read_config_file = {
+		$read_config_file = {
             55 8B EC 83 C4 ?? 68 ?? ?? ?? ?? 68 ?? ?? ?? ?? 6A 
             ?? E8 ?? ?? ?? ?? 6A ?? 68 ?? ?? ?? ?? 6A ?? E8 ?? 
             ?? ?? ?? 0B C0 75 04 33 C0 C9 C3 89 45 ?? 50 6A ?? 
@@ -56,12 +50,8 @@ rule Win32_Ransomware_GPCode : tc_detection malicious
             45 ?? 83 E8 ?? 50 53 E8 ?? ?? ?? ?? 8A 03 A2 ?? ?? 
             ?? ?? 83 C3 ?? 8A 03 A2 ?? ?? ?? ?? 83 C3 
         }
-    
-    condition:
-        uint16(0) == 0x5A4D and
-        ($drive_loop and 
-        $encrypt_routine and 
-        $set_ransom_wallpaper and 
-        $read_config_file)
 
+	condition:
+		uint16( 0 ) == 0x5A4D and ( $drive_loop and $encrypt_routine and $set_ransom_wallpaper and $read_config_file )
 }
+

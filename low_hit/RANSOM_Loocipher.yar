@@ -1,46 +1,40 @@
-rule loocipher_ransomware {
+rule loocipher_ransomware : hardened
+{
+	meta:
+		description = "Rule to detect Loocipher ransomware"
+		author = "Marc Rivero | McAfee ATR Team"
+		date = "2019-12-05"
+		rule_version = "v1"
+		malware_type = "ransomware"
+		malware_family = "Ransom:W32/Loocipher"
+		actor_type = "Cybercrime"
+		actor_group = "Unknown"
+		reference = "https://www.mcafee.com/blogs/other-blogs/mcafee-labs/analysis-of-loocipher-a-new-ransomware-family-observed-this-year/"
+		hash = "7720aa6eb206e589493e440fec8690ceef9e70b5e6712a9fec9208c03cac7ff0"
 
-   meta:
+	strings:
+		$x1 = {63 3a 5c 75 73 65 72 73 5c 75 73 75 61 72 69 6f 5c 64 65 73 6b 74 6f 70 5c 63 72 79 70 74 6f 6c 69 62 5c 67 66 70 63 72 79 70 74 2e 68}
+		$x2 = {63 3a 5c 75 73 65 72 73 5c 75 73 75 61 72 69 6f 5c 64 65 73 6b 74 6f 70 5c 63 72 79 70 74 6f 6c 69 62 5c 65 63 63 72 79 70 74 6f 2e 68}
+		$s3 = {63 3a 5c 75 73 65 72 73 5c 75 73 75 61 72 69 6f 5c 64 65 73 6b 74 6f 70 5c 63 72 79 70 74 6f 6c 69 62 5c 67 66 32 6e 2e 68}
+		$s4 = {63 3a 5c 75 73 65 72 73 5c 75 73 75 61 72 69 6f 5c 64 65 73 6b 74 6f 70 5c 63 72 79 70 74 6f 6c 69 62 5c 71 75 65 75 65 2e 68}
+		$s5 = {54 68 72 65 61 64 55 73 65 72 54 69 6d 65 72 3a 20 47 65 74 54 68 72 65 61 64 54 69 6d 65 73 20 66 61 69 6c 65 64 20 77 69 74 68 20 65 72 72 6f 72 20}
+		$s6 = {73 00 74 00 64 00 3a 00 3a 00 5f 00 56 00 65 00 63 00 74 00 6f 00 72 00 5f 00 63 00 6f 00 6e 00 73 00 74 00 5f 00 69 00 74 00 65 00 72 00 61 00 74 00 6f 00 72 00 3c 00 63 00 6c 00 61 00 73 00 73 00 20 00 73 00 74 00 64 00 3a 00 3a 00 5f 00 56 00 65 00 63 00 74 00 6f 00 72 00 5f 00 76 00 61 00 6c 00 3c 00 73 00 74 00 72 00 75 00 63 00 74 00 20 00 73 00 74 00 64 00 3a 00 3a 00 5f 00 53 00 69 00 6d 00 70 00 6c 00 65 00 5f 00 74 00 79 00 70 00 65 00 73 00 3c 00 73 00 74 00 72 00 75 00 63 00 74 00 20 00 43 00 72 00 79 00 70 00 74 00 6f 00 50 00 50 00 3a 00 3a 00 50 00 72 00 6f 00 6a 00 65 00 63 00 74 00 69 00 76 00 65 00 50 00 6f 00 69 00 6e 00 74 00 3e 00 20 00 3e 00 20 00 3e 00 3a 00 3a 00 6f 00 70 00 65 00 72 00 61 00 74 00 6f 00 72 00 20 00 2a 00}
+		$s7 = {73 00 74 00 64 00 3a 00 3a 00 5f 00 56 00 65 00 63 00 74 00 6f 00 72 00 5f 00 63 00 6f 00 6e 00 73 00 74 00 5f 00 69 00 74 00 65 00 72 00 61 00 74 00 6f 00 72 00 3c 00 63 00 6c 00 61 00 73 00 73 00 20 00 73 00 74 00 64 00 3a 00 3a 00 5f 00 56 00 65 00 63 00 74 00 6f 00 72 00 5f 00 76 00 61 00 6c 00 3c 00 73 00 74 00 72 00 75 00 63 00 74 00 20 00 73 00 74 00 64 00 3a 00 3a 00 5f 00 53 00 69 00 6d 00 70 00 6c 00 65 00 5f 00 74 00 79 00 70 00 65 00 73 00 3c 00 73 00 74 00 72 00 75 00 63 00 74 00 20 00 43 00 72 00 79 00 70 00 74 00 6f 00 50 00 50 00 3a 00 3a 00 50 00 72 00 6f 00 6a 00 65 00 63 00 74 00 69 00 76 00 65 00 50 00 6f 00 69 00 6e 00 74 00 3e 00 20 00 3e 00 20 00 3e 00 3a 00 3a 00 6f 00 70 00 65 00 72 00 61 00 74 00 6f 00 72 00 20 00 2b 00 3d 00}
+		$s8 = {73 00 74 00 64 00 3a 00 3a 00 62 00 61 00 73 00 69 00 63 00 5f 00 73 00 74 00 72 00 69 00 6e 00 67 00 3c 00 75 00 6e 00 73 00 69 00 67 00 6e 00 65 00 64 00 20 00 73 00 68 00 6f 00 72 00 74 00 2c 00 73 00 74 00 72 00 75 00 63 00 74 00 20 00 73 00 74 00 64 00 3a 00 3a 00 63 00 68 00 61 00 72 00 5f 00 74 00 72 00 61 00 69 00 74 00 73 00 3c 00 75 00 6e 00 73 00 69 00 67 00 6e 00 65 00 64 00 20 00 73 00 68 00 6f 00 72 00 74 00 3e 00 2c 00 63 00 6c 00 61 00 73 00 73 00 20 00 73 00 74 00 64 00 3a 00 3a 00 61 00 6c 00 6c 00 6f 00 63 00 61 00 74 00 6f 00 72 00 3c 00 75 00 6e 00 73 00 69 00 67 00 6e 00 65 00 64 00 20 00 73 00 68 00 6f 00 72 00 74 00 3e 00 20 00 3e 00 3a 00 3a 00 6f 00 70 00 65 00 72 00 61 00 74 00 6f 00 72 00 20 00 5b 00 5d 00}
+		$s9 = {73 00 74 00 64 00 3a 00 3a 00 76 00 65 00 63 00 74 00 6f 00 72 00 3c 00 73 00 74 00 72 00 75 00 63 00 74 00 20 00 43 00 72 00 79 00 70 00 74 00 6f 00 50 00 50 00 3a 00 3a 00 50 00 72 00 6f 00 6a 00 65 00 63 00 74 00 69 00 76 00 65 00 50 00 6f 00 69 00 6e 00 74 00 2c 00 63 00 6c 00 61 00 73 00 73 00 20 00 73 00 74 00 64 00 3a 00 3a 00 61 00 6c 00 6c 00 6f 00 63 00 61 00 74 00 6f 00 72 00 3c 00 73 00 74 00 72 00 75 00 63 00 74 00 20 00 43 00 72 00 79 00 70 00 74 00 6f 00 50 00 50 00 3a 00 3a 00 50 00 72 00 6f 00 6a 00 65 00 63 00 74 00 69 00 76 00 65 00 50 00 6f 00 69 00 6e 00 74 00 3e 00 20 00 3e 00 3a 00 3a 00 6f 00 70 00 65 00 72 00 61 00 74 00 6f 00 72 00 20 00 5b 00 5d 00}
+		$s10 = {73 00 74 00 64 00 3a 00 3a 00 5f 00 56 00 65 00 63 00 74 00 6f 00 72 00 5f 00 63 00 6f 00 6e 00 73 00 74 00 5f 00 69 00 74 00 65 00 72 00 61 00 74 00 6f 00 72 00 3c 00 63 00 6c 00 61 00 73 00 73 00 20 00 73 00 74 00 64 00 3a 00 3a 00 5f 00 56 00 65 00 63 00 74 00 6f 00 72 00 5f 00 76 00 61 00 6c 00 3c 00 73 00 74 00 72 00 75 00 63 00 74 00 20 00 73 00 74 00 64 00 3a 00 3a 00 5f 00 53 00 69 00 6d 00 70 00 6c 00 65 00 5f 00 74 00 79 00 70 00 65 00 73 00 3c 00 63 00 6c 00 61 00 73 00 73 00 20 00 43 00 72 00 79 00 70 00 74 00 6f 00 50 00 50 00 3a 00 3a 00 49 00 6e 00 74 00 65 00 67 00 65 00 72 00 3e 00 20 00 3e 00 20 00 3e 00 3a 00 3a 00 6f 00 70 00 65 00 72 00 61 00 74 00 6f 00 72 00 20 00 2a 00}
+		$s11 = {73 00 74 00 64 00 3a 00 3a 00 5f 00 56 00 65 00 63 00 74 00 6f 00 72 00 5f 00 63 00 6f 00 6e 00 73 00 74 00 5f 00 69 00 74 00 65 00 72 00 61 00 74 00 6f 00 72 00 3c 00 63 00 6c 00 61 00 73 00 73 00 20 00 73 00 74 00 64 00 3a 00 3a 00 5f 00 56 00 65 00 63 00 74 00 6f 00 72 00 5f 00 76 00 61 00 6c 00 3c 00 73 00 74 00 72 00 75 00 63 00 74 00 20 00 73 00 74 00 64 00 3a 00 3a 00 5f 00 53 00 69 00 6d 00 70 00 6c 00 65 00 5f 00 74 00 79 00 70 00 65 00 73 00 3c 00 63 00 6c 00 61 00 73 00 73 00 20 00 43 00 72 00 79 00 70 00 74 00 6f 00 50 00 50 00 3a 00 3a 00 49 00 6e 00 74 00 65 00 67 00 65 00 72 00 3e 00 20 00 3e 00 20 00 3e 00 3a 00 3a 00 6f 00 70 00 65 00 72 00 61 00 74 00 6f 00 72 00 20 00 2b 00 3d 00}
+		$s12 = {73 00 74 00 64 00 3a 00 3a 00 76 00 65 00 63 00 74 00 6f 00 72 00 3c 00 73 00 74 00 72 00 75 00 63 00 74 00 20 00 43 00 72 00 79 00 70 00 74 00 6f 00 50 00 50 00 3a 00 3a 00 57 00 69 00 6e 00 64 00 6f 00 77 00 53 00 6c 00 69 00 64 00 65 00 72 00 2c 00 63 00 6c 00 61 00 73 00 73 00 20 00 73 00 74 00 64 00 3a 00 3a 00 61 00 6c 00 6c 00 6f 00 63 00 61 00 74 00 6f 00 72 00 3c 00 73 00 74 00 72 00 75 00 63 00 74 00 20 00 43 00 72 00 79 00 70 00 74 00 6f 00 50 00 50 00 3a 00 3a 00 57 00 69 00 6e 00 64 00 6f 00 77 00 53 00 6c 00 69 00 64 00 65 00 72 00 3e 00 20 00 3e 00 3a 00 3a 00 6f 00 70 00 65 00 72 00 61 00 74 00 6f 00 72 00 20 00 5b 00 5d 00}
+		$s13 = {73 00 74 00 64 00 3a 00 3a 00 69 00 73 00 74 00 72 00 65 00 61 00 6d 00 62 00 75 00 66 00 5f 00 69 00 74 00 65 00 72 00 61 00 74 00 6f 00 72 00 3c 00 63 00 68 00 61 00 72 00 2c 00 73 00 74 00 72 00 75 00 63 00 74 00 20 00 73 00 74 00 64 00 3a 00 3a 00 63 00 68 00 61 00 72 00 5f 00 74 00 72 00 61 00 69 00 74 00 73 00 3c 00 63 00 68 00 61 00 72 00 3e 00 20 00 3e 00 3a 00 3a 00 6f 00 70 00 65 00 72 00 61 00 74 00 6f 00 72 00 20 00 2b 00 2b 00}
+		$s14 = {73 00 74 00 64 00 3a 00 3a 00 69 00 73 00 74 00 72 00 65 00 61 00 6d 00 62 00 75 00 66 00 5f 00 69 00 74 00 65 00 72 00 61 00 74 00 6f 00 72 00 3c 00 63 00 68 00 61 00 72 00 2c 00 73 00 74 00 72 00 75 00 63 00 74 00 20 00 73 00 74 00 64 00 3a 00 3a 00 63 00 68 00 61 00 72 00 5f 00 74 00 72 00 61 00 69 00 74 00 73 00 3c 00 63 00 68 00 61 00 72 00 3e 00 20 00 3e 00 3a 00 3a 00 6f 00 70 00 65 00 72 00 61 00 74 00 6f 00 72 00 20 00 2a 00}
+		$s15 = {73 00 74 00 64 00 3a 00 3a 00 5f 00 56 00 65 00 63 00 74 00 6f 00 72 00 5f 00 63 00 6f 00 6e 00 73 00 74 00 5f 00 69 00 74 00 65 00 72 00 61 00 74 00 6f 00 72 00 3c 00 63 00 6c 00 61 00 73 00 73 00 20 00 73 00 74 00 64 00 3a 00 3a 00 5f 00 56 00 65 00 63 00 74 00 6f 00 72 00 5f 00 76 00 61 00 6c 00 3c 00 73 00 74 00 72 00 75 00 63 00 74 00 20 00 73 00 74 00 64 00 3a 00 3a 00 5f 00 53 00 69 00 6d 00 70 00 6c 00 65 00 5f 00 74 00 79 00 70 00 65 00 73 00 3c 00 73 00 74 00 72 00 75 00 63 00 74 00 20 00 43 00 72 00 79 00 70 00 74 00 6f 00 50 00 50 00 3a 00 3a 00 50 00 72 00 6f 00 6a 00 65 00 63 00 74 00 69 00 76 00 65 00 50 00 6f 00 69 00 6e 00 74 00 3e 00 20 00 3e 00 20 00 3e 00 3a 00 3a 00 5f 00 43 00 6f 00 6d 00 70 00 61 00 74 00}
+		$s16 = {73 00 74 00 64 00 3a 00 3a 00 76 00 65 00 63 00 74 00 6f 00 72 00 3c 00 63 00 6c 00 61 00 73 00 73 00 20 00 43 00 72 00 79 00 70 00 74 00 6f 00 50 00 50 00 3a 00 3a 00 50 00 6f 00 6c 00 79 00 6e 00 6f 00 6d 00 69 00 61 00 6c 00 4d 00 6f 00 64 00 32 00 2c 00 63 00 6c 00 61 00 73 00 73 00 20 00 73 00 74 00 64 00 3a 00 3a 00 61 00 6c 00 6c 00 6f 00 63 00 61 00 74 00 6f 00 72 00 3c 00 63 00 6c 00 61 00 73 00 73 00 20 00 43 00 72 00 79 00 70 00 74 00 6f 00 50 00 50 00 3a 00 3a 00 50 00 6f 00 6c 00 79 00 6e 00 6f 00 6d 00 69 00 61 00 6c 00 4d 00 6f 00 64 00 32 00 3e 00 20 00 3e 00 3a 00 3a 00 6f 00 70 00 65 00 72 00 61 00 74 00 6f 00 72 00 20 00 5b 00 5d 00}
+		$s17 = {44 4c 5f 45 6c 67 61 6d 61 6c 4c 69 6b 65 53 69 67 6e 61 74 75 72 65 41 6c 67 6f 72 69 74 68 6d 3a 20 74 68 69 73 20 73 69 67 6e 61 74 75 72 65 20 73 63 68 65 6d 65 20 64 6f 65 73 20 6e 6f 74 20 73 75 70 70 6f 72 74 20 6d 65 73 73 61 67 65 20 72 65 63 6f 76 65 72 79}
+		$s18 = {73 00 74 00 64 00 3a 00 3a 00 76 00 65 00 63 00 74 00 6f 00 72 00 3c 00 73 00 74 00 72 00 75 00 63 00 74 00 20 00 43 00 72 00 79 00 70 00 74 00 6f 00 50 00 50 00 3a 00 3a 00 45 00 43 00 50 00 50 00 6f 00 69 00 6e 00 74 00 2c 00 63 00 6c 00 61 00 73 00 73 00 20 00 73 00 74 00 64 00 3a 00 3a 00 61 00 6c 00 6c 00 6f 00 63 00 61 00 74 00 6f 00 72 00 3c 00 73 00 74 00 72 00 75 00 63 00 74 00 20 00 43 00 72 00 79 00 70 00 74 00 6f 00 50 00 50 00 3a 00 3a 00 45 00 43 00 50 00 50 00 6f 00 69 00 6e 00 74 00 3e 00 20 00 3e 00 3a 00 3a 00 6f 00 70 00 65 00 72 00 61 00 74 00 6f 00 72 00 20 00 5b 00 5d 00}
+		$s19 = {73 00 74 00 64 00 3a 00 3a 00 76 00 65 00 63 00 74 00 6f 00 72 00 3c 00 73 00 74 00 72 00 75 00 63 00 74 00 20 00 43 00 72 00 79 00 70 00 74 00 6f 00 50 00 50 00 3a 00 3a 00 45 00 43 00 32 00 4e 00 50 00 6f 00 69 00 6e 00 74 00 2c 00 63 00 6c 00 61 00 73 00 73 00 20 00 73 00 74 00 64 00 3a 00 3a 00 61 00 6c 00 6c 00 6f 00 63 00 61 00 74 00 6f 00 72 00 3c 00 73 00 74 00 72 00 75 00 63 00 74 00 20 00 43 00 72 00 79 00 70 00 74 00 6f 00 50 00 50 00 3a 00 3a 00 45 00 43 00 32 00 4e 00 50 00 6f 00 69 00 6e 00 74 00 3e 00 20 00 3e 00 3a 00 3a 00 6f 00 70 00 65 00 72 00 61 00 74 00 6f 00 72 00 20 00 5b 00 5d 00}
+		$s20 = {73 00 74 00 64 00 3a 00 3a 00 5f 00 56 00 65 00 63 00 74 00 6f 00 72 00 5f 00 63 00 6f 00 6e 00 73 00 74 00 5f 00 69 00 74 00 65 00 72 00 61 00 74 00 6f 00 72 00 3c 00 63 00 6c 00 61 00 73 00 73 00 20 00 73 00 74 00 64 00 3a 00 3a 00 5f 00 56 00 65 00 63 00 74 00 6f 00 72 00 5f 00 76 00 61 00 6c 00 3c 00 73 00 74 00 72 00 75 00 63 00 74 00 20 00 73 00 74 00 64 00 3a 00 3a 00 5f 00 53 00 69 00 6d 00 70 00 6c 00 65 00 5f 00 74 00 79 00 70 00 65 00 73 00 3c 00 63 00 6c 00 61 00 73 00 73 00 20 00 43 00 72 00 79 00 70 00 74 00 6f 00 50 00 50 00 3a 00 3a 00 49 00 6e 00 74 00 65 00 67 00 65 00 72 00 3e 00 20 00 3e 00 20 00 3e 00 3a 00 3a 00 5f 00 43 00 6f 00 6d 00 70 00 61 00 74 00}
 
-      description = "Rule to detect Loocipher ransomware"
-      author = "Marc Rivero | McAfee ATR Team"
-      date = "2019-12-05"
-      rule_version = "v1"
-      malware_type = "ransomware"
-      malware_family = "Ransom:W32/Loocipher"
-      actor_type = "Cybercrime"
-      actor_group = "Unknown"
-      reference = "https://www.mcafee.com/blogs/other-blogs/mcafee-labs/analysis-of-loocipher-a-new-ransomware-family-observed-this-year/"
-      hash = "7720aa6eb206e589493e440fec8690ceef9e70b5e6712a9fec9208c03cac7ff0"
-      
-   strings:
-
-      $x1 = "c:\\users\\usuario\\desktop\\cryptolib\\gfpcrypt.h" fullword ascii
-      $x2 = "c:\\users\\usuario\\desktop\\cryptolib\\eccrypto.h" fullword ascii
-      $s3 = "c:\\users\\usuario\\desktop\\cryptolib\\gf2n.h" fullword ascii
-      $s4 = "c:\\users\\usuario\\desktop\\cryptolib\\queue.h" fullword ascii
-      $s5 = "ThreadUserTimer: GetThreadTimes failed with error " fullword ascii
-      $s6 = "std::_Vector_const_iterator<class std::_Vector_val<struct std::_Simple_types<struct CryptoPP::ProjectivePoint> > >::operator *" fullword wide
-      $s7 = "std::_Vector_const_iterator<class std::_Vector_val<struct std::_Simple_types<struct CryptoPP::ProjectivePoint> > >::operator +=" fullword wide
-      $s8 = "std::basic_string<unsigned short,struct std::char_traits<unsigned short>,class std::allocator<unsigned short> >::operator []" fullword wide
-      $s9 = "std::vector<struct CryptoPP::ProjectivePoint,class std::allocator<struct CryptoPP::ProjectivePoint> >::operator []" fullword wide
-      $s10 = "std::_Vector_const_iterator<class std::_Vector_val<struct std::_Simple_types<class CryptoPP::Integer> > >::operator *" fullword wide
-      $s11 = "std::_Vector_const_iterator<class std::_Vector_val<struct std::_Simple_types<class CryptoPP::Integer> > >::operator +=" fullword wide
-      $s12 = "std::vector<struct CryptoPP::WindowSlider,class std::allocator<struct CryptoPP::WindowSlider> >::operator []" fullword wide
-      $s13 = "std::istreambuf_iterator<char,struct std::char_traits<char> >::operator ++" fullword wide
-      $s14 = "std::istreambuf_iterator<char,struct std::char_traits<char> >::operator *" fullword wide
-      $s15 = "std::_Vector_const_iterator<class std::_Vector_val<struct std::_Simple_types<struct CryptoPP::ProjectivePoint> > >::_Compat" fullword wide
-      $s16 = "std::vector<class CryptoPP::PolynomialMod2,class std::allocator<class CryptoPP::PolynomialMod2> >::operator []" fullword wide
-      $s17 = "DL_ElgamalLikeSignatureAlgorithm: this signature scheme does not support message recovery" fullword ascii
-      $s18 = "std::vector<struct CryptoPP::ECPPoint,class std::allocator<struct CryptoPP::ECPPoint> >::operator []" fullword wide
-      $s19 = "std::vector<struct CryptoPP::EC2NPoint,class std::allocator<struct CryptoPP::EC2NPoint> >::operator []" fullword wide
-      $s20 = "std::_Vector_const_iterator<class std::_Vector_val<struct std::_Simple_types<class CryptoPP::Integer> > >::_Compat" fullword wide
-
-   condition:
-
-      ( uint16(0) == 0x5a4d and
-      filesize < 17000KB and
-      ( 1 of ($x*) and
-      4 of them ) ) or
-      ( all of them )
+	condition:
+		( uint16( 0 ) == 0x5a4d and filesize < 17000KB and ( 1 of ( $x* ) and 4 of them ) ) or ( all of them )
 }
+

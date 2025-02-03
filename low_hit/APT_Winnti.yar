@@ -1,170 +1,154 @@
-/*
-    This Yara ruleset is under the GNU-GPLv2 license (http://www.gnu.org/licenses/gpl-2.0.html) and open to any user or organization, as    long as you use it under this license.
-
-*/
-/*
-	Yara Rule Set
-	Author: Florian Roth
-	Date: 2015-10-10
-	Identifier: Winnti Malware
-*/
-
-rule Winnti_signing_cert 
+rule Winnti_signing_cert : hardened
 {
+	meta:
+		description = "Detects a signing certificate used by the Winnti APT group"
+		author = "Florian Roth"
+		reference = "https://securelist.com/analysis/publications/72275/i-am-hdroot-part-1/"
+		date = "2015-10-10"
+		score = 75
+		hash1 = "a9a8dc4ae77b1282f0c8bdebd2643458fc1ceb3145db4e30120dd81676ff9b61"
+		hash2 = "9001572983d5b1f99787291edaadbb65eb2701722f52470e89db2c59def24672"
 
-    meta:
-        description = "Detects a signing certificate used by the Winnti APT group"
-        author = "Florian Roth"
-        reference = "https://securelist.com/analysis/publications/72275/i-am-hdroot-part-1/"
-        date = "2015-10-10"
-        score = 75
-        hash1 = "a9a8dc4ae77b1282f0c8bdebd2643458fc1ceb3145db4e30120dd81676ff9b61"
-        hash2 = "9001572983d5b1f99787291edaadbb65eb2701722f52470e89db2c59def24672"
+	strings:
+		$s1 = {47 75 61 6e 67 7a 68 6f 75 20 59 75 61 6e 4c 75 6f 20 54 65 63 68 6e 6f 6c 6f 67 79 20 43 6f 2e}
+		$s2 = {47 75 61 6e 67 7a 68 6f 75 20 59 75 61 6e 4c 75 6f 20 54 65 63 68 6e 6f 6c 6f 67 79 20 43 6f 2e 2c 4c 74 64}
+		$s3 = {24 41 73 61 68 69 20 4b 61 73 65 69 20 4d 69 63 72 6f 64 65 76 69 63 65 73 20 43 6f 72 70 6f 72 61 74 69 6f 6e 30}
 
-    strings:
-        $s1 = "Guangzhou YuanLuo Technology Co." ascii
-        $s2 = "Guangzhou YuanLuo Technology Co.,Ltd" ascii
-        $s3 = "$Asahi Kasei Microdevices Corporation0" fullword ascii
-
-    condition:
-        uint16(0) == 0x5a4d and filesize < 700KB and 1 of them
+	condition:
+		uint16( 0 ) == 0x5a4d and filesize < 700KB and 1 of them
 }
 
-rule Winnti_malware_Nsiproxy 
+rule Winnti_malware_Nsiproxy : hardened
 {
+	meta:
+		description = "Detects a Winnti rootkit"
+		author = "Florian Roth"
+		date = "2015-10-10"
+		score = 75
+		hash1 = "9001572983d5b1f99787291edaadbb65eb2701722f52470e89db2c59def24672"
+		hash2 = "cf1e006694b33f27d7c748bab35d0b0031a22d193622d47409b6725b395bffb0"
+		hash3 = "326e2cabddb641777d489a9e7a39d52c0dc2dcb1fde1762554ea162792056b6e"
+		hash4 = "aff7c7478fe33c57954b6fec2095efe8f9edf5cdb48a680de9439ba62a77945f"
+		hash5 = "ba7ccd027fd2c826bbe8f2145d5131eff906150bd98fe25a10fbee2c984df1b8"
 
-    meta:
-        description = "Detects a Winnti rootkit"
-        author = "Florian Roth"
-        date = "2015-10-10"
-        score = 75
-        hash1 = "9001572983d5b1f99787291edaadbb65eb2701722f52470e89db2c59def24672"
-        hash2 = "cf1e006694b33f27d7c748bab35d0b0031a22d193622d47409b6725b395bffb0"
-        hash3 = "326e2cabddb641777d489a9e7a39d52c0dc2dcb1fde1762554ea162792056b6e"
-        hash4 = "aff7c7478fe33c57954b6fec2095efe8f9edf5cdb48a680de9439ba62a77945f"
-        hash5 = "ba7ccd027fd2c826bbe8f2145d5131eff906150bd98fe25a10fbee2c984df1b8"
-   
-    strings:
-        $x1 = "\\Driver\\nsiproxy" fullword wide
-        $a1 = "\\Device\\StreamPortal" fullword wide
-        $a2 = "\\Device\\PNTFILTER" fullword wide
-        $s1 = "Cookie: SN=" fullword ascii
-        $s2 = "\\BaseNamedObjects\\_transmition_synchronization_" fullword wide
-        $s3 = "Winqual.sys" fullword wide
-        $s4 = "\\Registry\\Machine\\SYSTEM\\CurrentControlSet\\Control\\Class\\{4D36E972-E325-11CE-BFC1-08002BE10318}" fullword wide
-        $s5 = "http://www.wasabii.com.tw 0" fullword ascii
-    
-    condition:
-        uint16(0) == 0x5a4d and $x1 and 1 of ($a*) and 2 of ($s*)
+	strings:
+		$x1 = {5c 00 44 00 72 00 69 00 76 00 65 00 72 00 5c 00 6e 00 73 00 69 00 70 00 72 00 6f 00 78 00 79 00}
+		$a1 = {5c 00 44 00 65 00 76 00 69 00 63 00 65 00 5c 00 53 00 74 00 72 00 65 00 61 00 6d 00 50 00 6f 00 72 00 74 00 61 00 6c 00}
+		$a2 = {5c 00 44 00 65 00 76 00 69 00 63 00 65 00 5c 00 50 00 4e 00 54 00 46 00 49 00 4c 00 54 00 45 00 52 00}
+		$s1 = {43 6f 6f 6b 69 65 3a 20 53 4e 3d}
+		$s2 = {5c 00 42 00 61 00 73 00 65 00 4e 00 61 00 6d 00 65 00 64 00 4f 00 62 00 6a 00 65 00 63 00 74 00 73 00 5c 00 5f 00 74 00 72 00 61 00 6e 00 73 00 6d 00 69 00 74 00 69 00 6f 00 6e 00 5f 00 73 00 79 00 6e 00 63 00 68 00 72 00 6f 00 6e 00 69 00 7a 00 61 00 74 00 69 00 6f 00 6e 00 5f 00}
+		$s3 = {57 00 69 00 6e 00 71 00 75 00 61 00 6c 00 2e 00 73 00 79 00 73 00}
+		$s4 = {5c 00 52 00 65 00 67 00 69 00 73 00 74 00 72 00 79 00 5c 00 4d 00 61 00 63 00 68 00 69 00 6e 00 65 00 5c 00 53 00 59 00 53 00 54 00 45 00 4d 00 5c 00 43 00 75 00 72 00 72 00 65 00 6e 00 74 00 43 00 6f 00 6e 00 74 00 72 00 6f 00 6c 00 53 00 65 00 74 00 5c 00 43 00 6f 00 6e 00 74 00 72 00 6f 00 6c 00 5c 00 43 00 6c 00 61 00 73 00 73 00 5c 00 7b 00 34 00 44 00 33 00 36 00 45 00 39 00 37 00 32 00 2d 00 45 00 33 00 32 00 35 00 2d 00 31 00 31 00 43 00 45 00 2d 00 42 00 46 00 43 00 31 00 2d 00 30 00 38 00 30 00 30 00 32 00 42 00 45 00 31 00 30 00 33 00 31 00 38 00 7d 00}
+		$s5 = {68 74 74 70 3a 2f 2f 77 77 77 2e 77 61 73 61 62 69 69 2e 63 6f 6d 2e 74 77 20 30}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and $x1 and 1 of ( $a* ) and 2 of ( $s* )
 }
 
-rule Winnti_malware_UpdateDLL 
+rule Winnti_malware_UpdateDLL : hardened
 {
+	meta:
+		description = "Detects a Winnti malware - Update.dll"
+		author = "Florian Roth"
+		reference = "VTI research"
+		date = "2015-10-10"
+		score = 75
+		hash1 = "1b449121300b0188ff9f6a8c399fb818d0cf53fd36cf012e6908a2665a27f016"
+		hash2 = "50174311e524b97ea5cb4f3ea571dd477d1f0eee06cd3ed73af39a15f3e6484a"
+		hash3 = "6cdb65dbfb2c236b6d149fd9836cb484d0608ea082cf5bd88edde31ad11a0d58"
+		hash4 = "50174311e524b97ea5cb4f3ea571dd477d1f0eee06cd3ed73af39a15f3e6484a"
 
-    meta:
-        description = "Detects a Winnti malware - Update.dll"
-        author = "Florian Roth"
-        reference = "VTI research"
-        date = "2015-10-10"
-        score = 75
-        hash1 = "1b449121300b0188ff9f6a8c399fb818d0cf53fd36cf012e6908a2665a27f016"
-        hash2 = "50174311e524b97ea5cb4f3ea571dd477d1f0eee06cd3ed73af39a15f3e6484a"
-        hash3 = "6cdb65dbfb2c236b6d149fd9836cb484d0608ea082cf5bd88edde31ad11a0d58"
-        hash4 = "50174311e524b97ea5cb4f3ea571dd477d1f0eee06cd3ed73af39a15f3e6484a"
-   
-    strings:
-        $c1 = "'Wymajtec$Tima Stempijg Sarviges GA -$G2" fullword ascii
-        $c2 = "AHDNEAFE1.sys" fullword ascii
-        $c3 = "SOTEFEHJ3.sys" fullword ascii
-        $c4 = "MainSYS64.sys" fullword ascii
-        $s1 = "\\Registry\\User\\%s\\Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings" fullword wide
-        $s2 = "Update.dll" fullword ascii
-        $s3 = "\\\\.\\pipe\\usbpcex%d" fullword wide
-        $s4 = "\\\\.\\pipe\\usbpcg%d" fullword wide
-        $s5 = "\\Registry\\Machine\\SYSTEM\\CurrentControlSet\\Control\\WMI" fullword wide
-        $s6 = "\\??\\pipe\\usbpcg%d" fullword wide
-        $s7 = "\\??\\pipe\\usbpcex%d" fullword wide
-        $s8 = "HOST: %s" fullword ascii
-        $s9 = "$$$--Hello" fullword ascii
-    
-    condition:
-        uint16(0) == 0x5a4d and filesize < 1000KB and ( ( 1 of ($c*) and 3 of ($s*) ) or all of ($s*) )
+	strings:
+		$c1 = {27 57 79 6d 61 6a 74 65 63 24 54 69 6d 61 20 53 74 65 6d 70 69 6a 67 20 53 61 72 76 69 67 65 73 20 47 41 20 2d 24 47 32}
+		$c2 = {41 48 44 4e 45 41 46 45 31 2e 73 79 73}
+		$c3 = {53 4f 54 45 46 45 48 4a 33 2e 73 79 73}
+		$c4 = {4d 61 69 6e 53 59 53 36 34 2e 73 79 73}
+		$s1 = {5c 00 52 00 65 00 67 00 69 00 73 00 74 00 72 00 79 00 5c 00 55 00 73 00 65 00 72 00 5c 00 25 00 73 00 5c 00 53 00 6f 00 66 00 74 00 77 00 61 00 72 00 65 00 5c 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 5c 00 43 00 75 00 72 00 72 00 65 00 6e 00 74 00 56 00 65 00 72 00 73 00 69 00 6f 00 6e 00 5c 00 49 00 6e 00 74 00 65 00 72 00 6e 00 65 00 74 00 20 00 53 00 65 00 74 00 74 00 69 00 6e 00 67 00 73 00}
+		$s2 = {55 70 64 61 74 65 2e 64 6c 6c}
+		$s3 = {5c 00 5c 00 2e 00 5c 00 70 00 69 00 70 00 65 00 5c 00 75 00 73 00 62 00 70 00 63 00 65 00 78 00 25 00 64 00}
+		$s4 = {5c 00 5c 00 2e 00 5c 00 70 00 69 00 70 00 65 00 5c 00 75 00 73 00 62 00 70 00 63 00 67 00 25 00 64 00}
+		$s5 = {5c 00 52 00 65 00 67 00 69 00 73 00 74 00 72 00 79 00 5c 00 4d 00 61 00 63 00 68 00 69 00 6e 00 65 00 5c 00 53 00 59 00 53 00 54 00 45 00 4d 00 5c 00 43 00 75 00 72 00 72 00 65 00 6e 00 74 00 43 00 6f 00 6e 00 74 00 72 00 6f 00 6c 00 53 00 65 00 74 00 5c 00 43 00 6f 00 6e 00 74 00 72 00 6f 00 6c 00 5c 00 57 00 4d 00 49 00}
+		$s6 = {5c 00 3f 00 3f 00 5c 00 70 00 69 00 70 00 65 00 5c 00 75 00 73 00 62 00 70 00 63 00 67 00 25 00 64 00}
+		$s7 = {5c 00 3f 00 3f 00 5c 00 70 00 69 00 70 00 65 00 5c 00 75 00 73 00 62 00 70 00 63 00 65 00 78 00 25 00 64 00}
+		$s8 = {48 4f 53 54 3a 20 25 73}
+		$s9 = {24 24 24 2d 2d 48 65 6c 6c 6f}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and filesize < 1000KB and ( ( 1 of ( $c* ) and 3 of ( $s* ) ) or all of ( $s* ) )
 }
 
-rule Winnti_malware_FWPK 
+rule Winnti_malware_FWPK : hardened
 {
+	meta:
+		description = "Detects a Winnti malware - FWPKCLNT.SYS"
+		author = "Florian Roth"
+		reference = "VTI research"
+		date = "2015-10-10"
+		score = 75
+		hash1 = "1098518786c84b0d31f215122275582bdcd1666653ebc25d50a142b4f5dabf2c"
+		hash2 = "9a684ffad0e1c6a22db1bef2399f839d8eff53d7024fb014b9a5f714d11febd7"
+		hash3 = "a836397817071c35e24e94b2be3c2fa4ffa2eb1675d3db3b4456122ff4a71368"
 
-    meta:
-        description = "Detects a Winnti malware - FWPKCLNT.SYS"
-        author = "Florian Roth"
-        reference = "VTI research"
-        date = "2015-10-10"
-        score = 75
-        hash1 = "1098518786c84b0d31f215122275582bdcd1666653ebc25d50a142b4f5dabf2c"
-        hash2 = "9a684ffad0e1c6a22db1bef2399f839d8eff53d7024fb014b9a5f714d11febd7"
-        hash3 = "a836397817071c35e24e94b2be3c2fa4ffa2eb1675d3db3b4456122ff4a71368"
-  
-    strings:
-        $s0 = "\\Registry\\Machine\\System\\CurrentControlSet\\Control\\Class\\{4D36E972-E325-11CE-BFC1-08002BE10318}\\" fullword wide
-        $s1 = "%x:%d->%x:%d, Flag %s%s%s%s%s, seq %u, ackseq %u, datalen %u" fullword ascii
-        $s2 = "FWPKCLNT.SYS" fullword ascii
-        $s3 = "Port Layer" fullword wide
-        $s4 = "%x->%x, icmp type %d, code %d" fullword ascii
-        $s5 = "\\BaseNamedObjects\\{93144EB0-8E3E-4591-B307-8EEBFE7DB28E}" fullword wide
-        $s6 = "\\Ndi\\Interfaces" fullword wide
-        $s7 = "\\Device\\{93144EB0-8E3E-4591-B307-8EEBFE7DB28F}" fullword wide
-        $s8 = "Bad packet" fullword ascii
-        $s9 = "\\BaseNamedObjects\\EKV0000000000" fullword wide
-        $s10 = "%x->%x" fullword ascii
-        $s11 = "IPInjectPkt" fullword ascii /* Goodware String - occured 6 times */
- 
-    condition:
-        uint16(0) == 0x5a4d and filesize < 642KB and all of them
+	strings:
+		$s0 = {5c 00 52 00 65 00 67 00 69 00 73 00 74 00 72 00 79 00 5c 00 4d 00 61 00 63 00 68 00 69 00 6e 00 65 00 5c 00 53 00 79 00 73 00 74 00 65 00 6d 00 5c 00 43 00 75 00 72 00 72 00 65 00 6e 00 74 00 43 00 6f 00 6e 00 74 00 72 00 6f 00 6c 00 53 00 65 00 74 00 5c 00 43 00 6f 00 6e 00 74 00 72 00 6f 00 6c 00 5c 00 43 00 6c 00 61 00 73 00 73 00 5c 00 7b 00 34 00 44 00 33 00 36 00 45 00 39 00 37 00 32 00 2d 00 45 00 33 00 32 00 35 00 2d 00 31 00 31 00 43 00 45 00 2d 00 42 00 46 00 43 00 31 00 2d 00 30 00 38 00 30 00 30 00 32 00 42 00 45 00 31 00 30 00 33 00 31 00 38 00 7d 00 5c 00}
+		$s1 = {25 78 3a 25 64 2d 3e 25 78 3a 25 64 2c 20 46 6c 61 67 20 25 73 25 73 25 73 25 73 25 73 2c 20 73 65 71 20 25 75 2c 20 61 63 6b 73 65 71 20 25 75 2c 20 64 61 74 61 6c 65 6e 20 25 75}
+		$s2 = {46 57 50 4b 43 4c 4e 54 2e 53 59 53}
+		$s3 = {50 00 6f 00 72 00 74 00 20 00 4c 00 61 00 79 00 65 00 72 00}
+		$s4 = {25 78 2d 3e 25 78 2c 20 69 63 6d 70 20 74 79 70 65 20 25 64 2c 20 63 6f 64 65 20 25 64}
+		$s5 = {5c 00 42 00 61 00 73 00 65 00 4e 00 61 00 6d 00 65 00 64 00 4f 00 62 00 6a 00 65 00 63 00 74 00 73 00 5c 00 7b 00 39 00 33 00 31 00 34 00 34 00 45 00 42 00 30 00 2d 00 38 00 45 00 33 00 45 00 2d 00 34 00 35 00 39 00 31 00 2d 00 42 00 33 00 30 00 37 00 2d 00 38 00 45 00 45 00 42 00 46 00 45 00 37 00 44 00 42 00 32 00 38 00 45 00 7d 00}
+		$s6 = {5c 00 4e 00 64 00 69 00 5c 00 49 00 6e 00 74 00 65 00 72 00 66 00 61 00 63 00 65 00 73 00}
+		$s7 = {5c 00 44 00 65 00 76 00 69 00 63 00 65 00 5c 00 7b 00 39 00 33 00 31 00 34 00 34 00 45 00 42 00 30 00 2d 00 38 00 45 00 33 00 45 00 2d 00 34 00 35 00 39 00 31 00 2d 00 42 00 33 00 30 00 37 00 2d 00 38 00 45 00 45 00 42 00 46 00 45 00 37 00 44 00 42 00 32 00 38 00 46 00 7d 00}
+		$s8 = {42 61 64 20 70 61 63 6b 65 74}
+		$s9 = {5c 00 42 00 61 00 73 00 65 00 4e 00 61 00 6d 00 65 00 64 00 4f 00 62 00 6a 00 65 00 63 00 74 00 73 00 5c 00 45 00 4b 00 56 00 30 00 30 00 30 00 30 00 30 00 30 00 30 00 30 00 30 00 30 00}
+		$s10 = {25 78 2d 3e 25 78}
+		$s11 = {49 50 49 6e 6a 65 63 74 50 6b 74}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and filesize < 642KB and all of them
 }
 
-rule Winnti_malware_StreamPortal_Gen 
+rule Winnti_malware_StreamPortal_Gen : hardened
 {
+	meta:
+		description = "Detects a Winnti malware - Streamportal"
+		author = "Florian Roth"
+		reference = "VTI research"
+		date = "2015-10-10"
+		score = 75
+		hash1 = "326e2cabddb641777d489a9e7a39d52c0dc2dcb1fde1762554ea162792056b6e"
+		hash2 = "9001572983d5b1f99787291edaadbb65eb2701722f52470e89db2c59def24672"
+		hash3 = "aff7c7478fe33c57954b6fec2095efe8f9edf5cdb48a680de9439ba62a77945f"
 
-    meta:
-        description = "Detects a Winnti malware - Streamportal"
-        author = "Florian Roth"
-        reference = "VTI research"
-        date = "2015-10-10"
-        score = 75
-        hash1 = "326e2cabddb641777d489a9e7a39d52c0dc2dcb1fde1762554ea162792056b6e"
-        hash2 = "9001572983d5b1f99787291edaadbb65eb2701722f52470e89db2c59def24672"
-        hash3 = "aff7c7478fe33c57954b6fec2095efe8f9edf5cdb48a680de9439ba62a77945f"
-  
-    strings:
-        $s0 = "Proxies destination address/port for TCP" fullword wide
-        $s3 = "\\Device\\StreamPortal" fullword wide
-        $s4 = "Transport-Data Proxy Sub-Layer" fullword wide
-        $s5 = "Cookie: SN=" fullword ascii
-        $s6 = "\\BaseNamedObjects\\_transmition_synchronization_" fullword wide
-        $s17 = "NTOSKRNL.EXE" fullword wide /* Goodware String - occured 4 times */
-        $s19 = "FwpsReferenceNetBufferList0" fullword ascii /* Goodware String - occured 5 times */
-  
-    condition:
-        uint16(0) == 0x5a4d and filesize < 275KB and all of them
+	strings:
+		$s0 = {50 00 72 00 6f 00 78 00 69 00 65 00 73 00 20 00 64 00 65 00 73 00 74 00 69 00 6e 00 61 00 74 00 69 00 6f 00 6e 00 20 00 61 00 64 00 64 00 72 00 65 00 73 00 73 00 2f 00 70 00 6f 00 72 00 74 00 20 00 66 00 6f 00 72 00 20 00 54 00 43 00 50 00}
+		$s3 = {5c 00 44 00 65 00 76 00 69 00 63 00 65 00 5c 00 53 00 74 00 72 00 65 00 61 00 6d 00 50 00 6f 00 72 00 74 00 61 00 6c 00}
+		$s4 = {54 00 72 00 61 00 6e 00 73 00 70 00 6f 00 72 00 74 00 2d 00 44 00 61 00 74 00 61 00 20 00 50 00 72 00 6f 00 78 00 79 00 20 00 53 00 75 00 62 00 2d 00 4c 00 61 00 79 00 65 00 72 00}
+		$s5 = {43 6f 6f 6b 69 65 3a 20 53 4e 3d}
+		$s6 = {5c 00 42 00 61 00 73 00 65 00 4e 00 61 00 6d 00 65 00 64 00 4f 00 62 00 6a 00 65 00 63 00 74 00 73 00 5c 00 5f 00 74 00 72 00 61 00 6e 00 73 00 6d 00 69 00 74 00 69 00 6f 00 6e 00 5f 00 73 00 79 00 6e 00 63 00 68 00 72 00 6f 00 6e 00 69 00 7a 00 61 00 74 00 69 00 6f 00 6e 00 5f 00}
+		$s17 = {4e 00 54 00 4f 00 53 00 4b 00 52 00 4e 00 4c 00 2e 00 45 00 58 00 45 00}
+		$s19 = {46 77 70 73 52 65 66 65 72 65 6e 63 65 4e 65 74 42 75 66 66 65 72 4c 69 73 74 30}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and filesize < 275KB and all of them
 }
 
-rule WinntiPharma 
+rule WinntiPharma : hardened
 {
+	meta:
+		author = "Jose Ramon Palanco"
+		copyright = "Drainware, Inc."
+		date = "2015-06-23"
+		description = "Backdoor Win64 Winnti Pharma"
+		ref = "https://securelist.com/blog/research/70991/games-are-over/"
 
-meta:
-    author = "Jose Ramon Palanco"
-    copyright = "Drainware, Inc."
-    date = "2015-06-23"
-    description = "Backdoor Win64 Winnti Pharma"
-    ref = "https://securelist.com/blog/research/70991/games-are-over/"
+	strings:
+		$s0 = {43 6f 6f 6b 69 65 3a 20 53 4e 3d}
+		$s1 = {7b 33 65 63 30 35 62 34 61 2d 65 61 38 38 2d 31 33 37 38 2d 33 33 38 39 2d 36 36 37 30 36 62 61 32 37 36 30 30 7d}
+		$s2 = {7b 34 44 33 36 45 39 37 32 2d 45 33 32 35 2d 31 31 43 45 2d 42 46 43 31 2d 30 38 30 30 32 42 45 31 30 33 31 38 7d}
+		$s3 = {6d 61 73 74 65 72 20 73 65 63 72 65 74}
+		$s4 = {4d 79 45 6e 67 69 6e 65 4e 65 74 45 76 65 6e 74}
 
-strings:
-    $s0 = "Cookie: SN="
-    $s1 = "{3ec05b4a-ea88-1378-3389-66706ba27600}"
-    $s2 = "{4D36E972-E325-11CE-BFC1-08002BE10318}"
-    $s3 = "master secret"
-    $s4 = "MyEngineNetEvent"
-
-condition:
-    all of ($s*)
+	condition:
+		all of ( $s* )
 }
+

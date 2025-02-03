@@ -1,4 +1,4 @@
-rule Formbook
+rule Formbook : hardened
 {
 	meta:
 		author = "kevoreilly"
@@ -24,7 +24,7 @@ rule Formbook
 		2 of them
 }
 
-rule Windows_Trojan_Formbook_1112e116
+rule Windows_Trojan_Formbook_1112e116 : hardened
 {
 	meta:
 		author = "Elastic Security"
@@ -55,7 +55,7 @@ rule Windows_Trojan_Formbook_1112e116
 		any of them
 }
 
-rule Windows_Trojan_Formbook_772cc62d
+rule Windows_Trojan_Formbook_772cc62d : hardened
 {
 	meta:
 		author = "Elastic Security"
@@ -76,17 +76,16 @@ rule Windows_Trojan_Formbook_772cc62d
 		score = 75
 
 	strings:
-		$a1 = "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; Trident/7.0; rv:11.0) like Gecko"
-		$a2 = "signin"
-		$a3 = "persistent"
+		$a1 = {55 73 65 72 2d 41 67 65 6e 74 3a 20 4d 6f 7a 69 6c 6c 61 2f 35 2e 30 20 28 57 69 6e 64 6f 77 73 20 4e 54 20 31 30 2e 30 3b 20 57 69 6e 36 34 3b 20 78 36 34 3b 20 54 72 69 64 65 6e 74 2f 37 2e 30 3b 20 72 76 3a 31 31 2e 30 29 20 6c 69 6b 65 20 47 65 63 6b 6f}
+		$a2 = {73 69 67 6e 69 6e}
+		$a3 = {70 65 72 73 69 73 74 65 6e 74}
 		$r1 = /.\:\\Users\\[^\\]{1,50}\\AppData\\Roaming\\[a-zA-Z0-9]{8}\\[a-zA-Z0-9]{3}log\.ini/ wide
 
 	condition:
-		2 of ($a*) and 
-		$r1
+		2 of ( $a* ) and $r1
 }
 
-rule Windows_Trojan_Formbook_5799d1f2
+rule Windows_Trojan_Formbook_5799d1f2 : hardened
 {
 	meta:
 		author = "Elastic Security"
@@ -114,7 +113,7 @@ rule Windows_Trojan_Formbook_5799d1f2
 		all of them
 }
 
-rule malware_Formbook_strings
+rule malware_Formbook_strings : hardened
 {
 	meta:
 		description = "detect Formbook in memory"
@@ -136,7 +135,7 @@ rule malware_Formbook_strings
 		all of them
 }
 
-rule win_formbook_auto
+rule win_formbook_auto : hardened
 {
 	meta:
 		author = "Felix Bilstein - yara-signator at cocacoding dot com"
@@ -170,11 +169,10 @@ rule win_formbook_auto
 		$sequence_9 = { 8d8df6f7ffff 51 c745fc00000000 668985f4f7ffff e8???????? 8b7508 }
 
 	condition:
-		7 of them and 
-		filesize <371712
+		7 of them and filesize < 371712
 }
 
-rule Formbook_1
+rule Formbook_1 : hardened
 {
 	meta:
 		author = "Felix Bilstein - yara-signator at cocacoding dot com"
@@ -209,7 +207,7 @@ rule Formbook_1
 		7 of them
 }
 
-rule Windows_Trojan_Formbook : FormBook_malware
+rule Windows_Trojan_Formbook : FormBook_malware hardened
 {
 	meta:
 		author = "@malgamy12"
@@ -239,7 +237,7 @@ rule Windows_Trojan_Formbook : FormBook_malware
 		3 of them
 }
 
-rule fsFormbook
+rule fsFormbook : hardened
 {
 	meta:
 		description = "FsYARA - Malware Trends"
@@ -247,13 +245,6 @@ rule fsFormbook
 		score = 75
 
 	condition:
-		Formbook or 
-		Windows_Trojan_Formbook_1112e116 or 
-		Windows_Trojan_Formbook_772cc62d or 
-		Windows_Trojan_Formbook_5799d1f2 or 
-		malware_Formbook_strings or 
-		win_formbook_auto or 
-		Formbook_1 or 
-		Windows_Trojan_Formbook
+		Formbook or Windows_Trojan_Formbook_1112e116 or Windows_Trojan_Formbook_772cc62d or Windows_Trojan_Formbook_5799d1f2 or malware_Formbook_strings or win_formbook_auto or Formbook_1 or Windows_Trojan_Formbook
 }
 

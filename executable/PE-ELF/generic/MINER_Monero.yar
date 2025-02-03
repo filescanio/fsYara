@@ -1,45 +1,39 @@
-rule MINER_monero_mining_detection {
+rule MINER_monero_mining_detection : hardened
+{
+	meta:
+		description = "Monero mining software"
+		author = "Trellix ATR team"
+		date = "2018-04-05"
+		score = 70
+		rule_version = "v1"
+		malware_type = "miner"
+		malware_family = "Ransom:W32/MoneroMiner"
+		actor_type = "Cybercrime"
+		actor_group = "Unknown"
 
-   meta:
+	strings:
+		$1 = {2a 20 43 4f 4d 4d 41 4e 44 53 3a 20 20 20 20 20 27 68 27 20 68 61 73 68 72 61 74 65 2c 20 27 70 27 20 70 61 75 73 65 2c 20 27 72 27 20 72 65 73 75 6d 65}
+		$2 = {2d 2d 63 70 75 2d 61 66 66 69 6e 69 74 79 20 20 20 20 20 20 20 73 65 74 20 70 72 6f 63 65 73 73 20 61 66 66 69 6e 69 74 79 20 74 6f 20 43 50 55 20 63 6f 72 65 28 73 29 2c 20 6d 61 73 6b 20 30 78 33 20 66 6f 72 20 63 6f 72 65 73 20 30 20 61 6e 64 20 31}
+		$3 = {2a 20 54 48 52 45 41 44 53 3a 20 20 20 20 20 20 25 64 2c 20 25 73 2c 20 61 76 3d 25 64 2c 20 25 73 64 6f 6e 61 74 65 3d 25 64 25 25 25 73}
+		$4 = {2d 2d 75 73 65 72 2d 61 67 65 6e 74 20 20 20 20 20 20 20 20 20 73 65 74 20 63 75 73 74 6f 6d 20 75 73 65 72 2d 61 67 65 6e 74 20 73 74 72 69 6e 67 20 66 6f 72 20 70 6f 6f 6c}
+		$5 = {2d 4f 2c 20 2d 2d 75 73 65 72 70 61 73 73 3d 55 3a 50 20 20 20 20 20 20 20 75 73 65 72 6e 61 6d 65 3a 70 61 73 73 77 6f 72 64 20 70 61 69 72 20 66 6f 72 20 6d 69 6e 69 6e 67 20 73 65 72 76 65 72}
+		$6 = {2d 2d 63 70 75 2d 70 72 69 6f 72 69 74 79 20 20 20 20 20 20 20 73 65 74 20 70 72 6f 63 65 73 73 20 70 72 69 6f 72 69 74 79 20 28 30 20 69 64 6c 65 2c 20 32 20 6e 6f 72 6d 61 6c 20 74 6f 20 35 20 68 69 67 68 65 73 74 29}
+		$7 = {2d 70 2c 20 2d 2d 70 61 73 73 3d 50 41 53 53 57 4f 52 44 20 20 20 20 20 20 70 61 73 73 77 6f 72 64 20 66 6f 72 20 6d 69 6e 69 6e 67 20 73 65 72 76 65 72}
+		$8 = {2a 20 56 45 52 53 49 4f 4e 53 3a 20 20 20 20 20 58 4d 52 69 67 2f 25 73 20 6c 69 62 75 76 2f 25 73 25 73}
+		$9 = {2d 6b 2c 20 2d 2d 6b 65 65 70 61 6c 69 76 65 20 20 20 20 20 20 20 20 20 20 73 65 6e 64 20 6b 65 65 70 61 6c 69 76 65 64 20 66 6f 72 20 70 72 65 76 65 6e 74 20 74 69 6d 65 6f 75 74 20 28 6e 65 65 64 20 70 6f 6f 6c 20 73 75 70 70 6f 72 74 29}
+		$10 = {2d 2d 6d 61 78 2d 63 70 75 2d 75 73 61 67 65 3d 4e 20 20 20 20 6d 61 78 69 6d 75 6d 20 43 50 55 20 75 73 61 67 65 20 66 6f 72 20 61 75 74 6f 6d 61 74 69 63 20 74 68 72 65 61 64 73 20 6d 6f 64 65 20 28 64 65 66 61 75 6c 74 20 37 35 29}
+		$11 = {2d 2d 6e 69 63 65 68 61 73 68 20 20 20 20 20 20 20 20 20 20 20 65 6e 61 62 6c 65 20 6e 69 63 65 68 61 73 68 2f 78 6d 72 69 67 2d 70 72 6f 78 79 20 73 75 70 70 6f 72 74}
+		$12 = {3c 21 2d 2d 54 68 65 20 49 44 20 62 65 6c 6f 77 20 69 6e 64 69 63 61 74 65 73 20 61 70 70 6c 69 63 61 74 69 6f 6e 20 73 75 70 70 6f 72 74 20 66 6f 72 20 57 69 6e 64 6f 77 73 20 31 30 20 2d 2d 3e}
+		$13 = {2a 20 43 50 55 3a 20 20 20 20 20 20 20 20 20 20 25 73 20 28 25 64 29 20 25 73 78 36 34 20 25 73 41 45 53 2d 4e 49}
+		$14 = {2d 72 2c 20 2d 2d 72 65 74 72 69 65 73 3d 4e 20 20 20 20 20 20 20 20 20 20 6e 75 6d 62 65 72 20 6f 66 20 74 69 6d 65 73 20 74 6f 20 72 65 74 72 79 20 62 65 66 6f 72 65 20 73 77 69 74 63 68 20 74 6f 20 62 61 63 6b 75 70 20 73 65 72 76 65 72 20 28 64 65 66 61 75 6c 74 3a 20 35 29}
+		$15 = {2d 42 2c 20 2d 2d 62 61 63 6b 67 72 6f 75 6e 64 20 20 20 20 20 20 20 20 20 72 75 6e 20 74 68 65 20 6d 69 6e 65 72 20 69 6e 20 74 68 65 20 62 61 63 6b 67 72 6f 75 6e 64}
+		$16 = {2a 20 41 50 49 20 50 4f 52 54 3a 20 20 20 20 20 25 64}
+		$17 = {2d 2d 61 70 69 2d 61 63 63 65 73 73 2d 74 6f 6b 65 6e 3d 54 20 61 63 63 65 73 73 20 74 6f 6b 65 6e 20 66 6f 72 20 41 50 49}
+		$18 = {2d 74 2c 20 2d 2d 74 68 72 65 61 64 73 3d 4e 20 20 20 20 20 20 20 20 20 20 6e 75 6d 62 65 72 20 6f 66 20 6d 69 6e 65 72 20 74 68 72 65 61 64 73}
+		$19 = {2d 2d 70 72 69 6e 74 2d 74 69 6d 65 3d 4e 20 20 20 20 20 20 20 70 72 69 6e 74 20 68 61 73 68 72 61 74 65 20 72 65 70 6f 72 74 20 65 76 65 72 79 20 4e 20 73 65 63 6f 6e 64 73}
+		$20 = {2d 75 2c 20 2d 2d 75 73 65 72 3d 55 53 45 52 4e 41 4d 45 20 20 20 20 20 20 75 73 65 72 6e 61 6d 65 20 66 6f 72 20 6d 69 6e 69 6e 67 20 73 65 72 76 65 72}
 
-      description = "Monero mining software"
-      author = "Trellix ATR team"
-      date = "2018-04-05"
-      score = 70
-      rule_version = "v1"
-      malware_type = "miner"
-      malware_family = "Ransom:W32/MoneroMiner"
-      actor_type = "Cybercrime"
-      actor_group = "Unknown"   
-      
-   strings:
-
-      $1 = "* COMMANDS:     'h' hashrate, 'p' pause, 'r' resume" fullword ascii
-      $2 = "--cpu-affinity       set process affinity to CPU core(s), mask 0x3 for cores 0 and 1" fullword ascii
-      $3 = "* THREADS:      %d, %s, av=%d, %sdonate=%d%%%s" fullword ascii
-      $4 = "--user-agent         set custom user-agent string for pool" fullword ascii
-      $5 = "-O, --userpass=U:P       username:password pair for mining server" fullword ascii
-      $6 = "--cpu-priority       set process priority (0 idle, 2 normal to 5 highest)" fullword ascii
-      $7 = "-p, --pass=PASSWORD      password for mining server" fullword ascii
-      $8 = "* VERSIONS:     XMRig/%s libuv/%s%s" fullword ascii
-      $9 = "-k, --keepalive          send keepalived for prevent timeout (need pool support)" fullword ascii
-      $10 = "--max-cpu-usage=N    maximum CPU usage for automatic threads mode (default 75)" fullword ascii
-      $11 = "--nicehash           enable nicehash/xmrig-proxy support" fullword ascii
-      $12 = "<!--The ID below indicates application support for Windows 10 -->" fullword ascii
-      $13 = "* CPU:          %s (%d) %sx64 %sAES-NI" fullword ascii
-      $14 = "-r, --retries=N          number of times to retry before switch to backup server (default: 5)" fullword ascii
-      $15 = "-B, --background         run the miner in the background" fullword ascii
-      $16 = "* API PORT:     %d" fullword ascii
-      $17 = "--api-access-token=T access token for API" fullword ascii
-      $18 = "-t, --threads=N          number of miner threads" fullword ascii
-      $19 = "--print-time=N       print hashrate report every N seconds" fullword ascii
-      $20 = "-u, --user=USERNAME      username for mining server" fullword ascii
-   
-   condition:
-   
-      ( uint16(0) == 0x5a4d and
-      filesize < 4000KB and
-      ( 8 of them )) or
-      ( all of them )
+	condition:
+		( uint16( 0 ) == 0x5a4d and filesize < 4000KB and ( 8 of them ) ) or ( all of them )
 }
 

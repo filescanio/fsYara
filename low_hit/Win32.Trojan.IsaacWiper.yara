@@ -1,22 +1,19 @@
-rule Win32_Trojan_IsaacWiper : tc_detection malicious
+rule Win32_Trojan_IsaacWiper : tc_detection malicious hardened
 {
-    meta:
+	meta:
+		author = "ReversingLabs"
+		source = "ReversingLabs"
+		status = "RELEASED"
+		sharing = "TLP:WHITE"
+		category = "MALWARE"
+		malware = "ISAACWIPER"
+		description = "Yara rule that detects IsaacWiper trojan."
+		tc_detection_type = "Trojan"
+		tc_detection_name = "IsaacWiper"
+		tc_detection_factor = 5
 
-        author              = "ReversingLabs"
-
-        source              = "ReversingLabs"
-        status              = "RELEASED"
-        sharing             = "TLP:WHITE"
-        category            = "MALWARE"
-        malware             = "ISAACWIPER"
-        description         = "Yara rule that detects IsaacWiper trojan."
-
-        tc_detection_type   = "Trojan"
-        tc_detection_name   = "IsaacWiper"
-        tc_detection_factor = 5
-
-    strings:
-        $enumerate_physical_drives = {
+	strings:
+		$enumerate_physical_drives = {
             55 8B EC 81 EC ?? ?? ?? ?? 53 56 33 F6 89 55 ?? 57 89 4D ?? B3 ?? C7 45 ?? ?? ?? ?? 
             ?? 89 75 ?? 84 DB 0F 84 ?? ?? ?? ?? 8B D6 8D 4D ?? E8 ?? ?? ?? ?? 84 C0 0F 84 ?? ?? 
             ?? ?? 6A ?? 68 ?? ?? ?? ?? BA ?? ?? ?? ?? 8D 8D ?? ?? ?? ?? E8 ?? ?? ?? ?? D1 E8 8D 
@@ -42,8 +39,7 @@ rule Win32_Trojan_IsaacWiper : tc_detection malicious
             6A ?? 8B D6 8B CF E8 ?? ?? ?? ?? 8A C8 83 C4 ?? 46 83 C7 ?? 84 C9 75 ?? 8A C1 5F 5E 
             5B 8B E5 5D C3
         }
-
-        $corrupt_drive_thread = {
+		$corrupt_drive_thread = {
             55 8B EC 83 E4 ?? B8 ?? ?? ?? ?? E8 ?? ?? ?? ?? 53 8B 5D ?? 56 57 85 DB 0F 84 ?? ?? 
             ?? ?? 83 7B ?? ?? 0F 85 ?? ?? ?? ?? 8B 43 ?? 8D 4C 24 ?? 03 C0 BA ?? ?? ?? ?? 50 53 
             E8 ?? ?? ?? ?? 8B 3D ?? ?? ?? ?? 83 C4 ?? D1 E8 33 C9 66 89 4C 44 ?? 8D 44 24 ?? 50 
@@ -68,9 +64,7 @@ rule Win32_Trojan_IsaacWiper : tc_detection malicious
             5F 5E 33 C0 5B 8B E5 5D C2
         }
 
-    condition:
-        uint16(0) == 0x5A4D and
-        (
-            $enumerate_physical_drives and $corrupt_drive_thread
-        )
+	condition:
+		uint16( 0 ) == 0x5A4D and ( $enumerate_physical_drives and $corrupt_drive_thread )
 }
+

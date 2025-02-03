@@ -1,27 +1,4 @@
-// source: https://github.com/Yara-Rules/rules/blob/0f93570194a80d2f2032869055808b0ddcdfb360/webshells/WShell_THOR_Webshells.yar
-// This yara ruleset has been modified to remove the plaintext strings, converted to their hex format
-
-/*
-    This Yara ruleset is under the GNU-GPLv2 license (http://www.gnu.org/licenses/gpl-2.0.html) and open to any user or organization, as    long as you use it under this license.
-
-*/
-
-/*
-
-   THOR APT Scanner - Web Shells Extract
-   This rulset is a subset of all hack tool rules included in our
-   APT Scanner THOR - the full featured APT scanner
-
-   We will frequently update this file with new rules rated TLP:WHITE
-
-   Florian Roth
-   BSK Consulting GmbH
-   Web: bsk-consulting.de
-
-   revision: 20150122
-
-*/
-rule Weevely_Webshell : webshell
+rule Weevely_Webshell : webshell hardened
 {
 	meta:
 		description = "Weevely Webshell - Generic Rule - heavily scrambled tiny web shell"
@@ -38,10 +15,10 @@ rule Weevely_Webshell : webshell
 		$s4 = /\$[a-z]{4}="[a-zA-Z0-9]{70}/ ascii
 
 	condition:
-		$php at 0 and all of ($s*) and filesize >570 and filesize <800
+		$php at 0 and all of ( $s* ) and filesize > 570 and filesize < 800
 }
 
-rule webshell_h4ntu_shell_powered_by_tsoi_ : webshell
+rule webshell_h4ntu_shell_powered_by_tsoi_ : webshell hardened
 {
 	meta:
 		description = "Web Shell - file h4ntu shell [powered by tsoi].php"
@@ -60,7 +37,7 @@ rule webshell_h4ntu_shell_powered_by_tsoi_ : webshell
 		all of them
 }
 
-rule webshell_PHP_sql : webshell
+rule webshell_PHP_sql : webshell hardened
 {
 	meta:
 		description = "Web Shell - file sql.php"
@@ -77,7 +54,7 @@ rule webshell_PHP_sql : webshell
 		all of them
 }
 
-rule webshell_PHP_a : webshell
+rule webshell_PHP_a : webshell hardened
 {
 	meta:
 		description = "Web Shell - file a.php"
@@ -95,7 +72,7 @@ rule webshell_PHP_a : webshell
 		2 of them
 }
 
-rule webshell_iMHaPFtp_2 : webshell
+rule webshell_iMHaPFtp_2 : webshell hardened
 {
 	meta:
 		description = "Web Shell - file iMHaPFtp.php"
@@ -112,7 +89,7 @@ rule webshell_iMHaPFtp_2 : webshell
 		1 of them
 }
 
-rule webshell_Jspspyweb : webshell
+rule webshell_Jspspyweb : webshell hardened
 {
 	meta:
 		description = "Web Shell - file Jspspyweb.jsp"
@@ -129,7 +106,7 @@ rule webshell_Jspspyweb : webshell
 		all of them
 }
 
-rule webshell_Safe_Mode_Bypass_PHP_4_4_2_and_PHP_5_1_2 : webshell
+rule webshell_Safe_Mode_Bypass_PHP_4_4_2_and_PHP_5_1_2 : webshell hardened
 {
 	meta:
 		description = "Web Shell - file Safe_Mode Bypass PHP 4.4.2 and PHP 5.1.2.php"
@@ -146,7 +123,7 @@ rule webshell_Safe_Mode_Bypass_PHP_4_4_2_and_PHP_5_1_2 : webshell
 		1 of them
 }
 
-rule webshell_SimAttacker_Vrsion_1_0_0_priv8_4_My_friend : webshell
+rule webshell_SimAttacker_Vrsion_1_0_0_priv8_4_My_friend : webshell hardened
 {
 	meta:
 		description = "Web Shell - file SimAttacker - Vrsion 1.0.0 - priv8 4 My friend.php"
@@ -163,7 +140,7 @@ rule webshell_SimAttacker_Vrsion_1_0_0_priv8_4_My_friend : webshell
 		1 of them
 }
 
-rule webshell_phpshell_2_1_pwhash : webshell
+rule webshell_phpshell_2_1_pwhash : webshell hardened
 {
 	meta:
 		description = "Web Shell - file pwhash.php"
@@ -180,7 +157,7 @@ rule webshell_phpshell_2_1_pwhash : webshell
 		1 of them
 }
 
-rule webshell_PHPRemoteView : webshell
+rule webshell_PHPRemoteView : webshell hardened
 {
 	meta:
 		description = "Web Shell - file PHPRemoteView.php"
@@ -197,7 +174,7 @@ rule webshell_PHPRemoteView : webshell
 		1 of them
 }
 
-rule webshell_jsp_12302 : webshell
+rule webshell_jsp_12302 : webshell hardened
 {
 	meta:
 		description = "Web Shell - file 12302.jsp"
@@ -215,7 +192,7 @@ rule webshell_jsp_12302 : webshell
 		all of them
 }
 
-rule webshell_caidao_shell_guo : webshell
+rule webshell_caidao_shell_guo : webshell hardened
 {
 	meta:
 		description = "Web Shell - file guo.php"
@@ -232,7 +209,7 @@ rule webshell_caidao_shell_guo : webshell
 		1 of them
 }
 
-rule webshell_PHP_redcod : webshell
+rule webshell_PHP_redcod : webshell hardened
 {
 	meta:
 		description = "Web Shell - file redcod.php"
@@ -249,7 +226,7 @@ rule webshell_PHP_redcod : webshell
 		all of them
 }
 
-rule webshell_remview_fix : webshell
+rule webshell_remview_fix : webshell hardened
 {
 	meta:
 		description = "Web Shell - file remview_fix.php"
@@ -266,7 +243,7 @@ rule webshell_remview_fix : webshell
 		1 of them
 }
 
-rule webshell_asp_cmd : webshell
+rule webshell_asp_cmd : webshell hardened
 {
 	meta:
 		description = "Web Shell - file cmd.asp"
@@ -284,7 +261,7 @@ rule webshell_asp_cmd : webshell
 		1 of them
 }
 
-rule webshell_php_sh_server : webshell
+rule webshell_php_sh_server : webshell hardened
 {
 	meta:
 		description = "Web Shell - file server.php"
@@ -300,7 +277,7 @@ rule webshell_php_sh_server : webshell
 		all of them
 }
 
-rule webshell_PH_Vayv_PH_Vayv : webshell
+rule webshell_PH_Vayv_PH_Vayv : webshell hardened
 {
 	meta:
 		description = "Web Shell - file PH Vayv.php"
@@ -317,7 +294,7 @@ rule webshell_PH_Vayv_PH_Vayv : webshell
 		1 of them
 }
 
-rule webshell_caidao_shell_ice : webshell
+rule webshell_caidao_shell_ice : webshell hardened
 {
 	meta:
 		description = "Web Shell - file ice.asp"
@@ -333,7 +310,7 @@ rule webshell_caidao_shell_ice : webshell
 		all of them
 }
 
-rule webshell_cihshell_fix : webshell
+rule webshell_cihshell_fix : webshell hardened
 {
 	meta:
 		description = "Web Shell - file cihshell_fix.php"
@@ -350,7 +327,7 @@ rule webshell_cihshell_fix : webshell
 		1 of them
 }
 
-rule webshell_asp_shell : webshell
+rule webshell_asp_shell : webshell hardened
 {
 	meta:
 		description = "Web Shell - file shell.asp"
@@ -367,7 +344,7 @@ rule webshell_asp_shell : webshell
 		all of them
 }
 
-rule webshell_Private_i3lue : webshell
+rule webshell_Private_i3lue : webshell hardened
 {
 	meta:
 		description = "Web Shell - file Private-i3lue.php"
@@ -383,7 +360,7 @@ rule webshell_Private_i3lue : webshell
 		all of them
 }
 
-rule webshell_php_up : webshell
+rule webshell_php_up : webshell hardened
 {
 	meta:
 		description = "Web Shell - file up.php"
@@ -401,7 +378,7 @@ rule webshell_php_up : webshell
 		2 of them
 }
 
-rule webshell_Mysql_interface_v1_0
+rule webshell_Mysql_interface_v1_0 : hardened
 {
 	meta:
 		description = "Web Shell - file Mysql interface v1.0.php"
@@ -417,7 +394,7 @@ rule webshell_Mysql_interface_v1_0
 		all of them
 }
 
-rule webshell_php_s_u
+rule webshell_php_s_u : hardened
 {
 	meta:
 		description = "Web Shell - file s-u.php"
@@ -433,7 +410,7 @@ rule webshell_php_s_u
 		all of them
 }
 
-rule webshell_phpshell_2_1_config
+rule webshell_phpshell_2_1_config : hardened
 {
 	meta:
 		description = "Web Shell - file config.php"
@@ -449,7 +426,7 @@ rule webshell_phpshell_2_1_config
 		all of them
 }
 
-rule webshell_asp_EFSO_2
+rule webshell_asp_EFSO_2 : hardened
 {
 	meta:
 		description = "Web Shell - file EFSO_2.asp"
@@ -465,7 +442,7 @@ rule webshell_asp_EFSO_2
 		all of them
 }
 
-rule webshell_jsp_up
+rule webshell_jsp_up : hardened
 {
 	meta:
 		description = "Web Shell - file up.jsp"
@@ -481,7 +458,7 @@ rule webshell_jsp_up
 		all of them
 }
 
-rule webshell_NetworkFileManagerPHP
+rule webshell_NetworkFileManagerPHP : hardened
 {
 	meta:
 		description = "Web Shell - file NetworkFileManagerPHP.php"
@@ -497,7 +474,7 @@ rule webshell_NetworkFileManagerPHP
 		all of them
 }
 
-rule webshell_Server_Variables
+rule webshell_Server_Variables : hardened
 {
 	meta:
 		description = "Web Shell - file Server Variables.asp"
@@ -514,7 +491,7 @@ rule webshell_Server_Variables
 		all of them
 }
 
-rule webshell_caidao_shell_ice_2
+rule webshell_caidao_shell_ice_2 : hardened
 {
 	meta:
 		description = "Web Shell - file ice.php"
@@ -530,7 +507,7 @@ rule webshell_caidao_shell_ice_2
 		all of them
 }
 
-rule webshell_caidao_shell_mdb
+rule webshell_caidao_shell_mdb : hardened
 {
 	meta:
 		description = "Web Shell - file mdb.asp"
@@ -546,7 +523,7 @@ rule webshell_caidao_shell_mdb
 		all of them
 }
 
-rule webshell_jsp_guige
+rule webshell_jsp_guige : hardened
 {
 	meta:
 		description = "Web Shell - file guige.jsp"
@@ -562,7 +539,7 @@ rule webshell_jsp_guige
 		all of them
 }
 
-rule webshell_phpspy2010
+rule webshell_phpspy2010 : hardened
 {
 	meta:
 		description = "Web Shell - file phpspy2010.php"
@@ -580,7 +557,7 @@ rule webshell_phpspy2010
 		all of them
 }
 
-rule webshell_asp_ice
+rule webshell_asp_ice : hardened
 {
 	meta:
 		description = "Web Shell - file ice.asp"
@@ -596,7 +573,7 @@ rule webshell_asp_ice
 		all of them
 }
 
-rule webshell_drag_system
+rule webshell_drag_system : hardened
 {
 	meta:
 		description = "Web Shell - file system.jsp"
@@ -612,7 +589,7 @@ rule webshell_drag_system
 		all of them
 }
 
-rule webshell_DarkBlade1_3_asp_indexx
+rule webshell_DarkBlade1_3_asp_indexx : hardened
 {
 	meta:
 		description = "Web Shell - file indexx.asp"
@@ -628,7 +605,7 @@ rule webshell_DarkBlade1_3_asp_indexx
 		all of them
 }
 
-rule webshell_phpshell3
+rule webshell_phpshell3 : hardened
 {
 	meta:
 		description = "Web Shell - file phpshell3.php"
@@ -646,7 +623,7 @@ rule webshell_phpshell3
 		2 of them
 }
 
-rule webshell_jsp_hsxa
+rule webshell_jsp_hsxa : hardened
 {
 	meta:
 		description = "Web Shell - file hsxa.jsp"
@@ -662,7 +639,7 @@ rule webshell_jsp_hsxa
 		all of them
 }
 
-rule webshell_jsp_utils
+rule webshell_jsp_utils : hardened
 {
 	meta:
 		description = "Web Shell - file utils.jsp"
@@ -679,7 +656,7 @@ rule webshell_jsp_utils
 		all of them
 }
 
-rule webshell_asp_01
+rule webshell_asp_01 : hardened
 {
 	meta:
 		description = "Web Shell - file 01.asp"
@@ -695,7 +672,7 @@ rule webshell_asp_01
 		all of them
 }
 
-rule webshell_asp_404
+rule webshell_asp_404 : hardened
 {
 	meta:
 		description = "Web Shell - file 404.asp"
@@ -711,7 +688,7 @@ rule webshell_asp_404
 		all of them
 }
 
-rule webshell_webshell_cnseay02_1
+rule webshell_webshell_cnseay02_1 : hardened
 {
 	meta:
 		description = "Web Shell - file webshell-cnseay02-1.php"
@@ -727,7 +704,7 @@ rule webshell_webshell_cnseay02_1
 		all of them
 }
 
-rule webshell_php_fbi
+rule webshell_php_fbi : hardened
 {
 	meta:
 		description = "Web Shell - file fbi.php"
@@ -743,7 +720,7 @@ rule webshell_php_fbi
 		all of them
 }
 
-rule webshell_B374kPHP_B374k
+rule webshell_B374kPHP_B374k : hardened
 {
 	meta:
 		description = "Web Shell - file B374k.php"
@@ -762,7 +739,7 @@ rule webshell_B374kPHP_B374k
 		1 of them
 }
 
-rule webshell_cmd_asp_5_1
+rule webshell_cmd_asp_5_1 : hardened
 {
 	meta:
 		description = "Web Shell - file cmd-asp-5.1.asp"
@@ -778,7 +755,7 @@ rule webshell_cmd_asp_5_1
 		all of them
 }
 
-rule webshell_php_dodo_zip
+rule webshell_php_dodo_zip : hardened
 {
 	meta:
 		description = "Web Shell - file zip.php"
@@ -795,7 +772,7 @@ rule webshell_php_dodo_zip
 		all of them
 }
 
-rule webshell_aZRaiLPhp_v1_0
+rule webshell_aZRaiLPhp_v1_0 : hardened
 {
 	meta:
 		description = "Web Shell - file aZRaiLPhp v1.0.php"
@@ -812,7 +789,7 @@ rule webshell_aZRaiLPhp_v1_0
 		all of them
 }
 
-rule webshell_php_list
+rule webshell_php_list : hardened
 {
 	meta:
 		description = "Web Shell - file list.php"
@@ -830,7 +807,7 @@ rule webshell_php_list
 		1 of them
 }
 
-rule webshell_ironshell
+rule webshell_ironshell : hardened
 {
 	meta:
 		description = "Web Shell - file ironshell.php"
@@ -847,7 +824,7 @@ rule webshell_ironshell
 		all of them
 }
 
-rule webshell_caidao_shell_404
+rule webshell_caidao_shell_404 : hardened
 {
 	meta:
 		description = "Web Shell - file 404.php"
@@ -863,7 +840,7 @@ rule webshell_caidao_shell_404
 		all of them
 }
 
-rule webshell_ASP_aspydrv
+rule webshell_ASP_aspydrv : hardened
 {
 	meta:
 		description = "Web Shell - file aspydrv.asp"
@@ -879,7 +856,7 @@ rule webshell_ASP_aspydrv
 		all of them
 }
 
-rule webshell_jsp_web
+rule webshell_jsp_web : hardened
 {
 	meta:
 		description = "Web Shell - file web.jsp"
@@ -895,7 +872,7 @@ rule webshell_jsp_web
 		all of them
 }
 
-rule webshell_mysqlwebsh
+rule webshell_mysqlwebsh : hardened
 {
 	meta:
 		description = "Web Shell - file mysqlwebsh.php"
@@ -911,7 +888,7 @@ rule webshell_mysqlwebsh
 		all of them
 }
 
-rule webshell_jspShell
+rule webshell_jspShell : hardened
 {
 	meta:
 		description = "Web Shell - file jspShell.jsp"
@@ -928,7 +905,7 @@ rule webshell_jspShell
 		all of them
 }
 
-rule webshell_Dx_Dx
+rule webshell_Dx_Dx : hardened
 {
 	meta:
 		description = "Web Shell - file Dx.php"
@@ -945,7 +922,7 @@ rule webshell_Dx_Dx
 		1 of them
 }
 
-rule webshell_asp_ntdaddy
+rule webshell_asp_ntdaddy : hardened
 {
 	meta:
 		description = "Web Shell - file ntdaddy.asp"
@@ -962,7 +939,7 @@ rule webshell_asp_ntdaddy
 		1 of them
 }
 
-rule webshell_MySQL_Web_Interface_Version_0_8
+rule webshell_MySQL_Web_Interface_Version_0_8 : hardened
 {
 	meta:
 		description = "Web Shell - file MySQL Web Interface Version 0.8.php"
@@ -978,7 +955,7 @@ rule webshell_MySQL_Web_Interface_Version_0_8
 		all of them
 }
 
-rule webshell_elmaliseker_2
+rule webshell_elmaliseker_2 : hardened
 {
 	meta:
 		description = "Web Shell - file elmaliseker.asp"
@@ -995,7 +972,7 @@ rule webshell_elmaliseker_2
 		all of them
 }
 
-rule webshell_ASP_RemExp
+rule webshell_ASP_RemExp : hardened
 {
 	meta:
 		description = "Web Shell - file RemExp.asp"
@@ -1012,7 +989,7 @@ rule webshell_ASP_RemExp
 		all of them
 }
 
-rule webshell_jsp_list1
+rule webshell_jsp_list1 : hardened
 {
 	meta:
 		description = "Web Shell - file list1.jsp"
@@ -1029,7 +1006,7 @@ rule webshell_jsp_list1
 		all of them
 }
 
-rule webshell_phpkit_1_0_odd
+rule webshell_phpkit_1_0_odd : hardened
 {
 	meta:
 		description = "Web Shell - file odd.php"
@@ -1047,7 +1024,7 @@ rule webshell_phpkit_1_0_odd
 		all of them
 }
 
-rule webshell_jsp_123
+rule webshell_jsp_123 : hardened
 {
 	meta:
 		description = "Web Shell - file 123.jsp"
@@ -1065,7 +1042,7 @@ rule webshell_jsp_123
 		all of them
 }
 
-rule webshell_asp_1
+rule webshell_asp_1 : hardened
 {
 	meta:
 		description = "Web Shell - file 1.asp"
@@ -1082,7 +1059,7 @@ rule webshell_asp_1
 		all of them
 }
 
-rule webshell_ASP_tool
+rule webshell_ASP_tool : hardened
 {
 	meta:
 		description = "Web Shell - file tool.asp"
@@ -1100,7 +1077,7 @@ rule webshell_ASP_tool
 		2 of them
 }
 
-rule webshell_cmd_win32
+rule webshell_cmd_win32 : hardened
 {
 	meta:
 		description = "Web Shell - file cmd_win32.jsp"
@@ -1117,7 +1094,7 @@ rule webshell_cmd_win32
 		2 of them
 }
 
-rule webshell_jsp_jshell
+rule webshell_jsp_jshell : hardened
 {
 	meta:
 		description = "Web Shell - file jshell.jsp"
@@ -1137,7 +1114,7 @@ rule webshell_jsp_jshell
 		all of them
 }
 
-rule webshell_ASP_zehir4
+rule webshell_ASP_zehir4 : hardened
 {
 	meta:
 		description = "Web Shell - file zehir4.asp"
@@ -1153,7 +1130,7 @@ rule webshell_ASP_zehir4
 		all of them
 }
 
-rule webshell_wsb_idc
+rule webshell_wsb_idc : hardened
 {
 	meta:
 		description = "Web Shell - file idc.php"
@@ -1170,7 +1147,7 @@ rule webshell_wsb_idc
 		1 of them
 }
 
-rule webshell_cpg_143_incl_xpl
+rule webshell_cpg_143_incl_xpl : hardened
 {
 	meta:
 		description = "Web Shell - file cpg_143_incl_xpl.php"
@@ -1187,7 +1164,7 @@ rule webshell_cpg_143_incl_xpl
 		1 of them
 }
 
-rule webshell_mumaasp_com
+rule webshell_mumaasp_com : hardened
 {
 	meta:
 		description = "Web Shell - file mumaasp.com.asp"
@@ -1203,7 +1180,7 @@ rule webshell_mumaasp_com
 		all of them
 }
 
-rule webshell_php_404
+rule webshell_php_404 : hardened
 {
 	meta:
 		description = "Web Shell - file 404.php"
@@ -1219,7 +1196,7 @@ rule webshell_php_404
 		all of them
 }
 
-rule webshell_webshell_cnseay_x
+rule webshell_webshell_cnseay_x : hardened
 {
 	meta:
 		description = "Web Shell - file webshell-cnseay-x.php"
@@ -1235,7 +1212,7 @@ rule webshell_webshell_cnseay_x
 		all of them
 }
 
-rule webshell_asp_up
+rule webshell_asp_up : hardened
 {
 	meta:
 		description = "Web Shell - file up.asp"
@@ -1252,7 +1229,7 @@ rule webshell_asp_up
 		1 of them
 }
 
-rule webshell_phpkit_0_1a_odd
+rule webshell_phpkit_0_1a_odd : hardened
 {
 	meta:
 		description = "Web Shell - file odd.php"
@@ -1271,7 +1248,7 @@ rule webshell_phpkit_0_1a_odd
 		2 of them
 }
 
-rule webshell_ASP_cmd
+rule webshell_ASP_cmd : hardened
 {
 	meta:
 		description = "Web Shell - file cmd.asp"
@@ -1287,7 +1264,7 @@ rule webshell_ASP_cmd
 		all of them
 }
 
-rule webshell_PHP_Shell_x3
+rule webshell_PHP_Shell_x3 : hardened
 {
 	meta:
 		description = "Web Shell - file PHP Shell.php"
@@ -1305,7 +1282,7 @@ rule webshell_PHP_Shell_x3
 		2 of them
 }
 
-rule webshell_PHP_g00nv13
+rule webshell_PHP_g00nv13 : hardened
 {
 	meta:
 		description = "Web Shell - file g00nv13.php"
@@ -1322,7 +1299,7 @@ rule webshell_PHP_g00nv13
 		all of them
 }
 
-rule webshell_php_h6ss
+rule webshell_php_h6ss : hardened
 {
 	meta:
 		description = "Web Shell - file h6ss.php"
@@ -1338,7 +1315,7 @@ rule webshell_php_h6ss
 		all of them
 }
 
-rule webshell_jsp_zx
+rule webshell_jsp_zx : hardened
 {
 	meta:
 		description = "Web Shell - file zx.jsp"
@@ -1354,7 +1331,7 @@ rule webshell_jsp_zx
 		all of them
 }
 
-rule webshell_Ani_Shell
+rule webshell_Ani_Shell : hardened
 {
 	meta:
 		description = "Web Shell - file Ani-Shell.php"
@@ -1372,7 +1349,7 @@ rule webshell_Ani_Shell
 		1 of them
 }
 
-rule webshell_jsp_k8cmd
+rule webshell_jsp_k8cmd : hardened
 {
 	meta:
 		description = "Web Shell - file k8cmd.jsp"
@@ -1388,7 +1365,7 @@ rule webshell_jsp_k8cmd
 		all of them
 }
 
-rule webshell_jsp_cmd
+rule webshell_jsp_cmd : hardened
 {
 	meta:
 		description = "Web Shell - file cmd.jsp"
@@ -1404,7 +1381,7 @@ rule webshell_jsp_cmd
 		all of them
 }
 
-rule webshell_jsp_k81
+rule webshell_jsp_k81 : hardened
 {
 	meta:
 		description = "Web Shell - file k81.jsp"
@@ -1421,7 +1398,7 @@ rule webshell_jsp_k81
 		1 of them
 }
 
-rule webshell_ASP_zehir
+rule webshell_ASP_zehir : hardened
 {
 	meta:
 		description = "Web Shell - file zehir.asp"
@@ -1437,7 +1414,7 @@ rule webshell_ASP_zehir
 		all of them
 }
 
-rule webshell_Worse_Linux_Shell
+rule webshell_Worse_Linux_Shell : hardened
 {
 	meta:
 		description = "Web Shell - file Worse Linux Shell.php"
@@ -1453,7 +1430,7 @@ rule webshell_Worse_Linux_Shell
 		all of them
 }
 
-rule webshell_zacosmall
+rule webshell_zacosmall : hardened
 {
 	meta:
 		description = "Web Shell - file zacosmall.php"
@@ -1469,7 +1446,7 @@ rule webshell_zacosmall
 		all of them
 }
 
-rule webshell_Liz0ziM_Private_Safe_Mode_Command_Execuriton_Bypass_Exploit
+rule webshell_Liz0ziM_Private_Safe_Mode_Command_Execuriton_Bypass_Exploit : hardened
 {
 	meta:
 		description = "Web Shell - file Liz0ziM Private Safe Mode Command Execuriton Bypass Exploit.php"
@@ -1485,7 +1462,7 @@ rule webshell_Liz0ziM_Private_Safe_Mode_Command_Execuriton_Bypass_Exploit
 		all of them
 }
 
-rule webshell_redirect
+rule webshell_redirect : hardened
 {
 	meta:
 		description = "Web Shell - file redirect.asp"
@@ -1501,7 +1478,7 @@ rule webshell_redirect
 		all of them
 }
 
-rule webshell_jsp_cmdjsp
+rule webshell_jsp_cmdjsp : hardened
 {
 	meta:
 		description = "Web Shell - file cmdjsp.jsp"
@@ -1517,7 +1494,7 @@ rule webshell_jsp_cmdjsp
 		all of them
 }
 
-rule webshell_Java_Shell
+rule webshell_Java_Shell : hardened
 {
 	meta:
 		description = "Web Shell - file Java Shell.jsp"
@@ -1534,7 +1511,7 @@ rule webshell_Java_Shell
 		1 of them
 }
 
-rule webshell_asp_1d
+rule webshell_asp_1d : hardened
 {
 	meta:
 		description = "Web Shell - file 1d.asp"
@@ -1550,24 +1527,7 @@ rule webshell_asp_1d
 		all of them
 }
 
-// duplicated
-/* rule webshell_jsp_IXRbE
-{
-	meta:
-		description = "Web Shell - file IXRbE.jsp"
-		author = "Florian Roth"
-		date = "2014/01/28"
-		score = 70
-		hash = "e26e7e0ebc6e7662e1123452a939e2cd"
-
-	strings:
-		$s0 = {3C 25 69 66 28 72 65 71 75 65 73 74 2E 67 65 74 50 61 72 61 6D 65 74 65 72 28 5C 22 66 5C 22 29 21 3D 6E 75 6C 6C 29 28 6E 65 77 20 6A 61 76 61 2E 69 6F 2E 46 69 6C 65 4F 75 74 70 75 74 53 74 72 65 61 6D 28 61 70 70 6C 69 63 61 74 69 6F 6E}
-
-	condition:
-		all of them
-}*/
-
-rule webshell_PHP_G5
+rule webshell_PHP_G5 : hardened
 {
 	meta:
 		description = "Web Shell - file G5.php"
@@ -1583,7 +1543,7 @@ rule webshell_PHP_G5
 		all of them
 }
 
-rule webshell_PHP_r57142
+rule webshell_PHP_r57142 : hardened
 {
 	meta:
 		description = "Web Shell - file r57142.php"
@@ -1599,7 +1559,7 @@ rule webshell_PHP_r57142
 		all of them
 }
 
-rule webshell_jsp_tree
+rule webshell_jsp_tree : hardened
 {
 	meta:
 		description = "Web Shell - file tree.jsp"
@@ -1616,7 +1576,7 @@ rule webshell_jsp_tree
 		all of them
 }
 
-rule webshell_C99madShell_v_3_0_smowu
+rule webshell_C99madShell_v_3_0_smowu : hardened
 {
 	meta:
 		description = "Web Shell - file smowu.php"
@@ -1633,7 +1593,7 @@ rule webshell_C99madShell_v_3_0_smowu
 		1 of them
 }
 
-rule webshell_simple_backdoor
+rule webshell_simple_backdoor : hardened
 {
 	meta:
 		description = "Web Shell - file simple-backdoor.php"
@@ -1651,7 +1611,7 @@ rule webshell_simple_backdoor
 		2 of them
 }
 
-rule webshell_PHP_404
+rule webshell_PHP_404 : hardened
 {
 	meta:
 		description = "Web Shell - file 404.php"
@@ -1667,7 +1627,7 @@ rule webshell_PHP_404
 		all of them
 }
 
-rule webshell_Macker_s_Private_PHPShell
+rule webshell_Macker_s_Private_PHPShell : hardened
 {
 	meta:
 		description = "Web Shell - file Macker's Private PHPShell.php"
@@ -1685,7 +1645,7 @@ rule webshell_Macker_s_Private_PHPShell
 		all of them
 }
 
-rule webshell_Antichat_Shell_v1_3_2
+rule webshell_Antichat_Shell_v1_3_2 : hardened
 {
 	meta:
 		description = "Web Shell - file Antichat Shell v1.3.php"
@@ -1701,7 +1661,7 @@ rule webshell_Antichat_Shell_v1_3_2
 		all of them
 }
 
-rule webshell_Safe_mode_breaker
+rule webshell_Safe_mode_breaker : hardened
 {
 	meta:
 		description = "Web Shell - file Safe mode breaker.php"
@@ -1718,7 +1678,7 @@ rule webshell_Safe_mode_breaker
 		1 of them
 }
 
-rule webshell_Sst_Sheller
+rule webshell_Sst_Sheller : hardened
 {
 	meta:
 		description = "Web Shell - file Sst-Sheller.php"
@@ -1735,7 +1695,7 @@ rule webshell_Sst_Sheller
 		all of them
 }
 
-rule webshell_jsp_list
+rule webshell_jsp_list : hardened
 {
 	meta:
 		description = "Web Shell - file list.jsp"
@@ -1753,7 +1713,7 @@ rule webshell_jsp_list
 		all of them
 }
 
-rule webshell_PHPJackal_v1_5
+rule webshell_PHPJackal_v1_5 : hardened
 {
 	meta:
 		description = "Web Shell - file PHPJackal v1.5.php"
@@ -1770,24 +1730,7 @@ rule webshell_PHPJackal_v1_5
 		all of them
 }
 
-// duplicated
-/* rule webshell_customize
-{
-	meta:
-		description = "Web Shell - file customize.jsp"
-		author = "Florian Roth"
-		date = "2014/01/28"
-		score = 70
-		hash = "d55578eccad090f30f5d735b8ec530b1"
-
-	strings:
-		$s4 = {53 74 72 69 6E 67 20 63 73 20 3D 20 72 65 71 75 65 73 74 2E 67 65 74 50 61 72 61 6D 65 74 65 72 28 5C 22 7A 30 5C 22 29 3D 3D 6E 75 6C 6C 3F 5C 22 67 62 6B 5C 22 3A 20 72 65 71 75 65 73 74 2E 67 65 74 50 61 72 61 6D 65 74 65 72 28 5C 22 7A}
-
-	condition:
-		all of them
-}*/
-
-rule webshell_s72_Shell_v1_1_Coding
+rule webshell_s72_Shell_v1_1_Coding : hardened
 {
 	meta:
 		description = "Web Shell - file s72 Shell v1.1 Coding.php"
@@ -1803,7 +1746,7 @@ rule webshell_s72_Shell_v1_1_Coding
 		all of them
 }
 
-rule webshell_jsp_sys3
+rule webshell_jsp_sys3 : hardened
 {
 	meta:
 		description = "Web Shell - file sys3.jsp"
@@ -1821,7 +1764,7 @@ rule webshell_jsp_sys3
 		all of them
 }
 
-rule webshell_jsp_guige02
+rule webshell_jsp_guige02 : hardened
 {
 	meta:
 		description = "Web Shell - file guige02.jsp"
@@ -1838,7 +1781,7 @@ rule webshell_jsp_guige02
 		all of them
 }
 
-rule webshell_php_ghost
+rule webshell_php_ghost : hardened
 {
 	meta:
 		description = "Web Shell - file ghost.php"
@@ -1856,7 +1799,7 @@ rule webshell_php_ghost
 		all of them
 }
 
-rule webshell_WinX_Shell
+rule webshell_WinX_Shell : hardened
 {
 	meta:
 		description = "Web Shell - file WinX Shell.php"
@@ -1873,7 +1816,7 @@ rule webshell_WinX_Shell
 		all of them
 }
 
-rule webshell_Crystal_Crystal
+rule webshell_Crystal_Crystal : hardened
 {
 	meta:
 		description = "Web Shell - file Crystal.php"
@@ -1890,7 +1833,7 @@ rule webshell_Crystal_Crystal
 		all of them
 }
 
-rule webshell_r57_1_4_0
+rule webshell_r57_1_4_0 : hardened
 {
 	meta:
 		description = "Web Shell - file r57.1.4.0.php"
@@ -1909,26 +1852,7 @@ rule webshell_r57_1_4_0
 		all of them
 }
 
-
-// duplicated
-/* rule webshell_jsp_hsxa1
-{
-	meta:
-		description = "Web Shell - file hsxa1.jsp"
-		author = "Florian Roth"
-		date = "2014/01/28"
-		score = 70
-		hash = "5686d5a38c6f5b8c55095af95c2b0244"
-
-	strings:
-		$s0 = {3C 25 40 20 70 61 67 65 20 6C 61 6E 67 75 61 67 65 3D 5C 22 6A 61 76 61 5C 22 20 70 61 67 65 45 6E 63 6F 64 69 6E 67 3D 5C 22 67 62 6B 5C 22 25 3E 3C 6A 73 70 3A 64 69 72 65 63 74 69 76 65 2E 70 61 67 65 20 69 6D 70 6F 72 74 3D 5C 22 6A 61}
-
-	condition:
-		all of them
-} */
-
-
-rule webshell_asp_ajn
+rule webshell_asp_ajn : hardened
 {
 	meta:
 		description = "Web Shell - file ajn.asp"
@@ -1945,7 +1869,7 @@ rule webshell_asp_ajn
 		all of them
 }
 
-rule webshell_php_cmd
+rule webshell_php_cmd : hardened
 {
 	meta:
 		description = "Web Shell - file cmd.php"
@@ -1963,7 +1887,7 @@ rule webshell_php_cmd
 		all of them
 }
 
-rule webshell_asp_list
+rule webshell_asp_list : hardened
 {
 	meta:
 		description = "Web Shell - file list.asp"
@@ -1980,7 +1904,7 @@ rule webshell_asp_list
 		all of them
 }
 
-rule webshell_PHP_co
+rule webshell_PHP_co : hardened
 {
 	meta:
 		description = "Web Shell - file co.php"
@@ -1997,7 +1921,7 @@ rule webshell_PHP_co
 		all of them
 }
 
-rule webshell_PHP_150
+rule webshell_PHP_150 : hardened
 {
 	meta:
 		description = "Web Shell - file 150.php"
@@ -2014,7 +1938,7 @@ rule webshell_PHP_150
 		all of them
 }
 
-rule webshell_jsp_cmdjsp_2
+rule webshell_jsp_cmdjsp_2 : hardened
 {
 	meta:
 		description = "Web Shell - file cmdjsp.jsp"
@@ -2031,7 +1955,7 @@ rule webshell_jsp_cmdjsp_2
 		all of them
 }
 
-rule webshell_PHP_c37
+rule webshell_PHP_c37 : hardened
 {
 	meta:
 		description = "Web Shell - file c37.php"
@@ -2048,7 +1972,7 @@ rule webshell_PHP_c37
 		all of them
 }
 
-rule webshell_PHP_b37
+rule webshell_PHP_b37 : hardened
 {
 	meta:
 		description = "Web Shell - file b37.php"
@@ -2064,7 +1988,7 @@ rule webshell_PHP_b37
 		all of them
 }
 
-rule webshell_php_backdoor
+rule webshell_php_backdoor : hardened
 {
 	meta:
 		description = "Web Shell - file php-backdoor.php"
@@ -2081,7 +2005,7 @@ rule webshell_php_backdoor
 		all of them
 }
 
-rule webshell_asp_dabao
+rule webshell_asp_dabao : hardened
 {
 	meta:
 		description = "Web Shell - file dabao.asp"
@@ -2098,7 +2022,7 @@ rule webshell_asp_dabao
 		all of them
 }
 
-rule webshell_php_2
+rule webshell_php_2 : hardened
 {
 	meta:
 		description = "Web Shell - file 2.php"
@@ -2114,7 +2038,7 @@ rule webshell_php_2
 		all of them
 }
 
-rule webshell_asp_cmdasp
+rule webshell_asp_cmdasp : hardened
 {
 	meta:
 		description = "Web Shell - file cmdasp.asp"
@@ -2131,7 +2055,7 @@ rule webshell_asp_cmdasp
 		all of them
 }
 
-rule webshell_spjspshell
+rule webshell_spjspshell : hardened
 {
 	meta:
 		description = "Web Shell - file spjspshell.jsp"
@@ -2147,7 +2071,7 @@ rule webshell_spjspshell
 		all of them
 }
 
-rule webshell_jsp_action
+rule webshell_jsp_action : hardened
 {
 	meta:
 		description = "Web Shell - file action.jsp"
@@ -2164,7 +2088,7 @@ rule webshell_jsp_action
 		all of them
 }
 
-rule webshell_Inderxer
+rule webshell_Inderxer : hardened
 {
 	meta:
 		description = "Web Shell - file Inderxer.asp"
@@ -2180,7 +2104,7 @@ rule webshell_Inderxer
 		all of them
 }
 
-rule webshell_asp_Rader
+rule webshell_asp_Rader : hardened
 {
 	meta:
 		description = "Web Shell - file Rader.asp"
@@ -2197,7 +2121,7 @@ rule webshell_asp_Rader
 		all of them
 }
 
-rule webshell_c99_madnet_smowu
+rule webshell_c99_madnet_smowu : hardened
 {
 	meta:
 		description = "Web Shell - file smowu.php"
@@ -2218,7 +2142,7 @@ rule webshell_c99_madnet_smowu
 		all of them
 }
 
-rule webshell_php_moon
+rule webshell_php_moon : hardened
 {
 	meta:
 		description = "Web Shell - file moon.php"
@@ -2236,7 +2160,7 @@ rule webshell_php_moon
 		2 of them
 }
 
-rule webshell_jsp_jdbc
+rule webshell_jsp_jdbc : hardened
 {
 	meta:
 		description = "Web Shell - file jdbc.jsp"
@@ -2252,7 +2176,7 @@ rule webshell_jsp_jdbc
 		all of them
 }
 
-rule webshell_minupload
+rule webshell_minupload : hardened
 {
 	meta:
 		description = "Web Shell - file minupload.jsp"
@@ -2269,7 +2193,7 @@ rule webshell_minupload
 		all of them
 }
 
-rule webshell_ELMALISEKER_Backd00r
+rule webshell_ELMALISEKER_Backd00r : hardened
 {
 	meta:
 		description = "Web Shell - file ELMALISEKER Backd00r.asp"
@@ -2286,7 +2210,7 @@ rule webshell_ELMALISEKER_Backd00r
 		all of them
 }
 
-rule webshell_PHP_bug_1_
+rule webshell_PHP_bug_1_ : hardened
 {
 	meta:
 		description = "Web Shell - file bug (1).php"
@@ -2302,7 +2226,7 @@ rule webshell_PHP_bug_1_
 		all of them
 }
 
-rule webshell_caidao_shell_hkmjj
+rule webshell_caidao_shell_hkmjj : hardened
 {
 	meta:
 		description = "Web Shell - file hkmjj.asp"
@@ -2318,7 +2242,7 @@ rule webshell_caidao_shell_hkmjj
 		all of them
 }
 
-rule webshell_jsp_asd
+rule webshell_jsp_asd : hardened
 {
 	meta:
 		description = "Web Shell - file asd.jsp"
@@ -2335,7 +2259,7 @@ rule webshell_jsp_asd
 		all of them
 }
 
-rule webshell_jsp_inback3
+rule webshell_jsp_inback3 : hardened
 {
 	meta:
 		description = "Web Shell - file inback3.jsp"
@@ -2351,7 +2275,7 @@ rule webshell_jsp_inback3
 		all of them
 }
 
-rule webshell_metaslsoft
+rule webshell_metaslsoft : hardened
 {
 	meta:
 		description = "Web Shell - file metaslsoft.php"
@@ -2367,7 +2291,7 @@ rule webshell_metaslsoft
 		all of them
 }
 
-rule webshell_asp_Ajan
+rule webshell_asp_Ajan : hardened
 {
 	meta:
 		description = "Web Shell - file Ajan.asp"
@@ -2383,7 +2307,7 @@ rule webshell_asp_Ajan
 		all of them
 }
 
-rule webshell_config_myxx_zend
+rule webshell_config_myxx_zend : hardened
 {
 	meta:
 		description = "Web Shell - from files config.jsp, myxx.jsp, zend.jsp"
@@ -2402,7 +2326,7 @@ rule webshell_config_myxx_zend
 		all of them
 }
 
-rule webshell_browser_201_3_ma_download
+rule webshell_browser_201_3_ma_download : hardened
 {
 	meta:
 		description = "Web Shell - from files browser.jsp, 201.jsp, 3.jsp, ma.jsp, download.jsp"
@@ -2424,7 +2348,7 @@ rule webshell_browser_201_3_ma_download
 		all of them
 }
 
-rule webshell_itsec_itsecteam_shell_jHn
+rule webshell_itsec_itsecteam_shell_jHn : hardened
 {
 	meta:
 		description = "Web Shell - from files itsec.php, itsecteam_shell.php, jHn.php"
@@ -2444,7 +2368,7 @@ rule webshell_itsec_itsecteam_shell_jHn
 		all of them
 }
 
-rule webshell_ghost_source_icesword_silic
+rule webshell_ghost_source_icesword_silic : hardened
 {
 	meta:
 		description = "Web Shell - from files ghost_source.php, icesword.php, silic.php"
@@ -2464,7 +2388,7 @@ rule webshell_ghost_source_icesword_silic
 		all of them
 }
 
-rule webshell_JspSpy_JspSpyJDK5_JspSpyJDK51_luci_jsp_spy2009_m_ma3_xxx
+rule webshell_JspSpy_JspSpyJDK5_JspSpyJDK51_luci_jsp_spy2009_m_ma3_xxx : hardened
 {
 	meta:
 		description = "Web Shell - from files 000.jsp, 403.jsp, 807.jsp, a.jsp, c5.jsp, css.jsp, dm.jsp, he1p.jsp, JspSpy.jsp, JspSpyJDK5.jsp, JspSpyJDK51.jsp, luci.jsp.spy2009.jsp, m.jsp, ma3.jsp, mmym520.jsp, nogfw.jsp, ok.jsp, queryDong.jsp, spyjsp2010.jsp, style.jsp, t00ls.jsp, u.jsp, xia.jsp, cofigrue.jsp, 1.jsp, jspspy.jsp, jspspy_k8.jsp, JspSpy.jsp, JspSpyJDK5.jsp"
@@ -2510,7 +2434,7 @@ rule webshell_JspSpy_JspSpyJDK5_JspSpyJDK51_luci_jsp_spy2009_m_ma3_xxx
 		all of them
 }
 
-rule webshell_2_520_job_ma1_ma4_2
+rule webshell_2_520_job_ma1_ma4_2 : hardened
 {
 	meta:
 		description = "Web Shell - from files 2.jsp, 520.jsp, job.jsp, ma1.jsp, ma4.jsp, 2.jsp"
@@ -2533,7 +2457,7 @@ rule webshell_2_520_job_ma1_ma4_2
 		all of them
 }
 
-rule webshell_000_403_807_a_c5_config_css_dm_he1p_JspSpy_JspSpyJDK5_JspSpyJDK51_luci_jsp_xxx
+rule webshell_000_403_807_a_c5_config_css_dm_he1p_JspSpy_JspSpyJDK5_JspSpyJDK51_luci_jsp_xxx : hardened
 {
 	meta:
 		description = "Web Shell - from files 000.jsp, 403.jsp, 807.jsp, a.jsp, c5.jsp, config.jsp, css.jsp, dm.jsp, he1p.jsp, JspSpy.jsp, JspSpyJDK5.jsp, JspSpyJDK51.jsp, luci.jsp.spy2009.jsp, m.jsp, ma3.jsp, mmym520.jsp, myxx.jsp, nogfw.jsp, ok.jsp, queryDong.jsp, spyjsp2010.jsp, style.jsp, t00ls.jsp, u.jsp, xia.jsp, zend.jsp, cofigrue.jsp, 1.jsp, jspspy.jsp, jspspy_k8.jsp, JspSpy.jsp, JspSpyJDK5.jsp"
@@ -2582,7 +2506,7 @@ rule webshell_000_403_807_a_c5_config_css_dm_he1p_JspSpy_JspSpyJDK5_JspSpyJDK51_
 		all of them
 }
 
-rule webshell_wso2_5_1_wso2_5_wso2
+rule webshell_wso2_5_1_wso2_5_wso2 : hardened
 {
 	meta:
 		description = "Web Shell - from files wso2.5.1.php, wso2.5.php, wso2.php"
@@ -2602,7 +2526,7 @@ rule webshell_wso2_5_1_wso2_5_wso2
 		all of them
 }
 
-rule webshell_000_403_c5_queryDong_spyjsp2010_t00ls
+rule webshell_000_403_c5_queryDong_spyjsp2010_t00ls : hardened
 {
 	meta:
 		description = "Web Shell - from files 000.jsp, 403.jsp, c5.jsp, queryDong.jsp, spyjsp2010.jsp, t00ls.jsp"
@@ -2625,7 +2549,7 @@ rule webshell_000_403_c5_queryDong_spyjsp2010_t00ls
 		all of them
 }
 
-rule webshell_404_data_suiyue
+rule webshell_404_data_suiyue : hardened
 {
 	meta:
 		description = "Web Shell - from files 404.jsp, data.jsp, suiyue.jsp"
@@ -2644,7 +2568,7 @@ rule webshell_404_data_suiyue
 		all of them
 }
 
-rule webshell_r57shell_r57shell127_SnIpEr_SA_Shell_EgY_SpIdEr_ShElL_V2_r57_xxx
+rule webshell_r57shell_r57shell127_SnIpEr_SA_Shell_EgY_SpIdEr_ShElL_V2_r57_xxx : hardened
 {
 	meta:
 		description = "Web Shell - from files r57shell.php, r57shell127.php, SnIpEr_SA Shell.php, EgY_SpIdEr ShElL V2.php, r57_iFX.php, r57_kartal.php, r57_Mohajer22.php, r57.php, r57.php, Backdoor.PHP.Agent.php"
@@ -2672,7 +2596,7 @@ rule webshell_r57shell_r57shell127_SnIpEr_SA_Shell_EgY_SpIdEr_ShElL_V2_r57_xxx
 		all of them
 }
 
-rule webshell_807_a_css_dm_he1p_JspSpy_xxx
+rule webshell_807_a_css_dm_he1p_JspSpy_xxx : hardened
 {
 	meta:
 		description = "Web Shell - from files 807.jsp, a.jsp, css.jsp, dm.jsp, he1p.jsp, JspSpy.jsp, JspSpyJDK5.jsp, JspSpyJDK51.jsp, luci.jsp.spy2009.jsp, m.jsp, ma3.jsp, mmym520.jsp, nogfw.jsp, ok.jsp, style.jsp, u.jsp, xia.jsp, cofigrue.jsp, 1.jsp, jspspy.jsp, jspspy_k8.jsp, JspSpy.jsp, JspSpyJDK5.jsp"
@@ -2713,7 +2637,7 @@ rule webshell_807_a_css_dm_he1p_JspSpy_xxx
 		all of them
 }
 
-rule webshell_201_3_ma_download
+rule webshell_201_3_ma_download : hardened
 {
 	meta:
 		description = "Web Shell - from files 201.jsp, 3.jsp, ma.jsp, download.jsp"
@@ -2735,7 +2659,7 @@ rule webshell_201_3_ma_download
 		all of them
 }
 
-rule webshell_browser_201_3_400_in_JFolder_jfolder01_jsp_leo_ma_warn_webshell_nc_download
+rule webshell_browser_201_3_400_in_JFolder_jfolder01_jsp_leo_ma_warn_webshell_nc_download : hardened
 {
 	meta:
 		description = "Web Shell - from files browser.jsp, 201.jsp, 3.jsp, 400.jsp, in.jsp, JFolder.jsp, jfolder01.jsp, jsp.jsp, leo.jsp, ma.jsp, warn.jsp, webshell-nc.jsp, download.jsp"
@@ -2765,7 +2689,7 @@ rule webshell_browser_201_3_400_in_JFolder_jfolder01_jsp_leo_ma_warn_webshell_nc
 		all of them
 }
 
-rule webshell_shell_phpspy_2006_arabicspy
+rule webshell_shell_phpspy_2006_arabicspy : hardened
 {
 	meta:
 		description = "Web Shell - from files shell.php, phpspy_2006.php, arabicspy.php"
@@ -2785,7 +2709,7 @@ rule webshell_shell_phpspy_2006_arabicspy
 		all of them
 }
 
-rule webshell_in_JFolder_jfolder01_jsp_leo_warn
+rule webshell_in_JFolder_jfolder01_jsp_leo_warn : hardened
 {
 	meta:
 		description = "Web Shell - from files in.jsp, JFolder.jsp, jfolder01.jsp, jsp.jsp, leo.jsp, warn.jsp"
@@ -2808,7 +2732,7 @@ rule webshell_in_JFolder_jfolder01_jsp_leo_warn
 		all of them
 }
 
-rule webshell_2_520_icesword_job_ma1_ma4_2
+rule webshell_2_520_icesword_job_ma1_ma4_2 : hardened
 {
 	meta:
 		description = "Web Shell - from files 2.jsp, 520.jsp, icesword.jsp, job.jsp, ma1.jsp, ma4.jsp, 2.jsp"
@@ -2833,7 +2757,7 @@ rule webshell_2_520_icesword_job_ma1_ma4_2
 		all of them
 }
 
-rule webshell_phpspy_2005_full_phpspy_2005_lite_PHPSPY
+rule webshell_phpspy_2005_full_phpspy_2005_lite_PHPSPY : hardened
 {
 	meta:
 		description = "Web Shell - from files phpspy_2005_full.php, phpspy_2005_lite.php, PHPSPY.php"
@@ -2854,7 +2778,7 @@ rule webshell_phpspy_2005_full_phpspy_2005_lite_PHPSPY
 		2 of them
 }
 
-rule webshell_shell_phpspy_2006_arabicspy_hkrkoz
+rule webshell_shell_phpspy_2006_arabicspy_hkrkoz : hardened
 {
 	meta:
 		description = "Web Shell - from files shell.php, phpspy_2006.php, arabicspy.php, hkrkoz.php"
@@ -2874,7 +2798,7 @@ rule webshell_shell_phpspy_2006_arabicspy_hkrkoz
 		all of them
 }
 
-rule webshell_c99_Shell_ci_Biz_was_here_c100_v_xxx
+rule webshell_c99_Shell_ci_Biz_was_here_c100_v_xxx : hardened
 {
 	meta:
 		description = "Web Shell - from files c99.php, Shell [ci] .Biz was here.php, c100 v. 777shell v. Undetectable #18a Modded by 777 - Don.php, c66.php, c99-shadows-mod.php, c99shell.php"
@@ -2896,7 +2820,7 @@ rule webshell_c99_Shell_ci_Biz_was_here_c100_v_xxx
 		all of them
 }
 
-rule webshell_2008_2009lite_2009mssql
+rule webshell_2008_2009lite_2009mssql : hardened
 {
 	meta:
 		description = "Web Shell - from files 2008.php, 2009lite.php, 2009mssql.php"
@@ -2916,7 +2840,7 @@ rule webshell_2008_2009lite_2009mssql
 		all of them
 }
 
-rule webshell_shell_phpspy_2005_full_phpspy_2005_lite_phpspy_2006_arabicspy_PHPSPY_hkrkoz
+rule webshell_shell_phpspy_2005_full_phpspy_2005_lite_phpspy_2006_arabicspy_PHPSPY_hkrkoz : hardened
 {
 	meta:
 		description = "Web Shell - from files shell.php, phpspy_2005_full.php, phpspy_2005_lite.php, phpspy_2006.php, arabicspy.php, PHPSPY.php, hkrkoz.php"
@@ -2940,7 +2864,7 @@ rule webshell_shell_phpspy_2005_full_phpspy_2005_lite_phpspy_2006_arabicspy_PHPS
 		all of them
 }
 
-rule webshell_807_dm_JspSpyJDK5_m_cofigrue
+rule webshell_807_dm_JspSpyJDK5_m_cofigrue : hardened
 {
 	meta:
 		description = "Web Shell - from files 807.jsp, dm.jsp, JspSpyJDK5.jsp, m.jsp, cofigrue.jsp"
@@ -2962,7 +2886,7 @@ rule webshell_807_dm_JspSpyJDK5_m_cofigrue
 		1 of them
 }
 
-rule webshell_Dive_Shell_1_0_Emperor_Hacking_Team_xxx
+rule webshell_Dive_Shell_1_0_Emperor_Hacking_Team_xxx : hardened
 {
 	meta:
 		description = "Web Shell - from files Dive Shell 1.0 - Emperor Hacking Team.php, phpshell.php, SimShell 1.0 - Simorgh Security MGZ.php"
@@ -2982,7 +2906,7 @@ rule webshell_Dive_Shell_1_0_Emperor_Hacking_Team_xxx
 		all of them
 }
 
-rule webshell_404_data_in_JFolder_jfolder01_xxx
+rule webshell_404_data_in_JFolder_jfolder01_xxx : hardened
 {
 	meta:
 		description = "Web Shell - from files 404.jsp, data.jsp, in.jsp, JFolder.jsp, jfolder01.jsp, jsp.jsp, leo.jsp, suiyue.jsp, warn.jsp"
@@ -3007,7 +2931,7 @@ rule webshell_404_data_in_JFolder_jfolder01_xxx
 		all of them
 }
 
-rule webshell_jsp_reverse_jsp_reverse_jspbd
+rule webshell_jsp_reverse_jsp_reverse_jspbd : hardened
 {
 	meta:
 		description = "Web Shell - from files jsp-reverse.jsp, jsp-reverse.jsp, jspbd.jsp"
@@ -3028,7 +2952,7 @@ rule webshell_jsp_reverse_jsp_reverse_jspbd
 		all of them
 }
 
-rule webshell_400_in_JFolder_jfolder01_jsp_leo_warn_webshell_nc
+rule webshell_400_in_JFolder_jfolder01_jsp_leo_warn_webshell_nc : hardened
 {
 	meta:
 		description = "Web Shell - from files 400.jsp, in.jsp, JFolder.jsp, jfolder01.jsp, jsp.jsp, leo.jsp, warn.jsp, webshell-nc.jsp"
@@ -3055,7 +2979,7 @@ rule webshell_400_in_JFolder_jfolder01_jsp_leo_warn_webshell_nc
 		2 of them
 }
 
-rule webshell_2_520_job_JspWebshell_1_2_ma1_ma4_2
+rule webshell_2_520_job_JspWebshell_1_2_ma1_ma4_2 : hardened
 {
 	meta:
 		description = "Web Shell - from files 2.jsp, 520.jsp, job.jsp, JspWebshell 1.2.jsp, ma1.jsp, ma4.jsp, 2.jsp"
@@ -3080,7 +3004,7 @@ rule webshell_2_520_job_JspWebshell_1_2_ma1_ma4_2
 		2 of them
 }
 
-rule webshell_shell_2008_2009mssql_phpspy_2005_full_phpspy_2006_arabicspy_hkrkoz
+rule webshell_shell_2008_2009mssql_phpspy_2005_full_phpspy_2006_arabicspy_hkrkoz : hardened
 {
 	meta:
 		description = "Web Shell - from files shell.php, 2008.php, 2009mssql.php, phpspy_2005_full.php, phpspy_2006.php, arabicspy.php, hkrkoz.php"
@@ -3104,10 +3028,10 @@ rule webshell_shell_2008_2009mssql_phpspy_2005_full_phpspy_2006_arabicspy_hkrkoz
 		$fn = {66 69 6C 65 6E 61 6D 65 3A 20 62 61 63 6B 75 70}
 
 	condition:
-		2 of ($s*) and not $fn
+		2 of ( $s* ) and not $fn
 }
 
-rule webshell_gfs_sh_r57shell_r57shell127_SnIpEr_SA_xxx
+rule webshell_gfs_sh_r57shell_r57shell127_SnIpEr_SA_xxx : hardened
 {
 	meta:
 		description = "Web Shell - from files gfs_sh.php, r57shell.php, r57shell127.php, SnIpEr_SA Shell.php, EgY_SpIdEr ShElL V2.php, r57_iFX.php, r57_kartal.php, r57_Mohajer22.php, r57.php, r57.php, Backdoor.PHP.Agent.php"
@@ -3135,7 +3059,7 @@ rule webshell_gfs_sh_r57shell_r57shell127_SnIpEr_SA_xxx
 		all of them
 }
 
-rule webshell_itsec_PHPJackal_itsecteam_shell_jHn
+rule webshell_itsec_PHPJackal_itsecteam_shell_jHn : hardened
 {
 	meta:
 		description = "Web Shell - from files itsec.php, PHPJackal.php, itsecteam_shell.php, jHn.php"
@@ -3157,7 +3081,7 @@ rule webshell_itsec_PHPJackal_itsecteam_shell_jHn
 		2 of them
 }
 
-rule webshell_Shell_ci_Biz_was_here_c100_v_xxx
+rule webshell_Shell_ci_Biz_was_here_c100_v_xxx : hardened
 {
 	meta:
 		description = "Web Shell - from files Shell [ci] .Biz was here.php, c100 v. 777shell v. Undetectable #18a Modded by 777 - Don.php, c99-shadows-mod.php"
@@ -3180,7 +3104,7 @@ rule webshell_Shell_ci_Biz_was_here_c100_v_xxx
 		2 of them
 }
 
-rule webshell_NIX_REMOTE_WEB_SHELL_NIX_REMOTE_WEB_xxx1
+rule webshell_NIX_REMOTE_WEB_SHELL_NIX_REMOTE_WEB_xxx1 : hardened
 {
 	meta:
 		description = "Web Shell - from files NIX REMOTE WEB-SHELL.php, NIX REMOTE WEB-SHELL v.0.5 alpha Lite Public Version.php, KAdot Universal Shell v0.1.6.php"
@@ -3202,7 +3126,7 @@ rule webshell_NIX_REMOTE_WEB_SHELL_NIX_REMOTE_WEB_xxx1
 		2 of them
 }
 
-rule webshell_c99_c99shell_c99_w4cking_Shell_xxx
+rule webshell_c99_c99shell_c99_w4cking_Shell_xxx : hardened
 {
 	meta:
 		description = "Web Shell - from files c99.php, c99shell.php, c99_w4cking.php, Shell [ci] .Biz was here.php, acid.php, c100 v. 777shell v. Undetectable #18a Modded by 777 - Don.php, c66.php, c99-shadows-mod.php, c99.php, c99shell.php"
@@ -3233,7 +3157,7 @@ rule webshell_c99_c99shell_c99_w4cking_Shell_xxx
 		2 of them
 }
 
-rule webshell_2008_2009mssql_phpspy_2005_full_phpspy_2006_arabicspy_hkrkoz
+rule webshell_2008_2009mssql_phpspy_2005_full_phpspy_2006_arabicspy_hkrkoz : hardened
 {
 	meta:
 		description = "Web Shell - from files 2008.php, 2009mssql.php, phpspy_2005_full.php, phpspy_2006.php, arabicspy.php, hkrkoz.php"
@@ -3258,7 +3182,7 @@ rule webshell_2008_2009mssql_phpspy_2005_full_phpspy_2006_arabicspy_hkrkoz
 		all of them
 }
 
-rule webshell_c99_c66_c99_shadows_mod_c99shell
+rule webshell_c99_c66_c99_shadows_mod_c99shell : hardened
 {
 	meta:
 		description = "Web Shell - from files c99.php, c66.php, c99-shadows-mod.php, c99shell.php"
@@ -3283,7 +3207,7 @@ rule webshell_c99_c66_c99_shadows_mod_c99shell
 		2 of them
 }
 
-rule webshell_he1p_JspSpy_nogfw_ok_style_1_JspSpy1
+rule webshell_he1p_JspSpy_nogfw_ok_style_1_JspSpy1 : hardened
 {
 	meta:
 		description = "Web Shell - from files he1p.jsp, JspSpy.jsp, nogfw.jsp, ok.jsp, style.jsp, 1.jsp, JspSpy.jsp"
@@ -3309,7 +3233,7 @@ rule webshell_he1p_JspSpy_nogfw_ok_style_1_JspSpy1
 		2 of them
 }
 
-rule webshell_000_403_c5_config_myxx_queryDong_spyjsp2010_zend
+rule webshell_000_403_c5_config_myxx_queryDong_spyjsp2010_zend : hardened
 {
 	meta:
 		description = "Web Shell - from files 000.jsp, 403.jsp, c5.jsp, config.jsp, myxx.jsp, queryDong.jsp, spyjsp2010.jsp, zend.jsp"
@@ -3335,7 +3259,7 @@ rule webshell_000_403_c5_config_myxx_queryDong_spyjsp2010_zend
 		2 of them
 }
 
-rule webshell_c99_c99shell_c99_c99shell
+rule webshell_c99_c99shell_c99_c99shell : hardened
 {
 	meta:
 		description = "Web Shell - from files c99.php, c99shell.php, c99.php, c99shell.php"
@@ -3356,7 +3280,7 @@ rule webshell_c99_c99shell_c99_c99shell
 		1 of them
 }
 
-rule webshell_r57shell127_r57_iFX_r57_kartal_r57_antichat
+rule webshell_r57shell127_r57_iFX_r57_kartal_r57_antichat : hardened
 {
 	meta:
 		description = "Web Shell - from files r57shell127.php, r57_iFX.php, r57_kartal.php, r57.php, antichat.php"
@@ -3380,7 +3304,7 @@ rule webshell_r57shell127_r57_iFX_r57_kartal_r57_antichat
 		2 of them
 }
 
-rule webshell_NIX_REMOTE_WEB_SHELL_nstview_xxx
+rule webshell_NIX_REMOTE_WEB_SHELL_nstview_xxx : hardened
 {
 	meta:
 		description = "Web Shell - from files NIX REMOTE WEB-SHELL.php, nstview.php, NIX REMOTE WEB-SHELL v.0.5 alpha Lite Public Version.php, Cyber Shell (v 1.0).php"
@@ -3402,7 +3326,7 @@ rule webshell_NIX_REMOTE_WEB_SHELL_nstview_xxx
 		2 of them
 }
 
-rule webshell_000_403_807_a_c5_config_css_dm_he1p_xxx
+rule webshell_000_403_807_a_c5_config_css_dm_he1p_xxx : hardened
 {
 	meta:
 		description = "Web Shell - from files 000.jsp, 403.jsp, 807.jsp, a.jsp, c5.jsp, config.jsp, css.jsp, dm.jsp, he1p.jsp, JspSpy.jsp, JspSpyJDK5.jsp, JspSpyJDK51.jsp, luci.jsp.spy2009.jsp, m.jsp, ma3.jsp, mmym520.jsp, myxx.jsp, nogfw.jsp, ok.jsp, queryDong.jsp, spyjsp2010.jsp, style.jsp, u.jsp, xia.jsp, zend.jsp, cofigrue.jsp, 1.jsp, jspspy.jsp, jspspy_k8.jsp, JspSpy.jsp, JspSpyJDK5.jsp"
@@ -3455,7 +3379,7 @@ rule webshell_000_403_807_a_c5_config_css_dm_he1p_xxx
 		4 of them
 }
 
-rule webshell_2_520_icesword_job_ma1
+rule webshell_2_520_icesword_job_ma1 : hardened
 {
 	meta:
 		description = "Web Shell - from files 2.jsp, 520.jsp, icesword.jsp, job.jsp, ma1.jsp"
@@ -3478,7 +3402,7 @@ rule webshell_2_520_icesword_job_ma1
 		2 of them
 }
 
-rule webshell_404_data_in_JFolder_jfolder01_jsp_suiyue_warn
+rule webshell_404_data_in_JFolder_jfolder01_jsp_suiyue_warn : hardened
 {
 	meta:
 		description = "Web Shell - from files 404.jsp, data.jsp, in.jsp, JFolder.jsp, jfolder01.jsp, jsp.jsp, suiyue.jsp, warn.jsp"
@@ -3505,7 +3429,7 @@ rule webshell_404_data_in_JFolder_jfolder01_jsp_suiyue_warn
 		all of them
 }
 
-rule webshell_phpspy_2005_full_phpspy_2005_lite_phpspy_2006_PHPSPY
+rule webshell_phpspy_2005_full_phpspy_2005_lite_phpspy_2006_PHPSPY : hardened
 {
 	meta:
 		description = "Web Shell - from files phpspy_2005_full.php, phpspy_2005_lite.php, phpspy_2006.php, PHPSPY.php"
@@ -3528,7 +3452,7 @@ rule webshell_phpspy_2005_full_phpspy_2005_lite_phpspy_2006_PHPSPY
 		2 of them
 }
 
-rule webshell_c99_locus7s_c99_w4cking_xxx
+rule webshell_c99_locus7s_c99_w4cking_xxx : hardened
 {
 	meta:
 		description = "Web Shell - from files c99_locus7s.php, c99_w4cking.php, r57shell.php, r57shell127.php, SnIpEr_SA Shell.php, EgY_SpIdEr ShElL V2.php, r57_iFX.php, r57_kartal.php, r57_Mohajer22.php, r57.php, acid.php, newsh.php, r57.php, Backdoor.PHP.Agent.php"
@@ -3560,7 +3484,7 @@ rule webshell_c99_locus7s_c99_w4cking_xxx
 		2 of them
 }
 
-rule webshell_browser_201_3_ma_ma2_download
+rule webshell_browser_201_3_ma_ma2_download : hardened
 {
 	meta:
 		description = "Web Shell - from files browser.jsp, 201.jsp, 3.jsp, ma.jsp, ma2.jsp, download.jsp"
@@ -3584,7 +3508,7 @@ rule webshell_browser_201_3_ma_ma2_download
 		2 of them
 }
 
-rule webshell_000_403_c5_queryDong_spyjsp2010
+rule webshell_000_403_c5_queryDong_spyjsp2010 : hardened
 {
 	meta:
 		description = "Web Shell - from files 000.jsp, 403.jsp, c5.jsp, queryDong.jsp, spyjsp2010.jsp"
@@ -3608,7 +3532,7 @@ rule webshell_000_403_c5_queryDong_spyjsp2010
 		2 of them
 }
 
-rule webshell_r57shell127_r57_kartal_r57
+rule webshell_r57shell127_r57_kartal_r57 : hardened
 {
 	meta:
 		description = "Web Shell - from files r57shell127.php, r57_kartal.php, r57.php"
@@ -3629,7 +3553,7 @@ rule webshell_r57shell127_r57_kartal_r57
 		2 of them
 }
 
-rule webshell_webshells_new_con2
+rule webshell_webshells_new_con2 : hardened
 {
 	meta:
 		description = "Web shells - generated from file con2.asp"
@@ -3646,7 +3570,7 @@ rule webshell_webshells_new_con2
 		1 of them
 }
 
-rule webshell_webshells_new_make2
+rule webshell_webshells_new_make2 : hardened
 {
 	meta:
 		description = "Web shells - generated from file make2.php"
@@ -3662,7 +3586,7 @@ rule webshell_webshells_new_make2
 		all of them
 }
 
-rule webshell_webshells_new_aaa
+rule webshell_webshells_new_aaa : hardened
 {
 	meta:
 		description = "Web shells - generated from file aaa.asp"
@@ -3680,7 +3604,7 @@ rule webshell_webshells_new_aaa
 		1 of them
 }
 
-rule webshell_Expdoor_com_ASP
+rule webshell_Expdoor_com_ASP : hardened
 {
 	meta:
 		description = "Web shells - generated from file Expdoor.com ASP.asp"
@@ -3700,7 +3624,7 @@ rule webshell_Expdoor_com_ASP
 		2 of them
 }
 
-rule webshell_webshells_new_php2
+rule webshell_webshells_new_php2 : hardened
 {
 	meta:
 		description = "Web shells - generated from file php2.php"
@@ -3716,7 +3640,7 @@ rule webshell_webshells_new_php2
 		all of them
 }
 
-rule webshell_bypass_iisuser_p
+rule webshell_bypass_iisuser_p : hardened
 {
 	meta:
 		description = "Web shells - generated from file bypass-iisuser-p.asp"
@@ -3732,7 +3656,7 @@ rule webshell_bypass_iisuser_p
 		all of them
 }
 
-rule webshell_sig_404super
+rule webshell_sig_404super : hardened
 {
 	meta:
 		description = "Web shells - generated from file 404super.php"
@@ -3753,7 +3677,7 @@ rule webshell_sig_404super
 		1 of them
 }
 
-rule webshell_webshells_new_JSP
+rule webshell_webshells_new_JSP : hardened
 {
 	meta:
 		description = "Web shells - generated from file JSP.jsp"
@@ -3771,7 +3695,7 @@ rule webshell_webshells_new_JSP
 		1 of them
 }
 
-rule webshell_webshell_123
+rule webshell_webshell_123 : hardened
 {
 	meta:
 		description = "Web shells - generated from file webshell-123.php"
@@ -3790,7 +3714,7 @@ rule webshell_webshell_123
 		2 of them
 }
 
-rule webshell_dev_core
+rule webshell_dev_core : hardened
 {
 	meta:
 		description = "Web shells - generated from file dev_core.php"
@@ -3811,7 +3735,7 @@ rule webshell_dev_core
 		1 of them
 }
 
-rule webshell_webshells_new_pHp
+rule webshell_webshells_new_pHp : hardened
 {
 	meta:
 		description = "Web shells - generated from file pHp.php"
@@ -3831,7 +3755,7 @@ rule webshell_webshells_new_pHp
 		1 of them
 }
 
-rule webshell_webshells_new_pppp
+rule webshell_webshells_new_pppp : hardened
 {
 	meta:
 		description = "Web shells - generated from file pppp.php"
@@ -3849,7 +3773,7 @@ rule webshell_webshells_new_pppp
 		1 of them
 }
 
-rule webshell_webshells_new_code
+rule webshell_webshells_new_code : hardened
 {
 	meta:
 		description = "Web shells - generated from file code.php"
@@ -3869,7 +3793,7 @@ rule webshell_webshells_new_code
 		1 of them
 }
 
-rule webshell_webshells_new_jspyyy
+rule webshell_webshells_new_jspyyy : hardened
 {
 	meta:
 		description = "Web shells - generated from file jspyyy.jsp"
@@ -3885,7 +3809,7 @@ rule webshell_webshells_new_jspyyy
 		all of them
 }
 
-rule webshell_webshells_new_xxxx
+rule webshell_webshells_new_xxxx : hardened
 {
 	meta:
 		description = "Web shells - generated from file xxxx.php"
@@ -3901,7 +3825,7 @@ rule webshell_webshells_new_xxxx
 		all of them
 }
 
-rule webshell_webshells_new_JJjsp3
+rule webshell_webshells_new_JJjsp3 : hardened
 {
 	meta:
 		description = "Web shells - generated from file JJjsp3.jsp"
@@ -3917,7 +3841,7 @@ rule webshell_webshells_new_JJjsp3
 		all of them
 }
 
-rule webshell_webshells_new_PHP1
+rule webshell_webshells_new_PHP1 : hardened
 {
 	meta:
 		description = "Web shells - generated from file PHP1.php"
@@ -3935,7 +3859,7 @@ rule webshell_webshells_new_PHP1
 		1 of them
 }
 
-rule webshell_webshells_new_JJJsp2
+rule webshell_webshells_new_JJJsp2 : hardened
 {
 	meta:
 		description = "Web shells - generated from file JJJsp2.jsp"
@@ -3954,7 +3878,7 @@ rule webshell_webshells_new_JJJsp2
 		1 of them
 }
 
-rule webshell_webshells_new_radhat
+rule webshell_webshells_new_radhat : hardened
 {
 	meta:
 		description = "Web shells - generated from file radhat.asp"
@@ -3970,7 +3894,7 @@ rule webshell_webshells_new_radhat
 		all of them
 }
 
-rule webshell_webshells_new_asp1
+rule webshell_webshells_new_asp1 : hardened
 {
 	meta:
 		description = "Web shells - generated from file asp1.asp"
@@ -3987,7 +3911,7 @@ rule webshell_webshells_new_asp1
 		1 of them
 }
 
-rule webshell_webshells_new_php6
+rule webshell_webshells_new_php6 : hardened
 {
 	meta:
 		description = "Web shells - generated from file php6.php"
@@ -4005,7 +3929,7 @@ rule webshell_webshells_new_php6
 		1 of them
 }
 
-rule webshell_webshells_new_xxx
+rule webshell_webshells_new_xxx : hardened
 {
 	meta:
 		description = "Web shells - generated from file xxx.php"
@@ -4021,7 +3945,7 @@ rule webshell_webshells_new_xxx
 		all of them
 }
 
-rule webshell_GetPostpHp
+rule webshell_GetPostpHp : hardened
 {
 	meta:
 		description = "Web shells - generated from file GetPostpHp.php"
@@ -4037,7 +3961,7 @@ rule webshell_GetPostpHp
 		all of them
 }
 
-rule webshell_webshells_new_php5
+rule webshell_webshells_new_php5 : hardened
 {
 	meta:
 		description = "Web shells - generated from file php5.php"
@@ -4053,7 +3977,7 @@ rule webshell_webshells_new_php5
 		all of them
 }
 
-rule webshell_webshells_new_PHP
+rule webshell_webshells_new_PHP : hardened
 {
 	meta:
 		description = "Web shells - generated from file PHP.php"
@@ -4073,7 +3997,7 @@ rule webshell_webshells_new_PHP
 		1 of them
 }
 
-rule webshell_webshells_new_Asp
+rule webshell_webshells_new_Asp : hardened
 {
 	meta:
 		description = "Web shells - generated from file Asp.asp"
@@ -4091,7 +4015,7 @@ rule webshell_webshells_new_Asp
 		1 of them
 }
 
-rule perlbot_pl
+rule perlbot_pl : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file perlbot.pl.txt"
@@ -4106,7 +4030,7 @@ rule perlbot_pl
 		1 of them
 }
 
-rule php_backdoor_php
+rule php_backdoor_php : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file php-backdoor.php.txt"
@@ -4122,7 +4046,7 @@ rule php_backdoor_php
 		1 of them
 }
 
-rule Liz0ziM_Private_Safe_Mode_Command_Execuriton_Bypass_Exploit_php
+rule Liz0ziM_Private_Safe_Mode_Command_Execuriton_Bypass_Exploit_php : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file Liz0ziM Private Safe Mode Command Execuriton Bypass Exploit.php.txt"
@@ -4138,7 +4062,7 @@ rule Liz0ziM_Private_Safe_Mode_Command_Execuriton_Bypass_Exploit_php
 		1 of them
 }
 
-rule Nshell__1__php_php
+rule Nshell__1__php_php : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file Nshell (1).php.php.txt"
@@ -4153,7 +4077,7 @@ rule Nshell__1__php_php
 		1 of them
 }
 
-rule shankar_php_php
+rule shankar_php_php : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file shankar.php.php.txt"
@@ -4166,10 +4090,10 @@ rule shankar_php_php
 		$s3 = {53 68 6F 77 3C 69 6E 70 75 74 20 74 79 70 65 3D 74 65 78 74 20 73 69 7A 65 3D 35 20 76 61 6C 75 65 3D 5C 22 2E 28 28 69 73 73 65 74 28 24 5F 50 4F 53 54 5B 27 62 72 5F 73 74 27 5D 29 20 26 26 20 69 73 73 65 74 28 24 5F 50 4F 53 54 5B 27 62}
 
 	condition:
-		1 of ($s*) and $sAuthor
+		1 of ( $s* ) and $sAuthor
 }
 
-rule Casus15_php_php
+rule Casus15_php_php : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file Casus15.php.php.txt"
@@ -4185,7 +4109,7 @@ rule Casus15_php_php
 		1 of them
 }
 
-rule small_php_php
+rule small_php_php : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file small.php.php.txt"
@@ -4201,7 +4125,7 @@ rule small_php_php
 		2 of them
 }
 
-rule shellbot_pl
+rule shellbot_pl : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file shellbot.pl.txt"
@@ -4219,7 +4143,7 @@ rule shellbot_pl
 		2 of them
 }
 
-rule fuckphpshell_php
+rule fuckphpshell_php : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file fuckphpshell.php.txt"
@@ -4236,7 +4160,7 @@ rule fuckphpshell_php
 		2 of them
 }
 
-rule ngh_php_php
+rule ngh_php_php : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file ngh.php.php.txt"
@@ -4254,7 +4178,7 @@ rule ngh_php_php
 		1 of them
 }
 
-rule jsp_reverse_jsp
+rule jsp_reverse_jsp : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file jsp-reverse.jsp.txt"
@@ -4270,7 +4194,7 @@ rule jsp_reverse_jsp
 		2 of them
 }
 
-rule Tool_asp
+rule Tool_asp : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file Tool.asp.txt"
@@ -4287,7 +4211,7 @@ rule Tool_asp
 		2 of them
 }
 
-rule NT_Addy_asp
+rule NT_Addy_asp : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file NT Addy.asp.txt"
@@ -4303,7 +4227,7 @@ rule NT_Addy_asp
 		1 of them
 }
 
-rule SimAttacker___Vrsion_1_0_0___priv8_4_My_friend_php
+rule SimAttacker___Vrsion_1_0_0___priv8_4_My_friend_php : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file SimAttacker - Vrsion 1.0.0 - priv8 4 My friend.php.txt"
@@ -4319,7 +4243,7 @@ rule SimAttacker___Vrsion_1_0_0___priv8_4_My_friend_php
 		1 of them
 }
 
-rule RemExp_asp
+rule RemExp_asp : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file RemExp.asp.txt"
@@ -4335,7 +4259,7 @@ rule RemExp_asp
 		2 of them
 }
 
-rule phvayvv_php_php
+rule phvayvv_php_php : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file phvayvv.php.php.txt"
@@ -4351,7 +4275,7 @@ rule phvayvv_php_php
 		1 of them
 }
 
-rule klasvayv_asp
+rule klasvayv_asp : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file klasvayv.asp.txt"
@@ -4368,7 +4292,7 @@ rule klasvayv_asp
 		1 of them
 }
 
-rule r57shell_php_php
+rule r57shell_php_php : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file r57shell.php.php.txt"
@@ -4385,7 +4309,7 @@ rule r57shell_php_php
 		1 of them
 }
 
-rule rst_sql_php_php
+rule rst_sql_php_php : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file rst_sql.php.php.txt"
@@ -4402,7 +4326,7 @@ rule rst_sql_php_php
 		2 of them
 }
 
-rule wh_bindshell_py
+rule wh_bindshell_py : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file wh_bindshell.py.txt"
@@ -4418,7 +4342,7 @@ rule wh_bindshell_py
 		1 of them
 }
 
-rule lurm_safemod_on_cgi
+rule lurm_safemod_on_cgi : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file lurm_safemod_on.cgi.txt"
@@ -4434,7 +4358,7 @@ rule lurm_safemod_on_cgi
 		1 of them
 }
 
-rule c99madshell_v2_0_php_php
+rule c99madshell_v2_0_php_php : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file c99madshell_v2.0.php.php.txt"
@@ -4448,7 +4372,7 @@ rule c99madshell_v2_0_php_php
 		all of them
 }
 
-rule backupsql_php_often_with_c99shell
+rule backupsql_php_often_with_c99shell : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file backupsql.php.php.txt"
@@ -4463,7 +4387,7 @@ rule backupsql_php_often_with_c99shell
 		all of them
 }
 
-rule uploader_php_php
+rule uploader_php_php : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file uploader.php.php.txt"
@@ -4479,7 +4403,7 @@ rule uploader_php_php
 		2 of them
 }
 
-rule telnet_pl
+rule telnet_pl : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file telnet.pl.txt"
@@ -4494,7 +4418,7 @@ rule telnet_pl
 		all of them
 }
 
-rule w3d_php_php
+rule w3d_php_php : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file w3d.php.php.txt"
@@ -4510,7 +4434,7 @@ rule w3d_php_php
 		2 of them
 }
 
-rule WebShell_cgi
+rule WebShell_cgi : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file WebShell.cgi.txt"
@@ -4525,7 +4449,7 @@ rule WebShell_cgi
 		all of them
 }
 
-rule WinX_Shell_html
+rule WinX_Shell_html : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file WinX Shell.html.txt"
@@ -4541,7 +4465,7 @@ rule WinX_Shell_html
 		2 of them
 }
 
-rule Dx_php_php
+rule Dx_php_php : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file Dx.php.php.txt"
@@ -4557,7 +4481,7 @@ rule Dx_php_php
 		1 of them
 }
 
-rule csh_php_php
+rule csh_php_php : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file csh.php.php.txt"
@@ -4574,7 +4498,7 @@ rule csh_php_php
 		1 of them
 }
 
-rule pHpINJ_php_php
+rule pHpINJ_php_php : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file pHpINJ.php.php.txt"
@@ -4590,7 +4514,7 @@ rule pHpINJ_php_php
 		2 of them
 }
 
-rule sig_2008_php_php
+rule sig_2008_php_php : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file 2008.php.php.txt"
@@ -4607,7 +4531,7 @@ rule sig_2008_php_php
 		1 of them
 }
 
-rule ak74shell_php_php
+rule ak74shell_php_php : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file ak74shell.php.php.txt"
@@ -4623,7 +4547,7 @@ rule ak74shell_php_php
 		2 of them
 }
 
-rule Rem_View_php_php
+rule Rem_View_php_php : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file Rem View.php.php.txt"
@@ -4639,7 +4563,7 @@ rule Rem_View_php_php
 		1 of them
 }
 
-rule Java_Shell_js
+rule Java_Shell_js : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file Java Shell.js.txt"
@@ -4655,7 +4579,7 @@ rule Java_Shell_js
 		2 of them
 }
 
-rule STNC_php_php
+rule STNC_php_php : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file STNC.php.php.txt"
@@ -4672,7 +4596,7 @@ rule STNC_php_php
 		1 of them
 }
 
-rule aZRaiLPhp_v1_0_php
+rule aZRaiLPhp_v1_0_php : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file aZRaiLPhp v1.0.php.txt"
@@ -4688,7 +4612,7 @@ rule aZRaiLPhp_v1_0_php
 		2 of them
 }
 
-rule Moroccan_Spamers_Ma_EditioN_By_GhOsT_php
+rule Moroccan_Spamers_Ma_EditioN_By_GhOsT_php : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file Moroccan Spamers Ma-EditioN By GhOsT.php.txt"
@@ -4704,7 +4628,7 @@ rule Moroccan_Spamers_Ma_EditioN_By_GhOsT_php
 		1 of them
 }
 
-rule zacosmall_php
+rule zacosmall_php : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file zacosmall.php.txt"
@@ -4720,7 +4644,7 @@ rule zacosmall_php
 		2 of them
 }
 
-rule CmdAsp_asp
+rule CmdAsp_asp : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file CmdAsp.asp.txt"
@@ -4737,7 +4661,7 @@ rule CmdAsp_asp
 		2 of them
 }
 
-rule simple_backdoor_php
+rule simple_backdoor_php : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file simple-backdoor.php.txt"
@@ -4753,7 +4677,7 @@ rule simple_backdoor_php
 		2 of them
 }
 
-rule mysql_shell_php
+rule mysql_shell_php : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file mysql_shell.php.txt"
@@ -4769,7 +4693,7 @@ rule mysql_shell_php
 		1 of them
 }
 
-rule Dive_Shell_1_0___Emperor_Hacking_Team_php
+rule Dive_Shell_1_0___Emperor_Hacking_Team_php : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file Dive Shell 1.0 - Emperor Hacking Team.php.txt"
@@ -4786,7 +4710,7 @@ rule Dive_Shell_1_0___Emperor_Hacking_Team_php
 		2 of them
 }
 
-rule Asmodeus_v0_1_pl
+rule Asmodeus_v0_1_pl : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file Asmodeus v0.1.pl.txt"
@@ -4803,7 +4727,7 @@ rule Asmodeus_v0_1_pl
 		2 of them
 }
 
-rule backup_php_often_with_c99shell
+rule backup_php_often_with_c99shell : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file backup.php.php.txt"
@@ -4819,7 +4743,7 @@ rule backup_php_often_with_c99shell
 		all of them
 }
 
-rule Reader_asp
+rule Reader_asp : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file Reader.asp.txt"
@@ -4835,7 +4759,7 @@ rule Reader_asp
 		2 of them
 }
 
-rule phpshell17_php
+rule phpshell17_php : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file phpshell17.php.txt"
@@ -4851,7 +4775,7 @@ rule phpshell17_php
 		1 of them
 }
 
-rule myshell_php_php
+rule myshell_php_php : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file myshell.php.php.txt"
@@ -4867,7 +4791,7 @@ rule myshell_php_php
 		2 of them
 }
 
-rule SimShell_1_0___Simorgh_Security_MGZ_php
+rule SimShell_1_0___Simorgh_Security_MGZ_php : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file SimShell 1.0 - Simorgh Security MGZ.php.txt"
@@ -4884,7 +4808,7 @@ rule SimShell_1_0___Simorgh_Security_MGZ_php
 		2 of them
 }
 
-rule jspshall_jsp
+rule jspshall_jsp : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file jspshall.jsp.txt"
@@ -4900,7 +4824,7 @@ rule jspshall_jsp
 		2 of them
 }
 
-rule webshell_php
+rule webshell_php : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file webshell.php.txt"
@@ -4915,7 +4839,7 @@ rule webshell_php
 		all of them
 }
 
-rule rootshell_php
+rule rootshell_php : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file rootshell.php.txt"
@@ -4932,7 +4856,7 @@ rule rootshell_php
 		2 of them
 }
 
-rule connectback2_pl
+rule connectback2_pl : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file connectback2.pl.txt"
@@ -4948,7 +4872,7 @@ rule connectback2_pl
 		1 of them
 }
 
-rule DefaceKeeper_0_2_php
+rule DefaceKeeper_0_2_php : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file DefaceKeeper_0.2.php.txt"
@@ -4964,7 +4888,7 @@ rule DefaceKeeper_0_2_php
 		1 of them
 }
 
-rule shells_PHP_wso
+rule shells_PHP_wso : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file wso.txt"
@@ -4979,7 +4903,7 @@ rule shells_PHP_wso
 		1 of them
 }
 
-rule backdoor1_php
+rule backdoor1_php : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file backdoor1.php.txt"
@@ -4995,7 +4919,7 @@ rule backdoor1_php
 		1 of them
 }
 
-rule elmaliseker_asp
+rule elmaliseker_asp : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file elmaliseker.asp.txt"
@@ -5012,7 +4936,7 @@ rule elmaliseker_asp
 		1 of them
 }
 
-rule indexer_asp
+rule indexer_asp : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file indexer.asp.txt"
@@ -5027,7 +4951,7 @@ rule indexer_asp
 		1 of them
 }
 
-rule DxShell_php_php
+rule DxShell_php_php : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file DxShell.php.php.txt"
@@ -5042,7 +4966,7 @@ rule DxShell_php_php
 		1 of them
 }
 
-rule s72_Shell_v1_1_Coding_html
+rule s72_Shell_v1_1_Coding_html : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file s72 Shell v1.1 Coding.html.txt"
@@ -5058,22 +4982,7 @@ rule s72_Shell_v1_1_Coding_html
 		1 of them
 }
 
-// duplicated
-/* rule hidshell_php_php
-{
-	meta:
-		description = "Semi-Auto-generated  - file hidshell.php.php.txt"
-		author = "Neo23x0 Yara BRG + customization by Stefan -dfate- Molls"
-		hash = "c2f3327d60884561970c63ffa09439a4"
-
-	strings:
-		$s0 = {3C 3F 24 64 3D 27 47 37 6D 48 57 51 39 76 76 58 69 4C 2F 51 58 32 6F 5A 32 56 54 44 70 6F 36 67 33 46 59 41 61 36 58 2B 38 44 4D 49 7A 63 44 30 65 48 5A 61 42 5A 48 37 6A 46 70 5A 7A 55 7A 37 58 4E 65 6E 78 53 59 76 42 50 32 57 79 33 36 55}
-
-	condition:
-		all of them
-}*/
-
-rule kacak_asp
+rule kacak_asp : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file kacak.asp.txt"
@@ -5090,7 +4999,7 @@ rule kacak_asp
 		1 of them
 }
 
-rule PHP_Backdoor_Connect_pl_php
+rule PHP_Backdoor_Connect_pl_php : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file PHP Backdoor Connect.pl.php.txt"
@@ -5106,7 +5015,7 @@ rule PHP_Backdoor_Connect_pl_php
 		1 of them
 }
 
-rule Antichat_Socks5_Server_php_php
+rule Antichat_Socks5_Server_php_php : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file Antichat Socks5 Server.php.php.txt"
@@ -5122,7 +5031,7 @@ rule Antichat_Socks5_Server_php_php
 		1 of them
 }
 
-rule Antichat_Shell_v1_3_php
+rule Antichat_Shell_v1_3_php : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file Antichat Shell v1.3.php.txt"
@@ -5138,7 +5047,7 @@ rule Antichat_Shell_v1_3_php
 		2 of them
 }
 
-rule Safe_Mode_Bypass_PHP_4_4_2_and_PHP_5_1_2_php
+rule Safe_Mode_Bypass_PHP_4_4_2_and_PHP_5_1_2_php : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file Safe_Mode Bypass PHP 4.4.2 and PHP 5.1.2.php.txt"
@@ -5154,7 +5063,7 @@ rule Safe_Mode_Bypass_PHP_4_4_2_and_PHP_5_1_2_php
 		1 of them
 }
 
-rule mysql_php_php
+rule mysql_php_php : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file mysql.php.php.txt"
@@ -5170,7 +5079,7 @@ rule mysql_php_php
 		1 of them
 }
 
-rule Worse_Linux_Shell_php
+rule Worse_Linux_Shell_php : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file Worse Linux Shell.php.txt"
@@ -5185,7 +5094,7 @@ rule Worse_Linux_Shell_php
 		1 of them
 }
 
-rule cyberlords_sql_php_php
+rule cyberlords_sql_php_php : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file cyberlords_sql.php.php.txt"
@@ -5202,7 +5111,7 @@ rule cyberlords_sql_php_php
 		1 of them
 }
 
-rule cmd_asp_5_1_asp
+rule cmd_asp_5_1_asp : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file cmd-asp-5.1.asp.txt"
@@ -5217,7 +5126,7 @@ rule cmd_asp_5_1_asp
 		1 of them
 }
 
-rule pws_php_php
+rule pws_php_php : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file pws.php.php.txt"
@@ -5233,7 +5142,7 @@ rule pws_php_php
 		2 of them
 }
 
-rule PHP_Shell_php_php
+rule PHP_Shell_php_php : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file PHP Shell.php.php.txt"
@@ -5248,7 +5157,7 @@ rule PHP_Shell_php_php
 		all of them
 }
 
-rule Ayyildiz_Tim___AYT__Shell_v_2_1_Biz_html
+rule Ayyildiz_Tim___AYT__Shell_v_2_1_Biz_html : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file Ayyildiz Tim  -AYT- Shell v 2.1 Biz.html.txt"
@@ -5265,7 +5174,7 @@ rule Ayyildiz_Tim___AYT__Shell_v_2_1_Biz_html
 		2 of them
 }
 
-rule EFSO_2_asp
+rule EFSO_2_asp : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file EFSO_2.asp.txt"
@@ -5280,7 +5189,7 @@ rule EFSO_2_asp
 		2 of them
 }
 
-rule lamashell_php
+rule lamashell_php : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file lamashell.php.txt"
@@ -5296,7 +5205,7 @@ rule lamashell_php
 		1 of them
 }
 
-rule Ajax_PHP_Command_Shell_php
+rule Ajax_PHP_Command_Shell_php : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file Ajax_PHP Command Shell.php.txt"
@@ -5312,7 +5221,7 @@ rule Ajax_PHP_Command_Shell_php
 		1 of them
 }
 
-rule JspWebshell_1_2_jsp
+rule JspWebshell_1_2_jsp : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file JspWebshell 1.2.jsp.txt"
@@ -5329,7 +5238,7 @@ rule JspWebshell_1_2_jsp
 		2 of them
 }
 
-rule Sincap_php_php
+rule Sincap_php_php : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file Sincap.php.php.txt"
@@ -5345,7 +5254,7 @@ rule Sincap_php_php
 		2 of them
 }
 
-rule Test_php_php
+rule Test_php_php : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file Test.php.php.txt"
@@ -5361,7 +5270,7 @@ rule Test_php_php
 		1 of them
 }
 
-rule Phyton_Shell_py
+rule Phyton_Shell_py : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file Phyton Shell.py.txt"
@@ -5378,7 +5287,7 @@ rule Phyton_Shell_py
 		1 of them
 }
 
-rule mysql_tool_php_php
+rule mysql_tool_php_php : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file mysql_tool.php.php.txt"
@@ -5394,7 +5303,7 @@ rule mysql_tool_php_php
 		1 of them
 }
 
-rule Zehir_4_asp
+rule Zehir_4_asp : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file Zehir 4.asp.txt"
@@ -5409,7 +5318,7 @@ rule Zehir_4_asp
 		1 of them
 }
 
-rule sh_php_php
+rule sh_php_php : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file sh.php.php.txt"
@@ -5424,7 +5333,7 @@ rule sh_php_php
 		1 of them
 }
 
-rule phpbackdoor15_php
+rule phpbackdoor15_php : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file phpbackdoor15.php.txt"
@@ -5440,7 +5349,7 @@ rule phpbackdoor15_php
 		1 of them
 }
 
-rule phpjackal_php
+rule phpjackal_php : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file phpjackal.php.txt"
@@ -5455,7 +5364,7 @@ rule phpjackal_php
 		1 of them
 }
 
-rule sql_php_php
+rule sql_php_php : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file sql.php.php.txt"
@@ -5471,7 +5380,7 @@ rule sql_php_php
 		1 of them
 }
 
-rule cgi_python_py
+rule cgi_python_py : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file cgi-python.py.txt"
@@ -5487,7 +5396,7 @@ rule cgi_python_py
 		1 of them
 }
 
-rule ru24_post_sh_php_php
+rule ru24_post_sh_php_php : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file ru24_post_sh.php.php.txt"
@@ -5503,7 +5412,7 @@ rule ru24_post_sh_php_php
 		1 of them
 }
 
-rule DTool_Pro_php
+rule DTool_Pro_php : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file DTool Pro.php.txt"
@@ -5519,7 +5428,7 @@ rule DTool_Pro_php
 		1 of them
 }
 
-rule telnetd_pl
+rule telnetd_pl : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file telnetd.pl.txt"
@@ -5537,7 +5446,7 @@ rule telnetd_pl
 		1 of them
 }
 
-rule php_include_w_shell_php
+rule php_include_w_shell_php : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file php-include-w-shell.php.txt"
@@ -5552,7 +5461,7 @@ rule php_include_w_shell_php
 		1 of them
 }
 
-rule Safe0ver_Shell__Safe_Mod_Bypass_By_Evilc0der_php
+rule Safe0ver_Shell__Safe_Mod_Bypass_By_Evilc0der_php : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file Safe0ver Shell -Safe Mod Bypass By Evilc0der.php.txt"
@@ -5568,7 +5477,7 @@ rule Safe0ver_Shell__Safe_Mod_Bypass_By_Evilc0der_php
 		1 of them
 }
 
-rule shell_php_php
+rule shell_php_php : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file shell.php.php.txt"
@@ -5584,7 +5493,7 @@ rule shell_php_php
 		1 of them
 }
 
-rule telnet_cgi
+rule telnet_cgi : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file telnet.cgi.txt"
@@ -5601,7 +5510,7 @@ rule telnet_cgi
 		2 of them
 }
 
-rule ironshell_php
+rule ironshell_php : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file ironshell.php.txt"
@@ -5619,7 +5528,7 @@ rule ironshell_php
 		1 of them
 }
 
-rule backdoorfr_php
+rule backdoorfr_php : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file backdoorfr.php.txt"
@@ -5634,7 +5543,7 @@ rule backdoorfr_php
 		1 of them
 }
 
-rule aspydrv_asp
+rule aspydrv_asp : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file aspydrv.asp.txt"
@@ -5651,7 +5560,7 @@ rule aspydrv_asp
 		2 of them
 }
 
-rule cmdjsp_jsp
+rule cmdjsp_jsp : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file cmdjsp.jsp.txt"
@@ -5668,7 +5577,7 @@ rule cmdjsp_jsp
 		2 of them
 }
 
-rule h4ntu_shell__powered_by_tsoi_
+rule h4ntu_shell__powered_by_tsoi_ : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file h4ntu shell [powered by tsoi].txt"
@@ -5683,7 +5592,7 @@ rule h4ntu_shell__powered_by_tsoi_
 		1 of them
 }
 
-rule Ajan_asp
+rule Ajan_asp : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file Ajan.asp.txt"
@@ -5699,7 +5608,7 @@ rule Ajan_asp
 		1 of them
 }
 
-rule PHANTASMA_php
+rule PHANTASMA_php : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file PHANTASMA.php.txt"
@@ -5716,7 +5625,7 @@ rule PHANTASMA_php
 		2 of them
 }
 
-rule MySQL_Web_Interface_Version_0_8_php
+rule MySQL_Web_Interface_Version_0_8_php : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file MySQL Web Interface Version 0.8.php.txt"
@@ -5733,7 +5642,7 @@ rule MySQL_Web_Interface_Version_0_8_php
 		2 of them
 }
 
-rule simple_cmd_html
+rule simple_cmd_html : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - file simple_cmd.html.txt"
@@ -5750,7 +5659,7 @@ rule simple_cmd_html
 		all of them
 }
 
-rule multiple_webshells_0001
+rule multiple_webshells_0001 : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - from files 1.txt, c2007.php.php.txt, c100.php.txt"
@@ -5769,7 +5678,7 @@ rule multiple_webshells_0001
 		1 of them
 }
 
-rule multiple_webshells_0002
+rule multiple_webshells_0002 : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - from files nst.php.php.txt, img.php.php.txt, nstview.php.php.txt"
@@ -5789,7 +5698,7 @@ rule multiple_webshells_0002
 		1 of them
 }
 
-rule multiple_webshells_0003
+rule multiple_webshells_0003 : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - from files network.php.php.txt, xinfo.php.php.txt, nfm.php.php.txt"
@@ -5808,7 +5717,7 @@ rule multiple_webshells_0003
 		all of them
 }
 
-rule multiple_webshells_0004
+rule multiple_webshells_0004 : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - from files w.php.php.txt, c99madshell_v2.1.php.php.txt, wacking.php.php.txt, SpecialShell_99.php.php.txt"
@@ -5828,7 +5737,7 @@ rule multiple_webshells_0004
 		1 of them
 }
 
-rule multiple_webshells_0005
+rule multiple_webshells_0005 : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - from files r577.php.php.txt, SnIpEr_SA Shell.php.txt, r57.php.php.txt, r57 Shell.php.php.txt, spy.php.php.txt, s.php.php.txt"
@@ -5850,7 +5759,7 @@ rule multiple_webshells_0005
 		1 of them
 }
 
-rule multiple_webshells_0006
+rule multiple_webshells_0006 : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - from files c99shell_v1.0.php.php.txt, c99php.txt, SsEs.php.php.txt, ctt_sh.php.php.txt"
@@ -5871,7 +5780,7 @@ rule multiple_webshells_0006
 		2 of them
 }
 
-rule multiple_webshells_0007
+rule multiple_webshells_0007 : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - from files r577.php.php.txt, spy.php.php.txt, s.php.php.txt"
@@ -5890,7 +5799,7 @@ rule multiple_webshells_0007
 		1 of them
 }
 
-rule multiple_webshells_0008
+rule multiple_webshells_0008 : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - from files w.php.php.txt, c99madshell_v2.1.php.php.txt, wacking.php.php.txt, c99shell_v1.0.php.php.txt, c99php.txt, SpecialShell_99.php.php.txt, ctt_sh.php.php.txt"
@@ -5915,7 +5824,7 @@ rule multiple_webshells_0008
 		all of them
 }
 
-rule multiple_webshells_0009
+rule multiple_webshells_0009 : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - from files w.php.php.txt, c99madshell_v2.1.php.php.txt, wacking.php.php.txt, c99shell_v1.0.php.php.txt, c99php.txt, SpecialShell_99.php.php.txt"
@@ -5937,7 +5846,7 @@ rule multiple_webshells_0009
 		1 of them
 }
 
-rule multiple_webshells_0010
+rule multiple_webshells_0010 : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - from files w.php.php.txt, wacking.php.php.txt, SpecialShell_99.php.php.txt"
@@ -5956,7 +5865,7 @@ rule multiple_webshells_0010
 		1 of them
 }
 
-rule multiple_webshells_0011
+rule multiple_webshells_0011 : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - from files w.php.php.txt, c99madshell_v2.1.php.php.txt, wacking.php.php.txt, SsEs.php.php.txt, SpecialShell_99.php.php.txt"
@@ -5977,7 +5886,7 @@ rule multiple_webshells_0011
 		1 of them
 }
 
-rule multiple_webshells_0012
+rule multiple_webshells_0012 : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - from files r577.php.php.txt, SnIpEr_SA Shell.php.txt, r57.php.php.txt, spy.php.php.txt, s.php.php.txt"
@@ -5998,7 +5907,7 @@ rule multiple_webshells_0012
 		2 of them
 }
 
-rule multiple_webshells_0013
+rule multiple_webshells_0013 : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - from files r577.php.php.txt, SnIpEr_SA Shell.php.txt, r57.php.php.txt"
@@ -6018,7 +5927,7 @@ rule multiple_webshells_0013
 		3 of them
 }
 
-rule multiple_webshells_0014
+rule multiple_webshells_0014 : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - from files r577.php.php.txt, r57 Shell.php.php.txt, spy.php.php.txt, s.php.php.txt"
@@ -6039,7 +5948,7 @@ rule multiple_webshells_0014
 		2 of them
 }
 
-rule multiple_webshells_0015
+rule multiple_webshells_0015 : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - from files wacking.php.php.txt, 1.txt, SpecialShell_99.php.php.txt, c100.php.txt"
@@ -6060,7 +5969,7 @@ rule multiple_webshells_0015
 		1 of them
 }
 
-rule multiple_webshells_0016
+rule multiple_webshells_0016 : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - from files r577.php.php.txt, r57.php.php.txt, r57 Shell.php.php.txt, spy.php.php.txt, s.php.php.txt"
@@ -6082,7 +5991,7 @@ rule multiple_webshells_0016
 		2 of them
 }
 
-rule multiple_webshells_0017
+rule multiple_webshells_0017 : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - from files w.php.php.txt, wacking.php.php.txt, SsEs.php.php.txt, SpecialShell_99.php.php.txt"
@@ -6103,7 +6012,7 @@ rule multiple_webshells_0017
 		1 of them
 }
 
-rule multiple_webshells_0018
+rule multiple_webshells_0018 : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - from files webadmin.php.php.txt, iMHaPFtp.php.php.txt, Private-i3lue.php.txt"
@@ -6122,7 +6031,7 @@ rule multiple_webshells_0018
 		all of them
 }
 
-rule multiple_php_webshells
+rule multiple_php_webshells : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - from files multiple_php_webshells"
@@ -6148,7 +6057,7 @@ rule multiple_php_webshells
 		2 of them
 }
 
-rule multiple_webshells_0019
+rule multiple_webshells_0019 : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - from files w.php.php.txt, c99madshell_v2.1.php.php.txt, wacking.php.php.txt"
@@ -6168,7 +6077,7 @@ rule multiple_webshells_0019
 		1 of them
 }
 
-rule multiple_webshells_0020
+rule multiple_webshells_0020 : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - from files w.php.php.txt, c99madshell_v2.1.php.php.txt, wacking.php.php.txt, c99shell_v1.0.php.php.txt, c99php.txt"
@@ -6190,7 +6099,7 @@ rule multiple_webshells_0020
 		2 of them
 }
 
-rule multiple_webshells_0021
+rule multiple_webshells_0021 : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - from files GFS web-shell ver 3.1.7 - PRiV8.php.txt, nshell.php.php.txt, gfs_sh.php.php.txt"
@@ -6210,7 +6119,7 @@ rule multiple_webshells_0021
 		2 of them
 }
 
-rule multiple_webshells_0022
+rule multiple_webshells_0022 : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - from files w.php.php.txt, c99madshell_v2.1.php.php.txt, wacking.php.php.txt, c99shell_v1.0.php.php.txt, SpecialShell_99.php.php.txt"
@@ -6233,7 +6142,7 @@ rule multiple_webshells_0022
 		2 of them
 }
 
-rule multiple_webshells_0023
+rule multiple_webshells_0023 : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - from files w.php.php.txt, wacking.php.php.txt, c99shell_v1.0.php.php.txt, c99php.txt, SpecialShell_99.php.php.txt"
@@ -6254,7 +6163,7 @@ rule multiple_webshells_0023
 		all of them
 }
 
-rule multiple_webshells_0024
+rule multiple_webshells_0024 : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - from files antichat.php.php.txt, Fatalshell.php.php.txt, a_gedit.php.php.txt"
@@ -6275,7 +6184,7 @@ rule multiple_webshells_0024
 		2 of them
 }
 
-rule multiple_webshells_0025
+rule multiple_webshells_0025 : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - from files c99shell_v1.0.php.php.txt, c99php.txt, SsEs.php.php.txt"
@@ -6293,7 +6202,7 @@ rule multiple_webshells_0025
 		1 of them
 }
 
-rule multiple_webshells_0026
+rule multiple_webshells_0026 : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - from files Crystal.php.txt, nshell.php.php.txt, load_shell.php.php.txt"
@@ -6313,7 +6222,7 @@ rule multiple_webshells_0026
 		2 of them
 }
 
-rule multiple_webshells_0027
+rule multiple_webshells_0027 : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - from files nst.php.php.txt, cybershell.php.php.txt, img.php.php.txt, nstview.php.php.txt"
@@ -6334,7 +6243,7 @@ rule multiple_webshells_0027
 		2 of them
 }
 
-rule multiple_webshells_0028
+rule multiple_webshells_0028 : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - from files w.php.php.txt, c99madshell_v2.1.php.php.txt, wacking.php.php.txt, dC3 Security Crew Shell PRiV.php.txt, SpecialShell_99.php.php.txt"
@@ -6355,7 +6264,7 @@ rule multiple_webshells_0028
 		all of them
 }
 
-rule multiple_webshells_0029
+rule multiple_webshells_0029 : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - from files c99shell_v1.0.php.php.txt, c99php.txt, 1.txt, c2007.php.php.txt, c100.php.txt"
@@ -6375,7 +6284,7 @@ rule multiple_webshells_0029
 		all of them
 }
 
-rule multiple_php_webshells_2
+rule multiple_php_webshells_2 : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - from files w.php.php.txt, c99madshell_v2.1.php.php.txt, wacking.php.php.txt, c99shell_v1.0.php.php.txt, c99php.txt, SsEs.php.php.txt, SpecialShell_99.php.php.txt, ctt_sh.php.php.txt"
@@ -6399,7 +6308,7 @@ rule multiple_php_webshells_2
 		all of them
 }
 
-rule multiple_webshells_0030
+rule multiple_webshells_0030 : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - from files w.php.php.txt, c99madshell_v2.1.php.php.txt, wacking.php.php.txt, 1.txt, SpecialShell_99.php.php.txt"
@@ -6422,7 +6331,7 @@ rule multiple_webshells_0030
 		2 of them
 }
 
-rule multiple_webshells_0031
+rule multiple_webshells_0031 : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - from files r577.php.php.txt, r57.php.php.txt, spy.php.php.txt, s.php.php.txt"
@@ -6443,7 +6352,7 @@ rule multiple_webshells_0031
 		1 of them
 }
 
-rule multiple_webshells_0032
+rule multiple_webshells_0032 : hardened
 {
 	meta:
 		description = "Semi-Auto-generated  - from files nixrem.php.php.txt, c99shell_v1.0.php.php.txt, c99php.txt, NIX REMOTE WEB-SHELL v.0.5 alpha Lite Public Version.php.txt"
@@ -6465,7 +6374,7 @@ rule multiple_webshells_0032
 		2 of them
 }
 
-rule DarkSecurityTeam_Webshell
+rule DarkSecurityTeam_Webshell : hardened
 {
 	meta:
 		description = "Dark Security Team Webshell"
@@ -6480,7 +6389,7 @@ rule DarkSecurityTeam_Webshell
 		1 of them
 }
 
-rule PHP_Cloaked_Webshell_SuperFetchExec
+rule PHP_Cloaked_Webshell_SuperFetchExec : hardened
 {
 	meta:
 		description = "Looks like a webshell cloaked as GIF - http://goo.gl/xFvioC"
@@ -6495,7 +6404,7 @@ rule PHP_Cloaked_Webshell_SuperFetchExec
 		$s0
 }
 
-rule WebShell_RemExp_asp_php
+rule WebShell_RemExp_asp_php : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file RemExp.asp.php.txt"
@@ -6513,7 +6422,7 @@ rule WebShell_RemExp_asp_php
 		all of them
 }
 
-rule WebShell_dC3_Security_Crew_Shell_PRiV
+rule WebShell_dC3_Security_Crew_Shell_PRiV : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file dC3_Security_Crew_Shell_PRiV.php"
@@ -6532,7 +6441,7 @@ rule WebShell_dC3_Security_Crew_Shell_PRiV
 		3 of them
 }
 
-rule WebShell_simattacker
+rule WebShell_simattacker : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file simattacker.php"
@@ -6553,7 +6462,7 @@ rule WebShell_simattacker
 		2 of them
 }
 
-rule WebShell_DTool_Pro
+rule WebShell_DTool_Pro : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file DTool Pro.php"
@@ -6574,7 +6483,7 @@ rule WebShell_DTool_Pro
 		3 of them
 }
 
-rule WebShell_ironshell
+rule WebShell_ironshell : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file ironshell.php"
@@ -6595,7 +6504,7 @@ rule WebShell_ironshell
 		3 of them
 }
 
-rule WebShell_indexer_asp_php
+rule WebShell_indexer_asp_php : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file indexer.asp.php.txt"
@@ -6614,7 +6523,7 @@ rule WebShell_indexer_asp_php
 		3 of them
 }
 
-rule WebShell_toolaspshell
+rule WebShell_toolaspshell : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file toolaspshell.php"
@@ -6630,7 +6539,7 @@ rule WebShell_toolaspshell
 		2 of them
 }
 
-rule WebShell_b374k_mini_shell_php_php
+rule WebShell_b374k_mini_shell_php_php : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file b374k-mini-shell-php.php.php"
@@ -6646,7 +6555,7 @@ rule WebShell_b374k_mini_shell_php_php
 		all of them
 }
 
-rule WebShell_Sincap_1_0
+rule WebShell_Sincap_1_0 : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file Sincap 1.0.php"
@@ -6664,7 +6573,7 @@ rule WebShell_Sincap_1_0
 		2 of them
 }
 
-rule WebShell_b374k_php
+rule WebShell_b374k_php : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file b374k.php.php"
@@ -6682,7 +6591,7 @@ rule WebShell_b374k_php
 		3 of them
 }
 
-rule WebShell_SimAttacker___Vrsion_1_0_0___priv8_4_My_friend
+rule WebShell_SimAttacker___Vrsion_1_0_0___priv8_4_My_friend : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file SimAttacker - Vrsion 1.0.0 - priv8 4 My friend.php"
@@ -6702,7 +6611,7 @@ rule WebShell_SimAttacker___Vrsion_1_0_0___priv8_4_My_friend
 		3 of them
 }
 
-rule WebShell_h4ntu_shell__powered_by_tsoi_
+rule WebShell_h4ntu_shell__powered_by_tsoi_ : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file h4ntu shell [powered by tsoi].php"
@@ -6721,7 +6630,7 @@ rule WebShell_h4ntu_shell__powered_by_tsoi_
 		3 of them
 }
 
-rule WebShell_php_webshells_MyShell
+rule WebShell_php_webshells_MyShell : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file MyShell.php"
@@ -6742,7 +6651,7 @@ rule WebShell_php_webshells_MyShell
 		3 of them
 }
 
-rule WebShell_php_webshells_pws
+rule WebShell_php_webshells_pws : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file pws.php"
@@ -6761,7 +6670,7 @@ rule WebShell_php_webshells_pws
 		4 of them
 }
 
-rule WebShell_reader_asp_php
+rule WebShell_reader_asp_php : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file reader.asp.php.txt"
@@ -6778,7 +6687,7 @@ rule WebShell_reader_asp_php
 		3 of them
 }
 
-rule WebShell_Safe_Mode_Bypass_PHP_4_4_2_and_PHP_5_1_2
+rule WebShell_Safe_Mode_Bypass_PHP_4_4_2_and_PHP_5_1_2 : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file Safe_Mode_Bypass_PHP_4.4.2_and_PHP_5.1.2.php"
@@ -6797,7 +6706,7 @@ rule WebShell_Safe_Mode_Bypass_PHP_4_4_2_and_PHP_5_1_2
 		3 of them
 }
 
-rule WebShell_Liz0ziM_Private_Safe_Mode_Command_Execuriton_Bypass_Exploit
+rule WebShell_Liz0ziM_Private_Safe_Mode_Command_Execuriton_Bypass_Exploit : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file Liz0ziM Private Safe Mode Command Execuriton Bypass Exploit.php"
@@ -6815,7 +6724,7 @@ rule WebShell_Liz0ziM_Private_Safe_Mode_Command_Execuriton_Bypass_Exploit
 		1 of them
 }
 
-rule WebShell_php_backdoor
+rule WebShell_php_backdoor : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file php-backdoor.php"
@@ -6833,7 +6742,7 @@ rule WebShell_php_backdoor
 		1 of them
 }
 
-rule WebShell_Worse_Linux_Shell
+rule WebShell_Worse_Linux_Shell : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file Worse Linux Shell.php"
@@ -6852,7 +6761,7 @@ rule WebShell_Worse_Linux_Shell
 		2 of them
 }
 
-rule WebShell_php_webshells_pHpINJ
+rule WebShell_php_webshells_pHpINJ : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file pHpINJ.php"
@@ -6872,7 +6781,7 @@ rule WebShell_php_webshells_pHpINJ
 		1 of them
 }
 
-rule WebShell_php_webshells_NGH
+rule WebShell_php_webshells_NGH : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file NGH.php"
@@ -6892,7 +6801,7 @@ rule WebShell_php_webshells_NGH
 		2 of them
 }
 
-rule WebShell_php_webshells_matamu
+rule WebShell_php_webshells_matamu : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file matamu.php"
@@ -6911,7 +6820,7 @@ rule WebShell_php_webshells_matamu
 		2 of them
 }
 
-rule WebShell_ru24_post_sh
+rule WebShell_ru24_post_sh : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file ru24_post_sh.php"
@@ -6929,7 +6838,7 @@ rule WebShell_ru24_post_sh
 		1 of them
 }
 
-rule WebShell_hiddens_shell_v1
+rule WebShell_hiddens_shell_v1 : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file hiddens shell v1.php"
@@ -6943,7 +6852,7 @@ rule WebShell_hiddens_shell_v1
 		all of them
 }
 
-rule WebShell_c99_madnet
+rule WebShell_c99_madnet : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file c99_madnet.php"
@@ -6961,7 +6870,7 @@ rule WebShell_c99_madnet
 		all of them
 }
 
-rule WebShell_c99_locus7s
+rule WebShell_c99_locus7s : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file c99_locus7s.php"
@@ -6979,7 +6888,7 @@ rule WebShell_c99_locus7s
 		2 of them
 }
 
-rule WebShell_JspWebshell_1_2
+rule WebShell_JspWebshell_1_2 : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file JspWebshell_1.2.php"
@@ -6998,7 +6907,7 @@ rule WebShell_JspWebshell_1_2
 		3 of them
 }
 
-rule WebShell_safe0ver
+rule WebShell_safe0ver : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file safe0ver.php"
@@ -7018,7 +6927,7 @@ rule WebShell_safe0ver
 		3 of them
 }
 
-rule WebShell_Uploader
+rule WebShell_Uploader : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file Uploader.php"
@@ -7032,7 +6941,7 @@ rule WebShell_Uploader
 		all of them
 }
 
-rule WebShell_php_webshells_kral
+rule WebShell_php_webshells_kral : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file kral.php"
@@ -7051,7 +6960,7 @@ rule WebShell_php_webshells_kral
 		2 of them
 }
 
-rule WebShell_cgitelnet
+rule WebShell_cgitelnet : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file cgitelnet.php"
@@ -7068,7 +6977,7 @@ rule WebShell_cgitelnet
 		2 of them
 }
 
-rule WebShell_simple_backdoor
+rule WebShell_simple_backdoor : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file simple-backdoor.php"
@@ -7090,7 +6999,7 @@ rule WebShell_simple_backdoor
 		all of them
 }
 
-rule WebShell_Safe_Mode_Bypass_PHP_4_4_2_and_PHP_5_1_2_2
+rule WebShell_Safe_Mode_Bypass_PHP_4_4_2_and_PHP_5_1_2_2 : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file Safe_Mode Bypass PHP 4.4.2 and PHP 5.1.2.php"
@@ -7107,7 +7016,7 @@ rule WebShell_Safe_Mode_Bypass_PHP_4_4_2_and_PHP_5_1_2_2
 		2 of them
 }
 
-rule WebShell_NTDaddy_v1_9
+rule WebShell_NTDaddy_v1_9 : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file NTDaddy v1.9.php"
@@ -7124,7 +7033,7 @@ rule WebShell_NTDaddy_v1_9
 		2 of them
 }
 
-rule WebShell_lamashell
+rule WebShell_lamashell : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file lamashell.php"
@@ -7143,7 +7052,7 @@ rule WebShell_lamashell
 		2 of them
 }
 
-rule WebShell_Simple_PHP_backdoor_by_DK
+rule WebShell_Simple_PHP_backdoor_by_DK : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file Simple_PHP_backdoor_by_DK.php"
@@ -7162,7 +7071,7 @@ rule WebShell_Simple_PHP_backdoor_by_DK
 		2 of them
 }
 
-rule WebShell_Moroccan_Spamers_Ma_EditioN_By_GhOsT
+rule WebShell_Moroccan_Spamers_Ma_EditioN_By_GhOsT : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file Moroccan Spamers Ma-EditioN By GhOsT.php"
@@ -7178,7 +7087,7 @@ rule WebShell_Moroccan_Spamers_Ma_EditioN_By_GhOsT
 		all of them
 }
 
-rule WebShell_C99madShell_v__2_0_madnet_edition
+rule WebShell_C99madShell_v__2_0_madnet_edition : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file C99madShell v. 2.0 madnet edition.php"
@@ -7196,7 +7105,7 @@ rule WebShell_C99madShell_v__2_0_madnet_edition
 		all of them
 }
 
-rule WebShell_CmdAsp_asp_php
+rule WebShell_CmdAsp_asp_php : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file CmdAsp.asp.php.txt"
@@ -7218,7 +7127,7 @@ rule WebShell_CmdAsp_asp_php
 		4 of them
 }
 
-rule WebShell_NCC_Shell
+rule WebShell_NCC_Shell : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file NCC-Shell.php"
@@ -7237,7 +7146,7 @@ rule WebShell_NCC_Shell
 		3 of them
 }
 
-rule WebShell_php_webshells_README
+rule WebShell_php_webshells_README : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file README.md"
@@ -7252,7 +7161,7 @@ rule WebShell_php_webshells_README
 		all of them
 }
 
-rule WebShell_backupsql
+rule WebShell_backupsql : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file backupsql.php"
@@ -7270,7 +7179,7 @@ rule WebShell_backupsql
 		2 of them
 }
 
-rule WebShell_AK_74_Security_Team_Web_Shell_Beta_Version
+rule WebShell_AK_74_Security_Team_Web_Shell_Beta_Version : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file AK-74 Security Team Web Shell Beta Version.php"
@@ -7286,7 +7195,7 @@ rule WebShell_AK_74_Security_Team_Web_Shell_Beta_Version
 		1 of them
 }
 
-rule WebShell_php_webshells_cpanel
+rule WebShell_php_webshells_cpanel : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file cpanel.php"
@@ -7305,7 +7214,7 @@ rule WebShell_php_webshells_cpanel
 		2 of them
 }
 
-rule WebShell_accept_language
+rule WebShell_accept_language : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file accept_language.php"
@@ -7319,7 +7228,7 @@ rule WebShell_accept_language
 		all of them
 }
 
-rule WebShell_php_webshells_529
+rule WebShell_php_webshells_529 : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file 529.php"
@@ -7339,7 +7248,7 @@ rule WebShell_php_webshells_529
 		2 of them
 }
 
-rule WebShell_STNC_WebShell_v0_8
+rule WebShell_STNC_WebShell_v0_8 : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file STNC WebShell v0.8.php"
@@ -7355,7 +7264,7 @@ rule WebShell_STNC_WebShell_v0_8
 		2 of them
 }
 
-rule WebShell_php_webshells_tryag
+rule WebShell_php_webshells_tryag : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file tryag.php"
@@ -7373,7 +7282,7 @@ rule WebShell_php_webshells_tryag
 		3 of them
 }
 
-rule WebShell_dC3_Security_Crew_Shell_PRiV_2
+rule WebShell_dC3_Security_Crew_Shell_PRiV_2 : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file dC3 Security Crew Shell PRiV.php"
@@ -7391,7 +7300,7 @@ rule WebShell_dC3_Security_Crew_Shell_PRiV_2
 		3 of them
 }
 
-rule WebShell_qsd_php_backdoor
+rule WebShell_qsd_php_backdoor : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file qsd-php-backdoor.php"
@@ -7408,7 +7317,7 @@ rule WebShell_qsd_php_backdoor
 		2 of them
 }
 
-rule WebShell_php_webshells_spygrup
+rule WebShell_php_webshells_spygrup : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file spygrup.php"
@@ -7425,7 +7334,7 @@ rule WebShell_php_webshells_spygrup
 		3 of them
 }
 
-rule WebShell_Web_shell__c_ShAnKaR
+rule WebShell_Web_shell__c_ShAnKaR : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file Web-shell (c)ShAnKaR.php"
@@ -7442,7 +7351,7 @@ rule WebShell_Web_shell__c_ShAnKaR
 		2 of them
 }
 
-rule WebShell_Ayyildiz_Tim___AYT__Shell_v_2_1_Biz
+rule WebShell_Ayyildiz_Tim___AYT__Shell_v_2_1_Biz : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file Ayyildiz Tim  -AYT- Shell v 2.1 Biz.php"
@@ -7459,7 +7368,7 @@ rule WebShell_Ayyildiz_Tim___AYT__Shell_v_2_1_Biz
 		3 of them
 }
 
-rule WebShell_Gamma_Web_Shell
+rule WebShell_Gamma_Web_Shell : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file Gamma Web Shell.php"
@@ -7476,7 +7385,7 @@ rule WebShell_Gamma_Web_Shell
 		2 of them
 }
 
-rule WebShell_php_webshells_aspydrv
+rule WebShell_php_webshells_aspydrv : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file aspydrv.php"
@@ -7494,7 +7403,7 @@ rule WebShell_php_webshells_aspydrv
 		3 of them
 }
 
-rule WebShell_JspWebshell_1_2_2
+rule WebShell_JspWebshell_1_2_2 : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file JspWebshell 1.2.php"
@@ -7512,7 +7421,7 @@ rule WebShell_JspWebshell_1_2_2
 		3 of them
 }
 
-rule WebShell_g00nshell_v1_3
+rule WebShell_g00nshell_v1_3 : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file g00nshell-v1.3.php"
@@ -7530,7 +7439,7 @@ rule WebShell_g00nshell_v1_3
 		2 of them
 }
 
-rule WebShell_WinX_Shell
+rule WebShell_WinX_Shell : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file WinX Shell.php"
@@ -7548,7 +7457,7 @@ rule WebShell_WinX_Shell
 		3 of them
 }
 
-rule WebShell_PHANTASMA
+rule WebShell_PHANTASMA : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file PHANTASMA.php"
@@ -7565,7 +7474,7 @@ rule WebShell_PHANTASMA
 		3 of them
 }
 
-rule WebShell_php_webshells_cw
+rule WebShell_php_webshells_cw : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file cw.php"
@@ -7584,7 +7493,7 @@ rule WebShell_php_webshells_cw
 		3 of them
 }
 
-rule WebShell_php_include_w_shell
+rule WebShell_php_include_w_shell : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file php-include-w-shell.php"
@@ -7600,7 +7509,7 @@ rule WebShell_php_include_w_shell
 		1 of them
 }
 
-rule WebShell_mysql_tool
+rule WebShell_mysql_tool : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file mysql_tool.php"
@@ -7615,7 +7524,7 @@ rule WebShell_mysql_tool
 		2 of them
 }
 
-rule WebShell_PhpSpy_Ver_2006
+rule WebShell_PhpSpy_Ver_2006 : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file PhpSpy Ver 2006.php"
@@ -7632,7 +7541,7 @@ rule WebShell_PhpSpy_Ver_2006
 		1 of them
 }
 
-rule WebShell_ZyklonShell
+rule WebShell_ZyklonShell : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file ZyklonShell.php"
@@ -7649,7 +7558,7 @@ rule WebShell_ZyklonShell
 		all of them
 }
 
-rule WebShell_php_webshells_myshell
+rule WebShell_php_webshells_myshell : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file myshell.php"
@@ -7666,7 +7575,7 @@ rule WebShell_php_webshells_myshell
 		1 of them
 }
 
-rule WebShell_php_webshells_lolipop
+rule WebShell_php_webshells_lolipop : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file lolipop.php"
@@ -7682,7 +7591,7 @@ rule WebShell_php_webshells_lolipop
 		all of them
 }
 
-rule WebShell_simple_cmd
+rule WebShell_simple_cmd : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file simple_cmd.php"
@@ -7699,7 +7608,7 @@ rule WebShell_simple_cmd
 		1 of them
 }
 
-rule WebShell_go_shell
+rule WebShell_go_shell : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file go-shell.php"
@@ -7717,7 +7626,7 @@ rule WebShell_go_shell
 		1 of them
 }
 
-rule WebShell_aZRaiLPhp_v1_0
+rule WebShell_aZRaiLPhp_v1_0 : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file aZRaiLPhp v1.0.php"
@@ -7734,7 +7643,7 @@ rule WebShell_aZRaiLPhp_v1_0
 		2 of them
 }
 
-rule WebShell_webshells_zehir4
+rule WebShell_webshells_zehir4 : hardened
 {
 	meta:
 		description = "Webshells Github Archive - file zehir4"
@@ -7750,7 +7659,7 @@ rule WebShell_webshells_zehir4
 		1 of them
 }
 
-rule WebShell_zehir4_asp_php
+rule WebShell_zehir4_asp_php : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file zehir4.asp.php.txt"
@@ -7766,7 +7675,7 @@ rule WebShell_zehir4_asp_php
 		2 of them
 }
 
-rule WebShell_php_webshells_lostDC
+rule WebShell_php_webshells_lostDC : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file lostDC.php"
@@ -7784,7 +7693,7 @@ rule WebShell_php_webshells_lostDC
 		2 of them
 }
 
-rule WebShell_CasuS_1_5
+rule WebShell_CasuS_1_5 : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file CasuS 1.5.php"
@@ -7800,7 +7709,7 @@ rule WebShell_CasuS_1_5
 		1 of them
 }
 
-rule WebShell_ftpsearch
+rule WebShell_ftpsearch : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - file ftpsearch.php"
@@ -7817,7 +7726,7 @@ rule WebShell_ftpsearch
 		2 of them
 }
 
-rule WebShell__Cyber_Shell_cybershell_Cyber_Shell__v_1_0_
+rule WebShell__Cyber_Shell_cybershell_Cyber_Shell__v_1_0_ : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - from files Cyber Shell.php, cybershell.php, Cyber Shell (v 1.0).php"
@@ -7837,7 +7746,7 @@ rule WebShell__Cyber_Shell_cybershell_Cyber_Shell__v_1_0_
 		2 of them
 }
 
-rule WebShell__Ajax_PHP_Command_Shell_Ajax_PHP_Command_Shell_soldierofallah
+rule WebShell__Ajax_PHP_Command_Shell_Ajax_PHP_Command_Shell_soldierofallah : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - from files Ajax_PHP Command Shell.php, Ajax_PHP_Command_Shell.php, soldierofallah.php"
@@ -7860,7 +7769,7 @@ rule WebShell__Ajax_PHP_Command_Shell_Ajax_PHP_Command_Shell_soldierofallah
 		3 of them
 }
 
-rule WebShell_Generic_PHP_7
+rule WebShell_Generic_PHP_7 : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - from files Mysql interface v1.0.php, MySQL Web Interface Version 0.8.php, Mysql_interface_v1.0.php, MySQL_Web_Interface_Version_0.8.php"
@@ -7881,7 +7790,7 @@ rule WebShell_Generic_PHP_7
 		2 of them
 }
 
-rule WebShell__Small_Web_Shell_by_ZaCo_small_zaco_zacosmall
+rule WebShell__Small_Web_Shell_by_ZaCo_small_zaco_zacosmall : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - from files Small Web Shell by ZaCo.php, small.php, zaco.php, zacosmall.php"
@@ -7902,7 +7811,7 @@ rule WebShell__Small_Web_Shell_by_ZaCo_small_zaco_zacosmall
 		2 of them
 }
 
-rule WebShell_Generic_PHP_8
+rule WebShell_Generic_PHP_8 : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - from files Macker's Private PHPShell.php, PHP Shell.php, Safe0ver Shell -Safe Mod Bypass By Evilc0der.php"
@@ -7924,7 +7833,7 @@ rule WebShell_Generic_PHP_8
 		3 of them
 }
 
-rule WebShell__PH_Vayv_PHVayv_PH_Vayv_klasvayv_asp_php
+rule WebShell__PH_Vayv_PHVayv_PH_Vayv_klasvayv_asp_php : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - from files PH Vayv.php, PHVayv.php, PH_Vayv.php, klasvayv.asp.php.txt"
@@ -7945,7 +7854,7 @@ rule WebShell__PH_Vayv_PHVayv_PH_Vayv_klasvayv_asp_php
 		2 of them
 }
 
-rule WebShell_Generic_PHP_9
+rule WebShell_Generic_PHP_9 : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - from files KAdot Universal Shell v0.1.6.php, KAdot_Universal_Shell_v0.1.6.php, KA_uShell 0.1.6.php"
@@ -7967,7 +7876,7 @@ rule WebShell_Generic_PHP_9
 		3 of them
 }
 
-rule WebShell__PH_Vayv_PHVayv_PH_Vayv
+rule WebShell__PH_Vayv_PHVayv_PH_Vayv : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - from files PH Vayv.php, PHVayv.php, PH_Vayv.php"
@@ -7986,7 +7895,7 @@ rule WebShell__PH_Vayv_PHVayv_PH_Vayv
 		2 of them
 }
 
-rule WebShell_Generic_PHP_1
+rule WebShell_Generic_PHP_1 : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - from files Dive Shell 1.0 - Emperor Hacking Team.php, Dive_Shell_1.0_Emperor_Hacking_Team.php, SimShell 1.0 - Simorgh Security MGZ.php, SimShell_1.0_-_Simorgh_Security_MGZ.php"
@@ -8010,7 +7919,7 @@ rule WebShell_Generic_PHP_1
 		5 of them
 }
 
-rule WebShell_Generic_PHP_2
+rule WebShell_Generic_PHP_2 : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - from files CrystalShell v.1.php, load_shell.php, Loaderz WEB Shell.php, stres.php"
@@ -8032,7 +7941,7 @@ rule WebShell_Generic_PHP_2
 		4 of them
 }
 
-rule WebShell__CrystalShell_v_1_erne_stres
+rule WebShell__CrystalShell_v_1_erne_stres : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - from files CrystalShell v.1.php, erne.php, stres.php"
@@ -8056,7 +7965,7 @@ rule WebShell__CrystalShell_v_1_erne_stres
 		5 of them
 }
 
-rule WebShell_Generic_PHP_3
+rule WebShell_Generic_PHP_3 : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - from files Antichat Shell v1.3.php, Antichat Shell. Modified by Go0o$E.php, Antichat Shell.php, fatal.php"
@@ -8078,7 +7987,7 @@ rule WebShell_Generic_PHP_3
 		all of them
 }
 
-rule WebShell_Generic_PHP_4
+rule WebShell_Generic_PHP_4 : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - from files CrystalShell v.1.php, load_shell.php, nshell.php, Loaderz WEB Shell.php, stres.php"
@@ -8103,7 +8012,7 @@ rule WebShell_Generic_PHP_4
 		all of them
 }
 
-rule WebShell_GFS
+rule WebShell_GFS : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - from files GFS web-shell ver 3.1.7 - PRiV8.php, Predator.php, GFS_web-shell_ver_3.1.7_-_PRiV8.php"
@@ -8122,7 +8031,7 @@ rule WebShell_GFS
 		all of them
 }
 
-rule WebShell__CrystalShell_v_1_sosyete_stres
+rule WebShell__CrystalShell_v_1_sosyete_stres : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - from files CrystalShell v.1.php, sosyete.php, stres.php"
@@ -8145,7 +8054,7 @@ rule WebShell__CrystalShell_v_1_sosyete_stres
 		all of them
 }
 
-rule WebShell_Generic_PHP_10
+rule WebShell_Generic_PHP_10 : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - from files Cyber Shell.php, cybershell.php, Cyber Shell (v 1.0).php, PHPRemoteView.php"
@@ -8168,7 +8077,7 @@ rule WebShell_Generic_PHP_10
 		all of them
 }
 
-rule WebShell_Generic_PHP_11
+rule WebShell_Generic_PHP_11 : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - from files rootshell.php, Rootshell.v.1.0.php, s72 Shell v1.1 Coding.php, s72_Shell_v1.1_Coding.php"
@@ -8193,7 +8102,7 @@ rule WebShell_Generic_PHP_11
 		all of them
 }
 
-rule WebShell__findsock_php_findsock_shell_php_reverse_shell
+rule WebShell__findsock_php_findsock_shell_php_reverse_shell : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - from files findsock.c, php-findsock-shell.php, php-reverse-shell.php"
@@ -8210,7 +8119,7 @@ rule WebShell__findsock_php_findsock_shell_php_reverse_shell
 		all of them
 }
 
-rule WebShell_Generic_PHP_6
+rule WebShell_Generic_PHP_6 : hardened
 {
 	meta:
 		description = "PHP Webshells Github Archive - from files c0derz shell [csh] v. 0.1.1 release.php, CrystalShell v.1.php, load_shell.php, Loaderz WEB Shell.php, stres.php"
@@ -8234,7 +8143,7 @@ rule WebShell_Generic_PHP_6
 		4 of them
 }
 
-rule Unpack_Injectt
+rule Unpack_Injectt : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file Injectt.exe"
@@ -8250,7 +8159,7 @@ rule Unpack_Injectt
 		all of them
 }
 
-rule HYTop_DevPack_fso
+rule HYTop_DevPack_fso : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file fso.asp"
@@ -8265,7 +8174,7 @@ rule HYTop_DevPack_fso
 		all of them
 }
 
-rule FeliksPack3___PHP_Shells_ssh
+rule FeliksPack3___PHP_Shells_ssh : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file ssh.php"
@@ -8279,7 +8188,7 @@ rule FeliksPack3___PHP_Shells_ssh
 		all of them
 }
 
-rule Debug_BDoor
+rule Debug_BDoor : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file BDoor.dll"
@@ -8294,7 +8203,7 @@ rule Debug_BDoor
 		all of them
 }
 
-rule bin_Client
+rule bin_Client : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file Client.exe"
@@ -8311,7 +8220,7 @@ rule bin_Client
 		all of them
 }
 
-rule ZXshell2_0_rar_Folder_ZXshell
+rule ZXshell2_0_rar_Folder_ZXshell : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file ZXshell.exe"
@@ -8326,7 +8235,7 @@ rule ZXshell2_0_rar_Folder_ZXshell
 		all of them
 }
 
-rule RkNTLoad
+rule RkNTLoad : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file RkNTLoad.exe"
@@ -8347,7 +8256,7 @@ rule RkNTLoad
 		all of them
 }
 
-rule binder2_binder2
+rule binder2_binder2 : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file binder2.exe"
@@ -8366,7 +8275,7 @@ rule binder2_binder2
 		all of them
 }
 
-rule thelast_orice2
+rule thelast_orice2 : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file orice2.php"
@@ -8381,7 +8290,7 @@ rule thelast_orice2
 		all of them
 }
 
-rule FSO_s_sincap
+rule FSO_s_sincap : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file sincap.php"
@@ -8396,7 +8305,7 @@ rule FSO_s_sincap
 		all of them
 }
 
-rule PhpShell
+rule PhpShell : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file PhpShell.php"
@@ -8410,7 +8319,7 @@ rule PhpShell
 		all of them
 }
 
-rule HYTop_DevPack_config
+rule HYTop_DevPack_config : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file config.asp"
@@ -8426,7 +8335,7 @@ rule HYTop_DevPack_config
 		all of them
 }
 
-rule sendmail
+rule sendmail : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file sendmail.exe"
@@ -8441,7 +8350,7 @@ rule sendmail
 		all of them
 }
 
-rule FSO_s_zehir4
+rule FSO_s_zehir4 : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file zehir4.asp"
@@ -8455,7 +8364,7 @@ rule FSO_s_zehir4
 		all of them
 }
 
-rule hkshell_hkshell
+rule hkshell_hkshell : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file hkshell.exe"
@@ -8471,7 +8380,7 @@ rule hkshell_hkshell
 		all of them
 }
 
-rule iMHaPFtp
+rule iMHaPFtp : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file iMHaPFtp.php"
@@ -8485,7 +8394,7 @@ rule iMHaPFtp
 		all of them
 }
 
-rule Unpack_TBack
+rule Unpack_TBack : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file TBack.dll"
@@ -8499,7 +8408,7 @@ rule Unpack_TBack
 		all of them
 }
 
-rule DarkSpy105
+rule DarkSpy105 : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file DarkSpy105.exe"
@@ -8513,7 +8422,7 @@ rule DarkSpy105
 		all of them
 }
 
-rule EditServer_Webshell
+rule EditServer_Webshell : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file EditServer.exe"
@@ -8529,7 +8438,7 @@ rule EditServer_Webshell
 		all of them
 }
 
-rule FSO_s_reader
+rule FSO_s_reader : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file reader.asp"
@@ -8543,7 +8452,7 @@ rule FSO_s_reader
 		all of them
 }
 
-rule ASP_CmdAsp
+rule ASP_CmdAsp : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file CmdAsp.asp"
@@ -8559,7 +8468,7 @@ rule ASP_CmdAsp
 		all of them
 }
 
-rule KA_uShell
+rule KA_uShell : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file KA_uShell.php"
@@ -8574,7 +8483,7 @@ rule KA_uShell
 		all of them
 }
 
-rule PHP_Backdoor_v1
+rule PHP_Backdoor_v1 : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file PHP Backdoor v1.php"
@@ -8589,7 +8498,7 @@ rule PHP_Backdoor_v1
 		all of them
 }
 
-rule svchostdll
+rule svchostdll : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file svchostdll.dll"
@@ -8611,7 +8520,7 @@ rule svchostdll
 		all of them
 }
 
-rule HYTop_DevPack_server
+rule HYTop_DevPack_server : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file server.asp"
@@ -8625,7 +8534,7 @@ rule HYTop_DevPack_server
 		all of them
 }
 
-rule vanquish
+rule vanquish : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file vanquish.dll"
@@ -8641,7 +8550,7 @@ rule vanquish
 		all of them
 }
 
-rule winshell
+rule winshell : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file winshell.exe"
@@ -8663,7 +8572,7 @@ rule winshell
 		all of them
 }
 
-rule FSO_s_remview
+rule FSO_s_remview : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file remview.php"
@@ -8679,7 +8588,7 @@ rule FSO_s_remview
 		all of them
 }
 
-rule saphpshell
+rule saphpshell : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file saphpshell.php"
@@ -8693,7 +8602,7 @@ rule saphpshell
 		all of them
 }
 
-rule HYTop2006_rar_Folder_2006Z
+rule HYTop2006_rar_Folder_2006Z : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file 2006Z.exe"
@@ -8708,7 +8617,7 @@ rule HYTop2006_rar_Folder_2006Z
 		all of them
 }
 
-rule admin_ad
+rule admin_ad : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file admin-ad.asp"
@@ -8723,7 +8632,7 @@ rule admin_ad
 		all of them
 }
 
-rule FSO_s_casus15
+rule FSO_s_casus15 : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file casus15.php"
@@ -8737,7 +8646,7 @@ rule FSO_s_casus15
 		all of them
 }
 
-rule BIN_Client
+rule BIN_Client : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file Client.exe"
@@ -8756,7 +8665,7 @@ rule BIN_Client
 		4 of them
 }
 
-rule shelltools_g0t_root_uptime
+rule shelltools_g0t_root_uptime : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file uptime.exe"
@@ -8774,7 +8683,7 @@ rule shelltools_g0t_root_uptime
 		all of them
 }
 
-rule Simple_PHP_BackDooR
+rule Simple_PHP_BackDooR : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file Simple_PHP_BackDooR.php"
@@ -8790,7 +8699,7 @@ rule Simple_PHP_BackDooR
 		1 of them
 }
 
-rule sig_2005Gray
+rule sig_2005Gray : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file 2005Gray.asp"
@@ -8807,7 +8716,7 @@ rule sig_2005Gray
 		all of them
 }
 
-rule DllInjection
+rule DllInjection : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file DllInjection.exe"
@@ -8821,7 +8730,7 @@ rule DllInjection
 		all of them
 }
 
-rule Mithril_v1_45_Mithril
+rule Mithril_v1_45_Mithril : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file Mithril.exe"
@@ -8836,7 +8745,7 @@ rule Mithril_v1_45_Mithril
 		all of them
 }
 
-rule hkshell_hkrmv
+rule hkshell_hkrmv : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file hkrmv.exe"
@@ -8851,7 +8760,7 @@ rule hkshell_hkrmv
 		all of them
 }
 
-rule phpshell
+rule phpshell : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file phpshell.php"
@@ -8867,23 +8776,7 @@ rule phpshell
 		all of them
 }
 
-// duplicated
-/* rule FSO_s_cmd
-{
-	meta:
-		description = "Webshells Auto-generated - file cmd.asp"
-		author = "Yara Bulk Rule Generator by Florian Roth"
-		hash = "cbe8e365d41dd3cd8e462ca434cf385f"
-
-	strings:
-		$s0 = {3C 25 3D 20 5C 22 5C 5C 5C 5C 5C 22 20 26 20 6F 53 63 72 69 70 74 4E 65 74 2E 43 6F 6D 70 75 74 65 72 4E 61 6D 65 20 26 20 5C 22 5C 5C 5C 22 20 26 20 6F 53 63 72 69 70 74 4E 65 74 2E 55 73 65 72 4E 61 6D 65 20 25 3E}
-		$s1 = {43 61 6C 6C 20 6F 53 63 72 69 70 74 2E 52 75 6E 20 28 5C 22 63 6D 64 2E 65 78 65 20 2F 63 20 5C 22 20 26 20 73 7A 43 4D 44 20 26 20 5C 22 20 3E 20 5C 22 20 26 20 73 7A 54 65 6D 70 46 69 6C 65 2C 20 30 2C 20 54 72 75 65 29}
-
-	condition:
-		all of them
-}*/
-
-rule FeliksPack3___PHP_Shells_phpft
+rule FeliksPack3___PHP_Shells_phpft : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file phpft.php"
@@ -8898,7 +8791,7 @@ rule FeliksPack3___PHP_Shells_phpft
 		all of them
 }
 
-rule FSO_s_indexer
+rule FSO_s_indexer : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file indexer.asp"
@@ -8912,7 +8805,7 @@ rule FSO_s_indexer
 		all of them
 }
 
-rule r57shell
+rule r57shell : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file r57shell.php"
@@ -8926,7 +8819,7 @@ rule r57shell
 		all of them
 }
 
-rule bdcli100
+rule bdcli100 : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file bdcli100.exe"
@@ -8941,7 +8834,7 @@ rule bdcli100
 		all of them
 }
 
-rule HYTop_DevPack_2005Red
+rule HYTop_DevPack_2005Red : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file 2005Red.asp"
@@ -8957,7 +8850,7 @@ rule HYTop_DevPack_2005Red
 		all of them
 }
 
-rule HYTop2006_rar_Folder_2006X2
+rule HYTop2006_rar_Folder_2006X2 : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file 2006X2.exe"
@@ -8972,7 +8865,7 @@ rule HYTop2006_rar_Folder_2006X2
 		all of them
 }
 
-rule rdrbs084
+rule rdrbs084 : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file rdrbs084.exe"
@@ -8987,7 +8880,7 @@ rule rdrbs084
 		all of them
 }
 
-rule HYTop_CaseSwitch_2005
+rule HYTop_CaseSwitch_2005 : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file 2005.exe"
@@ -9008,7 +8901,7 @@ rule HYTop_CaseSwitch_2005
 		all of them
 }
 
-rule eBayId_index3
+rule eBayId_index3 : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file index3.php"
@@ -9022,7 +8915,7 @@ rule eBayId_index3
 		all of them
 }
 
-rule FSO_s_phvayv
+rule FSO_s_phvayv : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file phvayv.php"
@@ -9036,7 +8929,7 @@ rule FSO_s_phvayv
 		all of them
 }
 
-rule byshell063_ntboot
+rule byshell063_ntboot : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file ntboot.exe"
@@ -9053,7 +8946,7 @@ rule byshell063_ntboot
 		all of them
 }
 
-rule FSO_s_casus15_2
+rule FSO_s_casus15_2 : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file casus15.php"
@@ -9067,7 +8960,7 @@ rule FSO_s_casus15_2
 		all of them
 }
 
-rule installer
+rule installer : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file installer.cmd"
@@ -9082,22 +8975,7 @@ rule installer
 		all of them
 }
 
-// duplicated
-/* rule uploader
-{
-	meta:
-		description = "Webshells Auto-generated - file uploader.php"
-		author = "Yara Bulk Rule Generator by Florian Roth"
-		hash = "b9a9aab319964351b46bd5fc9d6246a8"
-
-	strings:
-		$s0 = {6D 6F 76 65 5F 75 70 6C 6F 61 64 65 64 5F 66 69 6C 65 28 24 75 73 65 72 66 69 6C 65 2C 20 5C 22 65 6E 74 72 69 6B 61 2E 70 68 70 5C 22 29 3B 20}
-
-	condition:
-		all of them
-}*/
-
-rule FSO_s_remview_2
+rule FSO_s_remview_2 : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file remview.php"
@@ -9112,7 +8990,7 @@ rule FSO_s_remview_2
 		all of them
 }
 
-rule FeliksPack3___PHP_Shells_r57
+rule FeliksPack3___PHP_Shells_r57 : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file r57.php"
@@ -9126,7 +9004,7 @@ rule FeliksPack3___PHP_Shells_r57
 		all of them
 }
 
-rule HYTop2006_rar_Folder_2006X
+rule HYTop2006_rar_Folder_2006X : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file 2006X.exe"
@@ -9141,7 +9019,7 @@ rule HYTop2006_rar_Folder_2006X
 		all of them
 }
 
-rule FSO_s_phvayv_2
+rule FSO_s_phvayv_2 : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file phvayv.php"
@@ -9155,7 +9033,7 @@ rule FSO_s_phvayv_2
 		all of them
 }
 
-rule elmaliseker
+rule elmaliseker : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file elmaliseker.asp"
@@ -9170,7 +9048,7 @@ rule elmaliseker
 		all of them
 }
 
-rule shelltools_g0t_root_resolve
+rule shelltools_g0t_root_resolve : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file resolve.exe"
@@ -9190,7 +9068,7 @@ rule shelltools_g0t_root_resolve
 		all of them
 }
 
-rule FSO_s_RemExp
+rule FSO_s_RemExp : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file RemExp.asp"
@@ -9206,7 +9084,7 @@ rule FSO_s_RemExp
 		all of them
 }
 
-rule FSO_s_tool
+rule FSO_s_tool : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file tool.asp"
@@ -9220,7 +9098,7 @@ rule FSO_s_tool
 		all of them
 }
 
-rule FeliksPack3___PHP_Shells_2005
+rule FeliksPack3___PHP_Shells_2005 : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file 2005.asp"
@@ -9235,7 +9113,7 @@ rule FeliksPack3___PHP_Shells_2005
 		all of them
 }
 
-rule byloader
+rule byloader : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file byloader.exe"
@@ -9253,7 +9131,7 @@ rule byloader
 		all of them
 }
 
-rule shelltools_g0t_root_Fport
+rule shelltools_g0t_root_Fport : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file Fport.exe"
@@ -9268,7 +9146,7 @@ rule shelltools_g0t_root_Fport
 		all of them
 }
 
-rule BackDooR__fr_
+rule BackDooR__fr_ : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file BackDooR (fr).php"
@@ -9282,7 +9160,7 @@ rule BackDooR__fr_
 		all of them
 }
 
-rule FSO_s_ntdaddy
+rule FSO_s_ntdaddy : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file ntdaddy.asp"
@@ -9296,7 +9174,7 @@ rule FSO_s_ntdaddy
 		all of them
 }
 
-rule nstview_nstview
+rule nstview_nstview : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file nstview.php"
@@ -9310,7 +9188,7 @@ rule nstview_nstview
 		all of them
 }
 
-rule HYTop_DevPack_upload
+rule HYTop_DevPack_upload : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file upload.asp"
@@ -9324,7 +9202,7 @@ rule HYTop_DevPack_upload
 		all of them
 }
 
-rule PasswordReminder
+rule PasswordReminder : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file PasswordReminder.exe"
@@ -9338,7 +9216,7 @@ rule PasswordReminder
 		all of them
 }
 
-rule Pack_InjectT
+rule Pack_InjectT : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file InjectT.exe"
@@ -9356,7 +9234,7 @@ rule Pack_InjectT
 		all of them
 }
 
-rule FSO_s_RemExp_2
+rule FSO_s_RemExp_2 : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file RemExp.asp"
@@ -9371,7 +9249,7 @@ rule FSO_s_RemExp_2
 		all of them
 }
 
-rule FSO_s_c99
+rule FSO_s_c99 : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file c99.php"
@@ -9385,7 +9263,7 @@ rule FSO_s_c99
 		all of them
 }
 
-rule rknt_zip_Folder_RkNT
+rule rknt_zip_Folder_RkNT : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file RkNT.dll"
@@ -9405,7 +9283,7 @@ rule rknt_zip_Folder_RkNT
 		all of them
 }
 
-rule dbgntboot
+rule dbgntboot : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file dbgntboot.dll"
@@ -9420,7 +9298,7 @@ rule dbgntboot
 		all of them
 }
 
-rule PHP_shell
+rule PHP_shell : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file shell.php"
@@ -9435,7 +9313,7 @@ rule PHP_shell
 		all of them
 }
 
-rule hxdef100
+rule hxdef100 : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file hxdef100.exe"
@@ -9451,7 +9329,7 @@ rule hxdef100
 		all of them
 }
 
-rule rdrbs100
+rule rdrbs100 : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file rdrbs100.exe"
@@ -9466,7 +9344,7 @@ rule rdrbs100
 		all of them
 }
 
-rule Mithril_Mithril
+rule Mithril_Mithril : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file Mithril.exe"
@@ -9487,7 +9365,7 @@ rule Mithril_Mithril
 		all of them
 }
 
-rule hxdef100_2
+rule hxdef100_2 : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file hxdef100.exe"
@@ -9503,7 +9381,7 @@ rule hxdef100_2
 		all of them
 }
 
-rule Release_dllTest
+rule Release_dllTest : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file dllTest.dll"
@@ -9526,7 +9404,7 @@ rule Release_dllTest
 		all of them
 }
 
-rule webadmin
+rule webadmin : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file webadmin.php"
@@ -9540,7 +9418,7 @@ rule webadmin
 		all of them
 }
 
-rule commands
+rule commands : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file commands.asp"
@@ -9555,7 +9433,7 @@ rule commands
 		all of them
 }
 
-rule hkdoordll
+rule hkdoordll : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file hkdoordll.dll"
@@ -9569,7 +9447,7 @@ rule hkdoordll
 		all of them
 }
 
-rule r57shell_2
+rule r57shell_2 : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file r57shell.php"
@@ -9583,7 +9461,7 @@ rule r57shell_2
 		all of them
 }
 
-rule Mithril_v1_45_dllTest
+rule Mithril_v1_45_dllTest : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file dllTest.dll"
@@ -9599,7 +9477,7 @@ rule Mithril_v1_45_dllTest
 		all of them
 }
 
-rule dbgiis6cli
+rule dbgiis6cli : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file dbgiis6cli.exe"
@@ -9614,7 +9492,7 @@ rule dbgiis6cli
 		all of them
 }
 
-rule remview_2003_04_22
+rule remview_2003_04_22 : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file remview_2003_04_22.php"
@@ -9628,7 +9506,7 @@ rule remview_2003_04_22
 		all of them
 }
 
-rule FSO_s_test
+rule FSO_s_test : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file test.php"
@@ -9643,7 +9521,7 @@ rule FSO_s_test
 		all of them
 }
 
-rule Debug_cress
+rule Debug_cress : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file cress.exe"
@@ -9658,7 +9536,7 @@ rule Debug_cress
 		all of them
 }
 
-rule webshell
+rule webshell : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file webshell.php"
@@ -9676,7 +9554,7 @@ rule webshell
 		all of them
 }
 
-rule FSO_s_EFSO_2
+rule FSO_s_EFSO_2 : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file EFSO_2.asp"
@@ -9691,7 +9569,7 @@ rule FSO_s_EFSO_2
 		all of them
 }
 
-rule thelast_index3
+rule thelast_index3 : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file index3.php"
@@ -9705,7 +9583,7 @@ rule thelast_index3
 		all of them
 }
 
-rule adjustcr
+rule adjustcr : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file adjustcr.exe"
@@ -9722,7 +9600,7 @@ rule adjustcr
 		all of them
 }
 
-rule FeliksPack3___PHP_Shells_xIShell
+rule FeliksPack3___PHP_Shells_xIShell : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file xIShell.php"
@@ -9736,7 +9614,7 @@ rule FeliksPack3___PHP_Shells_xIShell
 		all of them
 }
 
-rule HYTop_AppPack_2005
+rule HYTop_AppPack_2005 : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file 2005.asp"
@@ -9750,7 +9628,7 @@ rule HYTop_AppPack_2005
 		all of them
 }
 
-rule xssshell
+rule xssshell : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file xssshell.asp"
@@ -9764,7 +9642,7 @@ rule xssshell
 		all of them
 }
 
-rule FeliksPack3___PHP_Shells_usr
+rule FeliksPack3___PHP_Shells_usr : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file usr.php"
@@ -9778,7 +9656,7 @@ rule FeliksPack3___PHP_Shells_usr
 		all of them
 }
 
-rule FSO_s_phpinj
+rule FSO_s_phpinj : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file phpinj.php"
@@ -9792,7 +9670,7 @@ rule FSO_s_phpinj
 		all of them
 }
 
-rule xssshell_db
+rule xssshell_db : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file db.asp"
@@ -9806,7 +9684,7 @@ rule xssshell_db
 		all of them
 }
 
-rule PHP_sh
+rule PHP_sh : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file sh.php"
@@ -9820,7 +9698,7 @@ rule PHP_sh
 		all of them
 }
 
-rule xssshell_default
+rule xssshell_default : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file default.asp"
@@ -9834,7 +9712,7 @@ rule xssshell_default
 		all of them
 }
 
-rule EditServer_Webshell_2
+rule EditServer_Webshell_2 : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file EditServer.exe"
@@ -9850,7 +9728,7 @@ rule EditServer_Webshell_2
 		all of them
 }
 
-rule by064cli
+rule by064cli : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file by064cli.exe"
@@ -9865,7 +9743,7 @@ rule by064cli
 		all of them
 }
 
-rule Mithril_dllTest
+rule Mithril_dllTest : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file dllTest.dll"
@@ -9880,7 +9758,7 @@ rule Mithril_dllTest
 		all of them
 }
 
-rule peek_a_boo
+rule peek_a_boo : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file peek-a-boo.exe"
@@ -9899,7 +9777,7 @@ rule peek_a_boo
 		all of them
 }
 
-rule fmlibraryv3
+rule fmlibraryv3 : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file fmlibraryv3.asp"
@@ -9913,7 +9791,7 @@ rule fmlibraryv3
 		all of them
 }
 
-rule Debug_dllTest_2
+rule Debug_dllTest_2 : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file dllTest.dll"
@@ -9928,7 +9806,7 @@ rule Debug_dllTest_2
 		all of them
 }
 
-rule connector
+rule connector : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file connector.asp"
@@ -9943,7 +9821,7 @@ rule connector
 		all of them
 }
 
-rule shelltools_g0t_root_HideRun
+rule shelltools_g0t_root_HideRun : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file HideRun.exe"
@@ -9958,7 +9836,7 @@ rule shelltools_g0t_root_HideRun
 		all of them
 }
 
-rule regshell
+rule regshell : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file regshell.exe"
@@ -9974,7 +9852,7 @@ rule regshell
 		all of them
 }
 
-rule PHP_Shell_v1_7
+rule PHP_Shell_v1_7 : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file PHP_Shell_v1.7.php"
@@ -9988,7 +9866,7 @@ rule PHP_Shell_v1_7
 		all of them
 }
 
-rule xssshell_save
+rule xssshell_save : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file save.asp"
@@ -10003,7 +9881,7 @@ rule xssshell_save
 		all of them
 }
 
-rule screencap
+rule screencap : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file screencap.exe"
@@ -10019,7 +9897,7 @@ rule screencap
 		all of them
 }
 
-rule FSO_s_phpinj_2
+rule FSO_s_phpinj_2 : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file phpinj.php"
@@ -10033,7 +9911,7 @@ rule FSO_s_phpinj_2
 		all of them
 }
 
-rule ZXshell2_0_rar_Folder_zxrecv
+rule ZXshell2_0_rar_Folder_zxrecv : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file zxrecv.exe"
@@ -10053,7 +9931,7 @@ rule ZXshell2_0_rar_Folder_zxrecv
 		all of them
 }
 
-rule FSO_s_ajan
+rule FSO_s_ajan : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file ajan.asp"
@@ -10067,7 +9945,7 @@ rule FSO_s_ajan
 		all of them
 }
 
-rule c99shell
+rule c99shell : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file c99shell.php"
@@ -10081,7 +9959,7 @@ rule c99shell
 		all of them
 }
 
-rule phpspy_2005_full
+rule phpspy_2005_full : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file phpspy_2005_full.php"
@@ -10095,7 +9973,7 @@ rule phpspy_2005_full
 		all of them
 }
 
-rule FSO_s_zehir4_2
+rule FSO_s_zehir4_2 : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file zehir4.asp"
@@ -10109,7 +9987,7 @@ rule FSO_s_zehir4_2
 		all of them
 }
 
-rule httpdoor
+rule httpdoor : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file httpdoor.exe"
@@ -10126,7 +10004,7 @@ rule httpdoor
 		all of them
 }
 
-rule FSO_s_indexer_2
+rule FSO_s_indexer_2 : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file indexer.asp"
@@ -10140,7 +10018,7 @@ rule FSO_s_indexer_2
 		all of them
 }
 
-rule HYTop_DevPack_2005
+rule HYTop_DevPack_2005 : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file 2005.asp"
@@ -10156,7 +10034,7 @@ rule HYTop_DevPack_2005
 		all of them
 }
 
-rule _root_040_zip_Folder_deploy
+rule _root_040_zip_Folder_deploy : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file deploy.exe"
@@ -10171,7 +10049,7 @@ rule _root_040_zip_Folder_deploy
 		all of them
 }
 
-rule by063cli
+rule by063cli : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file by063cli.exe"
@@ -10186,7 +10064,7 @@ rule by063cli
 		all of them
 }
 
-rule icyfox007v1_10_rar_Folder_asp
+rule icyfox007v1_10_rar_Folder_asp : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file asp.asp"
@@ -10200,23 +10078,7 @@ rule icyfox007v1_10_rar_Folder_asp
 		all of them
 }
 
-// duplicated
-/* rule FSO_s_EFSO_2_2
-{
-	meta:
-		description = "Webshells Auto-generated - file EFSO_2.asp"
-		author = "Yara Bulk Rule Generator by Florian Roth"
-		hash = "a341270f9ebd01320a7490c12cb2e64c"
-
-	strings:
-		$s0 = {3B 21 2B 2F 44 52 6B 6E 44 37 2B 2E 5C 5C 6D 44 72 43 28 56 2B 6B 63 4A 7A 6E 6E 64 6D 5C 5C 66 7C 6E 7A 4B 75 4A 62 27 72 40 21 26 30 4B 55 59 40 2A 4A 62 40 23 40 26 58 6C 5C 22 64 4B 56 63 4A 5C 5C 43 73 6C 55 2C 29 2C 40 21 30 4B 78 44 7E 6D 4B 56}
-		$s4 = {5C 5C 63 6F 21 56 56 32 43 44 74 53 4A 27 45 2A 23 40 23 40 26 6D 4B 78 2F 44 50 31 34 6C 4D 2F 6E 59 7B 4A 43 38 31 4E 2B 36 4C 74 62 4C 33 5E 68 55 57 61 3B 4D 2F 4F 45 2D 41 58 58 5C 22 62 7E 2F 66 41 73 21 75 26 39 7C 4A 5C 5C 67 72 4B 70 5C 22 6A}
-
-	condition:
-		all of them
-}*/
-
-rule byshell063_ntboot_2
+rule byshell063_ntboot_2 : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file ntboot.dll"
@@ -10230,7 +10092,7 @@ rule byshell063_ntboot_2
 		all of them
 }
 
-rule u_uay
+rule u_uay : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file uay.exe"
@@ -10245,7 +10107,7 @@ rule u_uay
 		1 of them
 }
 
-rule bin_wuaus
+rule bin_wuaus : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file wuaus.dll"
@@ -10264,7 +10126,7 @@ rule bin_wuaus
 		all of them
 }
 
-rule pwreveal
+rule pwreveal : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file pwreveal.exe"
@@ -10281,7 +10143,7 @@ rule pwreveal
 		all of them
 }
 
-rule shelltools_g0t_root_xwhois
+rule shelltools_g0t_root_xwhois : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file xwhois.exe"
@@ -10298,7 +10160,7 @@ rule shelltools_g0t_root_xwhois
 		all of them
 }
 
-rule vanquish_2
+rule vanquish_2 : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file vanquish.exe"
@@ -10312,7 +10174,7 @@ rule vanquish_2
 		all of them
 }
 
-rule down_rar_Folder_down
+rule down_rar_Folder_down : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file down.asp"
@@ -10326,7 +10188,7 @@ rule down_rar_Folder_down
 		all of them
 }
 
-rule cmdShell
+rule cmdShell : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file cmdShell.asp"
@@ -10340,7 +10202,7 @@ rule cmdShell
 		all of them
 }
 
-rule ZXshell2_0_rar_Folder_nc
+rule ZXshell2_0_rar_Folder_nc : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file nc.exe"
@@ -10357,7 +10219,7 @@ rule ZXshell2_0_rar_Folder_nc
 		all of them
 }
 
-rule portlessinst
+rule portlessinst : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file portlessinst.exe"
@@ -10373,7 +10235,7 @@ rule portlessinst
 		all of them
 }
 
-rule SetupBDoor
+rule SetupBDoor : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file SetupBDoor.exe"
@@ -10387,7 +10249,7 @@ rule SetupBDoor
 		all of them
 }
 
-rule phpshell_3
+rule phpshell_3 : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file phpshell.php"
@@ -10402,7 +10264,7 @@ rule phpshell_3
 		all of them
 }
 
-rule BIN_Server
+rule BIN_Server : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file Server.exe"
@@ -10421,7 +10283,7 @@ rule BIN_Server
 		all of them
 }
 
-rule HYTop2006_rar_Folder_2006
+rule HYTop2006_rar_Folder_2006 : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file 2006.asp"
@@ -10435,7 +10297,7 @@ rule HYTop2006_rar_Folder_2006
 		all of them
 }
 
-rule r57shell_3
+rule r57shell_3 : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file r57shell.php"
@@ -10449,7 +10311,7 @@ rule r57shell_3
 		all of them
 }
 
-rule HDConfig
+rule HDConfig : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file HDConfig.exe"
@@ -10467,7 +10329,7 @@ rule HDConfig
 		all of them
 }
 
-rule FSO_s_ajan_2
+rule FSO_s_ajan_2 : hardened
 {
 	meta:
 		description = "Webshells Auto-generated - file ajan.asp"
@@ -10482,7 +10344,7 @@ rule FSO_s_ajan_2
 		all of them
 }
 
-rule Webshell_and_Exploit_CN_APT_HK : Webshell
+rule Webshell_and_Exploit_CN_APT_HK : Webshell hardened
 {
 	meta:
 		author = "Florian Roth"
@@ -10496,10 +10358,10 @@ rule Webshell_and_Exploit_CN_APT_HK : Webshell
 		$s1 = {3C 69 6E 70 75 74 20 74 79 70 65 3D 5C 22 68 69 64 64 65 6E 5C 22 20 6E 61 6D 65 3D 5C 22 64 6F 69 6E 67 5C 22 20 76 61 6C 75 65 3D 5C 22 6C 6F 67 69 6E 5C 22 3E}
 
 	condition:
-		$a0 or ( all of ($s*))
+		$a0 or ( all of ( $s* ) )
 }
 
-rule JSP_Browser_APT_webshell
+rule JSP_Browser_APT_webshell : hardened
 {
 	meta:
 		description = "VonLoesch JSP Browser used as web shell by APT groups - jsp File browser 1.1a"
@@ -10517,7 +10379,7 @@ rule JSP_Browser_APT_webshell
 		all of them
 }
 
-rule JSP_jfigueiredo_APT_webshell
+rule JSP_jfigueiredo_APT_webshell : hardened
 {
 	meta:
 		description = "JSP Browser used as web shell by APT groups - author: jfigueiredo"
@@ -10534,7 +10396,7 @@ rule JSP_jfigueiredo_APT_webshell
 		all of them
 }
 
-rule JSP_jfigueiredo_APT_webshell_2
+rule JSP_jfigueiredo_APT_webshell_2 : hardened
 {
 	meta:
 		description = "JSP Browser used as web shell by APT groups - author: jfigueiredo"
@@ -10550,10 +10412,10 @@ rule JSP_jfigueiredo_APT_webshell_2
 		$s2 = {3C 69 6E 70 75 74 20 74 79 70 65 3D 5C 22 68 69 64 64 65 6E 5C 22 20 69 64 3D 5C 22 66 68 69 64 64 65 6E 5C 22 20 6E 61 6D 65 3D 5C 22 66 68 69 64 64 65 6E 5C 22 20 76 61 6C 75 65 3D 5C 22 4C 33 42 6B 5A 69 38 3D 5C 22 20 2F 3E}
 
 	condition:
-		all of ($a*) or all of ($s*)
+		all of ( $a* ) or all of ( $s* )
 }
 
-rule AJAX_FileUpload_webshell
+rule AJAX_FileUpload_webshell : hardened
 {
 	meta:
 		description = "AJAX JS/CSS components providing web shell by APT groups"
@@ -10571,7 +10433,7 @@ rule AJAX_FileUpload_webshell
 		all of them
 }
 
-rule Webshell_Insomnia
+rule Webshell_Insomnia : hardened
 {
 	meta:
 		description = "Insomnia Webshell - file InsomniaShell.aspx"
@@ -10595,7 +10457,7 @@ rule Webshell_Insomnia
 		3 of them
 }
 
-rule HawkEye_PHP_Panel
+rule HawkEye_PHP_Panel : hardened
 {
 	meta:
 		description = "Detects HawkEye Keyloggers PHP Panel"
@@ -10610,10 +10472,10 @@ rule HawkEye_PHP_Panel
 		$s3 = {65 63 68 6F 20 5C 22 53 75 63 63 65 73 73 5C 22 3B}
 
 	condition:
-		all of ($s*) and filesize <600
+		all of ( $s* ) and filesize < 600
 }
 
-rule SoakSoak_Infected_Wordpress
+rule SoakSoak_Infected_Wordpress : hardened
 {
 	meta:
 		description = "Detects a SoakSoak infected Wordpress site http://goo.gl/1GzWUX"
@@ -10628,10 +10490,10 @@ rule SoakSoak_Infected_Wordpress
 		$s2 = {61 64 64 5F 61 63 74 69 6F 6E 28 5C 22 77 70 5F 65 6E 71 75 65 75 65 5F 73 63 72 69 70 74 73 5C 22 2C 20 27 46 75 6E 63 51 75 65 75 65 4F 62 6A 65 63 74 27 29 3B}
 
 	condition:
-		all of ($s*)
+		all of ( $s* )
 }
 
-rule Pastebin_Webshell
+rule Pastebin_Webshell : hardened
 {
 	meta:
 		description = "Detects a web shell that downloads content from pastebin.com http://goo.gl/7dbyZs"
@@ -10651,10 +10513,10 @@ rule Pastebin_Webshell
 		$y2 = {73 74 72 5F 72 65 70 6C 61 63 65 28 27 2A 20 40 70 61 63 6B 61 67 65 20 57 6F 72 64 70 72 65 73 73 27 2C 24 74 65 6D 70}
 
 	condition:
-		1 of ($s*) or all of ($x*) or all of ($y*)
+		1 of ( $s* ) or all of ( $x* ) or all of ( $y* )
 }
 
-rule ASPXspy2
+rule ASPXspy2 : hardened
 {
 	meta:
 		description = "Web shell - file ASPXspy2.aspx"
@@ -10683,7 +10545,7 @@ rule ASPXspy2
 		6 of them
 }
 
-rule Webshell_27_9_c66_c99
+rule Webshell_27_9_c66_c99 : hardened
 {
 	meta:
 		description = "Detects Webshell - rule generated from from files 27.9.txt, c66.php, c99-shadows-mod.php, c99.php ..."
@@ -10708,10 +10570,10 @@ rule Webshell_27_9_c66_c99
 		$s7 = {69 66 20 28 21 66 75 6E 63 74 69 6F 6E 5F 65 78 69 73 74 73 28 5C 22 63 39 39 5F 62 75 66 66 5F 70 72 65 70 61 72 65 5C 22 29 29}
 
 	condition:
-		filesize <685KB and 1 of them
+		filesize < 685KB and 1 of them
 }
 
-rule Webshell_acid_AntiSecShell_3
+rule Webshell_acid_AntiSecShell_3 : hardened
 {
 	meta:
 		description = "Detects Webshell Acid"
@@ -10743,10 +10605,10 @@ rule Webshell_acid_AntiSecShell_3
 		$s1 = {69 66 20 28 21 69 73 5F 72 65 61 64 61 62 6C 65 28 24 6F 29 29 20 7B 72 65 74 75 72 6E 20 5C 22 3C 66 6F 6E 74 20 63 6F 6C 6F 72 3D 72 65 64 3E 5C 22 2E 76 69 65 77 5F 70 65 72 6D 73 28 66 69 6C 65 70 65 72 6D 73 28 24 6F 29 29 2E 5C 22 3C 2F 66 6F 6E 74 3E 5C 22 3B 7D}
 
 	condition:
-		filesize <900KB and all of them
+		filesize < 900KB and all of them
 }
 
-rule Webshell_c99_4
+rule Webshell_c99_4 : hardened
 {
 	meta:
 		description = "Detects C99 Webshell"
@@ -10777,10 +10639,10 @@ rule Webshell_c99_4
 		$s5 = {69 66 20 28 70 6F 73 69 78 5F 6B 69 6C 6C 28 24 70 69 64 2C 24 73 69 67 29 29 20 7B 65 63 68 6F 20 5C 22 4F 4B 2E 5C 22 3B 7D}
 
 	condition:
-		filesize <900KB and 1 of them
+		filesize < 900KB and 1 of them
 }
 
-rule Webshell_r57shell_2
+rule Webshell_r57shell_2 : hardened
 {
 	meta:
 		description = "Detects Webshell R57"
@@ -10807,10 +10669,10 @@ rule Webshell_r57shell_2
 		$s2 = {65 63 68 6F 20 24 6C 61 6E 67 5B 24 6C 61 6E 67 75 61 67 65 2E 27 5F 74 65 78 74 39 38 27 5D 2E 24 73 75 63 2E 5C 22 5C 5C 72 5C 5C 6E 5C 22 3B}
 
 	condition:
-		filesize <900KB and all of them
+		filesize < 900KB and all of them
 }
 
-rule Webshell_27_9_acid_c99_locus7s
+rule Webshell_27_9_acid_c99_locus7s : hardened
 {
 	meta:
 		description = "Detects Webshell - rule generated from from files 27.9.txt, acid.php, c99_locus7s.txt"
@@ -10832,10 +10694,10 @@ rule Webshell_27_9_acid_c99_locus7s
 		$s1 = {24 5F 50 4F 53 54 5B 27 62 61 63 6B 63 63 6F 6E 6E 6D 73 67 65 27 5D 3D 5C 22 3C 2F 62 72 3E 3C 2F 62 72 3E 3C 62 3E 3C 66 6F 6E 74 20 63 6F 6C 6F 72 3D 72 65 64 20 73 69 7A 65 3D 33 3E 45 72 72 6F 72 3A 3C 2F 66 6F 6E 74 3E 20 43 61 6E 27 74 20 62 61 63 6B 64 6F 6F 72 20 68 6F 73 74 21 3C 2F 62 3E 5C 22 3B}
 
 	condition:
-		filesize <1711KB and 1 of them
+		filesize < 1711KB and 1 of them
 }
 
-rule Webshell_Backdoor_PHP_Agent_r57_mod_bizzz_shell_r57
+rule Webshell_Backdoor_PHP_Agent_r57_mod_bizzz_shell_r57 : hardened
 {
 	meta:
 		description = "Detects Webshell - rule generated from from files Backdoor.PHP.Agent.php, r57.mod-bizzz.shell.txt ..."
@@ -10860,10 +10722,10 @@ rule Webshell_Backdoor_PHP_Agent_r57_mod_bizzz_shell_r57
 		$s2 = {24 62 6C 61 68 20 3D 20 65 78 28}
 
 	condition:
-		filesize <600KB and all of them
+		filesize < 600KB and all of them
 }
 
-rule Webshell_c100
+rule Webshell_c100 : hardened
 {
 	meta:
 		description = "Detects Webshell - rule generated from from files c100 v. 777shell"
@@ -10887,10 +10749,10 @@ rule Webshell_c100
 		$s6 = {6E 65 74 73 74 61 74 20 2D 61 74 75 70 20 7C 20 67 72 65 70 20 49 53 54}
 
 	condition:
-		filesize <685KB and 2 of them
+		filesize < 685KB and 2 of them
 }
 
-rule Webshell_AcidPoison
+rule Webshell_AcidPoison : hardened
 {
 	meta:
 		description = "Detects Poison Sh3ll - Webshell"
@@ -10913,10 +10775,10 @@ rule Webshell_AcidPoison
 		$s1 = {65 6C 73 65 69 66 20 28 20 65 6E 61 62 6C 65 64 28 5C 22 65 78 65 63 5C 22 29 20 29 20 7B 20 65 78 65 63 28 24 63 6D 64 2C 24 6F 29 3B 20 24 6F 75 74 70 75 74 20 3D 20 6A 6F 69 6E 28 5C 22 5C 5C 72 5C 5C 6E 5C 22 2C 24 6F 29 3B 20 7D}
 
 	condition:
-		filesize <550KB and all of them
+		filesize < 550KB and all of them
 }
 
-rule Webshell_acid_FaTaLisTiCz_Fx_fx_p0isoN_sh3ll_x0rg_byp4ss_256
+rule Webshell_acid_FaTaLisTiCz_Fx_fx_p0isoN_sh3ll_x0rg_byp4ss_256 : hardened
 {
 	meta:
 		description = "Detects Webshell - rule generated from from files acid.php, FaTaLisTiCz_Fx.txt, fx.txt, p0isoN.sh3ll.txt, x0rg.byp4ss.txt"
@@ -10935,10 +10797,10 @@ rule Webshell_acid_FaTaLisTiCz_Fx_fx_p0isoN_sh3ll_x0rg_byp4ss_256
 		$s2 = {66 6F 72 65 61 63 68 28 24 71 75 69 63 6B 6C 61 75 6E 63 68 32 20 61 73 20 24 69 74 65 6D 29 20 7B}
 
 	condition:
-		filesize <882KB and all of them
+		filesize < 882KB and all of them
 }
 
-rule Webshell_Ayyildiz
+rule Webshell_Ayyildiz : hardened
 {
 	meta:
 		description = "Detects Webshell - rule generated from from files Ayyildiz Tim  -AYT- Shell v 2.1 Biz.txt, Macker's Private PHPShell.php, matamu.txt, myshell.txt, PHP Shell.txt"
@@ -10957,10 +10819,10 @@ rule Webshell_Ayyildiz
 		$s1 = {65 63 68 6F 20 5C 22 3C 6F 70 74 69 6F 6E 20 76 61 6C 75 65 3D 5C 5C 5C 22 24 77 6F 72 6B 5F 64 69 72 5C 5C 5C 22 20 73 65 6C 65 63 74 65 64 3E 43 75 72 72 65 6E 74 20 44 69 72 65 63 74 6F 72 79 3C 2F 6F 70 74 69 6F 6E 3E 5C 5C 6E 5C 22 3B}
 
 	condition:
-		filesize <112KB and all of them
+		filesize < 112KB and all of them
 }
 
-rule Webshell_zehir
+rule Webshell_zehir : hardened
 {
 	meta:
 		description = "Detects Webshell - rule generated from from files elmaliseker.asp, zehir.asp, zehir.txt, zehir4.asp, zehir4.txt"
@@ -10979,6 +10841,6 @@ rule Webshell_zehir
 		$s2 = {69 66 20 28 66 72 6D 55 70 6C 6F 61 64 2E 6D 61 78 2E 76 61 6C 75 65 3C 3D 30 29 20 66 72 6D 55 70 6C 6F 61 64 2E 6D 61 78 2E 76 61 6C 75 65 3D 31 3B}
 
 	condition:
-		filesize <200KB and 1 of them
+		filesize < 200KB and 1 of them
 }
 

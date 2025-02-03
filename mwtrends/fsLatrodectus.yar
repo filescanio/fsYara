@@ -1,4 +1,4 @@
-rule Latrodectus
+rule Latrodectus : hardened
 {
 	meta:
 		author = "enzok"
@@ -21,7 +21,7 @@ rule Latrodectus
 		all of them
 }
 
-rule Windows_Trojan_Latrodectus_841ff697
+rule Windows_Trojan_Latrodectus_841ff697 : hardened
 {
 	meta:
 		author = "Elastic Security"
@@ -50,7 +50,7 @@ rule Windows_Trojan_Latrodectus_841ff697
 		any of them
 }
 
-rule latrodectus_dll_str_decrypt
+rule latrodectus_dll_str_decrypt : hardened
 {
 	meta:
 		author = "0x0d4y"
@@ -75,11 +75,10 @@ rule latrodectus_dll_str_decrypt
       }
 
 	condition:
-		uint16(0)==0x5a4d and 
-		$str_decrypt
+		uint16( 0 ) == 0x5a4d and $str_decrypt
 }
 
-rule Latrodectus_1
+rule Latrodectus_1 : hardened
 {
 	meta:
 		author = "kevoreilly"
@@ -97,11 +96,10 @@ rule Latrodectus_1
 		$export = {48 8B C4 48 89 58 08 48 89 68 10 48 89 70 18 48 89 78 20 41 56 48 83 EC 30 4C 8B 05 [4] 33 D2 C7 40 [5] 88 50 ?? 49 63 40 3C 42 8B 8C 00 88 00 00 00 85 C9 0F 84}
 
 	condition:
-		uint16(0)==0x5A4D and 
-		all of them
+		uint16( 0 ) == 0x5A4D and all of them
 }
 
-rule fsLatrodectus
+rule fsLatrodectus : hardened
 {
 	meta:
 		description = "FsYARA - Malware Trends"
@@ -109,9 +107,6 @@ rule fsLatrodectus
 		score = 75
 
 	condition:
-		Latrodectus or 
-		Windows_Trojan_Latrodectus_841ff697 or 
-		latrodectus_dll_str_decrypt or 
-		Latrodectus_1
+		Latrodectus or Windows_Trojan_Latrodectus_841ff697 or latrodectus_dll_str_decrypt or Latrodectus_1
 }
 

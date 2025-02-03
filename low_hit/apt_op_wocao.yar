@@ -1,183 +1,194 @@
+rule APT_MAL_CN_Wocao_Agent_Csharp : hardened
+{
+	meta:
+		description = "Strings from CSharp version of Agent"
+		author = "Fox-IT SRT"
+		reference = "https://www.fox-it.com/en/news/whitepapers/operation-wocao-shining-a-light-on-one-of-chinas-hidden-hacking-groups/"
+		id = "e5212226-a82d-558d-abb4-43ad7848764e"
 
-rule APT_MAL_CN_Wocao_Agent_Csharp {
-    meta:
-        description = "Strings from CSharp version of Agent"
-        author = "Fox-IT SRT"
-        reference = "https://www.fox-it.com/en/news/whitepapers/operation-wocao-shining-a-light-on-one-of-chinas-hidden-hacking-groups/"
+	strings:
+		$a = {((6d 79 73 65 6e 64 28 63 6c 69 65 6e 74 5f 73 6f 63 6b 2c 20 6e 65 77 20 62 79 74 65 5b 5d 20 7b 20 30 78 31 36 2c 20 30 78 30 30 20 7d 2c 20 32 29 3b) | (6d 00 79 00 73 00 65 00 6e 00 64 00 28 00 63 00 6c 00 69 00 65 00 6e 00 74 00 5f 00 73 00 6f 00 63 00 6b 00 2c 00 20 00 6e 00 65 00 77 00 20 00 62 00 79 00 74 00 65 00 5b 00 5d 00 20 00 7b 00 20 00 30 00 78 00 31 00 36 00 2c 00 20 00 30 00 78 00 30 00 30 00 20 00 7d 00 2c 00 20 00 32 00 29 00 3b 00))}
+		$b = {((44 6e 73 2e 47 65 74 48 6f 73 74 41 64 64 72 65 73 73 65 73 28 73 69 70 2e 52 65 6d 6f 76 65 28 73 69 70 2e 4c 65 6e 67 74 68 20 2d 20 31 29 29 3b) | (44 00 6e 00 73 00 2e 00 47 00 65 00 74 00 48 00 6f 00 73 00 74 00 41 00 64 00 64 00 72 00 65 00 73 00 73 00 65 00 73 00 28 00 73 00 69 00 70 00 2e 00 52 00 65 00 6d 00 6f 00 76 00 65 00 28 00 73 00 69 00 70 00 2e 00 4c 00 65 00 6e 00 67 00 74 00 68 00 20 00 2d 00 20 00 31 00 29 00 29 00 3b 00))}
+		$c = {((50 6f 72 74 20 3d 20 32 35 36 20 2a 20 62 75 66 5b 34 5d 20 2b 20 62 75 66 5b 35 5d 3b) | (50 00 6f 00 72 00 74 00 20 00 3d 00 20 00 32 00 35 00 36 00 20 00 2a 00 20 00 62 00 75 00 66 00 5b 00 34 00 5d 00 20 00 2b 00 20 00 62 00 75 00 66 00 5b 00 35 00 5d 00 3b 00))}
+		$d = {((50 6f 72 74 20 3d 20 32 35 36 20 2a 20 62 75 66 5b 41 64 64 72 4c 65 6e 5d 20 2b 20 62 75 66 5b 41 64 64 72 4c 65 6e 20 2b 20 31 5d 3b) | (50 00 6f 00 72 00 74 00 20 00 3d 00 20 00 32 00 35 00 36 00 20 00 2a 00 20 00 62 00 75 00 66 00 5b 00 41 00 64 00 64 00 72 00 4c 00 65 00 6e 00 5d 00 20 00 2b 00 20 00 62 00 75 00 66 00 5b 00 41 00 64 00 64 00 72 00 4c 00 65 00 6e 00 20 00 2b 00 20 00 31 00 5d 00 3b 00))}
+		$e = {((53 74 61 72 74 54 72 61 6e 73 44 61 74 61 28 43 6c 69 53 6f 63 6b) | (53 00 74 00 61 00 72 00 74 00 54 00 72 00 61 00 6e 00 73 00 44 00 61 00 74 00 61 00 28 00 43 00 6c 00 69 00 53 00 6f 00 63 00 6b 00))}
+		$f = {((73 74 61 74 69 63 20 76 6f 69 64 20 46 6f 72 77 61 72 64 54 72 61 6e 73 6d 69 74 28 6f 62 6a 65 63 74 20 66 74 5f 64 61 74 61 29) | (73 00 74 00 61 00 74 00 69 00 63 00 20 00 76 00 6f 00 69 00 64 00 20 00 46 00 6f 00 72 00 77 00 61 00 72 00 64 00 54 00 72 00 61 00 6e 00 73 00 6d 00 69 00 74 00 28 00 6f 00 62 00 6a 00 65 00 63 00 74 00 20 00 66 00 74 00 5f 00 64 00 61 00 74 00 61 00 29 00))}
+		$key = {((30 78 34 63 2c 20 30 78 31 62 2c 20 30 78 36 38 2c 20 30 78 30 62 2c 20 30 78 36 61 2c 20 30 78 31 38 2c 20 30 78 30 39 2c 20 30 78 34 31 2c 20 30 78 35 61 2c 20 30 78 33 36 2c 20 30 78 31 66 2c 20 30 78 35 36 2c 20 30 78 32 36 2c 20 30 78 32 61 2c 20 30 78 30 33 2c 20 30 78 34 34 2c 20 30 78 37 64 2c 20 30 78 35 66 2c 20 30 78 30 33 2c 20 30 78 37 62 2c 20 30 78 30 37 2c 20 30 78 36 65 2c 20 30 78 30 33 2c 20 30 78 37 37 2c 20 30 78 33 30 2c 20 30 78 37 30 2c 20 30 78 35 32 2c 20 30 78 34 32 2c 20 30 78 35 33 2c 20 30 78 36 37 2c 20 30 78 30 61 2c 20 30 78 32 61) | (30 00 78 00 34 00 63 00 2c 00 20 00 30 00 78 00 31 00 62 00 2c 00 20 00 30 00 78 00 36 00 38 00 2c 00 20 00 30 00 78 00 30 00 62 00 2c 00 20 00 30 00 78 00 36 00 61 00 2c 00 20 00 30 00 78 00 31 00 38 00 2c 00 20 00 30 00 78 00 30 00 39 00 2c 00 20 00 30 00 78 00 34 00 31 00 2c 00 20 00 30 00 78 00 35 00 61 00 2c 00 20 00 30 00 78 00 33 00 36 00 2c 00 20 00 30 00 78 00 31 00 66 00 2c 00 20 00 30 00 78 00 35 00 36 00 2c 00 20 00 30 00 78 00 32 00 36 00 2c 00 20 00 30 00 78 00 32 00 61 00 2c 00 20 00 30 00 78 00 30 00 33 00 2c 00 20 00 30 00 78 00 34 00 34 00 2c 00 20 00 30 00 78 00 37 00 64 00 2c 00 20 00 30 00 78 00 35 00 66 00 2c 00 20 00 30 00 78 00 30 00 33 00 2c 00 20 00 30 00 78 00 37 00 62 00 2c 00 20 00 30 00 78 00 30 00 37 00 2c 00 20 00 30 00 78 00 36 00 65 00 2c 00 20 00 30 00 78 00 30 00 33 00 2c 00 20 00 30 00 78 00 37 00 37 00 2c 00 20 00 30 00 78 00 33 00 30 00 2c 00 20 00 30 00 78 00 37 00 30 00 2c 00 20 00 30 00 78 00 35 00 32 00 2c 00 20 00 30 00 78 00 34 00 32 00 2c 00 20 00 30 00 78 00 35 00 33 00 2c 00 20 00 30 00 78 00 36 00 37 00 2c 00 20 00 30 00 78 00 30 00 61 00 2c 00 20 00 30 00 78 00 32 00 61 00))}
+		$key_raw = { 4c1b680b6a1809415a361f56262a03447d5f037b076e03773070524253670a2a }
 
-        id = "e5212226-a82d-558d-abb4-43ad7848764e"
-    strings:
-        $a = "mysend(client_sock, new byte[] { 0x16, 0x00 }, 2);" ascii wide
-        $b = "Dns.GetHostAddresses(sip.Remove(sip.Length - 1));" ascii wide
-        $c = "Port = 256 * buf[4] + buf[5];" ascii wide
-        $d = "Port = 256 * buf[AddrLen] + buf[AddrLen + 1];" ascii wide
-        $e = "StartTransData(CliSock" ascii wide
-        $f = "static void ForwardTransmit(object ft_data)" ascii wide
-
-        $key = "0x4c, 0x1b, 0x68, 0x0b, 0x6a, 0x18, 0x09, 0x41, 0x5a, 0x36, 0x1f, 0x56, 0x26, 0x2a, 0x03, 0x44, 0x7d, 0x5f, 0x03, 0x7b, 0x07, 0x6e, 0x03, 0x77, 0x30, 0x70, 0x52, 0x42, 0x53, 0x67, 0x0a, 0x2a" ascii wide
-        $key_raw = { 4c1b680b6a1809415a361f56262a03447d5f037b076e03773070524253670a2a }
-
-    condition:
-        1 of them
+	condition:
+		1 of them
 }
 
-rule APT_MAL_CN_Wocao_agent_powershell_dropper {
-    meta:
-        description = "Strings from PowerShell dropper of CSharp version of Agent"
-        author = "Fox-IT SRT"
-        reference = "https://www.fox-it.com/en/news/whitepapers/operation-wocao-shining-a-light-on-one-of-chinas-hidden-hacking-groups/"
+rule APT_MAL_CN_Wocao_agent_powershell_dropper : hardened
+{
+	meta:
+		description = "Strings from PowerShell dropper of CSharp version of Agent"
+		author = "Fox-IT SRT"
+		reference = "https://www.fox-it.com/en/news/whitepapers/operation-wocao-shining-a-light-on-one-of-chinas-hidden-hacking-groups/"
+		id = "833ce607-56a9-5580-bbd1-e72392945fec"
 
-        id = "833ce607-56a9-5580-bbd1-e72392945fec"
-    strings:
-        $a = "function format([string]$source)"
-        $b = "foreach($c in $bb){$tt = $tt + [char]($c -bxor"
-        $c = "[agent]::Main($args);"
+	strings:
+		$a = {66 75 6e 63 74 69 6f 6e 20 66 6f 72 6d 61 74 28 5b 73 74 72 69 6e 67 5d 24 73 6f 75 72 63 65 29}
+		$b = {66 6f 72 65 61 63 68 28 24 63 20 69 6e 20 24 62 62 29 7b 24 74 74 20 3d 20 24 74 74 20 2b 20 5b 63 68 61 72 5d 28 24 63 20 2d 62 78 6f 72}
+		$c = {5b 61 67 65 6e 74 5d 3a 3a 4d 61 69 6e 28 24 61 72 67 73 29 3b}
 
-    condition:
-        1 of them
+	condition:
+		1 of them
 }
 
-rule APT_MAL_CN_Wocao_agent_powershell_b64encoded {
-    meta:
-        description = "Piece of Base64 encoded data from Agent CSharp version"
-        author = "Fox-IT SRT"
-        reference = "https://www.fox-it.com/en/news/whitepapers/operation-wocao-shining-a-light-on-one-of-chinas-hidden-hacking-groups/"
+rule APT_MAL_CN_Wocao_agent_powershell_b64encoded : hardened
+{
+	meta:
+		description = "Piece of Base64 encoded data from Agent CSharp version"
+		author = "Fox-IT SRT"
+		reference = "https://www.fox-it.com/en/news/whitepapers/operation-wocao-shining-a-light-on-one-of-chinas-hidden-hacking-groups/"
+		id = "14e1702d-6229-5989-8bb7-cc9c0c321676"
 
-        id = "14e1702d-6229-5989-8bb7-cc9c0c321676"
-    strings:
-        $header = "LFNVT0hBBnVfVVJDSx0sU1VPSEEGdV9VUkNLCG9pHSxTVU9IQQZ1X1VSQ0sIZUlK"
+	strings:
+		$header = {4c 46 4e 56 54 30 68 42 42 6e 56 66 56 56 4a 44 53 78 30 73 55 31 56 50 53 45 45 47 64 56 39 56 55 6b 4e 4c 43 47 39 70 48 53 78 54 56 55 39 49 51 51 5a 31 58 31 56 53 51 30 73 49 5a 55 6c 4b}
 
-    condition:
-        all of them
+	condition:
+		all of them
 }
 
-rule APT_MAL_CN_Wocao_agent_py {
-    meta:
-        description = "Strings from Python version of Agent"
-        author = "Fox-IT SRT"
-        reference = "https://www.fox-it.com/en/news/whitepapers/operation-wocao-shining-a-light-on-one-of-chinas-hidden-hacking-groups/"
+rule APT_MAL_CN_Wocao_agent_py : hardened
+{
+	meta:
+		description = "Strings from Python version of Agent"
+		author = "Fox-IT SRT"
+		reference = "https://www.fox-it.com/en/news/whitepapers/operation-wocao-shining-a-light-on-one-of-chinas-hidden-hacking-groups/"
+		id = "ca30dd6a-b596-54ab-b4f0-50e6b1382f73"
 
-        id = "ca30dd6a-b596-54ab-b4f0-50e6b1382f73"
-    strings:
-        $a = "vpshex.decode"
-        $b = "self._newsock.recv"
-        $c = "Rsock.connect"
-        $d = /MAX_DATALEN\s?=\s?10240/
-        $e = /LISTEN_MAXCOUNT\s?=\s?80/
-        $f = "ListenSock.listen(LISTEN_MAXCOUNT)"
-        $g = "nextsock.send(head)"
-        $h = "elif transnode"
-        $i = "infobuf[4:6]"
+	strings:
+		$a = {76 70 73 68 65 78 2e 64 65 63 6f 64 65}
+		$b = {73 65 6c 66 2e 5f 6e 65 77 73 6f 63 6b 2e 72 65 63 76}
+		$c = {52 73 6f 63 6b 2e 63 6f 6e 6e 65 63 74}
+		$d = /MAX_DATALEN\s?=\s?10240/
+		$e = /LISTEN_MAXCOUNT\s?=\s?80/
+		$f = {4c 69 73 74 65 6e 53 6f 63 6b 2e 6c 69 73 74 65 6e 28 4c 49 53 54 45 4e 5f 4d 41 58 43 4f 55 4e 54 29}
+		$g = {6e 65 78 74 73 6f 63 6b 2e 73 65 6e 64 28 68 65 61 64 29}
+		$h = {65 6c 69 66 20 74 72 61 6e 73 6e 6f 64 65}
+		$i = {69 6e 66 6f 62 75 66 5b 34 3a 36 5d}
+		$key = {4c 5c 78 31 62 68 5c 78 30 62 6a 5c 78 31 38 5c 74 41 5a 36 5c 78 31 66 56 26 2a 5c 78 30 33 44 7d 5f 5c 78 30 33 7b 5c 78 30 37 6e 5c 78 30 33 77 30 70 52 42 53 67 5c 6e 2a}
 
-        $key = "L\\x1bh\\x0bj\\x18\\tAZ6\\x1fV&*\\x03D}_\\x03{\\x07n\\x03w0pRBSg\\n*"
-    condition:
-        1 of them
+	condition:
+		1 of them
 }
 
-rule APT_MAL_CN_Wocao_agent_py_b64encoded {
-    meta:
-        description = "Piece of Base64 encoded data from Agent Python version"
-        author = "Fox-IT SRT"
-        reference = "https://www.fox-it.com/en/news/whitepapers/operation-wocao-shining-a-light-on-one-of-chinas-hidden-hacking-groups/"
+rule APT_MAL_CN_Wocao_agent_py_b64encoded : hardened
+{
+	meta:
+		description = "Piece of Base64 encoded data from Agent Python version"
+		author = "Fox-IT SRT"
+		reference = "https://www.fox-it.com/en/news/whitepapers/operation-wocao-shining-a-light-on-one-of-chinas-hidden-hacking-groups/"
+		id = "eb2701e9-4358-5d24-bfcd-b4dde24f13bf"
 
-        id = "eb2701e9-4358-5d24-bfcd-b4dde24f13bf"
-    strings:
-        $header = "QlpoOTFBWSZTWWDdHjgABDTfgHwQe////z/v/9+////6YA4cGPsAl2e8M9LSU128"
+	strings:
+		$header = {51 6c 70 6f 4f 54 46 42 57 53 5a 54 57 57 44 64 48 6a 67 41 42 44 54 66 67 48 77 51 65 2f 2f 2f 2f 7a 2f 76 2f 39 2b 2f 2f 2f 2f 36 59 41 34 63 47 50 73 41 6c 32 65 38 4d 39 4c 53 55 31 32 38}
 
-    condition:
-        all of them
+	condition:
+		all of them
 }
 
-rule APT_MAL_CN_Wocao_keylogger_py {
-    meta:
-        description = "Strings from Python keylogger"
-        author = "Fox-IT SRT"
-        reference = "https://www.fox-it.com/en/news/whitepapers/operation-wocao-shining-a-light-on-one-of-chinas-hidden-hacking-groups/"
+rule APT_MAL_CN_Wocao_keylogger_py : hardened
+{
+	meta:
+		description = "Strings from Python keylogger"
+		author = "Fox-IT SRT"
+		reference = "https://www.fox-it.com/en/news/whitepapers/operation-wocao-shining-a-light-on-one-of-chinas-hidden-hacking-groups/"
+		id = "f7b5ec1b-669e-5e7d-a9d3-011d212eb363"
 
-        id = "f7b5ec1b-669e-5e7d-a9d3-011d212eb363"
-    strings:
-        $a = "c:\\windows\\temp\\tap.tmp"
-        $b = "c:\\windows\\temp\\mrteeh.tmp"
-        $c = "GenFileName"
-        $d = "outfile"
-        $e = "[PASTE:%d]"
+	strings:
+		$a = {63 3a 5c 77 69 6e 64 6f 77 73 5c 74 65 6d 70 5c 74 61 70 2e 74 6d 70}
+		$b = {63 3a 5c 77 69 6e 64 6f 77 73 5c 74 65 6d 70 5c 6d 72 74 65 65 68 2e 74 6d 70}
+		$c = {47 65 6e 46 69 6c 65 4e 61 6d 65}
+		$d = {6f 75 74 66 69 6c 65}
+		$e = {5b 50 41 53 54 45 3a 25 64 5d}
 
-    condition:
-        3 of them
+	condition:
+		3 of them
 }
 
-rule APT_MAL_CN_Wocao_keylogger_file {
-    meta:
-        description = "Rule for finding keylogger output files"
-        author = "Fox-IT SRT"
-        reference = "https://www.fox-it.com/en/news/whitepapers/operation-wocao-shining-a-light-on-one-of-chinas-hidden-hacking-groups/"
+rule APT_MAL_CN_Wocao_keylogger_file : hardened
+{
+	meta:
+		description = "Rule for finding keylogger output files"
+		author = "Fox-IT SRT"
+		reference = "https://www.fox-it.com/en/news/whitepapers/operation-wocao-shining-a-light-on-one-of-chinas-hidden-hacking-groups/"
+		id = "22e866b3-4b02-593a-b9a6-aa86870b6509"
 
-        id = "22e866b3-4b02-593a-b9a6-aa86870b6509"
-    strings:
-        $a = { 0d 0a 20 [3-10] 53 74 61 72 74 75 70 3a 20 [3] 20 [3] 20 [2] 20 [2] 3a [2] 3a [2] 20 }
+	strings:
+		$a = { 0d 0a 20 [3-10] 53 74 61 72 74 75 70 3a 20 [3] 20 [3] 20 [2] 20 [2] 3a [2] 3a [2] 20 }
 
-    condition:
-        all of them
+	condition:
+		all of them
 }
 
-rule APT_MAL_CN_Wocao_xserver_csharp {
-    meta:
-        description = "Strings from the CSharp version of XServer"
-        author = "Fox-IT SRT"
-        reference = "https://www.fox-it.com/en/news/whitepapers/operation-wocao-shining-a-light-on-one-of-chinas-hidden-hacking-groups/"
+rule APT_MAL_CN_Wocao_xserver_csharp : hardened
+{
+	meta:
+		description = "Strings from the CSharp version of XServer"
+		author = "Fox-IT SRT"
+		reference = "https://www.fox-it.com/en/news/whitepapers/operation-wocao-shining-a-light-on-one-of-chinas-hidden-hacking-groups/"
+		id = "48f4c88d-fb56-54ca-84e2-38f88804a50f"
 
-        id = "48f4c88d-fb56-54ca-84e2-38f88804a50f"
-    strings:
-        $a = "static void ServerX(int ListenPort)" ascii wide
-        $b = "public class xserver" ascii wide
-        $c = "[xserver]::Main($args);" ascii wide
-        $d = "add rule name=powershell dir=in localport=47000 action=allow" ascii wide
-        $e = "string TempFile = file_path + \".CT\";" ascii wide
-        $f = "Port = 256 * RecvBuf[AddrLen + 5] + RecvBuf[AddrLen + 6];"
-        $g = "CliSock.Send(new byte[] { 0x05, 0x00 });"
+	strings:
+		$a = {((73 74 61 74 69 63 20 76 6f 69 64 20 53 65 72 76 65 72 58 28 69 6e 74 20 4c 69 73 74 65 6e 50 6f 72 74 29) | (73 00 74 00 61 00 74 00 69 00 63 00 20 00 76 00 6f 00 69 00 64 00 20 00 53 00 65 00 72 00 76 00 65 00 72 00 58 00 28 00 69 00 6e 00 74 00 20 00 4c 00 69 00 73 00 74 00 65 00 6e 00 50 00 6f 00 72 00 74 00 29 00))}
+		$b = {((70 75 62 6c 69 63 20 63 6c 61 73 73 20 78 73 65 72 76 65 72) | (70 00 75 00 62 00 6c 00 69 00 63 00 20 00 63 00 6c 00 61 00 73 00 73 00 20 00 78 00 73 00 65 00 72 00 76 00 65 00 72 00))}
+		$c = {((5b 78 73 65 72 76 65 72 5d 3a 3a 4d 61 69 6e 28 24 61 72 67 73 29 3b) | (5b 00 78 00 73 00 65 00 72 00 76 00 65 00 72 00 5d 00 3a 00 3a 00 4d 00 61 00 69 00 6e 00 28 00 24 00 61 00 72 00 67 00 73 00 29 00 3b 00))}
+		$d = {((61 64 64 20 72 75 6c 65 20 6e 61 6d 65 3d 70 6f 77 65 72 73 68 65 6c 6c 20 64 69 72 3d 69 6e 20 6c 6f 63 61 6c 70 6f 72 74 3d 34 37 30 30 30 20 61 63 74 69 6f 6e 3d 61 6c 6c 6f 77) | (61 00 64 00 64 00 20 00 72 00 75 00 6c 00 65 00 20 00 6e 00 61 00 6d 00 65 00 3d 00 70 00 6f 00 77 00 65 00 72 00 73 00 68 00 65 00 6c 00 6c 00 20 00 64 00 69 00 72 00 3d 00 69 00 6e 00 20 00 6c 00 6f 00 63 00 61 00 6c 00 70 00 6f 00 72 00 74 00 3d 00 34 00 37 00 30 00 30 00 30 00 20 00 61 00 63 00 74 00 69 00 6f 00 6e 00 3d 00 61 00 6c 00 6c 00 6f 00 77 00))}
+		$e = {((73 74 72 69 6e 67 20 54 65 6d 70 46 69 6c 65 20 3d 20 66 69 6c 65 5f 70 61 74 68 20 2b 20 22 2e 43 54 22 3b) | (73 00 74 00 72 00 69 00 6e 00 67 00 20 00 54 00 65 00 6d 00 70 00 46 00 69 00 6c 00 65 00 20 00 3d 00 20 00 66 00 69 00 6c 00 65 00 5f 00 70 00 61 00 74 00 68 00 20 00 2b 00 20 00 22 00 2e 00 43 00 54 00 22 00 3b 00))}
+		$f = {50 6f 72 74 20 3d 20 32 35 36 20 2a 20 52 65 63 76 42 75 66 5b 41 64 64 72 4c 65 6e 20 2b 20 35 5d 20 2b 20 52 65 63 76 42 75 66 5b 41 64 64 72 4c 65 6e 20 2b 20 36 5d 3b}
+		$g = {43 6c 69 53 6f 63 6b 2e 53 65 6e 64 28 6e 65 77 20 62 79 74 65 5b 5d 20 7b 20 30 78 30 35 2c 20 30 78 30 30 20 7d 29 3b}
 
-    condition:
-        1 of them
+	condition:
+		1 of them
 }
 
-rule APT_MAL_CN_Wocao_xserver_powershell_b64encoded {
-    meta:
-        description = "Piece of Base64 encoded data from the XServer PowerShell dropper"
-        author = "Fox-IT SRT"
-        reference = "https://www.fox-it.com/en/news/whitepapers/operation-wocao-shining-a-light-on-one-of-chinas-hidden-hacking-groups/"
+rule APT_MAL_CN_Wocao_xserver_powershell_b64encoded : hardened
+{
+	meta:
+		description = "Piece of Base64 encoded data from the XServer PowerShell dropper"
+		author = "Fox-IT SRT"
+		reference = "https://www.fox-it.com/en/news/whitepapers/operation-wocao-shining-a-light-on-one-of-chinas-hidden-hacking-groups/"
+		id = "01e38cfb-b245-5398-b037-6d1d2fb726ee"
 
-        id = "01e38cfb-b245-5398-b037-6d1d2fb726ee"
-    strings:
-        $header_47000 = "5T39c9u2kr/nr2A0Ny2VKIzkfLRJntuJHafPN/nwWG777rUZDy3BNq8UqSEpx26b"
-        $header_25667 = "5T1rc9u2st/zKxjNmZZKFEZyErdJ6nZsx+nxnTjxWGp77mkzHlqCbd5SpIak/Gjr"
-    condition:
-        any of them
+	strings:
+		$header_47000 = {35 54 33 39 63 39 75 32 6b 72 2f 6e 72 32 41 30 4e 79 32 56 4b 49 7a 6b 66 4c 52 4a 6e 74 75 4a 48 61 66 50 4e 2f 6e 77 57 47 37 37 37 72 55 5a 44 79 33 42 4e 71 38 55 71 53 45 70 78 32 36 62}
+		$header_25667 = {35 54 31 72 63 39 75 32 73 74 2f 7a 4b 78 6a 4e 6d 5a 5a 4b 46 45 5a 79 45 72 64 4a 36 6e 5a 73 78 2b 6e 78 6e 54 6a 78 57 47 70 37 37 6d 6b 7a 48 6c 71 43 62 64 35 53 70 49 61 6b 2f 47 6a 72}
+
+	condition:
+		any of them
 }
 
-rule APT_MAL_CN_Wocao_xserver_powershell_dropper {
-    meta:
-        description = "Strings from the PowerShell dropper of XServer"
-        author = "Fox-IT SRT"
-        reference = "https://www.fox-it.com/en/news/whitepapers/operation-wocao-shining-a-light-on-one-of-chinas-hidden-hacking-groups/"
+rule APT_MAL_CN_Wocao_xserver_powershell_dropper : hardened
+{
+	meta:
+		description = "Strings from the PowerShell dropper of XServer"
+		author = "Fox-IT SRT"
+		reference = "https://www.fox-it.com/en/news/whitepapers/operation-wocao-shining-a-light-on-one-of-chinas-hidden-hacking-groups/"
+		id = "97169ab4-d68d-5137-83de-d9cac975747e"
 
-        id = "97169ab4-d68d-5137-83de-d9cac975747e"
-    strings:
-        $encfile = "New-Object IO.Compression.DeflateStream([IO.MemoryStream][Convert]::FromBase64String($encfile)"
-    condition:
-        all of them
+	strings:
+		$encfile = {4e 65 77 2d 4f 62 6a 65 63 74 20 49 4f 2e 43 6f 6d 70 72 65 73 73 69 6f 6e 2e 44 65 66 6c 61 74 65 53 74 72 65 61 6d 28 5b 49 4f 2e 4d 65 6d 6f 72 79 53 74 72 65 61 6d 5d 5b 43 6f 6e 76 65 72 74 5d 3a 3a 46 72 6f 6d 42 61 73 65 36 34 53 74 72 69 6e 67 28 24 65 6e 63 66 69 6c 65 29}
+
+	condition:
+		all of them
 }
 
-rule APT_MAL_CN_Wocao_injector_bin {
-    meta:
-        description = "Process injector/launcher"
-        author = "Fox-IT SRT"
-        reference = "https://www.fox-it.com/en/news/whitepapers/operation-wocao-shining-a-light-on-one-of-chinas-hidden-hacking-groups/"
+rule APT_MAL_CN_Wocao_injector_bin : hardened
+{
+	meta:
+		description = "Process injector/launcher"
+		author = "Fox-IT SRT"
+		reference = "https://www.fox-it.com/en/news/whitepapers/operation-wocao-shining-a-light-on-one-of-chinas-hidden-hacking-groups/"
+		id = "389279f1-6531-594f-97b6-5adbc8fa4d3d"
 
-        id = "389279f1-6531-594f-97b6-5adbc8fa4d3d"
-    strings:
-        $a = "%s{%04d-%02d%02d-%02d%02d-%d%ld}.tmp"
-        $b = "s% > s% c/ exe.d"
-        $c = {
+	strings:
+		$a = {25 73 7b 25 30 34 64 2d 25 30 32 64 25 30 32 64 2d 25 30 32 64 25 30 32 64 2d 25 64 25 6c 64 7d 2e 74 6d 70}
+		$b = {73 25 20 3e 20 73 25 20 63 2f 20 65 78 65 2e 64}
+		$c = {
             48 89 5C 24 08 48 89 74  24 10 57 48 83 EC 50 48
             8B 71 08 48 8D 59 10 48  8B F9 48 8B CB FF 17 33
             C9 48 8D 47 78 48 89 44  24 48 4C 8D 87 9C 03 00
@@ -188,58 +199,61 @@ rule APT_MAL_CN_Wocao_injector_bin {
             C3
         }
 
-    condition:
-        1 of them
+	condition:
+		1 of them
 }
 
-rule APT_MAL_CN_Wocao_timeliner_bin {
-    meta:
-        description = "Timeliner utility"
-        author = "Fox-IT SRT"
-        reference = "https://www.fox-it.com/en/news/whitepapers/operation-wocao-shining-a-light-on-one-of-chinas-hidden-hacking-groups/"
+rule APT_MAL_CN_Wocao_timeliner_bin : hardened
+{
+	meta:
+		description = "Timeliner utility"
+		author = "Fox-IT SRT"
+		reference = "https://www.fox-it.com/en/news/whitepapers/operation-wocao-shining-a-light-on-one-of-chinas-hidden-hacking-groups/"
+		id = "3d81a4ae-0ce0-5867-ac93-a706556481b6"
 
-        id = "3d81a4ae-0ce0-5867-ac93-a706556481b6"
-    strings:
-        $a = "[+] Work completed." ascii wide
-        $b = "[-] Create a new file failed." ascii wide
-        $c = "[-] This is not a correct path." ascii wide
-        $d = "%s [TargetPath] <Num> <SavePath>" ascii wide
-        $e = "D\t%ld\t%ld\t%ld\t%d\t%d\t%s\t" ascii wide
-        $f = "D\t%ld\t%ld\t%ld\t-1\t%d\t%s\t" ascii wide
-        $g = "%s\t%ld\t%ld\t%ld\t%I64d\t%d\t%s\t%s" ascii wide
+	strings:
+		$a = {((5b 2b 5d 20 57 6f 72 6b 20 63 6f 6d 70 6c 65 74 65 64 2e) | (5b 00 2b 00 5d 00 20 00 57 00 6f 00 72 00 6b 00 20 00 63 00 6f 00 6d 00 70 00 6c 00 65 00 74 00 65 00 64 00 2e 00))}
+		$b = {((5b 2d 5d 20 43 72 65 61 74 65 20 61 20 6e 65 77 20 66 69 6c 65 20 66 61 69 6c 65 64 2e) | (5b 00 2d 00 5d 00 20 00 43 00 72 00 65 00 61 00 74 00 65 00 20 00 61 00 20 00 6e 00 65 00 77 00 20 00 66 00 69 00 6c 00 65 00 20 00 66 00 61 00 69 00 6c 00 65 00 64 00 2e 00))}
+		$c = {((5b 2d 5d 20 54 68 69 73 20 69 73 20 6e 6f 74 20 61 20 63 6f 72 72 65 63 74 20 70 61 74 68 2e) | (5b 00 2d 00 5d 00 20 00 54 00 68 00 69 00 73 00 20 00 69 00 73 00 20 00 6e 00 6f 00 74 00 20 00 61 00 20 00 63 00 6f 00 72 00 72 00 65 00 63 00 74 00 20 00 70 00 61 00 74 00 68 00 2e 00))}
+		$d = {((25 73 20 5b 54 61 72 67 65 74 50 61 74 68 5d 20 3c 4e 75 6d 3e 20 3c 53 61 76 65 50 61 74 68 3e) | (25 00 73 00 20 00 5b 00 54 00 61 00 72 00 67 00 65 00 74 00 50 00 61 00 74 00 68 00 5d 00 20 00 3c 00 4e 00 75 00 6d 00 3e 00 20 00 3c 00 53 00 61 00 76 00 65 00 50 00 61 00 74 00 68 00 3e 00))}
+		$e = {((44 09 25 6c 64 09 25 6c 64 09 25 6c 64 09 25 64 09 25 64 09 25 73 09) | (44 00 09 00 25 00 6c 00 64 00 09 00 25 00 6c 00 64 00 09 00 25 00 6c 00 64 00 09 00 25 00 64 00 09 00 25 00 64 00 09 00 25 00 73 00 09 00))}
+		$f = {((44 09 25 6c 64 09 25 6c 64 09 25 6c 64 09 2d 31 09 25 64 09 25 73 09) | (44 00 09 00 25 00 6c 00 64 00 09 00 25 00 6c 00 64 00 09 00 25 00 6c 00 64 00 09 00 2d 00 31 00 09 00 25 00 64 00 09 00 25 00 73 00 09 00))}
+		$g = {((25 73 09 25 6c 64 09 25 6c 64 09 25 6c 64 09 25 49 36 34 64 09 25 64 09 25 73 09 25 73) | (25 00 73 00 09 00 25 00 6c 00 64 00 09 00 25 00 6c 00 64 00 09 00 25 00 6c 00 64 00 09 00 25 00 49 00 36 00 34 00 64 00 09 00 25 00 64 00 09 00 25 00 73 00 09 00 25 00 73 00))}
 
-    condition:
-        1 of them
+	condition:
+		1 of them
 }
 
-rule APT_MAL_CN_Wocao_checkadmin_bin {
-    meta:
-        description = "Checkadmin utility"
-        author = "Fox-IT SRT"
-        reference = "https://www.fox-it.com/en/news/whitepapers/operation-wocao-shining-a-light-on-one-of-chinas-hidden-hacking-groups/"
+rule APT_MAL_CN_Wocao_checkadmin_bin : hardened
+{
+	meta:
+		description = "Checkadmin utility"
+		author = "Fox-IT SRT"
+		reference = "https://www.fox-it.com/en/news/whitepapers/operation-wocao-shining-a-light-on-one-of-chinas-hidden-hacking-groups/"
+		id = "2f819213-ade1-525b-af18-d77b7fc96093"
 
-        id = "2f819213-ade1-525b-af18-d77b7fc96093"
-    strings:
-        $a = "[-] %s * A system error has occurred: %d" ascii wide
-        $b = {
+	strings:
+		$a = {((5b 2d 5d 20 25 73 20 2a 20 41 20 73 79 73 74 65 6d 20 65 72 72 6f 72 20 68 61 73 20 6f 63 63 75 72 72 65 64 3a 20 25 64) | (5b 00 2d 00 5d 00 20 00 25 00 73 00 20 00 2a 00 20 00 41 00 20 00 73 00 79 00 73 00 74 00 65 00 6d 00 20 00 65 00 72 00 72 00 6f 00 72 00 20 00 68 00 61 00 73 00 20 00 6f 00 63 00 63 00 75 00 72 00 72 00 65 00 64 00 3a 00 20 00 25 00 64 00))}
+		$b = {
             0D 00 0A 00 25 00 6C 00 64 00 20 00 72 00 65 00
             73 00 75 00 6C 00 74 00 73 00 2E 00 0D 00 0A 00
         }
-        $c = "%s\t<Access denied>" ascii wide
+		$c = {((25 73 09 3c 41 63 63 65 73 73 20 64 65 6e 69 65 64 3e) | (25 00 73 00 09 00 3c 00 41 00 63 00 63 00 65 00 73 00 73 00 20 00 64 00 65 00 6e 00 69 00 65 00 64 00 3e 00))}
 
-    condition:
-        1 of them
+	condition:
+		1 of them
 }
 
-rule APT_MAL_CN_Wocao_getos_py {
-    meta:
-        description = "Python getos utility"
-        author = "Fox-IT SRT"
-        reference = "https://www.fox-it.com/en/news/whitepapers/operation-wocao-shining-a-light-on-one-of-chinas-hidden-hacking-groups/"
+rule APT_MAL_CN_Wocao_getos_py : hardened
+{
+	meta:
+		description = "Python getos utility"
+		author = "Fox-IT SRT"
+		reference = "https://www.fox-it.com/en/news/whitepapers/operation-wocao-shining-a-light-on-one-of-chinas-hidden-hacking-groups/"
+		id = "4a731dde-87e4-566a-b559-d23e0bef5841"
 
-        id = "4a731dde-87e4-566a-b559-d23e0bef5841"
-    strings:
-        $smb_1 = {
+	strings:
+		$smb_1 = {
             00 00 00 85 ff 53 4d 42 72 00 00 00 00 18 53 c8
             00 00 00 00 00 00 00 00 00 00 00 00 00 00 ff fe
             00 00 ff b4 00 62 00 02 50 43 20 4e 45 54 57 4f
@@ -250,7 +264,7 @@ rule APT_MAL_CN_Wocao_getos_py {
             32 00 02 4c 41 4e 4d 41 4e 32 2e 31 00 02 4e 54
             20 4c 4d 20 30 2e 31 32 00
         }
-        $smb_2 = {
+		$smb_2 = {
             00 00 00 c8 ff 53 4d 42 73 00 00 00 00 18 03 c8
             00 00 00 00 00 00 00 00 00 00 00 00 00 00 ff fe
             00 00 3f b5 0c ff 00 c8 00 04 11 32 00 00 00 00
@@ -265,130 +279,128 @@ rule APT_MAL_CN_Wocao_getos_py {
             00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
             00 00 00 00 00 00 00 00 00 00 00 00
         }
-        $smbstr_1 = "\\x00\\x00\\x00\\x85\\xffSMBr\\x00\\x00\\x00\\x00\\x18S\\xc8\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\xff\\xfe\\x00\\x00\\xff\\xb4\\x00b\\x00\\x02PC NETWORK PROGRAM 1.0\\x00\\x02LANMAN1.0\\x00\\x02Windows for Workgroups 3.1a\\x00\\x02LM1.2X002\\x00\\x02LANMAN2.1\\x00\\x02NT LM 0.12\\x00"
-        $smbstr_2 = "\\x00\\x00\\x00\\xc8\\xffSMBs\\x00\\x00\\x00\\x00\\x18\\x03\\xc8\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\xff\\xfe\\x00\\x00?\\xb5\\x0c\\xff\\x00\\xc8\\x00\\x04\\x112\\x00\\x00\\x00\\x00\\x00\\x00\\x00(\\x00\\x00\\x00\\x00\\x00\\xd4\\x00\\x00\\xa0\\x8d\\x00NTLMSSP\\x00\\x01\\x00\\x00\\x00\\x07\\x82\\x88\\xa2\\x00\\x00\\x00\\x00(\\x00\\x00\\x00\\x00\\x00\\x00\\x00(\\x00\\x00\\x00\\x05\\x01(\\n\\x00\\x00\\x00\\x0f\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00"
+		$smbstr_1 = {5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 38 35 5c 78 66 66 53 4d 42 72 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 31 38 53 5c 78 63 38 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 66 66 5c 78 66 65 5c 78 30 30 5c 78 30 30 5c 78 66 66 5c 78 62 34 5c 78 30 30 62 5c 78 30 30 5c 78 30 32 50 43 20 4e 45 54 57 4f 52 4b 20 50 52 4f 47 52 41 4d 20 31 2e 30 5c 78 30 30 5c 78 30 32 4c 41 4e 4d 41 4e 31 2e 30 5c 78 30 30 5c 78 30 32 57 69 6e 64 6f 77 73 20 66 6f 72 20 57 6f 72 6b 67 72 6f 75 70 73 20 33 2e 31 61 5c 78 30 30 5c 78 30 32 4c 4d 31 2e 32 58 30 30 32 5c 78 30 30 5c 78 30 32 4c 41 4e 4d 41 4e 32 2e 31 5c 78 30 30 5c 78 30 32 4e 54 20 4c 4d 20 30 2e 31 32 5c 78 30 30}
+		$smbstr_2 = {5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 63 38 5c 78 66 66 53 4d 42 73 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 31 38 5c 78 30 33 5c 78 63 38 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 66 66 5c 78 66 65 5c 78 30 30 5c 78 30 30 3f 5c 78 62 35 5c 78 30 63 5c 78 66 66 5c 78 30 30 5c 78 63 38 5c 78 30 30 5c 78 30 34 5c 78 31 31 32 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 28 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 64 34 5c 78 30 30 5c 78 30 30 5c 78 61 30 5c 78 38 64 5c 78 30 30 4e 54 4c 4d 53 53 50 5c 78 30 30 5c 78 30 31 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 37 5c 78 38 32 5c 78 38 38 5c 78 61 32 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 28 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 28 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 35 5c 78 30 31 28 5c 6e 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 66 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30 5c 78 30 30}
+		$code_1 = {((72 65 74 75 72 6e 20 27 4f 74 68 65 72 20 65 72 72 6f 72 2e 27) | (72 00 65 00 74 00 75 00 72 00 6e 00 20 00 27 00 4f 00 74 00 68 00 65 00 72 00 20 00 65 00 72 00 72 00 6f 00 72 00 2e 00 27 00))}
+		$code_2 = {((73 62 6c 6f 62 20 3d 20 62 75 66 5b 34 37 3a 34 37 20 2b 20 73 62 6c 5d) | (73 00 62 00 6c 00 6f 00 62 00 20 00 3d 00 20 00 62 00 75 00 66 00 5b 00 34 00 37 00 3a 00 34 00 37 00 20 00 2b 00 20 00 73 00 62 00 6c 00 5d 00))}
+		$code_3 = {((72 65 2e 73 70 6c 69 74 28 27 5b 5c 78 30 30 2d 2c 5d 2b 27 2c 20 79 5b 2d 34 5d 29) | (72 00 65 00 2e 00 73 00 70 00 6c 00 69 00 74 00 28 00 27 00 5b 00 5c 00 78 00 30 00 30 00 2d 00 2c 00 5d 00 2b 00 27 00 2c 00 20 00 79 00 5b 00 2d 00 34 00 5d 00 29 00))}
+		$code_4 = {((28 27 27 29 2e 6a 6f 69 6e 28 73 62 6c 6f 62 5b 6f 66 66 3a 6f 66 66 20 2b 20 68 6c 65 6e 5d 2e 73 70 6c 69 74 28 27 5c 78 30 30 27 29 29) | (28 00 27 00 27 00 29 00 2e 00 6a 00 6f 00 69 00 6e 00 28 00 73 00 62 00 6c 00 6f 00 62 00 5b 00 6f 00 66 00 66 00 3a 00 6f 00 66 00 66 00 20 00 2b 00 20 00 68 00 6c 00 65 00 6e 00 5d 00 2e 00 73 00 70 00 6c 00 69 00 74 00 28 00 27 00 5c 00 78 00 30 00 30 00 27 00 29 00 29 00))}
+		$code_5 = {((62 61 6e 6e 65 72 20 3d 20 27 25 73 20 20 20 20 25 73 27 20 25 20 28 68 6f 73 74 6e 61 6d 65 2c 20 6e 61 74 69 76 65 29) | (62 00 61 00 6e 00 6e 00 65 00 72 00 20 00 3d 00 20 00 27 00 25 00 73 00 20 00 20 00 20 00 20 00 25 00 73 00 27 00 20 00 25 00 20 00 28 00 68 00 6f 00 73 00 74 00 6e 00 61 00 6d 00 65 00 2c 00 20 00 6e 00 61 00 74 00 69 00 76 00 65 00 29 00))}
+		$code_6 = {((62 61 6e 6e 65 72 20 3d 20 27 25 73 5c 5c 25 73 20 20 20 20 25 73 27 20 25 20 28 64 6d 2c 20 68 6f 73 74 6e 61 6d 65 2c 20 6e 61 74 69 76 65 29) | (62 00 61 00 6e 00 6e 00 65 00 72 00 20 00 3d 00 20 00 27 00 25 00 73 00 5c 00 5c 00 25 00 73 00 20 00 20 00 20 00 20 00 25 00 73 00 27 00 20 00 25 00 20 00 28 00 64 00 6d 00 2c 00 20 00 68 00 6f 00 73 00 74 00 6e 00 61 00 6d 00 65 00 2c 00 20 00 6e 00 61 00 74 00 69 00 76 00 65 00 29 00))}
+		$tsk_1 = {((50 75 73 68 54 61 73 6b) | (50 00 75 00 73 00 68 00 54 00 61 00 73 00 6b 00))}
+		$tsk_2 = {((70 61 72 73 65 5f 74 61 73 6b) | (70 00 61 00 72 00 73 00 65 00 5f 00 74 00 61 00 73 00 6b 00))}
+		$tsk_3 = {((63 6f 6d 6d 69 74 5f 74 61 73 6b) | (63 00 6f 00 6d 00 6d 00 69 00 74 00 5f 00 74 00 61 00 73 00 6b 00))}
+		$str_1 = {((55 73 61 67 65 3a 20 67 65 74 6f 73 2e 70 79 20 3c 69 70 2d 72 61 6e 67 65 7c 69 70 2d 66 69 6c 65 3e) | (55 00 73 00 61 00 67 00 65 00 3a 00 20 00 67 00 65 00 74 00 6f 00 73 00 2e 00 70 00 79 00 20 00 3c 00 69 00 70 00 2d 00 72 00 61 00 6e 00 67 00 65 00 7c 00 69 00 70 00 2d 00 66 00 69 00 6c 00 65 00 3e 00))}
+		$str_2 = {((54 68 65 20 70 61 74 68 20 27 25 73 27 20 77 72 69 74 65 20 66 61 69 6c 73 2e) | (54 00 68 00 65 00 20 00 70 00 61 00 74 00 68 00 20 00 27 00 25 00 73 00 27 00 20 00 77 00 72 00 69 00 74 00 65 00 20 00 66 00 61 00 69 00 6c 00 73 00 2e 00))}
+		$str_3 = {((52 65 63 65 69 76 65 20 61 20 73 69 67 6e 61 6c 20 25 64 2c) | (52 00 65 00 63 00 65 00 69 00 76 00 65 00 20 00 61 00 20 00 73 00 69 00 67 00 6e 00 61 00 6c 00 20 00 25 00 64 00 2c 00))}
+		$str_4 = {((53 63 61 6e 20 43 6f 6d 70 6c 65 74 65 21) | (53 00 63 00 61 00 6e 00 20 00 43 00 6f 00 6d 00 70 00 6c 00 65 00 74 00 65 00 21 00))}
+		$str_5 = {((6c 69 6e 65 3a 20 25 64 2c 20 25 73 3a 20 25 73) | (6c 00 69 00 6e 00 65 00 3a 00 20 00 25 00 64 00 2c 00 20 00 25 00 73 00 3a 00 20 00 25 00 73 00))}
+		$str_6 = {((4f 74 68 65 72 20 65 72 72 6f 72 2e) | (4f 00 74 00 68 00 65 00 72 00 20 00 65 00 72 00 72 00 6f 00 72 00 2e 00))}
 
-        $code_1 = "return 'Other error.'" ascii wide
-        $code_2 = "sblob = buf[47:47 + sbl]" ascii wide
-        $code_3 = "re.split('[\\x00-,]+', y[-4])" ascii wide
-        $code_4 = "('').join(sblob[off:off + hlen].split('\\x00'))" ascii wide
-        $code_5 = "banner = '%s    %s' % (hostname, native)" ascii wide
-        $code_6 = "banner = '%s\\\\%s    %s' % (dm, hostname, native)" ascii wide
-
-        $tsk_1 = "PushTask" ascii wide
-        $tsk_2 = "parse_task" ascii wide
-        $tsk_3 = "commit_task" ascii wide
-
-        $str_1 = "Usage: getos.py <ip-range|ip-file>" ascii wide
-        $str_2 = "The path '%s' write fails." ascii wide
-        $str_3 = "Receive a signal %d," ascii wide
-        $str_4 = "Scan Complete!" ascii wide
-        $str_5 = "line: %d, %s: %s" ascii wide
-        $str_6 = "Other error." ascii wide
-
-    condition:
-        (all of ($smb_*)) or
-        (all of ($smbstr_*)) or
-        (3 of ($code_*)) or
-        (all of ($tsk_*)) or
-        (3 of ($str_*))
+	condition:
+		( all of ( $smb_* ) ) or ( all of ( $smbstr_* ) ) or ( 3 of ( $code_* ) ) or ( all of ( $tsk_* ) ) or ( 3 of ( $str_* ) )
 }
 
-rule APT_MAL_CN_Wocao_info_vbs {
-    meta:
-        description = "Strings from the information grabber VBS"
-        author = "Fox-IT SRT"
-        reference = "https://www.fox-it.com/en/news/whitepapers/operation-wocao-shining-a-light-on-one-of-chinas-hidden-hacking-groups/"
+rule APT_MAL_CN_Wocao_info_vbs : hardened
+{
+	meta:
+		description = "Strings from the information grabber VBS"
+		author = "Fox-IT SRT"
+		reference = "https://www.fox-it.com/en/news/whitepapers/operation-wocao-shining-a-light-on-one-of-chinas-hidden-hacking-groups/"
+		id = "b719fb31-2836-5faf-a7c8-c361a14df2be"
 
-        id = "b719fb31-2836-5faf-a7c8-c361a14df2be"
-    strings:
-        $ = "Logger PingConnect"
-        $ = "Logger GetAdmins"
-        $ = "Logger InstallPro"
-        $ = "Logger Exec"
-        $ = "retstr = adminsName & \" Members\" & vbCrLf & _"
-        $ = "Logger VolumeName & \" (\" & objDrive.DriveLetter & \":)\" _"
-        $ = "txtRes = txtRes & machine & \" can"
-        $ = "retstr = \"PID   SID Image Name\" & vbCrLf & \"===="
+	strings:
+		$ = {4c 6f 67 67 65 72 20 50 69 6e 67 43 6f 6e 6e 65 63 74}
+		$ = {4c 6f 67 67 65 72 20 47 65 74 41 64 6d 69 6e 73}
+		$ = {4c 6f 67 67 65 72 20 49 6e 73 74 61 6c 6c 50 72 6f}
+		$ = {4c 6f 67 67 65 72 20 45 78 65 63}
+		$ = {72 65 74 73 74 72 20 3d 20 61 64 6d 69 6e 73 4e 61 6d 65 20 26 20 22 20 4d 65 6d 62 65 72 73 22 20 26 20 76 62 43 72 4c 66 20 26 20 5f}
+		$ = {4c 6f 67 67 65 72 20 56 6f 6c 75 6d 65 4e 61 6d 65 20 26 20 22 20 28 22 20 26 20 6f 62 6a 44 72 69 76 65 2e 44 72 69 76 65 4c 65 74 74 65 72 20 26 20 22 3a 29 22 20 5f}
+		$ = {74 78 74 52 65 73 20 3d 20 74 78 74 52 65 73 20 26 20 6d 61 63 68 69 6e 65 20 26 20 22 20 63 61 6e}
+		$ = {72 65 74 73 74 72 20 3d 20 22 50 49 44 20 20 20 53 49 44 20 49 6d 61 67 65 20 4e 61 6d 65 22 20 26 20 76 62 43 72 4c 66 20 26 20 22 3d 3d 3d 3d}
 
-    condition:
-        4 of them
+	condition:
+		4 of them
 }
 
-rule APT_MAL_CN_Wocao_webshell_console_jsp {
-    meta:
-        description = "Strings from the console.jsp webshell"
-        author = "Fox-IT SRT"
-        reference = "https://www.fox-it.com/en/news/whitepapers/operation-wocao-shining-a-light-on-one-of-chinas-hidden-hacking-groups/"
+rule APT_MAL_CN_Wocao_webshell_console_jsp : hardened
+{
+	meta:
+		description = "Strings from the console.jsp webshell"
+		author = "Fox-IT SRT"
+		reference = "https://www.fox-it.com/en/news/whitepapers/operation-wocao-shining-a-light-on-one-of-chinas-hidden-hacking-groups/"
+		id = "1afdfc34-d2e3-58c7-80ea-ee5632e42469"
 
-        id = "1afdfc34-d2e3-58c7-80ea-ee5632e42469"
-    strings:
-        $a = "String strLogo = request.getParameter(\"image\")"
-        $b = "!strLogo.equals(\"web.gif\")"
-        $c = "<font color=red>Save Failed!</font>"
-        $d = "<font color=red>Save Success!</font>"
-        $e = "Save path:<br><input type=text"
-        $f = "if (newfile.exists() && newfile.length()>0) { out.println"
+	strings:
+		$a = {53 74 72 69 6e 67 20 73 74 72 4c 6f 67 6f 20 3d 20 72 65 71 75 65 73 74 2e 67 65 74 50 61 72 61 6d 65 74 65 72 28 22 69 6d 61 67 65 22 29}
+		$b = {21 73 74 72 4c 6f 67 6f 2e 65 71 75 61 6c 73 28 22 77 65 62 2e 67 69 66 22 29}
+		$c = {3c 66 6f 6e 74 20 63 6f 6c 6f 72 3d 72 65 64 3e 53 61 76 65 20 46 61 69 6c 65 64 21 3c 2f 66 6f 6e 74 3e}
+		$d = {3c 66 6f 6e 74 20 63 6f 6c 6f 72 3d 72 65 64 3e 53 61 76 65 20 53 75 63 63 65 73 73 21 3c 2f 66 6f 6e 74 3e}
+		$e = {53 61 76 65 20 70 61 74 68 3a 3c 62 72 3e 3c 69 6e 70 75 74 20 74 79 70 65 3d 74 65 78 74}
+		$f = {69 66 20 28 6e 65 77 66 69 6c 65 2e 65 78 69 73 74 73 28 29 20 26 26 20 6e 65 77 66 69 6c 65 2e 6c 65 6e 67 74 68 28 29 3e 30 29 20 7b 20 6f 75 74 2e 70 72 69 6e 74 6c 6e}
 
-    condition:
-        1 of them
+	condition:
+		1 of them
 }
 
-rule APT_MAL_CN_Wocao_webshell_index_jsp {
-    meta:
-        description = "Strings from the index.jsp socket tunnel"
-        author = "Fox-IT SRT"
-        reference = "https://www.fox-it.com/en/news/whitepapers/operation-wocao-shining-a-light-on-one-of-chinas-hidden-hacking-groups/"
+rule APT_MAL_CN_Wocao_webshell_index_jsp : hardened
+{
+	meta:
+		description = "Strings from the index.jsp socket tunnel"
+		author = "Fox-IT SRT"
+		reference = "https://www.fox-it.com/en/news/whitepapers/operation-wocao-shining-a-light-on-one-of-chinas-hidden-hacking-groups/"
+		id = "9c226ccd-6c69-523c-bca4-371e55274667"
 
-        id = "9c226ccd-6c69-523c-bca4-371e55274667"
-    strings:
-        $x1 = "X-CMD"
-        $x2 = "X-STATUS"
-        $x3 = "X-TARGET"
-        $x4 = "X-ERROR"
-        $a = "out.print(\"All seems fine.\");"
+	strings:
+		$x1 = {58 2d 43 4d 44}
+		$x2 = {58 2d 53 54 41 54 55 53}
+		$x3 = {58 2d 54 41 52 47 45 54}
+		$x4 = {58 2d 45 52 52 4f 52}
+		$a = {6f 75 74 2e 70 72 69 6e 74 28 22 41 6c 6c 20 73 65 65 6d 73 20 66 69 6e 65 2e 22 29 3b}
 
-    condition:
-        all of ($x*) and $a
+	condition:
+		all of ( $x* ) and $a
 }
 
-rule APT_MAL_CN_Wocao_webshell_ver_jsp {
-    meta:
-        description = "Strings from the ver.jsp webshell"
-        author = "Fox-IT SRT"
-        reference = "https://www.fox-it.com/en/news/whitepapers/operation-wocao-shining-a-light-on-one-of-chinas-hidden-hacking-groups/"
+rule APT_MAL_CN_Wocao_webshell_ver_jsp : hardened
+{
+	meta:
+		description = "Strings from the ver.jsp webshell"
+		author = "Fox-IT SRT"
+		reference = "https://www.fox-it.com/en/news/whitepapers/operation-wocao-shining-a-light-on-one-of-chinas-hidden-hacking-groups/"
+		id = "b2828b84-8934-5111-9345-683a07025070"
 
-        id = "b2828b84-8934-5111-9345-683a07025070"
-    strings:
-        $a = "String strLogo = request.getParameter(\"id\")"
-        $b = "!strLogo.equals(\"256\")"
-        $c = "boolean chkos = msg.startsWith"
-        $d = "while((c = er.read()) != -1)"
-        $e = "out.print((char)c);}in.close()"
-        $f = "out.print((char)c);}er.close()"
+	strings:
+		$a = {53 74 72 69 6e 67 20 73 74 72 4c 6f 67 6f 20 3d 20 72 65 71 75 65 73 74 2e 67 65 74 50 61 72 61 6d 65 74 65 72 28 22 69 64 22 29}
+		$b = {21 73 74 72 4c 6f 67 6f 2e 65 71 75 61 6c 73 28 22 32 35 36 22 29}
+		$c = {62 6f 6f 6c 65 61 6e 20 63 68 6b 6f 73 20 3d 20 6d 73 67 2e 73 74 61 72 74 73 57 69 74 68}
+		$d = {77 68 69 6c 65 28 28 63 20 3d 20 65 72 2e 72 65 61 64 28 29 29 20 21 3d 20 2d 31 29}
+		$e = {6f 75 74 2e 70 72 69 6e 74 28 28 63 68 61 72 29 63 29 3b 7d 69 6e 2e 63 6c 6f 73 65 28 29}
+		$f = {6f 75 74 2e 70 72 69 6e 74 28 28 63 68 61 72 29 63 29 3b 7d 65 72 2e 63 6c 6f 73 65 28 29}
 
-    condition:
-        1 of them
+	condition:
+		1 of them
 }
 
-rule APT_MAL_CN_Wocao_webshell_webinfo {
-    meta:
-        description = "Generic strings from webinfo.war webshells"
-        author = "Fox-IT SRT"
-        reference = "https://www.fox-it.com/en/news/whitepapers/operation-wocao-shining-a-light-on-one-of-chinas-hidden-hacking-groups/"
+rule APT_MAL_CN_Wocao_webshell_webinfo : hardened
+{
+	meta:
+		description = "Generic strings from webinfo.war webshells"
+		author = "Fox-IT SRT"
+		reference = "https://www.fox-it.com/en/news/whitepapers/operation-wocao-shining-a-light-on-one-of-chinas-hidden-hacking-groups/"
+		id = "b8477f62-f3f6-5526-b0e3-9b794fefaa1f"
 
-        id = "b8477f62-f3f6-5526-b0e3-9b794fefaa1f"
-    strings:
-        $var1 = "String strLogo = request.getParameter"
-        $var2 = "String content = request.getParameter(\"content\");"
-        $var3 = "String basePath=request.getScheme()"
-        $var4 = "!strLogo.equals("
-        $var5 = "if(path!=null && !path.equals(\"\") && content!=null"
-        $var6 = "File newfile=new File(path);"
+	strings:
+		$var1 = {53 74 72 69 6e 67 20 73 74 72 4c 6f 67 6f 20 3d 20 72 65 71 75 65 73 74 2e 67 65 74 50 61 72 61 6d 65 74 65 72}
+		$var2 = {53 74 72 69 6e 67 20 63 6f 6e 74 65 6e 74 20 3d 20 72 65 71 75 65 73 74 2e 67 65 74 50 61 72 61 6d 65 74 65 72 28 22 63 6f 6e 74 65 6e 74 22 29 3b}
+		$var3 = {53 74 72 69 6e 67 20 62 61 73 65 50 61 74 68 3d 72 65 71 75 65 73 74 2e 67 65 74 53 63 68 65 6d 65 28 29}
+		$var4 = {21 73 74 72 4c 6f 67 6f 2e 65 71 75 61 6c 73 28}
+		$var5 = {69 66 28 70 61 74 68 21 3d 6e 75 6c 6c 20 26 26 20 21 70 61 74 68 2e 65 71 75 61 6c 73 28 22 22 29 20 26 26 20 63 6f 6e 74 65 6e 74 21 3d 6e 75 6c 6c}
+		$var6 = {46 69 6c 65 20 6e 65 77 66 69 6c 65 3d 6e 65 77 20 46 69 6c 65 28 70 61 74 68 29 3b}
+		$str1 = {53 61 76 65 20 53 75 63 63 65 73 73 21}
+		$str2 = {53 61 76 65 20 46 61 69 6c 65 64 21}
 
-        $str1 = "Save Success!"
-        $str2 = "Save Failed!"
-
-    condition:
-        2 of ($var*) or (all of ($str*) and 1 of ($var*))
+	condition:
+		2 of ( $var* ) or ( all of ( $str* ) and 1 of ( $var* ) )
 }
+

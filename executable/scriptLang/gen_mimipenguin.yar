@@ -1,72 +1,63 @@
-// source: https://github.com/Neo23x0/signature-base/blob/master/yara/gen_mimipenguin.yar
+rule Mimipenguin_SH : hardened
+{
+	meta:
+		description = "Detects Mimipenguin Password Extractor - Linux"
+		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
+		author = "Florian Roth (Nextron Systems)"
+		reference = "https://github.com/huntergregal/mimipenguin"
+		date = "2017-04-01"
+		score = 70
+		id = "c670f6fe-562d-598f-a73f-45e4ab234f7d"
 
-/*
-   Yara Rule Set
-   Author: Florian Roth
-   Date: 2017-04-01
-   Identifier: Mimipenguin
-*/
+	strings:
+		$s1 = {24 28 65 63 68 6f 20 24 74 68 69 73 68 61 73 68 20 7c 20 63 75 74 20 2d 64 27 24 27 20 2d 66 20 33 29}
+		$s2 = {70 73 20 2d 65 6f 20 70 69 64 2c 63 6f 6d 6d 61 6e 64 20 7c 20 73 65 64 20 2d 72 6e 20 27 2f 67 6e 6f 6d 65 5c 2d 6b 65 79 72 69 6e 67 5c 2d 64 61 65 6d 6f 6e 2f 70 27 20 7c 20 61 77 6b}
+		$s3 = {4d 69 6d 69 50 65 6e 67 75 69 6e 20 52 65 73 75 6c 74 73 3a}
 
-rule Mimipenguin_SH {
-   meta:
-      description = "Detects Mimipenguin Password Extractor - Linux"
-      license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
-      author = "Florian Roth (Nextron Systems)"
-      reference = "https://github.com/huntergregal/mimipenguin"
-      date = "2017-04-01"
-      score = 70
-      id = "c670f6fe-562d-598f-a73f-45e4ab234f7d"
-   strings:
-      $s1 = "$(echo $thishash | cut -d'$' -f 3)" ascii
-      $s2 = "ps -eo pid,command | sed -rn '/gnome\\-keyring\\-daemon/p' | awk" ascii
-      $s3 = "MimiPenguin Results:" ascii
-   condition:
-      1 of them
+	condition:
+		1 of them
 }
 
-/*
-   Yara Rule Set
-   Author: Florian Roth
-   Date: 2017-07-08
-   Identifier: Mimipenguin
-   Reference: https://github.com/huntergregal/mimipenguin
-*/
+rule mimipenguin_1 : hardened
+{
+	meta:
+		description = "Detects Mimipenguin hack tool"
+		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
+		author = "Florian Roth (Nextron Systems)"
+		reference = "https://github.com/huntergregal/mimipenguin"
+		date = "2017-07-08"
+		hash1 = "9e8d13fe27c93c7571075abf84a839fd1d31d8f2e3e48b3f4c6c13f7afcf8cbd"
+		id = "62754337-52ef-5d3f-af2f-52f820ba0476"
 
-/* Rule Set ----------------------------------------------------------------- */
+	strings:
+		$x1 = {73 65 6c 66 2e 5f 73 74 72 69 6e 67 73 5f 64 75 6d 70 20 2b 3d 20 73 74 72 69 6e 67 73 28 64 75 6d 70 5f 70 72 6f 63 65 73 73 28 74 61 72 67 65 74 5f 70 69 64 29 29}
+		$x2 = {64 65 66 20 5f 64 75 6d 70 5f 74 61 72 67 65 74 5f 70 72 6f 63 65 73 73 65 73 28 73 65 6c 66 29 3a}
+		$x3 = {73 65 6c 66 2e 5f 74 61 72 67 65 74 5f 70 72 6f 63 65 73 73 65 73 20 3d 20 5b 27 73 73 68 64 3a 27 5d}
+		$x4 = {47 6e 6f 6d 65 4b 65 79 72 69 6e 67 50 61 73 73 77 6f 72 64 46 69 6e 64 65 72 28 29}
 
-rule mimipenguin_1 {
-   meta:
-      description = "Detects Mimipenguin hack tool"
-      license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
-      author = "Florian Roth (Nextron Systems)"
-      reference = "https://github.com/huntergregal/mimipenguin"
-      date = "2017-07-08"
-      hash1 = "9e8d13fe27c93c7571075abf84a839fd1d31d8f2e3e48b3f4c6c13f7afcf8cbd"
-      id = "62754337-52ef-5d3f-af2f-52f820ba0476"
-   strings:
-      $x1 = "self._strings_dump += strings(dump_process(target_pid))" fullword ascii
-      $x2 = "def _dump_target_processes(self):" fullword ascii
-      $x3 = "self._target_processes = ['sshd:']" fullword ascii
-      $x4 = "GnomeKeyringPasswordFinder()" ascii
-   condition:
-      ( uint16(0) == 0x2123 and filesize < 20KB and 1 of them )
+	condition:
+		( uint16( 0 ) == 0x2123 and filesize < 20KB and 1 of them )
 }
 
-rule mimipenguin_2 {
-   meta:
-      description = "Detects Mimipenguin hack tool"
-      license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
-      author = "Florian Roth (Nextron Systems)"
-      reference = "https://github.com/huntergregal/mimipenguin"
-      date = "2017-07-08"
-      hash1 = "453bffa90d99a820e4235de95ec3f7cc750539e4023f98ffc8858f9b3c15d89a"
-      id = "b3bb1ba9-cbfc-53fd-81d0-256466ace4de"
-   strings:
-      $x1 = "DUMP=$(strings \"/tmp/dump.${pid}\" | grep -E" fullword ascii
-      $x2 = "strings /tmp/apache* | grep -E '^Authorization: Basic.+=$'" fullword ascii
-      $x3 = "grep -E '^_pammodutil_getpwnam_root_1$' -B 5 -A" fullword ascii
-      $x4 = "strings \"/tmp/dump.${pid}\" | grep -E -m 1 '^\\$.\\$.+\\$')\"" fullword ascii
-      $x5 = "if [[ -n $(ps -eo pid,command | grep -v 'grep' | grep gnome-keyring) ]]; then" fullword ascii
-   condition:
-      ( uint16(0) == 0x2123 and filesize < 20KB and 1 of them )
+rule mimipenguin_2 : hardened
+{
+	meta:
+		description = "Detects Mimipenguin hack tool"
+		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
+		author = "Florian Roth (Nextron Systems)"
+		reference = "https://github.com/huntergregal/mimipenguin"
+		date = "2017-07-08"
+		hash1 = "453bffa90d99a820e4235de95ec3f7cc750539e4023f98ffc8858f9b3c15d89a"
+		id = "b3bb1ba9-cbfc-53fd-81d0-256466ace4de"
+
+	strings:
+		$x1 = {44 55 4d 50 3d 24 28 73 74 72 69 6e 67 73 20 22 2f 74 6d 70 2f 64 75 6d 70 2e 24 7b 70 69 64 7d 22 20 7c 20 67 72 65 70 20 2d 45}
+		$x2 = {73 74 72 69 6e 67 73 20 2f 74 6d 70 2f 61 70 61 63 68 65 2a 20 7c 20 67 72 65 70 20 2d 45 20 27 5e 41 75 74 68 6f 72 69 7a 61 74 69 6f 6e 3a 20 42 61 73 69 63 2e 2b 3d 24 27}
+		$x3 = {67 72 65 70 20 2d 45 20 27 5e 5f 70 61 6d 6d 6f 64 75 74 69 6c 5f 67 65 74 70 77 6e 61 6d 5f 72 6f 6f 74 5f 31 24 27 20 2d 42 20 35 20 2d 41}
+		$x4 = {73 74 72 69 6e 67 73 20 22 2f 74 6d 70 2f 64 75 6d 70 2e 24 7b 70 69 64 7d 22 20 7c 20 67 72 65 70 20 2d 45 20 2d 6d 20 31 20 27 5e 5c 24 2e 5c 24 2e 2b 5c 24 27 29 22}
+		$x5 = {69 66 20 5b 5b 20 2d 6e 20 24 28 70 73 20 2d 65 6f 20 70 69 64 2c 63 6f 6d 6d 61 6e 64 20 7c 20 67 72 65 70 20 2d 76 20 27 67 72 65 70 27 20 7c 20 67 72 65 70 20 67 6e 6f 6d 65 2d 6b 65 79 72 69 6e 67 29 20 5d 5d 3b 20 74 68 65 6e}
+
+	condition:
+		( uint16( 0 ) == 0x2123 and filesize < 20KB and 1 of them )
 }
+

@@ -1,160 +1,138 @@
-// source: https://github.com/Yara-Rules/rules/blob/0f93570194a80d2f2032869055808b0ddcdfb360/malware/MALW_Miscelanea_Linux.yar
-
-/*
-    This Yara ruleset is under the GNU-GPLv2 license (http://www.gnu.org/licenses/gpl-2.0.html) and open to any user or organization, as    long as you use it under this license.
-
-*/
-
-import "pe"
-
-
-//rule LinuxAESDDoS
-//{
-//    meta:
-//	Author = "@benkow_"
-//	Date = "2014/09/12"
-//	Description = "Strings inside"
-//        Reference = "http://www.kernelmode.info/forum/viewtopic.php?f=16&t=3483"
-//
-//    strings:
-//        $a = "3AES"
-//        $b = "Hacker"
-//        $c = "VERSONEX"
-//
-//    condition:
-//        2 of them
-//}
-
-rule LinuxBillGates
-{
-    meta:
-       Author      = "@benkow_"
-       Date        = "2014/08/11"
-       Description = "Strings inside"
-       Reference   = "http://www.kernelmode.info/forum/viewtopic.php?f=16&t=3429"
-       score = 60
-
-    strings:
-        $a= "12CUpdateGates"
-        $b= "11CUpdateBill"
-
-    condition:
-        uint16(0) == 0x457f and $a and $b
-}
-
-rule LinuxElknot
-{
-    meta:
-	Author      = "@benkow_"
-        Date        = "2013/12/24"
-        Description = "Strings inside"
-        Reference   = "http://www.kernelmode.info/forum/viewtopic.php?f=16&t=3099"
-
-    strings:
-        $a = "ZN8CUtility7DeCryptEPciPKci"
-	$b = "ZN13CThreadAttack5StartEP11CCmdMessage"
-
-    condition:
-		uint16(0) == 0x457f and all of them
-}
-
-rule LinuxMrBlack
-{
-    meta:
-	Author      = "@benkow_"
-        Date        = "2014/09/12"
-        Description = "Strings inside"
-        Reference   = "http://www.kernelmode.info/forum/viewtopic.php?f=16&t=3483"
-
-    strings:
-        $a = "Mr.Black"
-	$b = "VERS0NEX:%s|%d|%d|%s"
-    condition:
-        uint16(0) == 0x457f and $a and $b
-}
-
-rule LinuxTsunami
-{
-    meta:
-
-		Author      = "@benkow_"
-		Date        = "2014/09/12"
-		Description = "Strings inside"
-		Reference   = "http://www.kernelmode.info/forum/viewtopic.php?f=16&t=3483"
-
-    strings:
-        $a = "PRIVMSG %s :[STD]Hitting %s"
-        $b = "NOTICE %s :TSUNAMI <target> <secs>"
-        $c = "NOTICE %s :I'm having a problem resolving my host, someone will have to SPOOFS me manually."
-    condition:
-        uint16(0) == 0x457f and $a or $b or $c
-}
-
-rule rootkit
+rule LinuxBillGates : hardened
 {
 	meta:
-                author="xorseed"
-                reference= "https://stuff.rop.io/"
+		Author = "@benkow_"
+		Date = "2014/08/11"
+		Description = "Strings inside"
+		Reference = "http://www.kernelmode.info/forum/viewtopic.php?f=16&t=3429"
+		score = 60
+
 	strings:
-		$sys1 = "sys_write" nocase ascii wide
-		$sys2 = "sys_getdents" nocase ascii wide
-		$sys3 = "sys_getdents64" nocase ascii wide
-		$sys4 = "sys_getpgid" nocase ascii wide
-		$sys5 = "sys_getsid" nocase ascii wide
-		$sys6 = "sys_setpgid" nocase ascii wide
-		$sys7 = "sys_kill" nocase ascii wide
-		$sys8 = "sys_tgkill" nocase ascii wide
-		$sys9 = "sys_tkill" nocase ascii wide
-		$sys10 = "sys_sched_setscheduler" nocase ascii wide
-		$sys11 = "sys_sched_setparam" nocase ascii wide
-		$sys12 = "sys_sched_getscheduler" nocase ascii wide
-		$sys13 = "sys_sched_getparam" nocase ascii wide
-		$sys14 = "sys_sched_setaffinity" nocase ascii wide
-		$sys15 = "sys_sched_getaffinity" nocase ascii wide
-		$sys16 = "sys_sched_rr_get_interval" nocase ascii wide
-		$sys17 = "sys_wait4" nocase ascii wide
-		$sys18 = "sys_waitid" nocase ascii wide
-		$sys19 = "sys_rt_tgsigqueueinfo" nocase ascii wide
-		$sys20 = "sys_rt_sigqueueinfo" nocase ascii wide
-		$sys21 = "sys_prlimit64" nocase ascii wide
-		$sys22 = "sys_ptrace" nocase ascii wide
-		$sys23 = "sys_migrate_pages" nocase ascii wide
-		$sys24 = "sys_move_pages" nocase ascii wide
-		$sys25 = "sys_get_robust_list" nocase ascii wide
-		$sys26 = "sys_perf_event_open" nocase ascii wide
-		$sys27 = "sys_uname" nocase ascii wide
-		$sys28 = "sys_unlink" nocase ascii wide
-		$sys29 = "sys_unlikat" nocase ascii wide
-		$sys30 = "sys_rename" nocase ascii wide
-		$sys31 = "sys_read" nocase ascii wide
-		$sys32 = "kobject_del" nocase ascii wide
-		$sys33 = "list_del_init" nocase ascii wide
-		$sys34 = "inet_ioctl" nocase ascii wide
+		$a = {31 32 43 55 70 64 61 74 65 47 61 74 65 73}
+		$b = {31 31 43 55 70 64 61 74 65 42 69 6c 6c}
+
 	condition:
-		uint16(0) == 0x457f and 9 of them
+		uint16( 0 ) == 0x457f and $a and $b
 }
 
-rule exploit
+rule LinuxElknot : hardened
 {
-        meta:
-                author="xorseed"
-                reference= "https://stuff.rop.io/"
+	meta:
+		Author = "@benkow_"
+		Date = "2013/12/24"
+		Description = "Strings inside"
+		Reference = "http://www.kernelmode.info/forum/viewtopic.php?f=16&t=3099"
+
 	strings:
-		$xpl1 = "set_fs_root" nocase ascii wide
-		$xpl2 = "set_fs_pwd" nocase ascii wide
-		$xpl3 = "__virt_addr_valid" nocase ascii wide
-		$xpl4 = "init_task" nocase ascii wide
-		$xpl5 = "init_fs" nocase ascii wide
-		$xpl6 = "bad_file_ops" nocase ascii wide
-		$xpl7 = "bad_file_aio_read" nocase ascii wide
-		$xpl8 = "security_ops" nocase ascii wide
-		$xpl9 = "default_security_ops" nocase ascii wide
-		$xpl10 = "audit_enabled" nocase ascii wide
-		$xpl11 = "commit_creds" nocase ascii wide
-		$xpl12 = "prepare_kernel_cred" nocase ascii wide
-		$xpl13 = "ptmx_fops" nocase ascii wide
-		$xpl14 = "node_states" nocase ascii wide
+		$a = {5a 4e 38 43 55 74 69 6c 69 74 79 37 44 65 43 72 79 70 74 45 50 63 69 50 4b 63 69}
+		$b = {5a 4e 31 33 43 54 68 72 65 61 64 41 74 74 61 63 6b 35 53 74 61 72 74 45 50 31 31 43 43 6d 64 4d 65 73 73 61 67 65}
+
 	condition:
-		uint16(0) == 0x457f and 7 of them
+		uint16( 0 ) == 0x457f and all of them
+}
+
+rule LinuxMrBlack : hardened
+{
+	meta:
+		Author = "@benkow_"
+		Date = "2014/09/12"
+		Description = "Strings inside"
+		Reference = "http://www.kernelmode.info/forum/viewtopic.php?f=16&t=3483"
+
+	strings:
+		$a = {4d 72 2e 42 6c 61 63 6b}
+		$b = {56 45 52 53 30 4e 45 58 3a 25 73 7c 25 64 7c 25 64 7c 25 73}
+
+	condition:
+		uint16( 0 ) == 0x457f and $a and $b
+}
+
+rule LinuxTsunami : hardened
+{
+	meta:
+		Author = "@benkow_"
+		Date = "2014/09/12"
+		Description = "Strings inside"
+		Reference = "http://www.kernelmode.info/forum/viewtopic.php?f=16&t=3483"
+
+	strings:
+		$a = {50 52 49 56 4d 53 47 20 25 73 20 3a 5b 53 54 44 5d 48 69 74 74 69 6e 67 20 25 73}
+		$b = {4e 4f 54 49 43 45 20 25 73 20 3a 54 53 55 4e 41 4d 49 20 3c 74 61 72 67 65 74 3e 20 3c 73 65 63 73 3e}
+		$c = {4e 4f 54 49 43 45 20 25 73 20 3a 49 27 6d 20 68 61 76 69 6e 67 20 61 20 70 72 6f 62 6c 65 6d 20 72 65 73 6f 6c 76 69 6e 67 20 6d 79 20 68 6f 73 74 2c 20 73 6f 6d 65 6f 6e 65 20 77 69 6c 6c 20 68 61 76 65 20 74 6f 20 53 50 4f 4f 46 53 20 6d 65 20 6d 61 6e 75 61 6c 6c 79 2e}
+
+	condition:
+		uint16( 0 ) == 0x457f and $a or $b or $c
+}
+
+rule rootkit : hardened limited
+{
+	meta:
+		author = "xorseed"
+		reference = "https://stuff.rop.io/"
+
+	strings:
+		$sys1 = {((73 79 73 5f 77 72 69 74 65) | (73 00 79 00 73 00 5f 00 77 00 72 00 69 00 74 00 65 00))}
+		$sys2 = {((73 79 73 5f 67 65 74 64 65 6e 74 73) | (73 00 79 00 73 00 5f 00 67 00 65 00 74 00 64 00 65 00 6e 00 74 00 73 00))}
+		$sys3 = {((73 79 73 5f 67 65 74 64 65 6e 74 73 36 34) | (73 00 79 00 73 00 5f 00 67 00 65 00 74 00 64 00 65 00 6e 00 74 00 73 00 36 00 34 00))}
+		$sys4 = {((73 79 73 5f 67 65 74 70 67 69 64) | (73 00 79 00 73 00 5f 00 67 00 65 00 74 00 70 00 67 00 69 00 64 00))}
+		$sys5 = {((73 79 73 5f 67 65 74 73 69 64) | (73 00 79 00 73 00 5f 00 67 00 65 00 74 00 73 00 69 00 64 00))}
+		$sys6 = {((73 79 73 5f 73 65 74 70 67 69 64) | (73 00 79 00 73 00 5f 00 73 00 65 00 74 00 70 00 67 00 69 00 64 00))}
+		$sys7 = {((73 79 73 5f 6b 69 6c 6c) | (73 00 79 00 73 00 5f 00 6b 00 69 00 6c 00 6c 00))}
+		$sys8 = {((73 79 73 5f 74 67 6b 69 6c 6c) | (73 00 79 00 73 00 5f 00 74 00 67 00 6b 00 69 00 6c 00 6c 00))}
+		$sys9 = {((73 79 73 5f 74 6b 69 6c 6c) | (73 00 79 00 73 00 5f 00 74 00 6b 00 69 00 6c 00 6c 00))}
+		$sys10 = {((73 79 73 5f 73 63 68 65 64 5f 73 65 74 73 63 68 65 64 75 6c 65 72) | (73 00 79 00 73 00 5f 00 73 00 63 00 68 00 65 00 64 00 5f 00 73 00 65 00 74 00 73 00 63 00 68 00 65 00 64 00 75 00 6c 00 65 00 72 00))}
+		$sys11 = {((73 79 73 5f 73 63 68 65 64 5f 73 65 74 70 61 72 61 6d) | (73 00 79 00 73 00 5f 00 73 00 63 00 68 00 65 00 64 00 5f 00 73 00 65 00 74 00 70 00 61 00 72 00 61 00 6d 00))}
+		$sys12 = {((73 79 73 5f 73 63 68 65 64 5f 67 65 74 73 63 68 65 64 75 6c 65 72) | (73 00 79 00 73 00 5f 00 73 00 63 00 68 00 65 00 64 00 5f 00 67 00 65 00 74 00 73 00 63 00 68 00 65 00 64 00 75 00 6c 00 65 00 72 00))}
+		$sys13 = {((73 79 73 5f 73 63 68 65 64 5f 67 65 74 70 61 72 61 6d) | (73 00 79 00 73 00 5f 00 73 00 63 00 68 00 65 00 64 00 5f 00 67 00 65 00 74 00 70 00 61 00 72 00 61 00 6d 00))}
+		$sys14 = {((73 79 73 5f 73 63 68 65 64 5f 73 65 74 61 66 66 69 6e 69 74 79) | (73 00 79 00 73 00 5f 00 73 00 63 00 68 00 65 00 64 00 5f 00 73 00 65 00 74 00 61 00 66 00 66 00 69 00 6e 00 69 00 74 00 79 00))}
+		$sys15 = {((73 79 73 5f 73 63 68 65 64 5f 67 65 74 61 66 66 69 6e 69 74 79) | (73 00 79 00 73 00 5f 00 73 00 63 00 68 00 65 00 64 00 5f 00 67 00 65 00 74 00 61 00 66 00 66 00 69 00 6e 00 69 00 74 00 79 00))}
+		$sys16 = {((73 79 73 5f 73 63 68 65 64 5f 72 72 5f 67 65 74 5f 69 6e 74 65 72 76 61 6c) | (73 00 79 00 73 00 5f 00 73 00 63 00 68 00 65 00 64 00 5f 00 72 00 72 00 5f 00 67 00 65 00 74 00 5f 00 69 00 6e 00 74 00 65 00 72 00 76 00 61 00 6c 00))}
+		$sys17 = {((73 79 73 5f 77 61 69 74 34) | (73 00 79 00 73 00 5f 00 77 00 61 00 69 00 74 00 34 00))}
+		$sys18 = {((73 79 73 5f 77 61 69 74 69 64) | (73 00 79 00 73 00 5f 00 77 00 61 00 69 00 74 00 69 00 64 00))}
+		$sys19 = {((73 79 73 5f 72 74 5f 74 67 73 69 67 71 75 65 75 65 69 6e 66 6f) | (73 00 79 00 73 00 5f 00 72 00 74 00 5f 00 74 00 67 00 73 00 69 00 67 00 71 00 75 00 65 00 75 00 65 00 69 00 6e 00 66 00 6f 00))}
+		$sys20 = {((73 79 73 5f 72 74 5f 73 69 67 71 75 65 75 65 69 6e 66 6f) | (73 00 79 00 73 00 5f 00 72 00 74 00 5f 00 73 00 69 00 67 00 71 00 75 00 65 00 75 00 65 00 69 00 6e 00 66 00 6f 00))}
+		$sys21 = {((73 79 73 5f 70 72 6c 69 6d 69 74 36 34) | (73 00 79 00 73 00 5f 00 70 00 72 00 6c 00 69 00 6d 00 69 00 74 00 36 00 34 00))}
+		$sys22 = {((73 79 73 5f 70 74 72 61 63 65) | (73 00 79 00 73 00 5f 00 70 00 74 00 72 00 61 00 63 00 65 00))}
+		$sys23 = {((73 79 73 5f 6d 69 67 72 61 74 65 5f 70 61 67 65 73) | (73 00 79 00 73 00 5f 00 6d 00 69 00 67 00 72 00 61 00 74 00 65 00 5f 00 70 00 61 00 67 00 65 00 73 00))}
+		$sys24 = {((73 79 73 5f 6d 6f 76 65 5f 70 61 67 65 73) | (73 00 79 00 73 00 5f 00 6d 00 6f 00 76 00 65 00 5f 00 70 00 61 00 67 00 65 00 73 00))}
+		$sys25 = {((73 79 73 5f 67 65 74 5f 72 6f 62 75 73 74 5f 6c 69 73 74) | (73 00 79 00 73 00 5f 00 67 00 65 00 74 00 5f 00 72 00 6f 00 62 00 75 00 73 00 74 00 5f 00 6c 00 69 00 73 00 74 00))}
+		$sys26 = {((73 79 73 5f 70 65 72 66 5f 65 76 65 6e 74 5f 6f 70 65 6e) | (73 00 79 00 73 00 5f 00 70 00 65 00 72 00 66 00 5f 00 65 00 76 00 65 00 6e 00 74 00 5f 00 6f 00 70 00 65 00 6e 00))}
+		$sys27 = {((73 79 73 5f 75 6e 61 6d 65) | (73 00 79 00 73 00 5f 00 75 00 6e 00 61 00 6d 00 65 00))}
+		$sys28 = {((73 79 73 5f 75 6e 6c 69 6e 6b) | (73 00 79 00 73 00 5f 00 75 00 6e 00 6c 00 69 00 6e 00 6b 00))}
+		$sys29 = {((73 79 73 5f 75 6e 6c 69 6b 61 74) | (73 00 79 00 73 00 5f 00 75 00 6e 00 6c 00 69 00 6b 00 61 00 74 00))}
+		$sys30 = {((73 79 73 5f 72 65 6e 61 6d 65) | (73 00 79 00 73 00 5f 00 72 00 65 00 6e 00 61 00 6d 00 65 00))}
+		$sys31 = {((73 79 73 5f 72 65 61 64) | (73 00 79 00 73 00 5f 00 72 00 65 00 61 00 64 00))}
+		$sys32 = {((6b 6f 62 6a 65 63 74 5f 64 65 6c) | (6b 00 6f 00 62 00 6a 00 65 00 63 00 74 00 5f 00 64 00 65 00 6c 00))}
+		$sys33 = {((6c 69 73 74 5f 64 65 6c 5f 69 6e 69 74) | (6c 00 69 00 73 00 74 00 5f 00 64 00 65 00 6c 00 5f 00 69 00 6e 00 69 00 74 00))}
+		$sys34 = {((69 6e 65 74 5f 69 6f 63 74 6c) | (69 00 6e 00 65 00 74 00 5f 00 69 00 6f 00 63 00 74 00 6c 00))}
+
+	condition:
+		uint16( 0 ) == 0x457f and 9 of them
+}
+
+rule exploit : hardened limited
+{
+	meta:
+		author = "xorseed"
+		reference = "https://stuff.rop.io/"
+
+	strings:
+		$xpl1 = {((73 65 74 5f 66 73 5f 72 6f 6f 74) | (73 00 65 00 74 00 5f 00 66 00 73 00 5f 00 72 00 6f 00 6f 00 74 00))}
+		$xpl2 = {((73 65 74 5f 66 73 5f 70 77 64) | (73 00 65 00 74 00 5f 00 66 00 73 00 5f 00 70 00 77 00 64 00))}
+		$xpl3 = {((5f 5f 76 69 72 74 5f 61 64 64 72 5f 76 61 6c 69 64) | (5f 00 5f 00 76 00 69 00 72 00 74 00 5f 00 61 00 64 00 64 00 72 00 5f 00 76 00 61 00 6c 00 69 00 64 00))}
+		$xpl4 = {((69 6e 69 74 5f 74 61 73 6b) | (69 00 6e 00 69 00 74 00 5f 00 74 00 61 00 73 00 6b 00))}
+		$xpl5 = {((69 6e 69 74 5f 66 73) | (69 00 6e 00 69 00 74 00 5f 00 66 00 73 00))}
+		$xpl6 = {((62 61 64 5f 66 69 6c 65 5f 6f 70 73) | (62 00 61 00 64 00 5f 00 66 00 69 00 6c 00 65 00 5f 00 6f 00 70 00 73 00))}
+		$xpl7 = {((62 61 64 5f 66 69 6c 65 5f 61 69 6f 5f 72 65 61 64) | (62 00 61 00 64 00 5f 00 66 00 69 00 6c 00 65 00 5f 00 61 00 69 00 6f 00 5f 00 72 00 65 00 61 00 64 00))}
+		$xpl8 = {((73 65 63 75 72 69 74 79 5f 6f 70 73) | (73 00 65 00 63 00 75 00 72 00 69 00 74 00 79 00 5f 00 6f 00 70 00 73 00))}
+		$xpl9 = {((64 65 66 61 75 6c 74 5f 73 65 63 75 72 69 74 79 5f 6f 70 73) | (64 00 65 00 66 00 61 00 75 00 6c 00 74 00 5f 00 73 00 65 00 63 00 75 00 72 00 69 00 74 00 79 00 5f 00 6f 00 70 00 73 00))}
+		$xpl10 = {((61 75 64 69 74 5f 65 6e 61 62 6c 65 64) | (61 00 75 00 64 00 69 00 74 00 5f 00 65 00 6e 00 61 00 62 00 6c 00 65 00 64 00))}
+		$xpl11 = {((63 6f 6d 6d 69 74 5f 63 72 65 64 73) | (63 00 6f 00 6d 00 6d 00 69 00 74 00 5f 00 63 00 72 00 65 00 64 00 73 00))}
+		$xpl12 = {((70 72 65 70 61 72 65 5f 6b 65 72 6e 65 6c 5f 63 72 65 64) | (70 00 72 00 65 00 70 00 61 00 72 00 65 00 5f 00 6b 00 65 00 72 00 6e 00 65 00 6c 00 5f 00 63 00 72 00 65 00 64 00))}
+		$xpl13 = {((70 74 6d 78 5f 66 6f 70 73) | (70 00 74 00 6d 00 78 00 5f 00 66 00 6f 00 70 00 73 00))}
+		$xpl14 = {((6e 6f 64 65 5f 73 74 61 74 65 73) | (6e 00 6f 00 64 00 65 00 5f 00 73 00 74 00 61 00 74 00 65 00 73 00))}
+
+	condition:
+		uint16( 0 ) == 0x457f and 7 of them
 }
 

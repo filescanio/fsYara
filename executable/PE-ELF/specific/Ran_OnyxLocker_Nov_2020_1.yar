@@ -1,29 +1,32 @@
-// source: https://github.com/Neo23x0/DailyIOC/blob/939ef944695949c8b4ff38c77b30153f423b6e46/2020-11-18/OnyxLocker/Ran_OnyxLocker_Nov_2020_1.yar
-rule Ran_OnyxLocker_Nov_2020_1 {
-   meta:
-      description = "Detect OnyxLocker ransomware"
-      author = "Arkbird_SOLG"
-      reference = "https://twitter.com/Kangxiaopao/status/1328614320016560128"
-      date = "2020-11-18"
-      hash1 = "7e3c97d3d274b5f7fedad6e392e6576ac3e5724ddd7e48c58a654b6b95eb40d7"
-      score = 75
-   strings:
-      $s1 = "IEncryptionProvider" fullword ascii
-      $s2 = "OnyxLocker.exe" fullword wide
-      $s3 = "GetEncryptionThreads" fullword ascii
-      $s4 = "CreateEncryptionKey" fullword ascii
-      $s5 = ".NETFramework,Version=v4.5.2" fullword ascii
-      $s6 = "get_TargetFiles" fullword ascii
-      $s7 = "IsTargetFile" fullword ascii
-      $s8 = "<TargetFiles>k__BackingField" fullword ascii
-      $s9 = "XxteaEncryptionProvider" fullword ascii
-      $s10 = "GetStartingFolders" fullword ascii
-      $s11 = "<EncryptionKey>k__BackingField" fullword ascii
-      $s12 = "RECOVERY INSTRUCTIONS" fullword wide
-      $s13 = "$182eaa96-fcb2-458b-85cb-a9b8da57ae71" fullword ascii
-      $s14 = ".NET Framework 4.5.2" fullword ascii
-      $s15 = "TraverseDirectories" fullword ascii
-      $s16 = "{0} {1}" fullword wide
-   condition:
-      uint16(0) == 0x5a4d and filesize > 8KB and 8 of them
+rule Ran_OnyxLocker_Nov_2020_1 : hardened
+{
+	meta:
+		description = "Detect OnyxLocker ransomware"
+		author = "Arkbird_SOLG"
+		reference = "https://twitter.com/Kangxiaopao/status/1328614320016560128"
+		date = "2020-11-18"
+		hash1 = "7e3c97d3d274b5f7fedad6e392e6576ac3e5724ddd7e48c58a654b6b95eb40d7"
+		score = 75
+
+	strings:
+		$s1 = {49 45 6e 63 72 79 70 74 69 6f 6e 50 72 6f 76 69 64 65 72}
+		$s2 = {4f 00 6e 00 79 00 78 00 4c 00 6f 00 63 00 6b 00 65 00 72 00 2e 00 65 00 78 00 65 00}
+		$s3 = {47 65 74 45 6e 63 72 79 70 74 69 6f 6e 54 68 72 65 61 64 73}
+		$s4 = {43 72 65 61 74 65 45 6e 63 72 79 70 74 69 6f 6e 4b 65 79}
+		$s5 = {2e 4e 45 54 46 72 61 6d 65 77 6f 72 6b 2c 56 65 72 73 69 6f 6e 3d 76 34 2e 35 2e 32}
+		$s6 = {67 65 74 5f 54 61 72 67 65 74 46 69 6c 65 73}
+		$s7 = {49 73 54 61 72 67 65 74 46 69 6c 65}
+		$s8 = {3c 54 61 72 67 65 74 46 69 6c 65 73 3e 6b 5f 5f 42 61 63 6b 69 6e 67 46 69 65 6c 64}
+		$s9 = {58 78 74 65 61 45 6e 63 72 79 70 74 69 6f 6e 50 72 6f 76 69 64 65 72}
+		$s10 = {47 65 74 53 74 61 72 74 69 6e 67 46 6f 6c 64 65 72 73}
+		$s11 = {3c 45 6e 63 72 79 70 74 69 6f 6e 4b 65 79 3e 6b 5f 5f 42 61 63 6b 69 6e 67 46 69 65 6c 64}
+		$s12 = {52 00 45 00 43 00 4f 00 56 00 45 00 52 00 59 00 20 00 49 00 4e 00 53 00 54 00 52 00 55 00 43 00 54 00 49 00 4f 00 4e 00 53 00}
+		$s13 = {24 31 38 32 65 61 61 39 36 2d 66 63 62 32 2d 34 35 38 62 2d 38 35 63 62 2d 61 39 62 38 64 61 35 37 61 65 37 31}
+		$s14 = {2e 4e 45 54 20 46 72 61 6d 65 77 6f 72 6b 20 34 2e 35 2e 32}
+		$s15 = {54 72 61 76 65 72 73 65 44 69 72 65 63 74 6f 72 69 65 73}
+		$s16 = {7b 00 30 00 7d 00 20 00 7b 00 31 00 7d 00}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and filesize > 8KB and 8 of them
 }
+

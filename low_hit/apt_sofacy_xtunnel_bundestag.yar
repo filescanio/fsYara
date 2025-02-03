@@ -1,116 +1,127 @@
+rule apt_sofacy_xtunnel : hardened
+{
+	meta:
+		author = "Claudio Guarnieri"
+		description = "Sofacy Malware - German Bundestag"
+		score = 75
+		id = "aef091b5-cedf-5443-ab61-8b2dbc7e77fd"
+
+	strings:
+		$xaps = {3a 5c 50 52 4f 4a 45 43 54 5c 58 41 50 53 5f}
+		$variant11 = {58 41 50 53 5f 4f 42 4a 45 43 54 49 56 45 2e 64 6c 6c}
+		$variant12 = {73 74 61 72 74}
+		$variant21 = {55 73 65 72 2d 41 67 65 6e 74 3a 20 4d 6f 7a 69 6c 6c 61 2f 35 2e 30 20 28 57 69 6e 64 6f 77 73 20 4e 54 20 36 2e 33 3b 20 57 4f 57 36 34 3b 20 72 76 3a 32 38 2e 30 29 20 47 65 63 6b 6f 2f 32 30 31 30 30 31 30 31 20 46 69 72 65 66 6f 78 2f 32 38 2e 30}
+		$variant22 = {69 73 20 79 6f 75 20 6c 69 76 65 3f}
+		$mix1 = {31 37 36 2e 33 31 2e 31 31 32 2e 31 30}
+		$mix2 = {65 72 72 6f 72 20 69 6e 20 73 65 6c 65 63 74 2c 20 65 72 72 6e 6f 20 25 64}
+		$mix3 = {6e 6f 20 6d 73 67}
+		$mix4 = {69 73 20 79 6f 75 20 6c 69 76 65 3f}
+		$mix5 = {31 32 37 2e 30 2e 30 2e 31}
+		$mix6 = {65 72 72 20 25 64}
+		$mix7 = {69 60 6d 20 77 61 69 74}
+		$mix8 = {68 65 6c 6c 6f}
+		$mix9 = {4f 70 65 6e 53 53 4c 20 31 2e 30 2e 31 65 20 31 31 20 46 65 62 20 32 30 31 33}
+		$mix10 = {58 74 75 6e 6e 65 6c 2e 65 78 65}
+
+	condition:
+		(( uint16( 0 ) == 0x5A4D ) or ( uint16( 0 ) == 0xCFD0 ) ) and ( ( $xaps ) or ( all of ( $variant1* ) ) or ( all of ( $variant2* ) ) or ( 6 of ( $mix* ) ) )
+}
+
 import "pe"
 
-rule apt_sofacy_xtunnel {
-    meta:
-        author = "Claudio Guarnieri"
-        description = "Sofacy Malware - German Bundestag"
-        score = 75
-        id = "aef091b5-cedf-5443-ab61-8b2dbc7e77fd"
-    strings:
-        $xaps = ":\\PROJECT\\XAPS_"
-        $variant11 = "XAPS_OBJECTIVE.dll" $variant12 = "start"
-        $variant21 = "User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:28.0) Gecko/20100101 Firefox/28.0"
-        $variant22 = "is you live?"
-        $mix1 = "176.31.112.10"
-        $mix2 = "error in select, errno %d" $mix3 = "no msg"
-        $mix4 = "is you live?"
-        $mix5 = "127.0.0.1"
-        $mix6 = "err %d"
-        $mix7 = "i`m wait"
-        $mix8 = "hello"
-        $mix9 = "OpenSSL 1.0.1e 11 Feb 2013" $mix10 = "Xtunnel.exe"
-    condition:
-        ((uint16(0) == 0x5A4D) or (uint16(0) == 0xCFD0)) and (($xaps) or (all of ($variant1*)) or (all of ($variant2*)) or (6 of ($mix*)))
+rule Winexe_RemoteExec : hardened
+{
+	meta:
+		description = "Winexe tool for remote execution (also used by Sofacy group)"
+		author = "Florian Roth (Nextron Systems), Robert Simmons"
+		reference = "http://dokumente.linksfraktion.de/inhalt/report-orig.pdf"
+		date = "2015-06-19"
+		modified = "2021-02-11"
+		hash1 = "5130f600cd9a9cdc82d4bad938b20cbd2f699aadb76e7f3f1a93602330d9997d"
+		hash2 = "d19dfdbe747e090c5aa2a70cc10d081ac1aa88f360c3f378288a3651632c4429"
+		score = 70
+		id = "5079557a-0461-5b04-b0f2-4265bf7ec041"
+
+	strings:
+		$s1 = {65 72 72 6f 72 20 43 61 6e 6e 6f 74 20 4c 6f 67 6f 6e 55 73 65 72 28 25 73 2c 25 73 2c 25 73 29 20 25 64}
+		$s2 = {65 72 72 6f 72 20 43 61 6e 6e 6f 74 20 49 6d 70 65 72 73 6f 6e 61 74 65 4e 61 6d 65 64 50 69 70 65 43 6c 69 65 6e 74 20 25 64}
+		$s3 = {5c 5c 2e 5c 70 69 70 65 5c 61 68 65 78 65 63}
+		$s4 = {5c 5c 2e 5c 70 69 70 65 5c 77 6d 63 65 78}
+		$s5 = {69 6d 70 6c 65 76 65 6c}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and filesize < 115KB and ( 3 of them or pe.imphash ( ) == "2f8a475933ac82b8e09eaf26b396b54d" )
 }
 
-rule Winexe_RemoteExec {
-   meta:
-      description = "Winexe tool for remote execution (also used by Sofacy group)"
-      author = "Florian Roth (Nextron Systems), Robert Simmons"
-      reference = "http://dokumente.linksfraktion.de/inhalt/report-orig.pdf"
-      date = "2015-06-19"
-      modified = "2021-02-11"
-      hash1 = "5130f600cd9a9cdc82d4bad938b20cbd2f699aadb76e7f3f1a93602330d9997d"
-      hash2 = "d19dfdbe747e090c5aa2a70cc10d081ac1aa88f360c3f378288a3651632c4429"
-      score = 70
-      id = "5079557a-0461-5b04-b0f2-4265bf7ec041"
-   strings:
-      $s1 = "error Cannot LogonUser(%s,%s,%s) %d" ascii fullword
-      $s2 = "error Cannot ImpersonateNamedPipeClient %d" ascii fullword
-      $s3 = "\\\\.\\pipe\\ahexec" fullword ascii
-      $s4 = "\\\\.\\pipe\\wmcex" fullword ascii
-      $s5 = "implevel" fullword ascii
-   condition:
-   uint16(0) == 0x5a4d and filesize < 115KB and (
-      3 of them or
-      pe.imphash() == "2f8a475933ac82b8e09eaf26b396b54d"
-   )
+rule Sofacy_Mal2 : hardened
+{
+	meta:
+		description = "Sofacy Group Malware Sample 2"
+		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
+		author = "Florian Roth (Nextron Systems)"
+		reference = "http://dokumente.linksfraktion.de/inhalt/report-orig.pdf"
+		date = "2015-06-19"
+		hash = "566ab945f61be016bfd9e83cc1b64f783b9b8deb891e6d504d3442bc8281b092"
+		score = 70
+		id = "1547cc67-7d7c-5ec9-816c-15b7d523376a"
+
+	strings:
+		$x1 = {50 52 4f 4a 45 43 54 5c 58 41 50 53 5f 4f 42 4a 45 43 54 49 56 45 5f 44 4c 4c 5c}
+		$x2 = {58 41 50 53 5f 4f 42 4a 45 43 54 49 56 45 2e 64 6c 6c}
+		$s1 = {69 60 6d 20 77 61 69 74}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and ( 1 of ( $x* ) ) and $s1
 }
 
-rule Sofacy_Mal2 {
-    meta:
-        description = "Sofacy Group Malware Sample 2"
-        license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
-      author = "Florian Roth (Nextron Systems)"
-        reference = "http://dokumente.linksfraktion.de/inhalt/report-orig.pdf"
-        date = "2015-06-19"
-        hash = "566ab945f61be016bfd9e83cc1b64f783b9b8deb891e6d504d3442bc8281b092"
-        score = 70
-        id = "1547cc67-7d7c-5ec9-816c-15b7d523376a"
-    strings:
-        $x1 = "PROJECT\\XAPS_OBJECTIVE_DLL\\" ascii
-        $x2 = "XAPS_OBJECTIVE.dll" fullword ascii
+rule Sofacy_Mal3 : hardened
+{
+	meta:
+		description = "Sofacy Group Malware Sample 3"
+		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
+		author = "Florian Roth (Nextron Systems)"
+		reference = "http://dokumente.linksfraktion.de/inhalt/report-orig.pdf"
+		date = "2015-06-19"
+		modified = "2023-01-06"
+		hash = "5f6b2a0d1d966fc4f1ed292b46240767f4acb06c13512b0061b434ae2a692fa1"
+		score = 70
+		id = "67d002ef-4ed9-54ce-a6ef-49b7f3b951e2"
 
-        $s1 = "i`m wait" fullword ascii
-    condition:
-        uint16(0) == 0x5a4d and ( 1 of ($x*) ) and $s1
+	strings:
+		$s1 = {73 68 65 6c 6c 5c 6f 70 65 6e 5c 63 6f 6d 6d 61 6e 64 3d 22 53 79 73 74 65 6d 20 56 6f 6c 75 6d 65 20 49 6e 66 6f 72 6d 61 74 69 6f 6e 5c 55 53 42 47 75 61 72 64 2e 65 78 65 22 20 69 6e 73 74 61 6c 6c}
+		$s2 = {2e 3f 41 56 41 67 65 6e 74 4d 6f 64 75 6c 65 52 65 6d 6f 74 65 4b 65 79 4c 6f 67 67 65 72 40 40}
+		$s3 = {3c 66 6f 6e 74 20 73 69 7a 65 3d 34 20 63 6f 6c 6f 72 3d 72 65 64 3e 70 72 6f 63 65 73 73 20 69 73 6e 27 74 20 65 78 69 73 74 3c 2f 66 6f 6e 74 3e}
+		$s4 = {3c 66 6f 6e 74 20 73 69 7a 65 3d 34 20 63 6f 6c 6f 72 3d 72 65 64 3e 70 72 6f 63 65 73 73 20 69 73 20 65 78 69 73 74 3c 2f 66 6f 6e 74 3e}
+		$s5 = {2e 77 69 6e 6e 74 2e 63 68 65 63 6b 2d 66 69 78 2e 63 6f 6d}
+		$s6 = {2e 75 70 64 61 74 65 2e 61 64 6f 62 65 69 6e 63 6f 72 70 2e 63 6f 6d}
+		$s7 = {2e 6d 69 63 72 6f 73 6f 66 74 2e 63 68 65 63 6b 77 69 6e 66 72 61 6d 65 2e 63 6f 6d}
+		$s8 = {61 00 64 00 6f 00 62 00 65 00 69 00 6e 00 63 00 6f 00 72 00 70 00 2e 00 63 00 6f 00 6d 00}
+		$s9 = {23 20 45 58 43 3a 20 48 74 74 70 53 65 6e 64 65 72 20 2d 20 43 61 6e 6e 6f 74 20 63 72 65 61 74 65 20 47 65 74 20 43 68 61 6e 6e 65 6c 21}
+		$x1 = {55 00 73 00 65 00 72 00 2d 00 41 00 67 00 65 00 6e 00 74 00 3a 00 20 00 4d 00 6f 00 7a 00 69 00 6c 00 6c 00 61 00 2f 00 35 00 2e 00 30 00 20 00 28 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 4e 00 54 00 20 00 36 00 2e 00 32 00 3b 00 20 00 57 00 4f 00 57 00 36 00 34 00 3b 00 20 00 72 00 76 00 3a 00 32 00 30 00 2e 00 30 00 29 00 20 00 47 00 65 00 63 00 6b 00 6f 00 2f 00 32 00 30 00 31 00 30 00 30 00 31 00 30 00 31 00 20 00 46 00 69 00 72 00 65 00 66 00 6f 00 78 00 2f 00}
+		$x2 = {55 00 73 00 65 00 72 00 2d 00 41 00 67 00 65 00 6e 00 74 00 3a 00 20 00 4d 00 6f 00 7a 00 69 00 6c 00 6c 00 61 00 2f 00 35 00 2e 00 30 00 20 00 28 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 4e 00 54 00 20 00 36 00 2e 00 3b 00 20 00 57 00 4f 00 57 00 36 00 34 00 3b 00 20 00 72 00 76 00 3a 00 32 00 30 00 2e 00 30 00 29 00 20 00 47 00 65 00 63 00 6b 00 6f 00 2f 00 32 00 30 00 31 00 30 00 30 00 31 00 30 00 31 00 20 00 46 00 69 00 72 00 65 00 66 00 6f 00 78 00 2f 00 32 00}
+		$x3 = {43 00 3a 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 5c 00 53 00 79 00 73 00 74 00 65 00 6d 00 33 00 32 00 5c 00 63 00 6d 00 64 00 2e 00 65 00 78 00 65 00}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and filesize < 300KB and ( 2 of ( $s* ) or ( 1 of ( $s* ) and all of ( $x* ) ) )
 }
 
-rule Sofacy_Mal3 {
-    meta:
-        description = "Sofacy Group Malware Sample 3"
-        license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
-      author = "Florian Roth (Nextron Systems)"
-        reference = "http://dokumente.linksfraktion.de/inhalt/report-orig.pdf"
-        date = "2015-06-19"
-        modified = "2023-01-06"
-        hash = "5f6b2a0d1d966fc4f1ed292b46240767f4acb06c13512b0061b434ae2a692fa1"
-        score = 70
-        id = "67d002ef-4ed9-54ce-a6ef-49b7f3b951e2"
-    strings:
-        $s1 = "shell\\open\\command=\"System Volume Information\\USBGuard.exe\" install" fullword ascii
-        $s2 = ".?AVAgentModuleRemoteKeyLogger@@" fullword ascii
-        $s3 = "<font size=4 color=red>process isn't exist</font>" fullword ascii
-        $s4 = "<font size=4 color=red>process is exist</font>" fullword ascii
-        $s5 = ".winnt.check-fix.com" ascii
-        $s6 = ".update.adobeincorp.com" ascii
-        $s7 = ".microsoft.checkwinframe.com" ascii
-        $s8 = "adobeincorp.com" fullword wide
-        $s9 = "# EXC: HttpSender - Cannot create Get Channel!" fullword ascii
+rule Sofacy_Bundestag_Batch : hardened
+{
+	meta:
+		description = "Sofacy Bundestags APT Batch Script"
+		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
+		author = "Florian Roth (Nextron Systems)"
+		reference = "http://dokumente.linksfraktion.de/inhalt/report-orig.pdf"
+		date = "2015-06-19"
+		score = 70
+		id = "869dafec-1387-5640-b608-b84cf0d43342"
 
-        $x1 = "User-Agent: Mozilla/5.0 (Windows NT 6.2; WOW64; rv:20.0) Gecko/20100101 Firefox/" wide
-        $x2 = "User-Agent: Mozilla/5.0 (Windows NT 6.; WOW64; rv:20.0) Gecko/20100101 Firefox/2" wide
-        $x3 = "C:\\Windows\\System32\\cmd.exe" fullword wide
-    condition:
-        uint16(0) == 0x5a4d and filesize < 300KB and (
-            2 of ($s*) or
-            ( 1 of ($s*) and all of ($x*) )
-        )
+	strings:
+		$s1 = {66 6f 72 20 25 25 47 20 69 6e 20 28 2e 70 64 66 2c 20 2e 78 6c 73 2c 20 2e 78 6c 73 78 2c 20 2e 64 6f 63 2c 20 2e 64 6f 63 78 29}
+		$s2 = {63 6d 64 20 2f 63 20 63 6f 70 79}
+		$s3 = {66 6f 72 66 69 6c 65 73}
+
+	condition:
+		filesize < 10KB and 2 of them
 }
 
-rule Sofacy_Bundestag_Batch {
-    meta:
-        description = "Sofacy Bundestags APT Batch Script"
-        license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
-      author = "Florian Roth (Nextron Systems)"
-        reference = "http://dokumente.linksfraktion.de/inhalt/report-orig.pdf"
-        date = "2015-06-19"
-        score = 70
-        id = "869dafec-1387-5640-b608-b84cf0d43342"
-    strings:
-        $s1 = "for %%G in (.pdf, .xls, .xlsx, .doc, .docx)" ascii
-        $s2 = "cmd /c copy"
-        $s3 = "forfiles"
-    condition:
-        filesize < 10KB and 2 of them
-}

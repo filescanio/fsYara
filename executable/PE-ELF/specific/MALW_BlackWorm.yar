@@ -1,30 +1,25 @@
-/*
-    This Yara ruleset is under the GNU-GPLv2 license (http://www.gnu.org/licenses/gpl-2.0.html) and open to any user or organization, as
-    long as you use it under this license.
-*/
-
-rule BlackWorm
+rule BlackWorm : hardened
 {
+	meta:
+		author = "Brian Wallace @botnet_hunter"
+		author_email = "bwall@ballastsecurity.net"
+		date = "2015-05-20"
+		description = "Identify BlackWorm"
 
-    meta:
-        author = "Brian Wallace @botnet_hunter"
-        author_email = "bwall@ballastsecurity.net"
-        date = "2015-05-20"
-        description = "Identify BlackWorm"
+	strings:
+		$str1 = {6d 5f 43 6f 6d 70 75 74 65 72 4f 62 6a 65 63 74 50 72 6f 76 69 64 65 72}
+		$str2 = {4d 79 57 65 62 53 65 72 76 69 63 65 73}
+		$str3 = {67 65 74 5f 45 78 65 63 75 74 61 62 6c 65 50 61 74 68}
+		$str4 = {67 65 74 5f 57 65 62 53 65 72 76 69 63 65 73}
+		$str5 = {4d 79 2e 57 65 62 53 65 72 76 69 63 65 73}
+		$str6 = {4d 79 2e 55 73 65 72}
+		$str7 = {6d 5f 55 73 65 72 4f 62 6a 65 63 74 50 72 6f 76 69 64 65 72}
+		$str8 = {44 65 6c 65 67 61 74 65 43 61 6c 6c 62 61 63 6b}
+		$str9 = {54 61 72 67 65 74 4d 65 74 68 6f 64}
+		$str10 = {30 00 30 00 30 00 30 00 30 00 34 00 62 00 30 00}
+		$str11 = {4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 20 00 43 00 6f 00 72 00 70 00 6f 00 72 00 61 00 74 00 69 00 6f 00 6e 00}
 
-    strings:
-        $str1 = "m_ComputerObjectProvider"
-        $str2 = "MyWebServices"
-        $str3 = "get_ExecutablePath"
-        $str4 = "get_WebServices"
-        $str5 = "My.WebServices"
-        $str6 = "My.User"
-        $str7 = "m_UserObjectProvider"
-        $str8 = "DelegateCallback"
-        $str9 = "TargetMethod"
-        $str10 = "000004b0" wide
-        $str11 = "Microsoft Corporation" wide
-
-    condition:
-        all of them
+	condition:
+		all of them
 }
+

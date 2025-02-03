@@ -1,537 +1,486 @@
-// source: https://github.com/Yara-Rules/rules/blob/master/antidebug_antivm/antidebug_antivm.yar
-
-/*
-    This Yara ruleset is under the GNU-GPLv2 license (http://www.gnu.org/licenses/gpl-2.0.html) and open to any user or organization, as    long as you use it under this license.
-*/
-
-import "pe"
-
-private rule WindowsPE
+private rule WindowsPE : hardened
 {
-    condition:
-        uint16(0) == 0x5A4D and uint32(uint32(0x3C)) == 0x00004550
-}
-
-rule DebuggerCheck__PEB : AntiDebug DebuggerCheck {
-	meta:
-		weight = 1
-		Author = "naxonez"
-		reference = "https://github.com/naxonez/yaraRules/blob/master/AntiDebugging.yara"
-	strings:
-		$ ="IsDebugged"
 	condition:
-		any of them
+		uint16( 0 ) == 0x5A4D and uint32( uint32( 0x3C ) ) == 0x00004550
 }
 
-rule DebuggerCheck__GlobalFlags : AntiDebug DebuggerCheck {
-	meta:
-		weight = 1
-		Author = "naxonez"
-		reference = "https://github.com/naxonez/yaraRules/blob/master/AntiDebugging.yara"
-	strings:
-		$ ="NtGlobalFlags"
-	condition:
-		any of them
-}
-
-rule DebuggerCheck__QueryInfo : AntiDebug DebuggerCheck {
-	meta:
-		weight = 1
-		Author = "naxonez"
-		reference = "https://github.com/naxonez/yaraRules/blob/master/AntiDebugging.yara"
-	strings:
-		$ ="QueryInformationProcess"
-	condition:
-		any of them
-}
-
-rule DebuggerCheck__RemoteAPI : AntiDebug DebuggerCheck {
-	meta:
-		weight = 1
-		Author = "naxonez"
-		reference = "https://github.com/naxonez/yaraRules/blob/master/AntiDebugging.yara"
-	strings:
-		$ ="CheckRemoteDebuggerPresent"
-	condition:
-		any of them
-}
-
-rule DebuggerHiding__Thread : AntiDebug DebuggerHiding {
-	meta:
-	    Author = "naxonez"
-		reference = "https://github.com/naxonez/yaraRules/blob/master/AntiDebugging.yara"
-		weight = 1
-	strings:
-		$ ="SetInformationThread"
-	condition:
-		any of them
-}
-
-rule DebuggerHiding__Active : AntiDebug DebuggerHiding {
-	meta:
-		weight = 1
-		Author = "naxonez"
-		reference = "https://github.com/naxonez/yaraRules/blob/master/AntiDebugging.yara"
-	strings:
-		$ ="DebugActiveProcess"
-	condition:
-		any of them
-}
-
-// 20150909 - Issue #39 - Commented because of High FP rate
-/*
-rule DebuggerTiming__PerformanceCounter : AntiDebug DebuggerTiming {
-	meta:
-		weight = 1
-		Author = "naxonez"
-		reference = "https://github.com/naxonez/yaraRules/blob/master/AntiDebugging.yara"
-	strings:
-		$ ="QueryPerformanceCounter"
-	condition:
-		any of them
-}
-*/
-
-// 20150909 - Issue #39 - Commented because of High FP rate
-/*
-rule DebuggerTiming__Ticks : AntiDebug DebuggerTiming {
-	meta:
-		weight = 1
-		Author = "naxonez"
-		reference = "https://github.com/naxonez/yaraRules/blob/master/AntiDebugging.yara"
-	strings:
-		$ ="GetTickCount"
-	condition:
-		any of them
-}
-*/
-
-// 20150909 - Issue #39 - Commented because of High FP rate
-/*
-rule DebuggerOutput__String : AntiDebug DebuggerOutput {
-	meta:
-		weight = 1
-		Author = "naxonez"
-		reference = "https://github.com/naxonez/yaraRules/blob/master/AntiDebugging.yara"
-	strings:
-		$ ="OutputDebugString"
-	condition:
-		any of them
-}
-*/
-
-// 20150909 - Issue #39 - Commented because of High FP rate
-/*
-rule DebuggerException__UnhandledFilter : AntiDebug DebuggerException {
-	meta:
-		weight = 1
-		Author = "naxonez"
-		reference = "https://github.com/naxonez/yaraRules/blob/master/AntiDebugging.yara"
-	strings:
-		$ ="SetUnhandledExceptionFilter"
-	condition:
-		any of them
-}
-*/
-
-rule DebuggerException__ConsoleCtrl : AntiDebug DebuggerException {
-	meta:
-		weight = 1
-		Author = "naxonez"
-		reference = "https://github.com/naxonez/yaraRules/blob/master/AntiDebugging.yara"
-	strings:
-		$ ="GenerateConsoleCtrlEvent"
-	condition:
-		any of them
-}
-
-rule DebuggerException__SetConsoleCtrl : AntiDebug DebuggerException {
-	meta:
-		weight = 1
-		Author = "naxonez"
-		reference = "https://github.com/naxonez/yaraRules/blob/master/AntiDebugging.yara"
-	strings:
-		$ ="SetConsoleCtrlHandler"
-	condition:
-		any of them
-}
-
-rule ThreadControl__Context : AntiDebug ThreadControl {
-	meta:
-		weight = 1
-		Author = "naxonez"
-		reference = "https://github.com/naxonez/yaraRules/blob/master/AntiDebugging.yara"
-	strings:
-		$ ="SetThreadContext"
-	condition:
-		any of them
-}
-
-rule DebuggerCheck__DrWatson : AntiDebug DebuggerCheck {
-	meta:
-		weight = 1
-		Author = "naxonez"
-		reference = "https://github.com/naxonez/yaraRules/blob/master/AntiDebugging.yara"
-	strings:
-		$ ="__invoke__watson"
-	condition:
-		any of them
-}
-
-rule SEH__v3 : AntiDebug SEH {
-	meta:
-		weight = 1
-		Author = "naxonez"
-		reference = "https://github.com/naxonez/yaraRules/blob/master/AntiDebugging.yara"
-	strings:
-		$ = "____except__handler3"
-		$ = "____local__unwind3"
-	condition:
-		any of them
-}
-
-rule SEH__v4 : AntiDebug SEH {
-    // VS 8.0+
-	meta:
-		weight = 1
-		Author = "naxonez"
-		reference = "https://github.com/naxonez/yaraRules/blob/master/AntiDebugging.yara"
-	strings:
-		$ = "____except__handler4"
-		$ = "____local__unwind4"
-		$ = "__XcptFilter"
-	condition:
-		any of them
-}
-
-rule SEH__vba : AntiDebug SEH {
-	meta:
-		weight = 1
-		Author = "naxonez"
-		reference = "https://github.com/naxonez/yaraRules/blob/master/AntiDebugging.yara"
-	strings:
-		$ = "vbaExceptHandler"
-	condition:
-		any of them
-}
-
-rule SEH__vectored : AntiDebug SEH {
-	meta:
-		weight = 1
-		Author = "naxonez"
-		reference = "https://github.com/naxonez/yaraRules/blob/master/AntiDebugging.yara"
-	strings:
-		$ = "AddVectoredExceptionHandler"
-		$ = "RemoveVectoredExceptionHandler"
-	condition:
-		any of them
-}
-
-// 20150909 - Issue #39 - Commented because of High FP rate
-/*
-rule DebuggerPattern__RDTSC : AntiDebug DebuggerPattern {
-	meta:
-		weight = 1
-		Author = "naxonez"
-		reference = "https://github.com/naxonez/yaraRules/blob/master/AntiDebugging.yara"
-	strings:
-		$ = {0F 31}
-	condition:
-		any of them
-}
-*/
-
-// 20150909 - Issue #39 - Commented because of High FP rate
-/*
-rule DebuggerPattern__CPUID : AntiDebug DebuggerPattern {
-	meta:
-		weight = 1
-		Author = "naxonez"
-		reference = "https://github.com/naxonez/yaraRules/blob/master/AntiDebugging.yara"
-	strings:
-		$ = {0F A2}
-	condition:
-		any of them
-}
-*/
-
-// 20150909 - Issue #39 - Commented because of High FP rate
-/*
-rule DebuggerPattern__SEH_Saves : AntiDebug DebuggerPattern {
-	meta:
-		weight = 1
-		Author = "naxonez"
-		reference = "https://github.com/naxonez/yaraRules/blob/master/AntiDebugging.yara"
-	strings:
-		$ = {64 ff 35 00 00 00 00}
-	condition:
-		any of them
-}
-*/
-
-// 20150909 - Issue #39 - Commented because of High FP rate
-/*
-rule DebuggerPattern__SEH_Inits : AntiDebug DebuggerPattern {
-	meta:
-		weight = 1
-		Author = "naxonez"
-		reference = "https://github.com/naxonez/yaraRules/blob/master/AntiDebugging.yara"
-	strings:
-		$ = {64 89 25 00 00 00 00}
-	condition:
-		any of them
-}
-*/
-
-rule SEH_Save : Tactic_DefensiveEvasion Technique_AntiDebugging SubTechnique_SEH
+rule DebuggerCheck__PEB : AntiDebug DebuggerCheck hardened
 {
-    meta:
-        author = "Malware Utkonos"
-        original_author = "naxonez"
-        source = "https://github.com/naxonez/yaraRules/blob/master/AntiDebugging.yara"
-    strings:
-        $a = { 64 ff 35 00 00 00 00 }
-    condition:
-        WindowsPE and $a
+	meta:
+		weight = 1
+		Author = "naxonez"
+		reference = "https://github.com/naxonez/yaraRules/blob/master/AntiDebugging.yara"
+
+	strings:
+		$ = {49 73 44 65 62 75 67 67 65 64}
+
+	condition:
+		any of them
 }
 
-rule SEH_Init : Tactic_DefensiveEvasion Technique_AntiDebugging SubTechnique_SEH
+rule DebuggerCheck__GlobalFlags : AntiDebug DebuggerCheck hardened
 {
-    meta:
-        author = "Malware Utkonos"
-        original_author = "naxonez"
-        source = "https://github.com/naxonez/yaraRules/blob/master/AntiDebugging.yara"
-    strings:
-        $a = { 64 A3 00 00 00 00 }
-        $b = { 64 89 25 00 00 00 00 }
-    condition:
-        WindowsPE and ($a or $b)
+	meta:
+		weight = 1
+		Author = "naxonez"
+		reference = "https://github.com/naxonez/yaraRules/blob/master/AntiDebugging.yara"
+
+	strings:
+		$ = {4e 74 47 6c 6f 62 61 6c 46 6c 61 67 73}
+
+	condition:
+		any of them
 }
 
+rule DebuggerCheck__QueryInfo : AntiDebug DebuggerCheck hardened
+{
+	meta:
+		weight = 1
+		Author = "naxonez"
+		reference = "https://github.com/naxonez/yaraRules/blob/master/AntiDebugging.yara"
 
-rule Check_Dlls
+	strings:
+		$ = {51 75 65 72 79 49 6e 66 6f 72 6d 61 74 69 6f 6e 50 72 6f 63 65 73 73}
+
+	condition:
+		any of them
+}
+
+rule DebuggerCheck__RemoteAPI : AntiDebug DebuggerCheck hardened
+{
+	meta:
+		weight = 1
+		Author = "naxonez"
+		reference = "https://github.com/naxonez/yaraRules/blob/master/AntiDebugging.yara"
+
+	strings:
+		$ = {43 68 65 63 6b 52 65 6d 6f 74 65 44 65 62 75 67 67 65 72 50 72 65 73 65 6e 74}
+
+	condition:
+		any of them
+}
+
+rule DebuggerHiding__Thread : AntiDebug DebuggerHiding hardened
+{
+	meta:
+		Author = "naxonez"
+		reference = "https://github.com/naxonez/yaraRules/blob/master/AntiDebugging.yara"
+		weight = 1
+
+	strings:
+		$ = {53 65 74 49 6e 66 6f 72 6d 61 74 69 6f 6e 54 68 72 65 61 64}
+
+	condition:
+		any of them
+}
+
+rule DebuggerHiding__Active : AntiDebug DebuggerHiding hardened
+{
+	meta:
+		weight = 1
+		Author = "naxonez"
+		reference = "https://github.com/naxonez/yaraRules/blob/master/AntiDebugging.yara"
+
+	strings:
+		$ = {44 65 62 75 67 41 63 74 69 76 65 50 72 6f 63 65 73 73}
+
+	condition:
+		any of them
+}
+
+rule DebuggerException__ConsoleCtrl : AntiDebug DebuggerException hardened
+{
+	meta:
+		weight = 1
+		Author = "naxonez"
+		reference = "https://github.com/naxonez/yaraRules/blob/master/AntiDebugging.yara"
+
+	strings:
+		$ = {47 65 6e 65 72 61 74 65 43 6f 6e 73 6f 6c 65 43 74 72 6c 45 76 65 6e 74}
+
+	condition:
+		any of them
+}
+
+rule DebuggerException__SetConsoleCtrl : AntiDebug DebuggerException hardened
+{
+	meta:
+		weight = 1
+		Author = "naxonez"
+		reference = "https://github.com/naxonez/yaraRules/blob/master/AntiDebugging.yara"
+
+	strings:
+		$ = {53 65 74 43 6f 6e 73 6f 6c 65 43 74 72 6c 48 61 6e 64 6c 65 72}
+
+	condition:
+		any of them
+}
+
+rule ThreadControl__Context : AntiDebug ThreadControl hardened
+{
+	meta:
+		weight = 1
+		Author = "naxonez"
+		reference = "https://github.com/naxonez/yaraRules/blob/master/AntiDebugging.yara"
+
+	strings:
+		$ = {53 65 74 54 68 72 65 61 64 43 6f 6e 74 65 78 74}
+
+	condition:
+		any of them
+}
+
+rule DebuggerCheck__DrWatson : AntiDebug DebuggerCheck hardened
+{
+	meta:
+		weight = 1
+		Author = "naxonez"
+		reference = "https://github.com/naxonez/yaraRules/blob/master/AntiDebugging.yara"
+
+	strings:
+		$ = {5f 5f 69 6e 76 6f 6b 65 5f 5f 77 61 74 73 6f 6e}
+
+	condition:
+		any of them
+}
+
+rule SEH__v3 : AntiDebug SEH hardened
+{
+	meta:
+		weight = 1
+		Author = "naxonez"
+		reference = "https://github.com/naxonez/yaraRules/blob/master/AntiDebugging.yara"
+
+	strings:
+		$ = {5f 5f 5f 5f 65 78 63 65 70 74 5f 5f 68 61 6e 64 6c 65 72 33}
+		$ = {5f 5f 5f 5f 6c 6f 63 61 6c 5f 5f 75 6e 77 69 6e 64 33}
+
+	condition:
+		any of them
+}
+
+rule SEH__v4 : AntiDebug SEH hardened
+{
+	meta:
+		weight = 1
+		Author = "naxonez"
+		reference = "https://github.com/naxonez/yaraRules/blob/master/AntiDebugging.yara"
+
+	strings:
+		$ = {5f 5f 5f 5f 65 78 63 65 70 74 5f 5f 68 61 6e 64 6c 65 72 34}
+		$ = {5f 5f 5f 5f 6c 6f 63 61 6c 5f 5f 75 6e 77 69 6e 64 34}
+		$ = {5f 5f 58 63 70 74 46 69 6c 74 65 72}
+
+	condition:
+		any of them
+}
+
+rule SEH__vba : AntiDebug SEH hardened
+{
+	meta:
+		weight = 1
+		Author = "naxonez"
+		reference = "https://github.com/naxonez/yaraRules/blob/master/AntiDebugging.yara"
+
+	strings:
+		$ = {76 62 61 45 78 63 65 70 74 48 61 6e 64 6c 65 72}
+
+	condition:
+		any of them
+}
+
+rule SEH__vectored : AntiDebug SEH hardened
+{
+	meta:
+		weight = 1
+		Author = "naxonez"
+		reference = "https://github.com/naxonez/yaraRules/blob/master/AntiDebugging.yara"
+
+	strings:
+		$ = {41 64 64 56 65 63 74 6f 72 65 64 45 78 63 65 70 74 69 6f 6e 48 61 6e 64 6c 65 72}
+		$ = {52 65 6d 6f 76 65 56 65 63 74 6f 72 65 64 45 78 63 65 70 74 69 6f 6e 48 61 6e 64 6c 65 72}
+
+	condition:
+		any of them
+}
+
+rule SEH_Save : Tactic_DefensiveEvasion Technique_AntiDebugging SubTechnique_SEH hardened
+{
+	meta:
+		author = "Malware Utkonos"
+		original_author = "naxonez"
+		source = "https://github.com/naxonez/yaraRules/blob/master/AntiDebugging.yara"
+
+	strings:
+		$a = { 64 ff 35 00 00 00 00 }
+
+	condition:
+		WindowsPE and $a
+}
+
+rule SEH_Init : Tactic_DefensiveEvasion Technique_AntiDebugging SubTechnique_SEH hardened
+{
+	meta:
+		author = "Malware Utkonos"
+		original_author = "naxonez"
+		source = "https://github.com/naxonez/yaraRules/blob/master/AntiDebugging.yara"
+
+	strings:
+		$a = { 64 A3 00 00 00 00 }
+		$b = { 64 89 25 00 00 00 00 }
+
+	condition:
+		WindowsPE and ( $a or $b )
+}
+
+rule Check_Dlls : hardened limited
 {
 	meta:
 		Author = "Nick Hoffman"
 		Description = "Checks for common sandbox dlls"
 		Sample = "de1af0e97e94859d372be7fcf3a5daa5"
+
 	strings:
-		$dll1 = "sbiedll.dll" wide nocase ascii fullword
-		$dll2 = "dbghelp.dll" wide nocase ascii fullword
-		$dll3 = "api_log.dll" wide nocase ascii fullword
-		$dll4 = "dir_watch.dll" wide nocase ascii fullword
-		$dll5 = "pstorec.dll" wide nocase ascii fullword
-		$dll6 = "vmcheck.dll" wide nocase ascii fullword
-		$dll7 = "wpespy.dll" wide nocase ascii fullword
+		$dll1 = {((73 62 69 65 64 6c 6c 2e 64 6c 6c) | (73 00 62 00 69 00 65 00 64 00 6c 00 6c 00 2e 00 64 00 6c 00 6c 00))}
+		$dll2 = {((64 62 67 68 65 6c 70 2e 64 6c 6c) | (64 00 62 00 67 00 68 00 65 00 6c 00 70 00 2e 00 64 00 6c 00 6c 00))}
+		$dll3 = {((61 70 69 5f 6c 6f 67 2e 64 6c 6c) | (61 00 70 00 69 00 5f 00 6c 00 6f 00 67 00 2e 00 64 00 6c 00 6c 00))}
+		$dll4 = {((64 69 72 5f 77 61 74 63 68 2e 64 6c 6c) | (64 00 69 00 72 00 5f 00 77 00 61 00 74 00 63 00 68 00 2e 00 64 00 6c 00 6c 00))}
+		$dll5 = {((70 73 74 6f 72 65 63 2e 64 6c 6c) | (70 00 73 00 74 00 6f 00 72 00 65 00 63 00 2e 00 64 00 6c 00 6c 00))}
+		$dll6 = {((76 6d 63 68 65 63 6b 2e 64 6c 6c) | (76 00 6d 00 63 00 68 00 65 00 63 00 6b 00 2e 00 64 00 6c 00 6c 00))}
+		$dll7 = {((77 70 65 73 70 79 2e 64 6c 6c) | (77 00 70 00 65 00 73 00 70 00 79 00 2e 00 64 00 6c 00 6c 00))}
+
 	condition:
 		2 of them
 }
 
-rule Check_Qemu_Description
+rule Check_Qemu_Description : hardened limited
 {
 	meta:
 		Author = "Nick Hoffman"
 		Description = "Checks for QEMU systembiosversion key"
 		Sample = "de1af0e97e94859d372be7fcf3a5daa5"
+
 	strings:
-		$key = "HARDWARE\\Description\\System" nocase wide ascii
-		$value = "SystemBiosVersion" nocase wide ascii
-		$data = "QEMU" wide nocase ascii
+		$key = {((48 41 52 44 57 41 52 45 5c 44 65 73 63 72 69 70 74 69 6f 6e 5c 53 79 73 74 65 6d) | (48 00 41 00 52 00 44 00 57 00 41 00 52 00 45 00 5c 00 44 00 65 00 73 00 63 00 72 00 69 00 70 00 74 00 69 00 6f 00 6e 00 5c 00 53 00 79 00 73 00 74 00 65 00 6d 00))}
+		$value = {((53 79 73 74 65 6d 42 69 6f 73 56 65 72 73 69 6f 6e) | (53 00 79 00 73 00 74 00 65 00 6d 00 42 00 69 00 6f 00 73 00 56 00 65 00 72 00 73 00 69 00 6f 00 6e 00))}
+		$data = {((51 45 4d 55) | (51 00 45 00 4d 00 55 00))}
+
 	condition:
 		all of them
 }
 
-rule Check_Qemu_DeviceMap
+rule Check_Qemu_DeviceMap : hardened limited
 {
 	meta:
 		Author = "Nick Hoffman"
 		Description = "Checks for Qemu reg keys"
 		Sample = "de1af0e97e94859d372be7fcf3a5daa5"
+
 	strings:
-		$key = "HARDWARE\\DEVICEMAP\\Scsi\\Scsi Port 0\\Scsi Bus 0\\Target Id 0\\Logical Unit Id 0" nocase wide ascii
-		$value = "Identifier" nocase wide ascii
-		$data = "QEMU" wide nocase ascii
+		$key = {((48 41 52 44 57 41 52 45 5c 44 45 56 49 43 45 4d 41 50 5c 53 63 73 69 5c 53 63 73 69 20 50 6f 72 74 20 30 5c 53 63 73 69 20 42 75 73 20 30 5c 54 61 72 67 65 74 20 49 64 20 30 5c 4c 6f 67 69 63 61 6c 20 55 6e 69 74 20 49 64 20 30) | (48 00 41 00 52 00 44 00 57 00 41 00 52 00 45 00 5c 00 44 00 45 00 56 00 49 00 43 00 45 00 4d 00 41 00 50 00 5c 00 53 00 63 00 73 00 69 00 5c 00 53 00 63 00 73 00 69 00 20 00 50 00 6f 00 72 00 74 00 20 00 30 00 5c 00 53 00 63 00 73 00 69 00 20 00 42 00 75 00 73 00 20 00 30 00 5c 00 54 00 61 00 72 00 67 00 65 00 74 00 20 00 49 00 64 00 20 00 30 00 5c 00 4c 00 6f 00 67 00 69 00 63 00 61 00 6c 00 20 00 55 00 6e 00 69 00 74 00 20 00 49 00 64 00 20 00 30 00))}
+		$value = {((49 64 65 6e 74 69 66 69 65 72) | (49 00 64 00 65 00 6e 00 74 00 69 00 66 00 69 00 65 00 72 00))}
+		$data = {((51 45 4d 55) | (51 00 45 00 4d 00 55 00))}
+
 	condition:
 		all of them
 }
 
-rule Check_VBox_Description
+rule Check_VBox_Description : hardened limited
 {
 	meta:
 		Author = "Nick Hoffman"
 		Description = "Checks Vbox description reg key"
 		Sample = "de1af0e97e94859d372be7fcf3a5daa5"
+
 	strings:
-		$key = "HARDWARE\\Description\\System" nocase wide ascii
-		$value = "SystemBiosVersion" nocase wide ascii
-		$data = "VBOX" nocase wide ascii
+		$key = {((48 41 52 44 57 41 52 45 5c 44 65 73 63 72 69 70 74 69 6f 6e 5c 53 79 73 74 65 6d) | (48 00 41 00 52 00 44 00 57 00 41 00 52 00 45 00 5c 00 44 00 65 00 73 00 63 00 72 00 69 00 70 00 74 00 69 00 6f 00 6e 00 5c 00 53 00 79 00 73 00 74 00 65 00 6d 00))}
+		$value = {((53 79 73 74 65 6d 42 69 6f 73 56 65 72 73 69 6f 6e) | (53 00 79 00 73 00 74 00 65 00 6d 00 42 00 69 00 6f 00 73 00 56 00 65 00 72 00 73 00 69 00 6f 00 6e 00))}
+		$data = {((56 42 4f 58) | (56 00 42 00 4f 00 58 00))}
+
 	condition:
 		all of them
 }
-rule Check_VBox_DeviceMap
+
+rule Check_VBox_DeviceMap : hardened limited
 {
 	meta:
 		Author = "Nick Hoffman"
 		Description = "Checks Vbox registry keys"
 		Sample = "de1af0e97e94859d372be7fcf3a5daa5"
+
 	strings:
-		$key = "HARDWARE\\DEVICEMAP\\Scsi\\Scsi Port 0\\Scsi Bus 0\\Target Id 0\\Logical Unit Id 0" nocase wide ascii
-		$value = "Identifier" nocase wide ascii
-		$data = "VBOX" nocase wide ascii
+		$key = {((48 41 52 44 57 41 52 45 5c 44 45 56 49 43 45 4d 41 50 5c 53 63 73 69 5c 53 63 73 69 20 50 6f 72 74 20 30 5c 53 63 73 69 20 42 75 73 20 30 5c 54 61 72 67 65 74 20 49 64 20 30 5c 4c 6f 67 69 63 61 6c 20 55 6e 69 74 20 49 64 20 30) | (48 00 41 00 52 00 44 00 57 00 41 00 52 00 45 00 5c 00 44 00 45 00 56 00 49 00 43 00 45 00 4d 00 41 00 50 00 5c 00 53 00 63 00 73 00 69 00 5c 00 53 00 63 00 73 00 69 00 20 00 50 00 6f 00 72 00 74 00 20 00 30 00 5c 00 53 00 63 00 73 00 69 00 20 00 42 00 75 00 73 00 20 00 30 00 5c 00 54 00 61 00 72 00 67 00 65 00 74 00 20 00 49 00 64 00 20 00 30 00 5c 00 4c 00 6f 00 67 00 69 00 63 00 61 00 6c 00 20 00 55 00 6e 00 69 00 74 00 20 00 49 00 64 00 20 00 30 00))}
+		$value = {((49 64 65 6e 74 69 66 69 65 72) | (49 00 64 00 65 00 6e 00 74 00 69 00 66 00 69 00 65 00 72 00))}
+		$data = {((56 42 4f 58) | (56 00 42 00 4f 00 58 00))}
+
 	condition:
 		all of them
 }
-rule Check_VBox_Guest_Additions
+
+rule Check_VBox_Guest_Additions : hardened limited
 {
 	meta:
 		Author = "Nick Hoffman"
 		Description = "Checks for the existence of the guest additions registry key"
 		Sample = "de1af0e97e94859d372be7fcf3a5daa5"
+
 	strings:
-		$key = "SOFTWARE\\Oracle\\VirtualBox Guest Additions" wide ascii nocase
+		$key = {((53 4f 46 54 57 41 52 45 5c 4f 72 61 63 6c 65 5c 56 69 72 74 75 61 6c 42 6f 78 20 47 75 65 73 74 20 41 64 64 69 74 69 6f 6e 73) | (53 00 4f 00 46 00 54 00 57 00 41 00 52 00 45 00 5c 00 4f 00 72 00 61 00 63 00 6c 00 65 00 5c 00 56 00 69 00 72 00 74 00 75 00 61 00 6c 00 42 00 6f 00 78 00 20 00 47 00 75 00 65 00 73 00 74 00 20 00 41 00 64 00 64 00 69 00 74 00 69 00 6f 00 6e 00 73 00))}
+
 	condition:
 		any of them
 }
-rule Check_VBox_VideoDrivers
+
+rule Check_VBox_VideoDrivers : hardened limited
 {
 	meta:
 		Author = "Nick Hoffman"
 		Description = "Checks for reg keys of Vbox video drivers"
 		Sample = "de1af0e97e94859d372be7fcf3a5daa5"
+
 	strings:
-		$key = "HARDWARE\\Description\\System" nocase wide ascii
-		$value = "VideoBiosVersion" wide nocase ascii
-		$data = "VIRTUALBOX" nocase wide ascii
+		$key = {((48 41 52 44 57 41 52 45 5c 44 65 73 63 72 69 70 74 69 6f 6e 5c 53 79 73 74 65 6d) | (48 00 41 00 52 00 44 00 57 00 41 00 52 00 45 00 5c 00 44 00 65 00 73 00 63 00 72 00 69 00 70 00 74 00 69 00 6f 00 6e 00 5c 00 53 00 79 00 73 00 74 00 65 00 6d 00))}
+		$value = {((56 69 64 65 6f 42 69 6f 73 56 65 72 73 69 6f 6e) | (56 00 69 00 64 00 65 00 6f 00 42 00 69 00 6f 00 73 00 56 00 65 00 72 00 73 00 69 00 6f 00 6e 00))}
+		$data = {((56 49 52 54 55 41 4c 42 4f 58) | (56 00 49 00 52 00 54 00 55 00 41 00 4c 00 42 00 4f 00 58 00))}
+
 	condition:
 		all of them
 }
-rule Check_VMWare_DeviceMap
+
+rule Check_VMWare_DeviceMap : hardened limited
 {
 	meta:
 		Author = "Nick Hoffman"
 		Description = "Checks for the existence of VmWare Registry Keys"
 		Sample = "de1af0e97e94859d372be7fcf3a5daa5"
+
 	strings:
-		$key = "HARDWARE\\DEVICEMAP\\Scsi\\Scsi Port 0\\Scsi Bus 0\\Target Id 0\\Logical Unit Id 0" wide ascii nocase
-		$value = "Identifier" wide nocase ascii
-		$data = "VMware" wide nocase ascii
+		$key = {((48 41 52 44 57 41 52 45 5c 44 45 56 49 43 45 4d 41 50 5c 53 63 73 69 5c 53 63 73 69 20 50 6f 72 74 20 30 5c 53 63 73 69 20 42 75 73 20 30 5c 54 61 72 67 65 74 20 49 64 20 30 5c 4c 6f 67 69 63 61 6c 20 55 6e 69 74 20 49 64 20 30) | (48 00 41 00 52 00 44 00 57 00 41 00 52 00 45 00 5c 00 44 00 45 00 56 00 49 00 43 00 45 00 4d 00 41 00 50 00 5c 00 53 00 63 00 73 00 69 00 5c 00 53 00 63 00 73 00 69 00 20 00 50 00 6f 00 72 00 74 00 20 00 30 00 5c 00 53 00 63 00 73 00 69 00 20 00 42 00 75 00 73 00 20 00 30 00 5c 00 54 00 61 00 72 00 67 00 65 00 74 00 20 00 49 00 64 00 20 00 30 00 5c 00 4c 00 6f 00 67 00 69 00 63 00 61 00 6c 00 20 00 55 00 6e 00 69 00 74 00 20 00 49 00 64 00 20 00 30 00))}
+		$value = {((49 64 65 6e 74 69 66 69 65 72) | (49 00 64 00 65 00 6e 00 74 00 69 00 66 00 69 00 65 00 72 00))}
+		$data = {((56 4d 77 61 72 65) | (56 00 4d 00 77 00 61 00 72 00 65 00))}
+
 	condition:
 		all of them
 }
-rule Check_VmTools
+
+rule Check_VmTools : hardened limited
 {
 	meta:
 		Author = "Nick Hoffman"
 		Description = "Checks for the existence of VmTools reg key"
 		Sample = "de1af0e97e94859d372be7fcf3a5daa5"
+
 	strings:
-		$ ="SOFTWARE\\VMware, Inc.\\VMware Tools" nocase ascii wide
+		$ = {((53 4f 46 54 57 41 52 45 5c 56 4d 77 61 72 65 2c 20 49 6e 63 2e 5c 56 4d 77 61 72 65 20 54 6f 6f 6c 73) | (53 00 4f 00 46 00 54 00 57 00 41 00 52 00 45 00 5c 00 56 00 4d 00 77 00 61 00 72 00 65 00 2c 00 20 00 49 00 6e 00 63 00 2e 00 5c 00 56 00 4d 00 77 00 61 00 72 00 65 00 20 00 54 00 6f 00 6f 00 6c 00 73 00))}
+
 	condition:
 		any of them
 }
-rule Check_Wine
+
+rule Check_Wine : hardened
 {
 	meta:
 		Author = "Nick Hoffman"
 		Description = "Checks for the existence of Wine"
 		Sample = "de1af0e97e94859d372be7fcf3a5daa5"
+
 	strings:
-		$ ="wine_get_unix_file_name"
+		$ = {77 69 6e 65 5f 67 65 74 5f 75 6e 69 78 5f 66 69 6c 65 5f 6e 61 6d 65}
+
 	condition:
 		any of them
 }
 
-rule vmdetect
+rule vmdetect : hardened limited
 {
-    meta:
-        author = "nex"
-        description = "Possibly employs anti-virtualization techniques"
+	meta:
+		author = "nex"
+		description = "Possibly employs anti-virtualization techniques"
 
-    strings:
-        // Binary tricks
-        $vmware = {56 4D 58 68}
-        $virtualpc = {0F 3F 07 0B}
-        $ssexy = {66 0F 70 ?? ?? 66 0F DB ?? ?? ?? ?? ?? 66 0F DB ?? ?? ?? ?? ?? 66 0F EF}
-        $vmcheckdll = {45 C7 00 01}
-        $redpill = {0F 01 0D 00 00 00 00 C3}
+	strings:
+		$vmware = {56 4D 58 68}
+		$virtualpc = {0F 3F 07 0B}
+		$ssexy = {66 0F 70 ?? ?? 66 0F DB ?? ?? ?? ?? ?? 66 0F DB ?? ?? ?? ?? ?? 66 0F EF}
+		$vmcheckdll = {45 C7 00 01}
+		$redpill = {0F 01 0D 00 00 00 00 C3}
+		$vmware1 = {56 4d 58 68}
+		$vmware2 = {56 65 6e 5f 56 4d 77 61 72 65 5f}
+		$vmware3 = {50 72 6f 64 5f 56 4d 77 61 72 65 5f 56 69 72 74 75 61 6c 5f}
+		$vmware4 = {68 67 66 73 2e 73 79 73}
+		$vmware5 = {6d 68 67 66 73 2e 73 79 73}
+		$vmware6 = {70 72 6c 65 74 68 2e 73 79 73}
+		$vmware7 = {70 72 6c 66 73 2e 73 79 73}
+		$vmware8 = {70 72 6c 6d 6f 75 73 65 2e 73 79 73}
+		$vmware9 = {70 72 6c 76 69 64 65 6f 2e 73 79 73}
+		$vmware10 = {70 72 6c 5f 70 76 33 32 2e 73 79 73}
+		$vmware11 = {76 70 63 2d 73 33 2e 73 79 73}
+		$vmware12 = {76 6d 73 72 76 63 2e 73 79 73}
+		$vmware13 = {76 6d 78 38 36 2e 73 79 73}
+		$vmware14 = {76 6d 6e 65 74 2e 73 79 73}
+		$vmware15 = {76 6d 69 63 68 65 61 72 74 62 65 61 74}
+		$vmware16 = {76 6d 69 63 76 73 73}
+		$vmware17 = {76 6d 69 63 73 68 75 74 64 6f 77 6e}
+		$vmware18 = {76 6d 69 63 65 78 63 68 61 6e 67 65}
+		$vmware19 = {76 6d 64 65 62 75 67}
+		$vmware20 = {76 6d 6d 6f 75 73 65}
+		$vmware21 = {76 6d 74 6f 6f 6c 73}
+		$vmware22 = {56 4d 4d 45 4d 43 54 4c}
+		$vmware23 = {76 6d 78 38 36}
+		$vmware24 = {76 6d 77 61 72 65}
+		$virtualpc1 = {76 70 63 62 75 73}
+		$virtualpc2 = {76 70 63 2d 73 33}
+		$virtualpc3 = {76 70 63 75 68 75 62}
+		$virtualpc4 = {6d 73 76 6d 6d 6f 75 66}
+		$xen1 = {78 65 6e 65 76 74 63 68 6e}
+		$xen2 = {78 65 6e 6e 65 74}
+		$xen3 = {78 65 6e 6e 65 74 36}
+		$xen4 = {78 65 6e 73 76 63}
+		$xen5 = {78 65 6e 76 64 62}
+		$xen6 = {58 65 6e 56 4d 4d}
+		$virtualbox1 = {56 42 6f 78 48 6f 6f 6b 2e 64 6c 6c}
+		$virtualbox2 = {56 42 6f 78 53 65 72 76 69 63 65}
+		$virtualbox3 = {56 42 6f 78 54 72 61 79}
+		$virtualbox4 = {56 42 6f 78 4d 6f 75 73 65}
+		$virtualbox5 = {56 42 6f 78 47 75 65 73 74}
+		$virtualbox6 = {56 42 6f 78 53 46}
+		$virtualbox7 = {56 42 6f 78 47 75 65 73 74 41 64 64 69 74 69 6f 6e 73}
+		$virtualbox8 = {56 42 4f 58 20 48 41 52 44 44 49 53 4b}
+		$vmware_mac_1a = {30 30 2d 30 35 2d 36 39}
+		$vmware_mac_1b = {30 30 3a 30 35 3a 36 39}
+		$vmware_mac_1c = {30 30 30 35 36 39}
+		$vmware_mac_2a = {30 30 2d 35 30 2d 35 36}
+		$vmware_mac_2b = {30 30 3a 35 30 3a 35 36}
+		$vmware_mac_2c = {30 30 35 30 35 36}
+		$vmware_mac_3a = {30 30 2d 30 43 2d 32 39}
+		$vmware_mac_3b = {30 30 3a 30 43 3a 32 39}
+		$vmware_mac_3c = {30 30 30 43 32 39}
+		$vmware_mac_4a = {30 30 2d 31 43 2d 31 34}
+		$vmware_mac_4b = {30 30 3a 31 43 3a 31 34}
+		$vmware_mac_4c = {30 30 31 43 31 34}
+		$virtualbox_mac_1a = {30 38 2d 30 30 2d 32 37}
+		$virtualbox_mac_1b = {30 38 3a 30 30 3a 32 37}
+		$virtualbox_mac_1c = {30 38 30 30 32 37}
 
-        // Random strings
-        $vmware1 = "VMXh"
-        $vmware2 = "Ven_VMware_" nocase
-        $vmware3 = "Prod_VMware_Virtual_" nocase
-        $vmware4 = "hgfs.sys" nocase
-        $vmware5 = "mhgfs.sys" nocase
-        $vmware6 = "prleth.sys" nocase
-        $vmware7 = "prlfs.sys" nocase
-        $vmware8 = "prlmouse.sys" nocase
-        $vmware9 = "prlvideo.sys" nocase
-        $vmware10 = "prl_pv32.sys" nocase
-        $vmware11 = "vpc-s3.sys" nocase
-        $vmware12 = "vmsrvc.sys" nocase
-        $vmware13 = "vmx86.sys" nocase
-        $vmware14 = "vmnet.sys" nocase
-        $vmware15 = "vmicheartbeat" nocase
-        $vmware16 = "vmicvss" nocase
-        $vmware17 = "vmicshutdown" nocase
-        $vmware18 = "vmicexchange" nocase
-        $vmware19 = "vmdebug" nocase
-        $vmware20 = "vmmouse" nocase
-        $vmware21 = "vmtools" nocase
-        $vmware22 = "VMMEMCTL" nocase
-        $vmware23 = "vmx86" nocase
-        $vmware24 = "vmware" nocase
-        $virtualpc1 = "vpcbus" nocase
-        $virtualpc2 = "vpc-s3" nocase
-        $virtualpc3 = "vpcuhub" nocase
-        $virtualpc4 = "msvmmouf" nocase
-        $xen1 = "xenevtchn" nocase
-        $xen2 = "xennet" nocase
-        $xen3 = "xennet6" nocase
-        $xen4 = "xensvc" nocase
-        $xen5 = "xenvdb" nocase
-        $xen6 = "XenVMM" nocase
-        $virtualbox1 = "VBoxHook.dll" nocase
-        $virtualbox2 = "VBoxService" nocase
-        $virtualbox3 = "VBoxTray" nocase
-        $virtualbox4 = "VBoxMouse" nocase
-        $virtualbox5 = "VBoxGuest" nocase
-        $virtualbox6 = "VBoxSF" nocase
-        $virtualbox7 = "VBoxGuestAdditions" nocase
-        $virtualbox8 = "VBOX HARDDISK"  nocase
-
-        // MAC addresses
-        $vmware_mac_1a = "00-05-69"
-        $vmware_mac_1b = "00:05:69"
-        $vmware_mac_1c = "000569"
-        $vmware_mac_2a = "00-50-56"
-        $vmware_mac_2b = "00:50:56"
-        $vmware_mac_2c = "005056"
-        $vmware_mac_3a = "00-0C-29" nocase
-        $vmware_mac_3b = "00:0C:29" nocase
-        $vmware_mac_3c = "000C29" nocase
-        $vmware_mac_4a = "00-1C-14" nocase
-        $vmware_mac_4b = "00:1C:14" nocase
-        $vmware_mac_4c = "001C14" nocase
-        $virtualbox_mac_1a = "08-00-27"
-        $virtualbox_mac_1b = "08:00:27"
-        $virtualbox_mac_1c = "080027"
-
-    condition:
-        any of them
+	condition:
+		any of them
 }
 
-rule Check_Debugger
+import "pe"
+
+rule Check_Debugger : hardened
 {
 	meta:
 		Author = "Nick Hoffman"
 		Description = "Looks for both isDebuggerPresent and CheckRemoteDebuggerPresent"
 		Sample = "de1af0e97e94859d372be7fcf3a5daa5"
+
 	condition:
-		pe.imports("kernel32.dll","CheckRemoteDebuggerPresent") and
-		pe.imports("kernel32.dll","IsDebuggerPresent")
+		pe.imports( "kernel32.dll" , "CheckRemoteDebuggerPresent" ) and pe.imports ( "kernel32.dll" , "IsDebuggerPresent" )
 }
 
-rule Check_DriveSize
+import "pe"
+
+rule Check_DriveSize : hardened limited
 {
 	meta:
 		Author = "Nick Hoffman"
@@ -539,89 +488,68 @@ rule Check_DriveSize
 		Sample = "de1af0e97e94859d372be7fcf3a5daa5"
 
 	strings:
-		$physicaldrive = "\\\\.\\PhysicalDrive0" wide ascii nocase
-		$dwIoControlCode = {68 5c 40 07 00 [0-5] FF 15} //push 7405ch ; push esi (handle) then call deviceoiocontrol IOCTL_DISK_GET_LENGTH_INFO
+		$physicaldrive = {((5c 5c 2e 5c 50 68 79 73 69 63 61 6c 44 72 69 76 65 30) | (5c 00 5c 00 2e 00 5c 00 50 00 68 00 79 00 73 00 69 00 63 00 61 00 6c 00 44 00 72 00 69 00 76 00 65 00 30 00))}
+		$dwIoControlCode = {68 5c 40 07 00 [0-5] FF 15}
+
 	condition:
-		pe.imports("kernel32.dll","CreateFileA") and
-		pe.imports("kernel32.dll","DeviceIoControl") and
-		$dwIoControlCode and
-		$physicaldrive
+		pe.imports( "kernel32.dll" , "CreateFileA" ) and pe.imports ( "kernel32.dll" , "DeviceIoControl" ) and $dwIoControlCode and $physicaldrive
 }
-rule Check_FilePaths
+
+import "pe"
+
+rule Check_FilePaths : hardened
 {
 	meta:
 		Author = "Nick Hoffman"
 		Description = "Checks for filepaths containing popular sandbox names"
 		Sample = "de1af0e97e94859d372be7fcf3a5daa5"
+
 	strings:
-		$path1 = "SANDBOX" wide ascii
-		$path2 = "\\SAMPLE" wide ascii
-		$path3 = "\\VIRUS" wide ascii
+		$path1 = {((53 41 4e 44 42 4f 58) | (53 00 41 00 4e 00 44 00 42 00 4f 00 58 00))}
+		$path2 = {((5c 53 41 4d 50 4c 45) | (5c 00 53 00 41 00 4d 00 50 00 4c 00 45 00))}
+		$path3 = {((5c 56 49 52 55 53) | (5c 00 56 00 49 00 52 00 55 00 53 00))}
+
 	condition:
-		all of ($path*) and pe.imports("kernel32.dll","GetModuleFileNameA")
+		all of ( $path* ) and pe.imports ( "kernel32.dll" , "GetModuleFileNameA" )
 }
 
-rule Check_UserNames
+import "pe"
+
+rule Check_UserNames : hardened
 {
 	meta:
 		Author = "Nick Hoffman"
 		Description = "Looks for malware checking for common sandbox usernames"
 		Sample = "de1af0e97e94859d372be7fcf3a5daa5"
+
 	strings:
-		$user1 = "MALTEST" wide ascii
-		$user2 = "TEQUILABOOMBOOM" wide ascii
-		$user3 = "SANDBOX" wide ascii
-		$user4 = "VIRUS" wide ascii
-		$user5 = "MALWARE" wide ascii
+		$user1 = {((4d 41 4c 54 45 53 54) | (4d 00 41 00 4c 00 54 00 45 00 53 00 54 00))}
+		$user2 = {((54 45 51 55 49 4c 41 42 4f 4f 4d 42 4f 4f 4d) | (54 00 45 00 51 00 55 00 49 00 4c 00 41 00 42 00 4f 00 4f 00 4d 00 42 00 4f 00 4f 00 4d 00))}
+		$user3 = {((53 41 4e 44 42 4f 58) | (53 00 41 00 4e 00 44 00 42 00 4f 00 58 00))}
+		$user4 = {((56 49 52 55 53) | (56 00 49 00 52 00 55 00 53 00))}
+		$user5 = {((4d 41 4c 57 41 52 45) | (4d 00 41 00 4c 00 57 00 41 00 52 00 45 00))}
+
 	condition:
-		all of ($user*)  and pe.imports("advapi32.dll","GetUserNameA")
+		all of ( $user* ) and pe.imports ( "advapi32.dll" , "GetUserNameA" )
 }
 
+import "pe"
 
-rule Check_OutputDebugStringA_iat
+rule Check_OutputDebugStringA_iat : hardened
 {
-
 	meta:
 		Author = "http://twitter.com/j0sm1"
 		Description = "Detect in IAT OutputDebugstringA"
 		Date = "20/04/2015"
 
 	condition:
-		pe.imports("kernel32.dll","OutputDebugStringA")
+		pe.imports( "kernel32.dll" , "OutputDebugStringA" )
 }
 
-// 20150909 - Issue #39 - Commented because of High FP rate
-/*
-rule Check_unhandledExceptionFiler_iat {
+import "pe"
 
-	meta:
-		Author = "http://twitter.com/j0sm1"
-		Description = "it's checked if UnhandledExceptionFilter is imported"
-		Date = "20/04/2015"
-		Reference = "http://www.codeproject.com/Articles/30815/An-Anti-Reverse-Engineering-Guide#UnhandledExceptionFilter"
-
-	condition:
-		pe.imports("kernel32.dll","UnhandledExceptionFilter")
-}
-*/
-
-// 20150909 - Issue #39 - Commented because of High FP rate
-/*
-rule check_RaiseException_iat {
-
-	meta:
-		Author = "http://twitter.com/j0sm1"
-		Description = "it's checked if RaiseException is imported"
-		Date = "20/04/2015"
-		Reference = "http://waleedassar.blogspot.com.es/2012/11/ollydbg-raiseexception-bug.html"
-
-	condition:
-		pe.imports("kernel32.dll","RaiseException")
-}
-*/
-
-rule Check_FindWindowA_iat {
-
+rule Check_FindWindowA_iat : hardened
+{
 	meta:
 		Author = "http://twitter.com/j0sm1"
 		Description = "it's checked if FindWindowA() is imported"
@@ -629,14 +557,17 @@ rule Check_FindWindowA_iat {
 		Reference = "http://www.codeproject.com/Articles/30815/An-Anti-Reverse-Engineering-Guide#OllyFindWindow"
 
 	strings:
-		$ollydbg = "OLLYDBG"
-		$windbg = "WinDbgFrameClass"
+		$ollydbg = {4f 4c 4c 59 44 42 47}
+		$windbg = {57 69 6e 44 62 67 46 72 61 6d 65 43 6c 61 73 73}
 
 	condition:
-		pe.imports("user32.dll","FindWindowA") and ($ollydbg or $windbg)
+		pe.imports( "user32.dll" , "FindWindowA" ) and ( $ollydbg or $windbg )
 }
 
-rule DebuggerCheck__MemoryWorkingSet : AntiDebug DebuggerCheck {
+import "pe"
+
+rule DebuggerCheck__MemoryWorkingSet : AntiDebug DebuggerCheck hardened
+{
 	meta:
 		author = "Fernando Mercês"
 		date = "2015-06"
@@ -644,392 +575,417 @@ rule DebuggerCheck__MemoryWorkingSet : AntiDebug DebuggerCheck {
 		reference = "http://www.gironsec.com/blog/2015/06/anti-debugger-trick-quicky/"
 
 	condition:
-		pe.imports("kernel32.dll", "K32GetProcessMemoryInfo") and
-		pe.imports("kernel32.dll", "GetCurrentProcess")
+		pe.imports( "kernel32.dll" , "K32GetProcessMemoryInfo" ) and pe.imports ( "kernel32.dll" , "GetCurrentProcess" )
 }
 
-rule WMI_VM_Detect : WMI_VM_Detect
-{
-    meta:
-
-        version = 2
-        threat = "Using WMI to detect virtual machines via querying video card information"
-        behaviour_class = "Evasion"
-        author = "Joe Giron"
-        date = "2015-09-25"
-        description = "Detection of Virtual Appliances through the use of WMI for use of evasion."
-
-		strings:
-
-		$selstr 	= "SELECT Description FROM Win32_VideoController" nocase ascii wide
-		$selstr2 	= "SELECT * FROM Win32_VideoController" nocase ascii wide
-		$vm1 		= "virtualbox graphics adapter" nocase ascii wide
-		$vm2 		= "vmware svga ii" nocase ascii wide
-		$vm3 		= "vm additions s3 trio32/64" nocase ascii wide
-		$vm4 		= "parallel" nocase ascii wide
-		$vm5 		= "remotefx" nocase ascii wide
-		$vm6 		= "cirrus logic" nocase ascii wide
-		$vm7 		= "matrox" nocase ascii wide
-
-		condition:
-		any of ($selstr*) and any of ($vm*)
-
-
-}
-
-rule anti_dbg {
-    meta:
-        author = "x0r"
-        description = "Checks if being debugged"
-	version = "0.2"
-    strings:
-    	$d1 = "Kernel32.dll" nocase
-        $c1 = "CheckRemoteDebuggerPresent"
-        $c2 = "IsDebuggerPresent"
-        $c3 = "OutputDebugString"
-        $c4 = "ContinueDebugEvent"
-        $c5 = "DebugActiveProcess"
-    condition:
-        $d1 and 1 of ($c*)
-}
-
-rule anti_dbgtools {
-    meta:
-        author = "x0r"
-        description = "Checks for the presence of known debug tools"
-	version = "0.1"
-    strings:
-        $f1 = "procexp.exe" nocase
-        $f2 = "procmon.exe" nocase
-        $f3 = "processmonitor.exe" nocase
-        $f4 = "wireshark.exe" nocase
-        $f5 = "fiddler.exe" nocase
-        $f6 = "windbg.exe" nocase
-        $f7 = "ollydbg.exe" nocase
-        $f8 = "winhex.exe" nocase
-        $f9 = "processhacker.exe" nocase
-        $f10 = "hiew32.exe" nocase
-        $c11 = "\\\\.\\NTICE"
-        $c12 = "\\\\.\\SICE"
-        $c13 = "\\\\.\\Syser"
-        $c14 = "\\\\.\\SyserBoot"
-        $c15 = "\\\\.\\SyserDbgMsg"
-    condition:
-        any of them
-}
-
-rule antisb_joesanbox {
-     meta:
-        author = "x0r"
-        description = "Anti-Sandbox checks for Joe Sandbox"
-	version = "0.1"
-    strings:
-	$p1 = "Software\\Microsoft\\Windows\\CurrentVersion" nocase
-	$c1 = "RegQueryValue"
-	$s1 = "55274-640-2673064-23950"
-    condition:
-        all of them
-}
-
-rule antisb_anubis {
-    meta:
-        author = "x0r"
-        description = "Anti-Sandbox checks for Anubis"
-	version = "0.1"
-    strings:
-        $p1 = "Software\\Microsoft\\Windows\\CurrentVersion" nocase
-        $c1 = "RegQueryValue"
-        $s1 = "76487-337-8429955-22614"
-        $s2 = "76487-640-1457236-23837"
-    condition:
-        $p1 and $c1 and 1 of ($s*)
-}
-
-rule antisb_threatExpert {
-    meta:
-        author = "x0r"
-        description = "Anti-Sandbox checks for ThreatExpert"
-	version = "0.1"
-    strings:
-        $f1 = "dbghelp.dll" nocase
-    condition:
-        all of them
-}
-
-rule antisb_sandboxie {
-    meta:
-        author = "x0r"
-        description = "Anti-Sandbox checks for Sandboxie"
-	version = "0.1"
-    strings:
-        $f1 = "SbieDLL.dll" nocase
-    condition:
-        all of them
-}
-
-// covered with INDICATOR_SUSPICIOUS_EXE_SandboxProductID
-//rule antisb_cwsandbox {
-//    meta:
-//        author = "x0r"
-//        description = "Anti-Sandbox checks for CWSandbox"
-//	version = "0.1"
-//    strings:
-//        $p1 = "Software\\Microsoft\\Windows\\CurrentVersion" nocase
-//        $s1 = "76487-644-3177037-23510"
-//    condition:
-//        all of them
-//}
-
-rule antivm_virtualbox {
-    meta:
-        author = "x0r"
-        description = "AntiVM checks for VirtualBox"
-	version = "0.1"
-    strings:
-        $s1 = "VBoxService.exe" nocase
-    condition:
-        any of them
-}
-
-rule antivm_vmware {
-    meta:
-        author = "x0r"
-        description = "AntiVM checks for VMWare"
-	version = "0.1"
-    strings:
-        $s1 = "vmware.exe" nocase
-        $s2 = "vmware-authd.exe" nocase
-        $s3 = "vmware-hostd.exe" nocase
-        $s4 = "vmware-tray.exe" nocase
-        $s5 = "vmware-vmx.exe" nocase
-        $s6 = "vmnetdhcp.exe" nocase
-        $s7 = "vpxclient.exe" nocase
-    	$s8 = { b868584d56bb00000000b90a000000ba58560000ed }
-    condition:
-        any of them
-}
-
-rule antivm_bios {
-    meta:
-        author = "x0r"
-        description = "AntiVM checks for Bios version"
-	version = "0.2"
-    strings:
-        $p1 = "HARDWARE\\DESCRIPTION\\System" nocase
-        $p2 = "HARDWARE\\DESCRIPTION\\System\\BIOS" nocase
-        $c1 = "RegQueryValue"
-        $r1 = "SystemBiosVersion"
-        $r2 = "VideoBiosVersion"
-        $r3 = "SystemManufacturer"
-    condition:
-        1 of ($p*) and 1 of ($c*) and 1 of ($r*)
-}
-
-rule disable_antivirus {
-    meta:
-        author = "x0r"
-        description = "Disable AntiVirus"
-	version = "0.2"
-    strings:
-        $p1 = "Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\DisallowRun" nocase
-        $p2 = "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\" nocase
-        $p3 = "SOFTWARE\\Policies\\Microsoft\\Windows Defender" nocase
-        $c1 = "RegSetValue"
-        $r1 = "AntiVirusDisableNotify"
-        $r2 = "DontReportInfectionInformation"
-        $r3 = "DisableAntiSpyware"
-        $r4 = "RunInvalidSignatures"
-        $r5 = "AntiVirusOverride"
-        $r6 = "CheckExeSignatures"
-        $f1 = "blackd.exe" nocase
-        $f2 = "blackice.exe" nocase
-        $f3 = "lockdown.exe" nocase
-        $f4 = "lockdown2000.exe" nocase
-        $f5 = "taskkill.exe" nocase
-        $f6 = "tskill.exe" nocase
-        $f7 = "smc.exe" nocase
-        $f8 = "sniffem.exe" nocase
-        $f9 = "zapro.exe" nocase
-        $f10 = "zlclient.exe" nocase
-        $f11 = "zonealarm.exe" nocase
-    condition:
-        ($c1 and $p1 and 1 of ($f*)) or ($c1 and $p2) or 1 of ($r*) or $p3
-}
-
-rule disable_uax {
-    meta:
-        author = "x0r"
-        description = "Disable User Access Control"
-	version = "0.1"
-    strings:
-        $p1 = "SOFTWARE\\Microsoft\\Security Center" nocase
-        $r1 = "UACDisableNotify"
-    condition:
-        all of them
-}
-
-rule disable_firewall {
-    meta:
-        author = "x0r"
-        description = "Disable Firewall"
-	version = "0.1"
-    strings:
-        $p1 = "SYSTEM\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy" nocase
-        $c1 = "RegSetValue"
-        $r1 = "FirewallPolicy"
-        $r2 = "EnableFirewall"
-        $r3 = "FirewallDisableNotify"
-        $s1 = "netsh firewall add allowedprogram"
-    condition:
-        (1 of ($p*) and $c1 and 1 of ($r*)) or $s1
-}
-
-rule disable_registry {
-    meta:
-        author = "x0r"
-        description = "Disable Registry editor"
-	version = "0.1"
-    strings:
-        $p1 = "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System" nocase
-        $c1 = "RegSetValue"
-        $r1 = "DisableRegistryTools"
-        $r2 = "DisableRegedit"
-    condition:
-        1 of ($p*) and $c1 and 1 of ($r*)
-}
-
-rule disable_dep {
-    meta:
-        author = "x0r"
-        description = "Bypass DEP"
-	version = "0.1"
-    strings:
-        $c1 = "EnableExecuteProtectionSupport"
-        $c2 = "NtSetInformationProcess"
-        $c3 = "VirtualProctectEx"
-        $c4 = "SetProcessDEPPolicy"
-        $c5 = "ZwProtectVirtualMemory"
-    condition:
-        any of them
-}
-
-rule disable_taskmanager {
-    meta:
-        author = "x0r"
-        description = "Disable Task Manager"
-	version = "0.1"
-    strings:
-        $p1 = "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System" nocase
-        $r1 = "DisableTaskMgr"
-    condition:
-        1 of ($p*) and 1 of ($r*)
-}
-
-rule check_patchlevel {
-    meta:
-        author = "x0r"
-        description = "Check if hotfix are applied"
-	version = "0.1"
-    strings:
-        $p1 = "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Hotfix" nocase
-    condition:
-        any of them
-}
-
-rule win_hook {
-    meta:
-        author = "x0r"
-        description = "Affect hook table"
-    version = "0.1"
-    strings:
-        $f1 = "user32.dll" nocase
-        $c1 = "UnhookWindowsHookEx"
-        $c2 = "SetWindowsHookExA"
-        $c3 = "CallNextHookEx"
-    condition:
-        $f1 and 1 of ($c*)
-}
-
-rule vmdetect_misc : vmdetect
+rule WMI_VM_Detect : WMI_VM_Detect hardened limited
 {
 	meta:
-    		author = "@abhinavbom"
+		version = 2
+		threat = "Using WMI to detect virtual machines via querying video card information"
+		behaviour_class = "Evasion"
+		author = "Joe Giron"
+		date = "2015-09-25"
+		description = "Detection of Virtual Appliances through the use of WMI for use of evasion."
+
+	strings:
+		$selstr = {((53 45 4c 45 43 54 20 44 65 73 63 72 69 70 74 69 6f 6e 20 46 52 4f 4d 20 57 69 6e 33 32 5f 56 69 64 65 6f 43 6f 6e 74 72 6f 6c 6c 65 72) | (53 00 45 00 4c 00 45 00 43 00 54 00 20 00 44 00 65 00 73 00 63 00 72 00 69 00 70 00 74 00 69 00 6f 00 6e 00 20 00 46 00 52 00 4f 00 4d 00 20 00 57 00 69 00 6e 00 33 00 32 00 5f 00 56 00 69 00 64 00 65 00 6f 00 43 00 6f 00 6e 00 74 00 72 00 6f 00 6c 00 6c 00 65 00 72 00))}
+		$selstr2 = {((53 45 4c 45 43 54 20 2a 20 46 52 4f 4d 20 57 69 6e 33 32 5f 56 69 64 65 6f 43 6f 6e 74 72 6f 6c 6c 65 72) | (53 00 45 00 4c 00 45 00 43 00 54 00 20 00 2a 00 20 00 46 00 52 00 4f 00 4d 00 20 00 57 00 69 00 6e 00 33 00 32 00 5f 00 56 00 69 00 64 00 65 00 6f 00 43 00 6f 00 6e 00 74 00 72 00 6f 00 6c 00 6c 00 65 00 72 00))}
+		$vm1 = {((76 69 72 74 75 61 6c 62 6f 78 20 67 72 61 70 68 69 63 73 20 61 64 61 70 74 65 72) | (76 00 69 00 72 00 74 00 75 00 61 00 6c 00 62 00 6f 00 78 00 20 00 67 00 72 00 61 00 70 00 68 00 69 00 63 00 73 00 20 00 61 00 64 00 61 00 70 00 74 00 65 00 72 00))}
+		$vm2 = {((76 6d 77 61 72 65 20 73 76 67 61 20 69 69) | (76 00 6d 00 77 00 61 00 72 00 65 00 20 00 73 00 76 00 67 00 61 00 20 00 69 00 69 00))}
+		$vm3 = {((76 6d 20 61 64 64 69 74 69 6f 6e 73 20 73 33 20 74 72 69 6f 33 32 2f 36 34) | (76 00 6d 00 20 00 61 00 64 00 64 00 69 00 74 00 69 00 6f 00 6e 00 73 00 20 00 73 00 33 00 20 00 74 00 72 00 69 00 6f 00 33 00 32 00 2f 00 36 00 34 00))}
+		$vm4 = {((70 61 72 61 6c 6c 65 6c) | (70 00 61 00 72 00 61 00 6c 00 6c 00 65 00 6c 00))}
+		$vm5 = {((72 65 6d 6f 74 65 66 78) | (72 00 65 00 6d 00 6f 00 74 00 65 00 66 00 78 00))}
+		$vm6 = {((63 69 72 72 75 73 20 6c 6f 67 69 63) | (63 00 69 00 72 00 72 00 75 00 73 00 20 00 6c 00 6f 00 67 00 69 00 63 00))}
+		$vm7 = {((6d 61 74 72 6f 78) | (6d 00 61 00 74 00 72 00 6f 00 78 00))}
+
+	condition:
+		any of ( $selstr* ) and any of ( $vm* )
+}
+
+rule anti_dbg : hardened limited
+{
+	meta:
+		author = "x0r"
+		description = "Checks if being debugged"
+		version = "0.2"
+
+	strings:
+		$d1 = {4b 65 72 6e 65 6c 33 32 2e 64 6c 6c}
+		$c1 = {43 68 65 63 6b 52 65 6d 6f 74 65 44 65 62 75 67 67 65 72 50 72 65 73 65 6e 74}
+		$c2 = {49 73 44 65 62 75 67 67 65 72 50 72 65 73 65 6e 74}
+		$c3 = {4f 75 74 70 75 74 44 65 62 75 67 53 74 72 69 6e 67}
+		$c4 = {43 6f 6e 74 69 6e 75 65 44 65 62 75 67 45 76 65 6e 74}
+		$c5 = {44 65 62 75 67 41 63 74 69 76 65 50 72 6f 63 65 73 73}
+
+	condition:
+		$d1 and 1 of ( $c* )
+}
+
+rule anti_dbgtools : hardened limited
+{
+	meta:
+		author = "x0r"
+		description = "Checks for the presence of known debug tools"
+		version = "0.1"
+
+	strings:
+		$f1 = {70 72 6f 63 65 78 70 2e 65 78 65}
+		$f2 = {70 72 6f 63 6d 6f 6e 2e 65 78 65}
+		$f3 = {70 72 6f 63 65 73 73 6d 6f 6e 69 74 6f 72 2e 65 78 65}
+		$f4 = {77 69 72 65 73 68 61 72 6b 2e 65 78 65}
+		$f5 = {66 69 64 64 6c 65 72 2e 65 78 65}
+		$f6 = {77 69 6e 64 62 67 2e 65 78 65}
+		$f7 = {6f 6c 6c 79 64 62 67 2e 65 78 65}
+		$f8 = {77 69 6e 68 65 78 2e 65 78 65}
+		$f9 = {70 72 6f 63 65 73 73 68 61 63 6b 65 72 2e 65 78 65}
+		$f10 = {68 69 65 77 33 32 2e 65 78 65}
+		$c11 = {5c 5c 2e 5c 4e 54 49 43 45}
+		$c12 = {5c 5c 2e 5c 53 49 43 45}
+		$c13 = {5c 5c 2e 5c 53 79 73 65 72}
+		$c14 = {5c 5c 2e 5c 53 79 73 65 72 42 6f 6f 74}
+		$c15 = {5c 5c 2e 5c 53 79 73 65 72 44 62 67 4d 73 67}
+
+	condition:
+		any of them
+}
+
+rule antisb_joesanbox : hardened limited
+{
+	meta:
+		author = "x0r"
+		description = "Anti-Sandbox checks for Joe Sandbox"
+		version = "0.1"
+
+	strings:
+		$p1 = {53 6f 66 74 77 61 72 65 5c 4d 69 63 72 6f 73 6f 66 74 5c 57 69 6e 64 6f 77 73 5c 43 75 72 72 65 6e 74 56 65 72 73 69 6f 6e}
+		$c1 = {52 65 67 51 75 65 72 79 56 61 6c 75 65}
+		$s1 = {35 35 32 37 34 2d 36 34 30 2d 32 36 37 33 30 36 34 2d 32 33 39 35 30}
+
+	condition:
+		all of them
+}
+
+rule antisb_anubis : hardened limited
+{
+	meta:
+		author = "x0r"
+		description = "Anti-Sandbox checks for Anubis"
+		version = "0.1"
+
+	strings:
+		$p1 = {53 6f 66 74 77 61 72 65 5c 4d 69 63 72 6f 73 6f 66 74 5c 57 69 6e 64 6f 77 73 5c 43 75 72 72 65 6e 74 56 65 72 73 69 6f 6e}
+		$c1 = {52 65 67 51 75 65 72 79 56 61 6c 75 65}
+		$s1 = {37 36 34 38 37 2d 33 33 37 2d 38 34 32 39 39 35 35 2d 32 32 36 31 34}
+		$s2 = {37 36 34 38 37 2d 36 34 30 2d 31 34 35 37 32 33 36 2d 32 33 38 33 37}
+
+	condition:
+		$p1 and $c1 and 1 of ( $s* )
+}
+
+rule antisb_threatExpert : hardened limited
+{
+	meta:
+		author = "x0r"
+		description = "Anti-Sandbox checks for ThreatExpert"
+		version = "0.1"
+
+	strings:
+		$f1 = {64 62 67 68 65 6c 70 2e 64 6c 6c}
+
+	condition:
+		all of them
+}
+
+rule antisb_sandboxie : hardened limited
+{
+	meta:
+		author = "x0r"
+		description = "Anti-Sandbox checks for Sandboxie"
+		version = "0.1"
+
+	strings:
+		$f1 = {53 62 69 65 44 4c 4c 2e 64 6c 6c}
+
+	condition:
+		all of them
+}
+
+rule antivm_virtualbox : hardened limited
+{
+	meta:
+		author = "x0r"
+		description = "AntiVM checks for VirtualBox"
+		version = "0.1"
+
+	strings:
+		$s1 = {56 42 6f 78 53 65 72 76 69 63 65 2e 65 78 65}
+
+	condition:
+		any of them
+}
+
+rule antivm_vmware : hardened limited
+{
+	meta:
+		author = "x0r"
+		description = "AntiVM checks for VMWare"
+		version = "0.1"
+
+	strings:
+		$s1 = {76 6d 77 61 72 65 2e 65 78 65}
+		$s2 = {76 6d 77 61 72 65 2d 61 75 74 68 64 2e 65 78 65}
+		$s3 = {76 6d 77 61 72 65 2d 68 6f 73 74 64 2e 65 78 65}
+		$s4 = {76 6d 77 61 72 65 2d 74 72 61 79 2e 65 78 65}
+		$s5 = {76 6d 77 61 72 65 2d 76 6d 78 2e 65 78 65}
+		$s6 = {76 6d 6e 65 74 64 68 63 70 2e 65 78 65}
+		$s7 = {76 70 78 63 6c 69 65 6e 74 2e 65 78 65}
+		$s8 = { b868584d56bb00000000b90a000000ba58560000ed }
+
+	condition:
+		any of them
+}
+
+rule antivm_bios : hardened limited
+{
+	meta:
+		author = "x0r"
+		description = "AntiVM checks for Bios version"
+		version = "0.2"
+
+	strings:
+		$p1 = {48 41 52 44 57 41 52 45 5c 44 45 53 43 52 49 50 54 49 4f 4e 5c 53 79 73 74 65 6d}
+		$p2 = {48 41 52 44 57 41 52 45 5c 44 45 53 43 52 49 50 54 49 4f 4e 5c 53 79 73 74 65 6d 5c 42 49 4f 53}
+		$c1 = {52 65 67 51 75 65 72 79 56 61 6c 75 65}
+		$r1 = {53 79 73 74 65 6d 42 69 6f 73 56 65 72 73 69 6f 6e}
+		$r2 = {56 69 64 65 6f 42 69 6f 73 56 65 72 73 69 6f 6e}
+		$r3 = {53 79 73 74 65 6d 4d 61 6e 75 66 61 63 74 75 72 65 72}
+
+	condition:
+		1 of ( $p* ) and 1 of ( $c* ) and 1 of ( $r* )
+}
+
+rule disable_antivirus : hardened limited
+{
+	meta:
+		author = "x0r"
+		description = "Disable AntiVirus"
+		version = "0.2"
+
+	strings:
+		$p1 = {53 6f 66 74 77 61 72 65 5c 4d 69 63 72 6f 73 6f 66 74 5c 57 69 6e 64 6f 77 73 5c 43 75 72 72 65 6e 74 56 65 72 73 69 6f 6e 5c 50 6f 6c 69 63 69 65 73 5c 45 78 70 6c 6f 72 65 72 5c 44 69 73 61 6c 6c 6f 77 52 75 6e}
+		$p2 = {53 6f 66 74 77 61 72 65 5c 4d 69 63 72 6f 73 6f 66 74 5c 57 69 6e 64 6f 77 73 5c 43 75 72 72 65 6e 74 56 65 72 73 69 6f 6e 5c 55 6e 69 6e 73 74 61 6c 6c 5c}
+		$p3 = {53 4f 46 54 57 41 52 45 5c 50 6f 6c 69 63 69 65 73 5c 4d 69 63 72 6f 73 6f 66 74 5c 57 69 6e 64 6f 77 73 20 44 65 66 65 6e 64 65 72}
+		$c1 = {52 65 67 53 65 74 56 61 6c 75 65}
+		$r1 = {41 6e 74 69 56 69 72 75 73 44 69 73 61 62 6c 65 4e 6f 74 69 66 79}
+		$r2 = {44 6f 6e 74 52 65 70 6f 72 74 49 6e 66 65 63 74 69 6f 6e 49 6e 66 6f 72 6d 61 74 69 6f 6e}
+		$r3 = {44 69 73 61 62 6c 65 41 6e 74 69 53 70 79 77 61 72 65}
+		$r4 = {52 75 6e 49 6e 76 61 6c 69 64 53 69 67 6e 61 74 75 72 65 73}
+		$r5 = {41 6e 74 69 56 69 72 75 73 4f 76 65 72 72 69 64 65}
+		$r6 = {43 68 65 63 6b 45 78 65 53 69 67 6e 61 74 75 72 65 73}
+		$f1 = {62 6c 61 63 6b 64 2e 65 78 65}
+		$f2 = {62 6c 61 63 6b 69 63 65 2e 65 78 65}
+		$f3 = {6c 6f 63 6b 64 6f 77 6e 2e 65 78 65}
+		$f4 = {6c 6f 63 6b 64 6f 77 6e 32 30 30 30 2e 65 78 65}
+		$f5 = {74 61 73 6b 6b 69 6c 6c 2e 65 78 65}
+		$f6 = {74 73 6b 69 6c 6c 2e 65 78 65}
+		$f7 = {73 6d 63 2e 65 78 65}
+		$f8 = {73 6e 69 66 66 65 6d 2e 65 78 65}
+		$f9 = {7a 61 70 72 6f 2e 65 78 65}
+		$f10 = {7a 6c 63 6c 69 65 6e 74 2e 65 78 65}
+		$f11 = {7a 6f 6e 65 61 6c 61 72 6d 2e 65 78 65}
+
+	condition:
+		($c1 and $p1 and 1 of ( $f* ) ) or ( $c1 and $p2 ) or 1 of ( $r* ) or $p3
+}
+
+rule disable_uax : hardened limited
+{
+	meta:
+		author = "x0r"
+		description = "Disable User Access Control"
+		version = "0.1"
+
+	strings:
+		$p1 = {53 4f 46 54 57 41 52 45 5c 4d 69 63 72 6f 73 6f 66 74 5c 53 65 63 75 72 69 74 79 20 43 65 6e 74 65 72}
+		$r1 = {55 41 43 44 69 73 61 62 6c 65 4e 6f 74 69 66 79}
+
+	condition:
+		all of them
+}
+
+rule disable_firewall : hardened limited
+{
+	meta:
+		author = "x0r"
+		description = "Disable Firewall"
+		version = "0.1"
+
+	strings:
+		$p1 = {53 59 53 54 45 4d 5c 43 75 72 72 65 6e 74 43 6f 6e 74 72 6f 6c 53 65 74 5c 53 65 72 76 69 63 65 73 5c 53 68 61 72 65 64 41 63 63 65 73 73 5c 50 61 72 61 6d 65 74 65 72 73 5c 46 69 72 65 77 61 6c 6c 50 6f 6c 69 63 79}
+		$c1 = {52 65 67 53 65 74 56 61 6c 75 65}
+		$r1 = {46 69 72 65 77 61 6c 6c 50 6f 6c 69 63 79}
+		$r2 = {45 6e 61 62 6c 65 46 69 72 65 77 61 6c 6c}
+		$r3 = {46 69 72 65 77 61 6c 6c 44 69 73 61 62 6c 65 4e 6f 74 69 66 79}
+		$s1 = {6e 65 74 73 68 20 66 69 72 65 77 61 6c 6c 20 61 64 64 20 61 6c 6c 6f 77 65 64 70 72 6f 67 72 61 6d}
+
+	condition:
+		(1 of ( $p* ) and $c1 and 1 of ( $r* ) ) or $s1
+}
+
+rule disable_registry : hardened limited
+{
+	meta:
+		author = "x0r"
+		description = "Disable Registry editor"
+		version = "0.1"
+
+	strings:
+		$p1 = {53 4f 46 54 57 41 52 45 5c 4d 69 63 72 6f 73 6f 66 74 5c 57 69 6e 64 6f 77 73 5c 43 75 72 72 65 6e 74 56 65 72 73 69 6f 6e 5c 50 6f 6c 69 63 69 65 73 5c 53 79 73 74 65 6d}
+		$c1 = {52 65 67 53 65 74 56 61 6c 75 65}
+		$r1 = {44 69 73 61 62 6c 65 52 65 67 69 73 74 72 79 54 6f 6f 6c 73}
+		$r2 = {44 69 73 61 62 6c 65 52 65 67 65 64 69 74}
+
+	condition:
+		1 of ( $p* ) and $c1 and 1 of ( $r* )
+}
+
+rule disable_dep : hardened
+{
+	meta:
+		author = "x0r"
+		description = "Bypass DEP"
+		version = "0.1"
+
+	strings:
+		$c1 = {45 6e 61 62 6c 65 45 78 65 63 75 74 65 50 72 6f 74 65 63 74 69 6f 6e 53 75 70 70 6f 72 74}
+		$c2 = {4e 74 53 65 74 49 6e 66 6f 72 6d 61 74 69 6f 6e 50 72 6f 63 65 73 73}
+		$c3 = {56 69 72 74 75 61 6c 50 72 6f 63 74 65 63 74 45 78}
+		$c4 = {53 65 74 50 72 6f 63 65 73 73 44 45 50 50 6f 6c 69 63 79}
+		$c5 = {5a 77 50 72 6f 74 65 63 74 56 69 72 74 75 61 6c 4d 65 6d 6f 72 79}
+
+	condition:
+		any of them
+}
+
+rule disable_taskmanager : hardened limited
+{
+	meta:
+		author = "x0r"
+		description = "Disable Task Manager"
+		version = "0.1"
+
+	strings:
+		$p1 = {53 4f 46 54 57 41 52 45 5c 4d 69 63 72 6f 73 6f 66 74 5c 57 69 6e 64 6f 77 73 5c 43 75 72 72 65 6e 74 56 65 72 73 69 6f 6e 5c 50 6f 6c 69 63 69 65 73 5c 53 79 73 74 65 6d}
+		$r1 = {44 69 73 61 62 6c 65 54 61 73 6b 4d 67 72}
+
+	condition:
+		1 of ( $p* ) and 1 of ( $r* )
+}
+
+rule check_patchlevel : hardened limited
+{
+	meta:
+		author = "x0r"
+		description = "Check if hotfix are applied"
+		version = "0.1"
+
+	strings:
+		$p1 = {53 4f 46 54 57 41 52 45 5c 4d 69 63 72 6f 73 6f 66 74 5c 57 69 6e 64 6f 77 73 20 4e 54 5c 43 75 72 72 65 6e 74 56 65 72 73 69 6f 6e 5c 48 6f 74 66 69 78}
+
+	condition:
+		any of them
+}
+
+rule win_hook : hardened limited
+{
+	meta:
+		author = "x0r"
+		description = "Affect hook table"
+		version = "0.1"
+
+	strings:
+		$f1 = {75 73 65 72 33 32 2e 64 6c 6c}
+		$c1 = {55 6e 68 6f 6f 6b 57 69 6e 64 6f 77 73 48 6f 6f 6b 45 78}
+		$c2 = {53 65 74 57 69 6e 64 6f 77 73 48 6f 6f 6b 45 78 41}
+		$c3 = {43 61 6c 6c 4e 65 78 74 48 6f 6f 6b 45 78}
+
+	condition:
+		$f1 and 1 of ( $c* )
+}
+
+rule vmdetect_misc : vmdetect hardened limited
+{
+	meta:
+		author = "@abhinavbom"
 		maltype = "NA"
 		version = "0.1"
 		date = "31/10/2015"
 		description = "Following Rule is referenced from AlienVault's Yara rule repository.This rule contains additional processes and driver names."
+
 	strings:
-		$vbox1 = "VBoxService" nocase ascii wide
-		$vbox2 = "VBoxTray" nocase ascii wide
-		$vbox3 = "SOFTWARE\\Oracle\\VirtualBox Guest Additions" nocase ascii wide
-		$vbox4 = "SOFTWARE\\\\Oracle\\\\VirtualBox Guest Additions" nocase ascii wide
-
-		$wine1 = "wine_get_unix_file_name" ascii wide
-
-		$vmware1 = "vmmouse.sys" ascii wide
-		$vmware2 = "VMware Virtual IDE Hard Drive" ascii wide
-
-		$miscvm1 = "SYSTEM\\ControlSet001\\Services\\Disk\\Enum" nocase ascii wide
-		$miscvm2 = "SYSTEM\\\\ControlSet001\\\\Services\\\\Disk\\\\Enum" nocase ascii wide
-
-		// Drivers
-		$vmdrv1 = "hgfs.sys" ascii wide
-		$vmdrv2 = "vmhgfs.sys" ascii wide
-		$vmdrv3 = "prleth.sys" ascii wide
-		$vmdrv4 = "prlfs.sys" ascii wide
-		$vmdrv5 = "prlmouse.sys" ascii wide
-		$vmdrv6 = "prlvideo.sys" ascii wide
-		$vmdrv7 = "prl_pv32.sys" ascii wide
-		$vmdrv8 = "vpc-s3.sys" ascii wide
-		$vmdrv9 = "vmsrvc.sys" ascii wide
-		$vmdrv10 = "vmx86.sys" ascii wide
-		$vmdrv11 = "vmnet.sys" ascii wide
-
-		// SYSTEM\ControlSet001\Services
-		$vmsrvc1 = "vmicheartbeat" ascii wide
-		$vmsrvc2 = "vmicvss" ascii wide
-		$vmsrvc3 = "vmicshutdown" ascii wide
-		$vmsrvc4 = "vmicexchange" ascii wide
-		$vmsrvc5 = "vmci" ascii wide
-		$vmsrvc6 = "vmdebug" ascii wide
-		$vmsrvc7 = "vmmouse" ascii wide
-		$vmsrvc8 = "VMTools" ascii wide
-		$vmsrvc9 = "VMMEMCTL" ascii wide
-		$vmsrvc10 = "vmware" ascii wide
-		$vmsrvc11 = "vmx86" ascii wide
-		$vmsrvc12 = "vpcbus" ascii wide
-		$vmsrvc13 = "vpc-s3" ascii wide
-		$vmsrvc14 = "vpcuhub" ascii wide
-		$vmsrvc15 = "msvmmouf" ascii wide
-		$vmsrvc16 = "VBoxMouse" ascii wide
-		$vmsrvc17 = "VBoxGuest" ascii wide
-		$vmsrvc18 = "VBoxSF" ascii wide
-		$vmsrvc19 = "xenevtchn" ascii wide
-		$vmsrvc20 = "xennet" ascii wide
-		$vmsrvc21 = "xennet6" ascii wide
-		$vmsrvc22 = "xensvc" ascii wide
-		$vmsrvc23 = "xenvdb" ascii wide
-
-		// Processes
-		$miscproc1 = "vmware2" ascii wide
-		$miscproc2 = "vmount2" ascii wide
-		$miscproc3 = "vmusrvc" ascii wide
-		$miscproc4 = "vmsrvc" ascii wide
-		$miscproc5 = "vboxservice" ascii wide
-		$miscproc6 = "vboxtray" ascii wide
-		$miscproc7 = "xenservice" ascii wide
-
-		$vmware_mac_1a = "00-05-69"
-		$vmware_mac_1b = "00:05:69"
-		$vmware_mac_2a = "00-50-56"
-		$vmware_mac_2b = "00:50:56"
-		$vmware_mac_3a = "00-0C-29"
-		$vmware_mac_3b = "00:0C:29"
-		$vmware_mac_4a = "00-1C-14"
-		$vmware_mac_4b = "00:1C:14"
-		$virtualbox_mac_1a = "08-00-27"
-		$virtualbox_mac_1b = "08:00:27"
+		$vbox1 = {((56 42 6f 78 53 65 72 76 69 63 65) | (56 00 42 00 6f 00 78 00 53 00 65 00 72 00 76 00 69 00 63 00 65 00))}
+		$vbox2 = {((56 42 6f 78 54 72 61 79) | (56 00 42 00 6f 00 78 00 54 00 72 00 61 00 79 00))}
+		$vbox3 = {((53 4f 46 54 57 41 52 45 5c 4f 72 61 63 6c 65 5c 56 69 72 74 75 61 6c 42 6f 78 20 47 75 65 73 74 20 41 64 64 69 74 69 6f 6e 73) | (53 00 4f 00 46 00 54 00 57 00 41 00 52 00 45 00 5c 00 4f 00 72 00 61 00 63 00 6c 00 65 00 5c 00 56 00 69 00 72 00 74 00 75 00 61 00 6c 00 42 00 6f 00 78 00 20 00 47 00 75 00 65 00 73 00 74 00 20 00 41 00 64 00 64 00 69 00 74 00 69 00 6f 00 6e 00 73 00))}
+		$vbox4 = {((53 4f 46 54 57 41 52 45 5c 5c 4f 72 61 63 6c 65 5c 5c 56 69 72 74 75 61 6c 42 6f 78 20 47 75 65 73 74 20 41 64 64 69 74 69 6f 6e 73) | (53 00 4f 00 46 00 54 00 57 00 41 00 52 00 45 00 5c 00 5c 00 4f 00 72 00 61 00 63 00 6c 00 65 00 5c 00 5c 00 56 00 69 00 72 00 74 00 75 00 61 00 6c 00 42 00 6f 00 78 00 20 00 47 00 75 00 65 00 73 00 74 00 20 00 41 00 64 00 64 00 69 00 74 00 69 00 6f 00 6e 00 73 00))}
+		$wine1 = {((77 69 6e 65 5f 67 65 74 5f 75 6e 69 78 5f 66 69 6c 65 5f 6e 61 6d 65) | (77 00 69 00 6e 00 65 00 5f 00 67 00 65 00 74 00 5f 00 75 00 6e 00 69 00 78 00 5f 00 66 00 69 00 6c 00 65 00 5f 00 6e 00 61 00 6d 00 65 00))}
+		$vmware1 = {((76 6d 6d 6f 75 73 65 2e 73 79 73) | (76 00 6d 00 6d 00 6f 00 75 00 73 00 65 00 2e 00 73 00 79 00 73 00))}
+		$vmware2 = {((56 4d 77 61 72 65 20 56 69 72 74 75 61 6c 20 49 44 45 20 48 61 72 64 20 44 72 69 76 65) | (56 00 4d 00 77 00 61 00 72 00 65 00 20 00 56 00 69 00 72 00 74 00 75 00 61 00 6c 00 20 00 49 00 44 00 45 00 20 00 48 00 61 00 72 00 64 00 20 00 44 00 72 00 69 00 76 00 65 00))}
+		$miscvm1 = {((53 59 53 54 45 4d 5c 43 6f 6e 74 72 6f 6c 53 65 74 30 30 31 5c 53 65 72 76 69 63 65 73 5c 44 69 73 6b 5c 45 6e 75 6d) | (53 00 59 00 53 00 54 00 45 00 4d 00 5c 00 43 00 6f 00 6e 00 74 00 72 00 6f 00 6c 00 53 00 65 00 74 00 30 00 30 00 31 00 5c 00 53 00 65 00 72 00 76 00 69 00 63 00 65 00 73 00 5c 00 44 00 69 00 73 00 6b 00 5c 00 45 00 6e 00 75 00 6d 00))}
+		$miscvm2 = {((53 59 53 54 45 4d 5c 5c 43 6f 6e 74 72 6f 6c 53 65 74 30 30 31 5c 5c 53 65 72 76 69 63 65 73 5c 5c 44 69 73 6b 5c 5c 45 6e 75 6d) | (53 00 59 00 53 00 54 00 45 00 4d 00 5c 00 5c 00 43 00 6f 00 6e 00 74 00 72 00 6f 00 6c 00 53 00 65 00 74 00 30 00 30 00 31 00 5c 00 5c 00 53 00 65 00 72 00 76 00 69 00 63 00 65 00 73 00 5c 00 5c 00 44 00 69 00 73 00 6b 00 5c 00 5c 00 45 00 6e 00 75 00 6d 00))}
+		$vmdrv1 = {((68 67 66 73 2e 73 79 73) | (68 00 67 00 66 00 73 00 2e 00 73 00 79 00 73 00))}
+		$vmdrv2 = {((76 6d 68 67 66 73 2e 73 79 73) | (76 00 6d 00 68 00 67 00 66 00 73 00 2e 00 73 00 79 00 73 00))}
+		$vmdrv3 = {((70 72 6c 65 74 68 2e 73 79 73) | (70 00 72 00 6c 00 65 00 74 00 68 00 2e 00 73 00 79 00 73 00))}
+		$vmdrv4 = {((70 72 6c 66 73 2e 73 79 73) | (70 00 72 00 6c 00 66 00 73 00 2e 00 73 00 79 00 73 00))}
+		$vmdrv5 = {((70 72 6c 6d 6f 75 73 65 2e 73 79 73) | (70 00 72 00 6c 00 6d 00 6f 00 75 00 73 00 65 00 2e 00 73 00 79 00 73 00))}
+		$vmdrv6 = {((70 72 6c 76 69 64 65 6f 2e 73 79 73) | (70 00 72 00 6c 00 76 00 69 00 64 00 65 00 6f 00 2e 00 73 00 79 00 73 00))}
+		$vmdrv7 = {((70 72 6c 5f 70 76 33 32 2e 73 79 73) | (70 00 72 00 6c 00 5f 00 70 00 76 00 33 00 32 00 2e 00 73 00 79 00 73 00))}
+		$vmdrv8 = {((76 70 63 2d 73 33 2e 73 79 73) | (76 00 70 00 63 00 2d 00 73 00 33 00 2e 00 73 00 79 00 73 00))}
+		$vmdrv9 = {((76 6d 73 72 76 63 2e 73 79 73) | (76 00 6d 00 73 00 72 00 76 00 63 00 2e 00 73 00 79 00 73 00))}
+		$vmdrv10 = {((76 6d 78 38 36 2e 73 79 73) | (76 00 6d 00 78 00 38 00 36 00 2e 00 73 00 79 00 73 00))}
+		$vmdrv11 = {((76 6d 6e 65 74 2e 73 79 73) | (76 00 6d 00 6e 00 65 00 74 00 2e 00 73 00 79 00 73 00))}
+		$vmsrvc1 = {((76 6d 69 63 68 65 61 72 74 62 65 61 74) | (76 00 6d 00 69 00 63 00 68 00 65 00 61 00 72 00 74 00 62 00 65 00 61 00 74 00))}
+		$vmsrvc2 = {((76 6d 69 63 76 73 73) | (76 00 6d 00 69 00 63 00 76 00 73 00 73 00))}
+		$vmsrvc3 = {((76 6d 69 63 73 68 75 74 64 6f 77 6e) | (76 00 6d 00 69 00 63 00 73 00 68 00 75 00 74 00 64 00 6f 00 77 00 6e 00))}
+		$vmsrvc4 = {((76 6d 69 63 65 78 63 68 61 6e 67 65) | (76 00 6d 00 69 00 63 00 65 00 78 00 63 00 68 00 61 00 6e 00 67 00 65 00))}
+		$vmsrvc5 = {((76 6d 63 69) | (76 00 6d 00 63 00 69 00))}
+		$vmsrvc6 = {((76 6d 64 65 62 75 67) | (76 00 6d 00 64 00 65 00 62 00 75 00 67 00))}
+		$vmsrvc7 = {((76 6d 6d 6f 75 73 65) | (76 00 6d 00 6d 00 6f 00 75 00 73 00 65 00))}
+		$vmsrvc8 = {((56 4d 54 6f 6f 6c 73) | (56 00 4d 00 54 00 6f 00 6f 00 6c 00 73 00))}
+		$vmsrvc9 = {((56 4d 4d 45 4d 43 54 4c) | (56 00 4d 00 4d 00 45 00 4d 00 43 00 54 00 4c 00))}
+		$vmsrvc10 = {((76 6d 77 61 72 65) | (76 00 6d 00 77 00 61 00 72 00 65 00))}
+		$vmsrvc11 = {((76 6d 78 38 36) | (76 00 6d 00 78 00 38 00 36 00))}
+		$vmsrvc12 = {((76 70 63 62 75 73) | (76 00 70 00 63 00 62 00 75 00 73 00))}
+		$vmsrvc13 = {((76 70 63 2d 73 33) | (76 00 70 00 63 00 2d 00 73 00 33 00))}
+		$vmsrvc14 = {((76 70 63 75 68 75 62) | (76 00 70 00 63 00 75 00 68 00 75 00 62 00))}
+		$vmsrvc15 = {((6d 73 76 6d 6d 6f 75 66) | (6d 00 73 00 76 00 6d 00 6d 00 6f 00 75 00 66 00))}
+		$vmsrvc16 = {((56 42 6f 78 4d 6f 75 73 65) | (56 00 42 00 6f 00 78 00 4d 00 6f 00 75 00 73 00 65 00))}
+		$vmsrvc17 = {((56 42 6f 78 47 75 65 73 74) | (56 00 42 00 6f 00 78 00 47 00 75 00 65 00 73 00 74 00))}
+		$vmsrvc18 = {((56 42 6f 78 53 46) | (56 00 42 00 6f 00 78 00 53 00 46 00))}
+		$vmsrvc19 = {((78 65 6e 65 76 74 63 68 6e) | (78 00 65 00 6e 00 65 00 76 00 74 00 63 00 68 00 6e 00))}
+		$vmsrvc20 = {((78 65 6e 6e 65 74) | (78 00 65 00 6e 00 6e 00 65 00 74 00))}
+		$vmsrvc21 = {((78 65 6e 6e 65 74 36) | (78 00 65 00 6e 00 6e 00 65 00 74 00 36 00))}
+		$vmsrvc22 = {((78 65 6e 73 76 63) | (78 00 65 00 6e 00 73 00 76 00 63 00))}
+		$vmsrvc23 = {((78 65 6e 76 64 62) | (78 00 65 00 6e 00 76 00 64 00 62 00))}
+		$miscproc1 = {((76 6d 77 61 72 65 32) | (76 00 6d 00 77 00 61 00 72 00 65 00 32 00))}
+		$miscproc2 = {((76 6d 6f 75 6e 74 32) | (76 00 6d 00 6f 00 75 00 6e 00 74 00 32 00))}
+		$miscproc3 = {((76 6d 75 73 72 76 63) | (76 00 6d 00 75 00 73 00 72 00 76 00 63 00))}
+		$miscproc4 = {((76 6d 73 72 76 63) | (76 00 6d 00 73 00 72 00 76 00 63 00))}
+		$miscproc5 = {((76 62 6f 78 73 65 72 76 69 63 65) | (76 00 62 00 6f 00 78 00 73 00 65 00 72 00 76 00 69 00 63 00 65 00))}
+		$miscproc6 = {((76 62 6f 78 74 72 61 79) | (76 00 62 00 6f 00 78 00 74 00 72 00 61 00 79 00))}
+		$miscproc7 = {((78 65 6e 73 65 72 76 69 63 65) | (78 00 65 00 6e 00 73 00 65 00 72 00 76 00 69 00 63 00 65 00))}
+		$vmware_mac_1a = {30 30 2d 30 35 2d 36 39}
+		$vmware_mac_1b = {30 30 3a 30 35 3a 36 39}
+		$vmware_mac_2a = {30 30 2d 35 30 2d 35 36}
+		$vmware_mac_2b = {30 30 3a 35 30 3a 35 36}
+		$vmware_mac_3a = {30 30 2d 30 43 2d 32 39}
+		$vmware_mac_3b = {30 30 3a 30 43 3a 32 39}
+		$vmware_mac_4a = {30 30 2d 31 43 2d 31 34}
+		$vmware_mac_4b = {30 30 3a 31 43 3a 31 34}
+		$virtualbox_mac_1a = {30 38 2d 30 30 2d 32 37}
+		$virtualbox_mac_1b = {30 38 3a 30 30 3a 32 37}
 
 	condition:
 		2 of them
 }
+

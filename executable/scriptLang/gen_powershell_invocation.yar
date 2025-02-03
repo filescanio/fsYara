@@ -1,77 +1,66 @@
-// Source: https://github.com/Neo23x0/signature-base/blob/master/yara/gen_powershell_invocation.yar
+rule PowerShell_Susp_Parameter_Combo : HIGHVOL FILE hardened limited
+{
+	meta:
+		description = "Detects PowerShell invocation with suspicious parameters"
+		author = "Florian Roth (Nextron Systems)"
+		reference = "https://goo.gl/uAic1X"
+		date = "2017-03-12"
+		modified = "2022-09-15"
+		score = 60
+		id = "17c707f3-7f51-5772-9874-a96c220960a7"
 
-rule PowerShell_Susp_Parameter_Combo : HIGHVOL FILE {
-   meta:
-      description = "Detects PowerShell invocation with suspicious parameters"
-      author = "Florian Roth (Nextron Systems)"
-      reference = "https://goo.gl/uAic1X"
-      date = "2017-03-12"
-      modified = "2022-09-15"
-      score = 60
-      id = "17c707f3-7f51-5772-9874-a96c220960a7"
-   strings:
-      /* Encoded Command */
-      $sa1 = " -enc " ascii wide nocase
-      $sa2 = " -EncodedCommand " ascii wide nocase
-      $sa3 = " /enc " ascii wide nocase
-      $sa4 = " /EncodedCommand " ascii wide nocase
+	strings:
+		$sa1 = {((20 2d 65 6e 63 20) | (20 00 2d 00 65 00 6e 00 63 00 20 00))}
+		$sa2 = {((20 2d 45 6e 63 6f 64 65 64 43 6f 6d 6d 61 6e 64 20) | (20 00 2d 00 45 00 6e 00 63 00 6f 00 64 00 65 00 64 00 43 00 6f 00 6d 00 6d 00 61 00 6e 00 64 00 20 00))}
+		$sa3 = {((20 2f 65 6e 63 20) | (20 00 2f 00 65 00 6e 00 63 00 20 00))}
+		$sa4 = {((20 2f 45 6e 63 6f 64 65 64 43 6f 6d 6d 61 6e 64 20) | (20 00 2f 00 45 00 6e 00 63 00 6f 00 64 00 65 00 64 00 43 00 6f 00 6d 00 6d 00 61 00 6e 00 64 00 20 00))}
+		$sb1 = {((20 2d 77 20 68 69 64 64 65 6e 20) | (20 00 2d 00 77 00 20 00 68 00 69 00 64 00 64 00 65 00 6e 00 20 00))}
+		$sb2 = {((20 2d 77 69 6e 64 6f 77 20 68 69 64 64 65 6e 20) | (20 00 2d 00 77 00 69 00 6e 00 64 00 6f 00 77 00 20 00 68 00 69 00 64 00 64 00 65 00 6e 00 20 00))}
+		$sb3 = {((20 2d 77 69 6e 64 6f 77 73 74 79 6c 65 20 68 69 64 64 65 6e 20) | (20 00 2d 00 77 00 69 00 6e 00 64 00 6f 00 77 00 73 00 74 00 79 00 6c 00 65 00 20 00 68 00 69 00 64 00 64 00 65 00 6e 00 20 00))}
+		$sb4 = {((20 2f 77 20 68 69 64 64 65 6e 20) | (20 00 2f 00 77 00 20 00 68 00 69 00 64 00 64 00 65 00 6e 00 20 00))}
+		$sb5 = {((20 2f 77 69 6e 64 6f 77 20 68 69 64 64 65 6e 20) | (20 00 2f 00 77 00 69 00 6e 00 64 00 6f 00 77 00 20 00 68 00 69 00 64 00 64 00 65 00 6e 00 20 00))}
+		$sb6 = {((20 2f 77 69 6e 64 6f 77 73 74 79 6c 65 20 68 69 64 64 65 6e 20) | (20 00 2f 00 77 00 69 00 6e 00 64 00 6f 00 77 00 73 00 74 00 79 00 6c 00 65 00 20 00 68 00 69 00 64 00 64 00 65 00 6e 00 20 00))}
+		$sc1 = {((20 2d 6e 6f 70 20) | (20 00 2d 00 6e 00 6f 00 70 00 20 00))}
+		$sc2 = {((20 2d 6e 6f 70 72 6f 66 69 6c 65 20) | (20 00 2d 00 6e 00 6f 00 70 00 72 00 6f 00 66 00 69 00 6c 00 65 00 20 00))}
+		$sc3 = {((20 2f 6e 6f 70 20) | (20 00 2f 00 6e 00 6f 00 70 00 20 00))}
+		$sc4 = {((20 2f 6e 6f 70 72 6f 66 69 6c 65 20) | (20 00 2f 00 6e 00 6f 00 70 00 72 00 6f 00 66 00 69 00 6c 00 65 00 20 00))}
+		$sd1 = {((20 2d 6e 6f 6e 69 20) | (20 00 2d 00 6e 00 6f 00 6e 00 69 00 20 00))}
+		$sd2 = {((20 2d 6e 6f 6e 69 6e 74 65 72 61 63 74 69 76 65 20) | (20 00 2d 00 6e 00 6f 00 6e 00 69 00 6e 00 74 00 65 00 72 00 61 00 63 00 74 00 69 00 76 00 65 00 20 00))}
+		$sd3 = {((20 2f 6e 6f 6e 69 20) | (20 00 2f 00 6e 00 6f 00 6e 00 69 00 20 00))}
+		$sd4 = {((20 2f 6e 6f 6e 69 6e 74 65 72 61 63 74 69 76 65 20) | (20 00 2f 00 6e 00 6f 00 6e 00 69 00 6e 00 74 00 65 00 72 00 61 00 63 00 74 00 69 00 76 00 65 00 20 00))}
+		$se1 = {((20 2d 65 70 20 62 79 70 61 73 73 20) | (20 00 2d 00 65 00 70 00 20 00 62 00 79 00 70 00 61 00 73 00 73 00 20 00))}
+		$se2 = {((20 2d 65 78 65 63 20 62 79 70 61 73 73 20) | (20 00 2d 00 65 00 78 00 65 00 63 00 20 00 62 00 79 00 70 00 61 00 73 00 73 00 20 00))}
+		$se3 = {((20 2d 65 78 65 63 75 74 69 6f 6e 70 6f 6c 69 63 79 20 62 79 70 61 73 73 20) | (20 00 2d 00 65 00 78 00 65 00 63 00 75 00 74 00 69 00 6f 00 6e 00 70 00 6f 00 6c 00 69 00 63 00 79 00 20 00 62 00 79 00 70 00 61 00 73 00 73 00 20 00))}
+		$se4 = {((20 2d 65 78 65 63 20 62 79 70 61 73 73 20) | (20 00 2d 00 65 00 78 00 65 00 63 00 20 00 62 00 79 00 70 00 61 00 73 00 73 00 20 00))}
+		$se5 = {((20 2f 65 70 20 62 79 70 61 73 73 20) | (20 00 2f 00 65 00 70 00 20 00 62 00 79 00 70 00 61 00 73 00 73 00 20 00))}
+		$se6 = {((20 2f 65 78 65 63 20 62 79 70 61 73 73 20) | (20 00 2f 00 65 00 78 00 65 00 63 00 20 00 62 00 79 00 70 00 61 00 73 00 73 00 20 00))}
+		$se7 = {((20 2f 65 78 65 63 75 74 69 6f 6e 70 6f 6c 69 63 79 20 62 79 70 61 73 73 20) | (20 00 2f 00 65 00 78 00 65 00 63 00 75 00 74 00 69 00 6f 00 6e 00 70 00 6f 00 6c 00 69 00 63 00 79 00 20 00 62 00 79 00 70 00 61 00 73 00 73 00 20 00))}
+		$se8 = {((20 2f 65 78 65 63 20 62 79 70 61 73 73 20) | (20 00 2f 00 65 00 78 00 65 00 63 00 20 00 62 00 79 00 70 00 61 00 73 00 73 00 20 00))}
+		$sf1 = {((20 2d 73 74 61 20) | (20 00 2d 00 73 00 74 00 61 00 20 00))}
+		$sf2 = {((20 2f 73 74 61 20) | (20 00 2f 00 73 00 74 00 61 00 20 00))}
+		$fp1 = {((43 68 6f 63 6f 6c 61 74 65 79 20 53 6f 66 74 77 61 72 65) | (43 00 68 00 6f 00 63 00 6f 00 6c 00 61 00 74 00 65 00 79 00 20 00 53 00 6f 00 66 00 74 00 77 00 61 00 72 00 65 00))}
+		$fp2 = {((56 42 4f 58 5f 4d 53 49 5f 49 4e 53 54 41 4c 4c 5f 50 41 54 48) | (56 00 42 00 4f 00 58 00 5f 00 4d 00 53 00 49 00 5f 00 49 00 4e 00 53 00 54 00 41 00 4c 00 4c 00 5f 00 50 00 41 00 54 00 48 00))}
+		$fp3 = {((5c 4c 6f 63 61 6c 5c 54 65 6d 70 5c 65 6e 2d 55 53 2e 70 73 31) | (5c 00 4c 00 6f 00 63 00 61 00 6c 00 5c 00 54 00 65 00 6d 00 70 00 5c 00 65 00 6e 00 2d 00 55 00 53 00 2e 00 70 00 73 00 31 00))}
+		$fp4 = {4c 00 65 00 6e 00 6f 00 76 00 6f 00 20 00 56 00 61 00 6e 00 74 00 61 00 67 00 65 00 20 00 2d 00 20 00 42 00 61 00 74 00 74 00 65 00 72 00 79 00 20 00 47 00 61 00 75 00 67 00 65 00 20 00 48 00 65 00 6c 00 70 00 65 00 72 00}
+		$fp5 = {5c 4c 61 73 74 50 61 73 73 5c 6c 70 77 69 6e 6d 65 74 72 6f 5c 41 70 70 78 55 70 67 72 61 64 65 55 77 70 2e 70 73 31}
+		$fp6 = {23 20 75 73 65 20 74 68 65 20 65 6e 63 6f 64 65 64 20 66 6f 72 6d 20 74 6f 20 6d 69 74 69 67 61 74 65 20 71 75 6f 74 69 6e 67 20 63 6f 6d 70 6c 69 63 61 74 69 6f 6e 73 20 74 68 61 74 20 66 75 6c 6c 20 73 63 72 69 70 74 62 6c 6f 63 6b 20 74 72 61 6e 73 66 65 72 20 65 78 70 6f 73 65 73}
+		$fp7 = {57 72 69 74 65 2d 41 6e 73 69 62 6c 65 4c 6f 67 20 22 49 4e 46 4f 20 2d 20 73}
+		$fp8 = {5c 50 61 63 6b 61 67 65 73 5c 4d 61 74 72 69 78 34 32 5c}
+		$fp9 = {65 63 68 6f 20}
+		$fp10 = {69 6e 73 74 61 6c 6c}
+		$fp11 = {52 45 4d 20}
+		$fp12 = {73 65 74 20 2f 70 20}
+		$fp13 = {72 00 78 00 53 00 63 00 61 00 6e 00 20 00 41 00 70 00 70 00 6c 00 69 00 63 00 61 00 74 00 69 00 6f 00 6e 00}
+		$fpa1 = {41 6c 6c 20 52 69 67 68 74 73}
+		$fpa2 = {3c 68 74 6d 6c}
+		$fpa2b = {3c 48 54 4d 4c}
+		$fpa3 = {43 6f 70 79 72 69 67 68 74}
+		$fpa4 = {4c 69 63 65 6e 73 65}
+		$fpa5 = {3c 3f 78 6d 6c}
+		$fpa6 = {48 65 6c 70}
+		$fpa7 = {43 4f 50 59 52 49 47 48 54}
 
-      /* Window Hidden */
-      $sb1 = " -w hidden " ascii wide nocase
-      $sb2 = " -window hidden " ascii wide nocase
-      $sb3 = " -windowstyle hidden " ascii wide nocase
-      $sb4 = " /w hidden " ascii wide nocase
-      $sb5 = " /window hidden " ascii wide nocase
-      $sb6 = " /windowstyle hidden " ascii wide nocase
-
-      /* Non Profile */
-      $sc1 = " -nop " ascii wide nocase
-      $sc2 = " -noprofile " ascii wide nocase
-      $sc3 = " /nop " ascii wide nocase
-      $sc4 = " /noprofile " ascii wide nocase
-
-      /* Non Interactive */
-      $sd1 = " -noni " ascii wide nocase
-      $sd2 = " -noninteractive " ascii wide nocase
-      $sd3 = " /noni " ascii wide nocase
-      $sd4 = " /noninteractive " ascii wide nocase
-
-      /* Exec Bypass */
-      $se1 = " -ep bypass " ascii wide nocase
-      $se2 = " -exec bypass " ascii wide nocase
-      $se3 = " -executionpolicy bypass " ascii wide nocase
-      $se4 = " -exec bypass " ascii wide nocase
-      $se5 = " /ep bypass " ascii wide nocase
-      $se6 = " /exec bypass " ascii wide nocase
-      $se7 = " /executionpolicy bypass " ascii wide nocase
-      $se8 = " /exec bypass " ascii wide nocase
-
-      /* Single Threaded - PowerShell Empire */
-      $sf1 = " -sta " ascii wide
-      $sf2 = " /sta " ascii wide
-
-      $fp1 = "Chocolatey Software" ascii wide
-      $fp2 = "VBOX_MSI_INSTALL_PATH" ascii wide
-      $fp3 = "\\Local\\Temp\\en-US.ps1" ascii wide
-      $fp4 = "Lenovo Vantage - Battery Gauge Helper" wide fullword
-      $fp5 = "\\LastPass\\lpwinmetro\\AppxUpgradeUwp.ps1" ascii
-      $fp6 = "# use the encoded form to mitigate quoting complications that full scriptblock transfer exposes" ascii /* MS TSSv2 - https://docs.microsoft.com/en-us/troubleshoot/windows-client/windows-troubleshooters/introduction-to-troubleshootingscript-toolset-tssv2 */
-      $fp7 = "Write-AnsibleLog \"INFO - s" ascii
-      $fp8 = "\\Packages\\Matrix42\\" ascii
-      $fp9 = "echo " ascii
-      $fp10 = "install" ascii fullword
-      $fp11 = "REM " ascii
-      $fp12 = "set /p " ascii
-      $fp13 = "rxScan Application" wide
-
-      $fpa1 = "All Rights"
-      $fpa2 = "<html"
-      $fpa2b = "<HTML"
-      $fpa3 = "Copyright"
-      $fpa4 = "License"
-      $fpa5 = "<?xml"
-      $fpa6 = "Help" fullword
-      $fpa7 = "COPYRIGHT"
-   condition:
-      filesize < 3000KB and 4 of ($s*) and not 1 of ($fp*) and uint32be(0) != 0x456C6646 /* EVTX - we don't wish to mix the entries together */
+	condition:
+		filesize < 3000KB and 4 of ( $s* ) and not 1 of ( $fp* ) and uint32be( 0 ) != 0x456C6646
 }
+

@@ -1,29 +1,20 @@
-/*
-    This Yara ruleset is under the GNU-GPLv2 license (http://www.gnu.org/licenses/gpl-2.0.html) and open to any user or organization, as    long as you use it under this license.
-
-*/
-
-import "pe"
-
-rule HTMLVariant : FakeM Family HTML Variant
+rule HTMLVariant : FakeM Family HTML Variant hardened
 {
 	meta:
 		description = "Identifier for html variant of FAKEM"
 		author = "Katie Kleemola"
 		last_updated = "2014-05-20"
-	
+
 	strings:
-		// decryption loop
 		$s1 = { 8B 55 08 B9 00 50 00 00 8D 3D ?? ?? ?? 00 8B F7 AD 33 C2 AB 83 E9 04 85 C9 75 F5 }
-		//mov byte ptr [ebp - x] y, x: 0x10-0x1 y: 0-9,A-F
 		$s2 = { C6 45 F? (3?|4?) }
 
 	condition:
 		$s1 and #s2 == 16
-
 }
 
-rule FakeM_Generic {
+rule FakeM_Generic : hardened
+{
 	meta:
 		description = "Detects FakeM malware samples"
 		author = "Florian Roth"
@@ -41,24 +32,22 @@ rule FakeM_Generic {
 		hash9 = "41948c73b776b673f954f497e09cc469d55f27e7b6e19acb41b77f7e64c50a33"
 		hash10 = "53cecc0d0f6924eacd23c49d0d95a6381834360fbbe2356778feb8dd396d723e"
 		hash11 = "523ad50b498bfb5ab688d9b1958c8058f905b634befc65e96f9f947e40893e5b"
+
 	strings:
-		$a1 = "\\system32\\kernel32.dll" fullword ascii
-		$a2 = "\\boot.lnk" fullword ascii
-		$a3 = "%USERPROFILE%" fullword ascii /* Goodware String - occured 16 times */
+		$a1 = {5c 73 79 73 74 65 6d 33 32 5c 6b 65 72 6e 65 6c 33 32 2e 64 6c 6c}
+		$a2 = {5c 62 6f 6f 74 2e 6c 6e 6b}
+		$a3 = {25 55 53 45 52 50 52 4f 46 49 4c 45 25}
+		$b1 = {57 00 69 00 7a 00 61 00 72 00 64 00 2e 00 45 00 58 00 45 00}
+		$b2 = {43 6f 6d 6d 61 6e 64 4c 69 6e 65 41}
+		$c1 = {5c 73 79 73 74 65 6d 33 32 5c 6b 65 72 6e 65 6c 33 32 2e 64 6c 6c}
+		$c2 = {5c 61 61 70 7a 2e 74 6d 70}
+		$e1 = {43 3a 5c 44 6f 63 75 6d 65 6e 74 73 20 61 6e 64 20 53 65 74 74 69 6e 67 73 5c 41 5c}
+		$e2 = {5c 73 76 63 68 6f 73 74 2e 65 78 65}
+		$e3 = {5c 50 65 72 66 6f 72 6d 5c 52 65 6c 65 61 73 65 5c 50 65 72 66 6f 72 6d 2e 70 64 62}
+		$f1 = {42 00 72 00 6f 00 77 00 73 00 65 00 72 00 2e 00 45 00 58 00 45 00}
+		$f2 = {5c 62 72 6f 77 73 65 72 2e 65 78 65}
 
-		$b1 = "Wizard.EXE" fullword wide
-		$b2 = "CommandLineA" fullword ascii
-
-		$c1 = "\\system32\\kernel32.dll" fullword ascii
-		$c2 = "\\aapz.tmp" fullword ascii
-
-		$e1 = "C:\\Documents and Settings\\A\\" fullword ascii
-		$e2 = "\\svchost.exe" fullword ascii
-		$e3 = "\\Perform\\Release\\Perform.pdb" fullword ascii
-
-		$f1 = "Browser.EXE" fullword wide
-		$f2 = "\\browser.exe" fullword ascii
 	condition:
-		uint16(0) == 0x5a4d and filesize < 100KB and
-		( all of ($a*) or all of ($b*) or all of ($c*) or all of ($e*) or 1 of ($f*) )
+		uint16( 0 ) == 0x5a4d and filesize < 100KB and ( all of ( $a* ) or all of ( $b* ) or all of ( $c* ) or all of ( $e* ) or 1 of ( $f* ) )
 }
+

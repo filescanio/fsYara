@@ -1,4 +1,4 @@
-rule Windows_Trojan_HijackLoader_a8444812
+rule Windows_Trojan_HijackLoader_a8444812 : hardened
 {
 	meta:
 		author = "Elastic Security"
@@ -30,7 +30,7 @@ rule Windows_Trojan_HijackLoader_a8444812
 		3 of them
 }
 
-rule fsHijackLoader
+rule fsHijackLoader : hardened
 {
 	meta:
 		description = "FsYARA - Malware Trends"

@@ -1,68 +1,65 @@
-// source: https://github.com/Neo23x0/signature-base/blob/6b8e2a00e5aafcfcfc767f3f53ae986cf81f968a/yara/apt_muddywater.yar
-/*
-   Yara Rule Set
-   Author: Florian Roth
-   Date: 2018-02-26
-   Identifier: MuddyWater samples
-*/
+rule MuddyWater_Mal_Doc_Feb18_1 : hardened
+{
+	meta:
+		description = "Detects malicious document used by MuddyWater"
+		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
+		author = "Florian Roth (Nextron Systems)"
+		reference = "Internal Research - TI2T"
+		date = "2018-02-26"
+		hash1 = "3d96811de7419a8c090a671d001a85f2b1875243e5b38e6f927d9877d0ff9b0c"
+		id = "5f275ee8-c6a9-532b-bc82-b109195171da"
+		score = 70
 
-/* Rule Set ----------------------------------------------------------------- */
+	strings:
+		$x1 = {61 57 56 34 4b 46 74 54 65 58 4e 30 5a 57 30 75 56 47 56 34 64 43 35 46 62 6d 4e 76 5a 47 6c 75 5a 31 30 36 4f 6c 56 75 61 57 4e 76 5a 47 55 75 52 32 56 30 55 33 52 79 61 57 35 6e 4b 46 74 54 65 58 4e 30 5a 57 30 75 51 32 39 75 64 6d 56 79 64 46 30 36 4f 6b 5a 79 62 32 31 43 59 58 4e 6c 4e 6a 52 54 64 48 4a 70 62 6d 63 6f}
+		$x2 = {55 31 46 43 64 55 46 49 57 55 46 69 64 30 4a 79 51 55 64 56 51 55 78 52 51 6b 5a 42 53 47 64 42 59 30 46 43 65 55 46 48 56 55 46 6a 64 30 4a 36 51 55 64 72 51 57 4a 33 51 6e 56 42 51 30 46 42 53}
 
-rule MuddyWater_Mal_Doc_Feb18_1 {
-   meta:
-      description = "Detects malicious document used by MuddyWater"
-      license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
-      author = "Florian Roth (Nextron Systems)"
-      reference = "Internal Research - TI2T"
-      date = "2018-02-26"
-      hash1 = "3d96811de7419a8c090a671d001a85f2b1875243e5b38e6f927d9877d0ff9b0c"
-      id = "5f275ee8-c6a9-532b-bc82-b109195171da"
-      score = 70
-   strings:
-      /* iex([System.Text.Encoding]::Unicode.GetString([System.Convert]::FromBase64String( */
-      $x1 = "aWV4KFtTeXN0ZW0uVGV4dC5FbmNvZGluZ106OlVuaWNvZGUuR2V0U3RyaW5nKFtTeXN0ZW0uQ29udmVydF06OkZyb21CYXNlNjRTdHJpbmco" ascii
-      /* Double Base64 encoded : Invoke-Expression */
-      $x2 = "U1FCdUFIWUFid0JyQUdVQUxRQkZBSGdBY0FCeUFHVUFjd0J6QUdrQWJ3QnVBQ0FBS"
-   condition:
-      uint16(0) == 0xcfd0 and filesize < 3000KB and 1 of them
+	condition:
+		uint16( 0 ) == 0xcfd0 and filesize < 3000KB and 1 of them
 }
 
-rule MuddyWater_Mal_Doc_Feb18_2 {
-   meta:
-      description = "Detects malicious document used by MuddyWater"
-      license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
-      author = "Florian Roth (Nextron Systems)"
-      reference = "Internal Research - TI2T"
-      date = "2018-02-26"
-      hash1 = "3d96811de7419a8c090a671d001a85f2b1875243e5b38e6f927d9877d0ff9b0c"
-      hash2 = "366d8b84a43a528e6aaf9ecfc38980b148f983967803914471ccf011b9bb0832"
-      id = "117e1d33-63a3-52c8-acf6-bc61959193db"
-   strings:
-      $s1 = "*\\G{00020430-0000-0000-C000-000000000046}#2.0#0#C:\\Windows\\System32\\stdole2.tlb#OLE Automation" fullword wide
-      $s2 = "*\\G{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}#2.8#0#C:\\Program Files\\Common Files\\Microsoft Shared\\OFFICE16\\MSO.DLL#Microsoft " wide
-      $s3 = "*\\G{00020905-0000-0000-C000-000000000046}#8.7#0#C:\\Program Files\\Microsoft Office\\Office16\\MSWORD.OLB#Microsoft Word 16.0 O" wide
-      $s4 = "scripting.filesystemobject$" fullword ascii
-      $s5 = "ID=\"{00000000-0000-0000-0000-000000000000}\"" fullword ascii
-   condition:
-      uint16(0) == 0xcfd0 and filesize < 6000KB and all of them
+rule MuddyWater_Mal_Doc_Feb18_2 : hardened
+{
+	meta:
+		description = "Detects malicious document used by MuddyWater"
+		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
+		author = "Florian Roth (Nextron Systems)"
+		reference = "Internal Research - TI2T"
+		date = "2018-02-26"
+		hash1 = "3d96811de7419a8c090a671d001a85f2b1875243e5b38e6f927d9877d0ff9b0c"
+		hash2 = "366d8b84a43a528e6aaf9ecfc38980b148f983967803914471ccf011b9bb0832"
+		id = "117e1d33-63a3-52c8-acf6-bc61959193db"
+
+	strings:
+		$s1 = {2a 00 5c 00 47 00 7b 00 30 00 30 00 30 00 32 00 30 00 34 00 33 00 30 00 2d 00 30 00 30 00 30 00 30 00 2d 00 30 00 30 00 30 00 30 00 2d 00 43 00 30 00 30 00 30 00 2d 00 30 00 30 00 30 00 30 00 30 00 30 00 30 00 30 00 30 00 30 00 34 00 36 00 7d 00 23 00 32 00 2e 00 30 00 23 00 30 00 23 00 43 00 3a 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 5c 00 53 00 79 00 73 00 74 00 65 00 6d 00 33 00 32 00 5c 00 73 00 74 00 64 00 6f 00 6c 00 65 00 32 00 2e 00 74 00 6c 00 62 00 23 00 4f 00 4c 00 45 00 20 00 41 00 75 00 74 00 6f 00 6d 00 61 00 74 00 69 00 6f 00 6e 00}
+		$s2 = {2a 00 5c 00 47 00 7b 00 32 00 44 00 46 00 38 00 44 00 30 00 34 00 43 00 2d 00 35 00 42 00 46 00 41 00 2d 00 31 00 30 00 31 00 42 00 2d 00 42 00 44 00 45 00 35 00 2d 00 30 00 30 00 41 00 41 00 30 00 30 00 34 00 34 00 44 00 45 00 35 00 32 00 7d 00 23 00 32 00 2e 00 38 00 23 00 30 00 23 00 43 00 3a 00 5c 00 50 00 72 00 6f 00 67 00 72 00 61 00 6d 00 20 00 46 00 69 00 6c 00 65 00 73 00 5c 00 43 00 6f 00 6d 00 6d 00 6f 00 6e 00 20 00 46 00 69 00 6c 00 65 00 73 00 5c 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 20 00 53 00 68 00 61 00 72 00 65 00 64 00 5c 00 4f 00 46 00 46 00 49 00 43 00 45 00 31 00 36 00 5c 00 4d 00 53 00 4f 00 2e 00 44 00 4c 00 4c 00 23 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 20 00}
+		$s3 = {2a 00 5c 00 47 00 7b 00 30 00 30 00 30 00 32 00 30 00 39 00 30 00 35 00 2d 00 30 00 30 00 30 00 30 00 2d 00 30 00 30 00 30 00 30 00 2d 00 43 00 30 00 30 00 30 00 2d 00 30 00 30 00 30 00 30 00 30 00 30 00 30 00 30 00 30 00 30 00 34 00 36 00 7d 00 23 00 38 00 2e 00 37 00 23 00 30 00 23 00 43 00 3a 00 5c 00 50 00 72 00 6f 00 67 00 72 00 61 00 6d 00 20 00 46 00 69 00 6c 00 65 00 73 00 5c 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 20 00 4f 00 66 00 66 00 69 00 63 00 65 00 5c 00 4f 00 66 00 66 00 69 00 63 00 65 00 31 00 36 00 5c 00 4d 00 53 00 57 00 4f 00 52 00 44 00 2e 00 4f 00 4c 00 42 00 23 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 20 00 57 00 6f 00 72 00 64 00 20 00 31 00 36 00 2e 00 30 00 20 00 4f 00}
+		$s4 = {73 63 72 69 70 74 69 6e 67 2e 66 69 6c 65 73 79 73 74 65 6d 6f 62 6a 65 63 74 24}
+		$s5 = {49 44 3d 22 7b 30 30 30 30 30 30 30 30 2d 30 30 30 30 2d 30 30 30 30 2d 30 30 30 30 2d 30 30 30 30 30 30 30 30 30 30 30 30 7d 22}
+
+	condition:
+		uint16( 0 ) == 0xcfd0 and filesize < 6000KB and all of them
 }
 
-rule MAL_MuddyWater_DroppedTask_Jun18_1 {
-   meta:
-      description = "Detects a dropped Windows task as used by MudyWater in June 2018"
-      license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
-      author = "Florian Roth (Nextron Systems)"
-      reference = "https://app.any.run/tasks/719c94eb-0a00-47cc-b583-ad4f9e25ebdb"
-      date = "2018-06-12"
-      hash1 = "7ecc2e1817f655ece2bde39b7d6633f4f586093047ec5697a1fab6adc7e1da54"
-      id = "d9ef379d-161f-59f1-873e-3af12b24b76b"
-   strings:
-      $x1 = "%11%\\scrobj.dll,NI,c:" wide
+rule MAL_MuddyWater_DroppedTask_Jun18_1 : hardened
+{
+	meta:
+		description = "Detects a dropped Windows task as used by MudyWater in June 2018"
+		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
+		author = "Florian Roth (Nextron Systems)"
+		reference = "https://app.any.run/tasks/719c94eb-0a00-47cc-b583-ad4f9e25ebdb"
+		date = "2018-06-12"
+		hash1 = "7ecc2e1817f655ece2bde39b7d6633f4f586093047ec5697a1fab6adc7e1da54"
+		id = "d9ef379d-161f-59f1-873e-3af12b24b76b"
 
-      $s1 = "AppAct = \"SOFTWARE\\Microsoft\\Connection Manager\"" fullword wide
-      $s2 = "[DefenderService]" fullword wide
-      $s3 = "UnRegisterOCXs=EventManager" fullword wide
-      $s4 = "ShortSvcName=\" \"" fullword wide
-   condition:
-      uint16(0) == 0xfeff and filesize < 1KB and ( 1 of ($x*) or 3 of them )
+	strings:
+		$x1 = {25 00 31 00 31 00 25 00 5c 00 73 00 63 00 72 00 6f 00 62 00 6a 00 2e 00 64 00 6c 00 6c 00 2c 00 4e 00 49 00 2c 00 63 00 3a 00}
+		$s1 = {41 00 70 00 70 00 41 00 63 00 74 00 20 00 3d 00 20 00 22 00 53 00 4f 00 46 00 54 00 57 00 41 00 52 00 45 00 5c 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 5c 00 43 00 6f 00 6e 00 6e 00 65 00 63 00 74 00 69 00 6f 00 6e 00 20 00 4d 00 61 00 6e 00 61 00 67 00 65 00 72 00 22 00}
+		$s2 = {5b 00 44 00 65 00 66 00 65 00 6e 00 64 00 65 00 72 00 53 00 65 00 72 00 76 00 69 00 63 00 65 00 5d 00}
+		$s3 = {55 00 6e 00 52 00 65 00 67 00 69 00 73 00 74 00 65 00 72 00 4f 00 43 00 58 00 73 00 3d 00 45 00 76 00 65 00 6e 00 74 00 4d 00 61 00 6e 00 61 00 67 00 65 00 72 00}
+		$s4 = {53 00 68 00 6f 00 72 00 74 00 53 00 76 00 63 00 4e 00 61 00 6d 00 65 00 3d 00 22 00 20 00 22 00}
+
+	condition:
+		uint16( 0 ) == 0xfeff and filesize < 1KB and ( 1 of ( $x* ) or 3 of them )
 }
+

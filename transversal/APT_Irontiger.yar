@@ -1,533 +1,496 @@
-/*
-    This Yara ruleset is under the GNU-GPLv2 license (http://www.gnu.org/licenses/gpl-2.0.html) and open to any user or organization, as    long as you use it under this license.
-
-*/
-
-rule IronTiger_ASPXSpy
+rule IronTiger_ASPXSpy : hardened limited
 {
-    
-    meta:
-        author = "Cyber Safety Solutions, Trend Micro"
-        description = "ASPXSpy detection. It might be used by other fraudsters"
-        reference = "http://goo.gl/T5fSJC"
-   
-    strings:
-        $str1 = "ASPXSpy" nocase wide ascii
-        $str2 = "IIS Spy" nocase wide ascii
-        $str3 = "protected void DGCoW(object sender,EventArgs e)" nocase wide ascii
-    
-    condition:
-        any of ($str*)
+	meta:
+		author = "Cyber Safety Solutions, Trend Micro"
+		description = "ASPXSpy detection. It might be used by other fraudsters"
+		reference = "http://goo.gl/T5fSJC"
+
+	strings:
+		$str1 = {((41 53 50 58 53 70 79) | (41 00 53 00 50 00 58 00 53 00 70 00 79 00))}
+		$str2 = {((49 49 53 20 53 70 79) | (49 00 49 00 53 00 20 00 53 00 70 00 79 00))}
+		$str3 = {((70 72 6f 74 65 63 74 65 64 20 76 6f 69 64 20 44 47 43 6f 57 28 6f 62 6a 65 63 74 20 73 65 6e 64 65 72 2c 45 76 65 6e 74 41 72 67 73 20 65 29) | (70 00 72 00 6f 00 74 00 65 00 63 00 74 00 65 00 64 00 20 00 76 00 6f 00 69 00 64 00 20 00 44 00 47 00 43 00 6f 00 57 00 28 00 6f 00 62 00 6a 00 65 00 63 00 74 00 20 00 73 00 65 00 6e 00 64 00 65 00 72 00 2c 00 45 00 76 00 65 00 6e 00 74 00 41 00 72 00 67 00 73 00 20 00 65 00 29 00))}
+
+	condition:
+		any of ( $str* )
 }
 
-rule IronTiger_ChangePort_Toolkit_driversinstall 
+rule IronTiger_ChangePort_Toolkit_driversinstall : hardened limited
 {
-   
-    meta:
-        author = "Cyber Safety Solutions, Trend Micro"
-        description = "Iron Tiger Malware - Changeport Toolkit driverinstall"   
-        reference = "http://goo.gl/T5fSJC"
-   
-    strings:
-        $str1 = "openmydoor" nocase wide ascii
-        $str2 = "Install service error" nocase wide ascii
-        $str3 = "start remove service" nocase wide ascii
-        $str4 = "NdisVersion" nocase wide ascii
-   
-    condition:
-        uint16(0) == 0x5a4d and (2 of ($str*))
+	meta:
+		author = "Cyber Safety Solutions, Trend Micro"
+		description = "Iron Tiger Malware - Changeport Toolkit driverinstall"
+		reference = "http://goo.gl/T5fSJC"
+
+	strings:
+		$str1 = {((6f 70 65 6e 6d 79 64 6f 6f 72) | (6f 00 70 00 65 00 6e 00 6d 00 79 00 64 00 6f 00 6f 00 72 00))}
+		$str2 = {((49 6e 73 74 61 6c 6c 20 73 65 72 76 69 63 65 20 65 72 72 6f 72) | (49 00 6e 00 73 00 74 00 61 00 6c 00 6c 00 20 00 73 00 65 00 72 00 76 00 69 00 63 00 65 00 20 00 65 00 72 00 72 00 6f 00 72 00))}
+		$str3 = {((73 74 61 72 74 20 72 65 6d 6f 76 65 20 73 65 72 76 69 63 65) | (73 00 74 00 61 00 72 00 74 00 20 00 72 00 65 00 6d 00 6f 00 76 00 65 00 20 00 73 00 65 00 72 00 76 00 69 00 63 00 65 00))}
+		$str4 = {((4e 64 69 73 56 65 72 73 69 6f 6e) | (4e 00 64 00 69 00 73 00 56 00 65 00 72 00 73 00 69 00 6f 00 6e 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and ( 2 of ( $str* ) )
 }
 
-rule IronTiger_ChangePort_Toolkit_ChangePortExe 
+rule IronTiger_ChangePort_Toolkit_ChangePortExe : hardened limited
 {
-   
-    meta:
-        author = "Cyber Safety Solutions, Trend Micro"
-        description = "Iron Tiger Malware - Toolkit ChangePort"
-        reference = "http://goo.gl/T5fSJC"
-   
-    strings:
-        $str1 = "Unable to alloc the adapter!" nocase wide ascii
-        $str2 = "Wait for master fuck" nocase wide ascii
-        $str3 = "xx.exe <HOST> <PORT>" nocase wide ascii
-        $str4 = "chkroot2007" nocase wide ascii
-        $str5 = "Door is bind on %s" nocase wide ascii
-   
-    condition:
-        uint16(0) == 0x5a4d and (2 of ($str*))
+	meta:
+		author = "Cyber Safety Solutions, Trend Micro"
+		description = "Iron Tiger Malware - Toolkit ChangePort"
+		reference = "http://goo.gl/T5fSJC"
+
+	strings:
+		$str1 = {((55 6e 61 62 6c 65 20 74 6f 20 61 6c 6c 6f 63 20 74 68 65 20 61 64 61 70 74 65 72 21) | (55 00 6e 00 61 00 62 00 6c 00 65 00 20 00 74 00 6f 00 20 00 61 00 6c 00 6c 00 6f 00 63 00 20 00 74 00 68 00 65 00 20 00 61 00 64 00 61 00 70 00 74 00 65 00 72 00 21 00))}
+		$str2 = {((57 61 69 74 20 66 6f 72 20 6d 61 73 74 65 72 20 66 75 63 6b) | (57 00 61 00 69 00 74 00 20 00 66 00 6f 00 72 00 20 00 6d 00 61 00 73 00 74 00 65 00 72 00 20 00 66 00 75 00 63 00 6b 00))}
+		$str3 = {((78 78 2e 65 78 65 20 3c 48 4f 53 54 3e 20 3c 50 4f 52 54 3e) | (78 00 78 00 2e 00 65 00 78 00 65 00 20 00 3c 00 48 00 4f 00 53 00 54 00 3e 00 20 00 3c 00 50 00 4f 00 52 00 54 00 3e 00))}
+		$str4 = {((63 68 6b 72 6f 6f 74 32 30 30 37) | (63 00 68 00 6b 00 72 00 6f 00 6f 00 74 00 32 00 30 00 30 00 37 00))}
+		$str5 = {((44 6f 6f 72 20 69 73 20 62 69 6e 64 20 6f 6e 20 25 73) | (44 00 6f 00 6f 00 72 00 20 00 69 00 73 00 20 00 62 00 69 00 6e 00 64 00 20 00 6f 00 6e 00 20 00 25 00 73 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and ( 2 of ( $str* ) )
 }
 
-rule IronTiger_dllshellexc2010 
+rule IronTiger_dllshellexc2010 : hardened limited
 {
-    
-    meta:
-        author = "Cyber Safety Solutions, Trend Micro"
-        description = "dllshellexc2010 Exchange backdoor + remote shell"
-        reference = "http://goo.gl/T5fSJC"
-    
-    strings:
-        $str1 = "Microsoft.Exchange.Clients.Auth.dll" nocase ascii wide
-        $str2 = "Dllshellexc2010" nocase wide ascii
-        $str3 = "Users\\ljw\\Documents" nocase wide ascii
-        $bla1 = "please input path" nocase wide ascii
-        $bla2 = "auth.owa" nocase wide ascii
-    
-    condition:
-        (uint16(0) == 0x5a4d) and ((any of ($str*)) or (all of ($bla*)))
+	meta:
+		author = "Cyber Safety Solutions, Trend Micro"
+		description = "dllshellexc2010 Exchange backdoor + remote shell"
+		reference = "http://goo.gl/T5fSJC"
+
+	strings:
+		$str1 = {((4d 69 63 72 6f 73 6f 66 74 2e 45 78 63 68 61 6e 67 65 2e 43 6c 69 65 6e 74 73 2e 41 75 74 68 2e 64 6c 6c) | (4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 2e 00 45 00 78 00 63 00 68 00 61 00 6e 00 67 00 65 00 2e 00 43 00 6c 00 69 00 65 00 6e 00 74 00 73 00 2e 00 41 00 75 00 74 00 68 00 2e 00 64 00 6c 00 6c 00))}
+		$str2 = {((44 6c 6c 73 68 65 6c 6c 65 78 63 32 30 31 30) | (44 00 6c 00 6c 00 73 00 68 00 65 00 6c 00 6c 00 65 00 78 00 63 00 32 00 30 00 31 00 30 00))}
+		$str3 = {((55 73 65 72 73 5c 6c 6a 77 5c 44 6f 63 75 6d 65 6e 74 73) | (55 00 73 00 65 00 72 00 73 00 5c 00 6c 00 6a 00 77 00 5c 00 44 00 6f 00 63 00 75 00 6d 00 65 00 6e 00 74 00 73 00))}
+		$bla1 = {((70 6c 65 61 73 65 20 69 6e 70 75 74 20 70 61 74 68) | (70 00 6c 00 65 00 61 00 73 00 65 00 20 00 69 00 6e 00 70 00 75 00 74 00 20 00 70 00 61 00 74 00 68 00))}
+		$bla2 = {((61 75 74 68 2e 6f 77 61) | (61 00 75 00 74 00 68 00 2e 00 6f 00 77 00 61 00))}
+
+	condition:
+		( uint16( 0 ) == 0x5a4d ) and ( ( any of ( $str* ) ) or ( all of ( $bla* ) ) )
 }
 
-rule IronTiger_dnstunnel 
+rule IronTiger_dnstunnel : hardened limited
 {
-   
-    meta:
-        author = "Cyber Safety Solutions, Trend Micro"
-        description = "This rule detects a dns tunnel tool used in Operation Iron Tiger"
-        reference = "http://goo.gl/T5fSJC"
-   
-    strings:
-        $str1 = "\\DnsTunClient\\" nocase wide ascii
-        $str2 = "\\t-DNSTunnel\\" nocase wide ascii
-        $str3 = "xssok.blogspot" nocase wide ascii
-        $str4 = "dnstunclient" nocase wide ascii
-        $mistake1 = "because of error, can not analysis" nocase wide ascii
-        $mistake2 = "can not deal witn the error" nocase wide ascii
-        $mistake3 = "the other retun one RST" nocase wide ascii
-        $mistake4 = "Coversation produce one error" nocase wide ascii
-        $mistake5 = "Program try to use the have deleted the buffer" nocase wide ascii
-    
-    condition:
-        (uint16(0) == 0x5a4d) and ((any of ($str*)) or (any of ($mistake*)))
+	meta:
+		author = "Cyber Safety Solutions, Trend Micro"
+		description = "This rule detects a dns tunnel tool used in Operation Iron Tiger"
+		reference = "http://goo.gl/T5fSJC"
+
+	strings:
+		$str1 = {((5c 44 6e 73 54 75 6e 43 6c 69 65 6e 74 5c) | (5c 00 44 00 6e 00 73 00 54 00 75 00 6e 00 43 00 6c 00 69 00 65 00 6e 00 74 00 5c 00))}
+		$str2 = {((5c 74 2d 44 4e 53 54 75 6e 6e 65 6c 5c) | (5c 00 74 00 2d 00 44 00 4e 00 53 00 54 00 75 00 6e 00 6e 00 65 00 6c 00 5c 00))}
+		$str3 = {((78 73 73 6f 6b 2e 62 6c 6f 67 73 70 6f 74) | (78 00 73 00 73 00 6f 00 6b 00 2e 00 62 00 6c 00 6f 00 67 00 73 00 70 00 6f 00 74 00))}
+		$str4 = {((64 6e 73 74 75 6e 63 6c 69 65 6e 74) | (64 00 6e 00 73 00 74 00 75 00 6e 00 63 00 6c 00 69 00 65 00 6e 00 74 00))}
+		$mistake1 = {((62 65 63 61 75 73 65 20 6f 66 20 65 72 72 6f 72 2c 20 63 61 6e 20 6e 6f 74 20 61 6e 61 6c 79 73 69 73) | (62 00 65 00 63 00 61 00 75 00 73 00 65 00 20 00 6f 00 66 00 20 00 65 00 72 00 72 00 6f 00 72 00 2c 00 20 00 63 00 61 00 6e 00 20 00 6e 00 6f 00 74 00 20 00 61 00 6e 00 61 00 6c 00 79 00 73 00 69 00 73 00))}
+		$mistake2 = {((63 61 6e 20 6e 6f 74 20 64 65 61 6c 20 77 69 74 6e 20 74 68 65 20 65 72 72 6f 72) | (63 00 61 00 6e 00 20 00 6e 00 6f 00 74 00 20 00 64 00 65 00 61 00 6c 00 20 00 77 00 69 00 74 00 6e 00 20 00 74 00 68 00 65 00 20 00 65 00 72 00 72 00 6f 00 72 00))}
+		$mistake3 = {((74 68 65 20 6f 74 68 65 72 20 72 65 74 75 6e 20 6f 6e 65 20 52 53 54) | (74 00 68 00 65 00 20 00 6f 00 74 00 68 00 65 00 72 00 20 00 72 00 65 00 74 00 75 00 6e 00 20 00 6f 00 6e 00 65 00 20 00 52 00 53 00 54 00))}
+		$mistake4 = {((43 6f 76 65 72 73 61 74 69 6f 6e 20 70 72 6f 64 75 63 65 20 6f 6e 65 20 65 72 72 6f 72) | (43 00 6f 00 76 00 65 00 72 00 73 00 61 00 74 00 69 00 6f 00 6e 00 20 00 70 00 72 00 6f 00 64 00 75 00 63 00 65 00 20 00 6f 00 6e 00 65 00 20 00 65 00 72 00 72 00 6f 00 72 00))}
+		$mistake5 = {((50 72 6f 67 72 61 6d 20 74 72 79 20 74 6f 20 75 73 65 20 74 68 65 20 68 61 76 65 20 64 65 6c 65 74 65 64 20 74 68 65 20 62 75 66 66 65 72) | (50 00 72 00 6f 00 67 00 72 00 61 00 6d 00 20 00 74 00 72 00 79 00 20 00 74 00 6f 00 20 00 75 00 73 00 65 00 20 00 74 00 68 00 65 00 20 00 68 00 61 00 76 00 65 00 20 00 64 00 65 00 6c 00 65 00 74 00 65 00 64 00 20 00 74 00 68 00 65 00 20 00 62 00 75 00 66 00 66 00 65 00 72 00))}
+
+	condition:
+		( uint16( 0 ) == 0x5a4d ) and ( ( any of ( $str* ) ) or ( any of ( $mistake* ) ) )
 }
 
-rule IronTiger_EFH3_encoder 
+rule IronTiger_EFH3_encoder : hardened limited
 {
-  
-    meta:
-        author = "Cyber Safety Solutions, Trend Micro"
-        description = "Iron Tiger EFH3 Encoder"
-        reference = "http://goo.gl/T5fSJC"
-  
-    strings:
-        $str1 = "EFH3 [HEX] [SRCFILE] [DSTFILE]" nocase wide ascii
-        $str2 = "123.EXE 123.EFH" nocase wide ascii
-        $str3 = "ENCODER: b[i]: = " nocase wide ascii
-  
-    condition:
-        uint16(0) == 0x5a4d and (any of ($str*))
+	meta:
+		author = "Cyber Safety Solutions, Trend Micro"
+		description = "Iron Tiger EFH3 Encoder"
+		reference = "http://goo.gl/T5fSJC"
+
+	strings:
+		$str1 = {((45 46 48 33 20 5b 48 45 58 5d 20 5b 53 52 43 46 49 4c 45 5d 20 5b 44 53 54 46 49 4c 45 5d) | (45 00 46 00 48 00 33 00 20 00 5b 00 48 00 45 00 58 00 5d 00 20 00 5b 00 53 00 52 00 43 00 46 00 49 00 4c 00 45 00 5d 00 20 00 5b 00 44 00 53 00 54 00 46 00 49 00 4c 00 45 00 5d 00))}
+		$str2 = {((31 32 33 2e 45 58 45 20 31 32 33 2e 45 46 48) | (31 00 32 00 33 00 2e 00 45 00 58 00 45 00 20 00 31 00 32 00 33 00 2e 00 45 00 46 00 48 00))}
+		$str3 = {((45 4e 43 4f 44 45 52 3a 20 62 5b 69 5d 3a 20 3d 20) | (45 00 4e 00 43 00 4f 00 44 00 45 00 52 00 3a 00 20 00 62 00 5b 00 69 00 5d 00 3a 00 20 00 3d 00 20 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and ( any of ( $str* ) )
 }
 
-rule IronTiger_GetPassword_x64
+rule IronTiger_GetPassword_x64 : hardened limited
 {
-  
-    meta:
-        author = "Cyber Safety Solutions, Trend Micro"
-        description = "Iron Tiger Malware - GetPassword x64"
-        reference = "http://goo.gl/T5fSJC"
-  
-    strings:
-        $str1 = "(LUID ERROR)" nocase wide ascii
-        $str2 = "Users\\K8team\\Desktop\\GetPassword" nocase wide ascii
-        $str3 = "Debug x64\\GetPassword.pdb" nocase wide ascii
-        $bla1 = "Authentication Package:" nocase wide ascii
-        $bla2 = "Authentication Domain:" nocase wide ascii
-        $bla3 = "* Password:" nocase wide ascii
-        $bla4 = "Primary User:" nocase wide ascii
-  
-    condition:
-        uint16(0) == 0x5a4d and ((any of ($str*)) or (all of ($bla*)))
+	meta:
+		author = "Cyber Safety Solutions, Trend Micro"
+		description = "Iron Tiger Malware - GetPassword x64"
+		reference = "http://goo.gl/T5fSJC"
+
+	strings:
+		$str1 = {((28 4c 55 49 44 20 45 52 52 4f 52 29) | (28 00 4c 00 55 00 49 00 44 00 20 00 45 00 52 00 52 00 4f 00 52 00 29 00))}
+		$str2 = {((55 73 65 72 73 5c 4b 38 74 65 61 6d 5c 44 65 73 6b 74 6f 70 5c 47 65 74 50 61 73 73 77 6f 72 64) | (55 00 73 00 65 00 72 00 73 00 5c 00 4b 00 38 00 74 00 65 00 61 00 6d 00 5c 00 44 00 65 00 73 00 6b 00 74 00 6f 00 70 00 5c 00 47 00 65 00 74 00 50 00 61 00 73 00 73 00 77 00 6f 00 72 00 64 00))}
+		$str3 = {((44 65 62 75 67 20 78 36 34 5c 47 65 74 50 61 73 73 77 6f 72 64 2e 70 64 62) | (44 00 65 00 62 00 75 00 67 00 20 00 78 00 36 00 34 00 5c 00 47 00 65 00 74 00 50 00 61 00 73 00 73 00 77 00 6f 00 72 00 64 00 2e 00 70 00 64 00 62 00))}
+		$bla1 = {((41 75 74 68 65 6e 74 69 63 61 74 69 6f 6e 20 50 61 63 6b 61 67 65 3a) | (41 00 75 00 74 00 68 00 65 00 6e 00 74 00 69 00 63 00 61 00 74 00 69 00 6f 00 6e 00 20 00 50 00 61 00 63 00 6b 00 61 00 67 00 65 00 3a 00))}
+		$bla2 = {((41 75 74 68 65 6e 74 69 63 61 74 69 6f 6e 20 44 6f 6d 61 69 6e 3a) | (41 00 75 00 74 00 68 00 65 00 6e 00 74 00 69 00 63 00 61 00 74 00 69 00 6f 00 6e 00 20 00 44 00 6f 00 6d 00 61 00 69 00 6e 00 3a 00))}
+		$bla3 = {((2a 20 50 61 73 73 77 6f 72 64 3a) | (2a 00 20 00 50 00 61 00 73 00 73 00 77 00 6f 00 72 00 64 00 3a 00))}
+		$bla4 = {((50 72 69 6d 61 72 79 20 55 73 65 72 3a) | (50 00 72 00 69 00 6d 00 61 00 72 00 79 00 20 00 55 00 73 00 65 00 72 00 3a 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and ( ( any of ( $str* ) ) or ( all of ( $bla* ) ) )
 }
 
-rule IronTiger_GetUserInfo
+rule IronTiger_GetUserInfo : hardened limited
 {
-    
-    meta:
-        author = "Cyber Safety Solutions, Trend Micro"
-        description = "Iron Tiger Malware - GetUserInfo"
-        reference = "http://goo.gl/T5fSJC"
-    
-    strings:
-        $str1 = "getuserinfo username" nocase wide ascii
-        $str2 = "joe@joeware.net" nocase wide ascii
-        $str3 = "If . specified for userid," nocase wide ascii
-    
-    condition:
-        uint16(0) == 0x5a4d and (any of ($str*))
+	meta:
+		author = "Cyber Safety Solutions, Trend Micro"
+		description = "Iron Tiger Malware - GetUserInfo"
+		reference = "http://goo.gl/T5fSJC"
+
+	strings:
+		$str1 = {((67 65 74 75 73 65 72 69 6e 66 6f 20 75 73 65 72 6e 61 6d 65) | (67 00 65 00 74 00 75 00 73 00 65 00 72 00 69 00 6e 00 66 00 6f 00 20 00 75 00 73 00 65 00 72 00 6e 00 61 00 6d 00 65 00))}
+		$str2 = {((6a 6f 65 40 6a 6f 65 77 61 72 65 2e 6e 65 74) | (6a 00 6f 00 65 00 40 00 6a 00 6f 00 65 00 77 00 61 00 72 00 65 00 2e 00 6e 00 65 00 74 00))}
+		$str3 = {((49 66 20 2e 20 73 70 65 63 69 66 69 65 64 20 66 6f 72 20 75 73 65 72 69 64 2c) | (49 00 66 00 20 00 2e 00 20 00 73 00 70 00 65 00 63 00 69 00 66 00 69 00 65 00 64 00 20 00 66 00 6f 00 72 00 20 00 75 00 73 00 65 00 72 00 69 00 64 00 2c 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and ( any of ( $str* ) )
 }
 
-rule IronTiger_Gh0stRAT_variant
+rule IronTiger_Gh0stRAT_variant : hardened limited
 {
-  
-    meta:
-        author = "Cyber Safety Solutions, Trend Micro"
-        description = "This is a detection for a s.exe variant seen in Op. Iron Tiger"
-        reference = "http://goo.gl/T5fSJC"
-  
-    strings:
-        $str1 = "Game Over Good Luck By Wind" nocase wide ascii
-        $str2 = "ReleiceName" nocase wide ascii
-        $str3 = "jingtisanmenxiachuanxiao.vbs" nocase wide ascii
-        $str4 = "Winds Update" nocase wide ascii
-  
-    condition:
-        uint16(0) == 0x5a4d and (any of ($str*))
+	meta:
+		author = "Cyber Safety Solutions, Trend Micro"
+		description = "This is a detection for a s.exe variant seen in Op. Iron Tiger"
+		reference = "http://goo.gl/T5fSJC"
+
+	strings:
+		$str1 = {((47 61 6d 65 20 4f 76 65 72 20 47 6f 6f 64 20 4c 75 63 6b 20 42 79 20 57 69 6e 64) | (47 00 61 00 6d 00 65 00 20 00 4f 00 76 00 65 00 72 00 20 00 47 00 6f 00 6f 00 64 00 20 00 4c 00 75 00 63 00 6b 00 20 00 42 00 79 00 20 00 57 00 69 00 6e 00 64 00))}
+		$str2 = {((52 65 6c 65 69 63 65 4e 61 6d 65) | (52 00 65 00 6c 00 65 00 69 00 63 00 65 00 4e 00 61 00 6d 00 65 00))}
+		$str3 = {((6a 69 6e 67 74 69 73 61 6e 6d 65 6e 78 69 61 63 68 75 61 6e 78 69 61 6f 2e 76 62 73) | (6a 00 69 00 6e 00 67 00 74 00 69 00 73 00 61 00 6e 00 6d 00 65 00 6e 00 78 00 69 00 61 00 63 00 68 00 75 00 61 00 6e 00 78 00 69 00 61 00 6f 00 2e 00 76 00 62 00 73 00))}
+		$str4 = {((57 69 6e 64 73 20 55 70 64 61 74 65) | (57 00 69 00 6e 00 64 00 73 00 20 00 55 00 70 00 64 00 61 00 74 00 65 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and ( any of ( $str* ) )
 }
 
-rule IronTiger_GTalk_Trojan 
+rule IronTiger_GTalk_Trojan : hardened limited
 {
-  
-    meta:
-        author = "Cyber Safety Solutions, Trend Micro"
-        description = "Iron Tiger Malware - GTalk Trojan"
-        reference = "http://goo.gl/T5fSJC"
-  
-    strings:
-        $str1 = "gtalklite.com" nocase wide ascii
-        $str2 = "computer=%s&lanip=%s&uid=%s&os=%s&data=%s" nocase wide ascii
-        $str3 = "D13idmAdm" nocase wide ascii
-        $str4 = "Error: PeekNamedPipe failed with %i" nocase wide ascii
-    condition:
-        uint16(0) == 0x5a4d and (2 of ($str*))
+	meta:
+		author = "Cyber Safety Solutions, Trend Micro"
+		description = "Iron Tiger Malware - GTalk Trojan"
+		reference = "http://goo.gl/T5fSJC"
+
+	strings:
+		$str1 = {((67 74 61 6c 6b 6c 69 74 65 2e 63 6f 6d) | (67 00 74 00 61 00 6c 00 6b 00 6c 00 69 00 74 00 65 00 2e 00 63 00 6f 00 6d 00))}
+		$str2 = {((63 6f 6d 70 75 74 65 72 3d 25 73 26 6c 61 6e 69 70 3d 25 73 26 75 69 64 3d 25 73 26 6f 73 3d 25 73 26 64 61 74 61 3d 25 73) | (63 00 6f 00 6d 00 70 00 75 00 74 00 65 00 72 00 3d 00 25 00 73 00 26 00 6c 00 61 00 6e 00 69 00 70 00 3d 00 25 00 73 00 26 00 75 00 69 00 64 00 3d 00 25 00 73 00 26 00 6f 00 73 00 3d 00 25 00 73 00 26 00 64 00 61 00 74 00 61 00 3d 00 25 00 73 00))}
+		$str3 = {((44 31 33 69 64 6d 41 64 6d) | (44 00 31 00 33 00 69 00 64 00 6d 00 41 00 64 00 6d 00))}
+		$str4 = {((45 72 72 6f 72 3a 20 50 65 65 6b 4e 61 6d 65 64 50 69 70 65 20 66 61 69 6c 65 64 20 77 69 74 68 20 25 69) | (45 00 72 00 72 00 6f 00 72 00 3a 00 20 00 50 00 65 00 65 00 6b 00 4e 00 61 00 6d 00 65 00 64 00 50 00 69 00 70 00 65 00 20 00 66 00 61 00 69 00 6c 00 65 00 64 00 20 00 77 00 69 00 74 00 68 00 20 00 25 00 69 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and ( 2 of ( $str* ) )
 }
 
-rule IronTiger_HTTPBrowser_Dropper 
+rule IronTiger_HTTPBrowser_Dropper : hardened limited
 {
-   
-    meta:
-        author = "Cyber Safety Solutions, Trend Micro"
-        description = "Iron Tiger Malware - HTTPBrowser Dropper"
-        reference = "http://goo.gl/T5fSJC"
-   
-    strings:
-        $str1 = ".dllUT" nocase wide ascii
-        $str2 = ".exeUT" nocase wide ascii
-        $str3 = ".urlUT" nocase wide ascii
-   
-    condition:
-        uint16(0) == 0x5a4d and (2 of ($str*))
+	meta:
+		author = "Cyber Safety Solutions, Trend Micro"
+		description = "Iron Tiger Malware - HTTPBrowser Dropper"
+		reference = "http://goo.gl/T5fSJC"
+
+	strings:
+		$str1 = {((2e 64 6c 6c 55 54) | (2e 00 64 00 6c 00 6c 00 55 00 54 00))}
+		$str2 = {((2e 65 78 65 55 54) | (2e 00 65 00 78 00 65 00 55 00 54 00))}
+		$str3 = {((2e 75 72 6c 55 54) | (2e 00 75 00 72 00 6c 00 55 00 54 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and ( 2 of ( $str* ) )
 }
 
-rule IronTiger_HTTP_SOCKS_Proxy_soexe
+rule IronTiger_HTTP_SOCKS_Proxy_soexe : hardened limited
 {
-   
-    meta:
-        author = "Cyber Safety Solutions, Trend Micro"
-        description = "Iron Tiger Toolset - HTTP SOCKS Proxy soexe"
-        reference = "http://goo.gl/T5fSJC"
-   
-    strings:
-        $str1 = "listen SOCKET error." nocase wide ascii
-        $str2 = "WSAAsyncSelect SOCKET error." nocase wide ascii
-        $str3 = "new SOCKETINFO error!" nocase wide ascii
-        $str4 = "Http/1.1 403 Forbidden" nocase wide ascii
-        $str5 = "Create SOCKET error." nocase wide ascii
-   
-    condition:
-        uint16(0) == 0x5a4d and (3 of ($str*))
+	meta:
+		author = "Cyber Safety Solutions, Trend Micro"
+		description = "Iron Tiger Toolset - HTTP SOCKS Proxy soexe"
+		reference = "http://goo.gl/T5fSJC"
+
+	strings:
+		$str1 = {((6c 69 73 74 65 6e 20 53 4f 43 4b 45 54 20 65 72 72 6f 72 2e) | (6c 00 69 00 73 00 74 00 65 00 6e 00 20 00 53 00 4f 00 43 00 4b 00 45 00 54 00 20 00 65 00 72 00 72 00 6f 00 72 00 2e 00))}
+		$str2 = {((57 53 41 41 73 79 6e 63 53 65 6c 65 63 74 20 53 4f 43 4b 45 54 20 65 72 72 6f 72 2e) | (57 00 53 00 41 00 41 00 73 00 79 00 6e 00 63 00 53 00 65 00 6c 00 65 00 63 00 74 00 20 00 53 00 4f 00 43 00 4b 00 45 00 54 00 20 00 65 00 72 00 72 00 6f 00 72 00 2e 00))}
+		$str3 = {((6e 65 77 20 53 4f 43 4b 45 54 49 4e 46 4f 20 65 72 72 6f 72 21) | (6e 00 65 00 77 00 20 00 53 00 4f 00 43 00 4b 00 45 00 54 00 49 00 4e 00 46 00 4f 00 20 00 65 00 72 00 72 00 6f 00 72 00 21 00))}
+		$str4 = {((48 74 74 70 2f 31 2e 31 20 34 30 33 20 46 6f 72 62 69 64 64 65 6e) | (48 00 74 00 74 00 70 00 2f 00 31 00 2e 00 31 00 20 00 34 00 30 00 33 00 20 00 46 00 6f 00 72 00 62 00 69 00 64 00 64 00 65 00 6e 00))}
+		$str5 = {((43 72 65 61 74 65 20 53 4f 43 4b 45 54 20 65 72 72 6f 72 2e) | (43 00 72 00 65 00 61 00 74 00 65 00 20 00 53 00 4f 00 43 00 4b 00 45 00 54 00 20 00 65 00 72 00 72 00 6f 00 72 00 2e 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and ( 3 of ( $str* ) )
 }
 
-rule IronTiger_NBDDos_Gh0stvariant_dropper
+rule IronTiger_NBDDos_Gh0stvariant_dropper : hardened limited
 {
-   
-    meta:
-        author = "Cyber Safety Solutions, Trend Micro"
-        description = "Iron Tiger Malware - NBDDos Gh0stvariant Dropper"
-        reference = "http://goo.gl/T5fSJC"
-   
-    strings:
-        $str1 = "This service can't be stoped." nocase wide ascii
-        $str2 = "Provides support for media palyer" nocase wide ascii
-        $str4 = "CreaetProcess Error" nocase wide ascii
-        $bla1 = "Kill You" nocase wide ascii
-        $bla2 = "%4.2f GB" nocase wide ascii
-   
-    condition:
-        uint16(0) == 0x5a4d and ((any of ($str*)) or (all of ($bla*)))
+	meta:
+		author = "Cyber Safety Solutions, Trend Micro"
+		description = "Iron Tiger Malware - NBDDos Gh0stvariant Dropper"
+		reference = "http://goo.gl/T5fSJC"
+
+	strings:
+		$str1 = {((54 68 69 73 20 73 65 72 76 69 63 65 20 63 61 6e 27 74 20 62 65 20 73 74 6f 70 65 64 2e) | (54 00 68 00 69 00 73 00 20 00 73 00 65 00 72 00 76 00 69 00 63 00 65 00 20 00 63 00 61 00 6e 00 27 00 74 00 20 00 62 00 65 00 20 00 73 00 74 00 6f 00 70 00 65 00 64 00 2e 00))}
+		$str2 = {((50 72 6f 76 69 64 65 73 20 73 75 70 70 6f 72 74 20 66 6f 72 20 6d 65 64 69 61 20 70 61 6c 79 65 72) | (50 00 72 00 6f 00 76 00 69 00 64 00 65 00 73 00 20 00 73 00 75 00 70 00 70 00 6f 00 72 00 74 00 20 00 66 00 6f 00 72 00 20 00 6d 00 65 00 64 00 69 00 61 00 20 00 70 00 61 00 6c 00 79 00 65 00 72 00))}
+		$str4 = {((43 72 65 61 65 74 50 72 6f 63 65 73 73 20 45 72 72 6f 72) | (43 00 72 00 65 00 61 00 65 00 74 00 50 00 72 00 6f 00 63 00 65 00 73 00 73 00 20 00 45 00 72 00 72 00 6f 00 72 00))}
+		$bla1 = {((4b 69 6c 6c 20 59 6f 75) | (4b 00 69 00 6c 00 6c 00 20 00 59 00 6f 00 75 00))}
+		$bla2 = {((25 34 2e 32 66 20 47 42) | (25 00 34 00 2e 00 32 00 66 00 20 00 47 00 42 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and ( ( any of ( $str* ) ) or ( all of ( $bla* ) ) )
 }
 
-rule IronTiger_PlugX_DosEmulator
+rule IronTiger_PlugX_DosEmulator : hardened limited
 {
-   
-    meta:
-        author = "Cyber Safety Solutions, Trend Micro"
-        description = "Iron Tiger Malware - PlugX DosEmulator"  
-        reference = "http://goo.gl/T5fSJC"
-   
-    strings:
-        $str1 = "Dos Emluator Ver" nocase wide ascii
-        $str2 = "\\PIPE\\FASTDOS" nocase wide ascii
-        $str3 = "FastDos.cpp" nocase wide ascii
-        $str4 = "fail,error code = %d." nocase wide ascii
-   
-    condition:
-        uint16(0) == 0x5a4d and (any of ($str*))
+	meta:
+		author = "Cyber Safety Solutions, Trend Micro"
+		description = "Iron Tiger Malware - PlugX DosEmulator"
+		reference = "http://goo.gl/T5fSJC"
+
+	strings:
+		$str1 = {((44 6f 73 20 45 6d 6c 75 61 74 6f 72 20 56 65 72) | (44 00 6f 00 73 00 20 00 45 00 6d 00 6c 00 75 00 61 00 74 00 6f 00 72 00 20 00 56 00 65 00 72 00))}
+		$str2 = {((5c 50 49 50 45 5c 46 41 53 54 44 4f 53) | (5c 00 50 00 49 00 50 00 45 00 5c 00 46 00 41 00 53 00 54 00 44 00 4f 00 53 00))}
+		$str3 = {((46 61 73 74 44 6f 73 2e 63 70 70) | (46 00 61 00 73 00 74 00 44 00 6f 00 73 00 2e 00 63 00 70 00 70 00))}
+		$str4 = {((66 61 69 6c 2c 65 72 72 6f 72 20 63 6f 64 65 20 3d 20 25 64 2e) | (66 00 61 00 69 00 6c 00 2c 00 65 00 72 00 72 00 6f 00 72 00 20 00 63 00 6f 00 64 00 65 00 20 00 3d 00 20 00 25 00 64 00 2e 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and ( any of ( $str* ) )
 }
 
-rule IronTiger_PlugX_FastProxy
+rule IronTiger_PlugX_FastProxy : hardened limited
 {
-   
-    meta:
-        author = "Cyber Safety Solutions, Trend Micro"
-        description = "Iron Tiger Malware - PlugX FastProxy"
-        reference = "http://goo.gl/T5fSJC"
-   
-    strings:
-        $str1 = "SAFEPROXY HTServerTimer Quit!" nocase wide ascii
-        $str2 = "Useage: %s pid" nocase wide ascii
-        $str3 = "%s PORT[%d] TO PORT[%d] SUCCESS!" nocase wide ascii
-        $str4 = "p0: port for listener" nocase wide ascii
-        $str5 = "\\users\\whg\\desktop\\plug\\" nocase wide ascii
-        $str6 = "[+Y] cwnd : %3d, fligth:" nocase wide ascii
-   
-    condition:
-        uint16(0) == 0x5a4d and (any of ($str*))
+	meta:
+		author = "Cyber Safety Solutions, Trend Micro"
+		description = "Iron Tiger Malware - PlugX FastProxy"
+		reference = "http://goo.gl/T5fSJC"
+
+	strings:
+		$str1 = {((53 41 46 45 50 52 4f 58 59 20 48 54 53 65 72 76 65 72 54 69 6d 65 72 20 51 75 69 74 21) | (53 00 41 00 46 00 45 00 50 00 52 00 4f 00 58 00 59 00 20 00 48 00 54 00 53 00 65 00 72 00 76 00 65 00 72 00 54 00 69 00 6d 00 65 00 72 00 20 00 51 00 75 00 69 00 74 00 21 00))}
+		$str2 = {((55 73 65 61 67 65 3a 20 25 73 20 70 69 64) | (55 00 73 00 65 00 61 00 67 00 65 00 3a 00 20 00 25 00 73 00 20 00 70 00 69 00 64 00))}
+		$str3 = {((25 73 20 50 4f 52 54 5b 25 64 5d 20 54 4f 20 50 4f 52 54 5b 25 64 5d 20 53 55 43 43 45 53 53 21) | (25 00 73 00 20 00 50 00 4f 00 52 00 54 00 5b 00 25 00 64 00 5d 00 20 00 54 00 4f 00 20 00 50 00 4f 00 52 00 54 00 5b 00 25 00 64 00 5d 00 20 00 53 00 55 00 43 00 43 00 45 00 53 00 53 00 21 00))}
+		$str4 = {((70 30 3a 20 70 6f 72 74 20 66 6f 72 20 6c 69 73 74 65 6e 65 72) | (70 00 30 00 3a 00 20 00 70 00 6f 00 72 00 74 00 20 00 66 00 6f 00 72 00 20 00 6c 00 69 00 73 00 74 00 65 00 6e 00 65 00 72 00))}
+		$str5 = {((5c 75 73 65 72 73 5c 77 68 67 5c 64 65 73 6b 74 6f 70 5c 70 6c 75 67 5c) | (5c 00 75 00 73 00 65 00 72 00 73 00 5c 00 77 00 68 00 67 00 5c 00 64 00 65 00 73 00 6b 00 74 00 6f 00 70 00 5c 00 70 00 6c 00 75 00 67 00 5c 00))}
+		$str6 = {((5b 2b 59 5d 20 63 77 6e 64 20 3a 20 25 33 64 2c 20 66 6c 69 67 74 68 3a) | (5b 00 2b 00 59 00 5d 00 20 00 63 00 77 00 6e 00 64 00 20 00 3a 00 20 00 25 00 33 00 64 00 2c 00 20 00 66 00 6c 00 69 00 67 00 74 00 68 00 3a 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and ( any of ( $str* ) )
 }
 
-rule IronTiger_PlugX_Server
+rule IronTiger_PlugX_Server : hardened limited
 {
-   
-    meta:
-        author = "Cyber Safety Solutions, Trend Micro"
-        description = "Iron Tiger Malware - PlugX Server"
-        reference = "http://goo.gl/T5fSJC"
-   
-    strings:
-        $str1 = "\\UnitFrmManagerKeyLog.pas" nocase wide ascii
-        $str2 = "\\UnitFrmManagerRegister.pas" nocase wide ascii
-        $str3 = "Input Name..." nocase wide ascii
-        $str4 = "New Value#" nocase wide ascii
-        $str5 = "TThreadRControl.Execute SEH!!!" nocase wide ascii
-        $str6 = "\\UnitFrmRControl.pas" nocase wide ascii
-        $str7 = "OnSocket(event is error)!" nocase wide ascii
-        $str8 = "Make 3F Version Ok!!!" nocase wide ascii
-        $str9 = "PELEASE DO NOT CHANGE THE DOCAMENT" nocase wide ascii
-        $str10 = "Press [Ok] Continue Run, Press [Cancel] Exit" nocase wide ascii
-   
-    condition:
-        uint16(0) == 0x5a4d and (2 of ($str*))
+	meta:
+		author = "Cyber Safety Solutions, Trend Micro"
+		description = "Iron Tiger Malware - PlugX Server"
+		reference = "http://goo.gl/T5fSJC"
+
+	strings:
+		$str1 = {((5c 55 6e 69 74 46 72 6d 4d 61 6e 61 67 65 72 4b 65 79 4c 6f 67 2e 70 61 73) | (5c 00 55 00 6e 00 69 00 74 00 46 00 72 00 6d 00 4d 00 61 00 6e 00 61 00 67 00 65 00 72 00 4b 00 65 00 79 00 4c 00 6f 00 67 00 2e 00 70 00 61 00 73 00))}
+		$str2 = {((5c 55 6e 69 74 46 72 6d 4d 61 6e 61 67 65 72 52 65 67 69 73 74 65 72 2e 70 61 73) | (5c 00 55 00 6e 00 69 00 74 00 46 00 72 00 6d 00 4d 00 61 00 6e 00 61 00 67 00 65 00 72 00 52 00 65 00 67 00 69 00 73 00 74 00 65 00 72 00 2e 00 70 00 61 00 73 00))}
+		$str3 = {((49 6e 70 75 74 20 4e 61 6d 65 2e 2e 2e) | (49 00 6e 00 70 00 75 00 74 00 20 00 4e 00 61 00 6d 00 65 00 2e 00 2e 00 2e 00))}
+		$str4 = {((4e 65 77 20 56 61 6c 75 65 23) | (4e 00 65 00 77 00 20 00 56 00 61 00 6c 00 75 00 65 00 23 00))}
+		$str5 = {((54 54 68 72 65 61 64 52 43 6f 6e 74 72 6f 6c 2e 45 78 65 63 75 74 65 20 53 45 48 21 21 21) | (54 00 54 00 68 00 72 00 65 00 61 00 64 00 52 00 43 00 6f 00 6e 00 74 00 72 00 6f 00 6c 00 2e 00 45 00 78 00 65 00 63 00 75 00 74 00 65 00 20 00 53 00 45 00 48 00 21 00 21 00 21 00))}
+		$str6 = {((5c 55 6e 69 74 46 72 6d 52 43 6f 6e 74 72 6f 6c 2e 70 61 73) | (5c 00 55 00 6e 00 69 00 74 00 46 00 72 00 6d 00 52 00 43 00 6f 00 6e 00 74 00 72 00 6f 00 6c 00 2e 00 70 00 61 00 73 00))}
+		$str7 = {((4f 6e 53 6f 63 6b 65 74 28 65 76 65 6e 74 20 69 73 20 65 72 72 6f 72 29 21) | (4f 00 6e 00 53 00 6f 00 63 00 6b 00 65 00 74 00 28 00 65 00 76 00 65 00 6e 00 74 00 20 00 69 00 73 00 20 00 65 00 72 00 72 00 6f 00 72 00 29 00 21 00))}
+		$str8 = {((4d 61 6b 65 20 33 46 20 56 65 72 73 69 6f 6e 20 4f 6b 21 21 21) | (4d 00 61 00 6b 00 65 00 20 00 33 00 46 00 20 00 56 00 65 00 72 00 73 00 69 00 6f 00 6e 00 20 00 4f 00 6b 00 21 00 21 00 21 00))}
+		$str9 = {((50 45 4c 45 41 53 45 20 44 4f 20 4e 4f 54 20 43 48 41 4e 47 45 20 54 48 45 20 44 4f 43 41 4d 45 4e 54) | (50 00 45 00 4c 00 45 00 41 00 53 00 45 00 20 00 44 00 4f 00 20 00 4e 00 4f 00 54 00 20 00 43 00 48 00 41 00 4e 00 47 00 45 00 20 00 54 00 48 00 45 00 20 00 44 00 4f 00 43 00 41 00 4d 00 45 00 4e 00 54 00))}
+		$str10 = {((50 72 65 73 73 20 5b 4f 6b 5d 20 43 6f 6e 74 69 6e 75 65 20 52 75 6e 2c 20 50 72 65 73 73 20 5b 43 61 6e 63 65 6c 5d 20 45 78 69 74) | (50 00 72 00 65 00 73 00 73 00 20 00 5b 00 4f 00 6b 00 5d 00 20 00 43 00 6f 00 6e 00 74 00 69 00 6e 00 75 00 65 00 20 00 52 00 75 00 6e 00 2c 00 20 00 50 00 72 00 65 00 73 00 73 00 20 00 5b 00 43 00 61 00 6e 00 63 00 65 00 6c 00 5d 00 20 00 45 00 78 00 69 00 74 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and ( 2 of ( $str* ) )
 }
 
-rule IronTiger_ReadPWD86
+rule IronTiger_ReadPWD86 : hardened limited
 {
-   
-    meta:
-        author = "Cyber Safety Solutions, Trend Micro"
-        description = "Iron Tiger Malware - ReadPWD86"
-        reference = "http://goo.gl/T5fSJC"
-   
-    strings:
-        $str1 = "Fail To Load LSASRV" nocase wide ascii
-        $str2 = "Fail To Search LSASS Data" nocase wide ascii
-        $str3 = "User Principal" nocase wide ascii
-   
-    condition:
-        uint16(0) == 0x5a4d and (all of ($str*))
+	meta:
+		author = "Cyber Safety Solutions, Trend Micro"
+		description = "Iron Tiger Malware - ReadPWD86"
+		reference = "http://goo.gl/T5fSJC"
+
+	strings:
+		$str1 = {((46 61 69 6c 20 54 6f 20 4c 6f 61 64 20 4c 53 41 53 52 56) | (46 00 61 00 69 00 6c 00 20 00 54 00 6f 00 20 00 4c 00 6f 00 61 00 64 00 20 00 4c 00 53 00 41 00 53 00 52 00 56 00))}
+		$str2 = {((46 61 69 6c 20 54 6f 20 53 65 61 72 63 68 20 4c 53 41 53 53 20 44 61 74 61) | (46 00 61 00 69 00 6c 00 20 00 54 00 6f 00 20 00 53 00 65 00 61 00 72 00 63 00 68 00 20 00 4c 00 53 00 41 00 53 00 53 00 20 00 44 00 61 00 74 00 61 00))}
+		$str3 = {((55 73 65 72 20 50 72 69 6e 63 69 70 61 6c) | (55 00 73 00 65 00 72 00 20 00 50 00 72 00 69 00 6e 00 63 00 69 00 70 00 61 00 6c 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and ( all of ( $str* ) )
 }
 
-rule IronTiger_Ring_Gh0stvariant
+rule IronTiger_Ring_Gh0stvariant : hardened limited
 {
-  
-    meta:
-        author = "Cyber Safety Solutions, Trend Micro"
-        description = "Iron Tiger Malware - Ring Gh0stvariant"
-        reference = "http://goo.gl/T5fSJC"
-  
-    strings:
-        $str1 = "RING RAT Exception" nocase wide ascii
-        $str2 = "(can not update server recently)!" nocase wide ascii
-        $str4 = "CreaetProcess Error" nocase wide ascii
-        $bla1 = "Sucess!" nocase wide ascii
-        $bla2 = "user canceled!" nocase wide ascii
-  
-    condition:
-        uint16(0) == 0x5a4d and ((any of ($str*)) or (all of ($bla*)))
+	meta:
+		author = "Cyber Safety Solutions, Trend Micro"
+		description = "Iron Tiger Malware - Ring Gh0stvariant"
+		reference = "http://goo.gl/T5fSJC"
+
+	strings:
+		$str1 = {((52 49 4e 47 20 52 41 54 20 45 78 63 65 70 74 69 6f 6e) | (52 00 49 00 4e 00 47 00 20 00 52 00 41 00 54 00 20 00 45 00 78 00 63 00 65 00 70 00 74 00 69 00 6f 00 6e 00))}
+		$str2 = {((28 63 61 6e 20 6e 6f 74 20 75 70 64 61 74 65 20 73 65 72 76 65 72 20 72 65 63 65 6e 74 6c 79 29 21) | (28 00 63 00 61 00 6e 00 20 00 6e 00 6f 00 74 00 20 00 75 00 70 00 64 00 61 00 74 00 65 00 20 00 73 00 65 00 72 00 76 00 65 00 72 00 20 00 72 00 65 00 63 00 65 00 6e 00 74 00 6c 00 79 00 29 00 21 00))}
+		$str4 = {((43 72 65 61 65 74 50 72 6f 63 65 73 73 20 45 72 72 6f 72) | (43 00 72 00 65 00 61 00 65 00 74 00 50 00 72 00 6f 00 63 00 65 00 73 00 73 00 20 00 45 00 72 00 72 00 6f 00 72 00))}
+		$bla1 = {((53 75 63 65 73 73 21) | (53 00 75 00 63 00 65 00 73 00 73 00 21 00))}
+		$bla2 = {((75 73 65 72 20 63 61 6e 63 65 6c 65 64 21) | (75 00 73 00 65 00 72 00 20 00 63 00 61 00 6e 00 63 00 65 00 6c 00 65 00 64 00 21 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and ( ( any of ( $str* ) ) or ( all of ( $bla* ) ) )
 }
 
-rule IronTiger_wmiexec
+rule IronTiger_wmiexec : hardened limited
 {
-  
-    meta:
-        author = "Cyber Safety Solutions, Trend Micro"
-        description = "Iron Tiger Tool - wmi.vbs detection"
-        reference = "http://goo.gl/T5fSJC"
-  
-    strings:
-        $str1 = "Temp Result File , Change it to where you like" nocase wide ascii
-        $str2 = "wmiexec" nocase wide ascii
-        $str3 = "By. Twi1ight" nocase wide ascii
-        $str4 = "[both mode] ,delay TIME to read result" nocase wide ascii
-        $str5 = "such as nc.exe or Trojan" nocase wide ascii
-        $str6 = "+++shell mode+++" nocase wide ascii
-        $str7 = "win2008 fso has no privilege to delete file" nocase wide ascii
-  
-    condition:
-        2 of ($str*)
-}
-/*
-    Yara Rule Set
-    Author: Florian Roth
-    Date: 2015-09-16
-    Identifier: Iron Panda
-*/
+	meta:
+		author = "Cyber Safety Solutions, Trend Micro"
+		description = "Iron Tiger Tool - wmi.vbs detection"
+		reference = "http://goo.gl/T5fSJC"
 
-/* Rule Set ----------------------------------------------------------------- */
+	strings:
+		$str1 = {((54 65 6d 70 20 52 65 73 75 6c 74 20 46 69 6c 65 20 2c 20 43 68 61 6e 67 65 20 69 74 20 74 6f 20 77 68 65 72 65 20 79 6f 75 20 6c 69 6b 65) | (54 00 65 00 6d 00 70 00 20 00 52 00 65 00 73 00 75 00 6c 00 74 00 20 00 46 00 69 00 6c 00 65 00 20 00 2c 00 20 00 43 00 68 00 61 00 6e 00 67 00 65 00 20 00 69 00 74 00 20 00 74 00 6f 00 20 00 77 00 68 00 65 00 72 00 65 00 20 00 79 00 6f 00 75 00 20 00 6c 00 69 00 6b 00 65 00))}
+		$str2 = {((77 6d 69 65 78 65 63) | (77 00 6d 00 69 00 65 00 78 00 65 00 63 00))}
+		$str3 = {((42 79 2e 20 54 77 69 31 69 67 68 74) | (42 00 79 00 2e 00 20 00 54 00 77 00 69 00 31 00 69 00 67 00 68 00 74 00))}
+		$str4 = {((5b 62 6f 74 68 20 6d 6f 64 65 5d 20 2c 64 65 6c 61 79 20 54 49 4d 45 20 74 6f 20 72 65 61 64 20 72 65 73 75 6c 74) | (5b 00 62 00 6f 00 74 00 68 00 20 00 6d 00 6f 00 64 00 65 00 5d 00 20 00 2c 00 64 00 65 00 6c 00 61 00 79 00 20 00 54 00 49 00 4d 00 45 00 20 00 74 00 6f 00 20 00 72 00 65 00 61 00 64 00 20 00 72 00 65 00 73 00 75 00 6c 00 74 00))}
+		$str5 = {((73 75 63 68 20 61 73 20 6e 63 2e 65 78 65 20 6f 72 20 54 72 6f 6a 61 6e) | (73 00 75 00 63 00 68 00 20 00 61 00 73 00 20 00 6e 00 63 00 2e 00 65 00 78 00 65 00 20 00 6f 00 72 00 20 00 54 00 72 00 6f 00 6a 00 61 00 6e 00))}
+		$str6 = {((2b 2b 2b 73 68 65 6c 6c 20 6d 6f 64 65 2b 2b 2b) | (2b 00 2b 00 2b 00 73 00 68 00 65 00 6c 00 6c 00 20 00 6d 00 6f 00 64 00 65 00 2b 00 2b 00 2b 00))}
+		$str7 = {((77 69 6e 32 30 30 38 20 66 73 6f 20 68 61 73 20 6e 6f 20 70 72 69 76 69 6c 65 67 65 20 74 6f 20 64 65 6c 65 74 65 20 66 69 6c 65) | (77 00 69 00 6e 00 32 00 30 00 30 00 38 00 20 00 66 00 73 00 6f 00 20 00 68 00 61 00 73 00 20 00 6e 00 6f 00 20 00 70 00 72 00 69 00 76 00 69 00 6c 00 65 00 67 00 65 00 20 00 74 00 6f 00 20 00 64 00 65 00 6c 00 65 00 74 00 65 00 20 00 66 00 69 00 6c 00 65 00))}
 
-rule IronPanda_DNSTunClient 
-{
-
-    meta:
-        description = "Iron Panda malware DnsTunClient - file named.exe"
-        author = "Florian Roth"
-        reference = "https://goo.gl/E4qia9"
-        date = "2015-09-16"
-        score = 80
-        hash = "a08db49e198068709b7e52f16d00a10d72b4d26562c0d82b4544f8b0fb259431"
-
-    strings:
-        $s1 = "dnstunclient -d or -domain <domain>" fullword ascii
-        $s2 = "dnstunclient -ip <server ip address>" fullword ascii
-        $s3 = "C:\\Windows\\System32\\cmd.exe /C schtasks /create /tn \"\\Microsoft\\Windows\\PLA\\System\\Microsoft Windows\" /tr " fullword ascii
-        $s4 = "C:\\Windows\\System32\\cmd.exe /C schtasks /create /tn \"Microsoft Windows\" /tr " fullword ascii
-        $s5 = "taskkill /im conime.exe" fullword ascii
-        $s6 = "\\dns control\\t-DNSTunnel\\DnsTunClient\\DnsTunClient.cpp" fullword ascii
-        $s7 = "UDP error:can not bing the port(if there is unclosed the bind process?)" fullword ascii
-        $s8 = "use error domain,set domain pls use -d or -domain mark(Current: %s,recv %s)" fullword ascii
-        $s9 = "error: packet num error.the connection have condurt,pls try later" fullword ascii
-        $s10 = "Coversation produce one error:%s,coversation fail" fullword ascii
-        $s11 = "try to add many same pipe to select group(or mark is too easy)." fullword ascii
-
-    condition:
-        ( uint16(0) == 0x5a4d and filesize < 400KB and 2 of them ) or 5 of them
+	condition:
+		2 of ( $str* )
 }
 
-rule IronPanda_Malware1 
+rule IronPanda_DNSTunClient : hardened
 {
+	meta:
+		description = "Iron Panda malware DnsTunClient - file named.exe"
+		author = "Florian Roth"
+		reference = "https://goo.gl/E4qia9"
+		date = "2015-09-16"
+		score = 80
+		hash = "a08db49e198068709b7e52f16d00a10d72b4d26562c0d82b4544f8b0fb259431"
 
-    meta:
-        description = "Iron Panda Malware"
-        author = "Florian Roth"
-        reference = "https://goo.gl/E4qia9"
-        date = "2015-09-16"
-        hash = "a0cee5822ddf254c254a5a0b7372c9d2b46b088a254a1208cb32f5fe7eca848a"
+	strings:
+		$s1 = {64 6e 73 74 75 6e 63 6c 69 65 6e 74 20 2d 64 20 6f 72 20 2d 64 6f 6d 61 69 6e 20 3c 64 6f 6d 61 69 6e 3e}
+		$s2 = {64 6e 73 74 75 6e 63 6c 69 65 6e 74 20 2d 69 70 20 3c 73 65 72 76 65 72 20 69 70 20 61 64 64 72 65 73 73 3e}
+		$s3 = {43 3a 5c 57 69 6e 64 6f 77 73 5c 53 79 73 74 65 6d 33 32 5c 63 6d 64 2e 65 78 65 20 2f 43 20 73 63 68 74 61 73 6b 73 20 2f 63 72 65 61 74 65 20 2f 74 6e 20 22 5c 4d 69 63 72 6f 73 6f 66 74 5c 57 69 6e 64 6f 77 73 5c 50 4c 41 5c 53 79 73 74 65 6d 5c 4d 69 63 72 6f 73 6f 66 74 20 57 69 6e 64 6f 77 73 22 20 2f 74 72 20}
+		$s4 = {43 3a 5c 57 69 6e 64 6f 77 73 5c 53 79 73 74 65 6d 33 32 5c 63 6d 64 2e 65 78 65 20 2f 43 20 73 63 68 74 61 73 6b 73 20 2f 63 72 65 61 74 65 20 2f 74 6e 20 22 4d 69 63 72 6f 73 6f 66 74 20 57 69 6e 64 6f 77 73 22 20 2f 74 72 20}
+		$s5 = {74 61 73 6b 6b 69 6c 6c 20 2f 69 6d 20 63 6f 6e 69 6d 65 2e 65 78 65}
+		$s6 = {5c 64 6e 73 20 63 6f 6e 74 72 6f 6c 5c 74 2d 44 4e 53 54 75 6e 6e 65 6c 5c 44 6e 73 54 75 6e 43 6c 69 65 6e 74 5c 44 6e 73 54 75 6e 43 6c 69 65 6e 74 2e 63 70 70}
+		$s7 = {55 44 50 20 65 72 72 6f 72 3a 63 61 6e 20 6e 6f 74 20 62 69 6e 67 20 74 68 65 20 70 6f 72 74 28 69 66 20 74 68 65 72 65 20 69 73 20 75 6e 63 6c 6f 73 65 64 20 74 68 65 20 62 69 6e 64 20 70 72 6f 63 65 73 73 3f 29}
+		$s8 = {75 73 65 20 65 72 72 6f 72 20 64 6f 6d 61 69 6e 2c 73 65 74 20 64 6f 6d 61 69 6e 20 70 6c 73 20 75 73 65 20 2d 64 20 6f 72 20 2d 64 6f 6d 61 69 6e 20 6d 61 72 6b 28 43 75 72 72 65 6e 74 3a 20 25 73 2c 72 65 63 76 20 25 73 29}
+		$s9 = {65 72 72 6f 72 3a 20 70 61 63 6b 65 74 20 6e 75 6d 20 65 72 72 6f 72 2e 74 68 65 20 63 6f 6e 6e 65 63 74 69 6f 6e 20 68 61 76 65 20 63 6f 6e 64 75 72 74 2c 70 6c 73 20 74 72 79 20 6c 61 74 65 72}
+		$s10 = {43 6f 76 65 72 73 61 74 69 6f 6e 20 70 72 6f 64 75 63 65 20 6f 6e 65 20 65 72 72 6f 72 3a 25 73 2c 63 6f 76 65 72 73 61 74 69 6f 6e 20 66 61 69 6c}
+		$s11 = {74 72 79 20 74 6f 20 61 64 64 20 6d 61 6e 79 20 73 61 6d 65 20 70 69 70 65 20 74 6f 20 73 65 6c 65 63 74 20 67 72 6f 75 70 28 6f 72 20 6d 61 72 6b 20 69 73 20 74 6f 6f 20 65 61 73 79 29 2e}
 
-    strings:
-        $x1 = "activedsimp.dll" fullword wide
-        $s1 = "get_BadLoginAddress" fullword ascii
-        $s2 = "get_LastFailedLogin" fullword ascii
-        $s3 = "ADS_UF_ENCRYPTED_TEXT_PASSWORD_ALLOWED" fullword ascii
-        $s4 = "get_PasswordExpirationDate" fullword ascii
-   
-    condition:
-        uint16(0) == 0x5a4d and filesize < 300KB and all of them
+	condition:
+		( uint16( 0 ) == 0x5a4d and filesize < 400KB and 2 of them ) or 5 of them
 }
 
-rule IronPanda_Webshell_JSP 
+rule IronPanda_Malware1 : hardened
 {
+	meta:
+		description = "Iron Panda Malware"
+		author = "Florian Roth"
+		reference = "https://goo.gl/E4qia9"
+		date = "2015-09-16"
+		hash = "a0cee5822ddf254c254a5a0b7372c9d2b46b088a254a1208cb32f5fe7eca848a"
 
-    meta:
-        description = "Iron Panda Malware JSP"
-        author = "Florian Roth"
-        reference = "https://goo.gl/E4qia9"
-        date = "2015-09-16"
-        hash = "3be95477e1d9f3877b4355cff3fbcdd3589bb7f6349fd4ba6451e1e9d32b7fa6"
-  
-    strings:
-        $s1 = "Bin_ExecSql(\"exec master..xp_cmdshell'bcp \\\"select safile from \" + db + \"..bin_temp\\\" queryout \\\"\" + Bin_TextBox_SaveP" ascii
-        $s2 = "tc.Text=\"<a href=\\\"javascript:Bin_PostBack('zcg_ClosePM','\"+Bin_ToBase64(de.Key.ToString())+\"')\\\">Close</a>\";" fullword ascii
-        $s3 = "Bin_ExecSql(\"IF OBJECT_ID('bin_temp')IS NOT NULL DROP TABLE bin_temp\");" fullword ascii
-  
-    condition:
-        filesize < 330KB and 1 of them
+	strings:
+		$x1 = {61 00 63 00 74 00 69 00 76 00 65 00 64 00 73 00 69 00 6d 00 70 00 2e 00 64 00 6c 00 6c 00}
+		$s1 = {67 65 74 5f 42 61 64 4c 6f 67 69 6e 41 64 64 72 65 73 73}
+		$s2 = {67 65 74 5f 4c 61 73 74 46 61 69 6c 65 64 4c 6f 67 69 6e}
+		$s3 = {41 44 53 5f 55 46 5f 45 4e 43 52 59 50 54 45 44 5f 54 45 58 54 5f 50 41 53 53 57 4f 52 44 5f 41 4c 4c 4f 57 45 44}
+		$s4 = {67 65 74 5f 50 61 73 73 77 6f 72 64 45 78 70 69 72 61 74 69 6f 6e 44 61 74 65}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and filesize < 300KB and all of them
 }
 
-rule IronPanda_Malware_Htran 
+rule IronPanda_Webshell_JSP : hardened
 {
+	meta:
+		description = "Iron Panda Malware JSP"
+		author = "Florian Roth"
+		reference = "https://goo.gl/E4qia9"
+		date = "2015-09-16"
+		hash = "3be95477e1d9f3877b4355cff3fbcdd3589bb7f6349fd4ba6451e1e9d32b7fa6"
 
-    meta:
-        description = "Iron Panda Malware Htran"
-        author = "Florian Roth"
-        reference = "https://goo.gl/E4qia9"
-        date = "2015-09-16"
-        hash = "7903f94730a8508e9b272b3b56899b49736740cea5037ea7dbb4e690bcaf00e7"
-   
-    strings:
-        $s1 = "[-] Gethostbyname(%s) error:%s" fullword ascii
-        $s2 = "%s -<listen|tran|slave> <option> [-log logfile]" fullword ascii
-        $s3 = "-slave <ConnectHost> <ConnectPort> <TransmitHost> <TransmitPort>" fullword ascii
-        $s4 = "[-] ERROR: Must supply logfile name." fullword ascii
-        $s5 = "[SERVER]connection to %s:%d error" fullword ascii
-        $s6 = "[+] Make a Connection to %s:%d...." fullword ascii
-        $s7 = "[+] Waiting another Client on port:%d...." fullword ascii
-        $s8 = "[+] Accept a Client on port %d from %s" fullword ascii
-        $s9 = "[+] Make a Connection to %s:%d ......" fullword ascii
-        $s10 = "cmshared_get_ptr_from_atom" fullword ascii
-        $s11 = "_cmshared_get_ptr_from_atom" fullword ascii
-        $s12 = "[+] OK! I Closed The Two Socket." fullword ascii
-        $s13 = "[-] TransmitPort invalid." fullword ascii
-        $s14 = "[+] Waiting for Client on port:%d ......" fullword ascii
-   
-    condition:
-         ( uint16(0) == 0x5a4d and filesize < 125KB and 3 of them ) or 5 of them
+	strings:
+		$s1 = {42 69 6e 5f 45 78 65 63 53 71 6c 28 22 65 78 65 63 20 6d 61 73 74 65 72 2e 2e 78 70 5f 63 6d 64 73 68 65 6c 6c 27 62 63 70 20 5c 5c 22 73 65 6c 65 63 74 20 73 61 66 69 6c 65 20 66 72 6f 6d 20 22 20 2b 20 64 62 20 2b 20 22 2e 2e 62 69 6e 5f 74 65 6d 70 5c 5c 22 20 71 75 65 72 79 6f 75 74 20 5c 5c 22 22 20 2b 20 42 69 6e 5f 54 65 78 74 42 6f 78 5f 53 61 76 65 50}
+		$s2 = {74 63 2e 54 65 78 74 3d 22 3c 61 20 68 72 65 66 3d 5c 5c 22 6a 61 76 61 73 63 72 69 70 74 3a 42 69 6e 5f 50 6f 73 74 42 61 63 6b 28 27 7a 63 67 5f 43 6c 6f 73 65 50 4d 27 2c 27 22 2b 42 69 6e 5f 54 6f 42 61 73 65 36 34 28 64 65 2e 4b 65 79 2e 54 6f 53 74 72 69 6e 67 28 29 29 2b 22 27 29 5c 5c 22 3e 43 6c 6f 73 65 3c 2f 61 3e 22 3b}
+		$s3 = {42 69 6e 5f 45 78 65 63 53 71 6c 28 22 49 46 20 4f 42 4a 45 43 54 5f 49 44 28 27 62 69 6e 5f 74 65 6d 70 27 29 49 53 20 4e 4f 54 20 4e 55 4c 4c 20 44 52 4f 50 20 54 41 42 4c 45 20 62 69 6e 5f 74 65 6d 70 22 29 3b}
+
+	condition:
+		filesize < 330KB and 1 of them
 }
 
-rule IronPanda_Malware2 
+rule IronPanda_Malware_Htran : hardened
 {
+	meta:
+		description = "Iron Panda Malware Htran"
+		author = "Florian Roth"
+		reference = "https://goo.gl/E4qia9"
+		date = "2015-09-16"
+		hash = "7903f94730a8508e9b272b3b56899b49736740cea5037ea7dbb4e690bcaf00e7"
 
-    meta:
-        description = "Iron Panda Malware"
-        author = "Florian Roth"
-        reference = "https://goo.gl/E4qia9"
-        date = "2015-09-16"
-        hash = "a89c21dd608c51c4bf0323d640f816e464578510389f9edcf04cd34090decc91"
+	strings:
+		$s1 = {5b 2d 5d 20 47 65 74 68 6f 73 74 62 79 6e 61 6d 65 28 25 73 29 20 65 72 72 6f 72 3a 25 73}
+		$s2 = {25 73 20 2d 3c 6c 69 73 74 65 6e 7c 74 72 61 6e 7c 73 6c 61 76 65 3e 20 3c 6f 70 74 69 6f 6e 3e 20 5b 2d 6c 6f 67 20 6c 6f 67 66 69 6c 65 5d}
+		$s3 = {2d 73 6c 61 76 65 20 3c 43 6f 6e 6e 65 63 74 48 6f 73 74 3e 20 3c 43 6f 6e 6e 65 63 74 50 6f 72 74 3e 20 3c 54 72 61 6e 73 6d 69 74 48 6f 73 74 3e 20 3c 54 72 61 6e 73 6d 69 74 50 6f 72 74 3e}
+		$s4 = {5b 2d 5d 20 45 52 52 4f 52 3a 20 4d 75 73 74 20 73 75 70 70 6c 79 20 6c 6f 67 66 69 6c 65 20 6e 61 6d 65 2e}
+		$s5 = {5b 53 45 52 56 45 52 5d 63 6f 6e 6e 65 63 74 69 6f 6e 20 74 6f 20 25 73 3a 25 64 20 65 72 72 6f 72}
+		$s6 = {5b 2b 5d 20 4d 61 6b 65 20 61 20 43 6f 6e 6e 65 63 74 69 6f 6e 20 74 6f 20 25 73 3a 25 64 2e 2e 2e 2e}
+		$s7 = {5b 2b 5d 20 57 61 69 74 69 6e 67 20 61 6e 6f 74 68 65 72 20 43 6c 69 65 6e 74 20 6f 6e 20 70 6f 72 74 3a 25 64 2e 2e 2e 2e}
+		$s8 = {5b 2b 5d 20 41 63 63 65 70 74 20 61 20 43 6c 69 65 6e 74 20 6f 6e 20 70 6f 72 74 20 25 64 20 66 72 6f 6d 20 25 73}
+		$s9 = {5b 2b 5d 20 4d 61 6b 65 20 61 20 43 6f 6e 6e 65 63 74 69 6f 6e 20 74 6f 20 25 73 3a 25 64 20 2e 2e 2e 2e 2e 2e}
+		$s10 = {63 6d 73 68 61 72 65 64 5f 67 65 74 5f 70 74 72 5f 66 72 6f 6d 5f 61 74 6f 6d}
+		$s11 = {5f 63 6d 73 68 61 72 65 64 5f 67 65 74 5f 70 74 72 5f 66 72 6f 6d 5f 61 74 6f 6d}
+		$s12 = {5b 2b 5d 20 4f 4b 21 20 49 20 43 6c 6f 73 65 64 20 54 68 65 20 54 77 6f 20 53 6f 63 6b 65 74 2e}
+		$s13 = {5b 2d 5d 20 54 72 61 6e 73 6d 69 74 50 6f 72 74 20 69 6e 76 61 6c 69 64 2e}
+		$s14 = {5b 2b 5d 20 57 61 69 74 69 6e 67 20 66 6f 72 20 43 6c 69 65 6e 74 20 6f 6e 20 70 6f 72 74 3a 25 64 20 2e 2e 2e 2e 2e 2e}
 
-    strings:
-        $s0 = "\\setup.exe" fullword ascii
-        $s1 = "msi.dll.urlUT" fullword ascii
-        $s2 = "msi.dllUT" fullword ascii
-        $s3 = "setup.exeUT" fullword ascii
-        $s4 = "/c del /q %s" fullword ascii
-   
-    condition:
-        uint16(0) == 0x5a4d and filesize < 180KB and all of them
+	condition:
+		( uint16( 0 ) == 0x5a4d and filesize < 125KB and 3 of them ) or 5 of them
 }
 
-rule IronPanda_Malware3 
+rule IronPanda_Malware2 : hardened
 {
+	meta:
+		description = "Iron Panda Malware"
+		author = "Florian Roth"
+		reference = "https://goo.gl/E4qia9"
+		date = "2015-09-16"
+		hash = "a89c21dd608c51c4bf0323d640f816e464578510389f9edcf04cd34090decc91"
 
-    meta:
-        description = "Iron Panda Malware"
-        author = "Florian Roth"
-        reference = "https://goo.gl/E4qia9"
-        date = "2015-09-16"
-        hash = "5cd2af844e718570ae7ba9773a9075738c0b3b75c65909437c43201ce596a742"
+	strings:
+		$s0 = {5c 73 65 74 75 70 2e 65 78 65}
+		$s1 = {6d 73 69 2e 64 6c 6c 2e 75 72 6c 55 54}
+		$s2 = {6d 73 69 2e 64 6c 6c 55 54}
+		$s3 = {73 65 74 75 70 2e 65 78 65 55 54}
+		$s4 = {2f 63 20 64 65 6c 20 2f 71 20 25 73}
 
-    strings:
-        $s0 = "PluginDeflater.exe" fullword wide
-        $s1 = ".Deflated" fullword wide
-        $s2 = "PluginDeflater" fullword ascii
-        $s3 = "DeflateStream" fullword ascii /* Goodware String - occured 1 times */
-        $s4 = "CompressionMode" fullword ascii /* Goodware String - occured 4 times */
-        $s5 = "System.IO.Compression" fullword ascii /* Goodware String - occured 6 times */
-
-    condition:
-        uint16(0) == 0x5a4d and filesize < 10KB and all of them
+	condition:
+		uint16( 0 ) == 0x5a4d and filesize < 180KB and all of them
 }
 
-rule IronPanda_Malware4 
+rule IronPanda_Malware3 : hardened
 {
+	meta:
+		description = "Iron Panda Malware"
+		author = "Florian Roth"
+		reference = "https://goo.gl/E4qia9"
+		date = "2015-09-16"
+		hash = "5cd2af844e718570ae7ba9773a9075738c0b3b75c65909437c43201ce596a742"
 
-    meta:
-        description = "Iron Panda Malware"
-        author = "Florian Roth"
-        reference = "https://goo.gl/E4qia9"
-        date = "2015-09-16"
-        hash = "0d6da946026154416f49df2283252d01ecfb0c41c27ef3bc79029483adc2240c"
+	strings:
+		$s0 = {50 00 6c 00 75 00 67 00 69 00 6e 00 44 00 65 00 66 00 6c 00 61 00 74 00 65 00 72 00 2e 00 65 00 78 00 65 00}
+		$s1 = {2e 00 44 00 65 00 66 00 6c 00 61 00 74 00 65 00 64 00}
+		$s2 = {50 6c 75 67 69 6e 44 65 66 6c 61 74 65 72}
+		$s3 = {44 65 66 6c 61 74 65 53 74 72 65 61 6d}
+		$s4 = {43 6f 6d 70 72 65 73 73 69 6f 6e 4d 6f 64 65}
+		$s5 = {53 79 73 74 65 6d 2e 49 4f 2e 43 6f 6d 70 72 65 73 73 69 6f 6e}
 
-    strings:
-        $s0 = "TestPlugin.dll" fullword wide
-        $s1 = "<a href='http://www.baidu.com'>aasd</a>" fullword wide
-        $s2 = "Zcg.Test.AspxSpyPlugins" fullword ascii
-        $s6 = "TestPlugin" fullword ascii
-   
-    condition:
-        uint16(0) == 0x5a4d and filesize < 10KB and all of them
+	condition:
+		uint16( 0 ) == 0x5a4d and filesize < 10KB and all of them
 }
+
+rule IronPanda_Malware4 : hardened
+{
+	meta:
+		description = "Iron Panda Malware"
+		author = "Florian Roth"
+		reference = "https://goo.gl/E4qia9"
+		date = "2015-09-16"
+		hash = "0d6da946026154416f49df2283252d01ecfb0c41c27ef3bc79029483adc2240c"
+
+	strings:
+		$s0 = {54 00 65 00 73 00 74 00 50 00 6c 00 75 00 67 00 69 00 6e 00 2e 00 64 00 6c 00 6c 00}
+		$s1 = {3c 00 61 00 20 00 68 00 72 00 65 00 66 00 3d 00 27 00 68 00 74 00 74 00 70 00 3a 00 2f 00 2f 00 77 00 77 00 77 00 2e 00 62 00 61 00 69 00 64 00 75 00 2e 00 63 00 6f 00 6d 00 27 00 3e 00 61 00 61 00 73 00 64 00 3c 00 2f 00 61 00 3e 00}
+		$s2 = {5a 63 67 2e 54 65 73 74 2e 41 73 70 78 53 70 79 50 6c 75 67 69 6e 73}
+		$s6 = {54 65 73 74 50 6c 75 67 69 6e}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and filesize < 10KB and all of them
+}
+

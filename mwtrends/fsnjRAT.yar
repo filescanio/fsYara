@@ -1,4 +1,4 @@
-rule Njrat : RAT
+rule Njrat : RAT hardened
 {
 	meta:
 		description = "Njrat"
@@ -32,7 +32,7 @@ rule Njrat : RAT
 		10 of them
 }
 
-rule njrat1 : RAT
+rule njrat1 : RAT hardened
 {
 	meta:
 		author = "Brian Wallace @botnet_hunter"
@@ -46,21 +46,19 @@ rule njrat1 : RAT
 		score = 75
 
 	strings:
-		$a1 = "netsh firewall add allowedprogram " wide
-		$a2 = "SEE_MASK_NOZONECHECKS" wide
-		$b1 = "[TAP]" wide
-		$b2 = " & exit" wide
-		$c1 = "md.exe /k ping 0 & del " wide
-		$c2 = "cmd.exe /c ping 127.0.0.1 & del" wide
-		$c3 = "cmd.exe /c ping" wide
+		$a1 = {6e 00 65 00 74 00 73 00 68 00 20 00 66 00 69 00 72 00 65 00 77 00 61 00 6c 00 6c 00 20 00 61 00 64 00 64 00 20 00 61 00 6c 00 6c 00 6f 00 77 00 65 00 64 00 70 00 72 00 6f 00 67 00 72 00 61 00 6d 00 20 00}
+		$a2 = {53 00 45 00 45 00 5f 00 4d 00 41 00 53 00 4b 00 5f 00 4e 00 4f 00 5a 00 4f 00 4e 00 45 00 43 00 48 00 45 00 43 00 4b 00 53 00}
+		$b1 = {5b 00 54 00 41 00 50 00 5d 00}
+		$b2 = {20 00 26 00 20 00 65 00 78 00 69 00 74 00}
+		$c1 = {6d 00 64 00 2e 00 65 00 78 00 65 00 20 00 2f 00 6b 00 20 00 70 00 69 00 6e 00 67 00 20 00 30 00 20 00 26 00 20 00 64 00 65 00 6c 00 20 00}
+		$c2 = {63 00 6d 00 64 00 2e 00 65 00 78 00 65 00 20 00 2f 00 63 00 20 00 70 00 69 00 6e 00 67 00 20 00 31 00 32 00 37 00 2e 00 30 00 2e 00 30 00 2e 00 31 00 20 00 26 00 20 00 64 00 65 00 6c 00}
+		$c3 = {63 00 6d 00 64 00 2e 00 65 00 78 00 65 00 20 00 2f 00 63 00 20 00 70 00 69 00 6e 00 67 00}
 
 	condition:
-		1 of ($a*) and 
-		1 of ($b*) and 
-		1 of ($c*)
+		1 of ( $a* ) and 1 of ( $b* ) and 1 of ( $c* )
 }
 
-rule win_exe_njRAT
+rule win_exe_njRAT : hardened
 {
 	meta:
 		author = "info@fidelissecurity.com"
@@ -89,30 +87,28 @@ rule win_exe_njRAT
 		score = 75
 
 	strings:
-		$magic = "MZ"
-		$string_setA_1 = "FromBase64String"
-		$string_setA_2 = "Base64String"
-		$string_setA_3 = "Connected" wide ascii
-		$string_setA_4 = "Receive"
-		$string_setA_5 = "DeleteSubKey" wide ascii
-		$string_setA_6 = "get_MachineName"
-		$string_setA_7 = "get_UserName"
-		$string_setA_8 = "get_LastWriteTime"
-		$string_setA_9 = "GetVolumeInformation"
-		$string_setB_1 = "OSFullName" wide ascii
-		$string_setB_2 = "Send" wide ascii
-		$string_setB_3 = "Connected" wide ascii
-		$string_setB_4 = "DownloadData" wide ascii
-		$string_setB_5 = "netsh firewall" wide
-		$string_setB_6 = "cmd.exe /k ping 0 & del" wide
+		$magic = {4d 5a}
+		$string_setA_1 = {46 72 6f 6d 42 61 73 65 36 34 53 74 72 69 6e 67}
+		$string_setA_2 = {42 61 73 65 36 34 53 74 72 69 6e 67}
+		$string_setA_3 = {((43 6f 6e 6e 65 63 74 65 64) | (43 00 6f 00 6e 00 6e 00 65 00 63 00 74 00 65 00 64 00))}
+		$string_setA_4 = {52 65 63 65 69 76 65}
+		$string_setA_5 = {((44 65 6c 65 74 65 53 75 62 4b 65 79) | (44 00 65 00 6c 00 65 00 74 00 65 00 53 00 75 00 62 00 4b 00 65 00 79 00))}
+		$string_setA_6 = {67 65 74 5f 4d 61 63 68 69 6e 65 4e 61 6d 65}
+		$string_setA_7 = {67 65 74 5f 55 73 65 72 4e 61 6d 65}
+		$string_setA_8 = {67 65 74 5f 4c 61 73 74 57 72 69 74 65 54 69 6d 65}
+		$string_setA_9 = {47 65 74 56 6f 6c 75 6d 65 49 6e 66 6f 72 6d 61 74 69 6f 6e}
+		$string_setB_1 = {((4f 53 46 75 6c 6c 4e 61 6d 65) | (4f 00 53 00 46 00 75 00 6c 00 6c 00 4e 00 61 00 6d 00 65 00))}
+		$string_setB_2 = {((53 65 6e 64) | (53 00 65 00 6e 00 64 00))}
+		$string_setB_3 = {((43 6f 6e 6e 65 63 74 65 64) | (43 00 6f 00 6e 00 6e 00 65 00 63 00 74 00 65 00 64 00))}
+		$string_setB_4 = {((44 6f 77 6e 6c 6f 61 64 44 61 74 61) | (44 00 6f 00 77 00 6e 00 6c 00 6f 00 61 00 64 00 44 00 61 00 74 00 61 00))}
+		$string_setB_5 = {6e 00 65 00 74 00 73 00 68 00 20 00 66 00 69 00 72 00 65 00 77 00 61 00 6c 00 6c 00}
+		$string_setB_6 = {63 00 6d 00 64 00 2e 00 65 00 78 00 65 00 20 00 2f 00 6b 00 20 00 70 00 69 00 6e 00 67 00 20 00 30 00 20 00 26 00 20 00 64 00 65 00 6c 00}
 
 	condition:
-		($magic at 0) and 
-		( all of ($string_setA*) or 
-			all of ($string_setB*))
+		($magic at 0 ) and ( all of ( $string_setA* ) or all of ( $string_setB* ) )
 }
 
-rule njRat
+rule njRat : hardened
 {
 	meta:
 		author = " Kevin Breen <kevin@techanarchy.net>"
@@ -128,19 +124,18 @@ rule njRat
 
 	strings:
 		$s1 = {7C 00 27 00 7C 00 27 00 7C}
-		$s2 = "netsh firewall add allowedprogram" wide
-		$s3 = "Software\\Microsoft\\Windows\\CurrentVersion\\Run" wide
-		$s4 = "yy-MM-dd" wide
-		$v1 = "cmd.exe /k ping 0 & del" wide
-		$v2 = "cmd.exe /c ping 127.0.0.1 & del" wide
-		$v3 = "cmd.exe /c ping 0 -n 2 & del" wide
+		$s2 = {6e 00 65 00 74 00 73 00 68 00 20 00 66 00 69 00 72 00 65 00 77 00 61 00 6c 00 6c 00 20 00 61 00 64 00 64 00 20 00 61 00 6c 00 6c 00 6f 00 77 00 65 00 64 00 70 00 72 00 6f 00 67 00 72 00 61 00 6d 00}
+		$s3 = {53 00 6f 00 66 00 74 00 77 00 61 00 72 00 65 00 5c 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 5c 00 43 00 75 00 72 00 72 00 65 00 6e 00 74 00 56 00 65 00 72 00 73 00 69 00 6f 00 6e 00 5c 00 52 00 75 00 6e 00}
+		$s4 = {79 00 79 00 2d 00 4d 00 4d 00 2d 00 64 00 64 00}
+		$v1 = {63 00 6d 00 64 00 2e 00 65 00 78 00 65 00 20 00 2f 00 6b 00 20 00 70 00 69 00 6e 00 67 00 20 00 30 00 20 00 26 00 20 00 64 00 65 00 6c 00}
+		$v2 = {63 00 6d 00 64 00 2e 00 65 00 78 00 65 00 20 00 2f 00 63 00 20 00 70 00 69 00 6e 00 67 00 20 00 31 00 32 00 37 00 2e 00 30 00 2e 00 30 00 2e 00 31 00 20 00 26 00 20 00 64 00 65 00 6c 00}
+		$v3 = {63 00 6d 00 64 00 2e 00 65 00 78 00 65 00 20 00 2f 00 63 00 20 00 70 00 69 00 6e 00 67 00 20 00 30 00 20 00 2d 00 6e 00 20 00 32 00 20 00 26 00 20 00 64 00 65 00 6c 00}
 
 	condition:
-		all of ($s*) and 
-		any of ($v*)
+		all of ( $s* ) and any of ( $v* )
 }
 
-rule Windows_Trojan_Njrat_30f3c220
+rule Windows_Trojan_Njrat_30f3c220 : hardened
 {
 	meta:
 		author = "Elastic Security"
@@ -161,18 +156,18 @@ rule Windows_Trojan_Njrat_30f3c220
 		score = 75
 
 	strings:
-		$a1 = "get_Registry" ascii fullword
-		$a2 = "SEE_MASK_NOZONECHECKS" wide fullword
-		$a3 = "Download ERROR" wide fullword
-		$a4 = "cmd.exe /c ping 0 -n 2 & del \"" wide fullword
-		$a5 = "netsh firewall delete allowedprogram \"" wide fullword
-		$a6 = "[+] System : " wide fullword
+		$a1 = {67 65 74 5f 52 65 67 69 73 74 72 79}
+		$a2 = {53 00 45 00 45 00 5f 00 4d 00 41 00 53 00 4b 00 5f 00 4e 00 4f 00 5a 00 4f 00 4e 00 45 00 43 00 48 00 45 00 43 00 4b 00 53 00}
+		$a3 = {44 00 6f 00 77 00 6e 00 6c 00 6f 00 61 00 64 00 20 00 45 00 52 00 52 00 4f 00 52 00}
+		$a4 = {63 00 6d 00 64 00 2e 00 65 00 78 00 65 00 20 00 2f 00 63 00 20 00 70 00 69 00 6e 00 67 00 20 00 30 00 20 00 2d 00 6e 00 20 00 32 00 20 00 26 00 20 00 64 00 65 00 6c 00 20 00 22 00}
+		$a5 = {6e 00 65 00 74 00 73 00 68 00 20 00 66 00 69 00 72 00 65 00 77 00 61 00 6c 00 6c 00 20 00 64 00 65 00 6c 00 65 00 74 00 65 00 20 00 61 00 6c 00 6c 00 6f 00 77 00 65 00 64 00 70 00 72 00 6f 00 67 00 72 00 61 00 6d 00 20 00 22 00}
+		$a6 = {5b 00 2b 00 5d 00 20 00 53 00 79 00 73 00 74 00 65 00 6d 00 20 00 3a 00 20 00}
 
 	condition:
 		3 of them
 }
 
-rule Windows_Trojan_Njrat_eb2698d2
+rule Windows_Trojan_Njrat_eb2698d2 : hardened
 {
 	meta:
 		author = "Elastic Security"
@@ -199,7 +194,7 @@ rule Windows_Trojan_Njrat_eb2698d2
 		all of them
 }
 
-rule malware_Njrat_strings
+rule malware_Njrat_strings : hardened
 {
 	meta:
 		description = "detect njRAT in memory"
@@ -213,15 +208,15 @@ rule malware_Njrat_strings
 		score = 75
 
 	strings:
-		$reg = "SEE_MASK_NOZONECHECKS" wide fullword
-		$msg = "Execute ERROR" wide fullword
-		$ping = "cmd.exe /c ping 0 -n 2 & del" wide fullword
+		$reg = {53 00 45 00 45 00 5f 00 4d 00 41 00 53 00 4b 00 5f 00 4e 00 4f 00 5a 00 4f 00 4e 00 45 00 43 00 48 00 45 00 43 00 4b 00 53 00}
+		$msg = {45 00 78 00 65 00 63 00 75 00 74 00 65 00 20 00 45 00 52 00 52 00 4f 00 52 00}
+		$ping = {63 00 6d 00 64 00 2e 00 65 00 78 00 65 00 20 00 2f 00 63 00 20 00 70 00 69 00 6e 00 67 00 20 00 30 00 20 00 2d 00 6e 00 20 00 32 00 20 00 26 00 20 00 64 00 65 00 6c 00}
 
 	condition:
 		all of them
 }
 
-rule njRat_1
+rule njRat_1 : hardened
 {
 	meta:
 		author = " Kevin Breen <kevin@techanarchy.net>"
@@ -240,19 +235,18 @@ rule njRat_1
 
 	strings:
 		$s1 = {7C 00 27 00 7C 00 27 00 7C}
-		$s2 = "netsh firewall add allowedprogram" wide
-		$s3 = "Software\\Microsoft\\Windows\\CurrentVersion\\Run" wide
-		$s4 = "yyyy-MM-dd" wide
-		$v1 = "cmd.exe /k ping 0 & del" wide
-		$v2 = "cmd.exe /c ping 127.0.0.1 & del" wide
-		$v3 = "cmd.exe /c ping 0 -n 2 & del" wide
+		$s2 = {6e 00 65 00 74 00 73 00 68 00 20 00 66 00 69 00 72 00 65 00 77 00 61 00 6c 00 6c 00 20 00 61 00 64 00 64 00 20 00 61 00 6c 00 6c 00 6f 00 77 00 65 00 64 00 70 00 72 00 6f 00 67 00 72 00 61 00 6d 00}
+		$s3 = {53 00 6f 00 66 00 74 00 77 00 61 00 72 00 65 00 5c 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 5c 00 43 00 75 00 72 00 72 00 65 00 6e 00 74 00 56 00 65 00 72 00 73 00 69 00 6f 00 6e 00 5c 00 52 00 75 00 6e 00}
+		$s4 = {79 00 79 00 79 00 79 00 2d 00 4d 00 4d 00 2d 00 64 00 64 00}
+		$v1 = {63 00 6d 00 64 00 2e 00 65 00 78 00 65 00 20 00 2f 00 6b 00 20 00 70 00 69 00 6e 00 67 00 20 00 30 00 20 00 26 00 20 00 64 00 65 00 6c 00}
+		$v2 = {63 00 6d 00 64 00 2e 00 65 00 78 00 65 00 20 00 2f 00 63 00 20 00 70 00 69 00 6e 00 67 00 20 00 31 00 32 00 37 00 2e 00 30 00 2e 00 30 00 2e 00 31 00 20 00 26 00 20 00 64 00 65 00 6c 00}
+		$v3 = {63 00 6d 00 64 00 2e 00 65 00 78 00 65 00 20 00 2f 00 63 00 20 00 70 00 69 00 6e 00 67 00 20 00 30 00 20 00 2d 00 6e 00 20 00 32 00 20 00 26 00 20 00 64 00 65 00 6c 00}
 
 	condition:
-		all of ($s*) and 
-		any of ($v*)
+		all of ( $s* ) and any of ( $v* )
 }
 
-rule Njrat_1
+rule Njrat_1 : hardened
 {
 	meta:
 		author = " Kevin Breen <kevin@techanarchy.net> & ditekSHen"
@@ -268,27 +262,24 @@ rule Njrat_1
 
 	strings:
 		$s1 = {7C 00 27 00 7C 00 27 00 7C}
-		$s2 = "netsh firewall add allowedprogram" wide
-		$s3 = "Software\\Microsoft\\Windows\\CurrentVersion\\Run" wide
-		$s4 = "yyyy-MM-dd" wide
-		$v1 = "cmd.exe /k ping 0 & del" wide
-		$v2 = "cmd.exe /c ping 127.0.0.1 & del" wide
-		$v3 = "cmd.exe /c ping 0 -n 2 & del" wide
-		$x1 = "netsh firewall delete allowedprogram" wide
-		$x2 = "netsh firewall add allowedprogram" wide
+		$s2 = {6e 00 65 00 74 00 73 00 68 00 20 00 66 00 69 00 72 00 65 00 77 00 61 00 6c 00 6c 00 20 00 61 00 64 00 64 00 20 00 61 00 6c 00 6c 00 6f 00 77 00 65 00 64 00 70 00 72 00 6f 00 67 00 72 00 61 00 6d 00}
+		$s3 = {53 00 6f 00 66 00 74 00 77 00 61 00 72 00 65 00 5c 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 5c 00 43 00 75 00 72 00 72 00 65 00 6e 00 74 00 56 00 65 00 72 00 73 00 69 00 6f 00 6e 00 5c 00 52 00 75 00 6e 00}
+		$s4 = {79 00 79 00 79 00 79 00 2d 00 4d 00 4d 00 2d 00 64 00 64 00}
+		$v1 = {63 00 6d 00 64 00 2e 00 65 00 78 00 65 00 20 00 2f 00 6b 00 20 00 70 00 69 00 6e 00 67 00 20 00 30 00 20 00 26 00 20 00 64 00 65 00 6c 00}
+		$v2 = {63 00 6d 00 64 00 2e 00 65 00 78 00 65 00 20 00 2f 00 63 00 20 00 70 00 69 00 6e 00 67 00 20 00 31 00 32 00 37 00 2e 00 30 00 2e 00 30 00 2e 00 31 00 20 00 26 00 20 00 64 00 65 00 6c 00}
+		$v3 = {63 00 6d 00 64 00 2e 00 65 00 78 00 65 00 20 00 2f 00 63 00 20 00 70 00 69 00 6e 00 67 00 20 00 30 00 20 00 2d 00 6e 00 20 00 32 00 20 00 26 00 20 00 64 00 65 00 6c 00}
+		$x1 = {6e 00 65 00 74 00 73 00 68 00 20 00 66 00 69 00 72 00 65 00 77 00 61 00 6c 00 6c 00 20 00 64 00 65 00 6c 00 65 00 74 00 65 00 20 00 61 00 6c 00 6c 00 6f 00 77 00 65 00 64 00 70 00 72 00 6f 00 67 00 72 00 61 00 6d 00}
+		$x2 = {6e 00 65 00 74 00 73 00 68 00 20 00 66 00 69 00 72 00 65 00 77 00 61 00 6c 00 6c 00 20 00 61 00 64 00 64 00 20 00 61 00 6c 00 6c 00 6f 00 77 00 65 00 64 00 70 00 72 00 6f 00 67 00 72 00 61 00 6d 00}
 		$x3 = { 63 00 6d 00 64 00 2e 00 65 00 78 00 65 00 20 00 2f 00 (63|6b) 00 20 00 70 00 69 00 6e 00 67 }
-		$x4 = "Execute ERROR" wide
-		$x5 = "Download ERROR" wide
-		$x6 = "[kl]" fullword wide
+		$x4 = {45 00 78 00 65 00 63 00 75 00 74 00 65 00 20 00 45 00 52 00 52 00 4f 00 52 00}
+		$x5 = {44 00 6f 00 77 00 6e 00 6c 00 6f 00 61 00 64 00 20 00 45 00 52 00 52 00 4f 00 52 00}
+		$x6 = {5b 00 6b 00 6c 00 5d 00}
 
 	condition:
-		( all of ($s*) and 
-			any of ($v*)) or 
-		( uint16(0)==0x5a4d and 
-			4 of ($x*))
+		( all of ( $s* ) and any of ( $v* ) ) or ( uint16( 0 ) == 0x5a4d and 4 of ( $x* ) )
 }
 
-rule njrat : rat
+rule njrat : rat hardened
 {
 	meta:
 		rule_group = "implant"
@@ -322,15 +313,14 @@ rule njrat : rat
 
 	strings:
 		$cnc_traffic_0 = {7C 00 27 00 7C 00 27 00 7C}
-		$rights_0 = "netsh firewall add allowedprogram \"" wide
-		$rights_1 = "netsh firewall delete allowedprogram \"" wide
+		$rights_0 = {6e 00 65 00 74 00 73 00 68 00 20 00 66 00 69 00 72 00 65 00 77 00 61 00 6c 00 6c 00 20 00 61 00 64 00 64 00 20 00 61 00 6c 00 6c 00 6f 00 77 00 65 00 64 00 70 00 72 00 6f 00 67 00 72 00 61 00 6d 00 20 00 22 00}
+		$rights_1 = {6e 00 65 00 74 00 73 00 68 00 20 00 66 00 69 00 72 00 65 00 77 00 61 00 6c 00 6c 00 20 00 64 00 65 00 6c 00 65 00 74 00 65 00 20 00 61 00 6c 00 6c 00 6f 00 77 00 65 00 64 00 70 00 72 00 6f 00 67 00 72 00 61 00 6d 00 20 00 22 00}
 
 	condition:
-		( all of ($cnc_traffic_*)) and 
-		( all of ($rights_*))
+		( all of ( $cnc_traffic_* ) ) and ( all of ( $rights_* ) )
 }
 
-rule Windows_Trojan_Njrat_30f3c220_1
+rule Windows_Trojan_Njrat_30f3c220_1 : hardened
 {
 	meta:
 		id = "30f3c220-b8dc-45a1-bcf0-027c2f76fa63"
@@ -355,17 +345,17 @@ rule Windows_Trojan_Njrat_30f3c220_1
 		score = 75
 
 	strings:
-		$a1 = "get_Registry" ascii fullword
-		$a2 = "netsh firewall delete allowedprogram \"" wide fullword
-		$a3 = "cmd.exe /c ping 0 -n 2 & del \"" wide fullword
-		$a4 = "SEE_MASK_NOZONECHECKS" wide fullword
-		$a5 = "Download ERROR" wide fullword
+		$a1 = {67 65 74 5f 52 65 67 69 73 74 72 79}
+		$a2 = {6e 00 65 00 74 00 73 00 68 00 20 00 66 00 69 00 72 00 65 00 77 00 61 00 6c 00 6c 00 20 00 64 00 65 00 6c 00 65 00 74 00 65 00 20 00 61 00 6c 00 6c 00 6f 00 77 00 65 00 64 00 70 00 72 00 6f 00 67 00 72 00 61 00 6d 00 20 00 22 00}
+		$a3 = {63 00 6d 00 64 00 2e 00 65 00 78 00 65 00 20 00 2f 00 63 00 20 00 70 00 69 00 6e 00 67 00 20 00 30 00 20 00 2d 00 6e 00 20 00 32 00 20 00 26 00 20 00 64 00 65 00 6c 00 20 00 22 00}
+		$a4 = {53 00 45 00 45 00 5f 00 4d 00 41 00 53 00 4b 00 5f 00 4e 00 4f 00 5a 00 4f 00 4e 00 45 00 43 00 48 00 45 00 43 00 4b 00 53 00}
+		$a5 = {44 00 6f 00 77 00 6e 00 6c 00 6f 00 61 00 64 00 20 00 45 00 52 00 52 00 4f 00 52 00}
 
 	condition:
 		all of them
 }
 
-rule win_njrat
+rule win_njrat : hardened
 {
 	meta:
 		author = "CERT Polska"
@@ -375,24 +365,22 @@ rule win_njrat
 		reference = "https://malpedia.caad.fkie.fraunhofer.de/details/win.njrat"
 
 	strings:
-		$str_cmd1 = "md.exe /k ping 0 & del " wide
-		$str_cmd2 = "cmd.exe /c ping 127.0.0.1 & del" wide
-		$str_cmd3 = "cmd.exe /c ping" wide
-		$str_cmd4 = "cmd.exe /C Y /N /D Y /T 1 & Del" wide
-		$str_kl1 = "[kl]" wide
-		$str_kl2 = "[TAP]" wide
-		$str_kl3 = "[ENTER]" wide
+		$str_cmd1 = {6d 00 64 00 2e 00 65 00 78 00 65 00 20 00 2f 00 6b 00 20 00 70 00 69 00 6e 00 67 00 20 00 30 00 20 00 26 00 20 00 64 00 65 00 6c 00 20 00}
+		$str_cmd2 = {63 00 6d 00 64 00 2e 00 65 00 78 00 65 00 20 00 2f 00 63 00 20 00 70 00 69 00 6e 00 67 00 20 00 31 00 32 00 37 00 2e 00 30 00 2e 00 30 00 2e 00 31 00 20 00 26 00 20 00 64 00 65 00 6c 00}
+		$str_cmd3 = {63 00 6d 00 64 00 2e 00 65 00 78 00 65 00 20 00 2f 00 63 00 20 00 70 00 69 00 6e 00 67 00}
+		$str_cmd4 = {63 00 6d 00 64 00 2e 00 65 00 78 00 65 00 20 00 2f 00 43 00 20 00 59 00 20 00 2f 00 4e 00 20 00 2f 00 44 00 20 00 59 00 20 00 2f 00 54 00 20 00 31 00 20 00 26 00 20 00 44 00 65 00 6c 00}
+		$str_kl1 = {5b 00 6b 00 6c 00 5d 00}
+		$str_kl2 = {5b 00 54 00 41 00 50 00 5d 00}
+		$str_kl3 = {5b 00 45 00 4e 00 54 00 45 00 52 00 5d 00}
 		$op_config_07d = { 46 69 78 00 6B 00 57 52 4B 00 6D 61 69 6E 00 00 00 }
 		$op_config_07d_indirect = { 54 00 45 00 4d 00 50 00 00 [1] 65 00 78 00 65 }
 		$op_config_07nc = { 63 00 6C 00 65 00 61 00 72 00 00 }
 
 	condition:
-		1 of ($str_cmd*) and 
-		1 of ($str_kl*) and 
-		1 of ($op_config*)
+		1 of ( $str_cmd* ) and 1 of ( $str_kl* ) and 1 of ( $op_config* )
 }
 
-rule fsnjRAT
+rule fsnjRAT : hardened
 {
 	meta:
 		description = "FsYARA - Malware Trends"
@@ -400,17 +388,6 @@ rule fsnjRAT
 		score = 75
 
 	condition:
-		Njrat or 
-		njrat1 or 
-		win_exe_njRAT or 
-		njRat or 
-		Windows_Trojan_Njrat_30f3c220 or 
-		Windows_Trojan_Njrat_eb2698d2 or 
-		malware_Njrat_strings or 
-		njRat_1 or 
-		Njrat_1 or 
-		njrat or 
-		Windows_Trojan_Njrat_30f3c220_1 or 
-		win_njrat
+		Njrat or njrat1 or win_exe_njRAT or njRat or Windows_Trojan_Njrat_30f3c220 or Windows_Trojan_Njrat_eb2698d2 or malware_Njrat_strings or njRat_1 or Njrat_1 or njrat or Windows_Trojan_Njrat_30f3c220_1 or win_njrat
 }
 

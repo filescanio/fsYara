@@ -1,10 +1,4 @@
-// source: https://github.com/Koodous/rules/blob/master/Mobile_Malware/Android_adware.yar
-
-/*
-    This Yara ruleset is under the GNU-GPLv2 license (http://www.gnu.org/licenses/gpl-2.0.html) and open to any user or organization, as    long as you use it under this license.
-*/
-
-rule adware : ads android
+rule adware : ads android hardened
 {
 	meta:
 		author = "Fernando Denis Ramirez https://twitter.com/fdrg21"
@@ -14,12 +8,12 @@ rule adware : ads android
 		sample = "5a331231f997decca388ba2d73b7dec1554e966a0795b0cb8447a336bdafd71b"
 
 	strings:
-		$string_a = "banner_layout"
-		$string_b = "activity_adpath_sms"
-		$string_c = "adpath_title_one"
-		$string_d = "7291-2ec9362bd699d0cd6f53a5ca6cd"
+		$string_a = {62 61 6e 6e 65 72 5f 6c 61 79 6f 75 74}
+		$string_b = {61 63 74 69 76 69 74 79 5f 61 64 70 61 74 68 5f 73 6d 73}
+		$string_c = {61 64 70 61 74 68 5f 74 69 74 6c 65 5f 6f 6e 65}
+		$string_d = {37 32 39 31 2d 32 65 63 39 33 36 32 62 64 36 39 39 64 30 63 64 36 66 35 33 61 35 63 61 36 63 64}
 
 	condition:
-		all of ($string_*)
-		
+		all of ( $string_* )
 }
+

@@ -1,34 +1,35 @@
-// source: https://github.com/Yara-Rules/rules/blob/master/exploit_kits/EK_Blackhole.yar
-
-rule blackhole2_pdf : EK PDF
+rule blackhole2_pdf : EK PDF hardened
 {
-meta:
-   author = "Josh Berry"
-   date = "2016-06-27"
-   description = "BlackHole2 Exploit Kit Detection"
-   hash0 = "d1e2ff36a6c882b289d3b736d915a6cc"
-   sample_filetype = "pdf"
-   yaragenerator = "https://github.com/Xen0ph0n/YaraGenerator"
-strings:
-   $string0 = "/StructTreeRoot 5 0 R/Type/Catalog>>"
-   $string1 = "0000036095 00000 n"
-   $string2 = "http://www.xfa.org/schema/xfa-locale-set/2.1/"
-   $string3 = "subform[0].ImageField1[0])/Subtype/Widget/TU(Image Field)/Parent 22 0 R/F 4/P 8 0 R/T<FEFF0049006D00"
-   $string4 = "0000000026 65535 f"
-   $string5 = "0000029039 00000 n"
-   $string6 = "0000029693 00000 n"
-   $string7 = "%PDF-1.6"
-   $string8 = "27 0 obj<</Subtype/Type0/DescendantFonts 28 0 R/BaseFont/KLGNYZ"
-   $string9 = "0000034423 00000 n"
-   $string10 = "0000000010 65535 f"
-   $string11 = ">stream"
-   $string12 = "/Pages 2 0 R%/StructTreeRoot 5 0 R/Type/Catalog>>"
-   $string13 = "19 0 obj<</Subtype/Type1C/Length 23094/Filter/FlateDecode>>stream"
-   $string14 = "0000003653 00000 n"
-   $string15 = "0000000023 65535 f"
-   $string16 = "0000028250 00000 n"
-   $string17 = "iceRGB>>>>/XStep 9.0/Type/Pattern/TilingType 2/YStep 9.0/BBox[0 0 9 9]>>stream"
-   $string18 = "<</Root 1 0 R>>"
-condition:
-   18 of them
+	meta:
+		author = "Josh Berry"
+		date = "2016-06-27"
+		description = "BlackHole2 Exploit Kit Detection"
+		hash0 = "d1e2ff36a6c882b289d3b736d915a6cc"
+		sample_filetype = "pdf"
+		yaragenerator = "https://github.com/Xen0ph0n/YaraGenerator"
+
+	strings:
+		$string0 = {2f 53 74 72 75 63 74 54 72 65 65 52 6f 6f 74 20 35 20 30 20 52 2f 54 79 70 65 2f 43 61 74 61 6c 6f 67 3e 3e}
+		$string1 = {30 30 30 30 30 33 36 30 39 35 20 30 30 30 30 30 20 6e}
+		$string2 = {68 74 74 70 3a 2f 2f 77 77 77 2e 78 66 61 2e 6f 72 67 2f 73 63 68 65 6d 61 2f 78 66 61 2d 6c 6f 63 61 6c 65 2d 73 65 74 2f 32 2e 31 2f}
+		$string3 = {73 75 62 66 6f 72 6d 5b 30 5d 2e 49 6d 61 67 65 46 69 65 6c 64 31 5b 30 5d 29 2f 53 75 62 74 79 70 65 2f 57 69 64 67 65 74 2f 54 55 28 49 6d 61 67 65 20 46 69 65 6c 64 29 2f 50 61 72 65 6e 74 20 32 32 20 30 20 52 2f 46 20 34 2f 50 20 38 20 30 20 52 2f 54 3c 46 45 46 46 30 30 34 39 30 30 36 44 30 30}
+		$string4 = {30 30 30 30 30 30 30 30 32 36 20 36 35 35 33 35 20 66}
+		$string5 = {30 30 30 30 30 32 39 30 33 39 20 30 30 30 30 30 20 6e}
+		$string6 = {30 30 30 30 30 32 39 36 39 33 20 30 30 30 30 30 20 6e}
+		$string7 = {25 50 44 46 2d 31 2e 36}
+		$string8 = {32 37 20 30 20 6f 62 6a 3c 3c 2f 53 75 62 74 79 70 65 2f 54 79 70 65 30 2f 44 65 73 63 65 6e 64 61 6e 74 46 6f 6e 74 73 20 32 38 20 30 20 52 2f 42 61 73 65 46 6f 6e 74 2f 4b 4c 47 4e 59 5a}
+		$string9 = {30 30 30 30 30 33 34 34 32 33 20 30 30 30 30 30 20 6e}
+		$string10 = {30 30 30 30 30 30 30 30 31 30 20 36 35 35 33 35 20 66}
+		$string11 = {3e 73 74 72 65 61 6d}
+		$string12 = {2f 50 61 67 65 73 20 32 20 30 20 52 25 2f 53 74 72 75 63 74 54 72 65 65 52 6f 6f 74 20 35 20 30 20 52 2f 54 79 70 65 2f 43 61 74 61 6c 6f 67 3e 3e}
+		$string13 = {31 39 20 30 20 6f 62 6a 3c 3c 2f 53 75 62 74 79 70 65 2f 54 79 70 65 31 43 2f 4c 65 6e 67 74 68 20 32 33 30 39 34 2f 46 69 6c 74 65 72 2f 46 6c 61 74 65 44 65 63 6f 64 65 3e 3e 73 74 72 65 61 6d}
+		$string14 = {30 30 30 30 30 30 33 36 35 33 20 30 30 30 30 30 20 6e}
+		$string15 = {30 30 30 30 30 30 30 30 32 33 20 36 35 35 33 35 20 66}
+		$string16 = {30 30 30 30 30 32 38 32 35 30 20 30 30 30 30 30 20 6e}
+		$string17 = {69 63 65 52 47 42 3e 3e 3e 3e 2f 58 53 74 65 70 20 39 2e 30 2f 54 79 70 65 2f 50 61 74 74 65 72 6e 2f 54 69 6c 69 6e 67 54 79 70 65 20 32 2f 59 53 74 65 70 20 39 2e 30 2f 42 42 6f 78 5b 30 20 30 20 39 20 39 5d 3e 3e 73 74 72 65 61 6d}
+		$string18 = {3c 3c 2f 52 6f 6f 74 20 31 20 30 20 52 3e 3e}
+
+	condition:
+		18 of them
 }
+

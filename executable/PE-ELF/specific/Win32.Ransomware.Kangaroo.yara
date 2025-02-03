@@ -1,27 +1,20 @@
-// https://github.com/reversinglabs/reversinglabs-yara-rules/blob/develop/yara/ransomware/Win32.Ransomware.Kangaroo.yara#L4
-
-rule Win32_Ransomware_Kangaroo : tc_detection malicious
+rule Win32_Ransomware_Kangaroo : tc_detection malicious hardened
 {
-    meta:
+	meta:
+		author = "ReversingLabs"
+		source = "ReversingLabs"
+		status = "RELEASED"
+		sharing = "TLP:WHITE"
+		category = "MALWARE"
+		malware = "KANGAROO"
+		description = "Yara rule that detects Kangaroo ransomware."
+		tc_detection_type = "Ransomware"
+		tc_detection_name = "Kangaroo"
+		tc_detection_factor = 5
+		score = 80
 
-        author              = "ReversingLabs"
-
-        source              = "ReversingLabs"
-        status              = "RELEASED"
-        sharing             = "TLP:WHITE"
-        category            = "MALWARE"
-        malware             = "KANGAROO"
-        description         = "Yara rule that detects Kangaroo ransomware."
-
-        tc_detection_type   = "Ransomware"
-        tc_detection_name   = "Kangaroo"
-        tc_detection_factor = 5
-        
-        score = 80
-
-    strings:
-
-        $encrypt_files_p1 = {
+	strings:
+		$encrypt_files_p1 = {
             83 EC ?? 53 55 8B 6C 24 ?? 56 57 33 FF 57 57 6A ?? 57 6A ?? 68 ?? ?? ?? ?? 33 DB 55 
             89 5C 24 ?? 89 7C 24 ?? 89 7C 24 ?? FF 15 ?? ?? ?? ?? 8B F0 83 FE ?? 0F 84 ?? ?? ?? 
             ?? 8D 44 24 ?? 50 8D 4C 24 ?? 51 8D 54 24 ?? 52 56 FF 15 ?? ?? ?? ?? 68 ?? ?? ?? ?? 
@@ -33,8 +26,7 @@ rule Win32_Ransomware_Kangaroo : tc_detection malicious
             15 ?? ?? ?? ?? 8B 54 24 ?? 57 8D 4C 24 ?? 51 57 57 6A ?? 57 52 89 44 24 ?? FF 15 ?? 
             ?? ?? ?? 8B 44 24 ?? 6A ?? 68 ?? ?? ?? ?? 50 57 8B 3D ?? ?? ?? ?? FF D7 8B 54 24
         }
-
-        $encrypt_files_p2 = {
+		$encrypt_files_p2 = {
             6A ?? 8D 4C 24 ?? 51 52 8B D8 53 56 FF 15 ?? ?? ?? ?? 83 F8 ?? 0F 85 ?? ?? ?? ?? 8B 
             44 24 ?? 8B 54 24 ?? 50 8D 4C 24 ?? 51 53 6A ?? 6A ?? 6A ?? 52 FF 15 ?? ?? ?? ?? 83 
             F8 ?? 0F 85 ?? ?? ?? ?? 56 FF 15 ?? ?? ?? ?? 6A ?? 6A ?? 6A ?? 56 FF 15 ?? ?? ?? ?? 
@@ -47,8 +39,7 @@ rule Win32_Ransomware_Kangaroo : tc_detection malicious
             ?? ?? ?? ?? 89 7C 24 ?? 8B 4C 24 ?? 57 51 FF 15 ?? ?? ?? ?? 56 FF 15 ?? ?? ?? ?? 5F 
             5E 5D 8B C3 5B 83 C4 ?? C3
         }
-
-        $find_files = {
+		$find_files = {
             55 8B EC 83 E4 ?? 81 EC ?? ?? ?? ?? 53 56 8B 75 ?? 57 56 FF 15 ?? ?? ?? ?? 8B 3D ?? 
             ?? ?? ?? 33 C9 83 F8 ?? 0F 94 C1 56 8D 94 24 ?? ?? ?? ?? 68 ?? ?? ?? ?? 52 89 4C 24 
             ?? FF D7 83 C4 ?? 8D 44 24 ?? 50 8D 8C 24 ?? ?? ?? ?? 51 FF 15 ?? ?? ?? ?? 89 44 24 
@@ -68,8 +59,7 @@ rule Win32_Ransomware_Kangaroo : tc_detection malicious
             ?? ?? ?? 85 C0 0F 85 ?? ?? ?? ?? 8B 4C 24 ?? 51 FF 15 ?? ?? ?? ?? 5F 5E 5B 8B E5 5D 
             C3
         }
-
-        $enum_resources = {
+		$enum_resources = {
             55 8B EC 83 E4 ?? 83 EC ?? 8B 4D ?? 53 56 57 8D 44 24 ?? 50 51 6A ?? 6A ?? 6A ?? C7 
             44 24 ?? ?? ?? ?? ?? C7 44 24 ?? ?? ?? ?? ?? E8 ?? ?? ?? ?? 85 C0 74 ?? 33 C0 5F 5E 
             5B 8B E5 5D C2 ?? ?? 8B 54 24 ?? 52 6A ?? FF 15 ?? ?? ?? ?? 8B D8 85 DB 74 ?? 8B 4C 
@@ -81,15 +71,7 @@ rule Win32_Ransomware_Kangaroo : tc_detection malicious
             5B 8B E5 5D C2
         }
 
-    condition:
-        uint16(0) == 0x5A4D and
-        (
-            $find_files
-        ) and
-        (
-            all of ($encrypt_files_p*)
-        ) and
-        (
-            $enum_resources
-        )
+	condition:
+		uint16( 0 ) == 0x5A4D and ( $find_files ) and ( all of ( $encrypt_files_p* ) ) and ( $enum_resources )
 }
+

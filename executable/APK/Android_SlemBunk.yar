@@ -1,11 +1,4 @@
-// source: https://github.com/Yara-Rules/rules/blob/master/deprecated/Android/Android_SlemBunk.yar
-
-/*
-    This Yara ruleset is under the GNU-GPLv2 license (http://www.gnu.org/licenses/gpl-2.0.html) and open to any user or organization, as    long as you use it under this license.
-*/
-
-
-rule SlemBunk : android
+rule SlemBunk : android hardened
 {
 	meta:
 		description = "Rule to detect trojans imitating banks of North America, Eurpope and Asia"
@@ -15,13 +8,13 @@ rule SlemBunk : android
 		source = "https://www.fireeye.com/blog/threat-research/2015/12/slembunk_an_evolvin.html"
 
 	strings:
-		$a = "#intercept_sms_start"
-		$b = "#intercept_sms_stop"
-		$c = "#block_numbers"
-		$d = "#wipe_data"
-		$e = "Visa Electron"
+		$a = {23 69 6e 74 65 72 63 65 70 74 5f 73 6d 73 5f 73 74 61 72 74}
+		$b = {23 69 6e 74 65 72 63 65 70 74 5f 73 6d 73 5f 73 74 6f 70}
+		$c = {23 62 6c 6f 63 6b 5f 6e 75 6d 62 65 72 73}
+		$d = {23 77 69 70 65 5f 64 61 74 61}
+		$e = {56 69 73 61 20 45 6c 65 63 74 72 6f 6e}
 
 	condition:
 		all of them
-		
 }
+

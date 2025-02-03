@@ -1,29 +1,4 @@
-// source: https://github.com/Yara-Rules/rules/blob/master/deprecated/Android/Android_Metasploit.yar
-
-/*
-    This Yara ruleset is under the GNU-GPLv2 license (http://www.gnu.org/licenses/gpl-2.0.html) and open to any user or organization, as    long as you use it under this license.
-*/
-
-
-//rule android_meterpreter : android
-//{
-//    meta:
-//        author="73mp74710n"
-//        ref = "https://github.com/zombieleet/yara-rules/blob/master/android_metasploit.yar"
-//        comment="Metasploit Android Meterpreter Payload"
-//        
-//    strings:
-//	$checkPK = "META-INF/PK"
-//	$checkHp = "[Hp^"
-//	$checkSdeEncode = /;.Sk/
-//	$stopEval = "eval"
-//	$stopBase64 = "base64_decode"
-//	
-//    condition:
-//	any of ($check*) or any of ($stop*)
-//}
-
-rule android_metasploit : android
+rule android_metasploit : android hardened
 {
 	meta:
 		author = "https://twitter.com/plutec_net"
@@ -32,12 +7,12 @@ rule android_metasploit : android
 		sample = "cb9a217032620c63b85a58dde0f9493f69e4bda1e12b180047407c15ee491b41"
 
 	strings:
-		$a = "*Lcom/metasploit/stage/PayloadTrustManager;"
-		$b = "(com.metasploit.stage.PayloadTrustManager"
-		$c = "Lcom/metasploit/stage/Payload$1;"
-		$d = "Lcom/metasploit/stage/Payload;"
+		$a = {2a 4c 63 6f 6d 2f 6d 65 74 61 73 70 6c 6f 69 74 2f 73 74 61 67 65 2f 50 61 79 6c 6f 61 64 54 72 75 73 74 4d 61 6e 61 67 65 72 3b}
+		$b = {28 63 6f 6d 2e 6d 65 74 61 73 70 6c 6f 69 74 2e 73 74 61 67 65 2e 50 61 79 6c 6f 61 64 54 72 75 73 74 4d 61 6e 61 67 65 72}
+		$c = {4c 63 6f 6d 2f 6d 65 74 61 73 70 6c 6f 69 74 2f 73 74 61 67 65 2f 50 61 79 6c 6f 61 64 24 31 3b}
+		$d = {4c 63 6f 6d 2f 6d 65 74 61 73 70 6c 6f 69 74 2f 73 74 61 67 65 2f 50 61 79 6c 6f 61 64 3b}
 
 	condition:
 		all of them
-		
 }
+

@@ -1,227 +1,162 @@
-// source : https://github.com/Neo23x0/signature-base/blob/6b8e2a00e5aafcfcfc767f3f53ae986cf81f968a/yara/apt_between-hk-and-burma.yar#L106
-// source : https://github.com/Yara-Rules/rules/blob/master/malware/APT_UP007_SLServer.yar
-
-rule dubseven_file_set
+rule dubseven_file_set : hardened
 {
 	meta:
 		author = "Matt Brooks, @cmatthewbrooks"
 		date = "2016/04/18"
 		score = 75
 		description = "Searches for service files loading UP007"
-
 		id = "5b0a9cb9-aeef-5508-8854-51ad846b22c5"
+
 	strings:
-		$file1 = "\\Microsoft\\Internet Explorer\\conhost.exe"
-		$file2 = "\\Microsoft\\Internet Explorer\\dll2.xor"
-		$file3 = "\\Microsoft\\Internet Explorer\\HOOK.DLL"
-		$file4 = "\\Microsoft\\Internet Explorer\\main.dll"
-		$file5 = "\\Microsoft\\Internet Explorer\\nvsvc.exe"
-		$file6 = "\\Microsoft\\Internet Explorer\\SBieDll.dll"
-		$file7 = "\\Microsoft\\Internet Explorer\\mon"
-		$file8 = "\\Microsoft\\Internet Explorer\\runas.exe"
+		$file1 = {5c 4d 69 63 72 6f 73 6f 66 74 5c 49 6e 74 65 72 6e 65 74 20 45 78 70 6c 6f 72 65 72 5c 63 6f 6e 68 6f 73 74 2e 65 78 65}
+		$file2 = {5c 4d 69 63 72 6f 73 6f 66 74 5c 49 6e 74 65 72 6e 65 74 20 45 78 70 6c 6f 72 65 72 5c 64 6c 6c 32 2e 78 6f 72}
+		$file3 = {5c 4d 69 63 72 6f 73 6f 66 74 5c 49 6e 74 65 72 6e 65 74 20 45 78 70 6c 6f 72 65 72 5c 48 4f 4f 4b 2e 44 4c 4c}
+		$file4 = {5c 4d 69 63 72 6f 73 6f 66 74 5c 49 6e 74 65 72 6e 65 74 20 45 78 70 6c 6f 72 65 72 5c 6d 61 69 6e 2e 64 6c 6c}
+		$file5 = {5c 4d 69 63 72 6f 73 6f 66 74 5c 49 6e 74 65 72 6e 65 74 20 45 78 70 6c 6f 72 65 72 5c 6e 76 73 76 63 2e 65 78 65}
+		$file6 = {5c 4d 69 63 72 6f 73 6f 66 74 5c 49 6e 74 65 72 6e 65 74 20 45 78 70 6c 6f 72 65 72 5c 53 42 69 65 44 6c 6c 2e 64 6c 6c}
+		$file7 = {5c 4d 69 63 72 6f 73 6f 66 74 5c 49 6e 74 65 72 6e 65 74 20 45 78 70 6c 6f 72 65 72 5c 6d 6f 6e}
+		$file8 = {5c 4d 69 63 72 6f 73 6f 66 74 5c 49 6e 74 65 72 6e 65 74 20 45 78 70 6c 6f 72 65 72 5c 72 75 6e 61 73 2e 65 78 65}
 
 	condition:
-		//MZ header
-		uint16(0) == 0x5A4D and
-
-		//PE signature
-		uint32(uint32(0x3C)) == 0x00004550 and
-
-		//Just a few of these as they differ
-		3 of ($file*)
+		uint16( 0 ) == 0x5A4D and uint32( uint32( 0x3C ) ) == 0x00004550 and 3 of ( $file* )
 }
 
-rule dubseven_dropper_registry_checks
+rule dubseven_dropper_registry_checks : hardened
 {
 	meta:
 		author = "Matt Brooks, @cmatthewbrooks"
 		date = "2016/04/18"
 		score = 75
 		description = "Searches for registry keys checked for by the dropper"
-
 		id = "8369cdbb-53b8-5dc5-9181-fd49747042a7"
+
 	strings:
-		$reg1 = "SOFTWARE\\360Safe\\Liveup"
-		$reg2 = "Software\\360safe"
-		$reg3 = "SOFTWARE\\kingsoft\\Antivirus"
-		$reg4 = "SOFTWARE\\Avira\\Avira Destop"
-		$reg5 = "SOFTWARE\\rising\\RAV"
-		$reg6 = "SOFTWARE\\JiangMin"
-		$reg7 = "SOFTWARE\\Micropoint\\Anti-Attack"
+		$reg1 = {53 4f 46 54 57 41 52 45 5c 33 36 30 53 61 66 65 5c 4c 69 76 65 75 70}
+		$reg2 = {53 6f 66 74 77 61 72 65 5c 33 36 30 73 61 66 65}
+		$reg3 = {53 4f 46 54 57 41 52 45 5c 6b 69 6e 67 73 6f 66 74 5c 41 6e 74 69 76 69 72 75 73}
+		$reg4 = {53 4f 46 54 57 41 52 45 5c 41 76 69 72 61 5c 41 76 69 72 61 20 44 65 73 74 6f 70}
+		$reg5 = {53 4f 46 54 57 41 52 45 5c 72 69 73 69 6e 67 5c 52 41 56}
+		$reg6 = {53 4f 46 54 57 41 52 45 5c 4a 69 61 6e 67 4d 69 6e}
+		$reg7 = {53 4f 46 54 57 41 52 45 5c 4d 69 63 72 6f 70 6f 69 6e 74 5c 41 6e 74 69 2d 41 74 74 61 63 6b}
 
 	condition:
-		//MZ header
-		uint16(0) == 0x5A4D and
-
-		//PE signature
-		uint32(uint32(0x3C)) == 0x00004550 and
-
-		all of ($reg*)
+		uint16( 0 ) == 0x5A4D and uint32( uint32( 0x3C ) ) == 0x00004550 and all of ( $reg* )
 }
 
-rule dubseven_dropper_dialog_remains
+rule dubseven_dropper_dialog_remains : hardened
 {
 	meta:
 		author = "Matt Brooks, @cmatthewbrooks"
 		date = "2016/04/18"
 		score = 75
 		description = "Searches for related dialog remnants. How rude."
-
 		id = "6029ea74-26fc-57d1-aaed-be1ea2138844"
+
 	strings:
-		$dia1 = "fuckMessageBox 1.0" wide
-		$dia2 = "Rundll 1.0" wide
+		$dia1 = {66 00 75 00 63 00 6b 00 4d 00 65 00 73 00 73 00 61 00 67 00 65 00 42 00 6f 00 78 00 20 00 31 00 2e 00 30 00}
+		$dia2 = {52 00 75 00 6e 00 64 00 6c 00 6c 00 20 00 31 00 2e 00 30 00}
 
 	condition:
-		//MZ header
-		uint16(0) == 0x5A4D and
-
-		//PE signature
-		uint32(uint32(0x3C)) == 0x00004550 and
-
-		any of them
+		uint16( 0 ) == 0x5A4D and uint32( uint32( 0x3C ) ) == 0x00004550 and any of them
 }
 
-
-rule maindll_mutex
+rule maindll_mutex : hardened
 {
 	meta:
 		author = "Matt Brooks, @cmatthewbrooks"
 		date = "2016/04/18"
 		score = 75
 		description = "Matches on the maindll mutex"
-
 		id = "7a89dae3-9e03-5803-9729-78e6e65e91d3"
+
 	strings:
-		$mutex = "h31415927tttt"
+		$mutex = {68 33 31 34 31 35 39 32 37 74 74 74 74}
 
 	condition:
-		//MZ header
-		uint16(0) == 0x5A4D and
-
-		//PE signature
-		uint32(uint32(0x3C)) == 0x00004550 and
-
-		$mutex
+		uint16( 0 ) == 0x5A4D and uint32( uint32( 0x3C ) ) == 0x00004550 and $mutex
 }
 
-
-rule SLServer_dialog_remains
+rule SLServer_dialog_remains : hardened
 {
 	meta:
 		author = "Matt Brooks, @cmatthewbrooks / modified by Florian Roth"
 		date = "2016/04/18"
 		score = 75
 		description = "Searches for related dialog remnants."
-
 		id = "cf199d25-ce5e-52c2-88de-32a48dee4c6f"
+
 	strings:
-		$slserver = "SLServer" wide fullword
-
-		$fp1 = "Dell Inc." wide fullword
-		$fp2 = "ScriptLogic Corporation" wide
-
-		$extra1 = "SLSERVER" wide fullword
-		$extra2 = "\\SLServer.pdb" ascii
+		$slserver = {53 00 4c 00 53 00 65 00 72 00 76 00 65 00 72 00}
+		$fp1 = {44 00 65 00 6c 00 6c 00 20 00 49 00 6e 00 63 00 2e 00}
+		$fp2 = {53 00 63 00 72 00 69 00 70 00 74 00 4c 00 6f 00 67 00 69 00 63 00 20 00 43 00 6f 00 72 00 70 00 6f 00 72 00 61 00 74 00 69 00 6f 00 6e 00}
+		$extra1 = {53 00 4c 00 53 00 45 00 52 00 56 00 45 00 52 00}
+		$extra2 = {5c 53 4c 53 65 72 76 65 72 2e 70 64 62}
 
 	condition:
-		//MZ header
-		uint16(0) == 0x5A4D and
-
-		//PE signature
-		uint32(uint32(0x3C)) == 0x00004550 and
-
-		// Reduce false positives
-		not 1 of ($fp*) and
-		1 of ($extra*) and
-
-		$slserver
+		uint16( 0 ) == 0x5A4D and uint32( uint32( 0x3C ) ) == 0x00004550 and not 1 of ( $fp* ) and 1 of ( $extra* ) and $slserver
 }
 
-rule SLServer_mutex
+rule SLServer_mutex : hardened
 {
 	meta:
 		author = "Matt Brooks, @cmatthewbrooks"
 		date = "2016/04/18"
 		score = 75
 		description = "Searches for the mutex."
-
 		id = "decdefd0-fe20-5adf-9d8c-0e2b954481a0"
+
 	strings:
-		$mutex = "M&GX^DSF&DA@F"
+		$mutex = {4d 26 47 58 5e 44 53 46 26 44 41 40 46}
 
 	condition:
-		//MZ header
-		uint16(0) == 0x5A4D and
-
-		//PE signature
-		uint32(uint32(0x3C)) == 0x00004550 and
-
-		$mutex
+		uint16( 0 ) == 0x5A4D and uint32( uint32( 0x3C ) ) == 0x00004550 and $mutex
 }
 
-rule SLServer_command_and_control
+rule SLServer_command_and_control : hardened
 {
 	meta:
 		author = "Matt Brooks, @cmatthewbrooks"
 		date = "2016/04/18"
 		score = 75
 		description = "Searches for the C2 server."
-
 		id = "e4fcda6c-1c9f-5b58-8b07-8d1a0dc4eaf6"
+
 	strings:
-		$c2 = "safetyssl.security-centers.com"
+		$c2 = {73 61 66 65 74 79 73 73 6c 2e 73 65 63 75 72 69 74 79 2d 63 65 6e 74 65 72 73 2e 63 6f 6d}
 
 	condition:
-		//MZ header
-		uint16(0) == 0x5A4D and
-
-		//PE signature
-		uint32(uint32(0x3C)) == 0x00004550 and
-
-		$c2
+		uint16( 0 ) == 0x5A4D and uint32( uint32( 0x3C ) ) == 0x00004550 and $c2
 }
 
-rule SLServer_campaign_code
+rule SLServer_campaign_code : hardened
 {
 	meta:
 		author = "Matt Brooks, @cmatthewbrooks"
 		date = "2016/04/18"
 		score = 75
 		description = "Searches for the related campaign code."
-
 		id = "672f506e-0cc1-5b09-873b-c3d206486bac"
+
 	strings:
-		$campaign = "wthkdoc0106"
+		$campaign = {77 74 68 6b 64 6f 63 30 31 30 36}
 
 	condition:
-		//MZ header
-		uint16(0) == 0x5A4D and
-
-		//PE signature
-		uint32(uint32(0x3C)) == 0x00004550 and
-
-		$campaign
+		uint16( 0 ) == 0x5A4D and uint32( uint32( 0x3C ) ) == 0x00004550 and $campaign
 }
 
-rule SLServer_unknown_string
+rule SLServer_unknown_string : hardened
 {
 	meta:
 		author = "Matt Brooks, @cmatthewbrooks"
 		date = "2016/04/18"
 		score = 75
 		description = "Searches for a unique string."
-
 		id = "00341604-480f-59aa-9c18-009e7b53928e"
+
 	strings:
-		$string = "test-b7fa835a39"
+		$string = {74 65 73 74 2d 62 37 66 61 38 33 35 61 33 39}
 
 	condition:
-		//MZ header
-		uint16(0) == 0x5A4D and
-
-		//PE signature
-		uint32(uint32(0x3C)) == 0x00004550 and
-
-		$string
+		uint16( 0 ) == 0x5A4D and uint32( uint32( 0x3C ) ) == 0x00004550 and $string
 }
+

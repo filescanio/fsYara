@@ -1,21 +1,20 @@
-// Source: https://github.com/Neo23x0/signature-base/blob/415fb41176f2c17139fa088ff436cae5fc0cf111/yara/crime_covid_ransom.yar
+rule MAL_RANSOM_COVID19_Apr20_1 : hardened
+{
+	meta:
+		description = "Detects ransomware distributed in COVID-19 theme"
+		author = "Florian Roth (Nextron Systems)"
+		reference = "https://unit42.paloaltonetworks.com/covid-19-themed-cyber-attacks-target-government-and-medical-organizations/"
+		date = "2020-04-15"
+		hash1 = "2779863a173ff975148cb3156ee593cb5719a0ab238ea7c9e0b0ca3b5a4a9326"
+		id = "fc723d1f-e969-5af6-af57-70d00bf797f4"
 
-rule MAL_RANSOM_COVID19_Apr20_1 {
-   meta:
-      description = "Detects ransomware distributed in COVID-19 theme"
-      author = "Florian Roth (Nextron Systems)"
-      reference = "https://unit42.paloaltonetworks.com/covid-19-themed-cyber-attacks-target-government-and-medical-organizations/"
-      date = "2020-04-15"
-      hash1 = "2779863a173ff975148cb3156ee593cb5719a0ab238ea7c9e0b0ca3b5a4a9326"
-      id = "fc723d1f-e969-5af6-af57-70d00bf797f4"
-   strings:
-      $s1 = "/savekey.php" wide
+	strings:
+		$s1 = {2f 00 73 00 61 00 76 00 65 00 6b 00 65 00 79 00 2e 00 70 00 68 00 70 00}
+		$op1 = { 3f ff ff ff ff ff 0b b4 }
+		$op2 = { 60 2e 2e 2e af 34 34 34 b8 34 34 34 b8 34 34 34 }
+		$op3 = { 1f 07 1a 37 85 05 05 36 83 05 05 36 83 05 05 34 }
 
-      $op1 = { 3f ff ff ff ff ff 0b b4 }
-      $op2 = { 60 2e 2e 2e af 34 34 34 b8 34 34 34 b8 34 34 34 }
-      $op3 = { 1f 07 1a 37 85 05 05 36 83 05 05 36 83 05 05 34 }
-   condition:
-      uint16(0) == 0x5a4d and
-      filesize < 700KB and
-      2 of them
+	condition:
+		uint16( 0 ) == 0x5a4d and filesize < 700KB and 2 of them
 }
+

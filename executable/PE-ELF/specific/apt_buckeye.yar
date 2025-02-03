@@ -1,14 +1,5 @@
-// source: https://github.com/Neo23x0/signature-base/blob/6b8e2a00e5aafcfcfc767f3f53ae986cf81f968a/yara/apt_buckeye.yar
-/*
-	Yara Rule Set
-	Author: Florian Roth
-	Date: 2016-09-05
-	Identifier: Buckeye
-*/
-
-/* Rule Set ----------------------------------------------------------------- */
-
-rule Buckeye_Osinfo {
+rule Buckeye_Osinfo : hardened
+{
 	meta:
 		description = "Detects OSinfo tool used by the Buckeye APT group"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -16,19 +7,22 @@ rule Buckeye_Osinfo {
 		reference = "http://www.symantec.com/connect/blogs/buckeye-cyberespionage-group-shifts-gaze-us-hong-kong"
 		date = "2016-09-05"
 		id = "e40a86d1-fd1a-5430-b7b7-8cc7ca128cc5"
+
 	strings:
-		$s1 = "-s ShareInfo ShareDir" fullword ascii
-		$s2 = "-a Local And Global Group User Info" fullword ascii
-		$s3 = "-f <infile> //input server list from infile, OneServerOneLine" fullword ascii
-		$s4 = "info <\\server> <user>" fullword ascii
-		$s5 = "-c Connect Test" fullword ascii
-		$s6 = "-gd Group Domain Admins" fullword ascii
-		$s7 = "-n NetuseInfo" fullword ascii
+		$s1 = {2d 73 20 53 68 61 72 65 49 6e 66 6f 20 53 68 61 72 65 44 69 72}
+		$s2 = {2d 61 20 4c 6f 63 61 6c 20 41 6e 64 20 47 6c 6f 62 61 6c 20 47 72 6f 75 70 20 55 73 65 72 20 49 6e 66 6f}
+		$s3 = {2d 66 20 3c 69 6e 66 69 6c 65 3e 20 2f 2f 69 6e 70 75 74 20 73 65 72 76 65 72 20 6c 69 73 74 20 66 72 6f 6d 20 69 6e 66 69 6c 65 2c 20 4f 6e 65 53 65 72 76 65 72 4f 6e 65 4c 69 6e 65}
+		$s4 = {69 6e 66 6f 20 3c 5c 73 65 72 76 65 72 3e 20 3c 75 73 65 72 3e}
+		$s5 = {2d 63 20 43 6f 6e 6e 65 63 74 20 54 65 73 74}
+		$s6 = {2d 67 64 20 47 72 6f 75 70 20 44 6f 6d 61 69 6e 20 41 64 6d 69 6e 73}
+		$s7 = {2d 6e 20 4e 65 74 75 73 65 49 6e 66 6f}
+
 	condition:
-		uint16(0) == 0x5a4d and 3 of ($s*)
+		uint16( 0 ) == 0x5a4d and 3 of ( $s* )
 }
 
-rule RemoteCmd {
+rule RemoteCmd : hardened
+{
 	meta:
 		description = "Detects a remote access tool used by APT groups - file RemoteCmd.exe"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -38,18 +32,21 @@ rule RemoteCmd {
 		modified = "2022-12-21"
 		hash1 = "5264d1de687432f8346617ac88ffcb31e025e43fc3da1dad55882b17b44f1f8b"
 		id = "384f37f3-4562-5d79-9793-0384c43d4602"
+
 	strings:
-		$s1 = "RemoteCmd.exe" fullword wide
-		$s2 = "\\Release\\RemoteCmd.pdb" ascii
-		$s3 = "RemoteCmd [ComputerName] [Executable] [Param1] [Param2] ..." fullword wide
-		$s4 = "http://{0}:65101/CommandEngine" fullword wide
-		$s5 = "Brenner.RemoteCmd.Client" fullword ascii
-		$s6 = "$b1888995-1ee5-4f6d-82df-d2ab8ae73d63" fullword ascii
+		$s1 = {52 00 65 00 6d 00 6f 00 74 00 65 00 43 00 6d 00 64 00 2e 00 65 00 78 00 65 00}
+		$s2 = {5c 52 65 6c 65 61 73 65 5c 52 65 6d 6f 74 65 43 6d 64 2e 70 64 62}
+		$s3 = {52 00 65 00 6d 00 6f 00 74 00 65 00 43 00 6d 00 64 00 20 00 5b 00 43 00 6f 00 6d 00 70 00 75 00 74 00 65 00 72 00 4e 00 61 00 6d 00 65 00 5d 00 20 00 5b 00 45 00 78 00 65 00 63 00 75 00 74 00 61 00 62 00 6c 00 65 00 5d 00 20 00 5b 00 50 00 61 00 72 00 61 00 6d 00 31 00 5d 00 20 00 5b 00 50 00 61 00 72 00 61 00 6d 00 32 00 5d 00 20 00 2e 00 2e 00 2e 00}
+		$s4 = {68 00 74 00 74 00 70 00 3a 00 2f 00 2f 00 7b 00 30 00 7d 00 3a 00 36 00 35 00 31 00 30 00 31 00 2f 00 43 00 6f 00 6d 00 6d 00 61 00 6e 00 64 00 45 00 6e 00 67 00 69 00 6e 00 65 00}
+		$s5 = {42 72 65 6e 6e 65 72 2e 52 65 6d 6f 74 65 43 6d 64 2e 43 6c 69 65 6e 74}
+		$s6 = {24 62 31 38 38 38 39 39 35 2d 31 65 65 35 2d 34 66 36 64 2d 38 32 64 66 2d 64 32 61 62 38 61 65 37 33 64 36 33}
+
 	condition:
-		( uint16(0) == 0x5a4d and filesize < 50KB and 2 of them ) or ( 4 of them )
+		( uint16( 0 ) == 0x5a4d and filesize < 50KB and 2 of them ) or ( 4 of them )
 }
 
-rule ChromePass {
+rule ChromePass : hardened
+{
 	meta:
 		description = "Detects a tool used by APT groups - file ChromePass.exe"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -60,19 +57,21 @@ rule ChromePass {
 		hash1 = "5ff43049ae18d03dcc74f2be4a870c7056f6cfb5eb636734cca225140029de9a"
 		id = "950b9761-bdfd-514b-90ea-a1454d35ce5a"
 		score = 60
-	strings:
-		$x1 = "\\Release\\ChromePass.pdb" ascii
-		$x2 = "Windows Protect folder for getting the encryption keys" wide
-		$x3 = "Chrome User Data folder where the password file is stored" wide
 
-		$s1 = "Opera Software\\Opera Stable\\Login Data" fullword wide
-		$s2 = "Yandex\\YandexBrowser\\User Data\\Default\\Login Data" fullword wide
-		$s3 = "Load the passwords from another Windows user or external drive: " fullword wide
-		$s4 = "Chrome Passwords List!Select the windows profile folder" fullword wide
-		$s5 = "Load the passwords of the current logged-on user" fullword wide
-		$s6 = "Windows Login Password:" fullword wide
-		$s7 = "SELECT origin_url, action_url, username_element, username_value, password_element, password_value, signon_realm, date_created fr" ascii
-		$s8 = "Chrome Password Recovery" fullword wide
+	strings:
+		$x1 = {5c 52 65 6c 65 61 73 65 5c 43 68 72 6f 6d 65 50 61 73 73 2e 70 64 62}
+		$x2 = {57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 50 00 72 00 6f 00 74 00 65 00 63 00 74 00 20 00 66 00 6f 00 6c 00 64 00 65 00 72 00 20 00 66 00 6f 00 72 00 20 00 67 00 65 00 74 00 74 00 69 00 6e 00 67 00 20 00 74 00 68 00 65 00 20 00 65 00 6e 00 63 00 72 00 79 00 70 00 74 00 69 00 6f 00 6e 00 20 00 6b 00 65 00 79 00 73 00}
+		$x3 = {43 00 68 00 72 00 6f 00 6d 00 65 00 20 00 55 00 73 00 65 00 72 00 20 00 44 00 61 00 74 00 61 00 20 00 66 00 6f 00 6c 00 64 00 65 00 72 00 20 00 77 00 68 00 65 00 72 00 65 00 20 00 74 00 68 00 65 00 20 00 70 00 61 00 73 00 73 00 77 00 6f 00 72 00 64 00 20 00 66 00 69 00 6c 00 65 00 20 00 69 00 73 00 20 00 73 00 74 00 6f 00 72 00 65 00 64 00}
+		$s1 = {4f 00 70 00 65 00 72 00 61 00 20 00 53 00 6f 00 66 00 74 00 77 00 61 00 72 00 65 00 5c 00 4f 00 70 00 65 00 72 00 61 00 20 00 53 00 74 00 61 00 62 00 6c 00 65 00 5c 00 4c 00 6f 00 67 00 69 00 6e 00 20 00 44 00 61 00 74 00 61 00}
+		$s2 = {59 00 61 00 6e 00 64 00 65 00 78 00 5c 00 59 00 61 00 6e 00 64 00 65 00 78 00 42 00 72 00 6f 00 77 00 73 00 65 00 72 00 5c 00 55 00 73 00 65 00 72 00 20 00 44 00 61 00 74 00 61 00 5c 00 44 00 65 00 66 00 61 00 75 00 6c 00 74 00 5c 00 4c 00 6f 00 67 00 69 00 6e 00 20 00 44 00 61 00 74 00 61 00}
+		$s3 = {4c 00 6f 00 61 00 64 00 20 00 74 00 68 00 65 00 20 00 70 00 61 00 73 00 73 00 77 00 6f 00 72 00 64 00 73 00 20 00 66 00 72 00 6f 00 6d 00 20 00 61 00 6e 00 6f 00 74 00 68 00 65 00 72 00 20 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 75 00 73 00 65 00 72 00 20 00 6f 00 72 00 20 00 65 00 78 00 74 00 65 00 72 00 6e 00 61 00 6c 00 20 00 64 00 72 00 69 00 76 00 65 00 3a 00 20 00}
+		$s4 = {43 00 68 00 72 00 6f 00 6d 00 65 00 20 00 50 00 61 00 73 00 73 00 77 00 6f 00 72 00 64 00 73 00 20 00 4c 00 69 00 73 00 74 00 21 00 53 00 65 00 6c 00 65 00 63 00 74 00 20 00 74 00 68 00 65 00 20 00 77 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 70 00 72 00 6f 00 66 00 69 00 6c 00 65 00 20 00 66 00 6f 00 6c 00 64 00 65 00 72 00}
+		$s5 = {4c 00 6f 00 61 00 64 00 20 00 74 00 68 00 65 00 20 00 70 00 61 00 73 00 73 00 77 00 6f 00 72 00 64 00 73 00 20 00 6f 00 66 00 20 00 74 00 68 00 65 00 20 00 63 00 75 00 72 00 72 00 65 00 6e 00 74 00 20 00 6c 00 6f 00 67 00 67 00 65 00 64 00 2d 00 6f 00 6e 00 20 00 75 00 73 00 65 00 72 00}
+		$s6 = {57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 4c 00 6f 00 67 00 69 00 6e 00 20 00 50 00 61 00 73 00 73 00 77 00 6f 00 72 00 64 00 3a 00}
+		$s7 = {53 45 4c 45 43 54 20 6f 72 69 67 69 6e 5f 75 72 6c 2c 20 61 63 74 69 6f 6e 5f 75 72 6c 2c 20 75 73 65 72 6e 61 6d 65 5f 65 6c 65 6d 65 6e 74 2c 20 75 73 65 72 6e 61 6d 65 5f 76 61 6c 75 65 2c 20 70 61 73 73 77 6f 72 64 5f 65 6c 65 6d 65 6e 74 2c 20 70 61 73 73 77 6f 72 64 5f 76 61 6c 75 65 2c 20 73 69 67 6e 6f 6e 5f 72 65 61 6c 6d 2c 20 64 61 74 65 5f 63 72 65 61 74 65 64 20 66 72}
+		$s8 = {43 00 68 00 72 00 6f 00 6d 00 65 00 20 00 50 00 61 00 73 00 73 00 77 00 6f 00 72 00 64 00 20 00 52 00 65 00 63 00 6f 00 76 00 65 00 72 00 79 00}
+
 	condition:
-		( uint16(0) == 0x5a4d and filesize < 700KB and 1 of ($x*) ) or ( 5 of them )
+		( uint16( 0 ) == 0x5a4d and filesize < 700KB and 1 of ( $x* ) ) or ( 5 of them )
 }
+

@@ -1,70 +1,72 @@
-import "pe"
+rule MAL_RANSOM_Ragna_Locker_Apr20_1 : hardened
+{
+	meta:
+		description = "Detects Ragna Locker Ransomware"
+		author = "Florian Roth (Nextron Systems)"
+		reference = "https://otx.alienvault.com/indicator/file/c2bd70495630ed8279de0713a010e5e55f3da29323b59ef71401b12942ba52f6"
+		date = "2020-04-27"
+		hash1 = "c2bd70495630ed8279de0713a010e5e55f3da29323b59ef71401b12942ba52f6"
+		id = "67164cb4-73b7-5c4e-88f9-42379b88c641"
 
-rule MAL_RANSOM_Ragna_Locker_Apr20_1 {
-   meta:
-      description = "Detects Ragna Locker Ransomware"
-      author = "Florian Roth (Nextron Systems)"
-      reference = "https://otx.alienvault.com/indicator/file/c2bd70495630ed8279de0713a010e5e55f3da29323b59ef71401b12942ba52f6"
-      date = "2020-04-27"
-      hash1 = "c2bd70495630ed8279de0713a010e5e55f3da29323b59ef71401b12942ba52f6"
-      id = "67164cb4-73b7-5c4e-88f9-42379b88c641"
-   strings:
-      $x1 = "---RAGNAR SECRET---" ascii
-      $xc1 = { 0D 0A 25 73 0D 0A 0D 0A 25 73 0D 0A 25 73 0D 0A
+	strings:
+		$x1 = {2d 2d 2d 52 41 47 4e 41 52 20 53 45 43 52 45 54 2d 2d 2d}
+		$xc1 = { 0D 0A 25 73 0D 0A 0D 0A 25 73 0D 0A 25 73 0D 0A
                25 73 0D 0A 0D 0A 25 73 0D 0A 00 00 2E 00 72 00
                61 00 67 00 6E 00 61 00 72 00 5F }
-      $xc2 = { 00 2D 00 66 00 6F 00 72 00 63 00 65 00 00 00 00
+		$xc2 = { 00 2D 00 66 00 6F 00 72 00 63 00 65 00 00 00 00
                00 57 00 69 00 6E 00 53 00 74 00 61 00 30 00 5C
                00 44 00 65 00 66 00 61 00 75 00 6C 00 74 00 00
                00 5C 00 6E 00 6F 00 74 00 65 00 70 00 61 00 64
                00 2E 00 65 00 78 00 65 00 }
-
-      $s1 = "bootfont.bin" wide fullword
-
-      $sc2 = { 00 57 00 69 00 6E 00 64 00 6F 00 77 00 73 00 00
+		$s1 = {62 00 6f 00 6f 00 74 00 66 00 6f 00 6e 00 74 00 2e 00 62 00 69 00 6e 00}
+		$sc2 = { 00 57 00 69 00 6E 00 64 00 6F 00 77 00 73 00 00
                00 57 00 69 00 6E 00 64 00 6F 00 77 00 73 00 2E
                00 6F 00 6C 00 64 00 00 00 54 00 6F 00 72 00 20
                00 62 00 72 00 6F 00 77 00 73 00 65 00 72 00 }
+		$op1 = { c7 85 58 ff ff ff 55 00 6b 00 c7 85 5c ff ff ff }
+		$op2 = { 50 c7 85 7a ff ff ff 5c }
+		$op3 = { 8b 75 08 8a 84 0d 20 ff ff ff ff 45 08 32 06 8b }
 
-      $op1 = { c7 85 58 ff ff ff 55 00 6b 00 c7 85 5c ff ff ff }
-      $op2 = { 50 c7 85 7a ff ff ff 5c }
-      $op3 = { 8b 75 08 8a 84 0d 20 ff ff ff ff 45 08 32 06 8b }
-   condition:
-      uint16(0) == 0x5a4d and
-      filesize < 200KB and
-      1 of ($x*) or 4 of them
+	condition:
+		uint16( 0 ) == 0x5a4d and filesize < 200KB and 1 of ( $x* ) or 4 of them
 }
 
-rule MAL_Ransom_Ragnarlocker_July_2020_1 {
-   meta:
-      description = "Detects Ragnarlocker by strings (July 2020)"
-      author = "Arkbird_SOLG"
-      reference = "https://twitter.com/JAMESWT_MHT/status/1288797666688851969"
-      date = "2020-07-30"
-      hash1 = "04c9cc0d1577d5ee54a4e2d4dd12f17011d13703cdd0e6efd46718d14fd9aa87"
-      id = "60e09057-d9f8-5e89-8f47-c5dda32806c6"
-   strings:
-      $f1 = "bootfont.bin" fullword wide
-      $f2 = "bootmgr.efi" fullword wide
-      $f3 = "bootsect.bak" fullword wide
-      $r1 = "$!.txt" fullword wide
-      $r2 = "---BEGIN KEY R_R---" fullword ascii
-      $r3 = "!$R4GN4R_" wide
-      $r4 = "RAGNRPW" fullword ascii /* parser */
-      $r5 = "---END KEY R_R---" fullword ascii
-      $a1 = "+RhRR!-uD8'O&Wjq1_P#Rw<9Oy?n^qSP6N{BngxNK!:TG*}\\|W]o?/]H*8z;26X0" fullword ascii    
-      $a2 = "\\\\.\\PHYSICALDRIVE%d" fullword wide /* parse disks */
-      $a3 = "WinSta0\\Default" fullword wide /* Token ref */
-      $a4 = "%s-%s-%s-%s-%s" fullword wide /* GUID parser*/
-      $a5 = "SOFTWARE\\Microsoft\\Cryptography" fullword wide /* Ref crypto used */
-      $c1 = "-backup" fullword wide
-      $c2 = "-force" fullword wide
-      $c3 = "-vmback" fullword wide
-      $c4 = "-list" fullword wide
-      $s1 = ".ragn@r_" wide /* ref */
-      $s2 = "\\notepad.exe" wide /* Show ransom note to the victim*/
-      $s3 = "Opera Software" fullword wide  /* Don't touch browsers for contact him*/
-      $s4 = "Tor browser" fullword wide /*Ref ransom note*/
-   condition:
-      uint16(0) == 0x5a4d and filesize < 30KB and ( pe.imphash() == "2c2aab89a4cba444cf2729e2ed61ed4f" and ( (2 of ($f*)) and (3 of ($r*)) and (4 of ($a*)) and (2 of ($c*)) and (2 of ($s*)) ) )
+import "pe"
+
+rule MAL_Ransom_Ragnarlocker_July_2020_1 : hardened
+{
+	meta:
+		description = "Detects Ragnarlocker by strings (July 2020)"
+		author = "Arkbird_SOLG"
+		reference = "https://twitter.com/JAMESWT_MHT/status/1288797666688851969"
+		date = "2020-07-30"
+		hash1 = "04c9cc0d1577d5ee54a4e2d4dd12f17011d13703cdd0e6efd46718d14fd9aa87"
+		id = "60e09057-d9f8-5e89-8f47-c5dda32806c6"
+
+	strings:
+		$f1 = {62 00 6f 00 6f 00 74 00 66 00 6f 00 6e 00 74 00 2e 00 62 00 69 00 6e 00}
+		$f2 = {62 00 6f 00 6f 00 74 00 6d 00 67 00 72 00 2e 00 65 00 66 00 69 00}
+		$f3 = {62 00 6f 00 6f 00 74 00 73 00 65 00 63 00 74 00 2e 00 62 00 61 00 6b 00}
+		$r1 = {24 00 21 00 2e 00 74 00 78 00 74 00}
+		$r2 = {2d 2d 2d 42 45 47 49 4e 20 4b 45 59 20 52 5f 52 2d 2d 2d}
+		$r3 = {21 00 24 00 52 00 34 00 47 00 4e 00 34 00 52 00 5f 00}
+		$r4 = {52 41 47 4e 52 50 57}
+		$r5 = {2d 2d 2d 45 4e 44 20 4b 45 59 20 52 5f 52 2d 2d 2d}
+		$a1 = {2b 52 68 52 52 21 2d 75 44 38 27 4f 26 57 6a 71 31 5f 50 23 52 77 3c 39 4f 79 3f 6e 5e 71 53 50 36 4e 7b 42 6e 67 78 4e 4b 21 3a 54 47 2a 7d 5c 7c 57 5d 6f 3f 2f 5d 48 2a 38 7a 3b 32 36 58 30}
+		$a2 = {5c 00 5c 00 2e 00 5c 00 50 00 48 00 59 00 53 00 49 00 43 00 41 00 4c 00 44 00 52 00 49 00 56 00 45 00 25 00 64 00}
+		$a3 = {57 00 69 00 6e 00 53 00 74 00 61 00 30 00 5c 00 44 00 65 00 66 00 61 00 75 00 6c 00 74 00}
+		$a4 = {25 00 73 00 2d 00 25 00 73 00 2d 00 25 00 73 00 2d 00 25 00 73 00 2d 00 25 00 73 00}
+		$a5 = {53 00 4f 00 46 00 54 00 57 00 41 00 52 00 45 00 5c 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 5c 00 43 00 72 00 79 00 70 00 74 00 6f 00 67 00 72 00 61 00 70 00 68 00 79 00}
+		$c1 = {2d 00 62 00 61 00 63 00 6b 00 75 00 70 00}
+		$c2 = {2d 00 66 00 6f 00 72 00 63 00 65 00}
+		$c3 = {2d 00 76 00 6d 00 62 00 61 00 63 00 6b 00}
+		$c4 = {2d 00 6c 00 69 00 73 00 74 00}
+		$s1 = {2e 00 72 00 61 00 67 00 6e 00 40 00 72 00 5f 00}
+		$s2 = {5c 00 6e 00 6f 00 74 00 65 00 70 00 61 00 64 00 2e 00 65 00 78 00 65 00}
+		$s3 = {4f 00 70 00 65 00 72 00 61 00 20 00 53 00 6f 00 66 00 74 00 77 00 61 00 72 00 65 00}
+		$s4 = {54 00 6f 00 72 00 20 00 62 00 72 00 6f 00 77 00 73 00 65 00 72 00}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and filesize < 30KB and ( pe.imphash ( ) == "2c2aab89a4cba444cf2729e2ed61ed4f" and ( ( 2 of ( $f* ) ) and ( 3 of ( $r* ) ) and ( 4 of ( $a* ) ) and ( 2 of ( $c* ) ) and ( 2 of ( $s* ) ) ) )
 }
+

@@ -1,31 +1,32 @@
-rule Ran_Pay2Key_Nov_2020_1 {
-   meta:
-      description = "Detect Pay2Key ransomware"
-      author = "Arkbird_SOLG"
-      reference = "Internal Research"
-      date = "2020-12-01"
-      hash1 = "5bae961fec67565fb88c8bcd3841b7090566d8fc12ccb70436b5269456e55c00"
-      hash2 = "d2b612729d0c106cb5b0434e3d5de1a5dc9d065d276d51a3fb25a08f39e18467"
-      hash3 = "ea7ed9bb14a7bda590cf3ff81c8c37703a028c4fdb4599b6a283d68fdcb2613f"
-   strings:
-      // Bonus : Doesn't count in the condition
-      $s1 = "F:\\2-Sources\\21-FinalCobalt\\Source\\cobalt\\Cobalt\\Cobalt\\Win32\\Release\\Client\\Cobalt.Client.pdb" fullword ascii
-      $s2 = ".\\Cobalt-Client-log.txt" fullword ascii
-      $s3 = ".\\Config.ini" fullword wide
-      $s4 = "Local\\{C15730E2-145C-4c5e-B005-3BC753F42475}-once-flag" fullword ascii
-      // Change the wallpaper
-      $s5 = "\\Microsoft\\Windows\\Themes\\TranscodedWallpaper" fullword ascii
-      // ping localhost
-      $s6 =  { 40 00 63 00 6d 00 64 00 2e 00 65 00 78 00 65 00 20 00 2f 00 43 00 20 00 70 00 69 00 6e 00 67 00 20 00 31 00 2e 00 31 00 2e 00 31 00 2e 00 31 00 20 00 2d 00 6e 00 20 00 31 00 20 00 2d 00 77 00 20 00 33 00 30 00 30 00 30 00 20 00 3e 00 20 00 4e 00 75 00 6c 00 20 00 26 00 20 00 44 00 65 00 6c 00 20 00 2f 00 66 00 20 00 2f 00 71 00 20 00 22 00 25 00 73 00 22 } // @cmd.exe /C ping 1.1.1.1 -n 1 -w 3000 > Nul & Del /f /q "%s"
-      $s7 = "%WINDRIVE%" fullword wide
-      $s8 = "%WINDIR%" fullword wide
-      $dbg1 = "message.txt" fullword ascii
-      $dbg2 = "Failed To Get Data...." fullword ascii
-      $dbg3 = "lock.locked()" fullword wide
-      $dbg4 = { 47 65 74 41 64 61 70 74 65 72 73 49 6e 66 6f 20 66 61 69 6c 65 64 20 77 69 74 68 20 65 72 72 6f 72 3a 20 25 64 0a } // GetAdaptersInfo failed with error: %d\n
-      $dbg5 = { 43 72 79 70 74 41 63 71 75 69 72 65 43 6f 6e 74 65 78 74 20 66 61 69 6c 65 64 3a 20 25 78 0a } // CryptAcquireContext failed: %x\n
-      $dbg6 = { 43 72 79 70 74 44 65 72 69 76 65 4b 65 79 20 66 61 69 6c 65 64 3a 20 25 78 0a 00 00 25 00 64 } // CryptDeriveKey failed: %x\n
-      $dbg7 = { 5b 2d 5d 20 43 72 79 70 74 45 6e 63 72 79 70 74 20 66 61 69 6c 65 64 0a } // [-] CryptEncrypt failed\n
-   condition:
-      uint16(0) == 0x5a4d and filesize > 500KB and (5 of ($s*) and 4 of ($dbg*))
+rule Ran_Pay2Key_Nov_2020_1 : hardened
+{
+	meta:
+		description = "Detect Pay2Key ransomware"
+		author = "Arkbird_SOLG"
+		reference = "Internal Research"
+		date = "2020-12-01"
+		hash1 = "5bae961fec67565fb88c8bcd3841b7090566d8fc12ccb70436b5269456e55c00"
+		hash2 = "d2b612729d0c106cb5b0434e3d5de1a5dc9d065d276d51a3fb25a08f39e18467"
+		hash3 = "ea7ed9bb14a7bda590cf3ff81c8c37703a028c4fdb4599b6a283d68fdcb2613f"
+
+	strings:
+		$s1 = {46 3a 5c 32 2d 53 6f 75 72 63 65 73 5c 32 31 2d 46 69 6e 61 6c 43 6f 62 61 6c 74 5c 53 6f 75 72 63 65 5c 63 6f 62 61 6c 74 5c 43 6f 62 61 6c 74 5c 43 6f 62 61 6c 74 5c 57 69 6e 33 32 5c 52 65 6c 65 61 73 65 5c 43 6c 69 65 6e 74 5c 43 6f 62 61 6c 74 2e 43 6c 69 65 6e 74 2e 70 64 62}
+		$s2 = {2e 5c 43 6f 62 61 6c 74 2d 43 6c 69 65 6e 74 2d 6c 6f 67 2e 74 78 74}
+		$s3 = {2e 00 5c 00 43 00 6f 00 6e 00 66 00 69 00 67 00 2e 00 69 00 6e 00 69 00}
+		$s4 = {4c 6f 63 61 6c 5c 7b 43 31 35 37 33 30 45 32 2d 31 34 35 43 2d 34 63 35 65 2d 42 30 30 35 2d 33 42 43 37 35 33 46 34 32 34 37 35 7d 2d 6f 6e 63 65 2d 66 6c 61 67}
+		$s5 = {5c 4d 69 63 72 6f 73 6f 66 74 5c 57 69 6e 64 6f 77 73 5c 54 68 65 6d 65 73 5c 54 72 61 6e 73 63 6f 64 65 64 57 61 6c 6c 70 61 70 65 72}
+		$s6 = { 40 00 63 00 6d 00 64 00 2e 00 65 00 78 00 65 00 20 00 2f 00 43 00 20 00 70 00 69 00 6e 00 67 00 20 00 31 00 2e 00 31 00 2e 00 31 00 2e 00 31 00 20 00 2d 00 6e 00 20 00 31 00 20 00 2d 00 77 00 20 00 33 00 30 00 30 00 30 00 20 00 3e 00 20 00 4e 00 75 00 6c 00 20 00 26 00 20 00 44 00 65 00 6c 00 20 00 2f 00 66 00 20 00 2f 00 71 00 20 00 22 00 25 00 73 00 22 }
+		$s7 = {25 00 57 00 49 00 4e 00 44 00 52 00 49 00 56 00 45 00 25 00}
+		$s8 = {25 00 57 00 49 00 4e 00 44 00 49 00 52 00 25 00}
+		$dbg1 = {6d 65 73 73 61 67 65 2e 74 78 74}
+		$dbg2 = {46 61 69 6c 65 64 20 54 6f 20 47 65 74 20 44 61 74 61 2e 2e 2e 2e}
+		$dbg3 = {6c 00 6f 00 63 00 6b 00 2e 00 6c 00 6f 00 63 00 6b 00 65 00 64 00 28 00 29 00}
+		$dbg4 = { 47 65 74 41 64 61 70 74 65 72 73 49 6e 66 6f 20 66 61 69 6c 65 64 20 77 69 74 68 20 65 72 72 6f 72 3a 20 25 64 0a }
+		$dbg5 = { 43 72 79 70 74 41 63 71 75 69 72 65 43 6f 6e 74 65 78 74 20 66 61 69 6c 65 64 3a 20 25 78 0a }
+		$dbg6 = { 43 72 79 70 74 44 65 72 69 76 65 4b 65 79 20 66 61 69 6c 65 64 3a 20 25 78 0a 00 00 25 00 64 }
+		$dbg7 = { 5b 2d 5d 20 43 72 79 70 74 45 6e 63 72 79 70 74 20 66 61 69 6c 65 64 0a }
+
+	condition:
+		uint16( 0 ) == 0x5a4d and filesize > 500KB and ( 5 of ( $s* ) and 4 of ( $dbg* ) )
 }
+

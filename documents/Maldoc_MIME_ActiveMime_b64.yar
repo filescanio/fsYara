@@ -1,11 +1,4 @@
-// source: https://github.com/Yara-Rules/rules/blob/0f93570194a80d2f2032869055808b0ddcdfb360/maldocs/Maldoc_MIME_ActiveMime_b64.yar
-
-/*
-    This Yara ruleset is under the GNU-GPLv2 license (http://www.gnu.org/licenses/gpl-2.0.html) and open to any user or organization, as    long as you use it under this license.
-
-*/
-
-rule MIME_MSO_ActiveMime_base64 : maldoc
+rule MIME_MSO_ActiveMime_base64 : maldoc hardened
 {
 	meta:
 		author = "Martin Willing (https://evild3ad.com)"
@@ -13,13 +6,14 @@ rule MIME_MSO_ActiveMime_base64 : maldoc
 		date = "2016-02-28"
 		filetype = "Office documents"
 		score = 40
-		
+
 	strings:
-		$mime = "MIME-Version:"
-		$base64 = "Content-Transfer-Encoding: base64"
-		$mso = "Content-Type: application/x-mso"
+		$mime = {4d 49 4d 45 2d 56 65 72 73 69 6f 6e 3a}
+		$base64 = {43 6f 6e 74 65 6e 74 2d 54 72 61 6e 73 66 65 72 2d 45 6e 63 6f 64 69 6e 67 3a 20 62 61 73 65 36 34}
+		$mso = {43 6f 6e 74 65 6e 74 2d 54 79 70 65 3a 20 61 70 70 6c 69 63 61 74 69 6f 6e 2f 78 2d 6d 73 6f}
 		$activemime = /Q(\x0D\x0A|)W(\x0D\x0A|)N(\x0D\x0A|)0(\x0D\x0A|)a(\x0D\x0A|)X(\x0D\x0A|)Z(\x0D\x0A|)l(\x0D\x0A|)T(\x0D\x0A|)W/
-	
+
 	condition:
 		$mime at 0 and $base64 and $mso and $activemime
 }
+

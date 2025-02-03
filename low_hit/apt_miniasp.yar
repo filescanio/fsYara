@@ -1,5 +1,5 @@
-
-rule APT_Malware_CommentCrew_MiniASP {
+rule APT_Malware_CommentCrew_MiniASP : hardened
+{
 	meta:
 		description = "CommentCrew Malware MiniASP APT"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -11,28 +11,26 @@ rule APT_Malware_CommentCrew_MiniASP {
 		hash1 = "777bf8def279942a25750feffc11d8a36cc0acf9"
 		hash2 = "173f20b126cb57fc8ab04d01ae223071e2345f97"
 		id = "a434012d-d13a-5061-a1d8-180d2c5828e8"
-	strings:
-		$x1 = "\\MiniAsp4\\Release\\MiniAsp.pdb" ascii /* score: '19.02' */
-		$x2 = "run http://%s/logo.png setup.exe" fullword ascii /* PEStudio Blacklist: strings */ /* score: '37.02' */
-		$x3 = "d:\\command.txt" fullword ascii /* PEStudio Blacklist: strings */ /* score: '28.01' */
 
-		$z1 = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.0; SLCC2; .NET CLR " ascii /* PEStudio Blacklist: strings */ /* score: '24.02' */
-		$z2 = "Mozilla/4.0 (compatible; MSIE 7.4; Win32;32-bit)" fullword ascii /* PEStudio Blacklist: strings */ /* score: '22.03' */
-		$z3 = "User-Agent: Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.0; SLCC" ascii /* PEStudio Blacklist: agent */ /* score: '32.03' */
-		
-		$s1 = "http://%s/device_command.asp?device_id=%s&cv=%s&command=%s" fullword ascii /* PEStudio Blacklist: strings */ /* score: '36.02' */
-		$s2 = "kill process error!" fullword ascii /* PEStudio Blacklist: strings */ /* score: '24.04' */
-		$s3 = "kill process success!" fullword ascii /* PEStudio Blacklist: strings */ /* score: '21.04' */
-		$s4 = "pickup command error!" fullword ascii /* PEStudio Blacklist: strings */ /* score: '21.04' */
-		$s5 = "http://%s/record.asp?device_t=%s&key=%s&device_id=%s&cv=%s&result=%s" fullword ascii /* score: '20.01' */
-		$s6 = "no command" fullword ascii /* PEStudio Blacklist: strings */ /* score: '19.05' */
-		$s7 = "software\\microsoft\\windows\\currentversion\\run" fullword ascii /* score: '19.02' */
-		$s8 = "command is null!" fullword ascii /* PEStudio Blacklist: strings */ /* score: '18.05' */
-		$s9 = "pickup command Ok!" fullword ascii /* PEStudio Blacklist: strings */ /* score: '18.04' */
-		$s10 = "http://%s/result_%s.htm" fullword ascii /* score: '18.01' */
+	strings:
+		$x1 = {5c 4d 69 6e 69 41 73 70 34 5c 52 65 6c 65 61 73 65 5c 4d 69 6e 69 41 73 70 2e 70 64 62}
+		$x2 = {72 75 6e 20 68 74 74 70 3a 2f 2f 25 73 2f 6c 6f 67 6f 2e 70 6e 67 20 73 65 74 75 70 2e 65 78 65}
+		$x3 = {64 3a 5c 63 6f 6d 6d 61 6e 64 2e 74 78 74}
+		$z1 = {4d 6f 7a 69 6c 6c 61 2f 34 2e 30 20 28 63 6f 6d 70 61 74 69 62 6c 65 3b 20 4d 53 49 45 20 38 2e 30 3b 20 57 69 6e 64 6f 77 73 20 4e 54 20 36 2e 31 3b 20 54 72 69 64 65 6e 74 2f 34 2e 30 3b 20 53 4c 43 43 32 3b 20 2e 4e 45 54 20 43 4c 52 20}
+		$z2 = {4d 6f 7a 69 6c 6c 61 2f 34 2e 30 20 28 63 6f 6d 70 61 74 69 62 6c 65 3b 20 4d 53 49 45 20 37 2e 34 3b 20 57 69 6e 33 32 3b 33 32 2d 62 69 74 29}
+		$z3 = {55 73 65 72 2d 41 67 65 6e 74 3a 20 4d 6f 7a 69 6c 6c 61 2f 34 2e 30 20 28 63 6f 6d 70 61 74 69 62 6c 65 3b 20 4d 53 49 45 20 38 2e 30 3b 20 57 69 6e 64 6f 77 73 20 4e 54 20 36 2e 31 3b 20 54 72 69 64 65 6e 74 2f 34 2e 30 3b 20 53 4c 43 43}
+		$s1 = {68 74 74 70 3a 2f 2f 25 73 2f 64 65 76 69 63 65 5f 63 6f 6d 6d 61 6e 64 2e 61 73 70 3f 64 65 76 69 63 65 5f 69 64 3d 25 73 26 63 76 3d 25 73 26 63 6f 6d 6d 61 6e 64 3d 25 73}
+		$s2 = {6b 69 6c 6c 20 70 72 6f 63 65 73 73 20 65 72 72 6f 72 21}
+		$s3 = {6b 69 6c 6c 20 70 72 6f 63 65 73 73 20 73 75 63 63 65 73 73 21}
+		$s4 = {70 69 63 6b 75 70 20 63 6f 6d 6d 61 6e 64 20 65 72 72 6f 72 21}
+		$s5 = {68 74 74 70 3a 2f 2f 25 73 2f 72 65 63 6f 72 64 2e 61 73 70 3f 64 65 76 69 63 65 5f 74 3d 25 73 26 6b 65 79 3d 25 73 26 64 65 76 69 63 65 5f 69 64 3d 25 73 26 63 76 3d 25 73 26 72 65 73 75 6c 74 3d 25 73}
+		$s6 = {6e 6f 20 63 6f 6d 6d 61 6e 64}
+		$s7 = {73 6f 66 74 77 61 72 65 5c 6d 69 63 72 6f 73 6f 66 74 5c 77 69 6e 64 6f 77 73 5c 63 75 72 72 65 6e 74 76 65 72 73 69 6f 6e 5c 72 75 6e}
+		$s8 = {63 6f 6d 6d 61 6e 64 20 69 73 20 6e 75 6c 6c 21}
+		$s9 = {70 69 63 6b 75 70 20 63 6f 6d 6d 61 6e 64 20 4f 6b 21}
+		$s10 = {68 74 74 70 3a 2f 2f 25 73 2f 72 65 73 75 6c 74 5f 25 73 2e 68 74 6d}
+
 	condition:
-		uint16(0) == 0x5a4d and 
-		( 1 of ($x*) ) or 
-		( all of ($z*) ) or 
-		( 8 of ($s*) )
+		uint16( 0 ) == 0x5a4d and ( 1 of ( $x* ) ) or ( all of ( $z* ) ) or ( 8 of ( $s* ) )
 }
+

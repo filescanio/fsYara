@@ -1,11 +1,5 @@
-/*
-	Yara Rule Set
-	Author: Florian Roth
-	Date: 2016-02-09
-	Identifier: Poseidon Group APT
-*/
-
-rule PoseidonGroup_Malware {
+rule PoseidonGroup_Malware : hardened
+{
 	meta:
 		description = "Detects Poseidon Group Malware"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -22,32 +16,33 @@ rule PoseidonGroup_Malware {
 		hash6 = "d7c8b47a0d0a9181fb993f17e165d75a6be8cf11812d3baf7cf11d085e21d4fb"
 		hash7 = "ded0ee29af97496f27d810f6c16d78a3031d8c2193d5d2a87355f3e3ca58f9b3"
 		id = "fe8b227a-d93d-5540-ba73-3f20358205f6"
-	strings:
-		$s1 = "c:\\winnt\\system32\\cmd.exe" fullword ascii
-		$s2 = "c:\\windows\\system32\\cmd.exe" fullword ascii
-		$s3 = "c:\\windows\\command.com" fullword ascii
-		$s4 = "copy \"%s\" \"%s\" /Y" fullword ascii
-		$s5 = "http://%s/files/" ascii
-		$s6 = "\"%s\". %s: \"%s\"." fullword ascii
-		$s7 = "0x0666" fullword ascii
-		$s8 = "----------------This_is_a_boundary$" fullword ascii
-		$s9 = "Server 2012" fullword ascii /* Goodware String - occured 1 times */
-		$s10 = "Server 2008" fullword ascii /* Goodware String - occured 1 times */
-		$s11 = "Server 2003" fullword ascii /* Goodware String - occured 1 times */
 
-		$a1 = "net.exe group \"Domain Admins\" /domain" fullword ascii
-		$a2 = "net.exe group \"Admins. do Dom" fullword ascii
-		$a3 = "(SVRID=%d)" fullword ascii
-		$a4 = "(TG=%d)" fullword ascii
-		$a5 = "(SVR=%s)" fullword ascii
-		$a6 = "Set-Cookie:\\b*{.+?}\\n" fullword wide
-		$a7 = "net.exe localgroup Administradores" fullword ascii
+	strings:
+		$s1 = {63 3a 5c 77 69 6e 6e 74 5c 73 79 73 74 65 6d 33 32 5c 63 6d 64 2e 65 78 65}
+		$s2 = {63 3a 5c 77 69 6e 64 6f 77 73 5c 73 79 73 74 65 6d 33 32 5c 63 6d 64 2e 65 78 65}
+		$s3 = {63 3a 5c 77 69 6e 64 6f 77 73 5c 63 6f 6d 6d 61 6e 64 2e 63 6f 6d}
+		$s4 = {63 6f 70 79 20 22 25 73 22 20 22 25 73 22 20 2f 59}
+		$s5 = {68 74 74 70 3a 2f 2f 25 73 2f 66 69 6c 65 73 2f}
+		$s6 = {22 25 73 22 2e 20 25 73 3a 20 22 25 73 22 2e}
+		$s7 = {30 78 30 36 36 36}
+		$s8 = {2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 54 68 69 73 5f 69 73 5f 61 5f 62 6f 75 6e 64 61 72 79 24}
+		$s9 = {53 65 72 76 65 72 20 32 30 31 32}
+		$s10 = {53 65 72 76 65 72 20 32 30 30 38}
+		$s11 = {53 65 72 76 65 72 20 32 30 30 33}
+		$a1 = {6e 65 74 2e 65 78 65 20 67 72 6f 75 70 20 22 44 6f 6d 61 69 6e 20 41 64 6d 69 6e 73 22 20 2f 64 6f 6d 61 69 6e}
+		$a2 = {6e 65 74 2e 65 78 65 20 67 72 6f 75 70 20 22 41 64 6d 69 6e 73 2e 20 64 6f 20 44 6f 6d}
+		$a3 = {28 53 56 52 49 44 3d 25 64 29}
+		$a4 = {28 54 47 3d 25 64 29}
+		$a5 = {28 53 56 52 3d 25 73 29}
+		$a6 = {53 00 65 00 74 00 2d 00 43 00 6f 00 6f 00 6b 00 69 00 65 00 3a 00 5c 00 62 00 2a 00 7b 00 2e 00 2b 00 3f 00 7d 00 5c 00 6e 00}
+		$a7 = {6e 65 74 2e 65 78 65 20 6c 6f 63 61 6c 67 72 6f 75 70 20 41 64 6d 69 6e 69 73 74 72 61 64 6f 72 65 73}
+
 	condition:
-		( uint16(0) == 0x5a4d and filesize < 650KB and 6 of ($s*) ) or
-		( 4 of ($s*) and 1 of ($a*) )
+		( uint16( 0 ) == 0x5a4d and filesize < 650KB and 6 of ( $s* ) ) or ( 4 of ( $s* ) and 1 of ( $a* ) )
 }
 
-rule PoseidonGroup_MalDoc_1 {
+rule PoseidonGroup_MalDoc_1 : hardened
+{
 	meta:
 		description = "Detects Poseidon Group - Malicious Word Document"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -57,13 +52,16 @@ rule PoseidonGroup_MalDoc_1 {
 		score = 80
 		hash = "0983526d7f0640e5765ded6be6c9e64869172a02c20023f8a006396ff358999b"
 		id = "ab26455a-d468-5a75-a6e2-61701ca3a1df"
+
 	strings:
-		$s1 = "c:\\cmd32dll.exe" fullword ascii
+		$s1 = {63 3a 5c 63 6d 64 33 32 64 6c 6c 2e 65 78 65}
+
 	condition:
-		uint16(0) == 0xcfd0 and filesize < 500KB and all of them
+		uint16( 0 ) == 0xcfd0 and filesize < 500KB and all of them
 }
 
-rule PoseidonGroup_MalDoc_2 {
+rule PoseidonGroup_MalDoc_2 : hardened
+{
 	meta:
 		description = "Detects Poseidon Group - Malicious Word Document"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -78,12 +76,15 @@ rule PoseidonGroup_MalDoc_2 {
 		hash5 = "27449198542fed64c23f583617908c8648fa4b4633bacd224f97e7f5d8b18778"
 		hash6 = "1e62629dae05bf7ee3fe1346faa60e6791c61f92dd921daa5ce2bdce2e9d4216"
 		id = "9fc0f25e-809d-5803-be39-740ce3a3c85a"
+
 	strings:
-		$s0 = "{\\*\\generator Msftedit 5.41." ascii
-		$s1 = "Attachment 1: Complete Professional Background" ascii
-		$s2 = "E-mail:  \\cf1\\ul\\f1"
-		$s3 = "Education:\\par" ascii
-		$s5 = "@gmail.com" ascii
+		$s0 = {7b 5c 2a 5c 67 65 6e 65 72 61 74 6f 72 20 4d 73 66 74 65 64 69 74 20 35 2e 34 31 2e}
+		$s1 = {41 74 74 61 63 68 6d 65 6e 74 20 31 3a 20 43 6f 6d 70 6c 65 74 65 20 50 72 6f 66 65 73 73 69 6f 6e 61 6c 20 42 61 63 6b 67 72 6f 75 6e 64}
+		$s2 = {45 2d 6d 61 69 6c 3a 20 20 5c 63 66 31 5c 75 6c 5c 66 31}
+		$s3 = {45 64 75 63 61 74 69 6f 6e 3a 5c 70 61 72}
+		$s5 = {40 67 6d 61 69 6c 2e 63 6f 6d}
+
 	condition:
-		uint32(0) == 0x74725c7b and filesize < 500KB and 3 of them
+		uint32( 0 ) == 0x74725c7b and filesize < 500KB and 3 of them
 }
+

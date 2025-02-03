@@ -1,13 +1,5 @@
-/*
-	Yara Rule Set
-	Author: Florian Roth
-	Date: 2016-06-08
-	Identifier: PlugX Juni 2016
-*/
-
-/* Rule Set ----------------------------------------------------------------- */
-
-rule PlugX_J16_Gen {
+rule PlugX_J16_Gen : hardened
+{
 	meta:
 		description = "Detects PlugX Malware samples from June 2016"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -15,31 +7,33 @@ rule PlugX_J16_Gen {
 		reference = "VT Research"
 		date = "2016-06-08"
 		id = "13ef1e80-7090-5a1e-bca7-8d3de0dc2247"
-	strings:
-		$x1 = "%WINDIR%\\SYSTEM32\\SERVICES.EXE" fullword wide
-		$x2 = "\\\\.\\PIPE\\RUN_AS_USER(%d)" fullword wide
-		$x3 = "LdrLoadShellcode" fullword ascii
-		$x4 = "Protocol:[%4s], Host: [%s:%d], Proxy: [%d:%s:%d:%s:%s]" fullword ascii
 
-		$s1 = "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\User Agent\\Post Platform" fullword wide
-		$s2 = "%s\\msiexec.exe %d %d" fullword wide
-		$s3 = "l%s\\sysprep\\CRYPTBASE.DLL" fullword wide
-		$s4 = "%s\\msiexec.exe UAC" fullword wide
-		$s5 = "CRYPTBASE.DLL" fullword wide
-		$s6 = "%ALLUSERSPROFILE%\\SxS" fullword wide
-		$s7 = "%s\\sysprep\\sysprep.exe" fullword wide
-		$s8 = "\\\\.\\pipe\\a%d" fullword wide
-		$s9 = "\\\\.\\pipe\\b%d" fullword wide
-		$s10 = "EName:%s,EAddr:0x%p,ECode:0x%p,EAX:%p,EBX:%p,ECX:%p,EDX:%p,ESI:%p,EDI:%p,EBP:%p,ESP:%p,EIP:%p" fullword ascii
-		$s11 = "Mozilla/4.0 (compatible; MSIE " fullword wide
-		$s12 = "; Windows NT %d.%d" fullword wide
-		$s13 = "SOFTWARE\\Microsoft\\Internet Explorer\\Version Vector" fullword wide
-		$s14 = "\\bug.log" wide
+	strings:
+		$x1 = {25 00 57 00 49 00 4e 00 44 00 49 00 52 00 25 00 5c 00 53 00 59 00 53 00 54 00 45 00 4d 00 33 00 32 00 5c 00 53 00 45 00 52 00 56 00 49 00 43 00 45 00 53 00 2e 00 45 00 58 00 45 00}
+		$x2 = {5c 00 5c 00 2e 00 5c 00 50 00 49 00 50 00 45 00 5c 00 52 00 55 00 4e 00 5f 00 41 00 53 00 5f 00 55 00 53 00 45 00 52 00 28 00 25 00 64 00 29 00}
+		$x3 = {4c 64 72 4c 6f 61 64 53 68 65 6c 6c 63 6f 64 65}
+		$x4 = {50 72 6f 74 6f 63 6f 6c 3a 5b 25 34 73 5d 2c 20 48 6f 73 74 3a 20 5b 25 73 3a 25 64 5d 2c 20 50 72 6f 78 79 3a 20 5b 25 64 3a 25 73 3a 25 64 3a 25 73 3a 25 73 5d}
+		$s1 = {53 00 4f 00 46 00 54 00 57 00 41 00 52 00 45 00 5c 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 5c 00 43 00 75 00 72 00 72 00 65 00 6e 00 74 00 56 00 65 00 72 00 73 00 69 00 6f 00 6e 00 5c 00 49 00 6e 00 74 00 65 00 72 00 6e 00 65 00 74 00 20 00 53 00 65 00 74 00 74 00 69 00 6e 00 67 00 73 00 5c 00 55 00 73 00 65 00 72 00 20 00 41 00 67 00 65 00 6e 00 74 00 5c 00 50 00 6f 00 73 00 74 00 20 00 50 00 6c 00 61 00 74 00 66 00 6f 00 72 00 6d 00}
+		$s2 = {25 00 73 00 5c 00 6d 00 73 00 69 00 65 00 78 00 65 00 63 00 2e 00 65 00 78 00 65 00 20 00 25 00 64 00 20 00 25 00 64 00}
+		$s3 = {6c 00 25 00 73 00 5c 00 73 00 79 00 73 00 70 00 72 00 65 00 70 00 5c 00 43 00 52 00 59 00 50 00 54 00 42 00 41 00 53 00 45 00 2e 00 44 00 4c 00 4c 00}
+		$s4 = {25 00 73 00 5c 00 6d 00 73 00 69 00 65 00 78 00 65 00 63 00 2e 00 65 00 78 00 65 00 20 00 55 00 41 00 43 00}
+		$s5 = {43 00 52 00 59 00 50 00 54 00 42 00 41 00 53 00 45 00 2e 00 44 00 4c 00 4c 00}
+		$s6 = {25 00 41 00 4c 00 4c 00 55 00 53 00 45 00 52 00 53 00 50 00 52 00 4f 00 46 00 49 00 4c 00 45 00 25 00 5c 00 53 00 78 00 53 00}
+		$s7 = {25 00 73 00 5c 00 73 00 79 00 73 00 70 00 72 00 65 00 70 00 5c 00 73 00 79 00 73 00 70 00 72 00 65 00 70 00 2e 00 65 00 78 00 65 00}
+		$s8 = {5c 00 5c 00 2e 00 5c 00 70 00 69 00 70 00 65 00 5c 00 61 00 25 00 64 00}
+		$s9 = {5c 00 5c 00 2e 00 5c 00 70 00 69 00 70 00 65 00 5c 00 62 00 25 00 64 00}
+		$s10 = {45 4e 61 6d 65 3a 25 73 2c 45 41 64 64 72 3a 30 78 25 70 2c 45 43 6f 64 65 3a 30 78 25 70 2c 45 41 58 3a 25 70 2c 45 42 58 3a 25 70 2c 45 43 58 3a 25 70 2c 45 44 58 3a 25 70 2c 45 53 49 3a 25 70 2c 45 44 49 3a 25 70 2c 45 42 50 3a 25 70 2c 45 53 50 3a 25 70 2c 45 49 50 3a 25 70}
+		$s11 = {4d 00 6f 00 7a 00 69 00 6c 00 6c 00 61 00 2f 00 34 00 2e 00 30 00 20 00 28 00 63 00 6f 00 6d 00 70 00 61 00 74 00 69 00 62 00 6c 00 65 00 3b 00 20 00 4d 00 53 00 49 00 45 00 20 00}
+		$s12 = {3b 00 20 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 4e 00 54 00 20 00 25 00 64 00 2e 00 25 00 64 00}
+		$s13 = {53 00 4f 00 46 00 54 00 57 00 41 00 52 00 45 00 5c 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 5c 00 49 00 6e 00 74 00 65 00 72 00 6e 00 65 00 74 00 20 00 45 00 78 00 70 00 6c 00 6f 00 72 00 65 00 72 00 5c 00 56 00 65 00 72 00 73 00 69 00 6f 00 6e 00 20 00 56 00 65 00 63 00 74 00 6f 00 72 00}
+		$s14 = {5c 00 62 00 75 00 67 00 2e 00 6c 00 6f 00 67 00}
+
 	condition:
-		( uint16(0) == 0x5a4d and filesize < 600KB and ( 1 of ($x*) or 4 of ($s*) ) ) or ( 8 of them )
+		( uint16( 0 ) == 0x5a4d and filesize < 600KB and ( 1 of ( $x* ) or 4 of ( $s* ) ) ) or ( 8 of them )
 }
 
-rule PlugX_J16_Gen2 {
+rule PlugX_J16_Gen2 : hardened
+{
 	meta:
 		description = "Detects PlugX Malware Samples from June 2016"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -47,16 +41,19 @@ rule PlugX_J16_Gen2 {
 		reference = "VT Research"
 		date = "2016-06-08"
 		id = "28e9cbb9-cd60-555d-b033-4e2bf293adf2"
+
 	strings:
-		$s1 = "XPlugKeyLogger.cpp" fullword ascii
-		$s2 = "XPlugProcess.cpp" fullword ascii
-		$s4 = "XPlgLoader.cpp" fullword ascii
-		$s5 = "XPlugPortMap.cpp" fullword ascii
-		$s8 = "XPlugShell.cpp" fullword ascii
-		$s11 = "file: %s, line: %d, error: [%d]%s" fullword ascii
-		$s12 = "XInstall.cpp" fullword ascii
-		$s13 = "XPlugTelnet.cpp" fullword ascii
-		$s14 = "XInstallUAC.cpp" fullword ascii
+		$s1 = {58 50 6c 75 67 4b 65 79 4c 6f 67 67 65 72 2e 63 70 70}
+		$s2 = {58 50 6c 75 67 50 72 6f 63 65 73 73 2e 63 70 70}
+		$s4 = {58 50 6c 67 4c 6f 61 64 65 72 2e 63 70 70}
+		$s5 = {58 50 6c 75 67 50 6f 72 74 4d 61 70 2e 63 70 70}
+		$s8 = {58 50 6c 75 67 53 68 65 6c 6c 2e 63 70 70}
+		$s11 = {66 69 6c 65 3a 20 25 73 2c 20 6c 69 6e 65 3a 20 25 64 2c 20 65 72 72 6f 72 3a 20 5b 25 64 5d 25 73}
+		$s12 = {58 49 6e 73 74 61 6c 6c 2e 63 70 70}
+		$s13 = {58 50 6c 75 67 54 65 6c 6e 65 74 2e 63 70 70}
+		$s14 = {58 49 6e 73 74 61 6c 6c 55 41 43 2e 63 70 70}
+
 	condition:
-		( uint16(0) == 0x5a4d and filesize < 600KB and ( 2 of ($s*) ) ) or ( 5 of them )
+		( uint16( 0 ) == 0x5a4d and filesize < 600KB and ( 2 of ( $s* ) ) ) or ( 5 of them )
 }
+

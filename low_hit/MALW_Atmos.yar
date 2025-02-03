@@ -1,112 +1,83 @@
-/*
-    This Yara ruleset is under the GNU-GPLv2 license (http://www.gnu.org/licenses/gpl-2.0.html) and open to any user or organization, as    long as you use it under this license.
-
-*/
-
-rule Atmos_Malware
+rule Atmos_Malware : hardened
 {
-    
-    meta:
-        description = "Generic Spyware.Citadel.Atmos Signature"
-        author = "xylitol@temari.fr"
-        reference = "http://www.xylibox.com/2016/02/citadel-0011-atmos.html"
-        date = "20/08/2016"
-        // May only the challenge guide you
+	meta:
+		description = "Generic Spyware.Citadel.Atmos Signature"
+		author = "xylitol@temari.fr"
+		reference = "http://www.xylibox.com/2016/02/citadel-0011-atmos.html"
+		date = "20/08/2016"
 
-    strings:
-        // Check for the presence of MZ and kutuzov license identifier
-        $MZ = {4D 5A}
-        $LKEY = "533D9226E4C1CE0A9815DBEB19235AE4" wide ascii
-        
-        // TokenSpy identifiers
-        $TS1 = "X-TS-Rule-Name: %s" wide ascii
-        $TS2 = "X-TS-Rule-PatternID: %u" wide ascii
-        $TS3 = "X-TS-BotID: %s" wide ascii
-        $TS4 = "X-TS-Domain: %s" wide ascii
-        $TS5 = "X-TS-SessionID: %s" wide ascii
-        $TS6 = "X-TS-Header-Cookie: %S" wide ascii
-        $TS7 = "X-TS-Header-Referer: %S" wide ascii
-        $TS8 = "X-TS-Header-AcceptEncoding: %S" wide ascii
-        $TS9 = "X-TS-Header-AcceptLanguage: %S" wide ascii
-        $TS10 = "X-TS-Header-UserAgent: %S" wide ascii
-        
-        // Hidden VNC identifiers
-        $VNC1 = "_hvnc_init@4" wide ascii
-        $VNC2 = "_hvnc_uninit@0" wide ascii
-        $VNC3 = "_hvnc_start@8" wide ascii
-        $VNC4 = "_hvnc_stop@0" wide ascii
-        $VNC5 = "_hvnc_wait@0" wide ascii
-        $VNC6 = "_hvnc_work@0" wide ascii
-        
-        // Browsers identifiers
-        $WB1 = "nspr4.dll" wide ascii
-        $WB2 = "nss3.dll" wide ascii
-        $WB3 = "chrome.dll" wide ascii
-        $WB4 = "Internet Explorer" wide ascii
-        $WB5 = "Firefox" wide ascii
-        $WB6 = "Chrome" wide ascii
+	strings:
+		$MZ = {4D 5A}
+		$LKEY = {((35 33 33 44 39 32 32 36 45 34 43 31 43 45 30 41 39 38 31 35 44 42 45 42 31 39 32 33 35 41 45 34) | (35 00 33 00 33 00 44 00 39 00 32 00 32 00 36 00 45 00 34 00 43 00 31 00 43 00 45 00 30 00 41 00 39 00 38 00 31 00 35 00 44 00 42 00 45 00 42 00 31 00 39 00 32 00 33 00 35 00 41 00 45 00 34 00))}
+		$TS1 = {((58 2d 54 53 2d 52 75 6c 65 2d 4e 61 6d 65 3a 20 25 73) | (58 00 2d 00 54 00 53 00 2d 00 52 00 75 00 6c 00 65 00 2d 00 4e 00 61 00 6d 00 65 00 3a 00 20 00 25 00 73 00))}
+		$TS2 = {((58 2d 54 53 2d 52 75 6c 65 2d 50 61 74 74 65 72 6e 49 44 3a 20 25 75) | (58 00 2d 00 54 00 53 00 2d 00 52 00 75 00 6c 00 65 00 2d 00 50 00 61 00 74 00 74 00 65 00 72 00 6e 00 49 00 44 00 3a 00 20 00 25 00 75 00))}
+		$TS3 = {((58 2d 54 53 2d 42 6f 74 49 44 3a 20 25 73) | (58 00 2d 00 54 00 53 00 2d 00 42 00 6f 00 74 00 49 00 44 00 3a 00 20 00 25 00 73 00))}
+		$TS4 = {((58 2d 54 53 2d 44 6f 6d 61 69 6e 3a 20 25 73) | (58 00 2d 00 54 00 53 00 2d 00 44 00 6f 00 6d 00 61 00 69 00 6e 00 3a 00 20 00 25 00 73 00))}
+		$TS5 = {((58 2d 54 53 2d 53 65 73 73 69 6f 6e 49 44 3a 20 25 73) | (58 00 2d 00 54 00 53 00 2d 00 53 00 65 00 73 00 73 00 69 00 6f 00 6e 00 49 00 44 00 3a 00 20 00 25 00 73 00))}
+		$TS6 = {((58 2d 54 53 2d 48 65 61 64 65 72 2d 43 6f 6f 6b 69 65 3a 20 25 53) | (58 00 2d 00 54 00 53 00 2d 00 48 00 65 00 61 00 64 00 65 00 72 00 2d 00 43 00 6f 00 6f 00 6b 00 69 00 65 00 3a 00 20 00 25 00 53 00))}
+		$TS7 = {((58 2d 54 53 2d 48 65 61 64 65 72 2d 52 65 66 65 72 65 72 3a 20 25 53) | (58 00 2d 00 54 00 53 00 2d 00 48 00 65 00 61 00 64 00 65 00 72 00 2d 00 52 00 65 00 66 00 65 00 72 00 65 00 72 00 3a 00 20 00 25 00 53 00))}
+		$TS8 = {((58 2d 54 53 2d 48 65 61 64 65 72 2d 41 63 63 65 70 74 45 6e 63 6f 64 69 6e 67 3a 20 25 53) | (58 00 2d 00 54 00 53 00 2d 00 48 00 65 00 61 00 64 00 65 00 72 00 2d 00 41 00 63 00 63 00 65 00 70 00 74 00 45 00 6e 00 63 00 6f 00 64 00 69 00 6e 00 67 00 3a 00 20 00 25 00 53 00))}
+		$TS9 = {((58 2d 54 53 2d 48 65 61 64 65 72 2d 41 63 63 65 70 74 4c 61 6e 67 75 61 67 65 3a 20 25 53) | (58 00 2d 00 54 00 53 00 2d 00 48 00 65 00 61 00 64 00 65 00 72 00 2d 00 41 00 63 00 63 00 65 00 70 00 74 00 4c 00 61 00 6e 00 67 00 75 00 61 00 67 00 65 00 3a 00 20 00 25 00 53 00))}
+		$TS10 = {((58 2d 54 53 2d 48 65 61 64 65 72 2d 55 73 65 72 41 67 65 6e 74 3a 20 25 53) | (58 00 2d 00 54 00 53 00 2d 00 48 00 65 00 61 00 64 00 65 00 72 00 2d 00 55 00 73 00 65 00 72 00 41 00 67 00 65 00 6e 00 74 00 3a 00 20 00 25 00 53 00))}
+		$VNC1 = {((5f 68 76 6e 63 5f 69 6e 69 74 40 34) | (5f 00 68 00 76 00 6e 00 63 00 5f 00 69 00 6e 00 69 00 74 00 40 00 34 00))}
+		$VNC2 = {((5f 68 76 6e 63 5f 75 6e 69 6e 69 74 40 30) | (5f 00 68 00 76 00 6e 00 63 00 5f 00 75 00 6e 00 69 00 6e 00 69 00 74 00 40 00 30 00))}
+		$VNC3 = {((5f 68 76 6e 63 5f 73 74 61 72 74 40 38) | (5f 00 68 00 76 00 6e 00 63 00 5f 00 73 00 74 00 61 00 72 00 74 00 40 00 38 00))}
+		$VNC4 = {((5f 68 76 6e 63 5f 73 74 6f 70 40 30) | (5f 00 68 00 76 00 6e 00 63 00 5f 00 73 00 74 00 6f 00 70 00 40 00 30 00))}
+		$VNC5 = {((5f 68 76 6e 63 5f 77 61 69 74 40 30) | (5f 00 68 00 76 00 6e 00 63 00 5f 00 77 00 61 00 69 00 74 00 40 00 30 00))}
+		$VNC6 = {((5f 68 76 6e 63 5f 77 6f 72 6b 40 30) | (5f 00 68 00 76 00 6e 00 63 00 5f 00 77 00 6f 00 72 00 6b 00 40 00 30 00))}
+		$WB1 = {((6e 73 70 72 34 2e 64 6c 6c) | (6e 00 73 00 70 00 72 00 34 00 2e 00 64 00 6c 00 6c 00))}
+		$WB2 = {((6e 73 73 33 2e 64 6c 6c) | (6e 00 73 00 73 00 33 00 2e 00 64 00 6c 00 6c 00))}
+		$WB3 = {((63 68 72 6f 6d 65 2e 64 6c 6c) | (63 00 68 00 72 00 6f 00 6d 00 65 00 2e 00 64 00 6c 00 6c 00))}
+		$WB4 = {((49 6e 74 65 72 6e 65 74 20 45 78 70 6c 6f 72 65 72) | (49 00 6e 00 74 00 65 00 72 00 6e 00 65 00 74 00 20 00 45 00 78 00 70 00 6c 00 6f 00 72 00 65 00 72 00))}
+		$WB5 = {((46 69 72 65 66 6f 78) | (46 00 69 00 72 00 65 00 66 00 6f 00 78 00))}
+		$WB6 = {((43 68 72 6f 6d 65) | (43 00 68 00 72 00 6f 00 6d 00 65 00))}
 
-    condition:
-    ($MZ at 0 and $LKEY) and ( (5 of ($TS*) and all of ($WB*)) or (3 of ($VNC*) and all of ($WB*)))
-    and filesize < 300KB // Standard size (raw from builder) should be arround ~264kb
-        // Remove the above line if you want to trig also on memory dumps, etc...
+	condition:
+		($MZ at 0 and $LKEY ) and ( ( 5 of ( $TS* ) and all of ( $WB* ) ) or ( 3 of ( $VNC* ) and all of ( $WB* ) ) ) and filesize < 300KB
 }
 
-
-rule Atmos_Packed_Malware 
+rule Atmos_Packed_Malware : hardened
 {
-   
-    meta:
-    description = "Second Generic Spyware.Citadel.Atmos signture when builder add a packed layer"
-    author = "xylitol@temari.fr"
-    reference = "http://www.xylibox.com/2016/02/citadel-0011-atmos.html"
-    date = "20/08/2016"
-    // May only the challenge guide you
+	meta:
+		description = "Second Generic Spyware.Citadel.Atmos signture when builder add a packed layer"
+		author = "xylitol@temari.fr"
+		reference = "http://www.xylibox.com/2016/02/citadel-0011-atmos.html"
+		date = "20/08/2016"
 
-    strings:
-        $MZ = {4D 5A}
-        // Entry point identifier with CreateThread pointer in '??' 
-        $a = {55 8B EC 83 EC 0C 53 56 8B 35 ?? ?? ?? 00 57 33 DB BF 00 28 00 00}
-        // End of main proc with sleep value in '??' and api call to sleep in '??'
-        $b = {68 ?? ?? ?? ?? FF 15 ?? ?? ?? 00 E9 62 FF FF FF E8 69 10 FE FF 5F 5E 5B C9 C3}
-        // API String identifier (ShellExecuteExW, SHELL32.dll, GetUserNameExW, Secur32.dll)
-        $c = {53 68 65 6C 6C 45 78 65 63 75 74 65 45 78 57 00 53 48 45 4C 4C 33 32 2E 64 6C 6C 00 1E 00 47 65}
-        $d = {74 55 73 65 72 4E 61 6D 65 45 78 57 00 00 53 65 63 75 72 33 32 2E 64 6C 6C 00 10 00}
-        // New Thread identifier
-        $e = {55 8B EC 83 E4 F8 83 EC 1C 83 7D 08 00 57 74 ?? 6A FF FF 75 08 FF 15 ?? ?? ?? 00}
+	strings:
+		$MZ = {4D 5A}
+		$a = {55 8B EC 83 EC 0C 53 56 8B 35 ?? ?? ?? 00 57 33 DB BF 00 28 00 00}
+		$b = {68 ?? ?? ?? ?? FF 15 ?? ?? ?? 00 E9 62 FF FF FF E8 69 10 FE FF 5F 5E 5B C9 C3}
+		$c = {53 68 65 6C 6C 45 78 65 63 75 74 65 45 78 57 00 53 48 45 4C 4C 33 32 2E 64 6C 6C 00 1E 00 47 65}
+		$d = {74 55 73 65 72 4E 61 6D 65 45 78 57 00 00 53 65 63 75 72 33 32 2E 64 6C 6C 00 10 00}
+		$e = {55 8B EC 83 E4 F8 83 EC 1C 83 7D 08 00 57 74 ?? 6A FF FF 75 08 FF 15 ?? ?? ?? 00}
 
-    condition:
-    all of them and filesize < 300KB // Standard size (raw from builder) should be arround ~264kb
-        // Remove the above line if you want to trig also on memory dumps, etc...
+	condition:
+		all of them and filesize < 300KB
 }
 
-
-rule Atmos_Builder
+rule Atmos_Builder : hardened
 {
-    
-    meta:
-        description = "Generic signature for Hacktool.Atmos.Builder cracked version"
-        author = "xylitol@temari.fr"
-        reference = "http://www.xylibox.com/2016/02/citadel-0011-atmos.html"
-        date = "20/08/2016"
-        // May only the challenge guide you
+	meta:
+		description = "Generic signature for Hacktool.Atmos.Builder cracked version"
+		author = "xylitol@temari.fr"
+		reference = "http://www.xylibox.com/2016/02/citadel-0011-atmos.html"
+		date = "20/08/2016"
 
-    strings:
-        // Check for the presence of MZ, kutuzov license identifier, and good hardware ID
-        $MZ = {4D 5A}
-        $LKEY = "533D9226E4C1CE0A9815DBEB19235AE4" wide ascii
-        $HWID = "D19FC0FB14BE23BCF35DA427951BB5AE" wide ascii
+	strings:
+		$MZ = {4D 5A}
+		$LKEY = {((35 33 33 44 39 32 32 36 45 34 43 31 43 45 30 41 39 38 31 35 44 42 45 42 31 39 32 33 35 41 45 34) | (35 00 33 00 33 00 44 00 39 00 32 00 32 00 36 00 45 00 34 00 43 00 31 00 43 00 45 00 30 00 41 00 39 00 38 00 31 00 35 00 44 00 42 00 45 00 42 00 31 00 39 00 32 00 33 00 35 00 41 00 45 00 34 00))}
+		$HWID = {((44 31 39 46 43 30 46 42 31 34 42 45 32 33 42 43 46 33 35 44 41 34 32 37 39 35 31 42 42 35 41 45) | (44 00 31 00 39 00 46 00 43 00 30 00 46 00 42 00 31 00 34 00 42 00 45 00 32 00 33 00 42 00 43 00 46 00 33 00 35 00 44 00 41 00 34 00 32 00 37 00 39 00 35 00 31 00 42 00 42 00 35 00 41 00 45 00))}
+		$s1 = {((75 72 6c 5f 6c 6f 61 64 65 72 3d 25 53) | (75 00 72 00 6c 00 5f 00 6c 00 6f 00 61 00 64 00 65 00 72 00 3d 00 25 00 53 00))}
+		$s2 = {((75 72 6c 5f 77 65 62 69 6e 6a 65 63 74 73 3d 25 53) | (75 00 72 00 6c 00 5f 00 77 00 65 00 62 00 69 00 6e 00 6a 00 65 00 63 00 74 00 73 00 3d 00 25 00 53 00))}
+		$s3 = {((75 72 6c 5f 74 6f 6b 65 6e 73 70 79 3d 25 53) | (75 00 72 00 6c 00 5f 00 74 00 6f 00 6b 00 65 00 6e 00 73 00 70 00 79 00 3d 00 25 00 53 00))}
+		$s4 = {((66 69 6c 65 5f 77 65 62 69 6e 6a 65 63 74 73 3d 25 53) | (66 00 69 00 6c 00 65 00 5f 00 77 00 65 00 62 00 69 00 6e 00 6a 00 65 00 63 00 74 00 73 00 3d 00 25 00 53 00))}
+		$s5 = {((6d 6f 6e 65 79 70 61 72 73 65 72 2e 65 6e 61 62 6c 65 64 3d 25 75) | (6d 00 6f 00 6e 00 65 00 79 00 70 00 61 00 72 00 73 00 65 00 72 00 2e 00 65 00 6e 00 61 00 62 00 6c 00 65 00 64 00 3d 00 25 00 75 00))}
+		$s6 = {((65 6e 61 62 6c 65 5f 6c 75 68 6e 31 30 5f 70 6f 73 74 3d 25 75) | (65 00 6e 00 61 00 62 00 6c 00 65 00 5f 00 6c 00 75 00 68 00 6e 00 31 00 30 00 5f 00 70 00 6f 00 73 00 74 00 3d 00 25 00 75 00))}
+		$s7 = {((69 6e 73 69 64 65 76 6d 5f 65 6e 61 62 6c 65 3d 25 75) | (69 00 6e 00 73 00 69 00 64 00 65 00 76 00 6d 00 5f 00 65 00 6e 00 61 00 62 00 6c 00 65 00 3d 00 25 00 75 00))}
+		$s8 = {((64 69 73 61 62 6c 65 5f 61 6e 74 69 76 69 72 75 73 3d 25 75) | (64 00 69 00 73 00 61 00 62 00 6c 00 65 00 5f 00 61 00 6e 00 74 00 69 00 76 00 69 00 72 00 75 00 73 00 3d 00 25 00 75 00))}
 
-        // Builder strings identifiers
-        $s1 = "url_loader=%S" wide ascii
-        $s2 = "url_webinjects=%S" wide ascii
-        $s3 = "url_tokenspy=%S" wide ascii
-        $s4 = "file_webinjects=%S" wide ascii
-        $s5 = "moneyparser.enabled=%u" wide ascii
-        $s6 = "enable_luhn10_post=%u" wide ascii
-        $s7 = "insidevm_enable=%u" wide ascii
-        $s8 = "disable_antivirus=%u" wide ascii
-        
-    condition:
-        $MZ at 0 and $LKEY and $HWID and all of ($s*)
+	condition:
+		$MZ at 0 and $LKEY and $HWID and all of ( $s* )
 }
+

@@ -1,38 +1,32 @@
-// source: https://github.com/Yara-Rules/rules/blob/master/malware/MALW_MacGyver.yar
-
-/*
-    This Yara ruleset is under the GNU-GPLv2 license (http://www.gnu.org/licenses/gpl-2.0.html) and open to any user or organization, as    long as you use it under this license.
-*/
-
-rule MacGyverCap : MacGyver
+rule MacGyverCap : MacGyver hardened
 {
-    meta:
-        description = "Generic rule for MacGyver.cap"
-        author = "xylitol@temari.fr"
-        date = "2021-05-11"
-        reference = "https://github.com/fboldewin/MacGyver-s-return---An-EMV-Chip-cloning-case/blob/master/MacGyver's%20return%20-%20An%20EMV%20Chip%20cloning%20case.pdf"
-        // May only the challenge guide you
-		hash1 = "9dc70002e82c78ee34c813597925c6cf8aa8d68b7e9ce5bcc70ea9bcab9dbf4a"		
-    strings:
-        $string1 = "src/MacGyver/javacard/Header.cap" ascii wide
-        $string2 = "src/MacGyver/javacard/Directory.cap" ascii wide
-		$string3 = "src/MacGyver/javacard/Applet.cap" ascii wide
-		$string4 = "src/MacGyver/javacard/Import.cap" ascii wide
-		$string5 = "src/MacGyver/javacard/ConstantPool.cap" ascii wide
-		$string6 = "src/MacGyver/javacard/Class.cap" ascii wide
-		$string7 = "src/MacGyver/javacard/Method.cap" ascii wide
-    condition:  
-         all of them
+	meta:
+		description = "Generic rule for MacGyver.cap"
+		author = "xylitol@temari.fr"
+		date = "2021-05-11"
+		reference = "https://github.com/fboldewin/MacGyver-s-return---An-EMV-Chip-cloning-case/blob/master/MacGyver's%20return%20-%20An%20EMV%20Chip%20cloning%20case.pdf"
+		hash1 = "9dc70002e82c78ee34c813597925c6cf8aa8d68b7e9ce5bcc70ea9bcab9dbf4a"
+
+	strings:
+		$string1 = {((73 72 63 2f 4d 61 63 47 79 76 65 72 2f 6a 61 76 61 63 61 72 64 2f 48 65 61 64 65 72 2e 63 61 70) | (73 00 72 00 63 00 2f 00 4d 00 61 00 63 00 47 00 79 00 76 00 65 00 72 00 2f 00 6a 00 61 00 76 00 61 00 63 00 61 00 72 00 64 00 2f 00 48 00 65 00 61 00 64 00 65 00 72 00 2e 00 63 00 61 00 70 00))}
+		$string2 = {((73 72 63 2f 4d 61 63 47 79 76 65 72 2f 6a 61 76 61 63 61 72 64 2f 44 69 72 65 63 74 6f 72 79 2e 63 61 70) | (73 00 72 00 63 00 2f 00 4d 00 61 00 63 00 47 00 79 00 76 00 65 00 72 00 2f 00 6a 00 61 00 76 00 61 00 63 00 61 00 72 00 64 00 2f 00 44 00 69 00 72 00 65 00 63 00 74 00 6f 00 72 00 79 00 2e 00 63 00 61 00 70 00))}
+		$string3 = {((73 72 63 2f 4d 61 63 47 79 76 65 72 2f 6a 61 76 61 63 61 72 64 2f 41 70 70 6c 65 74 2e 63 61 70) | (73 00 72 00 63 00 2f 00 4d 00 61 00 63 00 47 00 79 00 76 00 65 00 72 00 2f 00 6a 00 61 00 76 00 61 00 63 00 61 00 72 00 64 00 2f 00 41 00 70 00 70 00 6c 00 65 00 74 00 2e 00 63 00 61 00 70 00))}
+		$string4 = {((73 72 63 2f 4d 61 63 47 79 76 65 72 2f 6a 61 76 61 63 61 72 64 2f 49 6d 70 6f 72 74 2e 63 61 70) | (73 00 72 00 63 00 2f 00 4d 00 61 00 63 00 47 00 79 00 76 00 65 00 72 00 2f 00 6a 00 61 00 76 00 61 00 63 00 61 00 72 00 64 00 2f 00 49 00 6d 00 70 00 6f 00 72 00 74 00 2e 00 63 00 61 00 70 00))}
+		$string5 = {((73 72 63 2f 4d 61 63 47 79 76 65 72 2f 6a 61 76 61 63 61 72 64 2f 43 6f 6e 73 74 61 6e 74 50 6f 6f 6c 2e 63 61 70) | (73 00 72 00 63 00 2f 00 4d 00 61 00 63 00 47 00 79 00 76 00 65 00 72 00 2f 00 6a 00 61 00 76 00 61 00 63 00 61 00 72 00 64 00 2f 00 43 00 6f 00 6e 00 73 00 74 00 61 00 6e 00 74 00 50 00 6f 00 6f 00 6c 00 2e 00 63 00 61 00 70 00))}
+		$string6 = {((73 72 63 2f 4d 61 63 47 79 76 65 72 2f 6a 61 76 61 63 61 72 64 2f 43 6c 61 73 73 2e 63 61 70) | (73 00 72 00 63 00 2f 00 4d 00 61 00 63 00 47 00 79 00 76 00 65 00 72 00 2f 00 6a 00 61 00 76 00 61 00 63 00 61 00 72 00 64 00 2f 00 43 00 6c 00 61 00 73 00 73 00 2e 00 63 00 61 00 70 00))}
+		$string7 = {((73 72 63 2f 4d 61 63 47 79 76 65 72 2f 6a 61 76 61 63 61 72 64 2f 4d 65 74 68 6f 64 2e 63 61 70) | (73 00 72 00 63 00 2f 00 4d 00 61 00 63 00 47 00 79 00 76 00 65 00 72 00 2f 00 6a 00 61 00 76 00 61 00 63 00 61 00 72 00 64 00 2f 00 4d 00 65 00 74 00 68 00 6f 00 64 00 2e 00 63 00 61 00 70 00))}
+
+	condition:
+		all of them
 }
 
-rule MacGyverCapInstaller : MacGyvercap Installer
+rule MacGyverCapInstaller : MacGyvercap Installer hardened
 {
-    meta:
-        description = "Generic rule for Hacktool:Win32/EMVSoft who install MacGyver.cap"
-        author = "xylitol@temari.fr"
-        date = "2021-05-11"
-        reference = "https://github.com/fboldewin/MacGyver-s-return---An-EMV-Chip-cloning-case/blob/master/MacGyver's%20return%20-%20An%20EMV%20Chip%20cloning%20case.pdf"
-        // May only the challenge guide you
+	meta:
+		description = "Generic rule for Hacktool:Win32/EMVSoft who install MacGyver.cap"
+		author = "xylitol@temari.fr"
+		date = "2021-05-11"
+		reference = "https://github.com/fboldewin/MacGyver-s-return---An-EMV-Chip-cloning-case/blob/master/MacGyver's%20return%20-%20An%20EMV%20Chip%20cloning%20case.pdf"
 		hash1 = "bb828eb0bbebabbcb51f490f4a0c08dd798b1f350dddddb6c00abcb6f750069f"
 		hash2 = "04f0c9904675c7cf80ff1962bec5ef465ccf8c29e668f3158ec262414a6cc6eb"
 		hash3 = "7335cd56a9ac08c200cca7e25b939e9c4ffa4d508207e68bee01904bf20a6528"
@@ -41,13 +35,16 @@ rule MacGyverCapInstaller : MacGyvercap Installer
 		hash6 = "1cc8a2f3ce12f4b8356bda8b4aaf61d510d1078112af1c14cf4583090e062fbe"
 		hash7 = "c23411deeec790e2dba37f4c49c7ecac3c867b7012431c9281ed748519eda65c"
 		hash8 = "c0d11ed2eed0fef8d2f53920a1e12f667e03eafdb2d2941473d120e9e6f0e657"
-		hash9 = "1ecfd3755eba578108363c0705c6ec205972080739ed0fbd17439f8139ba7e08" 
+		hash9 = "1ecfd3755eba578108363c0705c6ec205972080739ed0fbd17439f8139ba7e08"
 		hash10 = "87678c6dcf0065ffc487a284b9f79bd8c0815c5c621fc92f83df24393bfcc660"
-    strings:
-        $string1 = "delete -AID 315041592e5359532e4444463031" ascii wide
-        $string2 = "install -file MacGyver.cap -nvDataLimit 1000 -instParam 00 -priv 4" ascii wide
-		$string3 = "-mac_key 404142434445464748494a4b4c4d4e4f" ascii wide
-		$string4 = "-enc_key 404142434445464748494a4b4c4d4e4f" ascii wide
-    condition:  
-         all of them
+
+	strings:
+		$string1 = {((64 65 6c 65 74 65 20 2d 41 49 44 20 33 31 35 30 34 31 35 39 32 65 35 33 35 39 35 33 32 65 34 34 34 34 34 36 33 30 33 31) | (64 00 65 00 6c 00 65 00 74 00 65 00 20 00 2d 00 41 00 49 00 44 00 20 00 33 00 31 00 35 00 30 00 34 00 31 00 35 00 39 00 32 00 65 00 35 00 33 00 35 00 39 00 35 00 33 00 32 00 65 00 34 00 34 00 34 00 34 00 34 00 36 00 33 00 30 00 33 00 31 00))}
+		$string2 = {((69 6e 73 74 61 6c 6c 20 2d 66 69 6c 65 20 4d 61 63 47 79 76 65 72 2e 63 61 70 20 2d 6e 76 44 61 74 61 4c 69 6d 69 74 20 31 30 30 30 20 2d 69 6e 73 74 50 61 72 61 6d 20 30 30 20 2d 70 72 69 76 20 34) | (69 00 6e 00 73 00 74 00 61 00 6c 00 6c 00 20 00 2d 00 66 00 69 00 6c 00 65 00 20 00 4d 00 61 00 63 00 47 00 79 00 76 00 65 00 72 00 2e 00 63 00 61 00 70 00 20 00 2d 00 6e 00 76 00 44 00 61 00 74 00 61 00 4c 00 69 00 6d 00 69 00 74 00 20 00 31 00 30 00 30 00 30 00 20 00 2d 00 69 00 6e 00 73 00 74 00 50 00 61 00 72 00 61 00 6d 00 20 00 30 00 30 00 20 00 2d 00 70 00 72 00 69 00 76 00 20 00 34 00))}
+		$string3 = {((2d 6d 61 63 5f 6b 65 79 20 34 30 34 31 34 32 34 33 34 34 34 35 34 36 34 37 34 38 34 39 34 61 34 62 34 63 34 64 34 65 34 66) | (2d 00 6d 00 61 00 63 00 5f 00 6b 00 65 00 79 00 20 00 34 00 30 00 34 00 31 00 34 00 32 00 34 00 33 00 34 00 34 00 34 00 35 00 34 00 36 00 34 00 37 00 34 00 38 00 34 00 39 00 34 00 61 00 34 00 62 00 34 00 63 00 34 00 64 00 34 00 65 00 34 00 66 00))}
+		$string4 = {((2d 65 6e 63 5f 6b 65 79 20 34 30 34 31 34 32 34 33 34 34 34 35 34 36 34 37 34 38 34 39 34 61 34 62 34 63 34 64 34 65 34 66) | (2d 00 65 00 6e 00 63 00 5f 00 6b 00 65 00 79 00 20 00 34 00 30 00 34 00 31 00 34 00 32 00 34 00 33 00 34 00 34 00 34 00 35 00 34 00 36 00 34 00 37 00 34 00 38 00 34 00 39 00 34 00 61 00 34 00 62 00 34 00 63 00 34 00 64 00 34 00 65 00 34 00 66 00))}
+
+	condition:
+		all of them
 }
+

@@ -1,6 +1,5 @@
-// https://github.com/Yara-Rules/rules/blob/master/malware/MALW_hancitor.yar
-
-rule hancitor {
+rule hancitor : hardened
+{
 	meta:
 		description = "Memory string yara for Hancitor"
 		author = "J from THL <j@techhelplist.com>"
@@ -12,15 +11,15 @@ rule hancitor {
 		filetype = "memory"
 
 	strings:
-		$a = "GUID="	ascii
-                $b = "&BUILD="	ascii
-                $c = "&INFO="	ascii
-                $d = "&IP="	ascii
-                $e = "&TYPE=" 	ascii
-                $f = "php|http"	ascii
-		$g = "GUID=%I64u&BUILD=%s&INFO=%s&IP=%s&TYPE=1&WIN=%d.%d" ascii fullword
-
+		$a = {47 55 49 44 3d}
+		$b = {26 42 55 49 4c 44 3d}
+		$c = {26 49 4e 46 4f 3d}
+		$d = {26 49 50 3d}
+		$e = {26 54 59 50 45 3d}
+		$f = {70 68 70 7c 68 74 74 70}
+		$g = {47 55 49 44 3d 25 49 36 34 75 26 42 55 49 4c 44 3d 25 73 26 49 4e 46 4f 3d 25 73 26 49 50 3d 25 73 26 54 59 50 45 3d 31 26 57 49 4e 3d 25 64 2e 25 64}
 
 	condition:
-		5 of ($a,$b,$c,$d,$e,$f) or $g
+		5 of ( $a , $b , $c , $d , $e , $f ) or $g
 }
+

@@ -1,17 +1,20 @@
+rule HKTL_SentinelOne_RemotePotato0_PrivEsc : hardened limited
+{
+	meta:
+		author = "SentinelOne"
+		description = "Detects RemotePotato0 binary"
+		reference = "https://labs.sentinelone.com/relaying-potatoes-dce-rpc-ntlm-relay-eop"
+		date = "2021-04-26"
+		id = "f6dffd6b-e794-5c4a-9700-5c2022168f44"
 
-rule HKTL_SentinelOne_RemotePotato0_PrivEsc {
-   meta:
-      author = "SentinelOne"    
-      description = "Detects RemotePotato0 binary"
-      reference = "https://labs.sentinelone.com/relaying-potatoes-dce-rpc-ntlm-relay-eop"
-      date = "2021-04-26"
-      id = "f6dffd6b-e794-5c4a-9700-5c2022168f44"
-   strings:    
-      $import1 = "CoGetInstanceFromIStorage"
-      $istorage_clsid = "{00000306-0000-0000-c000-000000000046}" nocase wide ascii    
-      $meow_header = { 4d 45 4f 57 }
-      $clsid1 = "{11111111-2222-3333-4444-555555555555}" wide ascii
-      $clsid2 = "{5167B42F-C111-47A1-ACC4-8EABE61B0B54}" nocase wide ascii
-   condition:       
-      (uint16(0) == 0x5A4D) and $import1 and $istorage_clsid and $meow_header and 1 of ($clsid*)
+	strings:
+		$import1 = {43 6f 47 65 74 49 6e 73 74 61 6e 63 65 46 72 6f 6d 49 53 74 6f 72 61 67 65}
+		$istorage_clsid = {((7b 30 30 30 30 30 33 30 36 2d 30 30 30 30 2d 30 30 30 30 2d 63 30 30 30 2d 30 30 30 30 30 30 30 30 30 30 34 36 7d) | (7b 00 30 00 30 00 30 00 30 00 30 00 33 00 30 00 36 00 2d 00 30 00 30 00 30 00 30 00 2d 00 30 00 30 00 30 00 30 00 2d 00 63 00 30 00 30 00 30 00 2d 00 30 00 30 00 30 00 30 00 30 00 30 00 30 00 30 00 30 00 30 00 34 00 36 00 7d 00))}
+		$meow_header = { 4d 45 4f 57 }
+		$clsid1 = {((7b 31 31 31 31 31 31 31 31 2d 32 32 32 32 2d 33 33 33 33 2d 34 34 34 34 2d 35 35 35 35 35 35 35 35 35 35 35 35 7d) | (7b 00 31 00 31 00 31 00 31 00 31 00 31 00 31 00 31 00 2d 00 32 00 32 00 32 00 32 00 2d 00 33 00 33 00 33 00 33 00 2d 00 34 00 34 00 34 00 34 00 2d 00 35 00 35 00 35 00 35 00 35 00 35 00 35 00 35 00 35 00 35 00 35 00 35 00 7d 00))}
+		$clsid2 = {((7b 35 31 36 37 42 34 32 46 2d 43 31 31 31 2d 34 37 41 31 2d 41 43 43 34 2d 38 45 41 42 45 36 31 42 30 42 35 34 7d) | (7b 00 35 00 31 00 36 00 37 00 42 00 34 00 32 00 46 00 2d 00 43 00 31 00 31 00 31 00 2d 00 34 00 37 00 41 00 31 00 2d 00 41 00 43 00 43 00 34 00 2d 00 38 00 45 00 41 00 42 00 45 00 36 00 31 00 42 00 30 00 42 00 35 00 34 00 7d 00))}
+
+	condition:
+		( uint16( 0 ) == 0x5A4D ) and $import1 and $istorage_clsid and $meow_header and 1 of ( $clsid* )
 }
+

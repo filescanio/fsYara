@@ -1,89 +1,78 @@
-/*
-    This Yara ruleset is under the GNU-GPLv2 license (http://www.gnu.org/licenses/gpl-2.0.html) and open to any user or organization, as    long as you use it under this license.
+rule suspicious_packer_section : packer PE hardened
+{
+	meta:
+		author = "@j0sm1"
+		date = "2016/10/21"
+		description = "The packer/protector section names/keywords"
+		reference = "http://www.hexacorn.com/blog/2012/10/14/random-stats-from-1-2m-samples-pe-section-names/"
+		filetype = "binary"
 
-*/
+	strings:
+		$s1 = {((2e 61 73 70 61 63 6b) | (2e 00 61 00 73 00 70 00 61 00 63 00 6b 00))}
+		$s2 = {((2e 61 64 61 74 61) | (2e 00 61 00 64 00 61 00 74 00 61 00))}
+		$s3 = {((41 53 50 61 63 6b) | (41 00 53 00 50 00 61 00 63 00 6b 00))}
+		$s4 = {((2e 41 53 50 61 63 6b) | (2e 00 41 00 53 00 50 00 61 00 63 00 6b 00))}
+		$s5 = {((2e 63 63 67) | (2e 00 63 00 63 00 67 00))}
+		$s6 = {((42 69 74 41 72 74 73) | (42 00 69 00 74 00 41 00 72 00 74 00 73 00))}
+		$s7 = {((44 41 53 74 75 62) | (44 00 41 00 53 00 74 00 75 00 62 00))}
+		$s8 = {((21 45 50 61 63 6b) | (21 00 45 00 50 00 61 00 63 00 6b 00))}
+		$s9 = {((46 53 47 21) | (46 00 53 00 47 00 21 00))}
+		$s10 = {((6b 6b 72 75 6e 63 68 79) | (6b 00 6b 00 72 00 75 00 6e 00 63 00 68 00 79 00))}
+		$s11 = {((2e 6d 61 63 6b 74) | (2e 00 6d 00 61 00 63 00 6b 00 74 00))}
+		$s12 = {((2e 4d 61 73 6b 50 45) | (2e 00 4d 00 61 00 73 00 6b 00 50 00 45 00))}
+		$s13 = {((4d 45 57) | (4d 00 45 00 57 00))}
+		$s14 = {((2e 4d 50 52 45 53 53 31) | (2e 00 4d 00 50 00 52 00 45 00 53 00 53 00 31 00))}
+		$s15 = {((2e 4d 50 52 45 53 53 32) | (2e 00 4d 00 50 00 52 00 45 00 53 00 53 00 32 00))}
+		$s16 = {((2e 6e 65 6f 6c 69 74 65) | (2e 00 6e 00 65 00 6f 00 6c 00 69 00 74 00 65 00))}
+		$s17 = {((2e 6e 65 6f 6c 69 74) | (2e 00 6e 00 65 00 6f 00 6c 00 69 00 74 00))}
+		$s18 = {((2e 6e 73 70 31) | (2e 00 6e 00 73 00 70 00 31 00))}
+		$s19 = {((2e 6e 73 70 32) | (2e 00 6e 00 73 00 70 00 32 00))}
+		$s20 = {((2e 6e 73 70 30) | (2e 00 6e 00 73 00 70 00 30 00))}
+		$s21 = {((6e 73 70 30) | (6e 00 73 00 70 00 30 00))}
+		$s22 = {((6e 73 70 31) | (6e 00 73 00 70 00 31 00))}
+		$s23 = {((6e 73 70 32) | (6e 00 73 00 70 00 32 00))}
+		$s24 = {((2e 70 61 63 6b 65 64) | (2e 00 70 00 61 00 63 00 6b 00 65 00 64 00))}
+		$s25 = {((70 65 62 75 6e 64 6c 65) | (70 00 65 00 62 00 75 00 6e 00 64 00 6c 00 65 00))}
+		$s26 = {((50 45 42 75 6e 64 6c 65) | (50 00 45 00 42 00 75 00 6e 00 64 00 6c 00 65 00))}
+		$s27 = {((50 45 43 32 54 4f) | (50 00 45 00 43 00 32 00 54 00 4f 00))}
+		$s28 = {((50 45 43 6f 6d 70 61 63 74 32) | (50 00 45 00 43 00 6f 00 6d 00 70 00 61 00 63 00 74 00 32 00))}
+		$s29 = {((50 45 43 32) | (50 00 45 00 43 00 32 00))}
+		$s30 = {((70 65 63 31) | (70 00 65 00 63 00 31 00))}
+		$s31 = {((70 65 63 32) | (70 00 65 00 63 00 32 00))}
+		$s32 = {((50 45 43 32 4d 4f) | (50 00 45 00 43 00 32 00 4d 00 4f 00))}
+		$s33 = {((50 45 4c 4f 43 4b 6e 74) | (50 00 45 00 4c 00 4f 00 43 00 4b 00 6e 00 74 00))}
+		$s34 = {((2e 70 65 72 70 6c 65 78) | (2e 00 70 00 65 00 72 00 70 00 6c 00 65 00 78 00))}
+		$s35 = {((50 45 53 48 69 45 4c 44) | (50 00 45 00 53 00 48 00 69 00 45 00 4c 00 44 00))}
+		$s36 = {((2e 70 65 74 69 74 65) | (2e 00 70 00 65 00 74 00 69 00 74 00 65 00))}
+		$s37 = {((50 72 6f 43 72 79 70 74) | (50 00 72 00 6f 00 43 00 72 00 79 00 70 00 74 00))}
+		$s38 = {((2e 52 4c 50 61 63 6b) | (2e 00 52 00 4c 00 50 00 61 00 63 00 6b 00))}
+		$s39 = {((52 43 72 79 70 74 6f 72) | (52 00 43 00 72 00 79 00 70 00 74 00 6f 00 72 00))}
+		$s40 = {((2e 52 50 43 72 79 70 74) | (2e 00 52 00 50 00 43 00 72 00 79 00 70 00 74 00))}
+		$s41 = {((2e 73 66 6f 72 63 65 33) | (2e 00 73 00 66 00 6f 00 72 00 63 00 65 00 33 00))}
+		$s42 = {((2e 73 70 61 63 6b) | (2e 00 73 00 70 00 61 00 63 00 6b 00))}
+		$s43 = {((2e 73 76 6b 70) | (2e 00 73 00 76 00 6b 00 70 00))}
+		$s44 = {((54 68 65 6d 69 64 61) | (54 00 68 00 65 00 6d 00 69 00 64 00 61 00))}
+		$s45 = {((2e 54 68 65 6d 69 64 61) | (2e 00 54 00 68 00 65 00 6d 00 69 00 64 00 61 00))}
+		$s46 = {((2e 70 61 63 6b 65 64) | (2e 00 70 00 61 00 63 00 6b 00 65 00 64 00))}
+		$s47 = {((2e 55 70 61 63 6b) | (2e 00 55 00 70 00 61 00 63 00 6b 00))}
+		$s48 = {((2e 42 79 44 77 69 6e 67) | (2e 00 42 00 79 00 44 00 77 00 69 00 6e 00 67 00))}
+		$s49 = {((55 50 58 30) | (55 00 50 00 58 00 30 00))}
+		$s50 = {((55 50 58 31) | (55 00 50 00 58 00 31 00))}
+		$s51 = {((55 50 58 32) | (55 00 50 00 58 00 32 00))}
+		$s52 = {((2e 55 50 58 30) | (2e 00 55 00 50 00 58 00 30 00))}
+		$s53 = {((2e 55 50 58 31) | (2e 00 55 00 50 00 58 00 31 00))}
+		$s54 = {((2e 55 50 58 32) | (2e 00 55 00 50 00 58 00 32 00))}
+		$s55 = {((2e 76 6d 70 30) | (2e 00 76 00 6d 00 70 00 30 00))}
+		$s56 = {((2e 76 6d 70 31) | (2e 00 76 00 6d 00 70 00 31 00))}
+		$s57 = {((2e 76 6d 70 32) | (2e 00 76 00 6d 00 70 00 32 00))}
+		$s58 = {((56 50 72 6f 74 65 63 74) | (56 00 50 00 72 00 6f 00 74 00 65 00 63 00 74 00))}
+		$s59 = {((57 69 6e 4c 69 63 65 6e) | (57 00 69 00 6e 00 4c 00 69 00 63 00 65 00 6e 00))}
+		$s60 = {((57 57 50 41 43 4b) | (57 00 57 00 50 00 41 00 43 00 4b 00))}
+		$s61 = {((2e 79 50) | (2e 00 79 00 50 00))}
+		$s62 = {((2e 79 30 64 61) | (2e 00 79 00 30 00 64 00 61 00))}
+		$s63 = {((55 50 58 21) | (55 00 50 00 58 00 21 00))}
 
-import "pe"
-
-rule suspicious_packer_section : packer PE {
-
-    meta:
-
-        author = "@j0sm1"
-        date = "2016/10/21"
-        description = "The packer/protector section names/keywords"
-        reference = "http://www.hexacorn.com/blog/2012/10/14/random-stats-from-1-2m-samples-pe-section-names/"
-        filetype = "binary"
-
-    strings:
-
-        $s1 = ".aspack" wide ascii
-        $s2 = ".adata" wide ascii
-        $s3 = "ASPack" wide ascii
-        $s4 = ".ASPack" wide ascii
-        $s5 = ".ccg" wide ascii
-        $s6 = "BitArts" wide ascii
-        $s7 = "DAStub" wide ascii
-        $s8 = "!EPack" wide ascii
-        $s9 = "FSG!" wide ascii
-        $s10 = "kkrunchy" wide ascii
-        $s11 = ".mackt" wide ascii
-        $s12 = ".MaskPE" wide ascii
-        $s13 = "MEW" wide ascii
-        $s14 = ".MPRESS1" wide ascii
-        $s15 = ".MPRESS2" wide ascii
-        $s16 = ".neolite" wide ascii
-        $s17 = ".neolit" wide ascii
-        $s18 = ".nsp1" wide ascii
-        $s19 = ".nsp2" wide ascii
-        $s20 = ".nsp0" wide ascii
-        $s21 = "nsp0" wide ascii
-        $s22 = "nsp1" wide ascii
-        $s23 = "nsp2" wide ascii
-        $s24 = ".packed" wide ascii
-        $s25 = "pebundle" wide ascii
-        $s26 = "PEBundle" wide ascii
-        $s27 = "PEC2TO" wide ascii
-        $s28 = "PECompact2" wide ascii
-        $s29 = "PEC2" wide ascii
-        $s30 = "pec1" wide ascii
-        $s31 = "pec2" wide ascii
-        $s32 = "PEC2MO" wide ascii
-        $s33 = "PELOCKnt" wide ascii
-        $s34 = ".perplex" wide ascii
-        $s35 = "PESHiELD" wide ascii
-        $s36 = ".petite" wide ascii
-        $s37 = "ProCrypt" wide ascii
-        $s38 = ".RLPack" wide ascii
-        $s39 = "RCryptor" wide ascii
-        $s40 = ".RPCrypt" wide ascii
-        $s41 = ".sforce3" wide ascii
-        $s42 = ".spack" wide ascii
-        $s43 = ".svkp" wide ascii
-        $s44 = "Themida" wide ascii
-        $s45 = ".Themida" wide ascii
-        $s46 = ".packed" wide ascii
-        $s47 = ".Upack" wide ascii
-        $s48 = ".ByDwing" wide ascii
-        $s49 = "UPX0" wide ascii
-        $s50 = "UPX1" wide ascii
-        $s51 = "UPX2" wide ascii
-        $s52 = ".UPX0" wide ascii
-        $s53 = ".UPX1" wide ascii
-        $s54 = ".UPX2" wide ascii
-        $s55 = ".vmp0" wide ascii
-        $s56 = ".vmp1" wide ascii
-        $s57 = ".vmp2" wide ascii
-        $s58 = "VProtect" wide ascii
-        $s59 = "WinLicen" wide ascii
-        $s60 = "WWPACK" wide ascii
-        $s61 = ".yP" wide ascii
-        $s62 = ".y0da" wide ascii
-        $s63 = "UPX!" wide ascii
-
-    condition:
-        // DOS stub signature                           PE signature
-        uint16(0) == 0x5a4d and uint32be(uint32(0x3c)) == 0x50450000 and (
-            for any of them : ( $ in (0..1024) )
-        )
+	condition:
+		uint16( 0 ) == 0x5a4d and uint32be( uint32( 0x3c ) ) == 0x50450000 and ( for any of them : ( $ in ( 0 .. 1024 ) ) )
 }
+

@@ -1,191 +1,170 @@
-// source: https://github.com/Neo23x0/signature-base/blob/master/yara/apt_royalroad.yar
-
-/*
-   MIT License
-
-   Copyright (c) 2020 nao_sec
-
-   Permission is hereby granted, free of charge, to any person obtaining a copy
-   of this software and associated documentation files (the "Software"), to deal
-   in the Software without restriction, including without limitation the rights
-   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-   copies of the Software, and to permit persons to whom the Software is
-   furnished to do so, subject to the following conditions:
-
-   The above copyright notice and this permission notice shall be included in all
-   copies or substantial portions of the Software.
-
-   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-   SOFTWARE.
-*/
-
-rule RoyalRoad_code_pattern1
+rule RoyalRoad_code_pattern1 : hardened
 {
-   meta:
-      description = "Detects RoyalRoad weaponized RTF documents"
-      reference = "https://jsac.jpcert.or.jp/archive/2020/pdf/JSAC2020_8_koike-nakajima_jp.pdf"
-      date = "2020/01/15"
-      author = "nao_sec"
-      score = 80
-      id = "db2fb24c-df99-5622-ac3d-d31c34481984"
-   strings:
-       $S1= "48905d006c9c5b0000000000030101030a0a01085a5ab844eb7112ba7856341231"
-       $RTF= "{\\rt"
+	meta:
+		description = "Detects RoyalRoad weaponized RTF documents"
+		reference = "https://jsac.jpcert.or.jp/archive/2020/pdf/JSAC2020_8_koike-nakajima_jp.pdf"
+		date = "2020/01/15"
+		author = "nao_sec"
+		score = 80
+		id = "db2fb24c-df99-5622-ac3d-d31c34481984"
 
-   condition:
-       $RTF at 0 and $S1
+	strings:
+		$S1 = {34 38 39 30 35 64 30 30 36 63 39 63 35 62 30 30 30 30 30 30 30 30 30 30 30 33 30 31 30 31 30 33 30 61 30 61 30 31 30 38 35 61 35 61 62 38 34 34 65 62 37 31 31 32 62 61 37 38 35 36 33 34 31 32 33 31}
+		$RTF = {7b 5c 72 74}
+
+	condition:
+		$RTF at 0 and $S1
 }
 
-rule RoyalRoad_code_pattern2
+rule RoyalRoad_code_pattern2 : hardened
 {
-   meta:
-      description = "Detects RoyalRoad weaponized RTF documents"
-      reference = "https://jsac.jpcert.or.jp/archive/2020/pdf/JSAC2020_8_koike-nakajima_jp.pdf"
-      date = "2020/01/15"
-      author = "nao_sec"
-      score = 80
-      id = "135024ae-9ecf-5691-95ca-96002e500fd5"
-    strings:
-        $S1= "653037396132353234666136336135356662636665" ascii
-        $RTF= "{\\rt"
+	meta:
+		description = "Detects RoyalRoad weaponized RTF documents"
+		reference = "https://jsac.jpcert.or.jp/archive/2020/pdf/JSAC2020_8_koike-nakajima_jp.pdf"
+		date = "2020/01/15"
+		author = "nao_sec"
+		score = 80
+		id = "135024ae-9ecf-5691-95ca-96002e500fd5"
 
-    condition:
-        $RTF at 0 and $S1
+	strings:
+		$S1 = {36 35 33 30 33 37 33 39 36 31 33 32 33 35 33 32 33 34 36 36 36 31 33 36 33 33 36 31 33 35 33 35 36 36 36 32 36 33 36 36 36 35}
+		$RTF = {7b 5c 72 74}
+
+	condition:
+		$RTF at 0 and $S1
 }
 
-rule RoyalRoad_code_pattern3
+rule RoyalRoad_code_pattern3 : hardened
 {
-   meta:
-      description = "Detects RoyalRoad weaponized RTF documents"
-      reference = "https://jsac.jpcert.or.jp/archive/2020/pdf/JSAC2020_8_koike-nakajima_jp.pdf"
-      date = "2020/01/15"
-      author = "nao_sec"
-      score = 80
-      id = "7bce2fe6-a921-51ec-8b5f-5d7f55ab3864"
-strings:
-    $S1="4746424151515151505050500000000000584242eb0642424235353336204460606060606060606061616161616161616161616161616161"
-    $RTF= "{\\rt"
+	meta:
+		description = "Detects RoyalRoad weaponized RTF documents"
+		reference = "https://jsac.jpcert.or.jp/archive/2020/pdf/JSAC2020_8_koike-nakajima_jp.pdf"
+		date = "2020/01/15"
+		author = "nao_sec"
+		score = 80
+		id = "7bce2fe6-a921-51ec-8b5f-5d7f55ab3864"
 
-condition:
-    $RTF at 0 and $S1
+	strings:
+		$S1 = {34 37 34 36 34 32 34 31 35 31 35 31 35 31 35 31 35 30 35 30 35 30 35 30 30 30 30 30 30 30 30 30 30 30 35 38 34 32 34 32 65 62 30 36 34 32 34 32 34 32 33 35 33 35 33 33 33 36 32 30 34 34 36 30 36 30 36 30 36 30 36 30 36 30 36 30 36 30 36 30 36 31 36 31 36 31 36 31 36 31 36 31 36 31 36 31 36 31 36 31 36 31 36 31 36 31 36 31 36 31 36 31}
+		$RTF = {7b 5c 72 74}
 
+	condition:
+		$RTF at 0 and $S1
 }
 
-rule RoyalRoad_code_pattern4ab
+rule RoyalRoad_code_pattern4ab : hardened
 {
-   meta:
-      description = "Detects RoyalRoad weaponized RTF documents"
-      reference = "https://jsac.jpcert.or.jp/archive/2020/pdf/JSAC2020_8_koike-nakajima_jp.pdf"
-      date = "2020/01/15"
-      author = "nao_sec"
-      score = 80
-      id = "b4926888-b576-59f7-932a-03b9326845da"
-    strings:
-        $S1= "4746424151515151505050500000000000584242EB064242423535333620446060606060606060606161616161616}1616161616161616161" ascii
-        $RTF= "{\\rt"
+	meta:
+		description = "Detects RoyalRoad weaponized RTF documents"
+		reference = "https://jsac.jpcert.or.jp/archive/2020/pdf/JSAC2020_8_koike-nakajima_jp.pdf"
+		date = "2020/01/15"
+		author = "nao_sec"
+		score = 80
+		id = "b4926888-b576-59f7-932a-03b9326845da"
 
-    condition:
-        $RTF at 0 and $S1
+	strings:
+		$S1 = {34 37 34 36 34 32 34 31 35 31 35 31 35 31 35 31 35 30 35 30 35 30 35 30 30 30 30 30 30 30 30 30 30 30 35 38 34 32 34 32 45 42 30 36 34 32 34 32 34 32 33 35 33 35 33 33 33 36 32 30 34 34 36 30 36 30 36 30 36 30 36 30 36 30 36 30 36 30 36 30 36 31 36 31 36 31 36 31 36 31 36 31 36 7d 31 36 31 36 31 36 31 36 31 36 31 36 31 36 31 36 31 36 31}
+		$RTF = {7b 5c 72 74}
+
+	condition:
+		$RTF at 0 and $S1
 }
 
-rule RoyalRoad_code_pattern4ce
+rule RoyalRoad_code_pattern4ce : hardened
 {
-   meta:
-      description = "Detects RoyalRoad weaponized RTF documents"
-      reference = "https://jsac.jpcert.or.jp/archive/2020/pdf/JSAC2020_8_koike-nakajima_jp.pdf"
-      date = "2020/01/15"
-      author = "nao_sec"
-      score = 80
-      id = "c6e8a072-23cd-5f6a-9b4f-57d3e4500d13"
-    strings:
-        $S1= "584242eb064242423535333620446060606060606060606161616161616161616161616}1616161" ascii
-        $RTF= "{\\rt"
+	meta:
+		description = "Detects RoyalRoad weaponized RTF documents"
+		reference = "https://jsac.jpcert.or.jp/archive/2020/pdf/JSAC2020_8_koike-nakajima_jp.pdf"
+		date = "2020/01/15"
+		author = "nao_sec"
+		score = 80
+		id = "c6e8a072-23cd-5f6a-9b4f-57d3e4500d13"
 
-    condition:
-        $RTF at 0 and $S1
+	strings:
+		$S1 = {35 38 34 32 34 32 65 62 30 36 34 32 34 32 34 32 33 35 33 35 33 33 33 36 32 30 34 34 36 30 36 30 36 30 36 30 36 30 36 30 36 30 36 30 36 30 36 31 36 31 36 31 36 31 36 31 36 31 36 31 36 31 36 31 36 31 36 31 36 31 36 7d 31 36 31 36 31 36 31}
+		$RTF = {7b 5c 72 74}
+
+	condition:
+		$RTF at 0 and $S1
 }
 
-
-
-rule RoyalRoad_code_pattern4d
+rule RoyalRoad_code_pattern4d : hardened
 {
-   meta:
-      description = "Detects RoyalRoad weaponized RTF documents"
-      reference = "https://jsac.jpcert.or.jp/archive/2020/pdf/JSAC2020_8_koike-nakajima_jp.pdf"
-      date = "2020/01/15"
-      author = "nao_sec"
-      score = 80
-      id = "1677dfb4-7611-5bef-87d1-4cec6285791f"
-    strings:
-        $S1= "584242eb06424242353533362044606060606060606060616161616161616161616}16161616161" ascii
-        $RTF= "{\\rt"
+	meta:
+		description = "Detects RoyalRoad weaponized RTF documents"
+		reference = "https://jsac.jpcert.or.jp/archive/2020/pdf/JSAC2020_8_koike-nakajima_jp.pdf"
+		date = "2020/01/15"
+		author = "nao_sec"
+		score = 80
+		id = "1677dfb4-7611-5bef-87d1-4cec6285791f"
 
-    condition:
-        $RTF at 0 and $S1
+	strings:
+		$S1 = {35 38 34 32 34 32 65 62 30 36 34 32 34 32 34 32 33 35 33 35 33 33 33 36 32 30 34 34 36 30 36 30 36 30 36 30 36 30 36 30 36 30 36 30 36 30 36 31 36 31 36 31 36 31 36 31 36 31 36 31 36 31 36 31 36 31 36 7d 31 36 31 36 31 36 31 36 31 36 31}
+		$RTF = {7b 5c 72 74}
+
+	condition:
+		$RTF at 0 and $S1
 }
 
-
-/* Hunting */
-
-rule RoyalRoad_RTF
+rule RoyalRoad_RTF : hardened
 {
-   meta:
-      description = "Detects RoyalRoad weaponized RTF documents"
-      reference = "https://jsac.jpcert.or.jp/archive/2020/pdf/JSAC2020_8_koike-nakajima_jp.pdf"
-      date = "2020/01/15"
-      author = "nao_sec"
-      score = 80
-      id = "366ec9c3-e6ad-5198-88d5-15aa84a8358f"
-    strings:
-        $S1= "objw2180\\objh300" ascii
-        $RTF= "{\\rt"
+	meta:
+		description = "Detects RoyalRoad weaponized RTF documents"
+		reference = "https://jsac.jpcert.or.jp/archive/2020/pdf/JSAC2020_8_koike-nakajima_jp.pdf"
+		date = "2020/01/15"
+		author = "nao_sec"
+		score = 80
+		id = "366ec9c3-e6ad-5198-88d5-15aa84a8358f"
 
-    condition:
-        $RTF at 0 and $S1
+	strings:
+		$S1 = {6f 62 6a 77 32 31 38 30 5c 6f 62 6a 68 33 30 30}
+		$RTF = {7b 5c 72 74}
+
+	condition:
+		$RTF at 0 and $S1
 }
 
-rule RoyalRoad_RTF_v7
+rule RoyalRoad_RTF_v7 : hardened
 {
-   meta:
-      description = "Detects RoyalRoad weaponized RTF documents"
-      reference = "https://jsac.jpcert.or.jp/archive/2020/pdf/JSAC2020_8_koike-nakajima_jp.pdf"
-      date = "2020/01/15"
-      author = "nao_sec"
-      score = 60
-      id = "9d2af980-a851-533a-b25d-ee52277e319c"
-    strings:
-        $v7_1= "{\\object\\objocx{\\objdata" ascii
-        $v7_2= "ods0000"  ascii
-        $RTF= "{\\rt"
+	meta:
+		description = "Detects RoyalRoad weaponized RTF documents"
+		reference = "https://jsac.jpcert.or.jp/archive/2020/pdf/JSAC2020_8_koike-nakajima_jp.pdf"
+		date = "2020/01/15"
+		author = "nao_sec"
+		score = 60
+		id = "9d2af980-a851-533a-b25d-ee52277e319c"
 
-    condition:
-        $RTF at 0 and all of ($v7*)
+	strings:
+		$v7_1 = {7b 5c 6f 62 6a 65 63 74 5c 6f 62 6a 6f 63 78 7b 5c 6f 62 6a 64 61 74 61}
+		$v7_2 = {6f 64 73 30 30 30 30}
+		$RTF = {7b 5c 72 74}
+
+	condition:
+		$RTF at 0 and all of ( $v7* )
 }
 
-rule RoyalRoad_encode_in_RTF
+rule RoyalRoad_encode_in_RTF : hardened
 {
-   meta:
-      description = "Detects RoyalRoad weaponized RTF documents"
-      reference = "https://jsac.jpcert.or.jp/archive/2020/pdf/JSAC2020_8_koike-nakajima_jp.pdf"
-      date = "2020/01/15"
-      author = "nao_sec"
-      score = 60
-      id = "66614152-8f9b-5e62-b6bd-ba0286e66d4d"
-    strings:
-        $enc_hex_1 = "B0747746"
-        $enc_hex_2 = "B2A66DFF"
-        $enc_hex_3 = "F2A32072"
-        $enc_hex_4 = "B2A46EFF"
-        $enc_hex_1l = "b0747746"
-        $enc_hex_2l = "b2a66Dff"
-        $enc_hex_3l = "f2a32072"
-        $enc_hex_4l = "b2a46eff"
-        $RTF= "{\\rt"
-    condition:
-        $RTF at 0 and 1 of ($enc_hex*)
+	meta:
+		description = "Detects RoyalRoad weaponized RTF documents"
+		reference = "https://jsac.jpcert.or.jp/archive/2020/pdf/JSAC2020_8_koike-nakajima_jp.pdf"
+		date = "2020/01/15"
+		author = "nao_sec"
+		score = 60
+		id = "66614152-8f9b-5e62-b6bd-ba0286e66d4d"
+
+	strings:
+		$enc_hex_1 = {42 30 37 34 37 37 34 36}
+		$enc_hex_2 = {42 32 41 36 36 44 46 46}
+		$enc_hex_3 = {46 32 41 33 32 30 37 32}
+		$enc_hex_4 = {42 32 41 34 36 45 46 46}
+		$enc_hex_1l = {62 30 37 34 37 37 34 36}
+		$enc_hex_2l = {62 32 61 36 36 44 66 66}
+		$enc_hex_3l = {66 32 61 33 32 30 37 32}
+		$enc_hex_4l = {62 32 61 34 36 65 66 66}
+		$RTF = {7b 5c 72 74}
+
+	condition:
+		$RTF at 0 and 1 of ( $enc_hex* )
 }
+

@@ -1,29 +1,26 @@
-/*
-    This Yara ruleset is under the GNU-GPLv2 license (http://www.gnu.org/licenses/gpl-2.0.html) and open to any user or organization, as    long as you use it under this license.
-*/
-
-rule FUDCrypter
+rule FUDCrypter : hardened
 {
-    meta:
-        description = "Detects unmodified FUDCrypt samples"
-        reference = "https://github.com/gigajew/FudCrypt/"
-        author = "https://github.com/hwvs"
-        last_modified = "2019-11-21"
+	meta:
+		description = "Detects unmodified FUDCrypt samples"
+		reference = "https://github.com/gigajew/FudCrypt/"
+		author = "https://github.com/hwvs"
+		last_modified = "2019-11-21"
 
-    strings:
-        $ = "OcYjzPUtJkNbLOABqYvNbvhZf" wide ascii
-        $ = "gwiXxyIDDtoYzgMSRGMckRbJi" wide ascii
-        $ = "BclWgISTcaGjnwrzSCIuKruKm" wide ascii
-        $ = "CJyUSiUNrIVbgksjxpAMUkAJJ" wide ascii
-        $ = "fAMVdoPUEyHEWdxQIEJPRYbEN" wide ascii
-        $ = "CIGQUctdcUPqUjoucmcoffECY" wide ascii
-        $ = "wcZfHOgetgAExzSoWFJFQdAyO" wide ascii
-        $ = "DqYKDnIoLeZDWYlQWoxZnpfPR" wide ascii
-        $ = "MkhMoOHCbGUMqtnRDJKnBYnOj" wide ascii
-        $ = "sHEqLMGglkBAOIUfcSAgMvZfs" wide ascii
-        $ = "JtZApJhbFAIFxzHLjjyEQvtgd" wide ascii
-        $ = "IIQrSWZEMmoQIKGuxxwoTwXka" wide ascii
+	strings:
+		$ = {((4f 63 59 6a 7a 50 55 74 4a 6b 4e 62 4c 4f 41 42 71 59 76 4e 62 76 68 5a 66) | (4f 00 63 00 59 00 6a 00 7a 00 50 00 55 00 74 00 4a 00 6b 00 4e 00 62 00 4c 00 4f 00 41 00 42 00 71 00 59 00 76 00 4e 00 62 00 76 00 68 00 5a 00 66 00))}
+		$ = {((67 77 69 58 78 79 49 44 44 74 6f 59 7a 67 4d 53 52 47 4d 63 6b 52 62 4a 69) | (67 00 77 00 69 00 58 00 78 00 79 00 49 00 44 00 44 00 74 00 6f 00 59 00 7a 00 67 00 4d 00 53 00 52 00 47 00 4d 00 63 00 6b 00 52 00 62 00 4a 00 69 00))}
+		$ = {((42 63 6c 57 67 49 53 54 63 61 47 6a 6e 77 72 7a 53 43 49 75 4b 72 75 4b 6d) | (42 00 63 00 6c 00 57 00 67 00 49 00 53 00 54 00 63 00 61 00 47 00 6a 00 6e 00 77 00 72 00 7a 00 53 00 43 00 49 00 75 00 4b 00 72 00 75 00 4b 00 6d 00))}
+		$ = {((43 4a 79 55 53 69 55 4e 72 49 56 62 67 6b 73 6a 78 70 41 4d 55 6b 41 4a 4a) | (43 00 4a 00 79 00 55 00 53 00 69 00 55 00 4e 00 72 00 49 00 56 00 62 00 67 00 6b 00 73 00 6a 00 78 00 70 00 41 00 4d 00 55 00 6b 00 41 00 4a 00 4a 00))}
+		$ = {((66 41 4d 56 64 6f 50 55 45 79 48 45 57 64 78 51 49 45 4a 50 52 59 62 45 4e) | (66 00 41 00 4d 00 56 00 64 00 6f 00 50 00 55 00 45 00 79 00 48 00 45 00 57 00 64 00 78 00 51 00 49 00 45 00 4a 00 50 00 52 00 59 00 62 00 45 00 4e 00))}
+		$ = {((43 49 47 51 55 63 74 64 63 55 50 71 55 6a 6f 75 63 6d 63 6f 66 66 45 43 59) | (43 00 49 00 47 00 51 00 55 00 63 00 74 00 64 00 63 00 55 00 50 00 71 00 55 00 6a 00 6f 00 75 00 63 00 6d 00 63 00 6f 00 66 00 66 00 45 00 43 00 59 00))}
+		$ = {((77 63 5a 66 48 4f 67 65 74 67 41 45 78 7a 53 6f 57 46 4a 46 51 64 41 79 4f) | (77 00 63 00 5a 00 66 00 48 00 4f 00 67 00 65 00 74 00 67 00 41 00 45 00 78 00 7a 00 53 00 6f 00 57 00 46 00 4a 00 46 00 51 00 64 00 41 00 79 00 4f 00))}
+		$ = {((44 71 59 4b 44 6e 49 6f 4c 65 5a 44 57 59 6c 51 57 6f 78 5a 6e 70 66 50 52) | (44 00 71 00 59 00 4b 00 44 00 6e 00 49 00 6f 00 4c 00 65 00 5a 00 44 00 57 00 59 00 6c 00 51 00 57 00 6f 00 78 00 5a 00 6e 00 70 00 66 00 50 00 52 00))}
+		$ = {((4d 6b 68 4d 6f 4f 48 43 62 47 55 4d 71 74 6e 52 44 4a 4b 6e 42 59 6e 4f 6a) | (4d 00 6b 00 68 00 4d 00 6f 00 4f 00 48 00 43 00 62 00 47 00 55 00 4d 00 71 00 74 00 6e 00 52 00 44 00 4a 00 4b 00 6e 00 42 00 59 00 6e 00 4f 00 6a 00))}
+		$ = {((73 48 45 71 4c 4d 47 67 6c 6b 42 41 4f 49 55 66 63 53 41 67 4d 76 5a 66 73) | (73 00 48 00 45 00 71 00 4c 00 4d 00 47 00 67 00 6c 00 6b 00 42 00 41 00 4f 00 49 00 55 00 66 00 63 00 53 00 41 00 67 00 4d 00 76 00 5a 00 66 00 73 00))}
+		$ = {((4a 74 5a 41 70 4a 68 62 46 41 49 46 78 7a 48 4c 6a 6a 79 45 51 76 74 67 64) | (4a 00 74 00 5a 00 41 00 70 00 4a 00 68 00 62 00 46 00 41 00 49 00 46 00 78 00 7a 00 48 00 4c 00 6a 00 6a 00 79 00 45 00 51 00 76 00 74 00 67 00 64 00))}
+		$ = {((49 49 51 72 53 57 5a 45 4d 6d 6f 51 49 4b 47 75 78 78 77 6f 54 77 58 6b 61) | (49 00 49 00 51 00 72 00 53 00 57 00 5a 00 45 00 4d 00 6d 00 6f 00 51 00 49 00 4b 00 47 00 75 00 78 00 78 00 77 00 6f 00 54 00 77 00 58 00 6b 00 61 00))}
 
-    condition:
-        1 of them
+	condition:
+		1 of them
 }
+

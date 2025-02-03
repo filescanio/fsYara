@@ -1,178 +1,149 @@
-/*
-   Yara Rule Set
-   Copyright: Florian Roth
-   Date: 2017-06-25
-   Identifier: Rules that detect different malware characteristics
-   Reference: Internal Research
-   License: GPL
-*/
+import "pe"
+
+rule ReflectiveLoader : hardened
+{
+	meta:
+		description = "Detects a unspecified hack tool, crack or malware using a reflective loader - no hard match - further investigation recommended"
+		reference = "Internal Research"
+		score = 70
+		date = "2017-07-17"
+		modified = "2021-03-15"
+		author = "Florian Roth (Nextron Systems)"
+		nodeepdive = 1
+		id = "d8a601d7-b99a-59dc-bfc7-bf0e35b5d8bd"
+
+	strings:
+		$x1 = {52 65 66 6c 65 63 74 69 76 65 4c 6f 61 64 65 72}
+		$x2 = {52 65 66 6c 65 63 74 69 76 4c 6f 61 64 65 72 2e 64 6c 6c}
+		$x3 = {3f 52 65 66 6c 65 63 74 69 76 65 4c 6f 61 64 65 72 40 40}
+		$x4 = {72 65 66 6c 65 63 74 69 76 65 5f 64 6c 6c 2e 78 36 34 2e 64 6c 6c}
+		$x5 = {72 65 66 6c 65 63 74 69 76 65 5f 64 6c 6c 2e 64 6c 6c}
+		$fp1 = {53 00 65 00 6e 00 74 00 69 00 6e 00 65 00 6c 00 20 00 4c 00 61 00 62 00 73 00 2c 00 20 00 49 00 6e 00 63 00 2e 00}
+		$fp2 = {((50 61 6e 64 61 20 53 65 63 75 72 69 74 79 2c 20 53 2e 4c 2e) | (50 00 61 00 6e 00 64 00 61 00 20 00 53 00 65 00 63 00 75 00 72 00 69 00 74 00 79 00 2c 00 20 00 53 00 2e 00 4c 00 2e 00))}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and ( 1 of ( $x* ) or pe.exports ( "ReflectiveLoader" ) or pe.exports ( "_ReflectiveLoader@4" ) or pe.exports ( "?ReflectiveLoader@@YGKPAX@Z" ) ) and not 1 of ( $fp* )
+}
 
 import "pe"
 
-/* Rule Set ----------------------------------------------------------------- */
+rule Reflective_DLL_Loader_Aug17_1 : hardened
+{
+	meta:
+		description = "Detects Reflective DLL Loader"
+		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
+		author = "Florian Roth (Nextron Systems)"
+		reference = "Internal Research"
+		date = "2017-08-20"
+		score = 80
+		hash1 = "f2f85855914345eec629e6fc5333cf325a620531d1441313292924a88564e320"
+		id = "9a2674f8-5fdb-5a4d-a2b9-41e874939616"
 
-rule ReflectiveLoader {
-   meta:
-      description = "Detects a unspecified hack tool, crack or malware using a reflective loader - no hard match - further investigation recommended"
-      reference = "Internal Research"
-      score = 70
-      date = "2017-07-17"
-      modified = "2021-03-15"
-      author = "Florian Roth (Nextron Systems)"
-      nodeepdive = 1
-      id = "d8a601d7-b99a-59dc-bfc7-bf0e35b5d8bd"
-   strings:
-      $x1 = "ReflectiveLoader" fullword ascii
-      $x2 = "ReflectivLoader.dll" fullword ascii
-      $x3 = "?ReflectiveLoader@@" ascii
-      $x4 = "reflective_dll.x64.dll" fullword ascii
-      $x5 = "reflective_dll.dll" fullword ascii
+	strings:
+		$x1 = {5c 52 65 6c 65 61 73 65 5c 72 65 66 6c 65 63 74 69 76 65 5f 64 6c 6c 2e 70 64 62}
+		$x2 = {72 65 66 6c 65 63 74 69 76 65 5f 64 6c 6c 2e 78 36 34 2e 64 6c 6c}
+		$s3 = {44 4c 4c 20 49 6e 6a 65 63 74 69 6f 6e}
+		$s4 = {3f 52 65 66 6c 65 63 74 69 76 65 4c 6f 61 64 65 72 40 40 59 41 5f 4b 50 45 41 58 40 5a}
 
-      $fp1 = "Sentinel Labs, Inc." wide
-      $fp2 = "Panda Security, S.L." wide ascii
-   condition:
-      uint16(0) == 0x5a4d and (
-            1 of ($x*) or
-            pe.exports("ReflectiveLoader") or
-            pe.exports("_ReflectiveLoader@4") or
-            pe.exports("?ReflectiveLoader@@YGKPAX@Z")
-         )
-      and not 1 of ($fp*)
+	condition:
+		( uint16( 0 ) == 0x5a4d and filesize < 300KB and ( pe.imphash ( ) == "4bf489ae7d1e6575f5bb81ae4d10862f" or pe.exports ( "?ReflectiveLoader@@YA_KPEAX@Z" ) or ( 1 of ( $x* ) or 2 of them ) ) ) or ( 2 of them )
 }
 
-/*
-   Yara Rule Set
-   Author: Florian Roth
-   Date: 2017-08-20
-   Identifier: Reflective DLL Loader
-   Reference: Internal Research
-*/
+rule DLL_Injector_Lynx : hardened
+{
+	meta:
+		description = "Detects Lynx DLL Injector"
+		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
+		author = "Florian Roth (Nextron Systems)"
+		reference = "Internal Research"
+		date = "2017-08-20"
+		hash1 = "d594f60e766e0c3261a599b385e3f686b159a992d19fa624fad8761776efa4f0"
+		id = "7a4c9949-c701-5ae2-a8b1-3ef0b08c1c04"
 
-/* Rule Set ----------------------------------------------------------------- */
+	strings:
+		$x1 = {20 00 2d 00 70 00 20 00 3c 00 54 00 41 00 52 00 47 00 45 00 54 00 20 00 50 00 52 00 4f 00 43 00 45 00 53 00 53 00 20 00 4e 00 41 00 4d 00 45 00 3e 00 20 00 7c 00 20 00 2d 00 75 00 20 00 3c 00 44 00 4c 00 4c 00 20 00 50 00 41 00 59 00 4c 00 4f 00 41 00 44 00 3e 00 20 00 5b 00 2d 00 2d 00 6f 00 62 00 66 00 75 00 73 00 63 00 61 00 74 00 65 00 5d 00}
+		$x2 = {59 00 6f 00 75 00 27 00 76 00 65 00 20 00 73 00 65 00 6c 00 65 00 63 00 74 00 65 00 64 00 20 00 74 00 6f 00 20 00 69 00 6e 00 6a 00 65 00 63 00 74 00 20 00 69 00 6e 00 74 00 6f 00 20 00 70 00 72 00 6f 00 63 00 65 00 73 00 73 00 3a 00 20 00 25 00 73 00}
+		$x3 = {4c 00 79 00 6e 00 78 00 20 00 44 00 4c 00 4c 00 20 00 49 00 6e 00 6a 00 65 00 63 00 74 00 6f 00 72 00}
+		$x4 = {52 00 65 00 66 00 6c 00 65 00 63 00 74 00 69 00 76 00 65 00 20 00 44 00 4c 00 4c 00 20 00 49 00 6e 00 6a 00 65 00 63 00 74 00 6f 00 72 00}
+		$x5 = {46 00 61 00 69 00 6c 00 65 00 64 00 20 00 77 00 72 00 69 00 74 00 65 00 20 00 70 00 61 00 79 00 6c 00 6f 00 61 00 64 00 3a 00 20 00 25 00 6c 00 75 00}
+		$x6 = {46 00 61 00 69 00 6c 00 65 00 64 00 20 00 74 00 6f 00 20 00 73 00 74 00 61 00 72 00 74 00 20 00 70 00 61 00 79 00 6c 00 6f 00 61 00 64 00 3a 00 20 00 25 00 6c 00 75 00}
+		$x7 = {49 00 6e 00 6a 00 65 00 63 00 74 00 69 00 6e 00 67 00 20 00 70 00 61 00 79 00 6c 00 6f 00 61 00 64 00 2e 00 2e 00 2e 00}
 
-rule Reflective_DLL_Loader_Aug17_1 {
-   meta:
-      description = "Detects Reflective DLL Loader"
-      license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
-      author = "Florian Roth (Nextron Systems)"
-      reference = "Internal Research"
-      date = "2017-08-20"
-      score = 80
-      hash1 = "f2f85855914345eec629e6fc5333cf325a620531d1441313292924a88564e320"
-      id = "9a2674f8-5fdb-5a4d-a2b9-41e874939616"
-   strings:
-      $x1 = "\\Release\\reflective_dll.pdb" ascii
-      $x2 = "reflective_dll.x64.dll" fullword ascii
-      $s3 = "DLL Injection" fullword ascii
-      $s4 = "?ReflectiveLoader@@YA_KPEAX@Z" fullword ascii
-   condition:
-      ( uint16(0) == 0x5a4d and
-        filesize < 300KB and
-        (
-           pe.imphash() == "4bf489ae7d1e6575f5bb81ae4d10862f" or
-           pe.exports("?ReflectiveLoader@@YA_KPEAX@Z") or
-           ( 1 of ($x*) or 2 of them )
-        )
-      ) or ( 2 of them )
+	condition:
+		( uint16( 0 ) == 0x5a4d and filesize < 800KB and 1 of them ) or ( 3 of them )
 }
 
-rule DLL_Injector_Lynx {
-   meta:
-      description = "Detects Lynx DLL Injector"
-      license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
-      author = "Florian Roth (Nextron Systems)"
-      reference = "Internal Research"
-      date = "2017-08-20"
-      hash1 = "d594f60e766e0c3261a599b385e3f686b159a992d19fa624fad8761776efa4f0"
-      id = "7a4c9949-c701-5ae2-a8b1-3ef0b08c1c04"
-   strings:
-      $x1 = " -p <TARGET PROCESS NAME> | -u <DLL PAYLOAD> [--obfuscate]" fullword wide
-      $x2 = "You've selected to inject into process: %s" fullword wide
-      $x3 = "Lynx DLL Injector" fullword wide
-      $x4 = "Reflective DLL Injector" fullword wide
-      $x5 = "Failed write payload: %lu" fullword wide
-      $x6 = "Failed to start payload: %lu" fullword wide
-      $x7 = "Injecting payload..." fullword wide
-   condition:
-      ( uint16(0) == 0x5a4d and
-        filesize < 800KB and
-        1 of them
-      ) or ( 3 of them )
+import "pe"
+
+rule Reflective_DLL_Loader_Aug17_2 : hardened
+{
+	meta:
+		description = "Detects Reflective DLL Loader - suspicious - Possible FP could be program crack"
+		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
+		author = "Florian Roth (Nextron Systems)"
+		reference = "Internal Research"
+		date = "2017-08-20"
+		score = 60
+		hash1 = "c2a7a2d0b05ad42386a2bedb780205b7c0af76fe9ee3d47bbe217562f627fcae"
+		hash2 = "b90831aaf8859e604283e5292158f08f100d4a2d4e1875ea1911750a6cb85fe0"
+		id = "5948d9ba-e655-5b11-ad74-f650b3a753e7"
+
+	strings:
+		$x1 = {5c 52 65 66 6c 65 63 74 69 76 65 44 4c 4c 49 6e 6a 65 63 74 69 6f 6e 2d 6d 61 73 74 65 72 5c}
+		$s2 = {72 65 66 6c 65 63 74 69 76 65 5f 64 6c 6c 2e 64 6c 6c}
+		$s3 = {44 4c 4c 20 69 6e 6a 65 63 74 69 6f 6e}
+		$s4 = {5f 52 65 66 6c 65 63 74 69 76 65 4c 6f 61 64 65 72 40 34}
+		$s5 = {52 65 66 6c 65 63 74 69 76 65 20 44 6c 6c 20 49 6e 6a 65 63 74 69 6f 6e}
+
+	condition:
+		( uint16( 0 ) == 0x5a4d and filesize < 200KB and ( pe.imphash ( ) == "59867122bcc8c959ad307ac2dd08af79" or pe.exports ( "_ReflectiveLoader@4" ) or 2 of them ) ) or ( 3 of them )
 }
 
-rule Reflective_DLL_Loader_Aug17_2 {
-   meta:
-      description = "Detects Reflective DLL Loader - suspicious - Possible FP could be program crack"
-      license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
-      author = "Florian Roth (Nextron Systems)"
-      reference = "Internal Research"
-      date = "2017-08-20"
-      score = 60
-      hash1 = "c2a7a2d0b05ad42386a2bedb780205b7c0af76fe9ee3d47bbe217562f627fcae"
-      hash2 = "b90831aaf8859e604283e5292158f08f100d4a2d4e1875ea1911750a6cb85fe0"
-      id = "5948d9ba-e655-5b11-ad74-f650b3a753e7"
-   strings:
-      $x1 = "\\ReflectiveDLLInjection-master\\" ascii
-      $s2 = "reflective_dll.dll" fullword ascii
-      $s3 = "DLL injection" fullword ascii
-      $s4 = "_ReflectiveLoader@4" ascii
-      $s5 = "Reflective Dll Injection" fullword ascii
-   condition:
-      ( uint16(0) == 0x5a4d and
-        filesize < 200KB and
-        (
-           pe.imphash() == "59867122bcc8c959ad307ac2dd08af79" or
-           pe.exports("_ReflectiveLoader@4") or
-           2 of them
-        )
-      ) or ( 3 of them )
+import "pe"
+
+rule Reflective_DLL_Loader_Aug17_3 : hardened
+{
+	meta:
+		description = "Detects Reflective DLL Loader"
+		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
+		author = "Florian Roth (Nextron Systems)"
+		reference = "Internal Research"
+		date = "2017-08-20"
+		modified = "2022-12-21"
+		hash1 = "d10e4b3f1d00f4da391ac03872204dc6551d867684e0af2a4ef52055e771f474"
+		id = "91842f58-5205-533d-9e97-a1e84fbf259d"
+		score = 80
+
+	strings:
+		$s1 = {5c 52 65 6c 65 61 73 65 5c 69 6e 6a 65 63 74 2e 70 64 62}
+		$s2 = {21 21 21 20 46 61 69 6c 65 64 20 74 6f 20 67 61 74 68 65 72 20 69 6e 66 6f 72 6d 61 74 69 6f 6e 20 6f 6e 20 73 79 73 74 65 6d 20 70 72 6f 63 65 73 73 65 73 21 20}
+		$s3 = {72 65 66 6c 65 63 74 69 76 65 5f 64 6c 6c 2e 64 6c 6c}
+		$s4 = {5b 2d 5d 20 25 73 2e 20 45 72 72 6f 72 3d 25 64}
+		$s5 = {5c 53 74 61 72 74 20 4d 65 6e 75 5c 50 72 6f 67 72 61 6d 73 5c 72 65 66 6c 65 63 74 69 76 65 5f 64 6c 6c 2e 64 6c 6c}
+
+	condition:
+		( uint16( 0 ) == 0x5a4d and filesize < 300KB and ( pe.imphash ( ) == "26ba48d3e3b964f75ff148b6679b42ec" or 2 of them ) ) or ( 3 of them )
 }
 
-rule Reflective_DLL_Loader_Aug17_3 {
-   meta:
-      description = "Detects Reflective DLL Loader"
-      license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
-      author = "Florian Roth (Nextron Systems)"
-      reference = "Internal Research"
-      date = "2017-08-20"
-      modified = "2022-12-21"
-      hash1 = "d10e4b3f1d00f4da391ac03872204dc6551d867684e0af2a4ef52055e771f474"
-      id = "91842f58-5205-533d-9e97-a1e84fbf259d"
-      score = 80
-   strings:
-      $s1 = "\\Release\\inject.pdb" ascii
-      $s2 = "!!! Failed to gather information on system processes! " fullword ascii
-      $s3 = "reflective_dll.dll" fullword ascii
-      $s4 = "[-] %s. Error=%d" fullword ascii
-      $s5 = "\\Start Menu\\Programs\\reflective_dll.dll" ascii
-   condition:
-      ( uint16(0) == 0x5a4d and
-        filesize < 300KB and
-        (
-           pe.imphash() == "26ba48d3e3b964f75ff148b6679b42ec" or
-           2 of them
-        )
-      ) or ( 3 of them )
+rule Reflective_DLL_Loader_Aug17_4 : hardened
+{
+	meta:
+		description = "Detects Reflective DLL Loader"
+		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
+		author = "Florian Roth (Nextron Systems)"
+		reference = "Internal Research"
+		date = "2017-08-20"
+		hash1 = "205b881701d3026d7e296570533e5380e7aaccaa343d71b6fcc60802528bdb74"
+		hash2 = "f76151646a0b94024761812cde1097ae2c6d455c28356a3db1f7905d3d9d6718"
+		id = "d2a28ea6-a3f7-5ceb-86fd-1e5b7f916a41"
+
+	strings:
+		$x1 = {3c 48 31 3e 26 6e 62 73 70 3b 3e 3e 20 3e 3e 20 3e 3e 20 4b 65 79 6c 6f 67 67 65 72 20 49 6e 73 74 61 6c 6c 65 64 20 2d 20 25 73 20 25 73 20 3c 3c 20 3c 3c 20 3c 3c 3c 2f 48 31 3e}
+		$s1 = {3c 48 33 3e 20 2d 2d 2d 2d 2d 20 52 75 6e 6e 69 6e 67 20 50 72 6f 63 65 73 73 20 2d 2d 2d 2d 2d 20 3c 2f 48 33 3e}
+		$s2 = {3c 48 32 3e 4f 70 65 72 61 74 69 6e 67 20 73 79 73 74 65 6d 3a 20 25 73 3c 48 32 3e}
+		$s3 = {3c 48 32 3e 53 79 73 74 65 6d 33 32 20 64 69 72 3a 20 20 25 73 3c 2f 48 32 3e}
+
+	condition:
+		( uint16( 0 ) == 0x5a4d and filesize < 2000KB and 2 of them )
 }
 
-rule Reflective_DLL_Loader_Aug17_4 {
-   meta:
-      description = "Detects Reflective DLL Loader"
-      license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
-      author = "Florian Roth (Nextron Systems)"
-      reference = "Internal Research"
-      date = "2017-08-20"
-      hash1 = "205b881701d3026d7e296570533e5380e7aaccaa343d71b6fcc60802528bdb74"
-      hash2 = "f76151646a0b94024761812cde1097ae2c6d455c28356a3db1f7905d3d9d6718"
-      id = "d2a28ea6-a3f7-5ceb-86fd-1e5b7f916a41"
-   strings:
-      $x1 = "<H1>&nbsp;>> >> >> Keylogger Installed - %s %s << << <<</H1>" fullword ascii
-
-      $s1 = "<H3> ----- Running Process ----- </H3>" fullword ascii
-      $s2 = "<H2>Operating system: %s<H2>" fullword ascii
-      $s3 = "<H2>System32 dir:  %s</H2>" fullword ascii
-   condition:
-      ( uint16(0) == 0x5a4d and
-        filesize < 2000KB and 2 of them
-      )
-}

@@ -1,131 +1,131 @@
-/*
-   YARA Rule Set
-   Author: Arkbird_SOLG
-   Date: 2019-11-29
-   Reference: https://twitter.com/Rmy_Reserve/status/1197448735422238721
-*/
+import "pe"
 
-/* Rule Set ----------------------------------------------------------------- */
+rule APT_DustSquad_PE_Nov19_1 : hardened
+{
+	meta:
+		description = "Detection Rule for APT DustSquad campaign Nov19"
+		author = "Arkbird_SOLG"
+		reference = "https://twitter.com/Rmy_Reserve/status/1197448735422238721"
+		date = "2019-11-29"
+		hash1 = "105402dd65ec1c53b6db68a0e21fcee5b72e161bc3b53e644695a4c9fae32909"
+		score = 40
+
+	strings:
+		$x1 = {54 00 68 00 65 00 20 00 63 00 72 00 65 00 64 00 65 00 6e 00 74 00 69 00 61 00 6c 00 73 00 20 00 73 00 75 00 70 00 70 00 6c 00 69 00 65 00 64 00 20 00 77 00 65 00 72 00 65 00 20 00 6e 00 6f 00 74 00 20 00 63 00 6f 00 6d 00 70 00 6c 00 65 00 74 00 65 00 2c 00 20 00 61 00 6e 00 64 00 20 00 63 00 6f 00 75 00 6c 00 64 00 20 00 6e 00 6f 00 74 00 20 00 62 00 65 00 20 00 76 00 65 00 72 00 69 00 66 00 69 00 65 00 64 00 2e 00 20 00 41 00 64 00 64 00 69 00 74 00 69 00 6f 00 6e 00 61 00 6c 00 20 00 69 00 6e 00 66 00 6f 00 72 00 6d 00 61 00 74 00 69 00 6f 00 6e 00 20 00 63 00 61 00 6e 00 20 00 62 00 65 00 20 00 72 00 65 00 74 00 75 00 72 00 6e 00 65 00 64 00 20 00 66 00 72 00 6f 00 6d 00 20 00 74 00 68 00 65 00 20 00 63 00 6f 00 6e 00 74 00 65 00 78 00 74 00 2e 00 34 00}
+		$s2 = {54 00 68 00 65 00 20 00 6c 00 6f 00 67 00 6f 00 6e 00 20 00 61 00 74 00 74 00 65 00 6d 00 70 00 74 00 20 00 66 00 61 00 69 00 6c 00 65 00 64 00 3b 00 54 00 68 00 65 00 20 00 63 00 72 00 65 00 64 00 65 00 6e 00 74 00 69 00 61 00 6c 00 73 00 20 00 73 00 75 00 70 00 70 00 6c 00 69 00 65 00 64 00 20 00 74 00 6f 00 20 00 74 00 68 00 65 00 20 00 70 00 61 00 63 00 6b 00 61 00 67 00 65 00 20 00 77 00 65 00 72 00 65 00 20 00 6e 00 6f 00 74 00 20 00 72 00 65 00 63 00 6f 00 67 00 6e 00 69 00 7a 00 65 00 64 00 34 00 4e 00 6f 00 20 00 63 00 72 00 65 00 64 00 65 00 6e 00 74 00 69 00 61 00 6c 00 73 00 20 00 61 00 72 00 65 00 20 00 61 00 76 00 61 00 69 00 6c 00 61 00 62 00 6c 00 65 00 20 00 69 00 6e 00 20 00 74 00 68 00 65 00 20 00 73 00 65 00 63 00 75 00 72 00 69 00 74 00}
+		$s3 = {41 00 64 00 64 00 72 00 65 00 73 00 73 00 20 00 74 00 79 00 70 00 65 00 20 00 6e 00 6f 00 74 00 20 00 73 00 75 00 70 00 70 00 6f 00 72 00 74 00 65 00 64 00 2e 00 22 00 25 00 73 00 3a 00 20 00 43 00 69 00 72 00 63 00 75 00 6c 00 61 00 72 00 20 00 6c 00 69 00 6e 00 6b 00 73 00 20 00 61 00 72 00 65 00 20 00 6e 00 6f 00 74 00 20 00 61 00 6c 00 6c 00 6f 00 77 00 65 00 64 00 22 00 4e 00 6f 00 74 00 20 00 65 00 6e 00 6f 00 75 00 67 00 68 00 20 00 64 00 61 00 74 00 61 00 20 00 69 00 6e 00 20 00 62 00 75 00 66 00 66 00 65 00 72 00 2e 00 20 00 28 00 25 00 64 00 2f 00 25 00 64 00 29 00}
+		$s4 = {40 54 4c 69 73 74 3c 53 79 73 74 65 6d 2e 44 61 74 65 55 74 69 6c 73 2e 54 4c 6f 63 61 6c 54 69 6d 65 5a 6f 6e 65 2e 54 59 65 61 72 6c 79 43 68 61 6e 67 65 73 3e 2e 54 45 6d 70 74 79 46 75 6e 63}
+		$s5 = {45 00 72 00 72 00 6f 00 72 00 20 00 67 00 65 00 74 00 74 00 69 00 6e 00 67 00 20 00 53 00 53 00 4c 00 20 00 6d 00 65 00 74 00 68 00 6f 00 64 00 2e 00 25 00 45 00 72 00 72 00 6f 00 72 00 20 00 73 00 65 00 74 00 74 00 69 00 6e 00 67 00 20 00 46 00 69 00 6c 00 65 00 20 00 44 00 65 00 73 00 63 00 72 00 69 00 70 00 74 00 6f 00 72 00 20 00 66 00 6f 00 72 00 20 00 53 00 53 00 4c 00 21 00 45 00 72 00 72 00 6f 00 72 00 20 00 62 00 69 00 6e 00 64 00 69 00 6e 00 67 00 20 00 64 00 61 00 74 00 61 00 20 00 74 00 6f 00 20 00 53 00 53 00 4c 00 20 00 73 00 6f 00 63 00 6b 00 65 00 74 00 2e 00 27 00 4d 00 61 00 78 00 69 00 6d 00 75 00 6d 00 20 00 6e 00 75 00 6d 00 62 00 65 00 72 00 20 00 6f 00 66 00 20 00 6c 00 69 00 6e 00 65 00 20 00 61 00 6c 00 6c 00 6f 00 77 00 65 00 64 00}
+		$s6 = {43 00 68 00 65 00 63 00 6b 00 73 00 75 00 6d 00 20 00 65 00 72 00 72 00 6f 00 72 00 20 00 69 00 6e 00 20 00 74 00 68 00 65 00 20 00 65 00 6e 00 63 00 72 00 79 00 70 00 74 00 65 00 64 00 20 00 66 00 69 00 6c 00 65 00 20 00 25 00 73 00 2e 00 20 00 43 00 6f 00 72 00 72 00 75 00 70 00 74 00 20 00 66 00 69 00 6c 00 65 00 20 00 6f 00 72 00 20 00 77 00 72 00 6f 00 6e 00 67 00 20 00 70 00 61 00 73 00 73 00 77 00 6f 00 72 00 64 00 2e 00}
+		$s7 = {44 00 6f 00 77 00 6e 00 6c 00 6f 00 61 00 64 00 3a 00 20 00}
+		$s8 = {41 00 6e 00 20 00 61 00 74 00 74 00 65 00 6d 00 70 00 74 00 20 00 77 00 61 00 73 00 20 00 6d 00 61 00 64 00 65 00 20 00 62 00 79 00 20 00 74 00 68 00 69 00 73 00 20 00 73 00 65 00 72 00 76 00 65 00 72 00 20 00 74 00 6f 00 20 00 6d 00 61 00 6b 00 65 00 20 00 61 00 20 00 4b 00 65 00 72 00 62 00 65 00 72 00 6f 00 73 00 20 00 63 00 6f 00 6e 00 73 00 74 00 72 00 61 00 69 00 6e 00 65 00 64 00 20 00 64 00 65 00 6c 00 65 00 67 00 61 00 74 00 69 00 6f 00 6e 00 20 00 72 00 65 00 71 00 75 00 65 00 73 00 74 00 20 00 66 00 6f 00 72 00 20 00 61 00 20 00 74 00 61 00 72 00 67 00 65 00 74 00 20 00 6f 00 75 00 74 00 73 00 69 00 64 00 65 00 20 00 6f 00 66 00 20 00 74 00 68 00 65 00 20 00 73 00 65 00 72 00 76 00 65 00 72 00 27 00 73 00 20 00 72 00 65 00 61 00 6c 00 6d 00 2e 00}
+		$s9 = {44 3a 5c 50 72 6f 6a 65 63 74 73 5c 57 69 6e 52 41 52 5c 72 61 72 5c 62 75 69 6c 64 5c 72 61 72 33 32 5c 52 65 6c 65 61 73 65 5c 52 41 52 2e 70 64 62}
+		$s10 = {20 00 63 00 6f 00 6d 00 70 00 75 00 74 00 65 00 72 00 73 00 79 00 73 00 74 00 65 00 6d 00 20 00 67 00 65 00 74 00 20 00 4e 00 61 00 6d 00 65 00 20 00 2f 00 66 00 6f 00 72 00 6d 00 61 00 74 00 3a 00 6c 00 69 00 73 00 74 00}
+		$s11 = {45 00 6e 00 74 00 65 00 72 00 20 00 70 00 61 00 73 00 73 00 77 00 6f 00 72 00 64 00 20 00 28 00 77 00 69 00 6c 00 6c 00 20 00 6e 00 6f 00 74 00 20 00 62 00 65 00 20 00 65 00 63 00 68 00 6f 00 65 00 64 00 29 00 20 00 66 00 6f 00 72 00 20 00 25 00 73 00 3a 00 20 00}
+		$s12 = {52 00 65 00 6d 00 6f 00 76 00 65 00 3a 00 20 00}
+		$s13 = {72 00 61 00 72 00 69 00 6e 00 66 00 6f 00 2e 00 6c 00 6f 00 67 00}
+		$s14 = {3f 00 57 00 54 00 68 00 65 00 20 00 67 00 69 00 76 00 65 00 6e 00 20 00 22 00 25 00 73 00 22 00 20 00 6c 00 6f 00 63 00 61 00 6c 00 20 00 74 00 69 00 6d 00 65 00 20 00 69 00 73 00 20 00 69 00 6e 00 76 00 61 00 6c 00 69 00 64 00 20 00 28 00 73 00 69 00 74 00 75 00 61 00 74 00 65 00 64 00 20 00 77 00 69 00 74 00 68 00 69 00 6e 00 20 00 74 00 68 00 65 00 20 00 6d 00 69 00 73 00 73 00 69 00 6e 00 67 00 20 00 70 00 65 00 72 00 69 00 6f 00 64 00 20 00 70 00 72 00 69 00 6f 00 72 00 20 00 74 00 6f 00 20 00 44 00 53 00 54 00 29 00 2e 00 38 00 53 00 74 00 72 00 69 00 6e 00 67 00 20 00 69 00 6e 00 64 00 65 00 78 00 20 00 6f 00 75 00 74 00 20 00 6f 00 66 00 20 00 72 00 61 00 6e 00 67 00 65 00 20 00 28 00 25 00 64 00 29 00 2e 00 20 00 20 00 4d 00 75 00 73 00}
+		$s15 = {4f 6e 45 78 65 63 75 74 65 48 7d 48}
+		$s16 = {66 66 66 66 66 66 66 66 66 66 66 66 66 66 67}
+		$s17 = {53 00 75 00 63 00 63 00 65 00 73 00 73 00 66 00 75 00 6c 00 6c 00 20 00 41 00 50 00 49 00 20 00 63 00 61 00 6c 00 6c 00 37 00 4e 00 6f 00 74 00 20 00 65 00 6e 00 6f 00 75 00 67 00 68 00 20 00 6d 00 65 00 6d 00 6f 00 72 00 79 00 20 00 69 00 73 00 20 00 61 00 76 00 61 00 69 00 6c 00 61 00 62 00 6c 00 65 00 20 00 74 00 6f 00 20 00 63 00 6f 00 6d 00 70 00 6c 00 65 00 74 00 65 00 20 00 74 00 68 00 69 00 73 00 20 00 72 00 65 00 71 00 75 00 65 00 73 00 74 00}
+		$s18 = {54 00 68 00 65 00 20 00 68 00 61 00 6e 00 64 00 6c 00 65 00 20 00 73 00 70 00 65 00 63 00 69 00 66 00 69 00 65 00 64 00 20 00 69 00 73 00 20 00 69 00 6e 00 76 00 61 00 6c 00 69 00 64 00 27 00 54 00 68 00 65 00 20 00 66 00 75 00 6e 00 63 00 74 00 69 00 6f 00 6e 00 20 00 72 00 65 00 71 00 75 00 65 00 73 00}
+		$s19 = {31 00 3f 00 3f 00 3f 00 3f 00 3f 00 3f 00 3f 00 3f 00 2e 00 2a 00}
+		$s20 = {2f 00 64 00 2e 00 70 00 68 00 70 00 3f 00 73 00 65 00 72 00 76 00 65 00 72 00 73 00}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and filesize < 8000KB and ( pe.imphash ( ) == "9a622f807282a29fb32811b734622622" or ( 1 of ( $x* ) or 4 of them ) )
+}
+
+rule APT_DustSquad_BAT_Nov19_1 : hardened
+{
+	meta:
+		description = "Detection Rule for APT DustSquad campaign Nov19"
+		author = "Arkbird_SOLG"
+		reference = "https://twitter.com/Rmy_Reserve/status/1197448735422238721"
+		date = "2019-11-29"
+		hash1 = "500983f7e9fb67bbe6651a5780e637474f1cd813600d4ae8b362dcf27d23b3d2"
+		score = 70
+
+	strings:
+		$x1 = {69 66 20 65 78 69 73 74 20 22 43 3a 5c 55 73 65 72 73 5c 61 64 6d 69 6e 5c 41 70 70 44 61 74 61 5c 4c 6f 63 61 6c 5c 54 65 6d 70 5c 36 32 66 62 35 61 61 32 31 66 36 32 65 39 32 35 38 36 38 32 39 35 32 30 30 37 38 63 32 35 36 31 2e 65 78 65 22 20 28}
+		$x2 = {64 65 6c 20 22 43 3a 5c 55 73 65 72 73 5c 61 64 6d 69 6e 5c 41 70 70 44 61 74 61 5c 4c 6f 63 61 6c 5c 54 65 6d 70 5c 36 32 66 62 35 61 61 32 31 66 36 32 65 39 32 35 38 36 38 32 39 35 32 30 30 37 38 63 32 35 36 31 2e 65 78 65 22}
+		$x3 = {64 65 6c 20 22 43 3a 5c 55 73 65 72 73 5c 61 64 6d 69 6e 5c 41 70 70 44 61 74 61 5c 4c 6f 63 61 6c 5c 54 65 6d 70 5c 73 2e 62 61 74 22}
+		$s4 = {70 69 6e 67 20 31 39 32 2e 31 36 38 2e 31 30 30 2e 38 34 20 2d 6e 20 31 20 3e 20 6e 75 6c}
+		$s5 = {66 6f 72 20 2f 4c 20 25 25 6e 20 69 6e 20 28 31 2c 31 2c 35 30 29 20 64 6f 20 28}
+		$s6 = {63 68 63 70 20 31 32 35 31 20 3e 20 6e 75 6c}
+		$s7 = {29 20 65 6c 73 65 20 28}
+		$s8 = {36 32 66 62 35 61 61 32 31 66 36 32 65 39 32 35 38 36 38 32 39 35 32}
+
+	condition:
+		uint16( 0 ) == 0x6863 and filesize < 1KB and 1 of ( $x* ) and all of them
+}
 
 import "pe"
 
-rule APT_DustSquad_PE_Nov19_1 {
-   meta:
-      description = "Detection Rule for APT DustSquad campaign Nov19"
-      author = "Arkbird_SOLG"
-      reference = "https://twitter.com/Rmy_Reserve/status/1197448735422238721"
-      date = "2019-11-29"
-      hash1 = "105402dd65ec1c53b6db68a0e21fcee5b72e161bc3b53e644695a4c9fae32909"
-      score = 40
-   strings:
-      $x1 = "The credentials supplied were not complete, and could not be verified. Additional information can be returned from the context.4" wide
-      $s2 = "The logon attempt failed;The credentials supplied to the package were not recognized4No credentials are available in the securit" wide
-      $s3 = "Address type not supported.\"%s: Circular links are not allowed\"Not enough data in buffer. (%d/%d)" fullword wide
-      $s4 = "@TList<System.DateUtils.TLocalTimeZone.TYearlyChanges>.TEmptyFunc" fullword ascii
-      $s5 = "Error getting SSL method.%Error setting File Descriptor for SSL!Error binding data to SSL socket.'Maximum number of line allowed" wide
-      $s6 = "Checksum error in the encrypted file %s. Corrupt file or wrong password." fullword wide
-      $s7 = "Download: " fullword wide
-      $s8 = "An attempt was made by this server to make a Kerberos constrained delegation request for a target outside of the server's realm." wide
-      $s9 = "D:\\Projects\\WinRAR\\rar\\build\\rar32\\Release\\RAR.pdb" fullword ascii
-      $s10 = " computersystem get Name /format:list" fullword wide
-      $s11 = "Enter password (will not be echoed) for %s: " fullword wide
-      $s12 = "Remove: " fullword wide
-      $s13 = "rarinfo.log" fullword wide
-      $s14 = "?WThe given \"%s\" local time is invalid (situated within the missing period prior to DST).8String index out of range (%d).  Mus" wide
-      $s15 = "OnExecuteH}H" fullword ascii
-      $s16 = "ffffffffffffffg" fullword ascii /* reversed goodware string 'gffffffffffffff' */
-      $s17 = "Successfull API call7Not enough memory is available to complete this request" wide
-      $s18 = "The handle specified is invalid'The function reques" wide
-      $s19 = "1????????.*" wide
-      $s20 = "/d.php?servers" wide
-   condition:
-      uint16(0) == 0x5a4d and filesize < 8000KB and
-      ( pe.imphash() == "9a622f807282a29fb32811b734622622" or ( 1 of ($x*) or 4 of them ) )
+rule APT_DustSquad_PE_Nov19_2 : hardened
+{
+	meta:
+		description = "Detection Rule for APT DustSquad campaign Nov19"
+		author = "Arkbird_SOLG"
+		reference = "https://twitter.com/Rmy_Reserve/status/1197448735422238721"
+		date = "2019-11-29"
+		hash1 = "f5941f3d8dc8d60581d4915d06d56acba74f3ffad543680a85037a8d3bf3f8bc"
+
+	strings:
+		$x1 = {54 00 68 00 65 00 20 00 63 00 72 00 65 00 64 00 65 00 6e 00 74 00 69 00 61 00 6c 00 73 00 20 00 73 00 75 00 70 00 70 00 6c 00 69 00 65 00 64 00 20 00 77 00 65 00 72 00 65 00 20 00 6e 00 6f 00 74 00 20 00 63 00 6f 00 6d 00 70 00 6c 00 65 00 74 00 65 00 2c 00 20 00 61 00 6e 00 64 00 20 00 63 00 6f 00 75 00 6c 00 64 00 20 00 6e 00 6f 00 74 00 20 00 62 00 65 00 20 00 76 00 65 00 72 00 69 00 66 00 69 00 65 00 64 00 2e 00 20 00 41 00 64 00 64 00 69 00 74 00 69 00 6f 00 6e 00 61 00 6c 00 20 00 69 00 6e 00 66 00 6f 00 72 00 6d 00 61 00 74 00 69 00 6f 00 6e 00 20 00 63 00 61 00 6e 00 20 00 62 00 65 00 20 00 72 00 65 00 74 00 75 00 72 00 6e 00 65 00 64 00 20 00 66 00 72 00 6f 00 6d 00 20 00 74 00 68 00 65 00 20 00 63 00 6f 00 6e 00 74 00 65 00 78 00 74 00 2e 00 34 00}
+		$x2 = {54 00 68 00 65 00 20 00 64 00 6f 00 6d 00 61 00 69 00 6e 00 20 00 63 00 6f 00 6e 00 74 00 72 00 6f 00 6c 00 6c 00 65 00 72 00 20 00 63 00 65 00 72 00 74 00 69 00 66 00 69 00 63 00 61 00 74 00 65 00 20 00 75 00 73 00 65 00 64 00 20 00 66 00 6f 00 72 00 20 00 73 00 6d 00 61 00 72 00 74 00 63 00 61 00 72 00 64 00 20 00 6c 00 6f 00 67 00 6f 00 6e 00 20 00 68 00 61 00 73 00 20 00 62 00 65 00 65 00 6e 00 20 00 72 00 65 00 76 00 6f 00 6b 00 65 00 64 00 2e 00 20 00 50 00 6c 00 65 00 61 00 73 00 65 00 20 00 63 00 6f 00 6e 00 74 00 61 00 63 00 74 00 20 00 79 00 6f 00 75 00 72 00 20 00 73 00 79 00 73 00 74 00 65 00 6d 00 20 00 61 00 64 00 6d 00 69 00 6e 00 69 00 73 00 74 00 72 00 61 00 74 00 6f 00 72 00 20 00 77 00 69 00 74 00 68 00 20 00 74 00 68 00 65 00 20 00 63 00}
+		$s3 = {56 54 44 69 63 74 69 6f 6e 61 72 79 3c 53 79 73 74 65 6d 2e 57 6f 72 64 2c 53 79 73 74 65 6d 2e 44 61 74 65 55 74 69 6c 73 2e 54 4c 6f 63 61 6c 54 69 6d 65 5a 6f 6e 65 2e 54 59 65 61 72 6c 79 43 68 61 6e 67 65 73 3e 2e 54 4b 65 79 45 6e 75 6d 65 72 61 74 6f 72 78 73 4e}
+		$s4 = {3b 00 54 00 68 00 65 00 20 00 63 00 65 00 72 00 74 00 69 00 66 00 69 00 63 00 61 00 74 00 65 00 20 00 63 00 68 00 61 00 69 00 6e 00 20 00 77 00 61 00 73 00 20 00 69 00 73 00 73 00 75 00 65 00 64 00 20 00 62 00 79 00 20 00 61 00 6e 00 20 00 75 00 6e 00 74 00 72 00 75 00 73 00 74 00 65 00 64 00 20 00 61 00 75 00 74 00 68 00 6f 00 72 00 69 00 74 00 79 00 2e 00 37 00 54 00 68 00 65 00 20 00 6d 00 65 00 73 00 73 00 61 00 67 00 65 00 20 00 72 00 65 00 63 00 65 00 69 00 76 00 65 00 64 00 20 00 77 00 61 00 73 00 20 00 75 00 6e 00 65 00 78 00 70 00 65 00 63 00 74 00 65 00 64 00 20 00 6f 00 72 00 20 00 62 00 61 00 64 00 6c 00 79 00 20 00 66 00 6f 00 72 00 6d 00 61 00 74 00 74 00 65 00 64 00 2e 00 3b 00 41 00 6e 00 20 00 75 00 6e 00 6b 00 6e 00 6f 00 77 00 6e 00 20 00}
+		$s5 = {54 00 68 00 65 00 20 00 6c 00 6f 00 67 00 6f 00 6e 00 20 00 61 00 74 00 74 00 65 00 6d 00 70 00 74 00 20 00 66 00 61 00 69 00 6c 00 65 00 64 00 3b 00 54 00 68 00 65 00 20 00 63 00 72 00 65 00 64 00 65 00 6e 00 74 00 69 00 61 00 6c 00 73 00 20 00 73 00 75 00 70 00 70 00 6c 00 69 00 65 00 64 00 20 00 74 00 6f 00 20 00 74 00 68 00 65 00 20 00 70 00 61 00 63 00 6b 00 61 00 67 00 65 00 20 00 77 00 65 00 72 00 65 00 20 00 6e 00 6f 00 74 00 20 00 72 00 65 00 63 00 6f 00 67 00 6e 00 69 00 7a 00 65 00 64 00 34 00 4e 00 6f 00 20 00 63 00 72 00 65 00 64 00 65 00 6e 00 74 00 69 00 61 00 6c 00 73 00 20 00 61 00 72 00 65 00 20 00 61 00 76 00 61 00 69 00 6c 00 61 00 62 00 6c 00 65 00 20 00 69 00 6e 00 20 00 74 00 68 00 65 00 20 00 73 00 65 00 63 00 75 00 72 00 69 00 74 00}
+		$s6 = {38 00 54 00 68 00 65 00 20 00 6d 00 65 00 73 00 73 00 61 00 67 00 65 00 20 00 73 00 75 00 70 00 70 00 6c 00 69 00 65 00 64 00 20 00 66 00 6f 00 72 00 20 00 76 00 65 00 72 00 69 00 66 00 69 00 63 00 61 00 74 00 69 00 6f 00 6e 00 20 00 69 00 73 00 20 00 6f 00 75 00 74 00 20 00 6f 00 66 00 20 00 73 00 65 00 71 00 75 00 65 00 6e 00 63 00 65 00 33 00 4e 00 6f 00 20 00 61 00 75 00 74 00 68 00 6f 00 72 00 69 00 74 00 79 00 20 00 63 00 6f 00 75 00 6c 00 64 00 20 00 62 00 65 00 20 00 63 00 6f 00 6e 00 74 00 61 00 63 00 74 00 65 00 64 00 20 00 66 00 6f 00 72 00 20 00 61 00 75 00 74 00 68 00 65 00 6e 00 74 00 69 00 63 00 61 00 74 00 69 00 6f 00 6e 00 2e 00 55 00 54 00 68 00 65 00 20 00 66 00 75 00 6e 00 63 00 74 00 69 00 6f 00 6e 00 20 00 63 00 6f 00 6d 00 70 00 6c 00}
+		$s7 = {54 00 68 00 65 00 20 00 73 00 65 00 63 00 75 00 72 00 69 00 74 00 79 00 20 00 63 00 6f 00 6e 00 74 00 65 00 78 00 74 00 20 00 63 00 6f 00 75 00 6c 00 64 00 20 00 6e 00 6f 00 74 00 20 00 62 00 65 00 20 00 65 00 73 00 74 00 61 00 62 00 6c 00 69 00 73 00 68 00 65 00 64 00 20 00 64 00 75 00 65 00 20 00 74 00 6f 00 20 00 61 00 20 00 66 00 61 00 69 00 6c 00 75 00 72 00 65 00 20 00 69 00 6e 00 20 00 74 00 68 00 65 00 20 00 72 00 65 00 71 00 75 00 65 00 73 00 74 00 65 00 64 00 20 00 71 00 75 00 61 00 6c 00 69 00 74 00 79 00 20 00 6f 00 66 00 20 00 73 00 65 00 72 00 76 00 69 00 63 00 65 00 20 00 28 00 65 00 2e 00 67 00 2e 00 20 00 6d 00 75 00 74 00 75 00 61 00 6c 00 20 00 61 00 75 00 74 00 68 00 65 00 6e 00 74 00 69 00 63 00 61 00 74 00 69 00 6f 00 6e 00 20 00 6f 00}
+		$s8 = {45 00 72 00 72 00 6f 00 72 00 20 00 72 00 65 00 61 00 64 00 69 00 6e 00 67 00 20 00 25 00 73 00 25 00 73 00 25 00 73 00 3a 00 20 00 25 00 73 00 22 00 43 00 68 00 61 00 72 00 61 00 63 00 74 00 65 00 72 00 20 00 69 00 6e 00 64 00 65 00 78 00 20 00 6f 00 75 00 74 00 20 00 6f 00 66 00 20 00 62 00 6f 00 75 00 6e 00 64 00 73 00 20 00 28 00 25 00 64 00 29 00}
+		$s9 = {4f 6e 45 78 65 63 75 74 65 6c}
+		$s10 = {3f 00 57 00 54 00 68 00 65 00 20 00 67 00 69 00 76 00 65 00 6e 00 20 00 22 00 25 00 73 00 22 00 20 00 6c 00 6f 00 63 00 61 00 6c 00 20 00 74 00 69 00 6d 00 65 00 20 00 69 00 73 00 20 00 69 00 6e 00 76 00 61 00 6c 00 69 00 64 00 20 00 28 00 73 00 69 00 74 00 75 00 61 00 74 00 65 00 64 00 20 00 77 00 69 00 74 00 68 00 69 00 6e 00 20 00 74 00 68 00 65 00 20 00 6d 00 69 00 73 00 73 00 69 00 6e 00 67 00 20 00 70 00 65 00 72 00 69 00 6f 00 64 00 20 00 70 00 72 00 69 00 6f 00 72 00 20 00 74 00 6f 00 20 00 44 00 53 00 54 00 29 00 2e 00 38 00 53 00 74 00 72 00 69 00 6e 00 67 00 20 00 69 00 6e 00 64 00 65 00 78 00 20 00 6f 00 75 00 74 00 20 00 6f 00 66 00 20 00 72 00 61 00 6e 00 67 00 65 00 20 00 28 00 25 00 64 00 29 00 2e 00 20 00 20 00 4d 00 75 00 73 00}
+		$s11 = {41 00 64 00 64 00 72 00 65 00 73 00 73 00 20 00 74 00 79 00 70 00 65 00 20 00 6e 00 6f 00 74 00 20 00 73 00 75 00 70 00 70 00 6f 00 72 00 74 00 65 00 64 00 2e 00 22 00 25 00 73 00 3a 00 20 00 43 00 69 00 72 00 63 00 75 00 6c 00 61 00 72 00 20 00 6c 00 69 00 6e 00 6b 00 73 00 20 00 61 00 72 00 65 00 20 00 6e 00 6f 00 74 00 20 00 61 00 6c 00 6c 00 6f 00 77 00 65 00 64 00 22 00 4e 00 6f 00 74 00 20 00 65 00 6e 00 6f 00 75 00 67 00 68 00 20 00 64 00 61 00 74 00 61 00 20 00 69 00 6e 00 20 00 62 00 75 00 66 00 66 00 65 00 72 00 2e 00 20 00 28 00 25 00 64 00 2f 00 25 00 64 00 29 00}
+		$s12 = {40 54 4c 69 73 74 3c 53 79 73 74 65 6d 2e 44 61 74 65 55 74 69 6c 73 2e 54 4c 6f 63 61 6c 54 69 6d 65 5a 6f 6e 65 2e 54 59 65 61 72 6c 79 43 68 61 6e 67 65 73 3e 2e 54 45 6d 70 74 79 46 75 6e 63 20 21 40}
+		$s13 = {64 54 4c 69 73 74 3c 53 79 73 74 65 6d 2e 44 61 74 65 55 74 69 6c 73 2e 54 50 61 69 72 3c 53 79 73 74 65 6d 2e 57 6f 72 64 2c 53 79 73 74 65 6d 2e 44 61 74 65 55 74 69 6c 73 2e 54 4c 6f 63 61 6c 54 69 6d 65 5a 6f 6e 65 2e 54 59 65 61 72 6c 79 43 68 61 6e 67 65 73 3e 3e 2e 54 45 6d 70 74 79 46 75 6e 63 20 21 40}
+		$s14 = {45 00 56 00 50 00 5f 00 50 00 4b 00 45 00 59 00 5f 00 43 00 54 00 58 00 5f 00 67 00 65 00 74 00 5f 00 6f 00 70 00 65 00 72 00 61 00 74 00 69 00 6f 00 6e 00}
+		$s15 = {68 00 74 00 74 00 70 00 3a 00 2f 00 2f 00 77 00 77 00 77 00 2e 00 62 00 6f 00 72 00 6c 00 61 00 6e 00 64 00 2e 00 63 00 6f 00 6d 00 2f 00 6e 00 61 00 6d 00 65 00 73 00 70 00 61 00 63 00 65 00 73 00 2f 00 54 00 79 00 70 00 65 00 73 00}
+		$s16 = {4f 6e 47 65 74 50 61 73 73 77 6f 72 64}
+		$s17 = {4f 6e 47 65 74 50 61 73 73 77 6f 72 64 45 78 70}
+		$s18 = {61 31 2e 65 78 65}
+		$s19 = {45 49 64 53 6f 63 6b 73 53 65 72 76 65 72 43 6f 6d 6d 61 6e 64 45 72 72 6f 72 20}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and filesize < 6000KB and ( pe.imphash ( ) == "7b3af4ed73c83b1a16f6f299b3eb654e" or ( 1 of ( $x* ) or 4 of them ) )
 }
 
-rule APT_DustSquad_BAT_Nov19_1 {
-   meta:
-      description = "Detection Rule for APT DustSquad campaign Nov19"
-      author = "Arkbird_SOLG"
-      reference = "https://twitter.com/Rmy_Reserve/status/1197448735422238721"
-      date = "2019-11-29"
-      hash1 = "500983f7e9fb67bbe6651a5780e637474f1cd813600d4ae8b362dcf27d23b3d2"
-      score = 70
-   strings:
-      $x1 = "if exist \"C:\\Users\\admin\\AppData\\Local\\Temp\\62fb5aa21f62e92586829520078c2561.exe\" (" fullword ascii
-      $x2 = "del \"C:\\Users\\admin\\AppData\\Local\\Temp\\62fb5aa21f62e92586829520078c2561.exe\"" fullword ascii
-      $x3 = "del \"C:\\Users\\admin\\AppData\\Local\\Temp\\s.bat\"" fullword ascii
-      $s4 = "ping 192.168.100.84 -n 1 > nul" fullword ascii
-      $s5 = "for /L %%n in (1,1,50) do (" fullword ascii
-      $s6 = "chcp 1251 > nul" fullword ascii
-      $s7 = ") else (" fullword ascii
-      $s8 = "62fb5aa21f62e9258682952" ascii
-   condition:
-      uint16(0) == 0x6863 and filesize < 1KB and
-      1 of ($x*) and all of them
+rule SR_APT_DustSquad_PE_Nov19 : hardened
+{
+	meta:
+		description = "Super Rule for APT DustSquad campaign Nov19"
+		author = "Arkbird_SOLG"
+		reference = "https://twitter.com/Rmy_Reserve/status/1197448735422238721"
+		date = "2019-11-29"
+
+	strings:
+		$s1 = {45 00 56 00 50 00 5f 00 50 00 4b 00 45 00 59 00 5f 00 67 00 65 00 74 00 31 00 5f 00 44 00 53 00 41 00}
+		$s2 = {3f 00 57 00 54 00 68 00 65 00 20 00 67 00 69 00 76 00 65 00 6e 00 20 00 22 00 25 00 73 00 22 00 20 00 6c 00 6f 00 63 00 61 00 6c 00 20 00 74 00 69 00 6d 00 65 00 20 00 69 00 73 00 20 00 69 00 6e 00 76 00 61 00 6c 00 69 00 64 00 20 00 28 00 73 00 69 00 74 00 75 00 61 00 74 00 65 00 64 00 20 00 77 00 69 00 74 00 68 00 69 00 6e 00 20 00 74 00 68 00 65 00 20 00 6d 00 69 00 73 00 73 00 69 00 6e 00 67 00 20 00 70 00 65 00 72 00 69 00 6f 00 64 00 20 00 70 00 72 00 69 00 6f 00 72 00 20 00 74 00 6f 00 20 00 44 00 53 00 54 00 29 00 2e 00 38 00 53 00 74 00 72 00 69 00 6e 00 67 00 20 00 69 00 6e 00 64 00 65 00 78 00 20 00 6f 00 75 00 74 00 20 00 6f 00 66 00 20 00 72 00 61 00 6e 00 67 00 65 00 20 00 28 00 25 00 64 00 29 00 2e 00 20 00 20 00 4d 00 75 00 73 00}
+		$s3 = {41 00 64 00 64 00 72 00 65 00 73 00 73 00 20 00 74 00 79 00 70 00 65 00 20 00 6e 00 6f 00 74 00 20 00 73 00 75 00 70 00 70 00 6f 00 72 00 74 00 65 00 64 00 2e 00 22 00 25 00 73 00 3a 00 20 00 43 00 69 00 72 00 63 00 75 00 6c 00 61 00 72 00 20 00 6c 00 69 00 6e 00 6b 00 73 00 20 00 61 00 72 00 65 00 20 00 6e 00 6f 00 74 00 20 00 61 00 6c 00 6c 00 6f 00 77 00 65 00 64 00 22 00 4e 00 6f 00 74 00 20 00 65 00 6e 00 6f 00 75 00 67 00 68 00 20 00 64 00 61 00 74 00 61 00 20 00 69 00 6e 00 20 00 62 00 75 00 66 00 66 00 65 00 72 00 2e 00 20 00 28 00 25 00 64 00 2f 00 25 00 64 00 29 00}
+		$s4 = {45 00 56 00 50 00 5f 00 50 00 4b 00 45 00 59 00 5f 00 43 00 54 00 58 00 5f 00 67 00 65 00 74 00 5f 00 6f 00 70 00 65 00 72 00 61 00 74 00 69 00 6f 00 6e 00}
+		$s5 = {4f 6e 47 65 74 50 61 73 73 77 6f 72 64}
+		$s6 = {4d 00 6f 00 7a 00 69 00 6c 00 6c 00 61 00 2f 00 35 00 2e 00 30 00}
+		$s7 = {2c 00 43 00 75 00 73 00 74 00 6f 00 6d 00 20 00 76 00 61 00 72 00 69 00 61 00 6e 00 74 00 20 00 74 00 79 00 70 00 65 00 20 00 28 00 25 00 73 00 25 00 2e 00 34 00 78 00 29 00 20 00 69 00 73 00 20 00 6f 00 75 00 74 00 20 00 6f 00 66 00 20 00 72 00 61 00 6e 00 67 00 65 00 2f 00 43 00 75 00 73 00 74 00 6f 00 6d 00 20 00 76 00 61 00 72 00 69 00 61 00 6e 00 74 00 20 00 74 00 79 00 70 00 65 00 20 00 28 00 25 00 73 00 25 00 2e 00 34 00 78 00 29 00 20 00 61 00 6c 00 72 00 65 00 61 00 64 00 79 00 20 00 75 00 73 00 65 00 64 00 20 00 62 00 79 00 20 00 25 00 73 00 2a 00 43 00 75 00 73 00 74 00 6f 00 6d 00 20 00 76 00 61 00 72 00 69 00 61 00 6e 00 74 00 20 00 74 00 79 00 70 00 65 00 20 00 28 00 25 00 73 00 25 00 2e 00 34 00 78 00 29 00 20 00 69 00 73 00 20 00 6e 00 6f 00}
+		$s8 = {57 6f 72 6b 54 61 72 67 65 74}
+		$s9 = {47 65 6e 65 72 69 63 73 2e 43 6f 6c 6c 65 63 74 69 6f 6e 73 7d 54 4c 69 73 74 3c 53 79 73 74 65 6d 2e 44 61 74 65 55 74 69 6c 73 2e 54 50 61 69 72 3c 53 79 73 74 65 6d 2e 57 6f 72 64 2c 53 79 73 74 65 6d 2e 44 61 74 65 55 74 69 6c 73 2e 54 4c 6f 63 61 6c 54 69 6d 65 5a 6f 6e 65 2e 54 59 65 61 72 6c 79 43 68 61 6e 67 65 73 3e 3e 2e 3a 31}
+		$s10 = {45 00 56 00 50 00 5f 00 50 00 4b 00 45 00 59 00 5f 00 65 00 6e 00 63 00 72 00 79 00 70 00 74 00 5f 00 6f 00 6c 00 64 00}
+		$s11 = {45 00 56 00 50 00 5f 00 50 00 4b 00 45 00 59 00 5f 00 43 00 54 00 58 00 5f 00 67 00 65 00 74 00 30 00 5f 00 70 00 6b 00 65 00 79 00}
+		$s12 = {45 00 56 00 50 00 5f 00 50 00 4b 00 45 00 59 00 5f 00 65 00 6e 00 63 00 72 00 79 00 70 00 74 00 5f 00 69 00 6e 00 69 00 74 00}
+		$s13 = {45 00 56 00 50 00 5f 00 50 00 4b 00 45 00 59 00 5f 00 65 00 6e 00 63 00 72 00 79 00 70 00 74 00}
+		$s14 = {45 00 56 00 50 00 5f 00 50 00 4b 00 45 00 59 00 5f 00 43 00 54 00 58 00 5f 00 67 00 65 00 74 00 30 00 5f 00 70 00 65 00 65 00 72 00 6b 00 65 00 79 00}
+		$s15 = {45 00 56 00 50 00 5f 00 50 00 4b 00 45 00 59 00 5f 00 67 00 65 00 74 00 30 00}
+		$s16 = {58 00 35 00 30 00 39 00 5f 00 50 00 55 00 42 00 4b 00 45 00 59 00 5f 00 67 00 65 00 74 00}
+		$s17 = {45 00 56 00 50 00 5f 00 50 00 4b 00 45 00 59 00 5f 00 43 00 54 00 58 00 5f 00 67 00 65 00 74 00 5f 00 63 00 62 00}
+		$s18 = {45 00 56 00 50 00 5f 00 50 00 4b 00 45 00 59 00 5f 00 6d 00 65 00 74 00 68 00 5f 00 73 00 65 00 74 00 5f 00 65 00 6e 00 63 00 72 00 79 00 70 00 74 00}
+		$s19 = {45 00 56 00 50 00 5f 00 50 00 4b 00 45 00 59 00 5f 00 67 00 65 00 74 00 31 00 5f 00 52 00 53 00 41 00}
+
+	condition:
+		( uint16( 0 ) == 0x5a4d and filesize < 8000KB and ( 8 of them ) ) or ( all of them )
 }
 
-rule APT_DustSquad_PE_Nov19_2 {
-   meta:
-      description = "Detection Rule for APT DustSquad campaign Nov19"
-      author = "Arkbird_SOLG"
-      reference = "https://twitter.com/Rmy_Reserve/status/1197448735422238721"
-      date = "2019-11-29"
-      hash1 = "f5941f3d8dc8d60581d4915d06d56acba74f3ffad543680a85037a8d3bf3f8bc"
-   strings:
-      $x1 = "The credentials supplied were not complete, and could not be verified. Additional information can be returned from the context.4" wide
-      $x2 = "The domain controller certificate used for smartcard logon has been revoked. Please contact your system administrator with the c" wide
-      $s3 = "VTDictionary<System.Word,System.DateUtils.TLocalTimeZone.TYearlyChanges>.TKeyEnumeratorxsN" fullword ascii
-      $s4 = ";The certificate chain was issued by an untrusted authority.7The message received was unexpected or badly formatted.;An unknown " wide
-      $s5 = "The logon attempt failed;The credentials supplied to the package were not recognized4No credentials are available in the securit" wide
-      $s6 = "8The message supplied for verification is out of sequence3No authority could be contacted for authentication.UThe function compl" wide
-      $s7 = "The security context could not be established due to a failure in the requested quality of service (e.g. mutual authentication o" wide
-      $s8 = "Error reading %s%s%s: %s\"Character index out of bounds (%d)" fullword wide
-      $s9 = "OnExecutel" fullword ascii
-      $s10 = "?WThe given \"%s\" local time is invalid (situated within the missing period prior to DST).8String index out of range (%d).  Mus" wide
-      $s11 = "Address type not supported.\"%s: Circular links are not allowed\"Not enough data in buffer. (%d/%d)" fullword wide
-      $s12 = "@TList<System.DateUtils.TLocalTimeZone.TYearlyChanges>.TEmptyFunc !@" fullword ascii
-      $s13 = "dTList<System.DateUtils.TPair<System.Word,System.DateUtils.TLocalTimeZone.TYearlyChanges>>.TEmptyFunc !@" fullword ascii
-      $s14 = "EVP_PKEY_CTX_get_operation" fullword wide
-      $s15 = "http://www.borland.com/namespaces/Types" fullword wide
-      $s16 = "OnGetPassword" fullword ascii
-      $s17 = "OnGetPasswordExp" fullword ascii
-      $s18 = "a1.exe" fullword ascii
-      $s19 = "EIdSocksServerCommandError " fullword ascii
-   condition:
-      uint16(0) == 0x5a4d and filesize < 6000KB and
-      ( pe.imphash() == "7b3af4ed73c83b1a16f6f299b3eb654e" or ( 1 of ($x*) or 4 of them ) )
-}
-
-/* Super Rules ------------------------------------------------------------- */
-
-rule SR_APT_DustSquad_PE_Nov19 {
-   meta:
-      description = "Super Rule for APT DustSquad campaign Nov19"
-      author = "Arkbird_SOLG"
-      reference = "https://twitter.com/Rmy_Reserve/status/1197448735422238721"
-      date = "2019-11-29"
-   strings:
-      $s1 = "EVP_PKEY_get1_DSA" fullword wide
-      $s2 = "?WThe given \"%s\" local time is invalid (situated within the missing period prior to DST).8String index out of range (%d).  Mus" wide
-      $s3 = "Address type not supported.\"%s: Circular links are not allowed\"Not enough data in buffer. (%d/%d)" fullword wide
-      $s4 = "EVP_PKEY_CTX_get_operation" fullword wide
-      $s5 = "OnGetPassword" fullword ascii
-      $s6 = "Mozilla/5.0" fullword wide
-      $s7 = ",Custom variant type (%s%.4x) is out of range/Custom variant type (%s%.4x) already used by %s*Custom variant type (%s%.4x) is no" wide
-      $s8 = "WorkTarget" fullword ascii
-      $s9 = "Generics.Collections}TList<System.DateUtils.TPair<System.Word,System.DateUtils.TLocalTimeZone.TYearlyChanges>>.:1" fullword ascii
-      $s10 = "EVP_PKEY_encrypt_old" fullword wide
-      $s11 = "EVP_PKEY_CTX_get0_pkey" fullword wide
-      $s12 = "EVP_PKEY_encrypt_init" fullword wide
-      $s13 = "EVP_PKEY_encrypt" fullword wide
-      $s14 = "EVP_PKEY_CTX_get0_peerkey" fullword wide
-      $s15 = "EVP_PKEY_get0" fullword wide
-      $s16 = "X509_PUBKEY_get" fullword wide
-      $s17 = "EVP_PKEY_CTX_get_cb" fullword wide
-      $s18 = "EVP_PKEY_meth_set_encrypt" fullword wide
-      $s19 = "EVP_PKEY_get1_RSA" fullword wide 
-   condition:
-      ( uint16(0) == 0x5a4d and filesize < 8000KB and ( 8 of them )
-      ) or ( all of them )
-}

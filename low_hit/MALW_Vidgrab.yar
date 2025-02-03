@@ -1,53 +1,46 @@
-/*
-    This Yara ruleset is under the GNU-GPLv2 license (http://www.gnu.org/licenses/gpl-2.0.html) and open to any user or organization, as    long as you use it under this license.
-
-*/
-
-import "pe"
-
-rule VidgrabCode : Vidgrab Family 
+rule VidgrabCode : Vidgrab Family hardened
 {
-    meta:
-        description = "Vidgrab code tricks"
-        author = "Seth Hardy"
-        last_modified = "2014-06-20"
-        
-    strings:
-        $divbyzero = { B8 02 00 00 00 48 48 BA 02 00 00 00 83 F2 02 F7 F0 }
-        // add eax, ecx; xor byte ptr [eax], ??h; inc ecx
-        $xorloop = { 03 C1 80 30 (66 | 58) 41 }
-        $junk = { 8B 4? ?? 8B 4? ?? 03 45 08 52 5A }
-        
-    condition:
-        all of them
+	meta:
+		description = "Vidgrab code tricks"
+		author = "Seth Hardy"
+		last_modified = "2014-06-20"
+
+	strings:
+		$divbyzero = { B8 02 00 00 00 48 48 BA 02 00 00 00 83 F2 02 F7 F0 }
+		$xorloop = { 03 C1 80 30 (66 | 58) 41 }
+		$junk = { 8B 4? ?? 8B 4? ?? 03 45 08 52 5A }
+
+	condition:
+		all of them
 }
 
-rule VidgrabStrings : Vidgrab Family
+rule VidgrabStrings : Vidgrab Family hardened
 {
-    meta:
-        description = "Vidgrab Identifying Strings"
-        author = "Seth Hardy"
-        last_modified = "2014-06-20"
-        
-    strings:
-        $ = "IDI_ICON5" wide ascii
-        $ = "starter.exe"
-        $ = "wmifw.exe"
-        $ = "Software\\rar"
-        $ = "tmp092.tmp"
-        $ = "temp1.exe"
-        
-    condition:
-       3 of them
+	meta:
+		description = "Vidgrab Identifying Strings"
+		author = "Seth Hardy"
+		last_modified = "2014-06-20"
+
+	strings:
+		$ = {((49 44 49 5f 49 43 4f 4e 35) | (49 00 44 00 49 00 5f 00 49 00 43 00 4f 00 4e 00 35 00))}
+		$ = {73 74 61 72 74 65 72 2e 65 78 65}
+		$ = {77 6d 69 66 77 2e 65 78 65}
+		$ = {53 6f 66 74 77 61 72 65 5c 72 61 72}
+		$ = {74 6d 70 30 39 32 2e 74 6d 70}
+		$ = {74 65 6d 70 31 2e 65 78 65}
+
+	condition:
+		3 of them
 }
 
-rule Vidgrab : Family
+rule Vidgrab : Family hardened
 {
-    meta:
-        description = "Vidgrab"
-        author = "Seth Hardy"
-        last_modified = "2014-06-20"
-        
-    condition:
-        VidgrabCode or VidgrabStrings
+	meta:
+		description = "Vidgrab"
+		author = "Seth Hardy"
+		last_modified = "2014-06-20"
+
+	condition:
+		VidgrabCode or VidgrabStrings
 }
+

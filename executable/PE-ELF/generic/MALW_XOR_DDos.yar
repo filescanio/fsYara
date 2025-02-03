@@ -1,24 +1,20 @@
-// source: https://github.com/Yara-Rules/rules/blob/master/malware/MALW_XOR_DDos.yar
-
-/*
-    This Yara ruleset is under the GNU-GPLv2 license (http://www.gnu.org/licenses/gpl-2.0.html) and open to any user or organization, as    long as you use it under this license.
-
-*/
-
-rule XOR_DDosv1 : DDoS
+rule XOR_DDosv1 : DDoS hardened
 {
-  meta:
-    author = "Akamai CSIRT"
-    description = "Rule to detect XOR DDos infection"
-    score = 70
-  strings:
-    $st0 = "BB2FA36AAA9541F0"
-    $st1 = "md5="
-    $st2 = "denyip="
-    $st3 = "filename="
-    $st4 = "rmfile="
-    $st5 = "exec_packet"
-    $st6 = "build_iphdr"
-  condition:
-    all of them
+	meta:
+		author = "Akamai CSIRT"
+		description = "Rule to detect XOR DDos infection"
+		score = 70
+
+	strings:
+		$st0 = {42 42 32 46 41 33 36 41 41 41 39 35 34 31 46 30}
+		$st1 = {6d 64 35 3d}
+		$st2 = {64 65 6e 79 69 70 3d}
+		$st3 = {66 69 6c 65 6e 61 6d 65 3d}
+		$st4 = {72 6d 66 69 6c 65 3d}
+		$st5 = {65 78 65 63 5f 70 61 63 6b 65 74}
+		$st6 = {62 75 69 6c 64 5f 69 70 68 64 72}
+
+	condition:
+		all of them
 }
+

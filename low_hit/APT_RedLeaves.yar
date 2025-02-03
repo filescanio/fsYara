@@ -1,47 +1,45 @@
-rule malware_red_leaves_generic {
-  meta:
-    author = "David Cannings"
-    description = "Red Leaves malware, related to APT10"
-    
-    // This hash from VT retrohunt, original sample was a memory dump
-    sha256 = "2e1f902de32b999642bb09e995082c37a024f320c683848edadaf2db8e322c3c"
-    
-  strings:
-    // MiniLZO release date
-    $ = "Feb 04 2015"
-    $ = "I can not start %s"
-    $ = "dwConnectPort" fullword
-    $ = "dwRemoteLanPort" fullword
-    $ = "strRemoteLanAddress" fullword
-    $ = "strLocalConnectIp" fullword
-    $ = "\\\\.\\pipe\\NamePipe_MoreWindows" wide
-    $ = "RedLeavesCMDSimulatorMutex" wide
-    $ = "(NT %d.%d Build %d)" wide
-    $ = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; WOW64; Trident/4.0; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; .NET4.0C; .NET4.0E)" wide
-    $ = "red_autumnal_leaves_dllmain.dll" wide ascii
-    $ = "__data" wide
-    $ = "__serial" wide
-    $ = "__upt" wide
-    $ = "__msgid" wide
-    
-  condition:
-    7 of them
+rule malware_red_leaves_generic : hardened
+{
+	meta:
+		author = "David Cannings"
+		description = "Red Leaves malware, related to APT10"
+		sha256 = "2e1f902de32b999642bb09e995082c37a024f320c683848edadaf2db8e322c3c"
+
+	strings:
+		$ = {46 65 62 20 30 34 20 32 30 31 35}
+		$ = {49 20 63 61 6e 20 6e 6f 74 20 73 74 61 72 74 20 25 73}
+		$ = {64 77 43 6f 6e 6e 65 63 74 50 6f 72 74}
+		$ = {64 77 52 65 6d 6f 74 65 4c 61 6e 50 6f 72 74}
+		$ = {73 74 72 52 65 6d 6f 74 65 4c 61 6e 41 64 64 72 65 73 73}
+		$ = {73 74 72 4c 6f 63 61 6c 43 6f 6e 6e 65 63 74 49 70}
+		$ = {5c 00 5c 00 2e 00 5c 00 70 00 69 00 70 00 65 00 5c 00 4e 00 61 00 6d 00 65 00 50 00 69 00 70 00 65 00 5f 00 4d 00 6f 00 72 00 65 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00}
+		$ = {52 00 65 00 64 00 4c 00 65 00 61 00 76 00 65 00 73 00 43 00 4d 00 44 00 53 00 69 00 6d 00 75 00 6c 00 61 00 74 00 6f 00 72 00 4d 00 75 00 74 00 65 00 78 00}
+		$ = {28 00 4e 00 54 00 20 00 25 00 64 00 2e 00 25 00 64 00 20 00 42 00 75 00 69 00 6c 00 64 00 20 00 25 00 64 00 29 00}
+		$ = {4d 00 6f 00 7a 00 69 00 6c 00 6c 00 61 00 2f 00 34 00 2e 00 30 00 20 00 28 00 63 00 6f 00 6d 00 70 00 61 00 74 00 69 00 62 00 6c 00 65 00 3b 00 20 00 4d 00 53 00 49 00 45 00 20 00 38 00 2e 00 30 00 3b 00 20 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 4e 00 54 00 20 00 36 00 2e 00 31 00 3b 00 20 00 57 00 4f 00 57 00 36 00 34 00 3b 00 20 00 54 00 72 00 69 00 64 00 65 00 6e 00 74 00 2f 00 34 00 2e 00 30 00 3b 00 20 00 53 00 4c 00 43 00 43 00 32 00 3b 00 20 00 2e 00 4e 00 45 00 54 00 20 00 43 00 4c 00 52 00 20 00 32 00 2e 00 30 00 2e 00 35 00 30 00 37 00 32 00 37 00 3b 00 20 00 2e 00 4e 00 45 00 54 00 20 00 43 00 4c 00 52 00 20 00 33 00 2e 00 35 00 2e 00 33 00 30 00 37 00 32 00 39 00 3b 00 20 00 2e 00 4e 00 45 00 54 00 20 00 43 00 4c 00 52 00 20 00 33 00 2e 00 30 00 2e 00 33 00 30 00 37 00 32 00 39 00 3b 00 20 00 2e 00 4e 00 45 00 54 00 34 00 2e 00 30 00 43 00 3b 00 20 00 2e 00 4e 00 45 00 54 00 34 00 2e 00 30 00 45 00 29 00}
+		$ = {((72 65 64 5f 61 75 74 75 6d 6e 61 6c 5f 6c 65 61 76 65 73 5f 64 6c 6c 6d 61 69 6e 2e 64 6c 6c) | (72 00 65 00 64 00 5f 00 61 00 75 00 74 00 75 00 6d 00 6e 00 61 00 6c 00 5f 00 6c 00 65 00 61 00 76 00 65 00 73 00 5f 00 64 00 6c 00 6c 00 6d 00 61 00 69 00 6e 00 2e 00 64 00 6c 00 6c 00))}
+		$ = {5f 00 5f 00 64 00 61 00 74 00 61 00}
+		$ = {5f 00 5f 00 73 00 65 00 72 00 69 00 61 00 6c 00}
+		$ = {5f 00 5f 00 75 00 70 00 74 00}
+		$ = {5f 00 5f 00 6d 00 73 00 67 00 69 00 64 00}
+
+	condition:
+		7 of them
 }
 
-rule malware_red_leaves_memory {
-  meta:
-    author = "David Cannings"
-    description = "Red Leaves C&C left in memory, use with Volatility / Rekall"
-    
-  strings:
-    $ = "__msgid=" wide ascii
-    $ = "__serial=" wide ascii
-    $ = "OnlineTime=" wide
+rule malware_red_leaves_memory : hardened
+{
+	meta:
+		author = "David Cannings"
+		description = "Red Leaves C&C left in memory, use with Volatility / Rekall"
 
-    // Indicates a file transfer
-    $ = "clientpath=" wide ascii 
-    $ = "serverpath=" wide ascii
+	strings:
+		$ = {((5f 5f 6d 73 67 69 64 3d) | (5f 00 5f 00 6d 00 73 00 67 00 69 00 64 00 3d 00))}
+		$ = {((5f 5f 73 65 72 69 61 6c 3d) | (5f 00 5f 00 73 00 65 00 72 00 69 00 61 00 6c 00 3d 00))}
+		$ = {4f 00 6e 00 6c 00 69 00 6e 00 65 00 54 00 69 00 6d 00 65 00 3d 00}
+		$ = {((63 6c 69 65 6e 74 70 61 74 68 3d) | (63 00 6c 00 69 00 65 00 6e 00 74 00 70 00 61 00 74 00 68 00 3d 00))}
+		$ = {((73 65 72 76 65 72 70 61 74 68 3d) | (73 00 65 00 72 00 76 00 65 00 72 00 70 00 61 00 74 00 68 00 3d 00))}
 
-  condition:
-    3 of them
+	condition:
+		3 of them
 }
+

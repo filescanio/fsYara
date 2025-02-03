@@ -1,11 +1,5 @@
-/*
-	Yara Rule Set
-	Author: Florian Roth
-	Date: 2016-05-12
-	Identifier: ONHAT
-*/
-
-rule ONHAT_Proxy_Hacktool {
+rule ONHAT_Proxy_Hacktool : hardened
+{
 	meta:
 		description = "Detects ONHAT Proxy - Htran like SOCKS hack tool used by Chinese APT groups"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -22,10 +16,13 @@ rule ONHAT_Proxy_Hacktool {
 		hash7 = "f3906be01d51e2e1ae9b03cd09702b6e0794b9c9fd7dc04024f897e96bb13232"
 		hash8 = "f65ae9ccf988a06a152f27a4c0d7992100a2d9d23d80efe8d8c2a5c9bd78a3a7"
 		id = "cb18a5b0-dbbd-5dd3-af66-21b8302df6de"
+
 	strings:
-		$s1 = "INVALID PARAMETERS. TYPE ONHAT.EXE -h FOR HELP INFORMATION." fullword ascii
-		$s2 = "[ONHAT] LISTENS (S, %d.%d.%d.%d, %d) ERROR." fullword ascii
-		$s3 = "[ONHAT] CONNECTS (T, %d.%d.%d.%d, %d.%d.%d.%d, %d) ERROR." fullword ascii
+		$s1 = {49 4e 56 41 4c 49 44 20 50 41 52 41 4d 45 54 45 52 53 2e 20 54 59 50 45 20 4f 4e 48 41 54 2e 45 58 45 20 2d 68 20 46 4f 52 20 48 45 4c 50 20 49 4e 46 4f 52 4d 41 54 49 4f 4e 2e}
+		$s2 = {5b 4f 4e 48 41 54 5d 20 4c 49 53 54 45 4e 53 20 28 53 2c 20 25 64 2e 25 64 2e 25 64 2e 25 64 2c 20 25 64 29 20 45 52 52 4f 52 2e}
+		$s3 = {5b 4f 4e 48 41 54 5d 20 43 4f 4e 4e 45 43 54 53 20 28 54 2c 20 25 64 2e 25 64 2e 25 64 2e 25 64 2c 20 25 64 2e 25 64 2e 25 64 2e 25 64 2c 20 25 64 29 20 45 52 52 4f 52 2e}
+
 	condition:
-		( uint16(0) == 0x5a4d and filesize < 80KB and ( 1 of ($s*) ) ) or ( 2 of them )
+		( uint16( 0 ) == 0x5a4d and filesize < 80KB and ( 1 of ( $s* ) ) ) or ( 2 of them )
 }
+

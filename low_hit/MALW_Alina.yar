@@ -1,19 +1,17 @@
-/*
-    This Yara ruleset is under the GNU-GPLv2 license (http://www.gnu.org/licenses/gpl-2.0.html) and open to any user or organization, as
-    long as you use it under this license.
-*/
-rule alina
+rule alina : hardened
 {
 	meta:
 		author = "Brian Wallace @botnet_hunter"
 		author_email = "bwall@ballastsecurity.net"
 		date = "2014-08-09"
 		description = "Identify Alina"
+
 	strings:
-		$s1 = "Alina v1.0"
-		$s2 = "POST"
-		$s3 = "1[0-2])[0-9]"
+		$s1 = {41 6c 69 6e 61 20 76 31 2e 30}
+		$s2 = {50 4f 53 54}
+		$s3 = {31 5b 30 2d 32 5d 29 5b 30 2d 39 5d}
 
 	condition:
-        	all of them
+		all of them
 }
+

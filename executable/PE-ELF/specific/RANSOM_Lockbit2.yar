@@ -1,28 +1,27 @@
-// source: https://github.com/advanced-threat-research/Yara-Rules/blob/master/ransomware/RANSOM_Lockbit2.yar
+rule Lockbit2_Jul21 : hardened
+{
+	meta:
+		description = "simple rule to detect latest Lockbit ransomware Jul 2021"
+		author = "CB @ ATR"
+		date = "2021-07-28"
+		score = 60
+		version = "v1"
+		hash1 = "f32e9fb8b1ea73f0a71f3edaebb7f2b242e72d2a4826d6b2744ad3d830671202"
+		hash2 = "dd8fe3966ab4d2d6215c63b3ac7abf4673d9c19f2d9f35a6bf247922c642ec2d"
 
-rule Lockbit2_Jul21 {
-   meta:
-      description = "simple rule to detect latest Lockbit ransomware Jul 2021"
-      author = "CB @ ATR"
-      date = "2021-07-28"
-      score = 60
-      version = "v1"
-      hash1 = "f32e9fb8b1ea73f0a71f3edaebb7f2b242e72d2a4826d6b2744ad3d830671202"
-      hash2 = "dd8fe3966ab4d2d6215c63b3ac7abf4673d9c19f2d9f35a6bf247922c642ec2d"
+	strings:
+		$seq1 = {20 00 2f 00 43 00 20 00 70 00 69 00 6e 00 67 00 20 00 31 00 32 00 37 00 2e 00 30 00 2e 00 30 00 2e 00 37 00 20 00 2d 00 6e 00 20 00 33 00 20 00 3e 00 20 00 4e 00 75 00 6c 00 20 00 26 00 20 00 66 00 73 00 75 00 74 00 69 00 6c 00 20 00 66 00 69 00 6c 00 65 00 20 00 73 00 65 00 74 00 5a 00 65 00 72 00 6f 00 44 00 61 00 74 00 61 00 20 00 6f 00 66 00 66 00 73 00 65 00 74 00 3d 00 30 00 20 00 6c 00 65 00 6e 00 67 00 74 00 68 00 3d 00 35 00 32 00 34 00 32 00 38 00 38 00 20 00 22 00 25 00 73 00 22 00 20 00 26 00 20 00 44 00 65 00 6c 00 20 00 2f 00 66 00 20 00 2f 00 71 00 20 00 22 00 25 00 73 00 22 00}
+		$seq2 = {22 00 43 00 3a 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 5c 00 73 00 79 00 73 00 74 00 65 00 6d 00 33 00 32 00 5c 00 6d 00 73 00 68 00 74 00 61 00 2e 00 65 00 78 00 65 00 22 00 20 00 22 00 25 00 73 00 22 00}
+		$p1 = {43 00 3a 00 5c 00 77 00 69 00 6e 00 64 00 6f 00 77 00 73 00 5c 00 73 00 79 00 73 00 74 00 65 00 6d 00 33 00 32 00 5c 00 25 00 58 00 25 00 58 00 25 00 58 00 2e 00 69 00 63 00 6f 00}
+		$p2 = {5c 00 3f 00 3f 00 5c 00 43 00 3a 00 5c 00 77 00 69 00 6e 00 64 00 6f 00 77 00 73 00 5c 00 73 00 79 00 73 00 74 00 65 00 6d 00 33 00 32 00 5c 00 25 00 58 00 25 00 58 00 25 00 58 00 2e 00 69 00 63 00 6f 00}
+		$p3 = {5c 00 52 00 65 00 67 00 69 00 73 00 74 00 72 00 79 00 5c 00 4d 00 61 00 63 00 68 00 69 00 6e 00 65 00 5c 00 53 00 6f 00 66 00 74 00 77 00 61 00 72 00 65 00 5c 00 43 00 6c 00 61 00 73 00 73 00 65 00 73 00 5c 00 4c 00 6f 00 63 00 6b 00 62 00 69 00 74 00 5c 00 73 00 68 00 65 00 6c 00 6c 00 5c 00 4f 00 70 00 65 00 6e 00 5c 00 43 00 6f 00 6d 00 6d 00 61 00 6e 00 64 00}
+		$p4 = {75 00 73 00 65 00 20 00 54 00 6f 00 78 00 49 00 44 00 3a 00 20 00 33 00 30 00 38 00 35 00 42 00 38 00 39 00 41 00 30 00 43 00 35 00 31 00 35 00 44 00 32 00 46 00 42 00 31 00 32 00 34 00 44 00 36 00 34 00 35 00 39 00 30 00 36 00 46 00 35 00 44 00 33 00 44 00 41 00 35 00 43 00 42 00 39 00 37 00 43 00 45 00 42 00 45 00 41 00 39 00 37 00 35 00 39 00 35 00 39 00 41 00 45 00 34 00 46 00 39 00 35 00 33 00 30 00 32 00 41 00 30 00 34 00 45 00 31 00 44 00 37 00 30 00 39 00 43 00 33 00 43 00 34 00 41 00 45 00 39 00 42 00 37 00}
+		$p5 = {68 00 74 00 74 00 70 00 73 00 3a 00 2f 00 2f 00 74 00 6f 00 78 00 2e 00 63 00 68 00 61 00 74 00 2f 00 64 00 6f 00 77 00 6e 00 6c 00 6f 00 61 00 64 00 2e 00 68 00 74 00 6d 00 6c 00}
+		$p6 = {53 00 6f 00 66 00 74 00 77 00 61 00 72 00 65 00 5c 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 4e 00 54 00 5c 00 43 00 75 00 72 00 72 00 65 00 6e 00 74 00 56 00 65 00 72 00 73 00 69 00 6f 00 6e 00 5c 00 49 00 43 00 4d 00 5c 00 43 00 61 00 6c 00 69 00 62 00 72 00 61 00 74 00 69 00 6f 00 6e 00}
+		$p7 = {68 00 74 00 74 00 70 00 3a 00 2f 00 2f 00 6c 00 6f 00 63 00 6b 00 62 00 69 00 74 00 61 00 70 00 74 00 36 00 76 00 78 00 35 00 37 00 74 00 33 00 65 00 65 00 71 00 6a 00 6f 00 66 00 77 00 67 00 63 00 67 00 6c 00 6d 00 75 00 74 00 72 00 33 00 61 00 33 00 35 00 6e 00 79 00 67 00 76 00 6f 00 6b 00 6a 00 61 00 35 00 75 00 75 00 63 00 63 00 69 00 70 00 34 00 79 00 6b 00 79 00 64 00 2e 00 6f 00 6e 00 69 00 6f 00 6e 00}
+		$p8 = {5c 00 4c 00 6f 00 63 00 6b 00 42 00 69 00 74 00 5f 00 52 00 61 00 6e 00 73 00 6f 00 6d 00 77 00 61 00 72 00 65 00 2e 00 68 00 74 00 61 00}
 
-   strings:
-      $seq1 = " /C ping 127.0.0.7 -n 3 > Nul & fsutil file setZeroData offset=0 length=524288 \"%s\" & Del /f /q \"%s\"" fullword wide
-      $seq2 = "\"C:\\Windows\\system32\\mshta.exe\" \"%s\"" fullword wide
-      $p1 = "C:\\windows\\system32\\%X%X%X.ico" fullword wide
-      $p2 = "\\??\\C:\\windows\\system32\\%X%X%X.ico" fullword wide
-      $p3 = "\\Registry\\Machine\\Software\\Classes\\Lockbit\\shell\\Open\\Command" fullword wide
-      $p4 = "use ToxID: 3085B89A0C515D2FB124D645906F5D3DA5CB97CEBEA975959AE4F95302A04E1D709C3C4AE9B7" fullword wide
-      $p5 = "https://tox.chat/download.html" fullword wide
-      $p6 = "Software\\Microsoft\\Windows NT\\CurrentVersion\\ICM\\Calibration" fullword wide
-      $p7 = "http://lockbitapt6vx57t3eeqjofwgcglmutr3a35nygvokja5uuccip4ykyd.onion" fullword wide
-      $p8 = "\\LockBit_Ransomware.hta" fullword wide
-     
-   condition:
-      ( uint16(0) == 0x5a4d and filesize < 1000KB and ( 1 of ($seq*) and 4 of them )
-      ) or ( all of them )
+	condition:
+		( uint16( 0 ) == 0x5a4d and filesize < 1000KB and ( 1 of ( $seq* ) and 4 of them ) ) or ( all of them )
 }
+

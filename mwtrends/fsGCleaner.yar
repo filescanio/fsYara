@@ -1,4 +1,4 @@
-rule win_gcleaner_auto
+rule win_gcleaner_auto : hardened
 {
 	meta:
 		author = "Felix Bilstein - yara-signator at cocacoding dot com"
@@ -32,11 +32,10 @@ rule win_gcleaner_auto
 		$sequence_9 = { c645fc02 83fa10 722c 8b4dc8 42 8bc1 }
 
 	condition:
-		7 of them and 
-		filesize <540672
+		7 of them and filesize < 540672
 }
 
-rule win_gcleaner
+rule win_gcleaner : hardened
 {
 	meta:
 		author = "Johannes Bader @viql"
@@ -60,30 +59,29 @@ rule win_gcleaner
 		score = 75
 
 	strings:
-		$accept = "Accept: text/html, application/xml;q=0.9, application/xhtml+xml, image/png, image/jpeg, image/gif, image/x-xbitmap, */*;q=0.1"
-		$accept_lang = "Accept-Language: ru-RU,ru;q=0.9,en;q=0.8"
-		$accept_charset = "Accept-Charset: iso-8859-1, utf-8, utf-16, *;q=0.1"
-		$accept_encoding = "Accept-Encoding: deflate, gzip, x-gzip, identity, *;q=0"
-		$unkown = "<unknown>"
-		$cmd1 = "\" & exit"
-		$cmd2 = "\" /f & erase "
-		$cmd3 = "/c taskkill /im \""
-		$anti1 = " Far "
-		$anti2 = "roxifier"
-		$anti3 = "HTTP Analyzer"
-		$anti4 = "Wireshark"
-		$anti5 = "NetworkMiner"
-		$mix1 = "mixshop"
-		$mix2 = "mixtwo"
-		$mix3 = "mixnull"
-		$mix4 = "mixazed"
+		$accept = {41 63 63 65 70 74 3a 20 74 65 78 74 2f 68 74 6d 6c 2c 20 61 70 70 6c 69 63 61 74 69 6f 6e 2f 78 6d 6c 3b 71 3d 30 2e 39 2c 20 61 70 70 6c 69 63 61 74 69 6f 6e 2f 78 68 74 6d 6c 2b 78 6d 6c 2c 20 69 6d 61 67 65 2f 70 6e 67 2c 20 69 6d 61 67 65 2f 6a 70 65 67 2c 20 69 6d 61 67 65 2f 67 69 66 2c 20 69 6d 61 67 65 2f 78 2d 78 62 69 74 6d 61 70 2c 20 2a 2f 2a 3b 71 3d 30 2e 31}
+		$accept_lang = {41 63 63 65 70 74 2d 4c 61 6e 67 75 61 67 65 3a 20 72 75 2d 52 55 2c 72 75 3b 71 3d 30 2e 39 2c 65 6e 3b 71 3d 30 2e 38}
+		$accept_charset = {41 63 63 65 70 74 2d 43 68 61 72 73 65 74 3a 20 69 73 6f 2d 38 38 35 39 2d 31 2c 20 75 74 66 2d 38 2c 20 75 74 66 2d 31 36 2c 20 2a 3b 71 3d 30 2e 31}
+		$accept_encoding = {41 63 63 65 70 74 2d 45 6e 63 6f 64 69 6e 67 3a 20 64 65 66 6c 61 74 65 2c 20 67 7a 69 70 2c 20 78 2d 67 7a 69 70 2c 20 69 64 65 6e 74 69 74 79 2c 20 2a 3b 71 3d 30}
+		$unkown = {3c 75 6e 6b 6e 6f 77 6e 3e}
+		$cmd1 = {22 20 26 20 65 78 69 74}
+		$cmd2 = {22 20 2f 66 20 26 20 65 72 61 73 65 20}
+		$cmd3 = {2f 63 20 74 61 73 6b 6b 69 6c 6c 20 2f 69 6d 20 22}
+		$anti1 = {20 46 61 72 20}
+		$anti2 = {72 6f 78 69 66 69 65 72}
+		$anti3 = {48 54 54 50 20 41 6e 61 6c 79 7a 65 72}
+		$anti4 = {57 69 72 65 73 68 61 72 6b}
+		$anti5 = {4e 65 74 77 6f 72 6b 4d 69 6e 65 72}
+		$mix1 = {6d 69 78 73 68 6f 70}
+		$mix2 = {6d 69 78 74 77 6f}
+		$mix3 = {6d 69 78 6e 75 6c 6c}
+		$mix4 = {6d 69 78 61 7a 65 64}
 
 	condition:
-		uint16(0)==0x5A4D and 
-		15 of them
+		uint16( 0 ) == 0x5A4D and 15 of them
 }
 
-rule win_gcleaner_auto_1
+rule win_gcleaner_auto_1 : hardened
 {
 	meta:
 		author = "Felix Bilstein - yara-signator at cocacoding dot com"
@@ -118,11 +116,10 @@ rule win_gcleaner_auto_1
 		$sequence_9 = { f30f7e45d8 660fd64010 8345e418 eb10 8d4dc8 51 }
 
 	condition:
-		7 of them and 
-		filesize <540672
+		7 of them and filesize < 540672
 }
 
-rule win_gcleaner_auto_2
+rule win_gcleaner_auto_2 : hardened
 {
 	meta:
 		author = "Felix Bilstein - yara-signator at cocacoding dot com"
@@ -159,11 +156,10 @@ rule win_gcleaner_auto_2
 		$sequence_9 = { 8d4dc8 837ddc10 8b75c8 8b55d8 0f43ce 50 51 }
 
 	condition:
-		7 of them and 
-		filesize <540672
+		7 of them and filesize < 540672
 }
 
-rule fsGCleaner
+rule fsGCleaner : hardened
 {
 	meta:
 		description = "FsYARA - Malware Trends"
@@ -171,9 +167,6 @@ rule fsGCleaner
 		score = 75
 
 	condition:
-		win_gcleaner_auto or 
-		win_gcleaner or 
-		win_gcleaner_auto_1 or 
-		win_gcleaner_auto_2
+		win_gcleaner_auto or win_gcleaner or win_gcleaner_auto_1 or win_gcleaner_auto_2
 }
 

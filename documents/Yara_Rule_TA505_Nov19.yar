@@ -1,118 +1,92 @@
-// https://github.com/StrangerealIntel/DailyIOC/blob/master/20-11-19/Yara_Rule_TA505_Nov19.yar
+import "pe"
+
+rule TA505_bin_21Nov_1 : hardened
+{
+	meta:
+		description = "module1.bin"
+		author = "Arkbird_SOLG"
+		reference = "https://twitter.com/58_158_177_102/status/1197432303057637377"
+		date = "2019-11-21"
+		hash1 = "bfe610790d41091c37ae627472f5f8886357e713945ca8a5e2b56cd6c791f989"
+
+	strings:
+		$s1 = {69 6e 74 63 2e 64 6c 6c}
+		$s2 = {3f 25 3f 32 3f 37 3f 3d 3f}
+		$s3 = {49 73 20 63 2b 2b 20 6e 6f 74 20 6a 61 76 61}
+		$s4 = {34 25 35 4b 35 65 35 6c 35 70 35 74 35 78 35 7c 35}
+		$s5 = {4b 64 61 4d 74 24}
+		$s6 = {3b 2a 3b 39 3b 5a 3b 60 3b}
+		$s7 = {3c 2a 3c 34 3c 3f 3c 49 3c 53 3c 59 3c}
+		$s8 = {30 27 30 34 30 41 30 4b 30 55 30 5d 30 6b 30}
+		$s9 = {33 20 33 28 33 30 33 36 33 3e 33 4d 33 5f 33}
+		$s10 = {3a 20 3a 39 3a 41 3a 46 3a 52 3a 57 3a 74 3a 7a 3a}
+		$s11 = {35 27 35 2c 35 38 35 40 35 48 35 50 35 66 35 6e 35 76 35 7e 35}
+		$s12 = {3c 2c 3c 32 3c 3a 3c 40 3c 68 3c 6e 3c}
+		$s13 = {38 2b 38 30 38 3a 38 54 38 62 38 6a 38 70 38}
+		$s14 = {38 21 39 3c 39 4b 39 67 39 6f 39 7a 39}
+		$s15 = {3e 28 3e 36 3e 44 3e 4e 3e 55 3e 66 3e 70 3e}
+		$s16 = {3a 21 3a 2c 3a 3e 3a 4a 3a 58 3a 5e 3a 63 3a 69 3a 76 3a}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and filesize < 900KB and ( pe.imphash ( ) == "642f4619fb2d93cb205c65c2546516ca" and pe.exports ( "intc" ) or 8 of them )
+}
 
 import "pe"
 
-rule TA505_bin_21Nov_1 {
-   meta:
-      description = "module1.bin"
-      author = "Arkbird_SOLG"
-      reference = "https://twitter.com/58_158_177_102/status/1197432303057637377"
-      date = "2019-11-21"
-      hash1 = "bfe610790d41091c37ae627472f5f8886357e713945ca8a5e2b56cd6c791f989"
-   strings:
-      $s1 = "intc.dll" fullword ascii
-      $s2 = "?%?2?7?=?" fullword ascii /* hex encoded string ''' */
-      $s3 = "Is c++ not java" fullword ascii
-      $s4 = "4%5K5e5l5p5t5x5|5" fullword ascii
-      $s5 = "KdaMt$" fullword ascii
-      $s6 = ";*;9;Z;`;" fullword ascii
-      $s7 = "<*<4<?<I<S<Y<" fullword ascii
-      $s8 = "0'040A0K0U0]0k0" fullword ascii
-      $s9 = "3 3(30363>3M3_3" fullword ascii
-      $s10 = ": :9:A:F:R:W:t:z:" fullword ascii
-      $s11 = "5'5,585@5H5P5f5n5v5~5" fullword ascii
-      $s12 = "<,<2<:<@<h<n<" fullword ascii
-      $s13 = "8+808:8T8b8j8p8" fullword ascii
-      $s14 = "8!9<9K9g9o9z9" fullword ascii
-      $s15 = ">(>6>D>N>U>f>p>" fullword ascii
-      $s16 = ":!:,:>:J:X:^:c:i:v:" fullword ascii
-   condition:
-      uint16(0) == 0x5a4d and filesize < 900KB and
-      ( pe.imphash() == "642f4619fb2d93cb205c65c2546516ca" and pe.exports("intc") or 8 of them )
+rule TA505_bin_21Nov_2 : hardened
+{
+	meta:
+		description = "vspub1.bin"
+		author = "Arkbird_SOLG"
+		reference = "https://twitter.com/58_158_177_102/status/1197432303057637377"
+		date = "2019-11-21"
+		hash1 = "54cc27076793d5de064813c61d52452d42f774d24b3859a63002d842914fd9cd"
+
+	strings:
+		$s1 = {67 6c 43 6f 6c 6f 72 2e 64 6c 6c}
+		$s2 = {7b 73 79 73 64 69 72 7d 5c 6e 76 75 2a 2e 65 78 65}
+		$s3 = {4b 4c 53 55 49 72 68 65 6b 68 65 69 72 67 75 68 65 6d 75 72 65}
+		$s4 = {74 45 6f 3e 71 4d}
+		$s5 = {3f 22 3f 30 3f 38 3f 3e 3f 49 3f 56 3f 5e 3f 6c 3f 71 3f 76 3f 7b 3f}
+		$s6 = {3b 22 3b 30 3b 64 3b}
+		$s7 = {54 30 70 30 76 30 7c 30}
+
+	condition:
+		uint16( 0 ) == 0x5a4d and filesize < 900KB and ( pe.imphash ( ) == "ff6dd5f31dd7c538ebc02542f09f4280" and pe.exports ( "setColor" ) or all of them )
 }
 
-rule TA505_bin_21Nov_2 {
-   meta:
-      description = "vspub1.bin"
-      author = "Arkbird_SOLG"
-      reference = "https://twitter.com/58_158_177_102/status/1197432303057637377"
-      date = "2019-11-21"
-      hash1 = "54cc27076793d5de064813c61d52452d42f774d24b3859a63002d842914fd9cd"
-   strings:
-      $s1 = "glColor.dll" fullword ascii
-      $s2 = "{sysdir}\\nvu*.exe" fullword ascii
-      $s3 = "KLSUIrhekheirguhemure" fullword ascii
-      $s4 = "tEo>qM" fullword ascii
-      $s5 = "?\"?0?8?>?I?V?^?l?q?v?{?" fullword ascii
-      $s6 = ";\";0;d;" fullword ascii
-      $s7 = "T0p0v0|0" fullword ascii
-   condition:
-      uint16(0) == 0x5a4d and filesize < 900KB and
-      ( pe.imphash() == "ff6dd5f31dd7c538ebc02542f09f4280" and pe.exports("setColor") or all of them )
+rule TA505_Maldoc_21Nov_2 : hardened
+{
+	meta:
+		description = "invitation (1).xls"
+		author = "Arkbird_SOLG"
+		reference = "https://twitter.com/58_158_177_102/status/1197432303057637377"
+		date = "2019-11-21"
+		hash1 = "270b398b697f10b66828afe8d4f6489a8de48b04a52a029572412ae4d20ff89b"
+
+	strings:
+		$x1 = {43 00 3a 00 5c 00 55 00 73 00 65 00 72 00 73 00 5c 00 4a 00 5c 00 41 00 70 00 70 00 44 00 61 00 74 00 61 00 5c 00 4c 00 6f 00 63 00 61 00 6c 00 5c 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 5c 00 54 00 65 00 6d 00 70 00 6f 00 72 00 61 00 72 00 79 00 20 00 49 00 6e 00 74 00 65 00 72 00 6e 00 65 00 74 00 20 00 46 00 69 00 6c 00 65 00 73 00 5c 00 43 00 6f 00 6e 00 74 00 65 00 6e 00 74 00 2e 00 4d 00 53 00 4f 00 5c 00 41 00 46 00 46 00 41 00 30 00 42 00 44 00 43 00 2e 00 74 00 6d 00 70 00}
+		$x2 = {43 00 3a 00 5c 00 55 00 73 00 65 00 72 00 73 00 5c 00 4a 00 5c 00 41 00 70 00 70 00 44 00 61 00 74 00 61 00 5c 00 4c 00 6f 00 63 00 61 00 6c 00 5c 00 54 00 65 00 6d 00 70 00 5c 00 41 00 46 00 46 00 41 00 30 00 42 00 44 00 43 00 2e 00 74 00 6d 00 70 00}
+		$x3 = {43 3a 5c 57 69 6e 64 6f 77 73 5c 73 79 73 74 65 6d 33 32 5c 46 4d 32 30 2e 44 4c 4c}
+		$x4 = {43 3a 5c 55 73 65 72 73 5c 4a 5c 41 70 70 44 61 74 61 5c 4c 6f 63 61 6c 5c 54 65 6d 70 5c 56 42 45 5c 4d 53 46 6f 72 6d 73 2e 65 78 64}
+		$x5 = {43 3a 5c 50 72 6f 67 72 61 6d 20 46 69 6c 65 73 5c 43 6f 6d 6d 6f 6e 20 46 69 6c 65 73 5c 4d 69 63 72 6f 73 6f 66 74 20 53 68 61 72 65 64 5c 4f 46 46 49 43 45 31 36 5c 4d 53 4f 2e 44 4c 4c}
+		$x6 = {43 3a 5c 50 72 6f 67 72 61 6d 20 46 69 6c 65 73 5c 43 6f 6d 6d 6f 6e 20 46 69 6c 65 73 5c 4d 69 63 72 6f 73 6f 66 74 20 53 68 61 72 65 64 5c 56 42 41 5c 56 42 41 37 2e 31 5c 56 42 45 37 2e 44 4c 4c}
+		$x7 = {2a 00 5c 00 47 00 7b 00 30 00 44 00 34 00 35 00 32 00 45 00 45 00 31 00 2d 00 45 00 30 00 38 00 46 00 2d 00 31 00 30 00 31 00 41 00 2d 00 38 00 35 00 32 00 45 00 2d 00 30 00 32 00 36 00 30 00 38 00 43 00 34 00 44 00 30 00 42 00 42 00 34 00 7d 00 23 00 32 00 2e 00 30 00 23 00 30 00 23 00 43 00 3a 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 5c 00 73 00 79 00 73 00 74 00 65 00 6d 00 33 00 32 00 5c 00 46 00 4d 00 32 00 30 00 2e 00 44 00 4c 00 4c 00 23 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 20 00 46 00 6f 00 72 00 6d 00 73 00 20 00 32 00 2e 00 30 00 20 00 4f 00 62 00 6a 00 65 00 63 00 74 00 20 00 4c 00 69 00 62 00 72 00 61 00 72 00 79 00}
+		$x8 = {2a 00 5c 00 47 00 7b 00 42 00 41 00 34 00 35 00 46 00 31 00 33 00 37 00 2d 00 31 00 36 00 42 00 32 00 2d 00 34 00 38 00 37 00 44 00 2d 00 39 00 41 00 32 00 31 00 2d 00 46 00 33 00 38 00 31 00 37 00 39 00 43 00 30 00 35 00 37 00 36 00 43 00 7d 00 23 00 32 00 2e 00 30 00 23 00 30 00 23 00 43 00 3a 00 5c 00 55 00 73 00 65 00 72 00 73 00 5c 00 4a 00 5c 00 41 00 70 00 70 00 44 00 61 00 74 00 61 00 5c 00 4c 00 6f 00 63 00 61 00 6c 00 5c 00 54 00 65 00 6d 00 70 00 5c 00 56 00 42 00 45 00 5c 00 4d 00 53 00 46 00 6f 00 72 00 6d 00 73 00 2e 00 65 00 78 00 64 00 23 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 20 00 46 00 6f 00 72 00 6d 00 73 00 20 00 32 00 2e 00 30 00 20 00 4f 00 62 00 6a 00 65 00 63 00 74 00}
+		$s9 = {2a 00 5c 00 47 00 7b 00 32 00 44 00 46 00 38 00 44 00 30 00 34 00 43 00 2d 00 35 00 42 00 46 00 41 00 2d 00 31 00 30 00 31 00 42 00 2d 00 42 00 44 00 45 00 35 00 2d 00 30 00 30 00 41 00 41 00 30 00 30 00 34 00 34 00 44 00 45 00 35 00 32 00 7d 00 23 00 32 00 2e 00 38 00 23 00 30 00 23 00 43 00 3a 00 5c 00 50 00 72 00 6f 00 67 00 72 00 61 00 6d 00 20 00 46 00 69 00 6c 00 65 00 73 00 5c 00 43 00 6f 00 6d 00 6d 00 6f 00 6e 00 20 00 46 00 69 00 6c 00 65 00 73 00 5c 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 20 00 53 00 68 00 61 00 72 00 65 00 64 00 5c 00 4f 00 46 00 46 00 49 00 43 00 45 00 31 00 36 00 5c 00 4d 00 53 00 4f 00 2e 00 44 00 4c 00 4c 00 23 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 20 00}
+		$s10 = {6c 49 79 53 67 65 66 61 38 36 6a 49 66 64 45 6b 53 5a 56 44 6f 53 73 35 42 44 6b 63 61 6c 43 69 65 4e 42 4e 34 45 71 66 56 61 45 73 32 77 57 44 34 4f 6a 70 54 69 4f 42 71 44 72 4c 33 64 39 57 43 61 44 41 4b 5a 70 6f 4a 50 52 6e 6f 61 63 66 51 50 68 75 63 6d 79 36 39 61 78 7a 6e 4e 6d 52 62 52 59 31 32 76 33 65 7a 35 50 64 41 41 6e 70 41 6c 35 6d 35 4e 55 71 4b 48 42 4b 43 59 62 35}
+		$s11 = {33 35 6d 76 6b 5a 39 5a 76 49 74 74 75 48 53 54 55 4b 57 5a 43 64 4f 73 68 35 6a 34 59 31 70 32 70 4a 33 76 69 35 6f 6e 4f 58 6e 4d 63 45 50 49 55 49 4b 31 55 57 41 59 71 33 6e 6f 50 65 61 44 74 41 64 55 4f 78 4b 59 76 49 6c 4e 5a 62 71 4d 70 4a 6a 71 70 78 68 43 69 64 66 70 51 39 47 4a 58 53 74 4b 41 34 34 77 37 55 46 6c 4b 56 39 6f 4d 4b 38 66 35 54 6e 36 74 4b 4d 4b 73 76 69 77}
+		$s12 = {2a 00 5c 00 47 00 7b 00 30 00 30 00 30 00 32 00 30 00 34 00 45 00 46 00 2d 00 30 00 30 00 30 00 30 00 2d 00 30 00 30 00 30 00 30 00 2d 00 43 00 30 00 30 00 30 00 2d 00 30 00 30 00 30 00 30 00 30 00 30 00 30 00 30 00 30 00 30 00 34 00 36 00 7d 00 23 00 34 00 2e 00 32 00 23 00 39 00 23 00 43 00 3a 00 5c 00 50 00 72 00 6f 00 67 00 72 00 61 00 6d 00 20 00 46 00 69 00 6c 00 65 00 73 00 5c 00 43 00 6f 00 6d 00 6d 00 6f 00 6e 00 20 00 46 00 69 00 6c 00 65 00 73 00 5c 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 20 00 53 00 68 00 61 00 72 00 65 00 64 00 5c 00 56 00 42 00 41 00 5c 00 56 00 42 00 41 00 37 00 2e 00 31 00 5c 00 56 00 42 00 45 00 37 00 2e 00 44 00 4c 00 4c 00 23 00 56 00 69 00 73 00 75 00 61 00 6c 00}
+		$s13 = {76 65 72 6b 61 72 2e 64 6c 6c}
+		$s14 = {69 6e 74 63 2e 64 6c 6c}
+		$s15 = {59 6a 41 79 67 75 70 73 34 77 50 7a 4e 55 37 6c 4e 49 47 42 75 46 62 76 36 54 72 69 77 38 72 78 45 50 4c 53 6a 72 59 53 4b 58 64 55 56 38 51 75 7a 62 77 4a 76 64 48 73 68 66 42 76 64 68 36 36 65 72 34 37 69 6f 62 76 54 58 31 46 43 71 49 38 64 36 52 75 4b 52 63 42 68 73 4c 64 59 43 4f 43 31 68 50 45 64 54 6c 6c 61 62 59 48 6c 63 5a 31 46 44 73 67 79 4c 75 77 6f 43 5a 59 4d 37 46 71}
+		$s16 = {4d 00 69 00 6e 00 75 00 65 00 74 00 73 00 4f 00 73 00 2e 00 64 00 6c 00 6c 00}
+		$s17 = {4b 61 42 59 4c 38 78 4c 52 70 4e 37 56 4d 7a 69 62 58 45 7a 78 68 32 47 65 74 77 66 42 36 4d 59 39 6b 33 64 52 43 4e 6e 63 43 35 65 69 79 4b 4e 54 61 54 72 63 6f 55 44 69 34 54 72 4c 72 6b 55 4c 58 37 4b 53 76 41 48 6a 72 77 34 6c 58 78 50 52 53 76 42 6d 76 57 55 7a 7a 35 57 52 77 4b 54 73 6b 42 74 42 61 34 78 49 6c 68 54 31 5a 72 75 47 65 49 33 36 53 49 71 61 6d 6b 73 41 4e 59 57}
+		$s18 = {58 6d 68 76 4a 44 66 64 31 36 48 78 6b 36 65 52 4d 4b 4a 37 73 71 59 49 56 6e 65 46 56 4e 37 69 55 7a 52 46 38 6f 72 37 4c 4b 4e 4b 57 39 62 68 66 35 61 37 56 35 4f 47 77 49 49 76 79 4a 72 6d 38 79 4d 55 6f 49 54 79 74 4c 76 52 4d 6f 56 57 6d 37 7a 31 4e 61 77 59 54 6b 6a 7a 50 35 48 62 74 42 4c 78 77 70 33 47 6b 4c 4d 6a 4a 37 34 69 57 56 6a 42 6a 7a 49 38 63 57 61 64 79 75 52 79}
+		$s19 = {53 78 33 6d 64 6f 6b 6d 66 76 32 37 41 59 68 74 46 75 62 6c 4f 62 35 45 78 65 63 31 72 31 62 35 4c 41 41 62 73 52 48 72 6a 4c 4b 54 57 69 47 34 4b 39 64 4b 58 62 75 51 42 78 59 39 6d 74 34 6e 75 37 75 39 79 67 61 57 57 54 63 63 7a 6c 52 70 47 68 70 73 58 7a 67 4b 67 54 49 35 32 49 66 5a 52 78 79 5a 57 48 46 44 38 70 58 64 39 73 71 71 4f 4a 42 65 64 4c 79 34 5a 54 33 4f 48 65 35 6e}
+		$s20 = {43 3a 5c 57 69 6e 64 6f 77 73 5c 73 79 73 74 65 6d 33 32 5c 73 74 64 6f 6c 65 32 2e 74 6c 62}
+
+	condition:
+		uint16( 0 ) == 0xcfd0 and filesize < 5000KB and 1 of ( $x* ) and 4 of them
 }
 
-/*rule TA505_Maldoc_21Nov_1 {
-   meta:
-      description = "invitation.doc"
-      author = "Arkbird_SOLG"
-      reference = "https://twitter.com/58_158_177_102/status/1197432303057637377"
-      date = "2019-11-21"
-      hash1 = "a197c6de8734044c441438508dd3ce091252de4f98df2016b006a1c963c02505"
-   strings:
-      $x1 = "C:\\Users\\J\\AppData\\Local\\Microsoft\\Windows\\Temporary Internet Files\\Content.MSO\\basecamp" fullword wide
-      $x2 = "*\\G{42DC991A-7E1B-4254-B210-CDD3DDCFD365}#2.0#0#C:\\Users\\1\\AppData\\Local\\Temp\\VBE\\MSForms.exd#Microsoft Forms 2.0 Object" wide
-      $x3 = "*\\G{0D452EE1-E08F-101A-852E-02608C4D0BB4}#2.0#0#C:\\Windows\\system32\\FM20.DLL#Microsoft Forms 2.0 Object Library" fullword wide
-      $x4 = "C:\\Users\\J\\AppData\\Local\\Temp\\basecamp" fullword wide
-      $s5 = "*\\G{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}#2.8#0#C:\\Program Files\\Common Files\\Microsoft Shared\\OFFICE16\\MSO.DLL#Microsoft " wide
-      $s6 = "*\\G{000204EF-0000-0000-C000-000000000046}#4.2#9#C:\\Program Files\\Common Files\\Microsoft Shared\\VBA\\VBA7.1\\VBE7.DLL#Visual" wide
-      $s7 = "glColor.dll" fullword ascii
-      $s8 = "magne.dll" fullword ascii
-      $s9 = "InitScope.dll" fullword wide
-      $s10 = "*\\G{00020430-0000-0000-C000-000000000046}#2.0#0#C:\\Windows\\system32\\stdole2.tlb#OLE Automation" fullword wide
-      $s11 = "CopyFiles=@EP0NGJ8D.GPD,@EP0NGN8D.GPD,@EP0NGX8D.GPD,@EP0NCJ8D.CMB,@EP0NOJ8D.DXT,@EP0NOE10.DLL,@EP0NM4RC.DLL,@EP0NRE8D.DLL" fullword wide
-      $s12 = "CopyFiles=@EP0NGJ8C.GPD,@EP0NGN8C.GPD,@EP0NGX8C.GPD,@EP0NCJ8C.CMB,@EP0NOJ8C.DXT,@EP0NOE09.DLL,@EP0NM4RB.DLL,@EP0NRE8C.DLL" fullword wide
-      $s13 = "vspub2.dll-" fullword ascii
-      $s14 = "pictarget" fullword ascii
-      $s15 = "Public Declare Function ZooDcom Lib        \"vspub1.dll\" Alias \"IKAJSL\" () As Integer" fullword ascii
-      $s16 = "\"Epson\"=\"http://go.microsoft.com/fwlink/?LinkID=36&prd=10798&sbp=Printers\"" fullword wide
-      $s17 = "EP0NM4RC.DLL = 1" fullword wide
-      $s18 = "EP0NOE10.DLL = 1" fullword wide
-      $s19 = "EP0NRE8C.DLL = 1" fullword wide
-      $s20 = "EP0NM4RB.DLL = 1" fullword wide
-   condition:
-      uint16(0) == 0xcfd0 and filesize < 3000KB and
-      1 of ($x*) and 4 of them
-}*/
-
-rule TA505_Maldoc_21Nov_2 {
-   meta:
-      description = "invitation (1).xls"
-      author = "Arkbird_SOLG"
-      reference = "https://twitter.com/58_158_177_102/status/1197432303057637377"
-      date = "2019-11-21"
-      hash1 = "270b398b697f10b66828afe8d4f6489a8de48b04a52a029572412ae4d20ff89b"
-   strings:
-      $x1 = "C:\\Users\\J\\AppData\\Local\\Microsoft\\Windows\\Temporary Internet Files\\Content.MSO\\AFFA0BDC.tmp" fullword wide
-      $x2 = "C:\\Users\\J\\AppData\\Local\\Temp\\AFFA0BDC.tmp" fullword wide
-      $x3 = "C:\\Windows\\system32\\FM20.DLL" fullword ascii
-      $x4 = "C:\\Users\\J\\AppData\\Local\\Temp\\VBE\\MSForms.exd" fullword ascii
-      $x5 = "C:\\Program Files\\Common Files\\Microsoft Shared\\OFFICE16\\MSO.DLL" fullword ascii
-      $x6 = "C:\\Program Files\\Common Files\\Microsoft Shared\\VBA\\VBA7.1\\VBE7.DLL" fullword ascii
-      $x7 = "*\\G{0D452EE1-E08F-101A-852E-02608C4D0BB4}#2.0#0#C:\\Windows\\system32\\FM20.DLL#Microsoft Forms 2.0 Object Library" fullword wide
-      $x8 = "*\\G{BA45F137-16B2-487D-9A21-F38179C0576C}#2.0#0#C:\\Users\\J\\AppData\\Local\\Temp\\VBE\\MSForms.exd#Microsoft Forms 2.0 Object" wide
-      $s9 = "*\\G{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}#2.8#0#C:\\Program Files\\Common Files\\Microsoft Shared\\OFFICE16\\MSO.DLL#Microsoft " wide
-      $s10 = "lIySgefa86jIfdEkSZVDoSs5BDkcalCieNBN4EqfVaEs2wWD4OjpTiOBqDrL3d9WCaDAKZpoJPRnoacfQPhucmy69axznNmRbRY12v3ez5PdAAnpAl5m5NUqKHBKCYb5" ascii
-      $s11 = "35mvkZ9ZvIttuHSTUKWZCdOsh5j4Y1p2pJ3vi5onOXnMcEPIUIK1UWAYq3noPeaDtAdUOxKYvIlNZbqMpJjqpxhCidfpQ9GJXStKA44w7UFlKV9oMK8f5Tn6tKMKsviw" ascii
-      $s12 = "*\\G{000204EF-0000-0000-C000-000000000046}#4.2#9#C:\\Program Files\\Common Files\\Microsoft Shared\\VBA\\VBA7.1\\VBE7.DLL#Visual" wide
-      $s13 = "verkar.dll" fullword ascii
-      $s14 = "intc.dll" fullword ascii
-      $s15 = "YjAygups4wPzNU7lNIGBuFbv6Triw8rxEPLSjrYSKXdUV8QuzbwJvdHshfBvdh66er47iobvTX1FCqI8d6RuKRcBhsLdYCOC1hPEdTllabYHlcZ1FDsgyLuwoCZYM7Fq" ascii
-      $s16 = "MinuetsOs.dll" fullword wide
-      $s17 = "KaBYL8xLRpN7VMzibXEzxh2GetwfB6MY9k3dRCNncC5eiyKNTaTrcoUDi4TrLrkULX7KSvAHjrw4lXxPRSvBmvWUzz5WRwKTskBtBa4xIlhT1ZruGeI36SIqamksANYW" ascii
-      $s18 = "XmhvJDfd16Hxk6eRMKJ7sqYIVneFVN7iUzRF8or7LKNKW9bhf5a7V5OGwIIvyJrm8yMUoITytLvRMoVWm7z1NawYTkjzP5HbtBLxwp3GkLMjJ74iWVjBjzI8cWadyuRy" ascii
-      $s19 = "Sx3mdokmfv27AYhtFublOb5Exec1r1b5LAAbsRHrjLKTWiG4K9dKXbuQBxY9mt4nu7u9ygaWWTcczlRpGhpsXzgKgTI52IfZRxyZWHFD8pXd9sqqOJBedLy4ZT3OHe5n" ascii
-      $s20 = "C:\\Windows\\system32\\stdole2.tlb" fullword ascii
-   condition:
-      uint16(0) == 0xcfd0 and filesize < 5000KB and
-      1 of ($x*) and 4 of them
-}

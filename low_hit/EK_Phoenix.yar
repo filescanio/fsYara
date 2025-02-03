@@ -1,488 +1,534 @@
-/*
-    This Yara ruleset is under the GNU-GPLv2 license (http://www.gnu.org/licenses/gpl-2.0.html) and open to any user or organization, as    long as you use it under this license.
+rule phoenix_html : EK hardened
+{
+	meta:
+		author = "Josh Berry"
+		date = "2016-06-26"
+		description = "Phoenix Exploit Kit Detection"
+		hash0 = "8395f08f1371eb7b2a2e131b92037f9a"
+		sample_filetype = "js-html"
+		yaragenerator = "https://github.com/Xen0ph0n/YaraGenerator"
 
-*/
+	strings:
+		$string1 = {27 3e 3c 2f 61 70 70 6c 65 74 3e 3c 62 6f 64 79 20 69 64}
+		$string2 = {3c 61 70 70 6c 65 74 20 6d 61 79 73 63 72 69 70 74}
+		$string3 = {2f 67 6d 69 2c 53 74 72 69 6e 67 2e 66 72 6f 6d 43 68 61 72 43 6f 64 65 28 32}
+		$string4 = {2f 67 6d 69 2c 27 20 27 29 2e 72 65 70 6c 61 63 65 28 2f}
+		$string5 = {70 65 3b 69 3b 3b 2e 6a 31 73 2d 3e 63}
+		$string6 = {65 73 34 44 65 74}
+		$string7 = {3c 74 65 78 74 61 72 65 61 3e 66 75 6e 63 74 69 6f 6e}
+		$string8 = {2e 72 65 70 6c 61 63 65 28 2f}
+		$string9 = {2e 6a 61 72 27 20 63 6f 64 65}
+		$string10 = {3b 69 46 63 3b 66 74 27 62 29 68 7b 73}
 
-rule phoenix_html : EK
-{
-meta:
-   author = "Josh Berry"
-   date = "2016-06-26"
-   description = "Phoenix Exploit Kit Detection"
-   hash0 = "8395f08f1371eb7b2a2e131b92037f9a"
-   sample_filetype = "js-html"
-   yaragenerator = "https://github.com/Xen0ph0n/YaraGenerator"
-strings:
-   $string1 = "'></applet><body id"
-   $string2 = "<applet mayscript"
-   $string3 = "/gmi,String.fromCharCode(2"
-   $string4 = "/gmi,' ').replace(/"
-   $string5 = "pe;i;;.j1s->c"
-   $string6 = "es4Det"
-   $string7 = "<textarea>function"
-        $string8 = ".replace(/"
-   $string9 = ".jar' code"
-   $string10 = ";iFc;ft'b)h{s"
-condition:
-   10 of them
+	condition:
+		10 of them
 }
-rule phoenix_html10 : EK
+
+rule phoenix_html10 : EK hardened
 {
-meta:
-   author = "Josh Berry"
-   date = "2016-06-26"
-   description = "Phoenix Exploit Kit Detection"
-   hash0 = "f5f8dceca74a50076070f2593e82ec43"
-   sample_filetype = "js-html"
-   yaragenerator = "https://github.com/Xen0ph0n/YaraGenerator"
-strings:
-   $string0 = "pae>crAeahoilL"
-   $string1 = "D11C0002C0069733E60656F6462070D000402DFF200696E"
-   $string2 = "nbte)bbn"
-   $string3 = "v9o16,0')0B80002328203;)82F00223A216ifA160A262A462(a"
-   $string4 = "0442DFD2E30EC80E42D2E00AC3F3D53C9CAEBFF7E1E805080B044057CB1C0EF7F263DC64E0CBE47C2A21E370EE4A"
-   $string5 = ";)npeits0e.uvr;][tvr"
-   $string6 = "433EBE90242003E00C606D04036563435805000102000v020E656wa.i118,0',9F902F282620''C62022646660}{A780232A"
-   $string7 = "350;var ysjzyq"
-   $string8 = "aSmd'lm/t/im.}d.-Ljg,l-"
-   $string9 = "0017687F6164706E6967060002008101'2176045ckb"
-   $string10 = "63(dcma)nenn869"
-   $string11 = "').replace(/"
-   $string12 = "xd'c0lrls09sare"
-   $string13 = "(]t.(7u(<p"
-   $string14 = "d{et;bdBcriYtc:eayF20'F62;23C4AABA3B84FE21C2B0B066C0038B8353AF5C0B4DF8FF43E85FB6F05CEC4080236F3CDE6E"
-   $string15 = "/var another;</textarea>"
-   $string16 = "Fa527496C62eShHmar(bA,pPec"
-   $string17 = "FaA244A676C,150e62A5B2B61,'2F"
-condition:
-   17 of them
+	meta:
+		author = "Josh Berry"
+		date = "2016-06-26"
+		description = "Phoenix Exploit Kit Detection"
+		hash0 = "f5f8dceca74a50076070f2593e82ec43"
+		sample_filetype = "js-html"
+		yaragenerator = "https://github.com/Xen0ph0n/YaraGenerator"
+
+	strings:
+		$string0 = {70 61 65 3e 63 72 41 65 61 68 6f 69 6c 4c}
+		$string1 = {44 31 31 43 30 30 30 32 43 30 30 36 39 37 33 33 45 36 30 36 35 36 46 36 34 36 32 30 37 30 44 30 30 30 34 30 32 44 46 46 32 30 30 36 39 36 45}
+		$string2 = {6e 62 74 65 29 62 62 6e}
+		$string3 = {76 39 6f 31 36 2c 30 27 29 30 42 38 30 30 30 32 33 32 38 32 30 33 3b 29 38 32 46 30 30 32 32 33 41 32 31 36 69 66 41 31 36 30 41 32 36 32 41 34 36 32 28 61}
+		$string4 = {30 34 34 32 44 46 44 32 45 33 30 45 43 38 30 45 34 32 44 32 45 30 30 41 43 33 46 33 44 35 33 43 39 43 41 45 42 46 46 37 45 31 45 38 30 35 30 38 30 42 30 34 34 30 35 37 43 42 31 43 30 45 46 37 46 32 36 33 44 43 36 34 45 30 43 42 45 34 37 43 32 41 32 31 45 33 37 30 45 45 34 41}
+		$string5 = {3b 29 6e 70 65 69 74 73 30 65 2e 75 76 72 3b 5d 5b 74 76 72}
+		$string6 = {34 33 33 45 42 45 39 30 32 34 32 30 30 33 45 30 30 43 36 30 36 44 30 34 30 33 36 35 36 33 34 33 35 38 30 35 30 30 30 31 30 32 30 30 30 76 30 32 30 45 36 35 36 77 61 2e 69 31 31 38 2c 30 27 2c 39 46 39 30 32 46 32 38 32 36 32 30 27 27 43 36 32 30 32 32 36 34 36 36 36 30 7d 7b 41 37 38 30 32 33 32 41}
+		$string7 = {33 35 30 3b 76 61 72 20 79 73 6a 7a 79 71}
+		$string8 = {61 53 6d 64 27 6c 6d 2f 74 2f 69 6d 2e 7d 64 2e 2d 4c 6a 67 2c 6c 2d}
+		$string9 = {30 30 31 37 36 38 37 46 36 31 36 34 37 30 36 45 36 39 36 37 30 36 30 30 30 32 30 30 38 31 30 31 27 32 31 37 36 30 34 35 63 6b 62}
+		$string10 = {36 33 28 64 63 6d 61 29 6e 65 6e 6e 38 36 39}
+		$string11 = {27 29 2e 72 65 70 6c 61 63 65 28 2f}
+		$string12 = {78 64 27 63 30 6c 72 6c 73 30 39 73 61 72 65}
+		$string13 = {28 5d 74 2e 28 37 75 28 3c 70}
+		$string14 = {64 7b 65 74 3b 62 64 42 63 72 69 59 74 63 3a 65 61 79 46 32 30 27 46 36 32 3b 32 33 43 34 41 41 42 41 33 42 38 34 46 45 32 31 43 32 42 30 42 30 36 36 43 30 30 33 38 42 38 33 35 33 41 46 35 43 30 42 34 44 46 38 46 46 34 33 45 38 35 46 42 36 46 30 35 43 45 43 34 30 38 30 32 33 36 46 33 43 44 45 36 45}
+		$string15 = {2f 76 61 72 20 61 6e 6f 74 68 65 72 3b 3c 2f 74 65 78 74 61 72 65 61 3e}
+		$string16 = {46 61 35 32 37 34 39 36 43 36 32 65 53 68 48 6d 61 72 28 62 41 2c 70 50 65 63}
+		$string17 = {46 61 41 32 34 34 41 36 37 36 43 2c 31 35 30 65 36 32 41 35 42 32 42 36 31 2c 27 32 46}
+
+	condition:
+		17 of them
 }
-rule phoenix_html11 : EK
+
+rule phoenix_html11 : EK hardened
 {
-meta:
-   author = "Josh Berry"
-   date = "2016-06-26"
-   description = "Phoenix Exploit Kit Detection"
-   hash0 = "be8c81288f9650e205ed13f3167ce256"
-   sample_filetype = "js-html"
-   yaragenerator = "https://github.com/Xen0ph0n/YaraGenerator"
-strings:
-   $string0 = "D'0009F0C6941617C43427A76080001000F47020C606volv99,0,6,"
-   $string1 = "';)nWd"
-   $string2 = "IW'eeCn)s.a9e;0CF300FF379011078E047873754163636960496270486264416455747D69737812060209011301010104D0"
-   $string3 = "D8D51F5100019006D60667F2E056940170E01010747"
-   $string4 = "515F2F436WemBh2A4560683aFanoi(utse.o1/f;pistelzi"
-   $string5 = "/p(e/oah)FHw'aaarDsnwi-"
-   $string6 = "COa506u%db10u%1057u%f850u%f500u%0683u%05a8u%0030u%0706u%d300u%585du%38d0u%0080u%5612u'u%A2DdF6u%1M:."
-   $string7 = "S(yt)Dj"
-   $string8 = "FaA26285325,150e8292A6968,'2F"
-   $string9 = "0200e{b<0:D>r5d4u%c005u%0028u%251eu%a095u%6028u%0028u%2500u%f7f7u%70d7u%2025u%9008u%08f8u%c607usu%37"
-   $string10 = "(mEtlltopo{{e"
-   $string11 = "aSmd'lm/t/im.}d.-Ljg,l-"
-   $string12 = "r)C4snfapfuo}"
-   $string13 = "').replace(/"
-   $string14 = "A282A5ifA160F2628206(a"
-   $string15 = "obn0cf"
-   $string16 = "d(i'C)rtr.'pvif)iv1ilW)S((Ltl.)2,0,9;0se"
-   $string17 = "E23s3003476B18703C179396D08B841BC554F11678F0FEB9505FB355E044F33A540F61743738327E32D97D070FA37D87s000"
-   $string18 = "603742E545904575'294E20680,6F902E292A60''E6202A4E6468},e))tep"
-condition:
-   18 of them
+	meta:
+		author = "Josh Berry"
+		date = "2016-06-26"
+		description = "Phoenix Exploit Kit Detection"
+		hash0 = "be8c81288f9650e205ed13f3167ce256"
+		sample_filetype = "js-html"
+		yaragenerator = "https://github.com/Xen0ph0n/YaraGenerator"
+
+	strings:
+		$string0 = {44 27 30 30 30 39 46 30 43 36 39 34 31 36 31 37 43 34 33 34 32 37 41 37 36 30 38 30 30 30 31 30 30 30 46 34 37 30 32 30 43 36 30 36 76 6f 6c 76 39 39 2c 30 2c 36 2c}
+		$string1 = {27 3b 29 6e 57 64}
+		$string2 = {49 57 27 65 65 43 6e 29 73 2e 61 39 65 3b 30 43 46 33 30 30 46 46 33 37 39 30 31 31 30 37 38 45 30 34 37 38 37 33 37 35 34 31 36 33 36 33 36 39 36 30 34 39 36 32 37 30 34 38 36 32 36 34 34 31 36 34 35 35 37 34 37 44 36 39 37 33 37 38 31 32 30 36 30 32 30 39 30 31 31 33 30 31 30 31 30 31 30 34 44 30}
+		$string3 = {44 38 44 35 31 46 35 31 30 30 30 31 39 30 30 36 44 36 30 36 36 37 46 32 45 30 35 36 39 34 30 31 37 30 45 30 31 30 31 30 37 34 37}
+		$string4 = {35 31 35 46 32 46 34 33 36 57 65 6d 42 68 32 41 34 35 36 30 36 38 33 61 46 61 6e 6f 69 28 75 74 73 65 2e 6f 31 2f 66 3b 70 69 73 74 65 6c 7a 69}
+		$string5 = {2f 70 28 65 2f 6f 61 68 29 46 48 77 27 61 61 61 72 44 73 6e 77 69 2d}
+		$string6 = {43 4f 61 35 30 36 75 25 64 62 31 30 75 25 31 30 35 37 75 25 66 38 35 30 75 25 66 35 30 30 75 25 30 36 38 33 75 25 30 35 61 38 75 25 30 30 33 30 75 25 30 37 30 36 75 25 64 33 30 30 75 25 35 38 35 64 75 25 33 38 64 30 75 25 30 30 38 30 75 25 35 36 31 32 75 27 75 25 41 32 44 64 46 36 75 25 31 4d 3a 2e}
+		$string7 = {53 28 79 74 29 44 6a}
+		$string8 = {46 61 41 32 36 32 38 35 33 32 35 2c 31 35 30 65 38 32 39 32 41 36 39 36 38 2c 27 32 46}
+		$string9 = {30 32 30 30 65 7b 62 3c 30 3a 44 3e 72 35 64 34 75 25 63 30 30 35 75 25 30 30 32 38 75 25 32 35 31 65 75 25 61 30 39 35 75 25 36 30 32 38 75 25 30 30 32 38 75 25 32 35 30 30 75 25 66 37 66 37 75 25 37 30 64 37 75 25 32 30 32 35 75 25 39 30 30 38 75 25 30 38 66 38 75 25 63 36 30 37 75 73 75 25 33 37}
+		$string10 = {28 6d 45 74 6c 6c 74 6f 70 6f 7b 7b 65}
+		$string11 = {61 53 6d 64 27 6c 6d 2f 74 2f 69 6d 2e 7d 64 2e 2d 4c 6a 67 2c 6c 2d}
+		$string12 = {72 29 43 34 73 6e 66 61 70 66 75 6f 7d}
+		$string13 = {27 29 2e 72 65 70 6c 61 63 65 28 2f}
+		$string14 = {41 32 38 32 41 35 69 66 41 31 36 30 46 32 36 32 38 32 30 36 28 61}
+		$string15 = {6f 62 6e 30 63 66}
+		$string16 = {64 28 69 27 43 29 72 74 72 2e 27 70 76 69 66 29 69 76 31 69 6c 57 29 53 28 28 4c 74 6c 2e 29 32 2c 30 2c 39 3b 30 73 65}
+		$string17 = {45 32 33 73 33 30 30 33 34 37 36 42 31 38 37 30 33 43 31 37 39 33 39 36 44 30 38 42 38 34 31 42 43 35 35 34 46 31 31 36 37 38 46 30 46 45 42 39 35 30 35 46 42 33 35 35 45 30 34 34 46 33 33 41 35 34 30 46 36 31 37 34 33 37 33 38 33 32 37 45 33 32 44 39 37 44 30 37 30 46 41 33 37 44 38 37 73 30 30 30}
+		$string18 = {36 30 33 37 34 32 45 35 34 35 39 30 34 35 37 35 27 32 39 34 45 32 30 36 38 30 2c 36 46 39 30 32 45 32 39 32 41 36 30 27 27 45 36 32 30 32 41 34 45 36 34 36 38 7d 2c 65 29 29 74 65 70}
+
+	condition:
+		18 of them
 }
-rule phoenix_html2 : EK
+
+rule phoenix_html2 : EK hardened
 {
-meta:
-   author = "Josh Berry"
-   date = "2016-06-26"
-   description = "Phoenix Exploit Kit Detection"
-   hash0 = "2fd263f5d988a92715f4146a0006cb31"
-   sample_filetype = "js-html"
-   yaragenerator = "https://github.com/Xen0ph0n/YaraGenerator"
-strings:
-   $string0 = "Pec.lilsD)E)i-gonP(mgge.eOmn"
-   $string1 = "(trt;oo"
-   $string2 = "aceeC:0h"
-   $string3 = "Vubb.oec.n)a."
-   $string4 = "t;o{(bspd}ci:0OO[g(cfjdh}1sN}ntnrlt;0pwf{-"
-   $string5 = "seierb)gMle(}ev;is{(b;ga"
-   $string6 = "e)}ift"
-   $string7 = "Dud{rt"
-   $string8 = "blecroeely}diuFI-"
-   $string9 = "ttec]tr"
-   $string10 = "fSgcso"
-   $string11 = "eig.t)eR{t}aeesbdtbl{1sr)m"
-   $string12 = ").}n,Raa.s"
-   $string13 = "sLtfcb.nrf{Wiantscncad1ac)scb0eo]}Diuu(nar"
-   $string14 = "dxc.,:tfr(ucxRn"
-   $string15 = "eDnnforbyri(tbmns).[i.ee;dl(aNimp(l(h[u[ti;u)"
-   $string16 = "}tn)i{ebr,_.ns(Nes,,gm(ar.t"
-   $string17 = "l]it}N(pe3,iaaLds.)lqea:Ps00Hc;[{Euihlc)LiLI"
-condition:
-   17 of them
+	meta:
+		author = "Josh Berry"
+		date = "2016-06-26"
+		description = "Phoenix Exploit Kit Detection"
+		hash0 = "2fd263f5d988a92715f4146a0006cb31"
+		sample_filetype = "js-html"
+		yaragenerator = "https://github.com/Xen0ph0n/YaraGenerator"
+
+	strings:
+		$string0 = {50 65 63 2e 6c 69 6c 73 44 29 45 29 69 2d 67 6f 6e 50 28 6d 67 67 65 2e 65 4f 6d 6e}
+		$string1 = {28 74 72 74 3b 6f 6f}
+		$string2 = {61 63 65 65 43 3a 30 68}
+		$string3 = {56 75 62 62 2e 6f 65 63 2e 6e 29 61 2e}
+		$string4 = {74 3b 6f 7b 28 62 73 70 64 7d 63 69 3a 30 4f 4f 5b 67 28 63 66 6a 64 68 7d 31 73 4e 7d 6e 74 6e 72 6c 74 3b 30 70 77 66 7b 2d}
+		$string5 = {73 65 69 65 72 62 29 67 4d 6c 65 28 7d 65 76 3b 69 73 7b 28 62 3b 67 61}
+		$string6 = {65 29 7d 69 66 74}
+		$string7 = {44 75 64 7b 72 74}
+		$string8 = {62 6c 65 63 72 6f 65 65 6c 79 7d 64 69 75 46 49 2d}
+		$string9 = {74 74 65 63 5d 74 72}
+		$string10 = {66 53 67 63 73 6f}
+		$string11 = {65 69 67 2e 74 29 65 52 7b 74 7d 61 65 65 73 62 64 74 62 6c 7b 31 73 72 29 6d}
+		$string12 = {29 2e 7d 6e 2c 52 61 61 2e 73}
+		$string13 = {73 4c 74 66 63 62 2e 6e 72 66 7b 57 69 61 6e 74 73 63 6e 63 61 64 31 61 63 29 73 63 62 30 65 6f 5d 7d 44 69 75 75 28 6e 61 72}
+		$string14 = {64 78 63 2e 2c 3a 74 66 72 28 75 63 78 52 6e}
+		$string15 = {65 44 6e 6e 66 6f 72 62 79 72 69 28 74 62 6d 6e 73 29 2e 5b 69 2e 65 65 3b 64 6c 28 61 4e 69 6d 70 28 6c 28 68 5b 75 5b 74 69 3b 75 29}
+		$string16 = {7d 74 6e 29 69 7b 65 62 72 2c 5f 2e 6e 73 28 4e 65 73 2c 2c 67 6d 28 61 72 2e 74}
+		$string17 = {6c 5d 69 74 7d 4e 28 70 65 33 2c 69 61 61 4c 64 73 2e 29 6c 71 65 61 3a 50 73 30 30 48 63 3b 5b 7b 45 75 69 68 6c 63 29 4c 69 4c 49}
+
+	condition:
+		17 of them
 }
-rule phoenix_html3 : EK
+
+rule phoenix_html3 : EK hardened
 {
-meta:
-   author = "Josh Berry"
-   date = "2016-06-26"
-   description = "Phoenix Exploit Kit Detection"
-   hash0 = "d7cacbff6438d866998fc8bfee18102d"
-   sample_filetype = "js-html"
-   yaragenerator = "https://github.com/Xen0ph0n/YaraGenerator"
-strings:
-   $string0 = "mtfla/,)asaf)'}"
-   $string1 = "72267E7C'A3035CFC415DFAAA834B208D8C230FD303E2EFFE386BE05960C588C6E85650746E690C39F706F97DC74349BA134"
-   $string2 = "N'eiui7F6e617e00F145A002645E527BFF264842F877B2FFC1FE84BCC6A50F0305B5B0C36A019F53674FD4D3736C494BD5C2"
-   $string3 = "lndl}})<>"
-   $string4 = "otodc};b<0:D>r5d4u%c005u%0028u%251eu%a095u%6028u%0028u%2500u%f7f7u%70d7u%2025u%9008u%08f8u%c607usu%3"
-   $string5 = "tuJaboaopb"
-   $string6 = "a(vxf{p'tSowa.i,1NIWm("
-   $string7 = "2004et"
-   $string8 = "2054sttE5356496478"
-   $string9 = "yi%A%%A%%A%%A%Cvld3,5314,004,6211,931,,,011394617,983,1154,5,1,,1,1,13,08,4304,1"
-   $string10 = "0ovel04ervEeieeem)h))B(ihsAE;u%04b8u%1c08u%0e50u%a000u%1010u%4000u%20afu%0006u%2478u%0020u%1065u%210"
-   $string11 = "/gmi,String.fromCharCode(2"
-   $string12 = "ncBcaocta.ye"
-   $string13 = "0201010030004A033102090;na"
-   $string14 = "66u%0(ec'h{iis%%A%%A%%A%%A%frS1,,8187,1,4,11,91516,,61,,10841,1,13,,,11248,01818849,23,,,,791meits0e"
-   $string15 = "D11C0002C0069733E60656F6462070D000402DFF200696E"
-   $string16 = "810p0y98"
-   $string17 = "9,0,e'Fm692E583760"
-   $string18 = "57784234633a)(u"
-condition:
-   18 of them
+	meta:
+		author = "Josh Berry"
+		date = "2016-06-26"
+		description = "Phoenix Exploit Kit Detection"
+		hash0 = "d7cacbff6438d866998fc8bfee18102d"
+		sample_filetype = "js-html"
+		yaragenerator = "https://github.com/Xen0ph0n/YaraGenerator"
+
+	strings:
+		$string0 = {6d 74 66 6c 61 2f 2c 29 61 73 61 66 29 27 7d}
+		$string1 = {37 32 32 36 37 45 37 43 27 41 33 30 33 35 43 46 43 34 31 35 44 46 41 41 41 38 33 34 42 32 30 38 44 38 43 32 33 30 46 44 33 30 33 45 32 45 46 46 45 33 38 36 42 45 30 35 39 36 30 43 35 38 38 43 36 45 38 35 36 35 30 37 34 36 45 36 39 30 43 33 39 46 37 30 36 46 39 37 44 43 37 34 33 34 39 42 41 31 33 34}
+		$string2 = {4e 27 65 69 75 69 37 46 36 65 36 31 37 65 30 30 46 31 34 35 41 30 30 32 36 34 35 45 35 32 37 42 46 46 32 36 34 38 34 32 46 38 37 37 42 32 46 46 43 31 46 45 38 34 42 43 43 36 41 35 30 46 30 33 30 35 42 35 42 30 43 33 36 41 30 31 39 46 35 33 36 37 34 46 44 34 44 33 37 33 36 43 34 39 34 42 44 35 43 32}
+		$string3 = {6c 6e 64 6c 7d 7d 29 3c 3e}
+		$string4 = {6f 74 6f 64 63 7d 3b 62 3c 30 3a 44 3e 72 35 64 34 75 25 63 30 30 35 75 25 30 30 32 38 75 25 32 35 31 65 75 25 61 30 39 35 75 25 36 30 32 38 75 25 30 30 32 38 75 25 32 35 30 30 75 25 66 37 66 37 75 25 37 30 64 37 75 25 32 30 32 35 75 25 39 30 30 38 75 25 30 38 66 38 75 25 63 36 30 37 75 73 75 25 33}
+		$string5 = {74 75 4a 61 62 6f 61 6f 70 62}
+		$string6 = {61 28 76 78 66 7b 70 27 74 53 6f 77 61 2e 69 2c 31 4e 49 57 6d 28}
+		$string7 = {32 30 30 34 65 74}
+		$string8 = {32 30 35 34 73 74 74 45 35 33 35 36 34 39 36 34 37 38}
+		$string9 = {79 69 25 41 25 25 41 25 25 41 25 25 41 25 43 76 6c 64 33 2c 35 33 31 34 2c 30 30 34 2c 36 32 31 31 2c 39 33 31 2c 2c 2c 30 31 31 33 39 34 36 31 37 2c 39 38 33 2c 31 31 35 34 2c 35 2c 31 2c 2c 31 2c 31 2c 31 33 2c 30 38 2c 34 33 30 34 2c 31}
+		$string10 = {30 6f 76 65 6c 30 34 65 72 76 45 65 69 65 65 65 6d 29 68 29 29 42 28 69 68 73 41 45 3b 75 25 30 34 62 38 75 25 31 63 30 38 75 25 30 65 35 30 75 25 61 30 30 30 75 25 31 30 31 30 75 25 34 30 30 30 75 25 32 30 61 66 75 25 30 30 30 36 75 25 32 34 37 38 75 25 30 30 32 30 75 25 31 30 36 35 75 25 32 31 30}
+		$string11 = {2f 67 6d 69 2c 53 74 72 69 6e 67 2e 66 72 6f 6d 43 68 61 72 43 6f 64 65 28 32}
+		$string12 = {6e 63 42 63 61 6f 63 74 61 2e 79 65}
+		$string13 = {30 32 30 31 30 31 30 30 33 30 30 30 34 41 30 33 33 31 30 32 30 39 30 3b 6e 61}
+		$string14 = {36 36 75 25 30 28 65 63 27 68 7b 69 69 73 25 25 41 25 25 41 25 25 41 25 25 41 25 66 72 53 31 2c 2c 38 31 38 37 2c 31 2c 34 2c 31 31 2c 39 31 35 31 36 2c 2c 36 31 2c 2c 31 30 38 34 31 2c 31 2c 31 33 2c 2c 2c 31 31 32 34 38 2c 30 31 38 31 38 38 34 39 2c 32 33 2c 2c 2c 2c 37 39 31 6d 65 69 74 73 30 65}
+		$string15 = {44 31 31 43 30 30 30 32 43 30 30 36 39 37 33 33 45 36 30 36 35 36 46 36 34 36 32 30 37 30 44 30 30 30 34 30 32 44 46 46 32 30 30 36 39 36 45}
+		$string16 = {38 31 30 70 30 79 39 38}
+		$string17 = {39 2c 30 2c 65 27 46 6d 36 39 32 45 35 38 33 37 36 30}
+		$string18 = {35 37 37 38 34 32 33 34 36 33 33 61 29 28 75}
+
+	condition:
+		18 of them
 }
-rule phoenix_html4 : EK
+
+rule phoenix_html4 : EK hardened
 {
-meta:
-   author = "Josh Berry"
-   date = "2016-06-26"
-   description = "Phoenix Exploit Kit Detection"
-   hash0 = "61fde003211ac83c2884fbecefe1fc80"
-   sample_filetype = "js-html"
-   yaragenerator = "https://github.com/Xen0ph0n/YaraGenerator"
-strings:
-   $string0 = "/dr.php"
-   $string1 = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-   $string2 = "launchjnlp"
-   $string3 = "clsid:CAFEEFAC-DEC7-0000-0000-ABCDEFFEDCBA"
-   $string4 = "urlmon.dll"
-   $string5 = "<body>"
-   $string6 = " docbase"
-   $string7 = "</html>"
-   $string8 = " classid"
-   $string9 = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-   $string10 = "63AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-   $string11 = "</object>"
-   $string12 = "application/x-java-applet"
-   $string13 = "java_obj"
-condition:
-   13 of them
+	meta:
+		author = "Josh Berry"
+		date = "2016-06-26"
+		description = "Phoenix Exploit Kit Detection"
+		hash0 = "61fde003211ac83c2884fbecefe1fc80"
+		sample_filetype = "js-html"
+		yaragenerator = "https://github.com/Xen0ph0n/YaraGenerator"
+
+	strings:
+		$string0 = {2f 64 72 2e 70 68 70}
+		$string1 = {41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41}
+		$string2 = {6c 61 75 6e 63 68 6a 6e 6c 70}
+		$string3 = {63 6c 73 69 64 3a 43 41 46 45 45 46 41 43 2d 44 45 43 37 2d 30 30 30 30 2d 30 30 30 30 2d 41 42 43 44 45 46 46 45 44 43 42 41}
+		$string4 = {75 72 6c 6d 6f 6e 2e 64 6c 6c}
+		$string5 = {3c 62 6f 64 79 3e}
+		$string6 = {20 64 6f 63 62 61 73 65}
+		$string7 = {3c 2f 68 74 6d 6c 3e}
+		$string8 = {20 63 6c 61 73 73 69 64}
+		$string9 = {41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41}
+		$string10 = {36 33 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41}
+		$string11 = {3c 2f 6f 62 6a 65 63 74 3e}
+		$string12 = {61 70 70 6c 69 63 61 74 69 6f 6e 2f 78 2d 6a 61 76 61 2d 61 70 70 6c 65 74}
+		$string13 = {6a 61 76 61 5f 6f 62 6a}
+
+	condition:
+		13 of them
 }
-rule phoenix_html5 : EK
+
+rule phoenix_html5 : EK hardened
 {
-meta:
-   author = "Josh Berry"
-   date = "2016-06-26"
-   description = "Phoenix Exploit Kit Detection"
-   hash0 = "30afdca94d301905819e00a7458f4a4e"
-   sample_filetype = "js-html"
-   yaragenerator = "https://github.com/Xen0ph0n/YaraGenerator"
-strings:
-   $string0 = "dtesu}"
-   $string1 = "<textarea>function gvgsxoy(gwcqg1){return gwcqg1.replace(/"
-   $string2 = "v}Ahnhxwet"
-   $string3 = "0125C6BBA2B84F7A1D2940C04C8B7449A40EEB0D14C8003535C0042D75E05F0D7F3E0A7B4E33EB4D8D47119290FC"
-   $string4 = "a2Fs2325223869e'Fm2873367130"
-   $string5 = "m0000F0F6E66607C71646F6607000107FA61021F6060(aeWWIN"
-   $string6 = ")(r>hd1/dNasmd(fpas"
-   $string7 = "9,0,e'Fm692E583760"
-   $string8 = "5ud(dis"
-   $string9 = "nacmambuntcmi"
-   $string10 = "Fa078597467,1C0e674366871,'2F"
-   $string11 = "Fa56F386A76,180e828592024,'2F"
-   $string12 = "alA)(2avoyOi;ic)t6])teptp,an}tnv0i'fms<uic"
-   $string13 = "iR'nandee"
-   $string14 = "('0.aEa-9leal"
-   $string15 = "bsD0seF"
-   $string16 = "t.ck263/6F3a001CE7A2684067F98BEC18B738801EF1F7F7E49A088695050C000865FC38080FE23727E0E8DE9CB53E748472"
-condition:
-   16 of them
+	meta:
+		author = "Josh Berry"
+		date = "2016-06-26"
+		description = "Phoenix Exploit Kit Detection"
+		hash0 = "30afdca94d301905819e00a7458f4a4e"
+		sample_filetype = "js-html"
+		yaragenerator = "https://github.com/Xen0ph0n/YaraGenerator"
+
+	strings:
+		$string0 = {64 74 65 73 75 7d}
+		$string1 = {3c 74 65 78 74 61 72 65 61 3e 66 75 6e 63 74 69 6f 6e 20 67 76 67 73 78 6f 79 28 67 77 63 71 67 31 29 7b 72 65 74 75 72 6e 20 67 77 63 71 67 31 2e 72 65 70 6c 61 63 65 28 2f}
+		$string2 = {76 7d 41 68 6e 68 78 77 65 74}
+		$string3 = {30 31 32 35 43 36 42 42 41 32 42 38 34 46 37 41 31 44 32 39 34 30 43 30 34 43 38 42 37 34 34 39 41 34 30 45 45 42 30 44 31 34 43 38 30 30 33 35 33 35 43 30 30 34 32 44 37 35 45 30 35 46 30 44 37 46 33 45 30 41 37 42 34 45 33 33 45 42 34 44 38 44 34 37 31 31 39 32 39 30 46 43}
+		$string4 = {61 32 46 73 32 33 32 35 32 32 33 38 36 39 65 27 46 6d 32 38 37 33 33 36 37 31 33 30}
+		$string5 = {6d 30 30 30 30 46 30 46 36 45 36 36 36 30 37 43 37 31 36 34 36 46 36 36 30 37 30 30 30 31 30 37 46 41 36 31 30 32 31 46 36 30 36 30 28 61 65 57 57 49 4e}
+		$string6 = {29 28 72 3e 68 64 31 2f 64 4e 61 73 6d 64 28 66 70 61 73}
+		$string7 = {39 2c 30 2c 65 27 46 6d 36 39 32 45 35 38 33 37 36 30}
+		$string8 = {35 75 64 28 64 69 73}
+		$string9 = {6e 61 63 6d 61 6d 62 75 6e 74 63 6d 69}
+		$string10 = {46 61 30 37 38 35 39 37 34 36 37 2c 31 43 30 65 36 37 34 33 36 36 38 37 31 2c 27 32 46}
+		$string11 = {46 61 35 36 46 33 38 36 41 37 36 2c 31 38 30 65 38 32 38 35 39 32 30 32 34 2c 27 32 46}
+		$string12 = {61 6c 41 29 28 32 61 76 6f 79 4f 69 3b 69 63 29 74 36 5d 29 74 65 70 74 70 2c 61 6e 7d 74 6e 76 30 69 27 66 6d 73 3c 75 69 63}
+		$string13 = {69 52 27 6e 61 6e 64 65 65}
+		$string14 = {28 27 30 2e 61 45 61 2d 39 6c 65 61 6c}
+		$string15 = {62 73 44 30 73 65 46}
+		$string16 = {74 2e 63 6b 32 36 33 2f 36 46 33 61 30 30 31 43 45 37 41 32 36 38 34 30 36 37 46 39 38 42 45 43 31 38 42 37 33 38 38 30 31 45 46 31 46 37 46 37 45 34 39 41 30 38 38 36 39 35 30 35 30 43 30 30 30 38 36 35 46 43 33 38 30 38 30 46 45 32 33 37 32 37 45 30 45 38 44 45 39 43 42 35 33 45 37 34 38 34 37 32}
+
+	condition:
+		16 of them
 }
-rule phoenix_html6 : EK
+
+rule phoenix_html6 : EK hardened
 {
-meta:
-   author = "Josh Berry"
-   date = "2016-06-26"
-   description = "Phoenix Exploit Kit Detection"
-   hash0 = "4aabb710cf04240d26c13dd2b0ccd6cc"
-   sample_filetype = "js-html"
-   yaragenerator = "https://github.com/Xen0ph0n/YaraGenerator"
-strings:
-   $string0 = "F4B6B2E67)A780A373A633;ast2316363677fa'es6F3635244"
-   $string1 = "piia.a}rneecc.cnuoir"
-   $string2 = "0448D5A54BE10A5DA628100AC3F3D53C9CAEBFF7E1E805080B044057CB1C0EF7F263DC64E0CBE47C2A21E55E9EA620000106"
-   $string3 = "],enEn..o"
-   $string4 = "o;1()sna"
-   $string5 = "(eres(0.,"
-   $string6 = "}fs2he}o.t"
-   $string7 = "f'u>jisch3;)Ie)C'eO"
-   $string8 = "refhiacei"
-   $string9 = "0026632528(sCE7A2684067F98BEC1s00000F512Fm286631666"
-   $string10 = "vev%80b4u%ee18u%28b8u%2617u%5c08u%0e50u%a000u%9006u%76efu%b1cbu%ba2fu%6850u%0524u%9720u%f70<}1msa950"
-   $string11 = "pdu,xziien,ie"
-   $string12 = "rr)l;.)vr.nbl"
-   $string13 = "ii)ruccs)1e"
-   $string14 = "F30476737930anD<tAhnhxwet"
-   $string15 = ")yf{(ee..erneef"
-   $string16 = "ieiiXuMkCSwetEet"
-   $string17 = "F308477E7A7itme"
-condition:
-   17 of them
+	meta:
+		author = "Josh Berry"
+		date = "2016-06-26"
+		description = "Phoenix Exploit Kit Detection"
+		hash0 = "4aabb710cf04240d26c13dd2b0ccd6cc"
+		sample_filetype = "js-html"
+		yaragenerator = "https://github.com/Xen0ph0n/YaraGenerator"
+
+	strings:
+		$string0 = {46 34 42 36 42 32 45 36 37 29 41 37 38 30 41 33 37 33 41 36 33 33 3b 61 73 74 32 33 31 36 33 36 33 36 37 37 66 61 27 65 73 36 46 33 36 33 35 32 34 34}
+		$string1 = {70 69 69 61 2e 61 7d 72 6e 65 65 63 63 2e 63 6e 75 6f 69 72}
+		$string2 = {30 34 34 38 44 35 41 35 34 42 45 31 30 41 35 44 41 36 32 38 31 30 30 41 43 33 46 33 44 35 33 43 39 43 41 45 42 46 46 37 45 31 45 38 30 35 30 38 30 42 30 34 34 30 35 37 43 42 31 43 30 45 46 37 46 32 36 33 44 43 36 34 45 30 43 42 45 34 37 43 32 41 32 31 45 35 35 45 39 45 41 36 32 30 30 30 30 31 30 36}
+		$string3 = {5d 2c 65 6e 45 6e 2e 2e 6f}
+		$string4 = {6f 3b 31 28 29 73 6e 61}
+		$string5 = {28 65 72 65 73 28 30 2e 2c}
+		$string6 = {7d 66 73 32 68 65 7d 6f 2e 74}
+		$string7 = {66 27 75 3e 6a 69 73 63 68 33 3b 29 49 65 29 43 27 65 4f}
+		$string8 = {72 65 66 68 69 61 63 65 69}
+		$string9 = {30 30 32 36 36 33 32 35 32 38 28 73 43 45 37 41 32 36 38 34 30 36 37 46 39 38 42 45 43 31 73 30 30 30 30 30 46 35 31 32 46 6d 32 38 36 36 33 31 36 36 36}
+		$string10 = {76 65 76 25 38 30 62 34 75 25 65 65 31 38 75 25 32 38 62 38 75 25 32 36 31 37 75 25 35 63 30 38 75 25 30 65 35 30 75 25 61 30 30 30 75 25 39 30 30 36 75 25 37 36 65 66 75 25 62 31 63 62 75 25 62 61 32 66 75 25 36 38 35 30 75 25 30 35 32 34 75 25 39 37 32 30 75 25 66 37 30 3c 7d 31 6d 73 61 39 35 30}
+		$string11 = {70 64 75 2c 78 7a 69 69 65 6e 2c 69 65}
+		$string12 = {72 72 29 6c 3b 2e 29 76 72 2e 6e 62 6c}
+		$string13 = {69 69 29 72 75 63 63 73 29 31 65}
+		$string14 = {46 33 30 34 37 36 37 33 37 39 33 30 61 6e 44 3c 74 41 68 6e 68 78 77 65 74}
+		$string15 = {29 79 66 7b 28 65 65 2e 2e 65 72 6e 65 65 66}
+		$string16 = {69 65 69 69 58 75 4d 6b 43 53 77 65 74 45 65 74}
+		$string17 = {46 33 30 38 34 37 37 45 37 41 37 69 74 6d 65}
+
+	condition:
+		17 of them
 }
-rule phoenix_html7 : EK
+
+rule phoenix_html7 : EK hardened
 {
-meta:
-   author = "Josh Berry"
-   date = "2016-06-26"
-   description = "Phoenix Exploit Kit Detection"
-   hash0 = "f0e1b391ec3ce515fd617648bec11681"
-   sample_filetype = "js-html"
-   yaragenerator = "https://github.com/Xen0ph0n/YaraGenerator"
-strings:
-   $string0 = "EBF0a0001B05D266503046C7A491A0C00044F0002035D0D0twl''WIN"
-   $string1 = "ah80672528657"
-   $string2 = "n);tctt)Eltc(Dj"
-   $string3 = ";cnt2<tEf"
-   $string4 = "iwkne){bvfvgzg5"
-   $string5 = "..'an{ea-Ect'8-huJ.)/l'/tCaaa}<Ct95l"
-   $string6 = "'WIWhaFtF662F6577IseFe427347637"
-   $string7 = "ddTh75e{"
-   $string8 = "Ae'n,,9"
-   $string9 = "%E7E3Vemtyi"
-   $string10 = "cf'treran"
-   $string11 = "ncBcaocta.ye"
-   $string12 = ")'0,p8k"
-   $string13 = "0;{tc4F}c;eptdpduoCuuedPl80evD"
-   $string14 = "iq,q,Nd(nccfr'Bearc'nBtpw"
-   $string15 = ";)npeits0e.uvhF$I'"
-   $string16 = "nvasai0.-"
-   $string17 = "lmzv'is'"
-condition:
-   17 of them
+	meta:
+		author = "Josh Berry"
+		date = "2016-06-26"
+		description = "Phoenix Exploit Kit Detection"
+		hash0 = "f0e1b391ec3ce515fd617648bec11681"
+		sample_filetype = "js-html"
+		yaragenerator = "https://github.com/Xen0ph0n/YaraGenerator"
+
+	strings:
+		$string0 = {45 42 46 30 61 30 30 30 31 42 30 35 44 32 36 36 35 30 33 30 34 36 43 37 41 34 39 31 41 30 43 30 30 30 34 34 46 30 30 30 32 30 33 35 44 30 44 30 74 77 6c 27 27 57 49 4e}
+		$string1 = {61 68 38 30 36 37 32 35 32 38 36 35 37}
+		$string2 = {6e 29 3b 74 63 74 74 29 45 6c 74 63 28 44 6a}
+		$string3 = {3b 63 6e 74 32 3c 74 45 66}
+		$string4 = {69 77 6b 6e 65 29 7b 62 76 66 76 67 7a 67 35}
+		$string5 = {2e 2e 27 61 6e 7b 65 61 2d 45 63 74 27 38 2d 68 75 4a 2e 29 2f 6c 27 2f 74 43 61 61 61 7d 3c 43 74 39 35 6c}
+		$string6 = {27 57 49 57 68 61 46 74 46 36 36 32 46 36 35 37 37 49 73 65 46 65 34 32 37 33 34 37 36 33 37}
+		$string7 = {64 64 54 68 37 35 65 7b}
+		$string8 = {41 65 27 6e 2c 2c 39}
+		$string9 = {25 45 37 45 33 56 65 6d 74 79 69}
+		$string10 = {63 66 27 74 72 65 72 61 6e}
+		$string11 = {6e 63 42 63 61 6f 63 74 61 2e 79 65}
+		$string12 = {29 27 30 2c 70 38 6b}
+		$string13 = {30 3b 7b 74 63 34 46 7d 63 3b 65 70 74 64 70 64 75 6f 43 75 75 65 64 50 6c 38 30 65 76 44}
+		$string14 = {69 71 2c 71 2c 4e 64 28 6e 63 63 66 72 27 42 65 61 72 63 27 6e 42 74 70 77}
+		$string15 = {3b 29 6e 70 65 69 74 73 30 65 2e 75 76 68 46 24 49 27}
+		$string16 = {6e 76 61 73 61 69 30 2e 2d}
+		$string17 = {6c 6d 7a 76 27 69 73 27}
+
+	condition:
+		17 of them
 }
-rule phoenix_html8 : EK
+
+rule phoenix_html8 : EK hardened
 {
-meta:
-   author = "Josh Berry"
-   date = "2016-06-26"
-   description = "Phoenix Exploit Kit Detection"
-   hash0 = "1c19a863fc4f8b13c0c7eb5e231bc3d1"
-   sample_filetype = "js-html"
-   yaragenerator = "https://github.com/Xen0ph0n/YaraGenerator"
-strings:
-   $string0 = "0x5)).replace(/"
-   $string1 = "%A%%A%%nc(,145,9,84037,1711,,4121,56,1,,0505,,651,,3,514101,01,29,7868,90"
-   $string2 = "/gmi,String.fromCharCode(2"
-   $string3 = "turt;oo)s"
-   $string4 = "91;var jtdpar"
-   $string5 = "R(,13,7,63,48140601,5057,,319,,6,1,1,2,,110,0,1011171,2319,,,,10vEAs)tfmneyeh%A%%A%%A%%A%s<u91,4693,"
-   $string6 = "y%%A%%A%%A%%A.meo21117,7,1,,10,1,9,8,1,9,100,6,141003,74181,163,441114,43,207,,remc'ut"
-   $string7 = "epjtjqe){jtdpar"
-   $string8 = "/gmi,'"
-   $string9 = "<font></font><body id"
-   $string10 = " epjtjqe; fqczi > 0; fqczi--){for (bwjmgl7 "
-   $string11 = "nbte)bb(egs%A%%A%%A%%A%%m"
-   $string12 = "fvC9614165,,,1,1801151030,,0,,487641114,,1,141,914810036,,888,201te.)'etdc:ysaA%%A%%A%%A%%5sao,61,0,"
-   $string13 = "(tiAmrd{/tnA%%A%%A%%A%%Aiin11,,1637,34191,626958314,11007,,61145,411,7,9,1821,,43,8311,26;d'ebt.dyvs"
-   $string14 = "A%%A%%A%%Ao"
-   $string15 = "hrksywd(cpkwisk4);/"
-   $string16 = ";</script>"
-condition:
-   16 of them
+	meta:
+		author = "Josh Berry"
+		date = "2016-06-26"
+		description = "Phoenix Exploit Kit Detection"
+		hash0 = "1c19a863fc4f8b13c0c7eb5e231bc3d1"
+		sample_filetype = "js-html"
+		yaragenerator = "https://github.com/Xen0ph0n/YaraGenerator"
+
+	strings:
+		$string0 = {30 78 35 29 29 2e 72 65 70 6c 61 63 65 28 2f}
+		$string1 = {25 41 25 25 41 25 25 6e 63 28 2c 31 34 35 2c 39 2c 38 34 30 33 37 2c 31 37 31 31 2c 2c 34 31 32 31 2c 35 36 2c 31 2c 2c 30 35 30 35 2c 2c 36 35 31 2c 2c 33 2c 35 31 34 31 30 31 2c 30 31 2c 32 39 2c 37 38 36 38 2c 39 30}
+		$string2 = {2f 67 6d 69 2c 53 74 72 69 6e 67 2e 66 72 6f 6d 43 68 61 72 43 6f 64 65 28 32}
+		$string3 = {74 75 72 74 3b 6f 6f 29 73}
+		$string4 = {39 31 3b 76 61 72 20 6a 74 64 70 61 72}
+		$string5 = {52 28 2c 31 33 2c 37 2c 36 33 2c 34 38 31 34 30 36 30 31 2c 35 30 35 37 2c 2c 33 31 39 2c 2c 36 2c 31 2c 31 2c 32 2c 2c 31 31 30 2c 30 2c 31 30 31 31 31 37 31 2c 32 33 31 39 2c 2c 2c 2c 31 30 76 45 41 73 29 74 66 6d 6e 65 79 65 68 25 41 25 25 41 25 25 41 25 25 41 25 73 3c 75 39 31 2c 34 36 39 33 2c}
+		$string6 = {79 25 25 41 25 25 41 25 25 41 25 25 41 2e 6d 65 6f 32 31 31 31 37 2c 37 2c 31 2c 2c 31 30 2c 31 2c 39 2c 38 2c 31 2c 39 2c 31 30 30 2c 36 2c 31 34 31 30 30 33 2c 37 34 31 38 31 2c 31 36 33 2c 34 34 31 31 31 34 2c 34 33 2c 32 30 37 2c 2c 72 65 6d 63 27 75 74}
+		$string7 = {65 70 6a 74 6a 71 65 29 7b 6a 74 64 70 61 72}
+		$string8 = {2f 67 6d 69 2c 27}
+		$string9 = {3c 66 6f 6e 74 3e 3c 2f 66 6f 6e 74 3e 3c 62 6f 64 79 20 69 64}
+		$string10 = {20 65 70 6a 74 6a 71 65 3b 20 66 71 63 7a 69 20 3e 20 30 3b 20 66 71 63 7a 69 2d 2d 29 7b 66 6f 72 20 28 62 77 6a 6d 67 6c 37 20}
+		$string11 = {6e 62 74 65 29 62 62 28 65 67 73 25 41 25 25 41 25 25 41 25 25 41 25 25 6d}
+		$string12 = {66 76 43 39 36 31 34 31 36 35 2c 2c 2c 31 2c 31 38 30 31 31 35 31 30 33 30 2c 2c 30 2c 2c 34 38 37 36 34 31 31 31 34 2c 2c 31 2c 31 34 31 2c 39 31 34 38 31 30 30 33 36 2c 2c 38 38 38 2c 32 30 31 74 65 2e 29 27 65 74 64 63 3a 79 73 61 41 25 25 41 25 25 41 25 25 41 25 25 35 73 61 6f 2c 36 31 2c 30 2c}
+		$string13 = {28 74 69 41 6d 72 64 7b 2f 74 6e 41 25 25 41 25 25 41 25 25 41 25 25 41 69 69 6e 31 31 2c 2c 31 36 33 37 2c 33 34 31 39 31 2c 36 32 36 39 35 38 33 31 34 2c 31 31 30 30 37 2c 2c 36 31 31 34 35 2c 34 31 31 2c 37 2c 39 2c 31 38 32 31 2c 2c 34 33 2c 38 33 31 31 2c 32 36 3b 64 27 65 62 74 2e 64 79 76 73}
+		$string14 = {41 25 25 41 25 25 41 25 25 41 6f}
+		$string15 = {68 72 6b 73 79 77 64 28 63 70 6b 77 69 73 6b 34 29 3b 2f}
+		$string16 = {3b 3c 2f 73 63 72 69 70 74 3e}
+
+	condition:
+		16 of them
 }
-rule phoenix_html9 : EK
+
+rule phoenix_html9 : EK hardened
 {
-meta:
-   author = "Josh Berry"
-   date = "2016-06-26"
-   description = "Phoenix Exploit Kit Detection"
-   hash0 = "742d012b9df0c27ed6ccf3b234db20db"
-   sample_filetype = "js-html"
-   yaragenerator = "https://github.com/Xen0ph0n/YaraGenerator"
-strings:
-   $string0 = "tute)bbr:"
-   $string1 = "nfho(tghRx"
-   $string2 = "()irfE/Rt..cOcC"
-   $string3 = "NcEnevbf"
-   $string4 = "63FB8B4296BBC290A0.'0000079'Fh20216B6A6arA;<"
-   $string5 = "wHe(cLnyeyet(a.i,r.{.."
-   $string6 = "tute)bbdfiiix'bcr"
-   $string7 = "itifdf)d1L2f'asau%d004u%8e00u%0419u%a58du%2093u%ec10u%0050u%00d4u%4622u%bcd1u%b1ceu%5000u%f7f5u%5606"
-   $string8 = "2F4693529783'82F076676C38'te"
-   $string9 = "sm(teoeoi)cfh))pihnipeeeo}.,(.(("
-   $string10 = "ao)ntavlll{))ynlcoix}hiN.il'tes1ad)bm;"
-   $string11 = "i)}m0f(eClei(/te"
-   $string12 = "}aetsc"
-   $string13 = "irefnig.pT"
-   $string14 = "a0mrIif/tbne,(wsk,"
-   $string15 = "500F14B06000000630E6B72636F60632C6E711C6E762E646F147F44767F650A0804061901020009006B120005A2006L"
-   $string16 = ".hB.Csf)ddeSs"
-   $string17 = "tnne,IPd4Le"
-   $string18 = "hMdarc'nBtpw"
-condition:
-   18 of them
+	meta:
+		author = "Josh Berry"
+		date = "2016-06-26"
+		description = "Phoenix Exploit Kit Detection"
+		hash0 = "742d012b9df0c27ed6ccf3b234db20db"
+		sample_filetype = "js-html"
+		yaragenerator = "https://github.com/Xen0ph0n/YaraGenerator"
+
+	strings:
+		$string0 = {74 75 74 65 29 62 62 72 3a}
+		$string1 = {6e 66 68 6f 28 74 67 68 52 78}
+		$string2 = {28 29 69 72 66 45 2f 52 74 2e 2e 63 4f 63 43}
+		$string3 = {4e 63 45 6e 65 76 62 66}
+		$string4 = {36 33 46 42 38 42 34 32 39 36 42 42 43 32 39 30 41 30 2e 27 30 30 30 30 30 37 39 27 46 68 32 30 32 31 36 42 36 41 36 61 72 41 3b 3c}
+		$string5 = {77 48 65 28 63 4c 6e 79 65 79 65 74 28 61 2e 69 2c 72 2e 7b 2e 2e}
+		$string6 = {74 75 74 65 29 62 62 64 66 69 69 69 78 27 62 63 72}
+		$string7 = {69 74 69 66 64 66 29 64 31 4c 32 66 27 61 73 61 75 25 64 30 30 34 75 25 38 65 30 30 75 25 30 34 31 39 75 25 61 35 38 64 75 25 32 30 39 33 75 25 65 63 31 30 75 25 30 30 35 30 75 25 30 30 64 34 75 25 34 36 32 32 75 25 62 63 64 31 75 25 62 31 63 65 75 25 35 30 30 30 75 25 66 37 66 35 75 25 35 36 30 36}
+		$string8 = {32 46 34 36 39 33 35 32 39 37 38 33 27 38 32 46 30 37 36 36 37 36 43 33 38 27 74 65}
+		$string9 = {73 6d 28 74 65 6f 65 6f 69 29 63 66 68 29 29 70 69 68 6e 69 70 65 65 65 6f 7d 2e 2c 28 2e 28 28}
+		$string10 = {61 6f 29 6e 74 61 76 6c 6c 6c 7b 29 29 79 6e 6c 63 6f 69 78 7d 68 69 4e 2e 69 6c 27 74 65 73 31 61 64 29 62 6d 3b}
+		$string11 = {69 29 7d 6d 30 66 28 65 43 6c 65 69 28 2f 74 65}
+		$string12 = {7d 61 65 74 73 63}
+		$string13 = {69 72 65 66 6e 69 67 2e 70 54}
+		$string14 = {61 30 6d 72 49 69 66 2f 74 62 6e 65 2c 28 77 73 6b 2c}
+		$string15 = {35 30 30 46 31 34 42 30 36 30 30 30 30 30 30 36 33 30 45 36 42 37 32 36 33 36 46 36 30 36 33 32 43 36 45 37 31 31 43 36 45 37 36 32 45 36 34 36 46 31 34 37 46 34 34 37 36 37 46 36 35 30 41 30 38 30 34 30 36 31 39 30 31 30 32 30 30 30 39 30 30 36 42 31 32 30 30 30 35 41 32 30 30 36 4c}
+		$string16 = {2e 68 42 2e 43 73 66 29 64 64 65 53 73}
+		$string17 = {74 6e 6e 65 2c 49 50 64 34 4c 65}
+		$string18 = {68 4d 64 61 72 63 27 6e 42 74 70 77}
+
+	condition:
+		18 of them
 }
-rule phoenix_jar : EK
+
+rule phoenix_jar : EK hardened
 {
-meta:
-   author = "Josh Berry"
-   date = "2016-06-26"
-   description = "Phoenix Exploit Kit Detection"
-   hash0 = "a8a18219b02d30f44799415ff19c518e"
-   sample_filetype = "unknown"
-   yaragenerator = "https://github.com/Xen0ph0n/YaraGenerator"
-strings:
-   $string0 = "r.JM,IM"
-   $string1 = "qX$8$a"
-   $string2 = "META-INF/services/javax.sound.midi.spi.MidiDeviceProvider5"
-   $string3 = "a.classPK"
-   $string4 = "6;\\Q]Q"
-   $string5 = "h[s] X"
-   $string6 = "ToolsDemoSubClass.classPK"
-   $string7 = "a.class"
-   $string8 = "META-INF/MANIFEST.MFPK"
-   $string9 = "ToolsDemoSubClass.classeO"
-   $string10 = "META-INF/services/javax.sound.midi.spi.MidiDeviceProviderPK"
-condition:
-   10 of them
+	meta:
+		author = "Josh Berry"
+		date = "2016-06-26"
+		description = "Phoenix Exploit Kit Detection"
+		hash0 = "a8a18219b02d30f44799415ff19c518e"
+		sample_filetype = "unknown"
+		yaragenerator = "https://github.com/Xen0ph0n/YaraGenerator"
+
+	strings:
+		$string0 = {72 2e 4a 4d 2c 49 4d}
+		$string1 = {71 58 24 38 24 61}
+		$string2 = {4d 45 54 41 2d 49 4e 46 2f 73 65 72 76 69 63 65 73 2f 6a 61 76 61 78 2e 73 6f 75 6e 64 2e 6d 69 64 69 2e 73 70 69 2e 4d 69 64 69 44 65 76 69 63 65 50 72 6f 76 69 64 65 72 35}
+		$string3 = {61 2e 63 6c 61 73 73 50 4b}
+		$string4 = {36 3b 5c 51 5d 51}
+		$string5 = {68 5b 73 5d 20 58}
+		$string6 = {54 6f 6f 6c 73 44 65 6d 6f 53 75 62 43 6c 61 73 73 2e 63 6c 61 73 73 50 4b}
+		$string7 = {61 2e 63 6c 61 73 73}
+		$string8 = {4d 45 54 41 2d 49 4e 46 2f 4d 41 4e 49 46 45 53 54 2e 4d 46 50 4b}
+		$string9 = {54 6f 6f 6c 73 44 65 6d 6f 53 75 62 43 6c 61 73 73 2e 63 6c 61 73 73 65 4f}
+		$string10 = {4d 45 54 41 2d 49 4e 46 2f 73 65 72 76 69 63 65 73 2f 6a 61 76 61 78 2e 73 6f 75 6e 64 2e 6d 69 64 69 2e 73 70 69 2e 4d 69 64 69 44 65 76 69 63 65 50 72 6f 76 69 64 65 72 50 4b}
+
+	condition:
+		10 of them
 }
-rule phoenix_jar2 : EK
+
+rule phoenix_jar2 : EK hardened
 {
-meta:
-   author = "Josh Berry"
-   date = "2016-06-26"
-   description = "Phoenix Exploit Kit Detection"
-   hash0 = "989c5b5eaddf48010e62343d7a4db6f4"
-   sample_filetype = "unknown"
-   yaragenerator = "https://github.com/Xen0ph0n/YaraGenerator"
-strings:
-   $string0 = "a66d578f084.classeQ"
-   $string1 = "a4cb9b1a8a5.class"
-   $string2 = ")szNu\\MutK"
-   $string3 = "qCCwBU"
-   $string4 = "META-INF/MANIFEST.MF"
-   $string5 = "QR,GOX"
-   $string6 = "ab5601d4848.classmT"
-   $string7 = "a6a7a760c0e["
-   $string8 = "2ZUK[L"
-   $string9 = "2VT(Au5"
-   $string10 = "a6a7a760c0ePK"
-   $string11 = "aa79d1019d8.class"
-   $string12 = "aa79d1019d8.classPK"
-   $string13 = "META-INF/MANIFEST.MFPK"
-   $string14 = "ab5601d4848.classPK"
-condition:
-   14 of them
+	meta:
+		author = "Josh Berry"
+		date = "2016-06-26"
+		description = "Phoenix Exploit Kit Detection"
+		hash0 = "989c5b5eaddf48010e62343d7a4db6f4"
+		sample_filetype = "unknown"
+		yaragenerator = "https://github.com/Xen0ph0n/YaraGenerator"
+
+	strings:
+		$string0 = {61 36 36 64 35 37 38 66 30 38 34 2e 63 6c 61 73 73 65 51}
+		$string1 = {61 34 63 62 39 62 31 61 38 61 35 2e 63 6c 61 73 73}
+		$string2 = {29 73 7a 4e 75 5c 4d 75 74 4b}
+		$string3 = {71 43 43 77 42 55}
+		$string4 = {4d 45 54 41 2d 49 4e 46 2f 4d 41 4e 49 46 45 53 54 2e 4d 46}
+		$string5 = {51 52 2c 47 4f 58}
+		$string6 = {61 62 35 36 30 31 64 34 38 34 38 2e 63 6c 61 73 73 6d 54}
+		$string7 = {61 36 61 37 61 37 36 30 63 30 65 5b}
+		$string8 = {32 5a 55 4b 5b 4c}
+		$string9 = {32 56 54 28 41 75 35}
+		$string10 = {61 36 61 37 61 37 36 30 63 30 65 50 4b}
+		$string11 = {61 61 37 39 64 31 30 31 39 64 38 2e 63 6c 61 73 73}
+		$string12 = {61 61 37 39 64 31 30 31 39 64 38 2e 63 6c 61 73 73 50 4b}
+		$string13 = {4d 45 54 41 2d 49 4e 46 2f 4d 41 4e 49 46 45 53 54 2e 4d 46 50 4b}
+		$string14 = {61 62 35 36 30 31 64 34 38 34 38 2e 63 6c 61 73 73 50 4b}
+
+	condition:
+		14 of them
 }
-rule phoenix_jar3 : EK Jar
+
+rule phoenix_jar3 : EK Jar hardened
 {
-meta:
-   author = "Josh Berry"
-   date = "2016-06-26"
-   description = "Phoenix Exploit Kit Detection"
-   hash0 = "c5655c496949f8071e41ea9ac011cab2"
-   sample_filetype = "unknown"
-   yaragenerator = "https://github.com/Xen0ph0n/YaraGenerator"
-strings:
-   $string0 = "'> >$>"
-   $string1 = "bpac/PK"
-   $string2 = "bpac/purok$1.classmP]K"
-   $string3 = "bpac/KAVS.classmQ"
-   $string4 = "'n n$n"
-   $string5 = "bpac/purok$1.classPK"
-   $string6 = "$.4aX,Gt<"
-   $string7 = "bpac/KAVS.classPK"
-   $string8 = "bpac/b.classPK"
-   $string9 = "bpac/b.class"
-condition:
-   9 of them
+	meta:
+		author = "Josh Berry"
+		date = "2016-06-26"
+		description = "Phoenix Exploit Kit Detection"
+		hash0 = "c5655c496949f8071e41ea9ac011cab2"
+		sample_filetype = "unknown"
+		yaragenerator = "https://github.com/Xen0ph0n/YaraGenerator"
+
+	strings:
+		$string0 = {27 3e 20 3e 24 3e}
+		$string1 = {62 70 61 63 2f 50 4b}
+		$string2 = {62 70 61 63 2f 70 75 72 6f 6b 24 31 2e 63 6c 61 73 73 6d 50 5d 4b}
+		$string3 = {62 70 61 63 2f 4b 41 56 53 2e 63 6c 61 73 73 6d 51}
+		$string4 = {27 6e 20 6e 24 6e}
+		$string5 = {62 70 61 63 2f 70 75 72 6f 6b 24 31 2e 63 6c 61 73 73 50 4b}
+		$string6 = {24 2e 34 61 58 2c 47 74 3c}
+		$string7 = {62 70 61 63 2f 4b 41 56 53 2e 63 6c 61 73 73 50 4b}
+		$string8 = {62 70 61 63 2f 62 2e 63 6c 61 73 73 50 4b}
+		$string9 = {62 70 61 63 2f 62 2e 63 6c 61 73 73}
+
+	condition:
+		9 of them
 }
-rule phoenix_pdf : EK PDF
+
+rule phoenix_pdf : EK PDF hardened
 {
-meta:
-   author = "Josh Berry"
-   date = "2016-06-26"
-   description = "Phoenix Exploit Kit Detection"
-   hash0 = "16de68e66cab08d642a669bf377368da"
-   hash1 = "bab281fe0cf3a16a396550b15d9167d5"
-   sample_filetype = "pdf"
-   yaragenerator = "https://github.com/Xen0ph0n/YaraGenerator"
-strings:
-   $string0 = "0000000254 00000 n"
-   $string1 = "0000000295 00000 n"
-   $string2 = "trailer<</Root 1 0 R /Size 7>>"
-   $string3 = "0000000000 65535 f"
-   $string4 = "3 0 obj<</JavaScript 5 0 R >>endobj"
-   $string5 = "0000000120 00000 n"
-   $string6 = "%PDF-1.0"
-   $string7 = "startxref"
-   $string8 = "0000000068 00000 n"
-   $string9 = "endobjxref"
-   $string10 = ")6 0 R ]>>endobj"
-   $string11 = "0000000010 00000 n"
-condition:
-   11 of them
+	meta:
+		author = "Josh Berry"
+		date = "2016-06-26"
+		description = "Phoenix Exploit Kit Detection"
+		hash0 = "16de68e66cab08d642a669bf377368da"
+		hash1 = "bab281fe0cf3a16a396550b15d9167d5"
+		sample_filetype = "pdf"
+		yaragenerator = "https://github.com/Xen0ph0n/YaraGenerator"
+
+	strings:
+		$string0 = {30 30 30 30 30 30 30 32 35 34 20 30 30 30 30 30 20 6e}
+		$string1 = {30 30 30 30 30 30 30 32 39 35 20 30 30 30 30 30 20 6e}
+		$string2 = {74 72 61 69 6c 65 72 3c 3c 2f 52 6f 6f 74 20 31 20 30 20 52 20 2f 53 69 7a 65 20 37 3e 3e}
+		$string3 = {30 30 30 30 30 30 30 30 30 30 20 36 35 35 33 35 20 66}
+		$string4 = {33 20 30 20 6f 62 6a 3c 3c 2f 4a 61 76 61 53 63 72 69 70 74 20 35 20 30 20 52 20 3e 3e 65 6e 64 6f 62 6a}
+		$string5 = {30 30 30 30 30 30 30 31 32 30 20 30 30 30 30 30 20 6e}
+		$string6 = {25 50 44 46 2d 31 2e 30}
+		$string7 = {73 74 61 72 74 78 72 65 66}
+		$string8 = {30 30 30 30 30 30 30 30 36 38 20 30 30 30 30 30 20 6e}
+		$string9 = {65 6e 64 6f 62 6a 78 72 65 66}
+		$string10 = {29 36 20 30 20 52 20 5d 3e 3e 65 6e 64 6f 62 6a}
+		$string11 = {30 30 30 30 30 30 30 30 31 30 20 30 30 30 30 30 20 6e}
+
+	condition:
+		11 of them
 }
-rule phoenix_pdf2 : EK PDF
+
+rule phoenix_pdf2 : EK PDF hardened
 {
-meta:
-   author = "Josh Berry"
-   date = "2016-06-26"
-   description = "Phoenix Exploit Kit Detection"
-   hash0 = "33cb6c67f58609aa853e80f718ab106a"
-   sample_filetype = "pdf"
-   yaragenerator = "https://github.com/Xen0ph0n/YaraGenerator"
-strings:
-   $string0 = "\\nQb<%"
-   $string1 = "0000000254 00000 n"
-   $string2 = ":S3>v0$EF"
-   $string3 = "trailer<</Root 1 0 R /Size 7>>"
-   $string4 = "%PDF-1.0"
-   $string5 = "0000000000 65535 f"
-   $string6 = "endstream"
-   $string7 = "0000000010 00000 n"
-   $string8 = "6 0 obj<</JS 7 0 R/S/JavaScript>>endobj"
-   $string9 = "3 0 obj<</JavaScript 5 0 R >>endobj"
-   $string10 = "}pr2IE"
-   $string11 = "0000000157 00000 n"
-   $string12 = "1 0 obj<</Type/Catalog/Pages 2 0 R /Names 3 0 R >>endobj"
-   $string13 = "5 0 obj<</Names[("
-condition:
-   13 of them
+	meta:
+		author = "Josh Berry"
+		date = "2016-06-26"
+		description = "Phoenix Exploit Kit Detection"
+		hash0 = "33cb6c67f58609aa853e80f718ab106a"
+		sample_filetype = "pdf"
+		yaragenerator = "https://github.com/Xen0ph0n/YaraGenerator"
+
+	strings:
+		$string0 = {5c 6e 51 62 3c 25}
+		$string1 = {30 30 30 30 30 30 30 32 35 34 20 30 30 30 30 30 20 6e}
+		$string2 = {3a 53 33 3e 76 30 24 45 46}
+		$string3 = {74 72 61 69 6c 65 72 3c 3c 2f 52 6f 6f 74 20 31 20 30 20 52 20 2f 53 69 7a 65 20 37 3e 3e}
+		$string4 = {25 50 44 46 2d 31 2e 30}
+		$string5 = {30 30 30 30 30 30 30 30 30 30 20 36 35 35 33 35 20 66}
+		$string6 = {65 6e 64 73 74 72 65 61 6d}
+		$string7 = {30 30 30 30 30 30 30 30 31 30 20 30 30 30 30 30 20 6e}
+		$string8 = {36 20 30 20 6f 62 6a 3c 3c 2f 4a 53 20 37 20 30 20 52 2f 53 2f 4a 61 76 61 53 63 72 69 70 74 3e 3e 65 6e 64 6f 62 6a}
+		$string9 = {33 20 30 20 6f 62 6a 3c 3c 2f 4a 61 76 61 53 63 72 69 70 74 20 35 20 30 20 52 20 3e 3e 65 6e 64 6f 62 6a}
+		$string10 = {7d 70 72 32 49 45}
+		$string11 = {30 30 30 30 30 30 30 31 35 37 20 30 30 30 30 30 20 6e}
+		$string12 = {31 20 30 20 6f 62 6a 3c 3c 2f 54 79 70 65 2f 43 61 74 61 6c 6f 67 2f 50 61 67 65 73 20 32 20 30 20 52 20 2f 4e 61 6d 65 73 20 33 20 30 20 52 20 3e 3e 65 6e 64 6f 62 6a}
+		$string13 = {35 20 30 20 6f 62 6a 3c 3c 2f 4e 61 6d 65 73 5b 28}
+
+	condition:
+		13 of them
 }
-rule phoenix_pdf3 : EK PDF
+
+rule phoenix_pdf3 : EK PDF hardened
 {
-meta:
-   author = "Josh Berry"
-   date = "2016-06-26"
-   description = "Phoenix Exploit Kit Detection"
-   hash0 = "bab281fe0cf3a16a396550b15d9167d5"
-   sample_filetype = "pdf"
-   yaragenerator = "https://github.com/Xen0ph0n/YaraGenerator"
-strings:
-   $string0 = "trailer<</Root 1 0 R /Size 7>>"
-   $string1 = "stream"
-   $string2 = ";_oI5z"
-   $string3 = "0000000010 00000 n"
-   $string4 = "3 0 obj<</JavaScript 5 0 R >>endobj"
-   $string5 = "7 0 obj<</Filter[ /FlateDecode /ASCIIHexDecode /ASCII85Decode ]/Length 3324>>"
-   $string6 = "endobjxref"
-   $string7 = "L%}gE("
-   $string8 = "0000000157 00000 n"
-   $string9 = "1 0 obj<</Type/Catalog/Pages 2 0 R /Names 3 0 R >>endobj"
-   $string10 = "0000000120 00000 n"
-   $string11 = "4 0 obj<</Type/Page/Parent 2 0 R /Contents 12 0 R>>endobj"
-condition:
-   11 of them
+	meta:
+		author = "Josh Berry"
+		date = "2016-06-26"
+		description = "Phoenix Exploit Kit Detection"
+		hash0 = "bab281fe0cf3a16a396550b15d9167d5"
+		sample_filetype = "pdf"
+		yaragenerator = "https://github.com/Xen0ph0n/YaraGenerator"
+
+	strings:
+		$string0 = {74 72 61 69 6c 65 72 3c 3c 2f 52 6f 6f 74 20 31 20 30 20 52 20 2f 53 69 7a 65 20 37 3e 3e}
+		$string1 = {73 74 72 65 61 6d}
+		$string2 = {3b 5f 6f 49 35 7a}
+		$string3 = {30 30 30 30 30 30 30 30 31 30 20 30 30 30 30 30 20 6e}
+		$string4 = {33 20 30 20 6f 62 6a 3c 3c 2f 4a 61 76 61 53 63 72 69 70 74 20 35 20 30 20 52 20 3e 3e 65 6e 64 6f 62 6a}
+		$string5 = {37 20 30 20 6f 62 6a 3c 3c 2f 46 69 6c 74 65 72 5b 20 2f 46 6c 61 74 65 44 65 63 6f 64 65 20 2f 41 53 43 49 49 48 65 78 44 65 63 6f 64 65 20 2f 41 53 43 49 49 38 35 44 65 63 6f 64 65 20 5d 2f 4c 65 6e 67 74 68 20 33 33 32 34 3e 3e}
+		$string6 = {65 6e 64 6f 62 6a 78 72 65 66}
+		$string7 = {4c 25 7d 67 45 28}
+		$string8 = {30 30 30 30 30 30 30 31 35 37 20 30 30 30 30 30 20 6e}
+		$string9 = {31 20 30 20 6f 62 6a 3c 3c 2f 54 79 70 65 2f 43 61 74 61 6c 6f 67 2f 50 61 67 65 73 20 32 20 30 20 52 20 2f 4e 61 6d 65 73 20 33 20 30 20 52 20 3e 3e 65 6e 64 6f 62 6a}
+		$string10 = {30 30 30 30 30 30 30 31 32 30 20 30 30 30 30 30 20 6e}
+		$string11 = {34 20 30 20 6f 62 6a 3c 3c 2f 54 79 70 65 2f 50 61 67 65 2f 50 61 72 65 6e 74 20 32 20 30 20 52 20 2f 43 6f 6e 74 65 6e 74 73 20 31 32 20 30 20 52 3e 3e 65 6e 64 6f 62 6a}
+
+	condition:
+		11 of them
 }
+

@@ -1,13 +1,5 @@
-// source https://github.com/Neo23x0/signature-base/blob/6b8e2a00e5aafcfcfc767f3f53ae986cf81f968a/yara/gen_powerkatz.yar#L9
-
-/*
-	Yara Rule Set
-	Author: Florian Roth
-	Date: 2016-02-05
-	Identifier: Powerkatz
-*/
-
-rule Powerkatz_DLL_Generic {
+rule Powerkatz_DLL_Generic : hardened
+{
 	meta:
 		description = "Detects Powerkatz - a Mimikatz version prepared to run in memory via Powershell (overlap with other Mimikatz versions is possible)"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -20,14 +12,16 @@ rule Powerkatz_DLL_Generic {
 		hash2 = "1e67476281c1ec1cf40e17d7fc28a3ab3250b474ef41cb10a72130990f0be6a0"
 		hash3 = "49e7bac7e0db87bf3f0185e9cf51f2539dbc11384fefced465230c4e5bce0872"
 		id = "7464f8a1-9f45-580b-8a97-a57071092e3c"
-	strings:
-		$s1 = "%3u - Directory '%s' (*.kirbi)" fullword wide
-		$s2 = "%*s  pPublicKey         : " fullword wide
-		$s4 = "<3 eo.oe ~ ANSSI E>" fullword wide
-		$s5 = "\\*.kirbi" wide
 
-		$c1 = "kuhl_m_lsadump_getUsersAndSamKey ; kull_m_registry_RegOpenKeyEx SAM Accounts (0x%08x)" fullword wide
-		$c2 = "kuhl_m_lsadump_getComputerAndSyskey ; kuhl_m_lsadump_getSyskey KO" fullword wide
+	strings:
+		$s1 = {25 00 33 00 75 00 20 00 2d 00 20 00 44 00 69 00 72 00 65 00 63 00 74 00 6f 00 72 00 79 00 20 00 27 00 25 00 73 00 27 00 20 00 28 00 2a 00 2e 00 6b 00 69 00 72 00 62 00 69 00 29 00}
+		$s2 = {25 00 2a 00 73 00 20 00 20 00 70 00 50 00 75 00 62 00 6c 00 69 00 63 00 4b 00 65 00 79 00 20 00 20 00 20 00 20 00 20 00 20 00 20 00 20 00 20 00 3a 00 20 00}
+		$s4 = {3c 00 33 00 20 00 65 00 6f 00 2e 00 6f 00 65 00 20 00 7e 00 20 00 41 00 4e 00 53 00 53 00 49 00 20 00 45 00 3e 00}
+		$s5 = {5c 00 2a 00 2e 00 6b 00 69 00 72 00 62 00 69 00}
+		$c1 = {6b 00 75 00 68 00 6c 00 5f 00 6d 00 5f 00 6c 00 73 00 61 00 64 00 75 00 6d 00 70 00 5f 00 67 00 65 00 74 00 55 00 73 00 65 00 72 00 73 00 41 00 6e 00 64 00 53 00 61 00 6d 00 4b 00 65 00 79 00 20 00 3b 00 20 00 6b 00 75 00 6c 00 6c 00 5f 00 6d 00 5f 00 72 00 65 00 67 00 69 00 73 00 74 00 72 00 79 00 5f 00 52 00 65 00 67 00 4f 00 70 00 65 00 6e 00 4b 00 65 00 79 00 45 00 78 00 20 00 53 00 41 00 4d 00 20 00 41 00 63 00 63 00 6f 00 75 00 6e 00 74 00 73 00 20 00 28 00 30 00 78 00 25 00 30 00 38 00 78 00 29 00}
+		$c2 = {6b 00 75 00 68 00 6c 00 5f 00 6d 00 5f 00 6c 00 73 00 61 00 64 00 75 00 6d 00 70 00 5f 00 67 00 65 00 74 00 43 00 6f 00 6d 00 70 00 75 00 74 00 65 00 72 00 41 00 6e 00 64 00 53 00 79 00 73 00 6b 00 65 00 79 00 20 00 3b 00 20 00 6b 00 75 00 68 00 6c 00 5f 00 6d 00 5f 00 6c 00 73 00 61 00 64 00 75 00 6d 00 70 00 5f 00 67 00 65 00 74 00 53 00 79 00 73 00 6b 00 65 00 79 00 20 00 4b 00 4f 00}
+
 	condition:
-		( uint16(0) == 0x5a4d and filesize < 1000KB and 1 of them ) or 2 of them
+		( uint16( 0 ) == 0x5a4d and filesize < 1000KB and 1 of them ) or 2 of them
 }
+

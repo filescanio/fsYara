@@ -1,101 +1,80 @@
 import "pe"
 
-rule BadBunny {
-   
-   meta:
+rule BadBunny : hardened
+{
+	meta:
+		description = "Bad Rabbit Ransomware"
+		author = "Christiaan Beek"
+		date = "2017-10-24"
+		rule_version = "v1"
+		malware_type = "ransomware"
+		malware_family = "Ransom:W32/BadRabbit"
+		actor_type = "Cybercrime"
+		actor_group = "Unknown"
+		hash1 = "8ebc97e05c8e1073bda2efb6f4d00ad7e789260afa2c276f0c72740b838a0a93"
 
-      description = "Bad Rabbit Ransomware"
-      author = "Christiaan Beek"
-      date = "2017-10-24"
-      rule_version = "v1"
-      malware_type = "ransomware"
-      malware_family = "Ransom:W32/BadRabbit"
-      actor_type = "Cybercrime"
-      actor_group = "Unknown"    
-      hash1 = "8ebc97e05c8e1073bda2efb6f4d00ad7e789260afa2c276f0c72740b838a0a93"
-   
-   strings:
+	strings:
+		$x1 = {73 00 63 00 68 00 74 00 61 00 73 00 6b 00 73 00 20 00 2f 00 43 00 72 00 65 00 61 00 74 00 65 00 20 00 2f 00 53 00 43 00 20 00 4f 00 4e 00 43 00 45 00 20 00 2f 00 54 00 4e 00 20 00 76 00 69 00 73 00 65 00 72 00 69 00 6f 00 6e 00 5f 00 25 00 75 00 20 00 2f 00 52 00 55 00 20 00 53 00 59 00 53 00 54 00 45 00 4d 00 20 00 2f 00 54 00 52 00 20 00 22 00 25 00 77 00 73 00 22 00 20 00 2f 00 53 00 54 00 20 00 25 00 30 00 32 00 64 00 3a 00 25 00 30 00 32 00 64 00 3a 00 30 00 30 00}
+		$x2 = {6e 65 65 64 20 74 6f 20 64 6f 20 69 73 20 73 75 62 6d 69 74 20 74 68 65 20 70 61 79 6d 65 6e 74 20 61 6e 64 20 67 65 74 20 74 68 65 20 64 65 63 72 79 70 74 69 6f 6e 20 70 61 73 73 77 6f 72 64 2e}
+		$s3 = {49 66 20 79 6f 75 20 68 61 76 65 20 61 6c 72 65 61 64 79 20 67 6f 74 20 74 68 65 20 70 61 73 73 77 6f 72 64 2c 20 70 6c 65 61 73 65 20 65 6e 74 65 72 20 69 74 20 62 65 6c 6f 77 2e}
+		$s4 = {64 00 69 00 73 00 70 00 63 00 69 00 2e 00 65 00 78 00 65 00}
+		$s5 = {5c 00 5c 00 2e 00 5c 00 47 00 4c 00 4f 00 42 00 41 00 4c 00 52 00 4f 00 4f 00 54 00 5c 00 41 00 72 00 63 00 4e 00 61 00 6d 00 65 00 5c 00 6d 00 75 00 6c 00 74 00 69 00 28 00 30 00 29 00 64 00 69 00 73 00 6b 00 28 00 30 00 29 00 72 00 64 00 69 00 73 00 6b 00 28 00 30 00 29 00 70 00 61 00 72 00 74 00 69 00 74 00 69 00 6f 00 6e 00 28 00 31 00 29 00}
+		$s6 = {52 75 6e 20 44 45 43 52 59 50 54 20 61 70 70 20 61 74 20 79 6f 75 72 20 64 65 73 6b 74 6f 70 20 61 66 74 65 72 20 73 79 73 74 65 6d 20 62 6f 6f 74}
+		$s7 = {45 00 6e 00 74 00 65 00 72 00 20 00 70 00 61 00 73 00 73 00 77 00 6f 00 72 00 64 00 23 00 31 00 3a 00 20 00}
+		$s8 = {45 00 6e 00 74 00 65 00 72 00 20 00 70 00 61 00 73 00 73 00 77 00 6f 00 72 00 64 00 23 00 32 00 3a 00 20 00}
+		$s9 = {43 00 3a 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 5c 00 63 00 73 00 63 00 63 00 2e 00 64 00 61 00 74 00}
+		$s10 = {73 00 63 00 68 00 74 00 61 00 73 00 6b 00 73 00 20 00 2f 00 44 00 65 00 6c 00 65 00 74 00 65 00 20 00 2f 00 46 00 20 00 2f 00 54 00 4e 00 20 00 25 00 77 00 73 00}
+		$s11 = {50 61 73 73 77 6f 72 64 23 31 3a 20}
+		$s12 = {5c 00 41 00 70 00 70 00 44 00 61 00 74 00 61 00}
+		$s13 = {44 00 69 00 73 00 6b 00 20 00 64 00 65 00 63 00 72 00 79 00 70 00 74 00 69 00 6f 00 6e 00 20 00 63 00 6f 00 6d 00 70 00 6c 00 65 00 74 00 65 00 64 00}
+		$s14 = {46 00 69 00 6c 00 65 00 73 00 20 00 64 00 65 00 63 00 72 00 79 00 70 00 74 00 69 00 6f 00 6e 00 20 00 63 00 6f 00 6d 00 70 00 6c 00 65 00 74 00 65 00 64 00}
+		$s15 = {68 00 74 00 74 00 70 00 3a 00 2f 00 2f 00 64 00 69 00 73 00 6b 00 63 00 72 00 79 00 70 00 74 00 6f 00 72 00 2e 00 6e 00 65 00 74 00 2f 00}
+		$s16 = {59 6f 75 72 20 70 65 72 73 6f 6e 61 6c 20 69 6e 73 74 61 6c 6c 61 74 69 6f 6e 20 6b 65 79 23 31 3a}
+		$s17 = {2e 00 33 00 64 00 73 00 2e 00 37 00 7a 00 2e 00 61 00 63 00 63 00 64 00 62 00 2e 00 61 00 69 00 2e 00 61 00 73 00 6d 00 2e 00 61 00 73 00 70 00 2e 00 61 00 73 00 70 00 78 00 2e 00 61 00 76 00 68 00 64 00 2e 00 62 00 61 00 63 00 6b 00 2e 00 62 00 61 00 6b 00 2e 00 62 00 6d 00 70 00 2e 00 62 00 72 00 77 00 2e 00 63 00 2e 00 63 00 61 00 62 00 2e 00 63 00 63 00 2e 00 63 00 65 00 72 00 2e 00 63 00 66 00 67 00 2e 00 63 00 6f 00 6e 00 66 00 2e 00 63 00 70 00 70 00 2e 00 63 00 72 00 74 00 2e 00 63 00 73 00 2e 00 63 00 74 00 6c 00 2e 00 63 00 78 00 78 00 2e 00 64 00 62 00 66 00 2e 00 64 00 65 00 72 00 2e 00 64 00 69 00 62 00 2e 00 64 00 69 00 73 00 6b 00 2e 00 64 00 6a 00 76 00 75 00 2e 00 64 00 6f 00 63 00 2e 00 64 00 6f 00 63 00 78 00 2e 00 64 00 77 00 67 00 2e 00}
+		$s18 = {44 00 69 00 73 00 61 00 62 00 6c 00 65 00 20 00 79 00 6f 00 75 00 72 00 20 00 61 00 6e 00 74 00 69 00 2d 00 76 00 69 00 72 00 75 00 73 00 20 00 61 00 6e 00 64 00 20 00 61 00 6e 00 74 00 69 00 2d 00 6d 00 61 00 6c 00 77 00 61 00 72 00 65 00 20 00 70 00 72 00 6f 00 67 00 72 00 61 00 6d 00 73 00}
+		$s19 = {62 6f 6f 74 61 62 6c 65 20 70 61 72 74 69 74 69 6f 6e 20 6e 6f 74 20 6d 6f 75 6e 74 65 64}
 
-      $x1 = "schtasks /Create /SC ONCE /TN viserion_%u /RU SYSTEM /TR \"%ws\" /ST %02d:%02d:00" fullword wide
-      $x2 = "need to do is submit the payment and get the decryption password." fullword ascii
-      $s3 = "If you have already got the password, please enter it below." fullword ascii
-      $s4 = "dispci.exe" fullword wide
-      $s5 = "\\\\.\\GLOBALROOT\\ArcName\\multi(0)disk(0)rdisk(0)partition(1)" fullword wide
-      $s6 = "Run DECRYPT app at your desktop after system boot" fullword ascii
-      $s7 = "Enter password#1: " fullword wide
-      $s8 = "Enter password#2: " fullword wide
-      $s9 = "C:\\Windows\\cscc.dat" fullword wide
-      $s10 = "schtasks /Delete /F /TN %ws" fullword wide
-      $s11 = "Password#1: " fullword ascii
-      $s12 = "\\AppData" fullword wide
-      $s13 = "Disk decryption completed" fullword wide
-      $s14 = "Files decryption completed" fullword wide
-      $s15 = "http://diskcryptor.net/" fullword wide
-      $s16 = "Your personal installation key#1:" fullword ascii
-      $s17 = ".3ds.7z.accdb.ai.asm.asp.aspx.avhd.back.bak.bmp.brw.c.cab.cc.cer.cfg.conf.cpp.crt.cs.ctl.cxx.dbf.der.dib.disk.djvu.doc.docx.dwg." wide
-      $s18 = "Disable your anti-virus and anti-malware programs" fullword wide
-      $s19 = "bootable partition not mounted" fullword ascii
-   
-   condition:
-   
-      ( uint16(0) == 0x5a4d and
-      filesize < 400KB and 
-      pe.imphash() == "94f57453c539227031b918edd52fc7f1" and 
-      ( 1 of ($x*) or
-      4 of them )) or
-      ( all of them )
+	condition:
+		( uint16( 0 ) == 0x5a4d and filesize < 400KB and pe.imphash ( ) == "94f57453c539227031b918edd52fc7f1" and ( 1 of ( $x* ) or 4 of them ) ) or ( all of them )
 }
 
-rule badrabbit_ransomware {
-   
-   meta:
+rule badrabbit_ransomware : hardened
+{
+	meta:
+		description = "Rule to detect Bad Rabbit Ransomware"
+		author = "Marc Rivero | McAfee ATR Team"
+		rule_version = "v1"
+		malware_type = "ransomware"
+		malware_family = "Ransom:W32/BadRabbit"
+		actor_type = "Cybercrime"
+		actor_group = "Unknown"
+		reference = "https://securelist.com/bad-rabbit-ransomware/82851/"
 
-      description = "Rule to detect Bad Rabbit Ransomware"
-      author = "Marc Rivero | McAfee ATR Team"
-      rule_version = "v1"
-      malware_type = "ransomware"
-      malware_family = "Ransom:W32/BadRabbit"
-      actor_type = "Cybercrime"
-      actor_group = "Unknown" 
-      reference = "https://securelist.com/bad-rabbit-ransomware/82851/"
+	strings:
+		$s1 = {73 00 63 00 68 00 74 00 61 00 73 00 6b 00 73 00 20 00 2f 00 43 00 72 00 65 00 61 00 74 00 65 00 20 00 2f 00 52 00 55 00 20 00 53 00 59 00 53 00 54 00 45 00 4d 00 20 00 2f 00 53 00 43 00 20 00 4f 00 4e 00 53 00 54 00 41 00 52 00 54 00 20 00 2f 00 54 00 4e 00 20 00 72 00 68 00 61 00 65 00 67 00 61 00 6c 00 20 00 2f 00 54 00 52 00 20 00 22 00 25 00 77 00 73 00 20 00 2f 00 43 00 20 00 53 00 74 00 61 00 72 00 74 00 20 00 5c 00 5c 00 22 00 5c 00 5c 00 22 00 20 00 5c 00 5c 00 22 00 25 00 77 00 73 00 64 00 69 00 73 00 70 00 63 00 69 00 2e 00 65 00 78 00 65 00 5c 00 5c 00 22 00 20 00 2d 00 69 00 64 00 20 00 25 00 75 00 20 00 26 00 26 00 20 00 65 00 78 00 69 00 74 00 22 00}
+		$s2 = {43 00 3a 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 5c 00 53 00 79 00 73 00 74 00 65 00 6d 00 33 00 32 00 5c 00 72 00 75 00 6e 00 64 00 6c 00 6c 00 33 00 32 00 2e 00 65 00 78 00 65 00 20 00 22 00 43 00 3a 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 5c 00}
+		$s3 = {70 00 72 00 6f 00 63 00 65 00 73 00 73 00 20 00 63 00 61 00 6c 00 6c 00 20 00 63 00 72 00 65 00 61 00 74 00 65 00 20 00 22 00 43 00 3a 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 5c 00 53 00 79 00 73 00 74 00 65 00 6d 00 33 00 32 00 5c 00 72 00 75 00 6e 00 64 00 6c 00 6c 00 33 00 32 00 2e 00 65 00 78 00 65 00}
+		$s4 = {6e 00 65 00 65 00 64 00 20 00 74 00 6f 00 20 00 64 00 6f 00 20 00 69 00 73 00 20 00 73 00 75 00 62 00 6d 00 69 00 74 00 20 00 74 00 68 00 65 00 20 00 70 00 61 00 79 00 6d 00 65 00 6e 00 74 00 20 00 61 00 6e 00 64 00 20 00 67 00 65 00 74 00 20 00 74 00 68 00 65 00 20 00 64 00 65 00 63 00 72 00 79 00 70 00 74 00 69 00 6f 00 6e 00 20 00 70 00 61 00 73 00 73 00 77 00 6f 00 72 00 64 00 2e 00}
+		$s5 = {73 00 63 00 68 00 74 00 61 00 73 00 6b 00 73 00 20 00 2f 00 43 00 72 00 65 00 61 00 74 00 65 00 20 00 2f 00 53 00 43 00 20 00 6f 00 6e 00 63 00 65 00 20 00 2f 00 54 00 4e 00 20 00 64 00 72 00 6f 00 67 00 6f 00 6e 00 20 00 2f 00 52 00 55 00 20 00 53 00 59 00 53 00 54 00 45 00 4d 00 20 00 2f 00 54 00 52 00 20 00 22 00 25 00 77 00 73 00 22 00 20 00 2f 00 53 00 54 00 20 00 25 00 30 00 32 00 64 00 3a 00 25 00 30 00 32 00 64 00 3a 00 30 00 30 00}
+		$s6 = {72 75 6e 64 6c 6c 33 32 20 25 73 2c 23 32 20 25 73}
+		$s7 = {20 00 5c 00 5c 00 22 00 43 00 3a 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 5c 00 25 00 73 00 5c 00 5c 00 22 00 20 00 23 00 31 00 20 00}
+		$s8 = {52 00 65 00 61 00 64 00 6d 00 65 00 2e 00 74 00 78 00 74 00}
+		$s9 = {77 00 62 00 65 00 6d 00 5c 00 77 00 6d 00 69 00 63 00 2e 00 65 00 78 00 65 00}
+		$s10 = {53 00 59 00 53 00 54 00 45 00 4d 00 5c 00 43 00 75 00 72 00 72 00 65 00 6e 00 74 00 43 00 6f 00 6e 00 74 00 72 00 6f 00 6c 00 53 00 65 00 74 00 5c 00 73 00 65 00 72 00 76 00 69 00 63 00 65 00 73 00 5c 00 25 00 77 00 73 00}
+		$og1 = { 39 74 24 34 74 0a 39 74 24 20 0f 84 9f }
+		$og2 = { 74 0c c7 46 18 98 dd 00 10 e9 34 f0 ff ff 8b 43 }
+		$og3 = { 8b 3d 34 d0 00 10 8d 44 24 28 50 6a 04 8d 44 24 }
+		$oh1 = { 39 5d fc 0f 84 03 01 00 00 89 45 c8 6a 34 8d 45 }
+		$oh2 = { e8 14 13 00 00 b8 ff ff ff 7f eb 5b 8b 4d 0c 85 }
+		$oh3 = { e8 7b ec ff ff 59 59 8b 75 08 8d 34 f5 48 b9 40 }
+		$oj4 = { e8 30 14 00 00 b8 ff ff ff 7f 48 83 c4 28 c3 48 }
+		$oj5 = { ff d0 48 89 45 e0 48 85 c0 0f 84 68 ff ff ff 4c }
+		$oj6 = { 85 db 75 09 48 8b 0e ff 15 34 8f 00 00 48 8b 6c }
+		$ok1 = { 74 0c c7 46 18 c8 4a 40 00 e9 34 f0 ff ff 8b 43 }
+		$ok2 = { 68 f8 6c 40 00 8d 95 e4 f9 ff ff 52 ff 15 34 40 }
+		$ok3 = { e9 ef 05 00 00 6a 10 58 3b f8 73 30 8b 45 f8 85 }
 
-   strings:
-   
-      $s1 = "schtasks /Create /RU SYSTEM /SC ONSTART /TN rhaegal /TR \"%ws /C Start \\\"\\\" \\\"%wsdispci.exe\\\" -id %u && exit\"" fullword wide
-      $s2 = "C:\\Windows\\System32\\rundll32.exe \"C:\\Windows\\" fullword wide
-      $s3 = "process call create \"C:\\Windows\\System32\\rundll32.exe" fullword wide
-      $s4 = "need to do is submit the payment and get the decryption password." fullword wide
-      $s5 = "schtasks /Create /SC once /TN drogon /RU SYSTEM /TR \"%ws\" /ST %02d:%02d:00" fullword wide
-      $s6 = "rundll32 %s,#2 %s" fullword ascii
-      $s7 = " \\\"C:\\Windows\\%s\\\" #1 " fullword wide
-      $s8 = "Readme.txt" fullword wide
-      $s9 = "wbem\\wmic.exe" fullword wide
-      $s10 = "SYSTEM\\CurrentControlSet\\services\\%ws" fullword wide
-
-      $og1 = { 39 74 24 34 74 0a 39 74 24 20 0f 84 9f }
-      $og2 = { 74 0c c7 46 18 98 dd 00 10 e9 34 f0 ff ff 8b 43 }
-      $og3 = { 8b 3d 34 d0 00 10 8d 44 24 28 50 6a 04 8d 44 24 }
-
-      $oh1 = { 39 5d fc 0f 84 03 01 00 00 89 45 c8 6a 34 8d 45 }
-      $oh2 = { e8 14 13 00 00 b8 ff ff ff 7f eb 5b 8b 4d 0c 85 }
-      $oh3 = { e8 7b ec ff ff 59 59 8b 75 08 8d 34 f5 48 b9 40 }
-
-      $oj4 = { e8 30 14 00 00 b8 ff ff ff 7f 48 83 c4 28 c3 48 }
-      $oj5 = { ff d0 48 89 45 e0 48 85 c0 0f 84 68 ff ff ff 4c }
-      $oj6 = { 85 db 75 09 48 8b 0e ff 15 34 8f 00 00 48 8b 6c }
-
-      $ok1 = { 74 0c c7 46 18 c8 4a 40 00 e9 34 f0 ff ff 8b 43 }
-      $ok2 = { 68 f8 6c 40 00 8d 95 e4 f9 ff ff 52 ff 15 34 40 }
-      $ok3 = { e9 ef 05 00 00 6a 10 58 3b f8 73 30 8b 45 f8 85 }
-
-
-   condition:
-
-      uint16(0) == 0x5a4d and
-      filesize < 1000KB and
-      (all of ($s*) and
-      all of ($og*)) or
-      all of ($oh*) or
-      all of ($oj*) or
-      all of ($ok*)
+	condition:
+		uint16( 0 ) == 0x5a4d and filesize < 1000KB and ( all of ( $s* ) and all of ( $og* ) ) or all of ( $oh* ) or all of ( $oj* ) or all of ( $ok* )
 }
+

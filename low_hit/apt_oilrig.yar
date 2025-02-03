@@ -1,326 +1,330 @@
-/*
-   Yara Rule Set
-   Author: Florian Roth
-   Date: 2016-10-12
-   Identifier: OilRig Malware Campaign
-*/
+rule OilRig_Malware_Campaign_Gen1 : hardened
+{
+	meta:
+		description = "Detects malware from OilRig Campaign"
+		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
+		author = "Florian Roth (Nextron Systems)"
+		reference = "https://goo.gl/QMRZ8K"
+		date = "2016-10-12"
+		hash1 = "d808f3109822c185f1d8e1bf7ef7781c219dc56f5906478651748f0ace489d34"
+		hash2 = "80161dad1603b9a7c4a92a07b5c8bce214cf7a3df897b561732f9df7920ecb3e"
+		hash3 = "662c53e69b66d62a4822e666031fd441bbdfa741e20d4511c6741ec3cb02475f"
+		hash4 = "903b6d948c16dc92b69fe1de76cf64ab8377893770bf47c29bf91f3fd987f996"
+		hash5 = "c4fbc723981fc94884f0f493cb8711fdc9da698980081d9b7c139fcffbe723da"
+		hash6 = "57efb7596e6d9fd019b4dc4587ba33a40ab0ca09e14281d85716a253c5612ef4"
+		hash7 = "1b2fee00d28782076178a63e669d2306c37ba0c417708d4dc1f751765c3f94e1"
+		hash8 = "9f31a1908afb23a1029c079ee9ba8bdf0f4c815addbe8eac85b4163e02b5e777"
+		hash9 = "0cd9857a3f626f8e0c07495a4799c59d502c4f3970642a76882e3ed68b790f8e"
+		hash10 = "4b5112f0fb64825b879b01d686e8f4d43521252a3b4f4026c9d1d76d3f15b281"
+		hash11 = "4e5b85ea68bf8f2306b6b931810ae38c8dff3679d78da1af2c91032c36380353"
+		hash12 = "c3c17383f43184a29f49f166a92453a34be18e51935ddbf09576a60441440e51"
+		hash13 = "f3856c7af3c9f84101f41a82e36fc81dfc18a8e9b424a3658b6ba7e3c99f54f2"
+		hash14 = "0c64ab9b0c122b1903e8063e3c2c357cbbee99de07dc535e6c830a0472a71f39"
+		hash15 = "d874f513a032ccb6a5e4f0cd55862b024ea0bee4de94ccf950b3dd894066065d"
+		hash16 = "8ee628d46b8af20c4ba70a2fe8e2d4edca1980583171b71fe72455c6a52d15a9"
+		hash17 = "55d0e12439b20dadb5868766a5200cbbe1a06053bf9e229cf6a852bfcf57d579"
+		hash18 = "528d432952ef879496542bc62a5a4b6eee788f60f220426bd7f933fa2c58dc6b"
+		hash19 = "93940b5e764f2f4a2d893bebef4bf1f7d63c4db856877020a5852a6647cb04a0"
+		hash20 = "e2ec7fa60e654f5861e09bbe59d14d0973bd5727b83a2a03f1cecf1466dd87aa"
+		hash21 = "9c0a33a5dc62933f17506f20e0258f877947bdcd15b091a597eac05d299b7471"
+		hash22 = "a787c0e42608f9a69f718f6dca5556607be45ec77d17b07eb9ea1e0f7bb2e064"
+		hash23 = "3772d473a2fe950959e1fd56c9a44ec48928f92522246f75f4b8cb134f4713ff"
+		hash24 = "3986d54b00647b507b2afd708b7a1ce4c37027fb77d67c6bc3c20c3ac1a88ca4"
+		hash25 = "f5a64de9087b138608ccf036b067d91a47302259269fb05b3349964ca4060e7e"
+		id = "d291edf1-b086-5c61-b131-61c9f6e1267b"
+
+	strings:
+		$x1 = {47 65 74 2d 43 6f 6e 74 65 6e 74 20 24 65 6e 76 3a 50 75 62 6c 69 63 5c 4c 69 62 72 61 72 69 65 73 5c 75 70 64 61 74 65 2e 76 62 73 29 20 2d 72 65 70 6c 61 63 65}
+		$x2 = {77 73 73 2e 52 75 6e 20 22 70 6f 77 65 72 73 68 65 6c 6c 2e 65 78 65 20 22 20 26 20 43 68 72 28 33 34 29 20 26 20 22 26 20 7b 77 61 69 74 66 6f 72 20 68 61 68 61 20 2f 54 20 32 7d 22 20 26 20 43 68 72 28 33 34 29 2c 20 30}
+		$x3 = {43 61 6c 6c 20 45 78 74 72 61 63 74 28 55 70 64 61 74 65 56 62 73 2c 20 77 73 73 2e 45 78 70 61 6e 64 45 6e 76 69 72 6f 6e 6d 65 6e 74 53 74 72 69 6e 67 73 28 22 25 50 55 42 4c 49 43 25 22 29 20 26 20 22 5c 4c 69 62 72 61 72 69 65 73 5c 75 70 64 61 74 65 2e 76 62 73 22 29}
+		$s4 = {43 72 65 61 74 65 4f 62 6a 65 63 74 28 22 57 53 63 72 69 70 74 2e 53 68 65 6c 6c 22 29 2e 52 75 6e 20 63 6d 64 2c 20 30 6f}
+		$b1 = {4a 47 64 73 62 32 4a 68 62 44 70 74 65 57 68 76 63 33 51 67 50}
+		$b2 = {53 45 39 4e 52 54 30 69 4a 58 42 31 59 6d 78 70 59 79 56 63 54 47 6c 69 63 6d 46 79 61 57 56 7a 58}
+		$b3 = {55 32 56 30 49 48 64 7a 63 79 41 39 49 45 4e 79 5a 57 46 30 5a 55 39 69 61 6d 56 6a 64 43 67 69 64 31 4e 6a 63 6d 6c 77 64 43 35 54 61 47 56}
+		$b4 = {4a 48 4e 6a 63 6d 6c 77 64 47 52 70 63 69 41 39 49 46 4e 77 62 47 6c 30 4c 56 42 68 64 47 67 67 4c 56 42 68 63 6d 56 75 64 43 41 74 55 47 46 30 61 43 41}
+		$b5 = {44 51 70 54 5a 58 51 67 64 33 4e 7a 49 44 30 67 51 33 4a 6c 59 58 52 6c 54 32 4a 71 5a 57 4e}
+		$b6 = {64 32 68 76 59 57 31 70 49 43 59 67 61 47 39 7a 64 47 35 68 62}
+
+	condition:
+		( uint16( 0 ) == 0xcfd0 and filesize < 700KB and 1 of them )
+}
+
+rule OilRig_Malware_Campaign_Mal1 : hardened
+{
+	meta:
+		description = "Detects malware from OilRig Campaign"
+		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
+		author = "Florian Roth (Nextron Systems)"
+		reference = "https://goo.gl/QMRZ8K"
+		date = "2016-10-12"
+		hash1 = "e17e1978563dc10b73fd54e7727cbbe95cc0b170a4e7bd0ab223e059f6c25fcc"
+		id = "c577f0ff-1a33-5d7f-93b2-27df8d414bce"
+
+	strings:
+		$x1 = {44 6f 77 6e 6c 6f 61 64 45 78 65 63 75 74 65 3d 22 70 6f 77 65 72 73 68 65 6c 6c 20 22 22 26 7b 24 72 3d 47 65 74 2d 52 61 6e 64 6f 6d 3b 24 77 63 3d 28 6e 65 77 2d 6f 62 6a 65 63 74 20 53 79 73 74 65 6d 2e 4e 65 74 2e 57 65 62 43 6c 69 65 6e 74 29 3b 24 77 63 2e 44 6f 77 6e 6c 6f 61 64 46 69 6c 65 28}
+		$x2 = {2d 45 78 65 63 75 74 69 6f 6e 50 6f 6c 69 63 79 20 42 79 70 61 73 73 20 2d 46 69 6c 65 20 22 26 48 4f 4d 45 26 22 64 6e 73 2e 70 73 31 22}
+		$x3 = {43 72 65 61 74 65 4f 62 6a 65 63 74 28 22 57 53 63 72 69 70 74 2e 53 68 65 6c 6c 22 29 2e 52 75 6e 20 52 65 70 6c 61 63 65 28 44 6f 77 6e 6c 6f 61 64 45 78 65 63 75 74 65 2c 22 2d 5f 22 2c 22 62 61 74 22 29}
+		$x4 = {43 72 65 61 74 65 4f 62 6a 65 63 74 28 22 57 53 63 72 69 70 74 2e 53 68 65 6c 6c 22 29 2e 52 75 6e 20 44 6e 73 43 6d 64 2c 30}
+		$s1 = {68 74 74 70 3a 2f 2f 77 69 6e 6f 64 77 73 75 70 64 61 74 65 73 2e 6d 65}
+
+	condition:
+		( uint16( 0 ) == 0x4f48 and filesize < 4KB and 1 of them ) or ( 2 of them )
+}
+
+rule OilRig_Malware_Campaign_Gen2 : hardened
+{
+	meta:
+		description = "Detects Oilrig malware samples"
+		author = "Florian Roth (Nextron Systems)"
+		reference = "https://goo.gl/QMRZ8K"
+		date = "2016-10-12"
+		modified = "2023-01-07"
+		hash1 = "c6437f57a8f290b5ec46b0933bfa8a328b0cb2c0c7fbeea7f21b770ce0250d3d"
+		hash2 = "293522e83aeebf185e653ac279bba202024cedb07abc94683930b74df51ce5cb"
+		id = "2ca0aadf-c5a8-5c89-ab1e-0c06d2ab8516"
+
+	strings:
+		$s1 = {25 75 73 65 72 70 72 6f 66 69 6c 65 25 5c 41 70 70 44 61 74 61 5c 4c 6f 63 61 6c 5c 4d 69 63 72 6f 73 6f 66 74 5c}
+		$s2 = {24 66 64 6e 3d 5b 53 79 73 74 65 6d 2e 54 65 78 74 2e 45 6e 63 6f 64 69 6e 67 5d 3a 3a 55 54 46 38 2e 47 65 74 53 74 72 69 6e 67 28 5b 53 79 73 74 65 6d 2e 43 6f 6e 76 65 72 74 5d 3a 3a 46 72 6f 6d 42 61 73 65 36 34 53 74 72 69 6e 67 28 27}
+		$s3 = {26 7b 24 72 6e 20 3d 20 47 65 74 2d 52 61 6e 64 6f 6d 3b 20 24 69 64 20 3d 20 27 54 52}
+		$s4 = {27 29 20 2d 72 65 70 6c 61 63 65 20 27 5f 5f 27 2c 28 27 44 4e 53 27 2b 24 69 64 29 20 7c 20}
+		$s5 = {5c 75 70 64 2e 76 62 73}
+		$s6 = {73 63 68 74 61 73 6b 73 20 2f 63 72 65 61 74 65 20 2f 46 20 2f 73 63 20 6d 69 6e 75 74 65 20 2f 6d 6f 20}
+		$s7 = {27 29 20 2d 72 65 70 6c 61 63 65 20 27 5f 5f 27 2c 28 27 48 54 50 27 2b 24 69 64 29 20 7c 20}
+		$s8 = {26 7b 24 72 6e 20 3d 20 47 65 74 2d 52 61 6e 64 6f 6d 20 2d 6d 69 6e 69 6d 75 6d 20 31 20 2d 6d 61 78 69 6d 75 6d 20 31 30 30 30 30 3b 20 24 69 64 20 3d 20 27 41 5a}
+		$s9 = {68 74 74 70 3a 2f 2f 77 77 77 2e 69 73 72 61 69 72 61 69 72 6c 69 6e 65 73 2e 63 6f 6d 2f 3f 6d 6f 64 65 3d 70 61 67 65 26 70 61 67 65 3d 31 34 36 33 35 26 6c 61 6e 67 3d 65 6e 67 3c}
+
+	condition:
+		( uint16( 0 ) == 0xcfd0 and filesize < 4000KB and 2 of ( $s* ) ) or ( 4 of them )
+}
+
+rule OilRig_Malware_Campaign_Gen3 : hardened
+{
+	meta:
+		description = "Detects Oilrig malware samples"
+		author = "Florian Roth (Nextron Systems)"
+		reference = "https://goo.gl/QMRZ8K"
+		date = "2016-10-12"
+		modified = "2023-01-07"
+		hash1 = "5e9ddb25bde3719c392d08c13a295db418d7accd25d82d020b425052e7ba6dc9"
+		hash2 = "bd0920c8836541f58e0778b4b64527e5a5f2084405f73ee33110f7bc189da7a9"
+		hash3 = "90639c7423a329e304087428a01662cc06e2e9153299e37b1b1c90f6d0a195ed"
+		id = "1cd5f7ea-4ae6-5642-b8b3-050cfe724e69"
+
+	strings:
+		$x1 = {73 6f 75 72 63 65 20 63 6f 64 65 20 66 72 6f 6d 20 68 74 74 70 73 3a 2f 2f 77 77 77 2e 66 69 72 65 65 79 65 2e 63 6f 6d 2f 62 6c 6f 67 2f 74 68 72 65 61 74 2d 72 65 73 65 61 72 63 68 2f 32 30 31 36 2f 30 35 2f 74 61 72 67 65 74 65 64 5f 61 74 74 61 63 6b 73 61 67 61 2e 68 74 6d 6c 72 72 72 72}
+		$x2 = {5c 4c 69 62 72 61 72 69 65 73 5c 66 69 72 65 75 65 79 65 2e 76 62 73}
+		$x3 = {5c 00 4c 00 69 00 62 00 72 00 61 00 72 00 69 00 65 00 73 00 5c 00 66 00 69 00 72 00 65 00 65 00 79 00 65 00 2e 00 76 00 62 00 73 00 26 00}
+
+	condition:
+		( uint16( 0 ) == 0xcfd0 and filesize < 100KB and 1 of them )
+}
+
+rule OilRig_Malware_Campaign_Mal2 : hardened
+{
+	meta:
+		description = "Detects malware from OilRig Campaign"
+		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
+		author = "Florian Roth (Nextron Systems)"
+		reference = "https://goo.gl/QMRZ8K"
+		date = "2016-10-12"
+		hash1 = "65920eaea00764a245acb58a3565941477b78a7bcc9efaec5bf811573084b6cf"
+		id = "7a6c38e7-bed9-524b-b4a5-c6c895b9c049"
+
+	strings:
+		$x1 = {77 73 73 2e 52 75 6e 20 22 70 6f 77 65 72 73 68 65 6c 6c 2e 65 78 65 20 22 20 26 20 43 68 72 28 33 34 29 20 26 20 22 26 20 7b 28 47 65 74 2d 43 6f 6e 74 65 6e 74 20 24 65 6e 76 3a 50 75 62 6c 69 63 5c 4c 69 62 72 61 72 69 65 73 5c 75 70 64 61 74 65 2e 76 62 73 29 20 2d 72 65 70 6c 61 63 65 20 27 5f 5f 27 2c 28 47 65 74 2d 52 61 6e 64 6f 6d 29 20 7c 20 53 65 74 2d 43}
+		$x2 = {43 61 6c 6c 20 45 78 74 72 61 63 74 28 55 70 64 61 74 65 56 62 73 2c 20 77 73 73 2e 45 78 70 61 6e 64 45 6e 76 69 72 6f 6e 6d 65 6e 74 53 74 72 69 6e 67 73 28 22 25 50 55 42 4c 49 43 25 22 29 20 26 20 22 5c 4c 69 62 72 61 72 69 65 73 5c 75 70 64 61 74 65 2e 76 62 73 22 29}
+		$x3 = {6d 00 61 00 69 00 6c 00 74 00 6f 00 3a 00 4d 00 6f 00 68 00 61 00 6d 00 6d 00 65 00 64 00 2e 00 73 00 61 00 72 00 61 00 68 00 40 00 67 00 72 00 61 00 74 00 6e 00 65 00 72 00 2e 00 63 00 6f 00 6d 00}
+		$x4 = {6d 00 61 00 69 00 6c 00 74 00 6f 00 3a 00 54 00 61 00 72 00 69 00 6b 00 2e 00 49 00 6d 00 61 00 6d 00 40 00 67 00 61 00 72 00 74 00 6e 00 65 00 72 00 2e 00 63 00 6f 00 6d 00}
+		$x5 = {43 61 6c 6c 20 45 78 74 72 61 63 74 28 44 6e 73 50 73 31 2c 20 77 73 73 2e 45 78 70 61 6e 64 45 6e 76 69 72 6f 6e 6d 65 6e 74 53 74 72 69 6e 67 73 28 22 25 50 55 42 4c 49 43 25 22 29 20 26 20 22 5c 4c 69 62 72 61 72 69 65 73 5c 64 6e 73 2e 70 73 31 22 29}
+		$x6 = {32 00 64 00 79 00 35 00 33 00 4d 00 79 00 35 00 76 00 63 00 6d 00 63 00 76 00 4d 00 6a 00 41 00 77 00}
+
+	condition:
+		( uint16( 0 ) == 0xcfd0 and filesize < 200KB and 1 of them )
+}
+
+rule OilRig_Campaign_Reconnaissance : hardened
+{
+	meta:
+		description = "Detects Windows discovery commands - known from OilRig Campaign"
+		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
+		author = "Florian Roth (Nextron Systems)"
+		reference = "https://goo.gl/QMRZ8K"
+		date = "2016-10-12"
+		hash1 = "5893eae26df8e15c1e0fa763bf88a1ae79484cdb488ba2fc382700ff2cfab80c"
+		id = "a4fe24b8-290a-5a4a-9f81-bbbd9aae6c6e"
+
+	strings:
+		$s1 = {77 68 6f 61 6d 69 20 26 20 68 6f 73 74 6e 61 6d 65 20 26 20 69 70 63 6f 6e 66 69 67 20 2f 61 6c 6c}
+		$s2 = {6e 65 74 20 75 73 65 72 20 2f 64 6f 6d 61 69 6e 20 32 3e 26 31 20 26 20 6e 65 74 20 67 72 6f 75 70 20 2f 64 6f 6d 61 69 6e 20 32 3e 26 31}
+		$s3 = {6e 65 74 20 67 72 6f 75 70 20 22 64 6f 6d 61 69 6e 20 61 64 6d 69 6e 73 22 20 2f 64 6f 6d 61 69 6e 20 32 3e 26 31 20 26 20}
+
+	condition:
+		( filesize < 1KB and 1 of them )
+}
+
+rule OilRig_Malware_Campaign_Mal3 : hardened
+{
+	meta:
+		description = "Detects malware from OilRig Campaign"
+		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
+		author = "Florian Roth (Nextron Systems)"
+		reference = "https://goo.gl/QMRZ8K"
+		date = "2016-10-12"
+		hash1 = "02226181f27dbf59af5377e39cf583db15200100eea712fcb6f55c0a2245a378"
+		id = "e5967b39-5d21-5a6a-a1b5-2ec122f16444"
+
+	strings:
+		$x1 = {28 47 65 74 2d 43 6f 6e 74 65 6e 74 20 24 65 6e 76 3a 50 75 62 6c 69 63 5c 4c 69 62 72 61 72 69 65 73 5c 64 6e 73 2e 70 73 31 29 20 2d 72 65 70 6c 61 63 65 20 28 27 23 27 2b 27 23 23 27 29 2c 24 62 6f 74 69 64 20 7c 20 53 65 74 2d 43 6f 6e 74 65 6e 74 20 24 65 6e 76 3a 50 75 62 6c 69 63 5c 4c 69 62 72 61 72 69 65 73 5c 64 6e 73 2e 70 73 31}
+		$x2 = {49 6e 76 6f 6b 65 2d 45 78 70 72 65 73 73 69 6f 6e 20 28 24 67 6c 6f 62 61 6c 3a 6d 79 68 6f 6d 65 2b 27 74 70 5c 27 2b 24 67 6c 6f 62 61 6c 3a 66 69 6c 65 6e 61 6d 65 2b 27 2e 62 61 74 20 3e 20 27 2b 24 67 6c 6f 62 61 6c 3a 6d 79 68 6f 6d 65 2b 27 74 70 5c 27 2b 24 67 6c 6f 62 61 6c 3a 66 69 6c 65 6e 61 6d 65 2b 27 2e 74 78 74 27 29}
+		$x3 = {28 27 30 30 30 30 30 30 30 30 27 2b 28 63 6f 6e 76 65 72 74 54 6f 2d 42 61 73 65 33 36 28 47 65 74 2d 52 61 6e 64 6f 6d 20 2d 4d 61 78 69 6d 75 6d 20 34 36 36 35 35 29 29 29}
+
+	condition:
+		( filesize < 10KB and 1 of them )
+}
 
 import "pe"
 
-/* Rule Set ----------------------------------------------------------------- */
+rule OilRig_Malware_Nov17_13 : hardened
+{
+	meta:
+		description = ""
+		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
+		author = "Florian Roth (Nextron Systems)"
+		reference = "https://twitter.com/ClearskySec/status/933280188733018113"
+		date = "2017-11-22"
+		hash1 = "4f1e2df85c538875a7da877719555e21c33a558ac121eb715cf4e779d77ab445"
+		id = "c45b8d30-6a5f-5dac-a202-6748ba7b7bd2"
 
-rule OilRig_Malware_Campaign_Gen1 {
-   meta:
-      description = "Detects malware from OilRig Campaign"
-      license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
-      author = "Florian Roth (Nextron Systems)"
-      reference = "https://goo.gl/QMRZ8K"
-      date = "2016-10-12"
-      hash1 = "d808f3109822c185f1d8e1bf7ef7781c219dc56f5906478651748f0ace489d34"
-      hash2 = "80161dad1603b9a7c4a92a07b5c8bce214cf7a3df897b561732f9df7920ecb3e"
-      hash3 = "662c53e69b66d62a4822e666031fd441bbdfa741e20d4511c6741ec3cb02475f"
-      hash4 = "903b6d948c16dc92b69fe1de76cf64ab8377893770bf47c29bf91f3fd987f996"
-      hash5 = "c4fbc723981fc94884f0f493cb8711fdc9da698980081d9b7c139fcffbe723da"
-      hash6 = "57efb7596e6d9fd019b4dc4587ba33a40ab0ca09e14281d85716a253c5612ef4"
-      hash7 = "1b2fee00d28782076178a63e669d2306c37ba0c417708d4dc1f751765c3f94e1"
-      hash8 = "9f31a1908afb23a1029c079ee9ba8bdf0f4c815addbe8eac85b4163e02b5e777"
-      hash9 = "0cd9857a3f626f8e0c07495a4799c59d502c4f3970642a76882e3ed68b790f8e"
-      hash10 = "4b5112f0fb64825b879b01d686e8f4d43521252a3b4f4026c9d1d76d3f15b281"
-      hash11 = "4e5b85ea68bf8f2306b6b931810ae38c8dff3679d78da1af2c91032c36380353"
-      hash12 = "c3c17383f43184a29f49f166a92453a34be18e51935ddbf09576a60441440e51"
-      hash13 = "f3856c7af3c9f84101f41a82e36fc81dfc18a8e9b424a3658b6ba7e3c99f54f2"
-      hash14 = "0c64ab9b0c122b1903e8063e3c2c357cbbee99de07dc535e6c830a0472a71f39"
-      hash15 = "d874f513a032ccb6a5e4f0cd55862b024ea0bee4de94ccf950b3dd894066065d"
-      hash16 = "8ee628d46b8af20c4ba70a2fe8e2d4edca1980583171b71fe72455c6a52d15a9"
-      hash17 = "55d0e12439b20dadb5868766a5200cbbe1a06053bf9e229cf6a852bfcf57d579"
-      hash18 = "528d432952ef879496542bc62a5a4b6eee788f60f220426bd7f933fa2c58dc6b"
-      hash19 = "93940b5e764f2f4a2d893bebef4bf1f7d63c4db856877020a5852a6647cb04a0"
-      hash20 = "e2ec7fa60e654f5861e09bbe59d14d0973bd5727b83a2a03f1cecf1466dd87aa"
-      hash21 = "9c0a33a5dc62933f17506f20e0258f877947bdcd15b091a597eac05d299b7471"
-      hash22 = "a787c0e42608f9a69f718f6dca5556607be45ec77d17b07eb9ea1e0f7bb2e064"
-      hash23 = "3772d473a2fe950959e1fd56c9a44ec48928f92522246f75f4b8cb134f4713ff"
-      hash24 = "3986d54b00647b507b2afd708b7a1ce4c37027fb77d67c6bc3c20c3ac1a88ca4"
-      hash25 = "f5a64de9087b138608ccf036b067d91a47302259269fb05b3349964ca4060e7e"
+	strings:
+		$x1 = {5c 52 65 6c 65 61 73 65 5c 64 6e 73 63 61 74 32 2e 70 64 62}
+		$x2 = {63 73 63 72 69 70 74 2e 65 78 65 20 2f 2f 54 3a 32 30 20 2f 2f 4e 6f 6c 6f 67 6f 20}
+		$a1 = {74 61 73 6b 6b 69 6c 6c 20 2f 46 20 2f 49 4d 20 63 73 63 72 69 70 74 2e 65 78 65}
+		$a2 = {63 6d 64 2e 65 78 65 20 2f 63 20}
 
-      id = "d291edf1-b086-5c61-b131-61c9f6e1267b"
-   strings:
-      $x1 = "Get-Content $env:Public\\Libraries\\update.vbs) -replace" ascii
-      $x2 = "wss.Run \"powershell.exe \" & Chr(34) & \"& {waitfor haha /T 2}\" & Chr(34), 0" fullword ascii
-      $x3 = "Call Extract(UpdateVbs, wss.ExpandEnvironmentStrings(\"%PUBLIC%\") & \"\\Libraries\\update.vbs\")" fullword ascii
-      $s4 = "CreateObject(\"WScript.Shell\").Run cmd, 0o" fullword ascii
-
-      /* Base64 encode config */
-      /* $global:myhost = */
-      $b1 = "JGdsb2JhbDpteWhvc3QgP" ascii
-      /* HOME="%public%\Libraries\" */
-      $b2 = "SE9NRT0iJXB1YmxpYyVcTGlicmFyaWVzX" ascii
-      /* Set wss = CreateObject("wScript.Shell") */
-      $b3 = "U2V0IHdzcyA9IENyZWF0ZU9iamVjdCgid1NjcmlwdC5TaGV" ascii
-      /* $scriptdir = Split-Path -Parent -Path $ */
-      $b4 = "JHNjcmlwdGRpciA9IFNwbGl0LVBhdGggLVBhcmVudCAtUGF0aCA" ascii
-      /* \x0aSet wss = CreateObject("wScript.Shell") */
-      $b5 = "DQpTZXQgd3NzID0gQ3JlYXRlT2JqZWN" ascii
-      /* whoami & hostname */
-      $b6 = "d2hvYW1pICYgaG9zdG5hb" ascii
-   condition:
-      ( uint16(0) == 0xcfd0 and filesize < 700KB and 1 of them )
+	condition:
+		uint16( 0 ) == 0x5a4d and filesize < 3000KB and ( pe.imphash ( ) == "0160250adfc97f9d4a12dd067323ec61" or 1 of ( $x* ) or all of ( $a* ) )
 }
 
-rule OilRig_Malware_Campaign_Mal1 {
-   meta:
-      description = "Detects malware from OilRig Campaign"
-      license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
-      author = "Florian Roth (Nextron Systems)"
-      reference = "https://goo.gl/QMRZ8K"
-      date = "2016-10-12"
-      hash1 = "e17e1978563dc10b73fd54e7727cbbe95cc0b170a4e7bd0ab223e059f6c25fcc"
-      id = "c577f0ff-1a33-5d7f-93b2-27df8d414bce"
-   strings:
-      $x1 = "DownloadExecute=\"powershell \"\"&{$r=Get-Random;$wc=(new-object System.Net.WebClient);$wc.DownloadFile(" ascii
-      $x2 = "-ExecutionPolicy Bypass -File \"&HOME&\"dns.ps1\"" fullword ascii
-      $x3 = "CreateObject(\"WScript.Shell\").Run Replace(DownloadExecute,\"-_\",\"bat\")" fullword ascii
-      $x4 = "CreateObject(\"WScript.Shell\").Run DnsCmd,0" fullword ascii
-      $s1 = "http://winodwsupdates.me" ascii
-   condition:
-      ( uint16(0) == 0x4f48 and filesize < 4KB and 1 of them ) or ( 2 of them )
+rule Oilrig_IntelSecurityManager_macro : hardened
+{
+	meta:
+		description = "Detects OilRig malware"
+		author = "Eyal Sela (slightly modified by Florian Roth)"
+		reference = "Internal Research"
+		date = "2018-01-19"
+		id = "4cccc0df-a225-5500-be55-f4ae346e066e"
+
+	strings:
+		$one1 = {((24 63 24 6d 24 24 64 24 2e 24 24) | (24 00 63 00 24 00 6d 00 24 00 24 00 64 00 24 00 2e 00 24 00 24 00))}
+		$one2 = {((24 43 24 24 65 24 72 24 24 74 24 75 24 24 74 24 69 24 24 6c 24) | (24 00 43 00 24 00 24 00 65 00 24 00 72 00 24 00 24 00 74 00 24 00 75 00 24 00 24 00 74 00 24 00 69 00 24 00 24 00 6c 00 24 00))}
+		$one3 = {((24 24 25 24 61 24 24 70 24 70 24 24 64 24 61 24) | (24 00 24 00 25 00 24 00 61 00 24 00 24 00 70 00 24 00 70 00 24 00 24 00 64 00 24 00 61 00 24 00))}
+		$one4 = {((2e 24 74 24 24 78 24 74 24 24) | (2e 00 24 00 74 00 24 00 24 00 78 00 24 00 74 00 24 00 24 00))}
+		$one5 = {((63 75 20 3d 20 52 65 70 6c 61 63 65 28 63 75 2c 20 22 24 22 2c 20 22 22 29) | (63 00 75 00 20 00 3d 00 20 00 52 00 65 00 70 00 6c 00 61 00 63 00 65 00 28 00 63 00 75 00 2c 00 20 00 22 00 24 00 22 00 2c 00 20 00 22 00 22 00 29 00))}
+		$one6 = {53 68 65 6c 6c 20 45 6e 76 69 72 6f 6e 24 28 22 43 4f 4d 53 50 45 43 22 29 20 26 20 22 20 2f 63}
+		$one7 = {((65 63 68 6f 20 22 20 26 20 43 68 72 28 33 32 29 20 26 20 63 6d 64 20 26 20 43 68 72 28 33 32 29 20 26 20 22 20 3e 20 22 20 26 20 43 68 72 28 33 34 29) | (65 00 63 00 68 00 6f 00 20 00 22 00 20 00 26 00 20 00 43 00 68 00 72 00 28 00 33 00 32 00 29 00 20 00 26 00 20 00 63 00 6d 00 64 00 20 00 26 00 20 00 43 00 68 00 72 00 28 00 33 00 32 00 29 00 20 00 26 00 20 00 22 00 20 00 3e 00 20 00 22 00 20 00 26 00 20 00 43 00 68 00 72 00 28 00 33 00 34 00 29 00))}
+		$two1 = {((26 20 53 63 68 54 61 73 6b 73 20 2f 44 65 6c 65 74 65 20 2f 46 20 2f 54 4e 20) | (26 00 20 00 53 00 63 00 68 00 54 00 61 00 73 00 6b 00 73 00 20 00 2f 00 44 00 65 00 6c 00 65 00 74 00 65 00 20 00 2f 00 46 00 20 00 2f 00 54 00 4e 00 20 00))}
+		$two2 = {((53 65 63 75 72 69 74 79 41 73 73 69 73 74) | (53 00 65 00 63 00 75 00 72 00 69 00 74 00 79 00 41 00 73 00 73 00 69 00 73 00 74 00))}
+		$two3 = {((76 62 73 20 3d 20 22 63 6d 64 2e 65 78 65 20 2f 63 20 53 63 68 54 61 73 6b 73) | (76 00 62 00 73 00 20 00 3d 00 20 00 22 00 63 00 6d 00 64 00 2e 00 65 00 78 00 65 00 20 00 2f 00 63 00 20 00 53 00 63 00 68 00 54 00 61 00 73 00 6b 00 73 00))}
+		$two4 = {((2f 44 65 6c 65 74 65 20 2f 46 20 2f 54 4e 20 43 6f 6e 68 6f 73 74 20 26 20 64 65 6c) | (2f 00 44 00 65 00 6c 00 65 00 74 00 65 00 20 00 2f 00 46 00 20 00 2f 00 54 00 4e 00 20 00 43 00 6f 00 6e 00 68 00 6f 00 73 00 74 00 20 00 26 00 20 00 64 00 65 00 6c 00))}
+		$two5 = {((4e 75 6c 6c 52 65 66 72 65 6e 63 65 64 45 78 63 65 70 74 69 6f 6e) | (4e 00 75 00 6c 00 6c 00 52 00 65 00 66 00 72 00 65 00 6e 00 63 00 65 00 64 00 45 00 78 00 63 00 65 00 70 00 74 00 69 00 6f 00 6e 00))}
+		$two6 = {((65 72 72 6f 72 20 68 61 73 20 6f 63 63 75 72 72 65 64 20 69 6e 20 75 73 65 72 33 32 2e 64 6c 6c 20 62 79) | (65 00 72 00 72 00 6f 00 72 00 20 00 68 00 61 00 73 00 20 00 6f 00 63 00 63 00 75 00 72 00 72 00 65 00 64 00 20 00 69 00 6e 00 20 00 75 00 73 00 65 00 72 00 33 00 32 00 2e 00 64 00 6c 00 6c 00 20 00 62 00 79 00))}
+		$two7 = {((4e 75 6c 6c 52 65 66 72 65 6e 63 65 64 45 78 63 65 70 74 69 6f 6e) | (4e 00 75 00 6c 00 6c 00 52 00 65 00 66 00 72 00 65 00 6e 00 63 00 65 00 64 00 45 00 78 00 63 00 65 00 70 00 74 00 69 00 6f 00 6e 00))}
+
+	condition:
+		filesize < 300KB and 1 of ( $one* ) or 2 of ( $two* )
 }
 
-rule OilRig_Malware_Campaign_Gen2 {
-   meta:
-      description = "Detects Oilrig malware samples"
-      author = "Florian Roth (Nextron Systems)"
-      reference = "https://goo.gl/QMRZ8K"
-      date = "2016-10-12"
-      modified = "2023-01-07"
-      hash1 = "c6437f57a8f290b5ec46b0933bfa8a328b0cb2c0c7fbeea7f21b770ce0250d3d"
-      hash2 = "293522e83aeebf185e653ac279bba202024cedb07abc94683930b74df51ce5cb"
-      id = "2ca0aadf-c5a8-5c89-ab1e-0c06d2ab8516"
-   strings:
-      $s1 = "%userprofile%\\AppData\\Local\\Microsoft\\" ascii
-      $s2 = "$fdn=[System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('" fullword ascii
-      $s3 = "&{$rn = Get-Random; $id = 'TR" fullword ascii
-      $s4 = "') -replace '__',('DNS'+$id) | " fullword ascii
-      $s5 = "\\upd.vbs" ascii
-      $s6 = "schtasks /create /F /sc minute /mo " fullword ascii
-      $s7 = "') -replace '__',('HTP'+$id) | " fullword ascii
-      $s8 = "&{$rn = Get-Random -minimum 1 -maximum 10000; $id = 'AZ" fullword ascii
-      $s9 = "http://www.israirairlines.com/?mode=page&page=14635&lang=eng<" fullword ascii
-   condition:
-      ( uint16(0) == 0xcfd0 and filesize < 4000KB and 2 of ($s*) ) or ( 4 of them )
+rule Oilrig_IntelSecurityManager : hardened
+{
+	meta:
+		description = "Detects OilRig malware"
+		author = "Eyal Sela"
+		reference = "Internal Research"
+		date = "2018-01-19"
+		id = "4cccc0df-a225-5500-be55-f4ae346e066e"
+
+	strings:
+		$one1 = {((73 72 76 52 65 73 65 73 70 6f 6e 64 65 64) | (73 00 72 00 76 00 52 00 65 00 73 00 65 00 73 00 70 00 6f 00 6e 00 64 00 65 00 64 00))}
+		$one2 = {((49 6e 65 74 6c 53 65 63 75 72 69 74 79 41 73 73 69 73 74 4d 61 6e 61 67 65 72) | (49 00 6e 00 65 00 74 00 6c 00 53 00 65 00 63 00 75 00 72 00 69 00 74 00 79 00 41 00 73 00 73 00 69 00 73 00 74 00 4d 00 61 00 6e 00 61 00 67 00 65 00 72 00))}
+		$one3 = {((73 72 76 43 68 65 63 6b 72 65 73 70 6f 6e 64 65 64) | (73 00 72 00 76 00 43 00 68 00 65 00 63 00 6b 00 72 00 65 00 73 00 70 00 6f 00 6e 00 64 00 65 00 64 00))}
+		$one4 = {((49 6e 74 65 6c 53 65 63 75 72 69 74 79 4d 61 6e 61 67 65 72) | (49 00 6e 00 74 00 65 00 6c 00 53 00 65 00 63 00 75 00 72 00 69 00 74 00 79 00 4d 00 61 00 6e 00 61 00 67 00 65 00 72 00))}
+		$one5 = {((6d 73 6f 66 66 69 63 65 33 36 35 63 64 6e 2e 63 6f 6d) | (6d 00 73 00 6f 00 66 00 66 00 69 00 63 00 65 00 33 00 36 00 35 00 63 00 64 00 6e 00 2e 00 63 00 6f 00 6d 00))}
+		$one6 = {((5c 74 6d 70 43 61 2e 76 62 73) | (5c 00 74 00 6d 00 70 00 43 00 61 00 2e 00 76 00 62 00 73 00))}
+		$one7 = {((41 41 5a 46 69 6e 69 73 68) | (41 00 41 00 5a 00 46 00 69 00 6e 00 69 00 73 00 68 00))}
+		$one8 = {((41 41 5a 55 70 6c 6f 61 64 65 64) | (41 00 41 00 5a 00 55 00 70 00 6c 00 6f 00 61 00 64 00 65 00 64 00))}
+		$one9 = {((41 42 5a 46 69 6e 69 73 68) | (41 00 42 00 5a 00 46 00 69 00 6e 00 69 00 73 00 68 00))}
+		$one10 = {((5c 74 6d 70 43 61 2e 76 62 73) | (5c 00 74 00 6d 00 70 00 43 00 61 00 2e 00 76 00 62 00 73 00))}
+
+	condition:
+		filesize < 300KB and any of them
 }
 
-rule OilRig_Malware_Campaign_Gen3 {
-   meta:
-      description = "Detects Oilrig malware samples"
-      author = "Florian Roth (Nextron Systems)"
-      reference = "https://goo.gl/QMRZ8K"
-      date = "2016-10-12"
-      modified = "2023-01-07"
-      hash1 = "5e9ddb25bde3719c392d08c13a295db418d7accd25d82d020b425052e7ba6dc9"
-      hash2 = "bd0920c8836541f58e0778b4b64527e5a5f2084405f73ee33110f7bc189da7a9"
-      hash3 = "90639c7423a329e304087428a01662cc06e2e9153299e37b1b1c90f6d0a195ed"
-      id = "1cd5f7ea-4ae6-5642-b8b3-050cfe724e69"
-   strings:
-      $x1 = "source code from https://www.fireeye.com/blog/threat-research/2016/05/targeted_attacksaga.htmlrrrr" fullword ascii
-      $x2 = "\\Libraries\\fireueye.vbs" ascii
-      $x3 = "\\Libraries\\fireeye.vbs&" wide
-   condition:
-      ( uint16(0) == 0xcfd0 and filesize < 100KB and 1 of them )
+rule APT_APT34_PS_Malware_Apr19_1 : hardened
+{
+	meta:
+		description = "Detects APT34 PowerShell malware"
+		author = "Florian Roth (Nextron Systems)"
+		reference = "https://twitter.com/0xffff0800/status/1118406371165126656"
+		date = "2019-04-17"
+		hash1 = "b1d621091740e62c84fc8c62bcdad07873c8b61b83faba36097ef150fd6ec768"
+		id = "6a082c5a-ee5b-5002-9148-61bbcfedfe68"
+
+	strings:
+		$x1 = {3d 20 67 65 74 2d 77 6d 69 6f 62 6a 65 63 74 20 57 69 6e 33 32 5f 43 6f 6d 70 75 74 65 72 53 79 73 74 65 6d 50 72 6f 64 75 63 74 20 20 7c 20 53 65 6c 65 63 74 2d 4f 62 6a 65 63 74 20 2d 45 78 70 61 6e 64 50 72 6f 70 65 72 74 79 20 55 55 49 44}
+		$x2 = {57 72 69 74 65 2d 48 6f 73 74 20 22 65 78 63 65 70 74 6f 6e 20 6f 63 63 75 72 65 64 21 22}
+		$s1 = {53 74 61 72 74 2d 53 6c 65 65 70 20 2d 73 20 31 3b}
+		$s2 = {53 74 61 72 74 2d 53 6c 65 65 70 20 2d 6d 20 31 30 30 3b}
+
+	condition:
+		1 of ( $x* ) or 2 of them
 }
 
-rule OilRig_Malware_Campaign_Mal2 {
-   meta:
-      description = "Detects malware from OilRig Campaign"
-      license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
-      author = "Florian Roth (Nextron Systems)"
-      reference = "https://goo.gl/QMRZ8K"
-      date = "2016-10-12"
-      hash1 = "65920eaea00764a245acb58a3565941477b78a7bcc9efaec5bf811573084b6cf"
-      id = "7a6c38e7-bed9-524b-b4a5-c6c895b9c049"
-   strings:
-      $x1 = "wss.Run \"powershell.exe \" & Chr(34) & \"& {(Get-Content $env:Public\\Libraries\\update.vbs) -replace '__',(Get-Random) | Set-C" ascii
-      $x2 = "Call Extract(UpdateVbs, wss.ExpandEnvironmentStrings(\"%PUBLIC%\") & \"\\Libraries\\update.vbs\")" fullword ascii
-      $x3 = "mailto:Mohammed.sarah@gratner.com" fullword wide
-      $x4 = "mailto:Tarik.Imam@gartner.com" fullword wide
-      $x5 = "Call Extract(DnsPs1, wss.ExpandEnvironmentStrings(\"%PUBLIC%\") & \"\\Libraries\\dns.ps1\")" fullword ascii
-      $x6 = "2dy53My5vcmcvMjAw" fullword wide /* base64 encoded string 'w.w3.org/200' */
-   condition:
-      ( uint16(0) == 0xcfd0 and filesize < 200KB and 1 of them )
+rule APT_APT34_PS_Malware_Apr19_2 : hardened
+{
+	meta:
+		description = "Detects APT34 PowerShell malware"
+		author = "Florian Roth (Nextron Systems)"
+		reference = "https://twitter.com/0xffff0800/status/1118406371165126656"
+		date = "2019-04-17"
+		hash1 = "2943e69e6c34232dee3236ced38d41d378784a317eeaf6b90482014210fcd459"
+		id = "c3bdadfd-2164-5e33-be84-d5d5de8eb048"
+
+	strings:
+		$x1 = {3d 20 22 68 74 74 70 3a 2f 2f 22 20 2b 20 5b 53 79 73 74 65 6d 2e 4e 65 74 2e 44 6e 73 5d 3a 3a 47 65 74 48 6f 73 74 41 64 64 72 65 73 73 65 73 28 22}
+		$x2 = {24 74 20 3d 20 67 65 74 2d 77 6d 69 6f 62 6a 65 63 74 20 57 69 6e 33 32 5f 43 6f 6d 70 75 74 65 72 53 79 73 74 65 6d 50 72 6f 64 75 63 74 20 20 7c 20 53 65 6c 65 63 74 2d 4f 62 6a 65 63 74 20 2d 45 78 70 61 6e 64 50 72 6f 70 65 72 74 79 20 55 55 49 44}
+		$x3 = {7c 20 57 68 65 72 65 20 7b 20 24 5f 20 2d 6e 6f 74 6d 61 74 63 68 20 27 5e 5c 73 2b 24 27 20 7d}
+		$s1 = {3d 20 6e 65 77 2d 6f 62 6a 65 63 74 20 53 79 73 74 65 6d 2e 4e 65 74 2e 57 65 62 50 72 6f 78 79 28 24 75 2c 20 24 74 72 75 65 29 3b}
+		$s2 = {20 2d 65 71 20 22 64 6f 6d 22 29 7b 24}
+		$s3 = {20 2d 65 71 20 22 73 72 76 22 29 7b 24}
+		$s4 = {2b 22 3c 3e 22 20 7c 20 53 65 74 2d 43 6f 6e 74 65 6e 74}
+
+	condition:
+		1 of ( $x* ) and 3 of them
 }
 
-rule OilRig_Campaign_Reconnaissance {
-   meta:
-      description = "Detects Windows discovery commands - known from OilRig Campaign"
-      license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
-      author = "Florian Roth (Nextron Systems)"
-      reference = "https://goo.gl/QMRZ8K"
-      date = "2016-10-12"
-      hash1 = "5893eae26df8e15c1e0fa763bf88a1ae79484cdb488ba2fc382700ff2cfab80c"
-      id = "a4fe24b8-290a-5a4a-9f81-bbbd9aae6c6e"
-   strings:
-      $s1 = "whoami & hostname & ipconfig /all" ascii
-      $s2 = "net user /domain 2>&1 & net group /domain 2>&1" ascii
-      $s3 = "net group \"domain admins\" /domain 2>&1 & " ascii
-   condition:
-      ( filesize < 1KB and 1 of them )
+rule APT_APT34_PS_Malware_Apr19_3 : hardened
+{
+	meta:
+		description = "Detects APT34 PowerShell malware"
+		author = "Florian Roth (Nextron Systems)"
+		reference = "https://twitter.com/0xffff0800/status/1118406371165126656"
+		date = "2019-04-17"
+		modified = "2023-01-06"
+		hash1 = "27e03b98ae0f6f2650f378e9292384f1350f95ee4f3ac009e0113a8d9e2e14ed"
+		id = "361582e7-94e3-5608-9ba9-31fa20c37cf0"
+
+	strings:
+		$x1 = {50 6f 77 65 72 73 68 65 6c 6c 2e 65 78 65 20 2d 65 78 65 63 20 62 79 70 61 73 73 20 2d 66 69 6c 65 20 24 7b 67 6c 6f 62 61 6c 3a 24 61 64 64 72 65 73 73 31 7d}
+		$x2 = {73 63 68 74 61 73 6b 73 20 2f 63 72 65 61 74 65 20 2f 46 20 2f 72 75 20 53 59 53 54 45 4d 20 2f 73 63 20 6d 69 6e 75 74 65 20 2f 6d 6f 20 31 30 20 2f 74 6e}
+		$x3 = {22 5c 55 70 64 61 74 65 54 61 73 6b 73 5c 55 70 64 61 74 65 54 61 73 6b 48 6f 73 74 73 22}
+		$x4 = {77 73 63 72 69 70 74 20 2f 62 20 5c 60 22 24 7b 67 6c 6f 62 61 6c 3a 24 61 64 64 72 65 73 73 31}
+		$x5 = {3a 3a 46 72 6f 6d 42 61 73 65 36 34 53 74 72 69 6e 67 28 5b 73 74 72 69 6e 67 5d 24 7b 67 6c 6f 62 61 6c 3a 24 68 74 74 70 5f 61 67 7d 29 29}
+		$x6 = {2e 72 75 6e 20 63 6f 6d 6d 61 6e 64 31 2c 20 30 2c 20 66 61 6c 73 65 22 20 7c 20 4f 75 74 2d 46 69 6c 65 20}
+		$x7 = {5c 55 70 64 61 74 65 54 61 73 6b 2e 76 62 73}
+		$x8 = {68 55 70 64 61 74 65 72 2e 70 73 31}
+
+	condition:
+		1 of them
 }
 
-rule OilRig_Malware_Campaign_Mal3 {
-   meta:
-      description = "Detects malware from OilRig Campaign"
-      license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
-      author = "Florian Roth (Nextron Systems)"
-      reference = "https://goo.gl/QMRZ8K"
-      date = "2016-10-12"
-      hash1 = "02226181f27dbf59af5377e39cf583db15200100eea712fcb6f55c0a2245a378"
-      id = "e5967b39-5d21-5a6a-a1b5-2ec122f16444"
-   strings:
-      $x1 = "(Get-Content $env:Public\\Libraries\\dns.ps1) -replace ('#'+'##'),$botid | Set-Content $env:Public\\Libraries\\dns.ps1" fullword ascii
-      $x2 = "Invoke-Expression ($global:myhome+'tp\\'+$global:filename+'.bat > '+$global:myhome+'tp\\'+$global:filename+'.txt')" fullword ascii
-      $x3 = "('00000000'+(convertTo-Base36(Get-Random -Maximum 46655)))" fullword ascii
-   condition:
-      ( filesize < 10KB and 1 of them )
-}
-
-rule OilRig_Malware_Nov17_13 {
-   meta:
-      description = ""
-      license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
-      author = "Florian Roth (Nextron Systems)"
-      reference = "https://twitter.com/ClearskySec/status/933280188733018113"
-      date = "2017-11-22"
-      hash1 = "4f1e2df85c538875a7da877719555e21c33a558ac121eb715cf4e779d77ab445"
-      id = "c45b8d30-6a5f-5dac-a202-6748ba7b7bd2"
-   strings:
-      $x1 = "\\Release\\dnscat2.pdb" ascii
-      $x2 = "cscript.exe //T:20 //Nologo " fullword ascii
-
-      $a1 = "taskkill /F /IM cscript.exe" fullword ascii
-      $a2 = "cmd.exe /c " fullword ascii
-   condition:
-      uint16(0) == 0x5a4d and filesize < 3000KB and (
-        pe.imphash() == "0160250adfc97f9d4a12dd067323ec61" or
-        1 of ($x*) or
-        all of ($a*)
-      )
-}
-
-rule Oilrig_IntelSecurityManager_macro {
-   meta:
-      description = "Detects OilRig malware"
-      author = "Eyal Sela (slightly modified by Florian Roth)"
-      reference = "Internal Research"
-      date = "2018-01-19"
-      id = "4cccc0df-a225-5500-be55-f4ae346e066e"
-   strings:
-      $one1 = "$c$m$$d$.$$" ascii wide
-      $one2 = "$C$$e$r$$t$u$$t$i$$l$" ascii wide
-      $one3 = "$$%$a$$p$p$$d$a$" ascii wide
-      $one4 = ".$t$$x$t$$" ascii wide
-      $one5 = "cu = Replace(cu, \"$\", \"\")" ascii wide
-      $one6 = "Shell Environ$(\"COMSPEC\") & \" /c"
-      $one7 = "echo \" & Chr(32) & cmd & Chr(32) & \" > \" & Chr(34)" ascii wide
-
-      $two1 = "& SchTasks /Delete /F /TN " ascii wide
-      $two2 = "SecurityAssist" ascii wide
-      $two3 = "vbs = \"cmd.exe /c SchTasks" ascii wide
-      $two4 = "/Delete /F /TN Conhost & del" ascii wide
-      $two5 = "NullRefrencedException" ascii wide
-      $two6 = "error has occurred in user32.dll by" ascii wide
-      $two7 = "NullRefrencedException" ascii wide
-   condition:
-      filesize < 300KB and 1 of ($one*) or 2 of ($two*)
-}
-
-rule Oilrig_IntelSecurityManager {
-   meta:
-      description = "Detects OilRig malware"
-      author = "Eyal Sela"
-      reference = "Internal Research"
-      date = "2018-01-19"
-      id = "4cccc0df-a225-5500-be55-f4ae346e066e"
-   strings:
-      $one1 = "srvResesponded" ascii wide fullword
-      $one2 = "InetlSecurityAssistManager" ascii wide fullword
-      $one3 = "srvCheckresponded" ascii wide fullword
-      $one4 = "IntelSecurityManager" ascii wide
-      $one5 = "msoffice365cdn.com" ascii wide
-      $one6 = "\\tmpCa.vbs" ascii wide
-      $one7 = "AAZFinish" ascii wide fullword
-      $one8 = "AAZUploaded" ascii wide fullword
-      $one9 = "ABZFinish" ascii wide fullword
-      $one10 = "\\tmpCa.vbs" ascii wide
-   condition:
-      filesize < 300KB and any of them
-}
-
-/*
-   YARA Rule Set
-   Author: Florian Roth
-   Date: 2019-04-17
-   Identifier: Leaked APT34 / OilRig tools
-   Reference: https://twitter.com/0xffff0800/status/1118406371165126656
-*/
-
-/* Rule Set ----------------------------------------------------------------- */
-
-rule APT_APT34_PS_Malware_Apr19_1 {
-   meta:
-      description = "Detects APT34 PowerShell malware"
-      author = "Florian Roth (Nextron Systems)"
-      reference = "https://twitter.com/0xffff0800/status/1118406371165126656"
-      date = "2019-04-17"
-      hash1 = "b1d621091740e62c84fc8c62bcdad07873c8b61b83faba36097ef150fd6ec768"
-      id = "6a082c5a-ee5b-5002-9148-61bbcfedfe68"
-   strings:
-      $x1 = "= get-wmiobject Win32_ComputerSystemProduct  | Select-Object -ExpandProperty UUID" ascii
-      $x2 = "Write-Host \"excepton occured!\"" ascii /* :) */
-
-      $s1 = "Start-Sleep -s 1;" fullword ascii
-      $s2 = "Start-Sleep -m 100;" fullword ascii
-   condition:
-      1 of ($x*) or 2 of them
-}
-
-rule APT_APT34_PS_Malware_Apr19_2 {
-   meta:
-      description = "Detects APT34 PowerShell malware"
-      author = "Florian Roth (Nextron Systems)"
-      reference = "https://twitter.com/0xffff0800/status/1118406371165126656"
-      date = "2019-04-17"
-      hash1 = "2943e69e6c34232dee3236ced38d41d378784a317eeaf6b90482014210fcd459"
-      id = "c3bdadfd-2164-5e33-be84-d5d5de8eb048"
-   strings:
-      $x1 = "= \"http://\" + [System.Net.Dns]::GetHostAddresses(\"" ascii
-      $x2 = "$t = get-wmiobject Win32_ComputerSystemProduct  | Select-Object -ExpandProperty UUID" fullword ascii
-      $x3 = "| Where { $_ -notmatch '^\\s+$' }" ascii
-
-      $s1 = "= new-object System.Net.WebProxy($u, $true);" fullword ascii
-      $s2 = " -eq \"dom\"){$" ascii
-      $s3 = " -eq \"srv\"){$" ascii
-      $s4 = "+\"<>\" | Set-Content" ascii
-   condition:
-      1 of ($x*) and 3 of them
-}
-
-rule APT_APT34_PS_Malware_Apr19_3 {
-   meta:
-      description = "Detects APT34 PowerShell malware"
-      author = "Florian Roth (Nextron Systems)"
-      reference = "https://twitter.com/0xffff0800/status/1118406371165126656"
-      date = "2019-04-17"
-      modified = "2023-01-06"
-      hash1 = "27e03b98ae0f6f2650f378e9292384f1350f95ee4f3ac009e0113a8d9e2e14ed"
-      id = "361582e7-94e3-5608-9ba9-31fa20c37cf0"
-   strings:
-      $x1 = "Powershell.exe -exec bypass -file ${global:$address1}"
-      $x2 = "schtasks /create /F /ru SYSTEM /sc minute /mo 10 /tn"
-      $x3 = "\"\\UpdateTasks\\UpdateTaskHosts\""
-      $x4 = "wscript /b \\`\"${global:$address1" ascii
-      $x5 = "::FromBase64String([string]${global:$http_ag}))" ascii
-      $x6 = ".run command1, 0, false\" | Out-File " ascii
-      $x7 = "\\UpdateTask.vbs" ascii
-      $x8 = "hUpdater.ps1" fullword ascii
-   condition:
-      1 of them
-}

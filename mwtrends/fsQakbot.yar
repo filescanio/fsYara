@@ -1,4 +1,4 @@
-rule QakBot5
+rule QakBot5 : hardened
 {
 	meta:
 		author = "kevoreilly, enzok"
@@ -18,11 +18,10 @@ rule QakBot5
 		$campaign = {0F B7 1D [4] B? [2] 00 00 E8 [4] 8B D3 4? 89 44 24 ?? 4? 33 C9 4? 8D 0D [4] 4? 8B C0 4? 8B F8 E8}
 
 	condition:
-		uint16(0)==0x5A4D and 
-		2 of them
+		uint16( 0 ) == 0x5A4D and 2 of them
 }
 
-rule QakBot4
+rule QakBot4 : hardened
 {
 	meta:
 		author = "kevoreilly"
@@ -46,11 +45,10 @@ rule QakBot4
 		$call_decrypt = {83 7D ?? 00 56 74 0B FF 75 10 8B F3 E8 [4] 59 8B 45 0C 83 F8 28 72 19 8B 55 08 8B 37 8D 48 EC 6A 14 8D 42 14 52 E8}
 
 	condition:
-		uint16(0)==0x5A4D and 
-		any of ($*)
+		uint16( 0 ) == 0x5A4D and any of ( $* )
 }
 
-rule QakBot_OneNote_Loader
+rule QakBot_OneNote_Loader : hardened limited
 {
 	meta:
 		author = "Ankit Anubhav - ankitanubhav.info"
@@ -73,30 +71,23 @@ rule QakBot_OneNote_Loader
 
 	strings:
 		$x = { E4 52 5C 7B 8C D8 A7 4D AE B1 53 78 D0 29 96 D3 }
-		$a = "javascript" nocase
-		$b = "vbscript" nocase
-		$c = "regread" nocase
-		$d = "regwrite" nocase
-		$e = "RegDelete" nocase
-		$f = ".cmd&&start /min" nocase
-		$f2 = "&&cmd /c start /min" nocase
-		$g = "powershell" nocase
-		$tok1 = "rundll32 C:\\ProgramData\\" nocase
-		$h = "set"
-		$i = "start /min"
+		$a = {6a 61 76 61 73 63 72 69 70 74}
+		$b = {76 62 73 63 72 69 70 74}
+		$c = {72 65 67 72 65 61 64}
+		$d = {72 65 67 77 72 69 74 65}
+		$e = {52 65 67 44 65 6c 65 74 65}
+		$f = {2e 63 6d 64 26 26 73 74 61 72 74 20 2f 6d 69 6e}
+		$f2 = {26 26 63 6d 64 20 2f 63 20 73 74 61 72 74 20 2f 6d 69 6e}
+		$g = {70 6f 77 65 72 73 68 65 6c 6c}
+		$tok1 = {72 75 6e 64 6c 6c 33 32 20 43 3a 5c 50 72 6f 67 72 61 6d 44 61 74 61 5c}
+		$h = {73 65 74}
+		$i = {73 74 61 72 74 20 2f 6d 69 6e}
 
 	condition:
-		$x and 
-		((3 of ($a,$b,$c,$d,$e)) or 
-			(($f or 
-					$f2) and 
-				$g) or 
-			$tok1 or 
-			(#h>15 and 
-				$i))
+		$x and ( ( 3 of ( $a , $b , $c , $d , $e ) ) or ( ( $f or $f2 ) and $g ) or $tok1 or ( #h > 15 and $i ) )
 }
 
-rule win_qakbot_auto
+rule win_qakbot_auto : hardened
 {
 	meta:
 		author = "Felix Bilstein - yara-signator at cocacoding dot com"
@@ -173,11 +164,10 @@ rule win_qakbot_auto
 		$sequence_52 = { 8bf0 83c40c 85f6 0f84f8000000 a1???????? }
 
 	condition:
-		7 of them and 
-		filesize <4883456
+		7 of them and filesize < 4883456
 }
 
-rule win_qakbot_api_hashing_oct_2022
+rule win_qakbot_api_hashing_oct_2022 : hardened
 {
 	meta:
 		author = "@Embee_Research"
@@ -198,7 +188,7 @@ rule win_qakbot_api_hashing_oct_2022
 		any of them
 }
 
-rule QakBot
+rule QakBot : hardened
 {
 	meta:
 		author = "kevoreilly"
@@ -216,11 +206,10 @@ rule QakBot
 		$decrypt_config2 = {8B 45 08 8B 88 24 04 00 00 51 8B 55 10 83 EA 14 52 8B 45 0C 83 C0 14 50 6A 14 8B 4D 0C 51 E8 6C 08 00 00}
 
 	condition:
-		uint16(0)==0x5A4D and 
-		any of ($*)
+		uint16( 0 ) == 0x5A4D and any of ( $* )
 }
 
-rule malware_QakBot
+rule malware_QakBot : hardened
 {
 	meta:
 		description = "detect QakBot(a.k.a. Qbot, Quakbot, Pinkslipbot) in memory"
@@ -240,14 +229,10 @@ rule malware_QakBot
 		$hashFunc = { 64 10 B7 1D C8 20 6E 3B AC 30 D9 26  90 41 DC 76 F4 51 6B 6B}
 
 	condition:
-		uint16(0)==0x5A4D and 
-		uint32( uint32(0x3c))==0x00004550 and 
-		$cryptFunc1 and 
-		$cryptFunc2 and 
-		$hashFunc
+		uint16( 0 ) == 0x5A4D and uint32( uint32( 0x3c ) ) == 0x00004550 and $cryptFunc1 and $cryptFunc2 and $hashFunc
 }
 
-rule fsQakbot
+rule fsQakbot : hardened
 {
 	meta:
 		description = "FsYARA - Malware Trends"
@@ -255,12 +240,6 @@ rule fsQakbot
 		score = 75
 
 	condition:
-		QakBot5 or 
-		QakBot4 or 
-		QakBot_OneNote_Loader or 
-		win_qakbot_auto or 
-		win_qakbot_api_hashing_oct_2022 or 
-		QakBot or 
-		malware_QakBot
+		QakBot5 or QakBot4 or QakBot_OneNote_Loader or win_qakbot_auto or win_qakbot_api_hashing_oct_2022 or QakBot or malware_QakBot
 }
 

@@ -1,11 +1,5 @@
-/*
-	Yara Rule Set
-	Author: Florian Roth
-	Date: 2015-10-18
-	Identifier: Fareit Oct 2015
-*/
-
-rule Fareit_Trojan_Oct15 {
+rule Fareit_Trojan_Oct15 : hardened
+{
 	meta:
 		description = "Detects Fareit Trojan from Sep/Oct 2015 Wave"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -22,9 +16,12 @@ rule Fareit_Trojan_Oct15 {
 		hash6 = "c3300c648aebac7bf1d90f58ea75660c78604410ca0fa705d3b8ec1e0a45cdd9"
 		hash7 = "ff83e9fcfdec4ffc748e0095391f84a8064ac958a274b9684a771058c04cb0fa"
 		id = "725abb2a-7675-51b5-aed8-594e4826a6b4"
+
 	strings:
-		$s1 = "ebai.exe" fullword wide
-		$s2 = "Origina" fullword wide
+		$s1 = {65 00 62 00 61 00 69 00 2e 00 65 00 78 00 65 00}
+		$s2 = {4f 00 72 00 69 00 67 00 69 00 6e 00 61 00}
+
 	condition:
-		uint16(0) == 0x5a4d and $s1 in (0..30000) and $s2 in (0..30000)
+		uint16( 0 ) == 0x5a4d and $s1 in ( 0 .. 30000 ) and $s2 in ( 0 .. 30000 )
 }
+

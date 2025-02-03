@@ -1,308 +1,264 @@
 import "pe"
 
-rule shadowspawn_utility {
+rule shadowspawn_utility : hardened
+{
+	meta:
+		description = "Rule to detect ShadowSpawn utility used in the SoftCell operation"
+		author = "Marc Rivero | McAfee ATR Team"
+		date = "2019-06-25"
+		rule_version = "v1"
+		malware_type = "utility"
+		malware_family = "Trojan:W32/ShadowSpawn"
+		actor_type = "Apt"
+		actor_group = "Unknown"
+		reference = "https://www.cybereason.com/blog/operation-soft-cell-a-worldwide-campaign-against-telecommunications-providers"
 
-   meta:
+	strings:
+		$pdb = {43 3a 5c 64 61 74 61 5c 70 72 6f 6a 65 63 74 73 5c 73 68 61 64 6f 77 73 70 61 77 6e 5c 73 72 63 5c 62 69 6e 5c 52 65 6c 65 61 73 65 2d 57 32 4b 33 5c 78 36 34 5c 53 68 61 64 6f 77 53 70 61 77 6e 2e 70 64 62}
+		$op0 = { e9 34 ea ff ff cc cc cc cc 48 8d 8a 20 }
+		$op1 = { 48 8b 85 e0 06 00 00 48 8d 34 00 48 8d 46 02 48 }
+		$op2 = { e9 34 c1 ff ff cc cc cc cc 48 8b 8a 68 }
 
-      description = "Rule to detect ShadowSpawn utility used in the SoftCell operation"
-      author = "Marc Rivero | McAfee ATR Team"
-      date = "2019-06-25"
-      rule_version = "v1"
-      malware_type = "utility"
-      malware_family = "Trojan:W32/ShadowSpawn"
-      actor_type = "Apt"
-      actor_group = "Unknown"
-      reference = "https://www.cybereason.com/blog/operation-soft-cell-a-worldwide-campaign-against-telecommunications-providers"
-      
-
-   strings:
-
-      $pdb = "C:\\data\\projects\\shadowspawn\\src\\bin\\Release-W2K3\\x64\\ShadowSpawn.pdb" fullword ascii
-
-      $op0 = { e9 34 ea ff ff cc cc cc cc 48 8d 8a 20 }
-      $op1 = { 48 8b 85 e0 06 00 00 48 8d 34 00 48 8d 46 02 48 }
-      $op2 = { e9 34 c1 ff ff cc cc cc cc 48 8b 8a 68 }
-
-   condition:
-
-      uint16(0) == 0x5a4d and
-      filesize < 200KB and
-      ( pe.imphash() == "eaae87b11d2ebdd286af419682037b4c" and
-      all of them)
+	condition:
+		uint16( 0 ) == 0x5a4d and filesize < 200KB and ( pe.imphash ( ) == "eaae87b11d2ebdd286af419682037b4c" and all of them )
 }
 
-rule poison_ivy_softcell {
+import "pe"
 
-   meta:
+rule poison_ivy_softcell : hardened
+{
+	meta:
+		description = "Rule to detect Poison Ivy used in the SoftCell operation"
+		author = "Marc Rivero | McAfee ATR Team"
+		date = "2019-06-25"
+		rule_version = "v1"
+		malware_type = "rat"
+		malware_family = "Rat:W32/PoisonIvy"
+		actor_type = "Apt"
+		actor_group = "Unknown"
+		reference = "https://www.cybereason.com/blog/operation-soft-cell-a-worldwide-campaign-against-telecommunications-providers"
 
-      description = "Rule to detect Poison Ivy used in the SoftCell operation"
-      author = "Marc Rivero | McAfee ATR Team"
-      date = "2019-06-25"
-      rule_version = "v1"
-      malware_type = "rat"
-      malware_family = "Rat:W32/PoisonIvy"
-      actor_type = "Apt"
-      actor_group = "Unknown"
-      reference = "https://www.cybereason.com/blog/operation-soft-cell-a-worldwide-campaign-against-telecommunications-providers"
+	strings:
+		$s1 = {43 00 61 00 6e 00 6e 00 6f 00 74 00 20 00 63 00 72 00 65 00 61 00 74 00 65 00 20 00 66 00 6f 00 6c 00 64 00 65 00 72 00 20 00 25 00 73 00 44 00 43 00 52 00 43 00 20 00 66 00 61 00 69 00 6c 00 65 00 64 00 20 00 69 00 6e 00 20 00 74 00 68 00 65 00 20 00 65 00 6e 00 63 00 72 00 79 00 70 00 74 00 65 00 64 00 20 00 66 00 69 00 6c 00 65 00 20 00 25 00 73 00 2e 00 20 00 43 00 6f 00 72 00 72 00 75 00 70 00 74 00 20 00 66 00 69 00 6c 00 65 00 20 00 6f 00 72 00 20 00 77 00 72 00 6f 00 6e 00 67 00 20 00 70 00 61 00 73 00 73 00 77 00 6f 00 72 00 64 00 2e 00}
+		$s2 = {45 00 78 00 74 00 72 00 61 00 63 00 74 00 69 00 6e 00 67 00 20 00 66 00 69 00 6c 00 65 00 73 00 20 00 74 00 6f 00 20 00 25 00 73 00 20 00 66 00 6f 00 6c 00 64 00 65 00 72 00 24 00 45 00 78 00 74 00 72 00 61 00 63 00 74 00 69 00 6e 00 67 00 20 00 66 00 69 00 6c 00 65 00 73 00 20 00 74 00 6f 00 20 00 74 00 65 00 6d 00 70 00 6f 00 72 00 61 00 72 00 79 00 20 00 66 00 6f 00 6c 00 64 00 65 00 72 00}
+		$s3 = {26 00 45 00 6e 00 74 00 65 00 72 00 20 00 70 00 61 00 73 00 73 00 77 00 6f 00 72 00 64 00 20 00 66 00 6f 00 72 00 20 00 74 00 68 00 65 00 20 00 65 00 6e 00 63 00 72 00 79 00 70 00 74 00 65 00 64 00 20 00 66 00 69 00 6c 00 65 00 3a 00}
+		$s4 = {73 74 61 72 74 20 22 22 20 22 25 43 44 25 5c 6d 63 6f 65 6d 63 70 79 2e 65 78 65 22}
+		$s5 = {73 65 74 75 70 2e 62 61 74}
+		$s6 = {45 00 72 00 72 00 6f 00 72 00 61 00 45 00 72 00 72 00 6f 00 72 00 73 00 20 00 65 00 6e 00 63 00 6f 00 75 00 6e 00 74 00 65 00 72 00 65 00 64 00 20 00 77 00 68 00 69 00 6c 00 65 00 20 00 70 00 65 00 72 00 66 00 6f 00 72 00 6d 00 69 00 6e 00 67 00 20 00 74 00 68 00 65 00 20 00 6f 00 70 00 65 00 72 00 61 00 74 00 69 00 6f 00 6e 00}
+		$s7 = {50 00 6c 00 65 00 61 00 73 00 65 00 20 00 64 00 6f 00 77 00 6e 00 6c 00 6f 00 61 00 64 00 20 00 61 00 20 00 66 00 72 00 65 00 73 00 68 00 20 00 63 00 6f 00 70 00 79 00 20 00 61 00 6e 00 64 00 20 00 72 00 65 00 74 00 72 00 79 00 20 00 74 00 68 00 65 00 20 00 69 00 6e 00 73 00 74 00 61 00 6c 00 6c 00 61 00 74 00 69 00 6f 00 6e 00}
+		$s8 = {61 6e 74 69 76 69 72 2e 64 61 74}
+		$s9 = {54 00 68 00 65 00 20 00 72 00 65 00 71 00 75 00 69 00 72 00 65 00 64 00 20 00 76 00 6f 00 6c 00 75 00 6d 00 65 00 20 00 69 00 73 00 20 00 61 00 62 00 73 00 65 00 6e 00 74 00 32 00 54 00 68 00 65 00 20 00 61 00 72 00 63 00 68 00 69 00 76 00 65 00 20 00 69 00 73 00 20 00 65 00 69 00 74 00 68 00 65 00 72 00 20 00 69 00 6e 00 20 00 75 00 6e 00 6b 00 6e 00 6f 00 77 00 6e 00 20 00 66 00 6f 00 72 00 6d 00 61 00 74 00 20 00 6f 00 72 00 20 00 64 00 61 00 6d 00 61 00 67 00 65 00 64 00}
+		$s10 = {3d 00 54 00 6f 00 74 00 61 00 6c 00 20 00 70 00 61 00 74 00 68 00 20 00 61 00 6e 00 64 00 20 00 66 00 69 00 6c 00 65 00 20 00 6e 00 61 00 6d 00 65 00 20 00 6c 00 65 00 6e 00 67 00 74 00 68 00 20 00 6d 00 75 00 73 00 74 00 20 00 6e 00 6f 00 74 00 20 00 65 00 78 00 63 00 65 00 65 00 64 00 20 00 25 00 64 00 20 00 63 00 68 00 61 00 72 00 61 00 63 00 74 00 65 00 72 00 73 00}
+		$s11 = {50 00 6c 00 65 00 61 00 73 00 65 00 20 00 63 00 6c 00 6f 00 73 00 65 00 20 00 61 00 6c 00 6c 00 20 00 61 00 70 00 70 00 6c 00 69 00 63 00 61 00 74 00 69 00 6f 00 6e 00 73 00 2c 00 20 00 72 00 65 00 62 00 6f 00 6f 00 74 00 20 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 61 00 6e 00 64 00 20 00 72 00 65 00 73 00 74 00 61 00 72 00 74 00 20 00 74 00 68 00 69 00 73 00 20 00 69 00 6e 00 73 00 74 00 61 00 6c 00 6c 00 61 00 74 00 69 00 6f 00 6e 00 5c 00 53 00 6f 00 6d 00 65 00 20 00 69 00 6e 00 73 00 74 00 61 00 6c 00 6c 00 61 00 74 00 69 00 6f 00 6e 00 20 00 66 00 69 00 6c 00 65 00 73 00 20 00 61 00 72 00 65 00 20 00 63 00 6f 00 72 00 72 00 75 00 70 00 74 00 2e 00}
+		$op0 = { e8 6f 12 00 00 84 c0 74 04 32 c0 eb 34 56 ff 75 }
+		$op1 = { 53 68 b0 34 41 00 57 e8 61 44 00 00 57 e8 31 44 }
+		$op2 = { 56 ff 75 08 8d b5 f4 ef ff ff e8 17 ff ff ff 8d }
 
-   strings:
-
-      $s1 = "Cannot create folder %sDCRC failed in the encrypted file %s. Corrupt file or wrong password." fullword wide
-      $s2 = "Extracting files to %s folder$Extracting files to temporary folder" fullword wide
-      $s3 = "&Enter password for the encrypted file:" fullword wide
-      $s4 = "start \"\" \"%CD%\\mcoemcpy.exe\"" fullword ascii
-      $s5 = "setup.bat" fullword ascii
-      $s6 = "ErroraErrors encountered while performing the operation" fullword wide
-      $s7 = "Please download a fresh copy and retry the installation" fullword wide
-      $s8 = "antivir.dat" fullword ascii
-      $s9 = "The required volume is absent2The archive is either in unknown format or damaged" fullword wide
-      $s10 = "=Total path and file name length must not exceed %d characters" fullword wide
-      $s11 = "Please close all applications, reboot Windows and restart this installation\\Some installation files are corrupt." fullword wide
-
-      $op0 = { e8 6f 12 00 00 84 c0 74 04 32 c0 eb 34 56 ff 75 }
-      $op1 = { 53 68 b0 34 41 00 57 e8 61 44 00 00 57 e8 31 44 }
-      $op2 = { 56 ff 75 08 8d b5 f4 ef ff ff e8 17 ff ff ff 8d }
-
-   condition:
-
-      uint16(0) == 0x5a4d and
-      filesize < 500KB and
-      ( pe.imphash() == "dbb1eb5c3476069287a73206929932fd" and
-      all of them)
+	condition:
+		uint16( 0 ) == 0x5a4d and filesize < 500KB and ( pe.imphash ( ) == "dbb1eb5c3476069287a73206929932fd" and all of them )
 }
 
-rule trochilus_softcell {
+import "pe"
 
-   meta:
+rule trochilus_softcell : hardened
+{
+	meta:
+		description = "Rule to detect Trochilus malware used in the SoftCell operation"
+		date = "2019-06-25"
+		rule_version = "v1"
+		malware_type = "trojan"
+		malware_family = "Trojan:W32/Trochilus"
+		actor_type = "Apt"
+		actor_group = "Unknown"
+		reference = "https://www.cybereason.com/blog/operation-soft-cell-a-worldwide-campaign-against-telecommunications-providers"
 
-      description = "Rule to detect Trochilus malware used in the SoftCell operation"
-      date = "2019-06-25"
-      rule_version = "v1"
-      malware_type = "trojan"
-      malware_family = "Trojan:W32/Trochilus"
-      actor_type = "Apt"
-      actor_group = "Unknown"
-      reference = "https://www.cybereason.com/blog/operation-soft-cell-a-worldwide-campaign-against-telecommunications-providers"
+	strings:
+		$s1 = {53 68 65 6c 6c 2e 64 6c 6c}
+		$s2 = {70 00 68 00 6f 00 74 00 6f 00 2e 00 64 00 61 00 74 00}
+		$s3 = {56 57 39 48 78 74 56 39 48 7c 74 51 39}
+		$s4 = {47 36 75 45 47 52 69 63 68 37 75 45 47}
+		$op0 = { e8 9d ad ff ff ff b6 a8 }
+		$op1 = { e8 d4 ad ff ff ff b6 94 }
+		$op2 = { e8 ea ad ff ff ff b6 8c }
 
-   strings:
-
-      $s1 = "Shell.dll" fullword ascii
-      $s2 = "photo.dat" fullword wide
-      $s3 = "VW9HxtV9H|tQ9" fullword ascii
-      $s4 = "G6uEGRich7uEG" fullword ascii
-
-      $op0 = { e8 9d ad ff ff ff b6 a8 }
-      $op1 = { e8 d4 ad ff ff ff b6 94 }
-      $op2 = { e8 ea ad ff ff ff b6 8c }
-
-   condition:
-
-      uint16(0) == 0x5a4d and
-      filesize < 200KB and
-      ( pe.imphash() == "8e13ebc144667958722686cb04ee16f8" and
-      ( pe.exports("Entry") and
-      pe.exports("Main") ) and
-      all of them )
+	condition:
+		uint16( 0 ) == 0x5a4d and filesize < 200KB and ( pe.imphash ( ) == "8e13ebc144667958722686cb04ee16f8" and ( pe.exports ( "Entry" ) and pe.exports ( "Main" ) ) and all of them )
 }
 
-rule lg_utility_lateral_movement_softcell {
+import "pe"
 
-   meta:
+rule lg_utility_lateral_movement_softcell : hardened
+{
+	meta:
+		description = "Rule to detect the utility LG from Joeware to do Lateral Movement in the SoftCell operation"
+		author = "Marc Rivero | McAfee ATR Team"
+		date = "2019-06-25"
+		rule_version = "v1"
+		malware_type = "utility"
+		malware_family = "Utility:W32/Joeware"
+		actor_type = "Apt"
+		actor_group = "Unknown"
+		reference = "https://www.cybereason.com/blog/operation-soft-cell-a-worldwide-campaign-against-telecommunications-providers"
 
-      description = "Rule to detect the utility LG from Joeware to do Lateral Movement in the SoftCell operation"
-      author = "Marc Rivero | McAfee ATR Team"
-      date = "2019-06-25"
-      rule_version = "v1"
-      malware_type = "utility"
-      malware_family = "Utility:W32/Joeware"
-      actor_type = "Apt"
-      actor_group = "Unknown"
-      reference = "https://www.cybereason.com/blog/operation-soft-cell-a-worldwide-campaign-against-telecommunications-providers"
+	strings:
+		$s1 = {6c 67 20 5c 5c 63 6f 6d 70 31 5c 75 73 65 72 73 20 6c 6f 75 69 73 65 20 2d 61 64 64 20 2d 72 20 63 6f 6d 70 33}
+		$s2 = {6c 67 20 5c 5c 63 6f 6d 70 31 5c 75 73 65 72 73 20 53 2d 31 2d 35 2d 35 36 37 2d 36 37 38 2d 38 39 37 36 35 2d 34 35 36 20 2d 73 69 64 20 2d 61 64 64}
+		$s3 = {6c 67 20 5c 5c 63 6f 6d 70 31 5c 75 73 65 72 73 20 2d 73 69 64 73 6f 75 74}
+		$s4 = {45 6e 75 6d 65 72 61 74 65 73 20 6d 65 6d 62 65 72 73 20 6f 66 20 6c 6f 63 61 6c 67 72 6f 75 70 20 75 73 65 72 73 20 6f 6e 20 6c 6f 63 61 6c 68 6f 73 74}
+		$s5 = {41 64 64 73 20 53 49 44 20 72 65 73 6f 6c 76 65 64 20 61 74 20 63 6f 6d 70 33 20 66 6f 72 20 6c 6f 75 69 73 65 20 74 6f 20 6c 6f 63 61 6c 67 72 6f 75 70 20 75 73 65 72 73 20 6f 6e 20 63 6f 6d 70 31}
+		$s6 = {43 6f 64 65 47 65 61 72 20 43 2b 2b 20 2d 20 43 6f 70 79 72 69 67 68 74 20 32 30 30 38 20 45 6d 62 61 72 63 61 64 65 72 6f 20 54 65 63 68 6e 6f 6c 6f 67 69 65 73}
+		$s7 = {4c 69 73 74 73 20 6d 65 6d 62 65 72 73 20 6f 66 20 6c 6f 63 61 6c 67 72 6f 75 70 20 75 73 65 72 73 20 6f 6e 20 63 6f 6d 70 31 20 69 6e 20 53 49 44 20 66 6f 72 6d 61 74}
+		$s8 = {45 52 52 4f 52 3a 20 56 65 72 69 66 79 20 74 68 61 74 20 43 53 56 20 6c 69 6e 65 73 20 61 72 65 20 61 76 61 69 6c 61 62 6c 65 20 69 6e 20 50 49 50 45 20 69 6e 70 75 74 2e 20}
+		$op0 = { 89 43 24 c6 85 6f ff ff ff 00 83 7b 24 10 72 05 }
+		$op1 = { 68 f8 0e 43 00 e8 8d ff ff ff 83 c4 20 68 f8 0e }
+		$op2 = { 66 c7 85 74 ff ff ff 0c 00 8d 55 d8 52 e8 e9 eb }
 
-   strings:
-
-      $s1 = "lg \\\\comp1\\users louise -add -r comp3" fullword ascii
-      $s2 = "lg \\\\comp1\\users S-1-5-567-678-89765-456 -sid -add" fullword ascii
-      $s3 = "lg \\\\comp1\\users -sidsout" fullword ascii
-      $s4 = "Enumerates members of localgroup users on localhost" fullword ascii
-      $s5 = "Adds SID resolved at comp3 for louise to localgroup users on comp1" fullword ascii
-      $s6 = "CodeGear C++ - Copyright 2008 Embarcadero Technologies" fullword ascii
-      $s7 = "Lists members of localgroup users on comp1 in SID format" fullword ascii
-      $s8 = "ERROR: Verify that CSV lines are available in PIPE input. " fullword ascii
-
-      $op0 = { 89 43 24 c6 85 6f ff ff ff 00 83 7b 24 10 72 05 }
-      $op1 = { 68 f8 0e 43 00 e8 8d ff ff ff 83 c4 20 68 f8 0e }
-      $op2 = { 66 c7 85 74 ff ff ff 0c 00 8d 55 d8 52 e8 e9 eb }
-
-   condition:
-
-      uint16(0) == 0x5a4d and
-      filesize < 600KB and
-      ( pe.imphash() == "327ce3f883a5b59e966b5d0e3a321156" and
-      all of them )
+	condition:
+		uint16( 0 ) == 0x5a4d and filesize < 600KB and ( pe.imphash ( ) == "327ce3f883a5b59e966b5d0e3a321156" and all of them )
 }
 
-rule mangzamel_softcell {
+import "pe"
 
-   meta:
+rule mangzamel_softcell : hardened
+{
+	meta:
+		description = "Rule to detect Mangzamel used in the SoftCell operation"
+		author = "Marc Rivero | McAfee ATR Team"
+		date = "2019-06-25"
+		rule_version = "v1"
+		malware_type = "trojan"
+		malware_family = "Trojan:W32/Mangzamel"
+		actor_type = "Apt"
+		actor_group = "Unknown"
+		reference = "https://www.cybereason.com/blog/operation-soft-cell-a-worldwide-campaign-against-telecommunications-providers"
 
-      description = "Rule to detect Mangzamel used in the SoftCell operation"
-      author = "Marc Rivero | McAfee ATR Team"
-      date = "2019-06-25"
-      rule_version = "v1"
-      malware_type = "trojan"
-      malware_family = "Trojan:W32/Mangzamel"
-      actor_type = "Apt"
-      actor_group = "Unknown"
-      reference = "https://www.cybereason.com/blog/operation-soft-cell-a-worldwide-campaign-against-telecommunications-providers"
+	strings:
+		$s1 = {43 68 61 6e 67 65 20 53 65 72 76 69 63 65 20 4d 6f 64 65 20 74 6f 20 75 73 65 72 20 6c 6f 67 6f 6e 20 66 61 69 6c 75 72 65 2e 63 6f 64 65 3a 25 64}
+		$s2 = {73 00 70 00 6f 00 6f 00 6c 00 73 00 76 00 73 00 2e 00 65 00 78 00 65 00}
+		$s3 = {53 79 73 74 65 6d 5c 43 75 72 72 65 6e 74 43 6f 6e 74 72 6f 6c 53 65 74 5c 53 65 72 76 69 63 65 73 5c 25 73 5c 70 61 72 61 6d 65 74 65 72 73 5c 25 73}
+		$s4 = {50 6c 65 61 73 65 20 43 6f 72 72 65 63 74 20 5b 2d 73 20 25 73 5d}
+		$s5 = {50 6c 65 61 73 65 20 43 6f 72 72 65 63 74 20 5b 2d 6d 20 25 73 5d}
+		$op0 = { 59 8d 85 64 ff ff ff 50 c7 85 64 ff ff ff 94 }
+		$op1 = { c9 c2 08 00 81 c1 30 34 00 00 e9 cf 9b ff ff 55 }
+		$op2 = { 80 0f b6 b5 68 ff ff ff c1 e2 04 0b d6 0f b6 b5 }
 
-   strings:
-
-      $s1 = "Change Service Mode to user logon failure.code:%d" fullword ascii
-      $s2 = "spoolsvs.exe" fullword wide
-      $s3 = "System\\CurrentControlSet\\Services\\%s\\parameters\\%s" fullword ascii
-      $s4 = "Please Correct [-s %s]" fullword ascii
-      $s5 = "Please Correct [-m %s]" fullword ascii
-
-      $op0 = { 59 8d 85 64 ff ff ff 50 c7 85 64 ff ff ff 94 }
-      $op1 = { c9 c2 08 00 81 c1 30 34 00 00 e9 cf 9b ff ff 55 }
-      $op2 = { 80 0f b6 b5 68 ff ff ff c1 e2 04 0b d6 0f b6 b5 }
-
-   condition:
-      uint16(0) == 0x5a4d and
-      filesize < 300KB and
-      ( pe.imphash() == "ef64bb4aa42ef5a8a2e3858a636bce40" and
-      all of them )
+	condition:
+		uint16( 0 ) == 0x5a4d and filesize < 300KB and ( pe.imphash ( ) == "ef64bb4aa42ef5a8a2e3858a636bce40" and all of them )
 }
 
-rule nbtscan_utility_softcell {
+import "pe"
 
-   meta:
+rule nbtscan_utility_softcell : hardened
+{
+	meta:
+		description = "Rule to detect nbtscan utility used in the SoftCell operation"
+		author = "Marc Rivero | McAfee ATR Team"
+		date = "2019-06-25"
+		rule_version = "v1"
+		malware_type = "utility"
+		malware_family = "Utility:W32/NbtScan"
+		actor_type = "Apt"
+		actor_group = "Unknown"
+		reference = "https://www.cybereason.com/blog/operation-soft-cell-a-worldwide-campaign-against-telecommunications-providers"
 
-      description = "Rule to detect nbtscan utility used in the SoftCell operation"
-      author = "Marc Rivero | McAfee ATR Team"
-      date = "2019-06-25"
-      rule_version = "v1"
-      malware_type = "utility"
-      malware_family = "Utility:W32/NbtScan"
-      actor_type = "Apt"
-      actor_group = "Unknown"
-      reference = "https://www.cybereason.com/blog/operation-soft-cell-a-worldwide-campaign-against-telecommunications-providers"
+	strings:
+		$s1 = {6e 62 74 73 63 61 6e 20 31 2e 30 2e 33 35 20 2d 20 32 30 30 38 2d 30 34 2d 30 38 20 2d 20 68 74 74 70 3a 2f 2f 77 77 77 2e 75 6e 69 78 77 69 7a 2e 6e 65 74 2f 74 6f 6f 6c 73 2f}
+		$s2 = {70 61 72 73 65 5f 74 61 72 67 65 74 5f 63 62 2e 63}
+		$s3 = {72 61 6e 67 65 73 2e 20 52 61 6e 67 65 73 20 63 61 6e 20 62 65 20 69 6e 20 2f 6e 62 69 74 73 20 6e 6f 74 61 74 69 6f 6e 20 28 22 31 39 32 2e 31 36 38 2e 31 32 2e 30 2f 32 34 22 29}
+		$s4 = {6f 72 20 77 69 74 68 20 61 20 72 61 6e 67 65 20 69 6e 20 74 68 65 20 6c 61 73 74 20 6f 63 74 65 74 20 28 22 31 39 32 2e 31 36 38 2e 31 32 2e 36 34 2d 39 37 22 29}
+		$op0 = { 52 68 d4 66 40 00 8b 85 58 ff ff ff 50 ff 15 a0 }
+		$op1 = { e9 1c ff ff ff 8b 45 fc 8b e5 5d c3 cc cc cc cc }
+		$op2 = { 59 59 c3 8b 65 e8 ff 75 d0 ff 15 34 60 40 00 ff }
 
-   strings:
-
-      $s1 = "nbtscan 1.0.35 - 2008-04-08 - http://www.unixwiz.net/tools/" fullword ascii
-      $s2 = "parse_target_cb.c" fullword ascii
-      $s3 = "ranges. Ranges can be in /nbits notation (\"192.168.12.0/24\")" fullword ascii
-      $s4 = "or with a range in the last octet (\"192.168.12.64-97\")" fullword ascii
-
-      $op0 = { 52 68 d4 66 40 00 8b 85 58 ff ff ff 50 ff 15 a0 }
-      $op1 = { e9 1c ff ff ff 8b 45 fc 8b e5 5d c3 cc cc cc cc }
-      $op2 = { 59 59 c3 8b 65 e8 ff 75 d0 ff 15 34 60 40 00 ff }
-
-   condition:
-
-      uint16(0) == 0x5a4d and
-      filesize < 100KB and
-      ( pe.imphash() == "2fa43c5392ec7923ababced078c2f98d" and
-      all of them )
+	condition:
+		uint16( 0 ) == 0x5a4d and filesize < 100KB and ( pe.imphash ( ) == "2fa43c5392ec7923ababced078c2f98d" and all of them )
 }
 
-rule mimikatz_utility_softcell {
+import "pe"
 
-   meta:
+rule mimikatz_utility_softcell : hardened
+{
+	meta:
+		description = "Rule to detect Mimikatz utility used in the SoftCell operation"
+		author = "Marc Rivero | McAfee ATR Team"
+		date = "2019-06-25"
+		rule_version = "v1"
+		malware_type = "hacktool"
+		malware_family = "Hacktool:W32/Mimikatz"
+		actor_type = "Apt"
+		actor_group = "Unknown"
+		reference = "https://www.cybereason.com/blog/operation-soft-cell-a-worldwide-campaign-against-telecommunications-providers"
 
-      description = "Rule to detect Mimikatz utility used in the SoftCell operation"
-      author = "Marc Rivero | McAfee ATR Team"
-      date = "2019-06-25"
-      rule_version = "v1"
-      malware_type = "hacktool"
-      malware_family = "Hacktool:W32/Mimikatz"
-      actor_type = "Apt"
-      actor_group = "Unknown"
-      reference = "https://www.cybereason.com/blog/operation-soft-cell-a-worldwide-campaign-against-telecommunications-providers"
+	strings:
+		$s1 = {6c 00 69 00 76 00 65 00 73 00 73 00 70 00 2e 00 64 00 6c 00 6c 00}
+		$s2 = {5c 00 73 00 79 00 73 00 74 00 65 00 6d 00 33 00 32 00 5c 00 74 00 61 00 70 00 69 00 33 00 32 00 2e 00 64 00 6c 00 6c 00}
+		$s3 = {20 00 2a 00 20 00 50 00 72 00 6f 00 63 00 65 00 73 00 73 00 20 00 54 00 6f 00 6b 00 65 00 6e 00 20 00 3a 00 20 00}
+		$s4 = {6c 00 73 00 61 00 64 00 75 00 6d 00 70 00}
+		$s5 = {2d 00 6e 00 6c 00 20 00 2d 00 20 00 73 00 6b 00 69 00 70 00 20 00 6c 00 73 00 61 00 20 00 64 00 75 00 6d 00 70 00 2e 00 2e 00 2e 00}
+		$s6 = {6c 00 73 00 61 00 64 00 75 00 6d 00 70 00 3a 00 3a 00 73 00 61 00 6d 00}
+		$s7 = {6c 00 73 00 61 00 64 00 75 00 6d 00 70 00 3a 00 3a 00 6c 00 73 00 61 00}
+		$s8 = {2a 00 20 00 4e 00 4c 00 24 00 49 00 74 00 65 00 72 00 43 00 6f 00 75 00 6e 00 74 00 20 00 25 00 75 00 2c 00 20 00 25 00 75 00 20 00 72 00 65 00 61 00 6c 00 20 00 69 00 74 00 65 00 72 00 28 00 73 00 29 00}
+		$s9 = {2a 00 20 00 49 00 74 00 65 00 72 00 20 00 74 00 6f 00 20 00 64 00 65 00 66 00 20 00 28 00 25 00 64 00 29 00}
+		$s10 = {20 00 2a 00 20 00 54 00 68 00 72 00 65 00 61 00 64 00 20 00 54 00 6f 00 6b 00 65 00 6e 00 20 00 20 00 3a 00 20 00}
+		$s11 = {20 00 2a 00 20 00 52 00 6f 00 6f 00 74 00 4b 00 65 00 79 00 20 00 20 00 3a 00 20 00}
+		$s12 = {6c 00 73 00 61 00 64 00 75 00 6d 00 70 00 3a 00 3a 00 63 00 61 00 63 00 68 00 65 00}
+		$s13 = {73 00 65 00 6b 00 75 00 72 00 6c 00 73 00 61 00 3a 00 3a 00 6c 00 6f 00 67 00 6f 00 6e 00 70 00 61 00 73 00 73 00 77 00 6f 00 72 00 64 00 73 00}
+		$s14 = {28 00 63 00 6f 00 6d 00 6d 00 61 00 6e 00 64 00 6c 00 69 00 6e 00 65 00 29 00 20 00 23 00 20 00 25 00 73 00}
+		$s15 = {3e 00 3e 00 3e 00 20 00 25 00 73 00 20 00 6f 00 66 00 20 00 27 00 25 00 73 00 27 00 20 00 6d 00 6f 00 64 00 75 00 6c 00 65 00 20 00 66 00 61 00 69 00 6c 00 65 00 64 00 20 00 3a 00 20 00 25 00 30 00 38 00 78 00}
+		$s16 = {55 00 6e 00 64 00 65 00 66 00 69 00 6e 00 65 00 64 00 4c 00 6f 00 67 00 6f 00 6e 00 54 00 79 00 70 00 65 00}
+		$s17 = {20 00 2a 00 20 00 55 00 73 00 65 00 72 00 6e 00 61 00 6d 00 65 00 20 00 3a 00 20 00 25 00 77 00 5a 00}
+		$s18 = {6c 00 6f 00 67 00 6f 00 6e 00 50 00 61 00 73 00 73 00 77 00 6f 00 72 00 64 00 73 00}
+		$s19 = {70 00 72 00 69 00 76 00 69 00 6c 00 65 00 67 00 65 00 3a 00 3a 00 64 00 65 00 62 00 75 00 67 00}
+		$s20 = {74 00 6f 00 6b 00 65 00 6e 00 3a 00 3a 00 65 00 6c 00 65 00 76 00 61 00 74 00 65 00}
+		$op0 = { e8 0b f5 00 00 90 39 35 30 c7 02 00 75 34 48 8b }
+		$op1 = { eb 34 48 8b 4d cf 48 8d 45 c7 45 33 c9 48 89 44 }
+		$op2 = { 48 3b 0d 34 26 01 00 74 05 e8 a9 31 ff ff 48 8b }
 
-   strings:
-
-      $s1 = "livessp.dll" fullword wide 
-      $s2 = "\\system32\\tapi32.dll" fullword wide
-      $s3 = " * Process Token : " fullword wide
-      $s4 = "lsadump" fullword wide
-      $s5 = "-nl - skip lsa dump..." fullword wide
-      $s6 = "lsadump::sam" fullword wide
-      $s7 = "lsadump::lsa" fullword wide
-      $s8 = "* NL$IterCount %u, %u real iter(s)" fullword wide
-      $s9 = "* Iter to def (%d)" fullword wide
-      $s10 = " * Thread Token  : " fullword wide
-      $s11 = " * RootKey  : " fullword wide
-      $s12 = "lsadump::cache" fullword wide
-      $s13 = "sekurlsa::logonpasswords" fullword wide
-      $s14 = "(commandline) # %s" fullword wide
-      $s15 = ">>> %s of '%s' module failed : %08x" fullword wide
-      $s16 = "UndefinedLogonType" fullword wide
-      $s17 = " * Username : %wZ" fullword wide
-      $s18 = "logonPasswords" fullword wide
-      $s19 = "privilege::debug" fullword wide
-      $s20 = "token::elevate" fullword wide
-
-      $op0 = { e8 0b f5 00 00 90 39 35 30 c7 02 00 75 34 48 8b }
-      $op1 = { eb 34 48 8b 4d cf 48 8d 45 c7 45 33 c9 48 89 44 }
-      $op2 = { 48 3b 0d 34 26 01 00 74 05 e8 a9 31 ff ff 48 8b }
-
-   condition:
-
-      uint16(0) == 0x5a4d and
-      filesize < 500KB and
-      ( pe.imphash() == "169e02f00c6fb64587297444b6c41ff4" and
-      all of them )
+	condition:
+		uint16( 0 ) == 0x5a4d and filesize < 500KB and ( pe.imphash ( ) == "169e02f00c6fb64587297444b6c41ff4" and all of them )
 }
 
-rule sfx_winrar_plugx {
-   
-   meta:
+import "pe"
 
-      description = "Rule to detect the SFX WinRAR delivering a possible Plugx sample"
-      author = "Marc Rivero | McAfee ATR Team"
-      date = "2019-06-25"
-      rule_version = "v1"
-      malware_type = "builder"
-      malware_family = "Builder:W32/Plugx"
-      actor_type = "Apt"
-      actor_group = "Unknown"
-      reference = "https://www.cybereason.com/blog/operation-soft-cell-a-worldwide-campaign-against-telecommunications-providers"
+rule sfx_winrar_plugx : hardened
+{
+	meta:
+		description = "Rule to detect the SFX WinRAR delivering a possible Plugx sample"
+		author = "Marc Rivero | McAfee ATR Team"
+		date = "2019-06-25"
+		rule_version = "v1"
+		malware_type = "builder"
+		malware_family = "Builder:W32/Plugx"
+		actor_type = "Apt"
+		actor_group = "Unknown"
+		reference = "https://www.cybereason.com/blog/operation-soft-cell-a-worldwide-campaign-against-telecommunications-providers"
 
-   strings:
+	strings:
+		$s1 = {43 00 61 00 6e 00 6e 00 6f 00 74 00 20 00 63 00 72 00 65 00 61 00 74 00 65 00 20 00 66 00 6f 00 6c 00 64 00 65 00 72 00 20 00 25 00 73 00 44 00 43 00 52 00 43 00 20 00 66 00 61 00 69 00 6c 00 65 00 64 00 20 00 69 00 6e 00 20 00 74 00 68 00 65 00 20 00 65 00 6e 00 63 00 72 00 79 00 70 00 74 00 65 00 64 00 20 00 66 00 69 00 6c 00 65 00 20 00 25 00 73 00 2e 00 20 00 43 00 6f 00 72 00 72 00 75 00 70 00 74 00 20 00 66 00 69 00 6c 00 65 00 20 00 6f 00 72 00 20 00 77 00 72 00 6f 00 6e 00 67 00 20 00 70 00 61 00 73 00 73 00 77 00 6f 00 72 00 64 00 2e 00}
+		$s2 = {57 00 72 00 6f 00 6e 00 67 00 20 00 70 00 61 00 73 00 73 00 77 00 6f 00 72 00 64 00 20 00 66 00 6f 00 72 00 20 00 25 00 73 00 35 00 57 00 72 00 69 00 74 00 65 00 20 00 65 00 72 00 72 00 6f 00 72 00 20 00 69 00 6e 00 20 00 74 00 68 00 65 00 20 00 66 00 69 00 6c 00 65 00 20 00 25 00 73 00 2e 00 20 00 50 00 72 00 6f 00 62 00 61 00 62 00 6c 00 79 00 20 00 74 00 68 00 65 00 20 00 64 00 69 00 73 00 6b 00 20 00 69 00 73 00 20 00 66 00 75 00 6c 00 6c 00}
+		$s3 = {6d 63 75 74 69 6c 2e 64 6c 6c}
+		$s4 = {55 00 6e 00 65 00 78 00 70 00 65 00 63 00 74 00 65 00 64 00 20 00 65 00 6e 00 64 00 20 00 6f 00 66 00 20 00 61 00 72 00 63 00 68 00 69 00 76 00 65 00 1f 00 54 00 68 00 65 00 20 00 66 00 69 00 6c 00 65 00 20 00 22 00 25 00 73 00 22 00 20 00 68 00 65 00 61 00 64 00 65 00 72 00 20 00 69 00 73 00 20 00 63 00 6f 00 72 00 72 00 75 00 70 00 74 00 25 00 54 00 68 00 65 00 20 00 61 00 72 00 63 00 68 00 69 00 76 00 65 00 20 00 63 00 6f 00 6d 00 6d 00 65 00 6e 00 74 00 20 00 68 00 65 00 61 00 64 00 65 00 72 00 20 00 69 00 73 00 20 00 63 00 6f 00 72 00 72 00 75 00 70 00 74 00}
+		$s5 = {6d 63 6f 65 6d 63 70 79 2e 65 78 65}
+		$s6 = {45 00 78 00 74 00 72 00 61 00 63 00 74 00 69 00 6e 00 67 00 20 00 66 00 69 00 6c 00 65 00 73 00 20 00 74 00 6f 00 20 00 25 00 73 00 20 00 66 00 6f 00 6c 00 64 00 65 00 72 00 24 00 45 00 78 00 74 00 72 00 61 00 63 00 74 00 69 00 6e 00 67 00 20 00 66 00 69 00 6c 00 65 00 73 00 20 00 74 00 6f 00 20 00 74 00 65 00 6d 00 70 00 6f 00 72 00 61 00 72 00 79 00 20 00 66 00 6f 00 6c 00 64 00 65 00 72 00}
+		$s7 = {26 00 45 00 6e 00 74 00 65 00 72 00 20 00 70 00 61 00 73 00 73 00 77 00 6f 00 72 00 64 00 20 00 66 00 6f 00 72 00 20 00 74 00 68 00 65 00 20 00 65 00 6e 00 63 00 72 00 79 00 70 00 74 00 65 00 64 00 20 00 66 00 69 00 6c 00 65 00 3a 00}
+		$s8 = {73 74 61 72 74 20 22 22 20 22 25 43 44 25 5c 6d 63 6f 65 6d 63 70 79 2e 65 78 65 22}
+		$s9 = {73 65 74 75 70 2e 62 61 74}
+		$s10 = {45 00 72 00 72 00 6f 00 72 00 61 00 45 00 72 00 72 00 6f 00 72 00 73 00 20 00 65 00 6e 00 63 00 6f 00 75 00 6e 00 74 00 65 00 72 00 65 00 64 00 20 00 77 00 68 00 69 00 6c 00 65 00 20 00 70 00 65 00 72 00 66 00 6f 00 72 00 6d 00 69 00 6e 00 67 00 20 00 74 00 68 00 65 00 20 00 6f 00 70 00 65 00 72 00 61 00 74 00 69 00 6f 00 6e 00}
+		$s11 = {50 00 6c 00 65 00 61 00 73 00 65 00 20 00 64 00 6f 00 77 00 6e 00 6c 00 6f 00 61 00 64 00 20 00 61 00 20 00 66 00 72 00 65 00 73 00 68 00 20 00 63 00 6f 00 70 00 79 00 20 00 61 00 6e 00 64 00 20 00 72 00 65 00 74 00 72 00 79 00 20 00 74 00 68 00 65 00 20 00 69 00 6e 00 73 00 74 00 61 00 6c 00 6c 00 61 00 74 00 69 00 6f 00 6e 00}
+		$s12 = {61 6e 74 69 76 69 72 2e 64 61 74}
+		$s13 = {54 00 68 00 65 00 20 00 72 00 65 00 71 00 75 00 69 00 72 00 65 00 64 00 20 00 76 00 6f 00 6c 00 75 00 6d 00 65 00 20 00 69 00 73 00 20 00 61 00 62 00 73 00 65 00 6e 00 74 00 32 00 54 00 68 00 65 00 20 00 61 00 72 00 63 00 68 00 69 00 76 00 65 00 20 00 69 00 73 00 20 00 65 00 69 00 74 00 68 00 65 00 72 00 20 00 69 00 6e 00 20 00 75 00 6e 00 6b 00 6e 00 6f 00 77 00 6e 00 20 00 66 00 6f 00 72 00 6d 00 61 00 74 00 20 00 6f 00 72 00 20 00 64 00 61 00 6d 00 61 00 67 00 65 00 64 00}
+		$s14 = {3d 00 54 00 6f 00 74 00 61 00 6c 00 20 00 70 00 61 00 74 00 68 00 20 00 61 00 6e 00 64 00 20 00 66 00 69 00 6c 00 65 00 20 00 6e 00 61 00 6d 00 65 00 20 00 6c 00 65 00 6e 00 67 00 74 00 68 00 20 00 6d 00 75 00 73 00 74 00 20 00 6e 00 6f 00 74 00 20 00 65 00 78 00 63 00 65 00 65 00 64 00 20 00 25 00 64 00 20 00 63 00 68 00 61 00 72 00 61 00 63 00 74 00 65 00 72 00 73 00}
+		$s15 = {50 00 6c 00 65 00 61 00 73 00 65 00 20 00 63 00 6c 00 6f 00 73 00 65 00 20 00 61 00 6c 00 6c 00 20 00 61 00 70 00 70 00 6c 00 69 00 63 00 61 00 74 00 69 00 6f 00 6e 00 73 00 2c 00 20 00 72 00 65 00 62 00 6f 00 6f 00 74 00 20 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 61 00 6e 00 64 00 20 00 72 00 65 00 73 00 74 00 61 00 72 00 74 00 20 00 74 00 68 00 69 00 73 00 20 00 69 00 6e 00 73 00 74 00 61 00 6c 00 6c 00 61 00 74 00 69 00 6f 00 6e 00 5c 00 53 00 6f 00 6d 00 65 00 20 00 69 00 6e 00 73 00 74 00 61 00 6c 00 6c 00 61 00 74 00 69 00 6f 00 6e 00 20 00 66 00 69 00 6c 00 65 00 73 00 20 00 61 00 72 00 65 00 20 00 63 00 6f 00 72 00 72 00 75 00 70 00 74 00 2e 00}
+		$s16 = {66 00 6f 00 6c 00 64 00 65 00 72 00 20 00 69 00 73 00 20 00 6e 00 6f 00 74 00 20 00 61 00 63 00 63 00 65 00 73 00 73 00 69 00 62 00 6c 00 65 00 6c 00 53 00 6f 00 6d 00 65 00 20 00 66 00 69 00 6c 00 65 00 73 00 20 00 63 00 6f 00 75 00 6c 00 64 00 20 00 6e 00 6f 00 74 00 20 00 62 00 65 00 20 00 63 00 72 00 65 00 61 00 74 00 65 00 64 00 2e 00}
+		$s17 = {50 00 61 00 63 00 6b 00 65 00 64 00 20 00 64 00 61 00 74 00 61 00 20 00 43 00 52 00 43 00 20 00 66 00 61 00 69 00 6c 00 65 00 64 00 20 00 69 00 6e 00 20 00 25 00 73 00}
+		$s18 = {44 44 54 54 44 54 54 44 54 54 44 54 54 44 54 54 44 54 54 44 54 54 44 54 54 44 54 51}
+		$s19 = {46 00 69 00 6c 00 65 00 20 00 63 00 6c 00 6f 00 73 00 65 00 20 00 65 00 72 00 72 00 6f 00 72 00}
+		$s20 = {43 00 52 00 43 00 20 00 66 00 61 00 69 00 6c 00 65 00 64 00 20 00 69 00 6e 00 20 00 25 00 73 00}
+		$op0 = { e8 6f 12 00 00 84 c0 74 04 32 c0 eb 34 56 ff 75 }
+		$op1 = { 53 68 b0 34 41 00 57 e8 61 44 00 00 57 e8 31 44 }
+		$op2 = { 56 ff 75 08 8d b5 f4 ef ff ff e8 17 ff ff ff 8d }
 
-      $s1 = "Cannot create folder %sDCRC failed in the encrypted file %s. Corrupt file or wrong password." fullword wide
-      $s2 = "Wrong password for %s5Write error in the file %s. Probably the disk is full" fullword wide
-      $s3 = "mcutil.dll" fullword ascii
-      $s4 = "Unexpected end of archiveThe file \"%s\" header is corrupt%The archive comment header is corrupt" fullword wide
-      $s5 = "mcoemcpy.exe" fullword ascii
-      $s6 = "Extracting files to %s folder$Extracting files to temporary folder" fullword wide
-      $s7 = "&Enter password for the encrypted file:" fullword wide
-      $s8 = "start \"\" \"%CD%\\mcoemcpy.exe\"" fullword ascii
-      $s9 = "setup.bat" fullword ascii
-      $s10 = "ErroraErrors encountered while performing the operation" fullword wide
-      $s11 = "Please download a fresh copy and retry the installation" fullword wide
-      $s12 = "antivir.dat" fullword ascii
-      $s13 = "The required volume is absent2The archive is either in unknown format or damaged" fullword wide
-      $s14 = "=Total path and file name length must not exceed %d characters" fullword wide
-      $s15 = "Please close all applications, reboot Windows and restart this installation\\Some installation files are corrupt." fullword wide
-      $s16 = "folder is not accessiblelSome files could not be created." fullword wide
-      $s17 = "Packed data CRC failed in %s" fullword wide
-      $s18 = "DDTTDTTDTTDTTDTTDTTDTTDTTDTQ" fullword ascii
-      $s19 = "File close error" fullword wide
-      $s20 = "CRC failed in %s" fullword wide
-      
-      $op0 = { e8 6f 12 00 00 84 c0 74 04 32 c0 eb 34 56 ff 75 }
-      $op1 = { 53 68 b0 34 41 00 57 e8 61 44 00 00 57 e8 31 44 }
-      $op2 = { 56 ff 75 08 8d b5 f4 ef ff ff e8 17 ff ff ff 8d }
-
-   condition:
-
-      uint16(0) == 0x5a4d and 
-      filesize < 500KB and
-      ( pe.imphash() == "dbb1eb5c3476069287a73206929932fd" and
-      all of them)
+	condition:
+		uint16( 0 ) == 0x5a4d and filesize < 500KB and ( pe.imphash ( ) == "dbb1eb5c3476069287a73206929932fd" and all of them )
 }
 

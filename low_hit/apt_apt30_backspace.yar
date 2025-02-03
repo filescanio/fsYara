@@ -1,13 +1,5 @@
-/*
-	Yara Rule to detect Backspace Malware mentioned in FireEye APT30 Report
-	https://www.fireeye.com/blog/threat-research/2015/04/apt_30_and_the_mecha.html
-
-	13.04.2015
-	v1.0
-	please report back false positives via the 'issue' section of the LOKI github page
-*/
-
-rule APT30_Generic_H {
+rule APT30_Generic_H : hardened
+{
 	meta:
 		description = "FireEye APT30 Report Sample"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -17,15 +9,18 @@ rule APT30_Generic_H {
 		hash1 = "2a4c8752f3e7fde0139421b8d5713b29c720685d"
 		hash2 = "4350e906d590dca5fcc90ed3215467524e0a4e3d"
 		id = "1908e985-9634-51dc-8972-53afa13c26a3"
+
 	strings:
-		$s0 = "\\Temp1020.txt" ascii
-		$s1 = "Xmd.Txe" fullword ascii
-		$s2 = "\\Internet Exp1orer" ascii
+		$s0 = {5c 54 65 6d 70 31 30 32 30 2e 74 78 74}
+		$s1 = {58 6d 64 2e 54 78 65}
+		$s2 = {5c 49 6e 74 65 72 6e 65 74 20 45 78 70 31 6f 72 65 72}
+
 	condition:
-		filesize < 100KB and uint16(0) == 0x5A4D and all of them
+		filesize < 100KB and uint16( 0 ) == 0x5A4D and all of them
 }
 
-rule APT30_Sample_2 {
+rule APT30_Sample_2 : hardened
+{
 	meta:
 		description = "FireEye APT30 Report Sample"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -34,17 +29,20 @@ rule APT30_Sample_2 {
 		date = "2015/04/13"
 		hash = "0359ffbef6a752ee1a54447b26e272f4a5a35167"
 		id = "821a2de9-48c4-58d8-acc4-1e25025ab5cf"
+
 	strings:
-		$s0 = "ForZRLnkWordDlg.EXE" fullword wide
-		$s1 = "ForZRLnkWordDlg Microsoft " fullword wide
-		$s9 = "ForZRLnkWordDlg 1.0 " fullword wide
-		$s11 = "ForZRLnkWordDlg" fullword wide
-		$s12 = " (C) 2011" fullword wide
+		$s0 = {46 00 6f 00 72 00 5a 00 52 00 4c 00 6e 00 6b 00 57 00 6f 00 72 00 64 00 44 00 6c 00 67 00 2e 00 45 00 58 00 45 00}
+		$s1 = {46 00 6f 00 72 00 5a 00 52 00 4c 00 6e 00 6b 00 57 00 6f 00 72 00 64 00 44 00 6c 00 67 00 20 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 20 00}
+		$s9 = {46 00 6f 00 72 00 5a 00 52 00 4c 00 6e 00 6b 00 57 00 6f 00 72 00 64 00 44 00 6c 00 67 00 20 00 31 00 2e 00 30 00 20 00}
+		$s11 = {46 00 6f 00 72 00 5a 00 52 00 4c 00 6e 00 6b 00 57 00 6f 00 72 00 64 00 44 00 6c 00 67 00}
+		$s12 = {20 00 28 00 43 00 29 00 20 00 32 00 30 00 31 00 31 00}
+
 	condition:
-		filesize < 100KB and uint16(0) == 0x5A4D and all of them
+		filesize < 100KB and uint16( 0 ) == 0x5A4D and all of them
 }
 
-rule APT30_Sample_3 {
+rule APT30_Sample_3 : hardened
+{
 	meta:
 		description = "FireEye APT30 Report Sample"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -53,17 +51,20 @@ rule APT30_Sample_3 {
 		date = "2015/04/13"
 		hash = "d0320144e65c9af0052f8dee0419e8deed91b61b"
 		id = "62e81385-26f5-545d-92ff-6604ff4d0186"
+
 	strings:
-		$s5 = "Software\\Mic" ascii
-		$s6 = "HHOSTR" ascii
-		$s9 = "ThEugh" fullword ascii
-		$s10 = "Moziea/" ascii
-		$s12 = "%s%s(X-" ascii
+		$s5 = {53 6f 66 74 77 61 72 65 5c 4d 69 63}
+		$s6 = {48 48 4f 53 54 52}
+		$s9 = {54 68 45 75 67 68}
+		$s10 = {4d 6f 7a 69 65 61 2f}
+		$s12 = {25 73 25 73 28 58 2d}
+
 	condition:
-		filesize < 100KB and uint16(0) == 0x5A4D and all of them
+		filesize < 100KB and uint16( 0 ) == 0x5A4D and all of them
 }
 
-rule APT30_Generic_C {
+rule APT30_Generic_C : hardened
+{
 	meta:
 		description = "FireEye APT30 Report Sample"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -78,16 +79,19 @@ rule APT30_Generic_C {
 		hash6 = "b4ae0004094b37a40978ef06f311a75e"
 		hash7 = "e39756bc99ee1b05e5ee92a1cdd5faf4"
 		id = "25ec8d54-9875-5bf5-abc9-296f18f3c5e5"
+
 	strings:
-		$s0 = "MYUSER32.dll" fullword ascii
-		$s1 = "MYADVAPI32.dll" fullword ascii
-		$s2 = "MYWSOCK32.dll" fullword ascii
-		$s3 = "MYMSVCRT.dll" fullword ascii
+		$s0 = {4d 59 55 53 45 52 33 32 2e 64 6c 6c}
+		$s1 = {4d 59 41 44 56 41 50 49 33 32 2e 64 6c 6c}
+		$s2 = {4d 59 57 53 4f 43 4b 33 32 2e 64 6c 6c}
+		$s3 = {4d 59 4d 53 56 43 52 54 2e 64 6c 6c}
+
 	condition:
-		filesize < 100KB and uint16(0) == 0x5A4D and all of them
+		filesize < 100KB and uint16( 0 ) == 0x5A4D and all of them
 }
 
-rule APT30_Sample_4 {
+rule APT30_Sample_4 : hardened
+{
 	meta:
 		description = "FireEye APT30 Report Sample"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -96,18 +100,21 @@ rule APT30_Sample_4 {
 		date = "2015/04/13"
 		hash = "75367d8b506031df5923c2d8d7f1b9f643a123cd"
 		id = "e5c6afde-0ab5-54ed-8d18-5ad477a527d7"
+
 	strings:
-		$s0 = "GetStartupIn" ascii
-		$s1 = "enMutex" ascii
-		$s2 = "tpsvimi" ascii
-		$s3 = "reateProcesy" ascii
-		$s5 = "FreeLibr1y*S" ascii
-		$s6 = "foAModuleHand" ascii
+		$s0 = {47 65 74 53 74 61 72 74 75 70 49 6e}
+		$s1 = {65 6e 4d 75 74 65 78}
+		$s2 = {74 70 73 76 69 6d 69}
+		$s3 = {72 65 61 74 65 50 72 6f 63 65 73 79}
+		$s5 = {46 72 65 65 4c 69 62 72 31 79 2a 53}
+		$s6 = {66 6f 41 4d 6f 64 75 6c 65 48 61 6e 64}
+
 	condition:
-		filesize < 100KB and uint16(0) == 0x5A4D and all of them
+		filesize < 100KB and uint16( 0 ) == 0x5A4D and all of them
 }
 
-rule APT30_Sample_5 {
+rule APT30_Sample_5 : hardened
+{
 	meta:
 		description = "FireEye APT30 Report Sample"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -116,17 +123,20 @@ rule APT30_Sample_5 {
 		date = "2015/04/13"
 		hash = "1a2dd2a0555dc746333e7c956c58f7c4cdbabd4b"
 		id = "bdbebe44-7423-5793-8a42-4f9b70de2231"
+
 	strings:
-		$s0 = "Version 4.7.3001" fullword wide
-		$s1 = "Copyright (c) Microsoft Corporation 2004" fullword wide
-		$s3 = "Microsoft(R) is a registered trademark of Microsoft Corporation in the U" wide
-		$s7 = "msmsgs" fullword wide
-		$s10 = "----------------g_nAV=%d,hWnd:0x%X,className:%s,Title:%s,(%d,%d,%d,%d),BOOL=%d" fullword ascii
+		$s0 = {56 00 65 00 72 00 73 00 69 00 6f 00 6e 00 20 00 34 00 2e 00 37 00 2e 00 33 00 30 00 30 00 31 00}
+		$s1 = {43 00 6f 00 70 00 79 00 72 00 69 00 67 00 68 00 74 00 20 00 28 00 63 00 29 00 20 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 20 00 43 00 6f 00 72 00 70 00 6f 00 72 00 61 00 74 00 69 00 6f 00 6e 00 20 00 32 00 30 00 30 00 34 00}
+		$s3 = {4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 28 00 52 00 29 00 20 00 69 00 73 00 20 00 61 00 20 00 72 00 65 00 67 00 69 00 73 00 74 00 65 00 72 00 65 00 64 00 20 00 74 00 72 00 61 00 64 00 65 00 6d 00 61 00 72 00 6b 00 20 00 6f 00 66 00 20 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 20 00 43 00 6f 00 72 00 70 00 6f 00 72 00 61 00 74 00 69 00 6f 00 6e 00 20 00 69 00 6e 00 20 00 74 00 68 00 65 00 20 00 55 00}
+		$s7 = {6d 00 73 00 6d 00 73 00 67 00 73 00}
+		$s10 = {2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 67 5f 6e 41 56 3d 25 64 2c 68 57 6e 64 3a 30 78 25 58 2c 63 6c 61 73 73 4e 61 6d 65 3a 25 73 2c 54 69 74 6c 65 3a 25 73 2c 28 25 64 2c 25 64 2c 25 64 2c 25 64 29 2c 42 4f 4f 4c 3d 25 64}
+
 	condition:
-		filesize < 100KB and uint16(0) == 0x5A4D and all of them
+		filesize < 100KB and uint16( 0 ) == 0x5A4D and all of them
 }
 
-rule APT30_Sample_6 {
+rule APT30_Sample_6 : hardened
+{
 	meta:
 		description = "FireEye APT30 Report Sample"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -135,14 +145,17 @@ rule APT30_Sample_6 {
 		date = "2015/04/13"
 		hash = "00e69b059ad6b51b76bc476a115325449d10b4c0"
 		id = "2f19809c-09fc-51bf-9a20-6b95099a92dd"
+
 	strings:
-		$s0 = "GreateProcessA" fullword ascii
-		$s1 = "Ternel32.dll" fullword ascii
+		$s0 = {47 72 65 61 74 65 50 72 6f 63 65 73 73 41}
+		$s1 = {54 65 72 6e 65 6c 33 32 2e 64 6c 6c}
+
 	condition:
-		filesize < 100KB and uint16(0) == 0x5A4D and all of them
+		filesize < 100KB and uint16( 0 ) == 0x5A4D and all of them
 }
 
-rule APT30_Sample_7 {
+rule APT30_Sample_7 : hardened
+{
 	meta:
 		description = "FireEye APT30 Report Sample"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -151,18 +164,21 @@ rule APT30_Sample_7 {
 		date = "2015/04/13"
 		hash = "868d1f4c106a08bd2e5af4f23139f0e0cd798fba"
 		id = "612732d9-8df5-5388-b299-2da4f8118435"
+
 	strings:
-		$s0 = "datain" fullword ascii
-		$s3 = "C:\\Prog" ascii
-		$s4 = "$LDDATA$" ascii
-		$s5 = "Maybe a Encrypted Flash" fullword ascii
-		$s6 = "Jean-loup Gailly" ascii
-		$s8 = "deflate 1.1.3 Copyright" ascii
+		$s0 = {64 61 74 61 69 6e}
+		$s3 = {43 3a 5c 50 72 6f 67}
+		$s4 = {24 4c 44 44 41 54 41 24}
+		$s5 = {4d 61 79 62 65 20 61 20 45 6e 63 72 79 70 74 65 64 20 46 6c 61 73 68}
+		$s6 = {4a 65 61 6e 2d 6c 6f 75 70 20 47 61 69 6c 6c 79}
+		$s8 = {64 65 66 6c 61 74 65 20 31 2e 31 2e 33 20 43 6f 70 79 72 69 67 68 74}
+
 	condition:
-		filesize < 100KB and uint16(0) == 0x5A4D and all of them
+		filesize < 100KB and uint16( 0 ) == 0x5A4D and all of them
 }
 
-rule APT30_Generic_E {
+rule APT30_Generic_E : hardened
+{
 	meta:
 		description = "FireEye APT30 Report Sample"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -175,14 +191,17 @@ rule APT30_Generic_E {
 		hash4 = "a813eba27b2166620bd75029cc1f04b0"
 		hash5 = "b5546842e08950bc17a438d785b5a019"
 		id = "69e76a59-3529-541d-9017-07e6d67fbda4"
+
 	strings:
-		$s0 = "Nkfvtyvn}" ascii
-		$s6 = "----------------g_nAV=%d,hWnd:0x%X,className:%s,Title:%s,(%d,%d,%d,%d),BOOL=%d" fullword ascii
+		$s0 = {4e 6b 66 76 74 79 76 6e 7d}
+		$s6 = {2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 67 5f 6e 41 56 3d 25 64 2c 68 57 6e 64 3a 30 78 25 58 2c 63 6c 61 73 73 4e 61 6d 65 3a 25 73 2c 54 69 74 6c 65 3a 25 73 2c 28 25 64 2c 25 64 2c 25 64 2c 25 64 29 2c 42 4f 4f 4c 3d 25 64}
+
 	condition:
-		filesize < 100KB and uint16(0) == 0x5A4D and all of them
+		filesize < 100KB and uint16( 0 ) == 0x5A4D and all of them
 }
 
-rule APT30_Sample_8 {
+rule APT30_Sample_8 : hardened
+{
 	meta:
 		description = "FireEye APT30 Report Sample"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -191,16 +210,19 @@ rule APT30_Sample_8 {
 		date = "2015/04/13"
 		hash = "9531e21652143b8b129ab8c023dc05fef2a17cc3"
 		id = "5053c2db-32a9-58ae-9a72-eb16ef14168e"
+
 	strings:
-		$s0 = "ateProcessA" ascii
-		$s1 = "Ternel32.dllFQ" fullword ascii
-		$s2 = "StartupInfoAModuleHand" fullword ascii
-		$s3 = "OpenMutex" fullword ascii
+		$s0 = {61 74 65 50 72 6f 63 65 73 73 41}
+		$s1 = {54 65 72 6e 65 6c 33 32 2e 64 6c 6c 46 51}
+		$s2 = {53 74 61 72 74 75 70 49 6e 66 6f 41 4d 6f 64 75 6c 65 48 61 6e 64}
+		$s3 = {4f 70 65 6e 4d 75 74 65 78}
+
 	condition:
-		filesize < 100KB and uint16(0) == 0x5A4D and all of them
+		filesize < 100KB and uint16( 0 ) == 0x5A4D and all of them
 }
 
-rule APT30_Generic_B {
+rule APT30_Generic_B : hardened
+{
 	meta:
 		description = "FireEye APT30 Report Sample"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -215,13 +237,16 @@ rule APT30_Generic_B {
 		hash6 = "853a20f5fc6d16202828df132c41a061"
 		hash7 = "ed151602dea80f39173c2f7b1dd58e06"
 		id = "df3b8896-7229-5b3b-ad2f-774b0cea167c"
+
 	strings:
-		$s2 = "Moziea/4.0" ascii
+		$s2 = {4d 6f 7a 69 65 61 2f 34 2e 30}
+
 	condition:
-		filesize < 100KB and uint16(0) == 0x5A4D and all of them
+		filesize < 100KB and uint16( 0 ) == 0x5A4D and all of them
 }
 
-rule APT30_Generic_I {
+rule APT30_Generic_I : hardened
+{
 	meta:
 		description = "FireEye APT30 Report Sample"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -231,15 +256,18 @@ rule APT30_Generic_I {
 		hash1 = "fe211c7a081c1dac46e3935f7c614549"
 		hash2 = "8c9db773d387bf9b3f2b6a532e4c937c"
 		id = "55046e1a-731a-5418-9a7a-4fe1611c77d0"
+
 	strings:
-		$s0 = "Copyright 2012 Google Inc. All rights reserved." fullword wide
-		$s1 = "(Prxy%c-%s:%u)" fullword ascii
-		$s2 = "Google Inc." fullword wide
+		$s0 = {43 00 6f 00 70 00 79 00 72 00 69 00 67 00 68 00 74 00 20 00 32 00 30 00 31 00 32 00 20 00 47 00 6f 00 6f 00 67 00 6c 00 65 00 20 00 49 00 6e 00 63 00 2e 00 20 00 41 00 6c 00 6c 00 20 00 72 00 69 00 67 00 68 00 74 00 73 00 20 00 72 00 65 00 73 00 65 00 72 00 76 00 65 00 64 00 2e 00}
+		$s1 = {28 50 72 78 79 25 63 2d 25 73 3a 25 75 29}
+		$s2 = {47 00 6f 00 6f 00 67 00 6c 00 65 00 20 00 49 00 6e 00 63 00 2e 00}
+
 	condition:
-		filesize < 100KB and uint16(0) == 0x5A4D and all of them
+		filesize < 100KB and uint16( 0 ) == 0x5A4D and all of them
 }
 
-rule APT30_Sample_9 {
+rule APT30_Sample_9 : hardened
+{
 	meta:
 		description = "FireEye APT30 Report Sample"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -248,20 +276,24 @@ rule APT30_Sample_9 {
 		date = "2015/04/13"
 		hash = "442bf8690401a2087a340ce4a48151c39101652f"
 		id = "bf24bb57-aff9-579c-b8a2-265a6d2a06d0"
+
 	strings:
-		$s0 = "\\Windo" ascii
-		$s2 = "oHHOSTR" ascii
-		$s3 = "Softwa]\\Mic" ascii
-		$s4 = "Startup'T" ascii
-		$s6 = "Ora\\%^" ascii
-		$s7 = "\\Ohttp=r" ascii
-		$s17 = "help32Snapshot0L" ascii
-		$s18 = "TimUmoveH" ascii
-		$s20 = "WideChc[lobalAl" ascii
+		$s0 = {5c 57 69 6e 64 6f}
+		$s2 = {6f 48 48 4f 53 54 52}
+		$s3 = {53 6f 66 74 77 61 5d 5c 4d 69 63}
+		$s4 = {53 74 61 72 74 75 70 27 54}
+		$s6 = {4f 72 61 5c 25 5e}
+		$s7 = {5c 4f 68 74 74 70 3d 72}
+		$s17 = {68 65 6c 70 33 32 53 6e 61 70 73 68 6f 74 30 4c}
+		$s18 = {54 69 6d 55 6d 6f 76 65 48}
+		$s20 = {57 69 64 65 43 68 63 5b 6c 6f 62 61 6c 41 6c}
+
 	condition:
-		filesize < 100KB and uint16(0) == 0x5A4D and all of them
+		filesize < 100KB and uint16( 0 ) == 0x5A4D and all of them
 }
-rule APT30_Sample_10 {
+
+rule APT30_Sample_10 : hardened
+{
 	meta:
 		description = "FireEye APT30 Report Sample"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -270,19 +302,22 @@ rule APT30_Sample_10 {
 		date = "2015/04/13"
 		hash = "eb518cda3c4f4e6938aaaee07f1f7db8ee91c901"
 		id = "e5dd6bc9-9383-5d48-92df-709996373655"
+
 	strings:
-		$s0 = "Version 4.7.3001" fullword wide
-		$s1 = "Copyright (c) Microsoft Corporation 2004" fullword wide
-		$s2 = "Microsoft(R) is a registered trademark of Microsoft Corporation in the U" wide
-		$s3 = "!! Use Connect Method !!" fullword ascii
-		$s4 = "(Prxy%c-%s:%u)" fullword ascii
-		$s5 = "msmsgs" fullword wide
-		$s18 = "(Prxy-No)" fullword ascii
+		$s0 = {56 00 65 00 72 00 73 00 69 00 6f 00 6e 00 20 00 34 00 2e 00 37 00 2e 00 33 00 30 00 30 00 31 00}
+		$s1 = {43 00 6f 00 70 00 79 00 72 00 69 00 67 00 68 00 74 00 20 00 28 00 63 00 29 00 20 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 20 00 43 00 6f 00 72 00 70 00 6f 00 72 00 61 00 74 00 69 00 6f 00 6e 00 20 00 32 00 30 00 30 00 34 00}
+		$s2 = {4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 28 00 52 00 29 00 20 00 69 00 73 00 20 00 61 00 20 00 72 00 65 00 67 00 69 00 73 00 74 00 65 00 72 00 65 00 64 00 20 00 74 00 72 00 61 00 64 00 65 00 6d 00 61 00 72 00 6b 00 20 00 6f 00 66 00 20 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 20 00 43 00 6f 00 72 00 70 00 6f 00 72 00 61 00 74 00 69 00 6f 00 6e 00 20 00 69 00 6e 00 20 00 74 00 68 00 65 00 20 00 55 00}
+		$s3 = {21 21 20 55 73 65 20 43 6f 6e 6e 65 63 74 20 4d 65 74 68 6f 64 20 21 21}
+		$s4 = {28 50 72 78 79 25 63 2d 25 73 3a 25 75 29}
+		$s5 = {6d 00 73 00 6d 00 73 00 67 00 73 00}
+		$s18 = {28 50 72 78 79 2d 4e 6f 29}
+
 	condition:
-		filesize < 100KB and uint16(0) == 0x5A4D and all of them
+		filesize < 100KB and uint16( 0 ) == 0x5A4D and all of them
 }
 
-rule APT30_Sample_11 {
+rule APT30_Sample_11 : hardened
+{
 	meta:
 		description = "FireEye APT30 Report Sample"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -291,27 +326,30 @@ rule APT30_Sample_11 {
 		date = "2015/04/13"
 		hash = "59066d5d1ee3ad918111ed6fcaf8513537ff49a6"
 		id = "e5dd6bc9-9383-5d48-92df-709996373655"
+
 	strings:
-		$s0 = "System\\CurrentControlSet\\control\\ComputerName\\ComputerName" fullword ascii
-		$s1 = "msofscan.exe" fullword wide
-		$s2 = "Mozilla/4.0 (compatible; MSIE 5.0; Win32)" fullword ascii
-		$s3 = "Microsoft? is a registered trademark of Microsoft Corporation." fullword wide
-		$s4 = "Windows XP Professional x64 Edition or Windows Server 2003" fullword ascii
-		$s9 = "NetEagle_Scout - " fullword ascii
-		$s10 = "Server 4.0, Enterprise Edition" fullword ascii
-		$s11 = "Windows 3.1(Win32s)" fullword ascii
-		$s12 = "%s%s%s %s" fullword ascii
-		$s13 = "Server 4.0" fullword ascii
-		$s15 = "Windows Millennium Edition" fullword ascii
-		$s16 = "msofscan" fullword wide
-		$s17 = "Eagle-Norton360-OfficeScan" fullword ascii
-		$s18 = "Workstation 4.0" fullword ascii
-		$s19 = "2003 Microsoft Office system" fullword wide
+		$s0 = {53 79 73 74 65 6d 5c 43 75 72 72 65 6e 74 43 6f 6e 74 72 6f 6c 53 65 74 5c 63 6f 6e 74 72 6f 6c 5c 43 6f 6d 70 75 74 65 72 4e 61 6d 65 5c 43 6f 6d 70 75 74 65 72 4e 61 6d 65}
+		$s1 = {6d 00 73 00 6f 00 66 00 73 00 63 00 61 00 6e 00 2e 00 65 00 78 00 65 00}
+		$s2 = {4d 6f 7a 69 6c 6c 61 2f 34 2e 30 20 28 63 6f 6d 70 61 74 69 62 6c 65 3b 20 4d 53 49 45 20 35 2e 30 3b 20 57 69 6e 33 32 29}
+		$s3 = {4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 3f 00 20 00 69 00 73 00 20 00 61 00 20 00 72 00 65 00 67 00 69 00 73 00 74 00 65 00 72 00 65 00 64 00 20 00 74 00 72 00 61 00 64 00 65 00 6d 00 61 00 72 00 6b 00 20 00 6f 00 66 00 20 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 20 00 43 00 6f 00 72 00 70 00 6f 00 72 00 61 00 74 00 69 00 6f 00 6e 00 2e 00}
+		$s4 = {57 69 6e 64 6f 77 73 20 58 50 20 50 72 6f 66 65 73 73 69 6f 6e 61 6c 20 78 36 34 20 45 64 69 74 69 6f 6e 20 6f 72 20 57 69 6e 64 6f 77 73 20 53 65 72 76 65 72 20 32 30 30 33}
+		$s9 = {4e 65 74 45 61 67 6c 65 5f 53 63 6f 75 74 20 2d 20}
+		$s10 = {53 65 72 76 65 72 20 34 2e 30 2c 20 45 6e 74 65 72 70 72 69 73 65 20 45 64 69 74 69 6f 6e}
+		$s11 = {57 69 6e 64 6f 77 73 20 33 2e 31 28 57 69 6e 33 32 73 29}
+		$s12 = {25 73 25 73 25 73 20 25 73}
+		$s13 = {53 65 72 76 65 72 20 34 2e 30}
+		$s15 = {57 69 6e 64 6f 77 73 20 4d 69 6c 6c 65 6e 6e 69 75 6d 20 45 64 69 74 69 6f 6e}
+		$s16 = {6d 00 73 00 6f 00 66 00 73 00 63 00 61 00 6e 00}
+		$s17 = {45 61 67 6c 65 2d 4e 6f 72 74 6f 6e 33 36 30 2d 4f 66 66 69 63 65 53 63 61 6e}
+		$s18 = {57 6f 72 6b 73 74 61 74 69 6f 6e 20 34 2e 30}
+		$s19 = {32 00 30 00 30 00 33 00 20 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 20 00 4f 00 66 00 66 00 69 00 63 00 65 00 20 00 73 00 79 00 73 00 74 00 65 00 6d 00}
+
 	condition:
-		filesize < 250KB and uint16(0) == 0x5A4D and all of them
+		filesize < 250KB and uint16( 0 ) == 0x5A4D and all of them
 }
 
-rule APT30_Sample_12 {
+rule APT30_Sample_12 : hardened
+{
 	meta:
 		description = "FireEye APT30 Report Sample"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -320,15 +358,18 @@ rule APT30_Sample_12 {
 		date = "2015/04/13"
 		hash = "b02b5720ff0f73f01eb2ba029a58b645c987c4bc"
 		id = "e5dd6bc9-9383-5d48-92df-709996373655"
+
 	strings:
-		$s0 = "Richic" fullword ascii
-		$s1 = "Accept: image/gif, */*" fullword ascii
-		$s2 = "----------------g_nAV=%d,hWnd:0x%X,className:%s,Title:%s,(%d,%d,%d,%d),BOOL=%d" fullword ascii
+		$s0 = {52 69 63 68 69 63}
+		$s1 = {41 63 63 65 70 74 3a 20 69 6d 61 67 65 2f 67 69 66 2c 20 2a 2f 2a}
+		$s2 = {2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 67 5f 6e 41 56 3d 25 64 2c 68 57 6e 64 3a 30 78 25 58 2c 63 6c 61 73 73 4e 61 6d 65 3a 25 73 2c 54 69 74 6c 65 3a 25 73 2c 28 25 64 2c 25 64 2c 25 64 2c 25 64 29 2c 42 4f 4f 4c 3d 25 64}
+
 	condition:
-		filesize < 250KB and uint16(0) == 0x5A4D and all of them
+		filesize < 250KB and uint16( 0 ) == 0x5A4D and all of them
 }
 
-rule APT30_Sample_13 {
+rule APT30_Sample_13 : hardened
+{
 	meta:
 		description = "FireEye APT30 Report Sample"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -337,18 +378,21 @@ rule APT30_Sample_13 {
 		date = "2015/04/13"
 		hash = "a359f705a833c4a4254443b87645fd579aa94bcf"
 		id = "e5dd6bc9-9383-5d48-92df-709996373655"
+
 	strings:
-		$s0 = "msofscan.exe" fullword wide
-		$s1 = "Microsoft? is a registered trademark of Microsoft Corporation." fullword wide
-		$s2 = "Microsoft Office Word Plugin Scan" fullword wide
-		$s3 = "? 2006 Microsoft Corporation.  All rights reserved." fullword wide
-		$s4 = "msofscan" fullword wide
-		$s6 = "2003 Microsoft Office system" fullword wide
+		$s0 = {6d 00 73 00 6f 00 66 00 73 00 63 00 61 00 6e 00 2e 00 65 00 78 00 65 00}
+		$s1 = {4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 3f 00 20 00 69 00 73 00 20 00 61 00 20 00 72 00 65 00 67 00 69 00 73 00 74 00 65 00 72 00 65 00 64 00 20 00 74 00 72 00 61 00 64 00 65 00 6d 00 61 00 72 00 6b 00 20 00 6f 00 66 00 20 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 20 00 43 00 6f 00 72 00 70 00 6f 00 72 00 61 00 74 00 69 00 6f 00 6e 00 2e 00}
+		$s2 = {4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 20 00 4f 00 66 00 66 00 69 00 63 00 65 00 20 00 57 00 6f 00 72 00 64 00 20 00 50 00 6c 00 75 00 67 00 69 00 6e 00 20 00 53 00 63 00 61 00 6e 00}
+		$s3 = {3f 00 20 00 32 00 30 00 30 00 36 00 20 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 20 00 43 00 6f 00 72 00 70 00 6f 00 72 00 61 00 74 00 69 00 6f 00 6e 00 2e 00 20 00 20 00 41 00 6c 00 6c 00 20 00 72 00 69 00 67 00 68 00 74 00 73 00 20 00 72 00 65 00 73 00 65 00 72 00 76 00 65 00 64 00 2e 00}
+		$s4 = {6d 00 73 00 6f 00 66 00 73 00 63 00 61 00 6e 00}
+		$s6 = {32 00 30 00 30 00 33 00 20 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 20 00 4f 00 66 00 66 00 69 00 63 00 65 00 20 00 73 00 79 00 73 00 74 00 65 00 6d 00}
+
 	condition:
-		filesize < 100KB and uint16(0) == 0x5A4D and all of them
+		filesize < 100KB and uint16( 0 ) == 0x5A4D and all of them
 }
 
-rule APT30_Sample_14 {
+rule APT30_Sample_14 : hardened
+{
 	meta:
 		description = "FireEye APT30 Report Sample"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -357,16 +401,19 @@ rule APT30_Sample_14 {
 		date = "2015/04/13"
 		hash = "b0740175d20eab79a5d62cdbe0ee1a89212a8472"
 		id = "e5dd6bc9-9383-5d48-92df-709996373655"
+
 	strings:
-		$s0 = "AdobeReader.exe" fullword wide
-		$s4 = "10.1.7.27" fullword wide
-		$s5 = "Copyright 1984-2012 Adobe Systems Incorporated and its licensors. All ri" wide
-		$s8 = "Adobe Reader" fullword wide
+		$s0 = {41 00 64 00 6f 00 62 00 65 00 52 00 65 00 61 00 64 00 65 00 72 00 2e 00 65 00 78 00 65 00}
+		$s4 = {31 00 30 00 2e 00 31 00 2e 00 37 00 2e 00 32 00 37 00}
+		$s5 = {43 00 6f 00 70 00 79 00 72 00 69 00 67 00 68 00 74 00 20 00 31 00 39 00 38 00 34 00 2d 00 32 00 30 00 31 00 32 00 20 00 41 00 64 00 6f 00 62 00 65 00 20 00 53 00 79 00 73 00 74 00 65 00 6d 00 73 00 20 00 49 00 6e 00 63 00 6f 00 72 00 70 00 6f 00 72 00 61 00 74 00 65 00 64 00 20 00 61 00 6e 00 64 00 20 00 69 00 74 00 73 00 20 00 6c 00 69 00 63 00 65 00 6e 00 73 00 6f 00 72 00 73 00 2e 00 20 00 41 00 6c 00 6c 00 20 00 72 00 69 00}
+		$s8 = {41 00 64 00 6f 00 62 00 65 00 20 00 52 00 65 00 61 00 64 00 65 00 72 00}
+
 	condition:
-		filesize < 100KB and uint16(0) == 0x5A4D and all of them
+		filesize < 100KB and uint16( 0 ) == 0x5A4D and all of them
 }
 
-rule APT30_Sample_15 {
+rule APT30_Sample_15 : hardened
+{
 	meta:
 		description = "FireEye APT30 Report Sample"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -375,18 +422,21 @@ rule APT30_Sample_15 {
 		date = "2015/04/13"
 		hash = "7a8576804a2bbe4e5d05d1718f90b6a4332df027"
 		id = "e5dd6bc9-9383-5d48-92df-709996373655"
+
 	strings:
-		$s0 = "\\Windo" ascii
-		$s2 = "HHOSTR"  ascii
-		$s3 = "Softwa]\\Mic" ascii
-		$s4 = "Startup'T" fullword ascii
-		$s17 = "help32Snapshot0L" fullword ascii
-		$s18 = "TimUmoveH" ascii
+		$s0 = {5c 57 69 6e 64 6f}
+		$s2 = {48 48 4f 53 54 52}
+		$s3 = {53 6f 66 74 77 61 5d 5c 4d 69 63}
+		$s4 = {53 74 61 72 74 75 70 27 54}
+		$s17 = {68 65 6c 70 33 32 53 6e 61 70 73 68 6f 74 30 4c}
+		$s18 = {54 69 6d 55 6d 6f 76 65 48}
+
 	condition:
-		filesize < 100KB and uint16(0) == 0x5A4D and all of them
+		filesize < 100KB and uint16( 0 ) == 0x5A4D and all of them
 }
 
-rule APT30_Sample_16 {
+rule APT30_Sample_16 : hardened
+{
 	meta:
 		description = "FireEye APT30 Report Sample"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -395,18 +445,21 @@ rule APT30_Sample_16 {
 		date = "2015/04/13"
 		hash = "066d06ac08b48d3382d46bbeda6ad411b6d6130e"
 		id = "e5dd6bc9-9383-5d48-92df-709996373655"
+
 	strings:
-		$s0 = "\\Temp1020.txt" ascii
-		$s1 = "cmcbqyjs" fullword ascii
-		$s2 = "SPVSWh\\" fullword ascii
-		$s4 = "PSShxw@" fullword ascii
-		$s5 = "VWhHw@" fullword ascii
-		$s7 = "SVWhHw@" fullword ascii
+		$s0 = {5c 54 65 6d 70 31 30 32 30 2e 74 78 74}
+		$s1 = {63 6d 63 62 71 79 6a 73}
+		$s2 = {53 50 56 53 57 68 5c}
+		$s4 = {50 53 53 68 78 77 40}
+		$s5 = {56 57 68 48 77 40}
+		$s7 = {53 56 57 68 48 77 40}
+
 	condition:
-		filesize < 100KB and uint16(0) == 0x5A4D and all of them
+		filesize < 100KB and uint16( 0 ) == 0x5A4D and all of them
 }
 
-rule APT30_Generic_A {
+rule APT30_Generic_A : hardened
+{
 	meta:
 		description = "FireEye APT30 Report Sample"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -419,16 +472,19 @@ rule APT30_Generic_A {
 		hash4 = "7c9a13f1fdd6452fb6d62067f958bfc5fec1d24e"
 		hash5 = "5257ba027abe3a2cf397bfcae87b13ab9c1e9019"
 		id = "6b851d94-d3bd-5c76-8fd0-adb42b3fab73"
+
 	strings:
-		$s5 = "WPVWhhiA" fullword ascii
-		$s6 = "VPWVhhiA" fullword ascii
-		$s11 = "VPhhiA" fullword ascii
-		$s12 = "uUhXiA" fullword ascii
+		$s5 = {57 50 56 57 68 68 69 41}
+		$s6 = {56 50 57 56 68 68 69 41}
+		$s11 = {56 50 68 68 69 41}
+		$s12 = {75 55 68 58 69 41}
+
 	condition:
-		filesize < 100KB and uint16(0) == 0x5A4D and all of them
+		filesize < 100KB and uint16( 0 ) == 0x5A4D and all of them
 }
 
-rule APT30_Sample_17 {
+rule APT30_Sample_17 : hardened
+{
 	meta:
 		description = "FireEye APT30 Report Sample"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -437,13 +493,17 @@ rule APT30_Sample_17 {
 		date = "2015/04/13"
 		hash = "c3aa52ff1d19e8fc6704777caf7c5bd120056845"
 		id = "e5dd6bc9-9383-5d48-92df-709996373655"
+
 	strings:
-		$s1 = "Nkfvtyvn}]ty}ztU" fullword ascii
-		$s4 = "IEXPL0RE" fullword ascii
+		$s1 = {4e 6b 66 76 74 79 76 6e 7d 5d 74 79 7d 7a 74 55}
+		$s4 = {49 45 58 50 4c 30 52 45}
+
 	condition:
-		filesize < 100KB and uint16(0) == 0x5A4D and all of them
+		filesize < 100KB and uint16( 0 ) == 0x5A4D and all of them
 }
-rule APT30_Sample_18 {
+
+rule APT30_Sample_18 : hardened
+{
 	meta:
 		description = "FireEye APT30 Report Sample"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -452,20 +512,23 @@ rule APT30_Sample_18 {
 		date = "2015/04/13"
 		hash = "355436a16d7a2eba8a284b63bb252a8bb1644751"
 		id = "e5dd6bc9-9383-5d48-92df-709996373655"
+
 	strings:
-		$s0 = "w.km-nyc.com" fullword ascii
-		$s1 = "tscv.exe" fullword ascii
-		$s2 = "Exit/app.htm" ascii
-		$s3 = "UBD:\\D" ascii
-		$s4 = "LastError" ascii
-		$s5 = "MicrosoftHaveAck" ascii
-		$s7 = "HHOSTR" ascii
-		$s20 = "XPL0RE." ascii
+		$s0 = {77 2e 6b 6d 2d 6e 79 63 2e 63 6f 6d}
+		$s1 = {74 73 63 76 2e 65 78 65}
+		$s2 = {45 78 69 74 2f 61 70 70 2e 68 74 6d}
+		$s3 = {55 42 44 3a 5c 44}
+		$s4 = {4c 61 73 74 45 72 72 6f 72}
+		$s5 = {4d 69 63 72 6f 73 6f 66 74 48 61 76 65 41 63 6b}
+		$s7 = {48 48 4f 53 54 52}
+		$s20 = {58 50 4c 30 52 45 2e}
+
 	condition:
-		filesize < 100KB and uint16(0) == 0x5A4D and all of them
+		filesize < 100KB and uint16( 0 ) == 0x5A4D and all of them
 }
 
-rule APT30_Generic_G {
+rule APT30_Generic_G : hardened
+{
 	meta:
 		description = "FireEye APT30 Report Sample"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -477,46 +540,52 @@ rule APT30_Generic_G {
 		hash = "c2acc9fc9b0f050ec2103d3ba9cb11c0"
 		hash = "f18be055fae2490221c926e2ad55ab11"
 		id = "34269de3-4559-58a5-a621-0ad72857dc9e"
+
 	strings:
-		$s0 = "%s\\%s\\%s=%s" fullword ascii
-		$s1 = "Copy File %s OK!" fullword ascii
-		$s2 = "%s Space:%uM,FreeSpace:%uM" fullword ascii
-		$s4 = "open=%s" fullword ascii
-		$s5 = "Maybe a Encrypted Flash Disk" fullword ascii
-		$s12 = "%04u-%02u-%02u %02u:%02u:%02u" fullword ascii
+		$s0 = {25 73 5c 25 73 5c 25 73 3d 25 73}
+		$s1 = {43 6f 70 79 20 46 69 6c 65 20 25 73 20 4f 4b 21}
+		$s2 = {25 73 20 53 70 61 63 65 3a 25 75 4d 2c 46 72 65 65 53 70 61 63 65 3a 25 75 4d}
+		$s4 = {6f 70 65 6e 3d 25 73}
+		$s5 = {4d 61 79 62 65 20 61 20 45 6e 63 72 79 70 74 65 64 20 46 6c 61 73 68 20 44 69 73 6b}
+		$s12 = {25 30 34 75 2d 25 30 32 75 2d 25 30 32 75 20 25 30 32 75 3a 25 30 32 75 3a 25 30 32 75}
+
 	condition:
-		filesize < 100KB and uint16(0) == 0x5A4D and all of them
+		filesize < 100KB and uint16( 0 ) == 0x5A4D and all of them
 }
 
-rule APT30_Sample_19 {
-   meta:
-      description = "FireEye APT30 Report Sample"
-      author = "Florian Roth (Nextron Systems)"
-      reference = "https://www2.fireeye.com/rs/fireye/images/rpt-apt30.pdf"
-      date = "2015/04/03"
-      modified = "2023-01-06"
-      score = 75
-      hash = "cfa438449715b61bffa20130df8af778ef011e15"
+rule APT30_Sample_19 : hardened
+{
+	meta:
+		description = "FireEye APT30 Report Sample"
+		author = "Florian Roth (Nextron Systems)"
+		reference = "https://www2.fireeye.com/rs/fireye/images/rpt-apt30.pdf"
+		date = "2015/04/03"
+		modified = "2023-01-06"
+		score = 75
+		hash = "cfa438449715b61bffa20130df8af778ef011e15"
 		id = "e5dd6bc9-9383-5d48-92df-709996373655"
-   strings:
-      $s0 = "C:\\Program Files\\Common Files\\System\\wab32" fullword ascii
-      $s1 = "%s,Volume:%s,Type:%s,TotalSize:%uMB,FreeSize:%uMB" fullword ascii
-      $s2 = "\\TEMP\\" ascii
-      $s3 = "\\Temporary Internet Files\\" ascii
-      $s5 = "%s TotalSize:%u Bytes" fullword ascii
-      $s6 = "This Disk Maybe a Encrypted Flash Disk!" fullword ascii
-      $s7 = "User:%-32s" fullword ascii
-      $s8 = "\\Desktop\\" ascii
-      $s9 = "%s.%u_%u" fullword ascii
-      $s10 = "Nick:%-32s" fullword ascii
-      $s11 = "E-mail:%-32s" fullword ascii
-      $s13 = "%04u-%02u-%02u %02u:%02u:%02u" fullword ascii
-      $s14 = "Type:%-8s" fullword ascii
-   condition:
-      filesize < 100KB and uint16(0) == 0x5A4D and 8 of them
+
+	strings:
+		$s0 = {43 3a 5c 50 72 6f 67 72 61 6d 20 46 69 6c 65 73 5c 43 6f 6d 6d 6f 6e 20 46 69 6c 65 73 5c 53 79 73 74 65 6d 5c 77 61 62 33 32}
+		$s1 = {25 73 2c 56 6f 6c 75 6d 65 3a 25 73 2c 54 79 70 65 3a 25 73 2c 54 6f 74 61 6c 53 69 7a 65 3a 25 75 4d 42 2c 46 72 65 65 53 69 7a 65 3a 25 75 4d 42}
+		$s2 = {5c 54 45 4d 50 5c}
+		$s3 = {5c 54 65 6d 70 6f 72 61 72 79 20 49 6e 74 65 72 6e 65 74 20 46 69 6c 65 73 5c}
+		$s5 = {25 73 20 54 6f 74 61 6c 53 69 7a 65 3a 25 75 20 42 79 74 65 73}
+		$s6 = {54 68 69 73 20 44 69 73 6b 20 4d 61 79 62 65 20 61 20 45 6e 63 72 79 70 74 65 64 20 46 6c 61 73 68 20 44 69 73 6b 21}
+		$s7 = {55 73 65 72 3a 25 2d 33 32 73}
+		$s8 = {5c 44 65 73 6b 74 6f 70 5c}
+		$s9 = {25 73 2e 25 75 5f 25 75}
+		$s10 = {4e 69 63 6b 3a 25 2d 33 32 73}
+		$s11 = {45 2d 6d 61 69 6c 3a 25 2d 33 32 73}
+		$s13 = {25 30 34 75 2d 25 30 32 75 2d 25 30 32 75 20 25 30 32 75 3a 25 30 32 75 3a 25 30 32 75}
+		$s14 = {54 79 70 65 3a 25 2d 38 73}
+
+	condition:
+		filesize < 100KB and uint16( 0 ) == 0x5A4D and 8 of them
 }
 
-rule APT30_Generic_E_v2 {
+rule APT30_Generic_E_v2 : hardened
+{
 	meta:
 		description = "FireEye APT30 Report Sample"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -525,16 +594,19 @@ rule APT30_Generic_E_v2 {
 		date = "2015/04/13"
 		hash = "eca53a9f6251ddf438508b28d8a483f91b99a3fd"
 		id = "40897687-fb17-568e-9907-e9588a53bbe0"
+
 	strings:
-		$s0 = "Nkfvtyvn}duf_Z}{Ys" fullword ascii
-		$s1 = "Nkfvtyvn}*Zrswru1i" fullword ascii
-		$s2 = "Nkfvtyvn}duf_Z}{V" fullword ascii
-		$s3 = "Nkfvtyvn}*ZrswrumT\\b" fullword ascii
+		$s0 = {4e 6b 66 76 74 79 76 6e 7d 64 75 66 5f 5a 7d 7b 59 73}
+		$s1 = {4e 6b 66 76 74 79 76 6e 7d 2a 5a 72 73 77 72 75 31 69}
+		$s2 = {4e 6b 66 76 74 79 76 6e 7d 64 75 66 5f 5a 7d 7b 56}
+		$s3 = {4e 6b 66 76 74 79 76 6e 7d 2a 5a 72 73 77 72 75 6d 54 5c 62}
+
 	condition:
-		filesize < 100KB and uint16(0) == 0x5A4D and all of them
+		filesize < 100KB and uint16( 0 ) == 0x5A4D and all of them
 }
 
-rule APT30_Sample_20 {
+rule APT30_Sample_20 : hardened
+{
 	meta:
 		description = "FireEye APT30 Report Sample"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -543,20 +615,23 @@ rule APT30_Sample_20 {
 		date = "2015/04/13"
 		hash = "b1c37632e604a5d1f430c9351f87eb9e8ea911c0"
 		id = "91246101-246b-5da9-9e55-7f361d1f6437"
+
 	strings:
-		$s0 = "dizhi.gif" fullword ascii
-		$s2 = "Mozilla/u" ascii
-		$s3 = "XicrosoftHaveAck" ascii
-		$s4 = "flyeagles" ascii
-		$s10 = "iexplore." ascii
-		$s13 = "WindowsGV" fullword ascii
-		$s16 = "CatePipe" fullword ascii
-		$s17 = "'QWERTY:/webpage3" fullword ascii
+		$s0 = {64 69 7a 68 69 2e 67 69 66}
+		$s2 = {4d 6f 7a 69 6c 6c 61 2f 75}
+		$s3 = {58 69 63 72 6f 73 6f 66 74 48 61 76 65 41 63 6b}
+		$s4 = {66 6c 79 65 61 67 6c 65 73}
+		$s10 = {69 65 78 70 6c 6f 72 65 2e}
+		$s13 = {57 69 6e 64 6f 77 73 47 56}
+		$s16 = {43 61 74 65 50 69 70 65}
+		$s17 = {27 51 57 45 52 54 59 3a 2f 77 65 62 70 61 67 65 33}
+
 	condition:
-		filesize < 100KB and uint16(0) == 0x5A4D and all of them
+		filesize < 100KB and uint16( 0 ) == 0x5A4D and all of them
 }
 
-rule APT30_Sample_21 {
+rule APT30_Sample_21 : hardened
+{
 	meta:
 		description = "FireEye APT30 Report Sample"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -565,16 +640,19 @@ rule APT30_Sample_21 {
 		date = "2015/04/13"
 		hash = "d315daa61126616a79a8582145777d8a1565c615"
 		id = "72005b40-91f7-5661-9478-8680f999b245"
+
 	strings:
-		$s0 = "Service.dll" fullword ascii
-		$s1 = "(%s:%s %s)" fullword ascii
-		$s2 = "%s \"%s\",%s %s" fullword ascii
-		$s5 = "Proxy-%s:%u" fullword ascii
+		$s0 = {53 65 72 76 69 63 65 2e 64 6c 6c}
+		$s1 = {28 25 73 3a 25 73 20 25 73 29}
+		$s2 = {25 73 20 22 25 73 22 2c 25 73 20 25 73}
+		$s5 = {50 72 6f 78 79 2d 25 73 3a 25 75}
+
 	condition:
-		filesize < 100KB and uint16(0) == 0x5A4D and all of them
+		filesize < 100KB and uint16( 0 ) == 0x5A4D and all of them
 }
 
-rule APT30_Sample_22 {
+rule APT30_Sample_22 : hardened
+{
 	meta:
 		description = "FireEye APT30 Report Sample"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -583,18 +661,21 @@ rule APT30_Sample_22 {
 		date = "2015/04/13"
 		hash = "0d17a58c24753e5f8fd5276f62c8c7394d8e1481"
 		id = "6c1b3dd2-4383-51a2-9185-2365a4d1e784"
+
 	strings:
-		$s1 = "(\\TEMP" fullword ascii
-		$s2 = "Windows\\Cur" fullword ascii
-		$s3 = "LSSAS.exeJ" fullword ascii
-		$s4 = "QC:\\WINDOWS" fullword ascii
-		$s5 = "System Volume" fullword ascii
-		$s8 = "PROGRAM FILE" fullword ascii
+		$s1 = {28 5c 54 45 4d 50}
+		$s2 = {57 69 6e 64 6f 77 73 5c 43 75 72}
+		$s3 = {4c 53 53 41 53 2e 65 78 65 4a}
+		$s4 = {51 43 3a 5c 57 49 4e 44 4f 57 53}
+		$s5 = {53 79 73 74 65 6d 20 56 6f 6c 75 6d 65}
+		$s8 = {50 52 4f 47 52 41 4d 20 46 49 4c 45}
+
 	condition:
-		filesize < 100KB and uint16(0) == 0x5A4D and all of them
+		filesize < 100KB and uint16( 0 ) == 0x5A4D and all of them
 }
 
-rule APT30_Generic_F {
+rule APT30_Generic_F : hardened
+{
 	meta:
 		description = "FireEye APT30 Report Sample"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -606,15 +687,18 @@ rule APT30_Generic_F {
 		hash3 = "b7b282c9e3eca888cbdb5a856e07e8bd"
 		hash4 = "df1799845b51300b03072c6569ab96d5"
 		id = "cff8b921-9afc-5a52-84cb-825de33fc86e"
+
 	strings:
-		$s0 = "\\~zlzl.exe" ascii
-		$s2 = "\\Internet Exp1orer" ascii
-		$s3 = "NodAndKabIsExcellent" fullword ascii
+		$s0 = {5c 7e 7a 6c 7a 6c 2e 65 78 65}
+		$s2 = {5c 49 6e 74 65 72 6e 65 74 20 45 78 70 31 6f 72 65 72}
+		$s3 = {4e 6f 64 41 6e 64 4b 61 62 49 73 45 78 63 65 6c 6c 65 6e 74}
+
 	condition:
-		filesize < 100KB and uint16(0) == 0x5A4D and all of them
+		filesize < 100KB and uint16( 0 ) == 0x5A4D and all of them
 }
 
-rule APT30_Sample_23 {
+rule APT30_Sample_23 : hardened
+{
 	meta:
 		description = "FireEye APT30 Report Sample"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -623,20 +707,23 @@ rule APT30_Sample_23 {
 		date = "2015/04/13"
 		hash = "9865e24aadb4480bd3c182e50e0e53316546fc01"
 		id = "9366dd34-9967-5b40-935e-4b0d8f2f5e9e"
+
 	strings:
-		$s0 = "hostid" ascii
-		$s1 = "\\Window" ascii
-		$s2 = "%u:%u%s" fullword ascii
-		$s5 = "S2tware\\Mic" ascii
-		$s6 = "la/4.0 (compa" ascii
-		$s7 = "NameACKernel" fullword ascii
-		$s12 = "ToWideChc[lo" fullword ascii
-		$s14 = "help32SnapshotfL" ascii
+		$s0 = {68 6f 73 74 69 64}
+		$s1 = {5c 57 69 6e 64 6f 77}
+		$s2 = {25 75 3a 25 75 25 73}
+		$s5 = {53 32 74 77 61 72 65 5c 4d 69 63}
+		$s6 = {6c 61 2f 34 2e 30 20 28 63 6f 6d 70 61}
+		$s7 = {4e 61 6d 65 41 43 4b 65 72 6e 65 6c}
+		$s12 = {54 6f 57 69 64 65 43 68 63 5b 6c 6f}
+		$s14 = {68 65 6c 70 33 32 53 6e 61 70 73 68 6f 74 66 4c}
+
 	condition:
-		filesize < 100KB and uint16(0) == 0x5A4D and all of them
+		filesize < 100KB and uint16( 0 ) == 0x5A4D and all of them
 }
 
-rule APT30_Sample_24 {
+rule APT30_Sample_24 : hardened
+{
 	meta:
 		description = "FireEye APT30 Report Sample"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -645,19 +732,22 @@ rule APT30_Sample_24 {
 		date = "2015/04/13"
 		hash = "572caa09f2b600daa941c60db1fc410bef8d1771"
 		id = "aed2201d-b557-56ec-aa53-fff5b1e17dbd"
+
 	strings:
-		$s1 = "dizhi.gif" fullword ascii
-		$s3 = "Mozilla/4.0" fullword ascii
-		$s4 = "lyeagles" fullword ascii
-		$s6 = "HHOSTR" ascii
-		$s7 = "#MicrosoftHaveAck7" ascii
-		$s8 = "iexplore." fullword ascii
-		$s17 = "ModuleH" fullword ascii
+		$s1 = {64 69 7a 68 69 2e 67 69 66}
+		$s3 = {4d 6f 7a 69 6c 6c 61 2f 34 2e 30}
+		$s4 = {6c 79 65 61 67 6c 65 73}
+		$s6 = {48 48 4f 53 54 52}
+		$s7 = {23 4d 69 63 72 6f 73 6f 66 74 48 61 76 65 41 63 6b 37}
+		$s8 = {69 65 78 70 6c 6f 72 65 2e}
+		$s17 = {4d 6f 64 75 6c 65 48}
+
 	condition:
-		filesize < 100KB and uint16(0) == 0x5A4D and all of them
+		filesize < 100KB and uint16( 0 ) == 0x5A4D and all of them
 }
 
-rule APT30_Sample_25 {
+rule APT30_Sample_25 : hardened
+{
 	meta:
 		description = "FireEye APT30 Report Sample"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -666,19 +756,22 @@ rule APT30_Sample_25 {
 		date = "2015/04/13"
 		hash = "44a21c8b3147fabc668fee968b62783aa9d90351"
 		id = "8b2f2ba2-e9cc-5b3c-8af9-4217d662bc3f"
+
 	strings:
-		$s1 = "C:\\WINDOWS" fullword ascii
-		$s2 = "aragua" fullword ascii
-		$s4 = "\\driver32\\7$" ascii
-		$s8 = "System V" fullword ascii
-		$s9 = "Compu~r" fullword ascii
-		$s10 = "PROGRAM L" fullword ascii
-		$s18 = "GPRTMAX" fullword ascii
+		$s1 = {43 3a 5c 57 49 4e 44 4f 57 53}
+		$s2 = {61 72 61 67 75 61}
+		$s4 = {5c 64 72 69 76 65 72 33 32 5c 37 24}
+		$s8 = {53 79 73 74 65 6d 20 56}
+		$s9 = {43 6f 6d 70 75 7e 72}
+		$s10 = {50 52 4f 47 52 41 4d 20 4c}
+		$s18 = {47 50 52 54 4d 41 58}
+
 	condition:
-		filesize < 100KB and uint16(0) == 0x5A4D and all of them
+		filesize < 100KB and uint16( 0 ) == 0x5A4D and all of them
 }
 
-rule APT30_Sample_26 {
+rule APT30_Sample_26 : hardened
+{
 	meta:
 		description = "FireEye APT30 Report Sample"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -687,19 +780,22 @@ rule APT30_Sample_26 {
 		date = "2015/04/13"
 		hash = "e26588113417bf68cb0c479638c9cd99a48e846d"
 		id = "aa80a142-c8fc-504e-b475-e9838607bec6"
+
 	strings:
-		$s1 = "forcegue" fullword ascii
-		$s3 = "Windows\\Cur" fullword ascii
-		$s4 = "System Id" fullword ascii
-		$s5 = "Software\\Mic" fullword ascii
-		$s6 = "utiBy0ToWideCh&$a" fullword ascii
-		$s10 = "ModuleH" fullword ascii
-		$s15 = "PeekNamed6G" fullword ascii
+		$s1 = {66 6f 72 63 65 67 75 65}
+		$s3 = {57 69 6e 64 6f 77 73 5c 43 75 72}
+		$s4 = {53 79 73 74 65 6d 20 49 64}
+		$s5 = {53 6f 66 74 77 61 72 65 5c 4d 69 63}
+		$s6 = {75 74 69 42 79 30 54 6f 57 69 64 65 43 68 26 24 61}
+		$s10 = {4d 6f 64 75 6c 65 48}
+		$s15 = {50 65 65 6b 4e 61 6d 65 64 36 47}
+
 	condition:
-		filesize < 100KB and uint16(0) == 0x5A4D and all of them
+		filesize < 100KB and uint16( 0 ) == 0x5A4D and all of them
 }
 
-rule APT30_Generic_D {
+rule APT30_Generic_D : hardened
+{
 	meta:
 		description = "FireEye APT30 Report Sample"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -713,18 +809,21 @@ rule APT30_Generic_D {
 		hash5 = "82e13f3031130bd9d567c46a9c71ef2b"
 		hash6 = "b79d87ff6de654130da95c73f66c15fa"
 		id = "9b8d8a60-a357-5cfd-8ff1-6264144ad7be"
+
 	strings:
-		$s0 = "Windows Security Service Feedback" fullword wide
-		$s1 = "wssfmgr.exe" fullword wide
-		$s2 = "\\rb.htm" ascii
-		$s3 = "rb.htm" fullword ascii
-		$s4 = "cook5" ascii
-		$s5 = "5, 4, 2600, 0" fullword wide
+		$s0 = {57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 53 00 65 00 63 00 75 00 72 00 69 00 74 00 79 00 20 00 53 00 65 00 72 00 76 00 69 00 63 00 65 00 20 00 46 00 65 00 65 00 64 00 62 00 61 00 63 00 6b 00}
+		$s1 = {77 00 73 00 73 00 66 00 6d 00 67 00 72 00 2e 00 65 00 78 00 65 00}
+		$s2 = {5c 72 62 2e 68 74 6d}
+		$s3 = {72 62 2e 68 74 6d}
+		$s4 = {63 6f 6f 6b 35}
+		$s5 = {35 00 2c 00 20 00 34 00 2c 00 20 00 32 00 36 00 30 00 30 00 2c 00 20 00 30 00}
+
 	condition:
-		filesize < 100KB and uint16(0) == 0x5A4D and all of them
+		filesize < 100KB and uint16( 0 ) == 0x5A4D and all of them
 }
 
-rule APT30_Sample_27 {
+rule APT30_Sample_27 : hardened
+{
 	meta:
 		description = "FireEye APT30 Report Sample"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -733,19 +832,22 @@ rule APT30_Sample_27 {
 		date = "2015/04/13"
 		hash = "959573261ca1d7e5ddcd19447475b2139ca24fe1"
 		id = "22815745-086f-59ee-aac1-f35e49aa5835"
+
 	strings:
-		$s0 = "Mozilla/4.0" fullword ascii
-		$s1 = "dizhi.gif" fullword ascii
-		$s5 = "oftHaveAck+" ascii
-		$s10 = "HlobalAl" fullword ascii
-		$s13 = "$NtRND1$" fullword ascii
-		$s14 = "_NStartup" ascii
-		$s16 = "GXSYSTEM" fullword ascii
+		$s0 = {4d 6f 7a 69 6c 6c 61 2f 34 2e 30}
+		$s1 = {64 69 7a 68 69 2e 67 69 66}
+		$s5 = {6f 66 74 48 61 76 65 41 63 6b 2b}
+		$s10 = {48 6c 6f 62 61 6c 41 6c}
+		$s13 = {24 4e 74 52 4e 44 31 24}
+		$s14 = {5f 4e 53 74 61 72 74 75 70}
+		$s16 = {47 58 53 59 53 54 45 4d}
+
 	condition:
-		filesize < 100KB and uint16(0) == 0x5A4D and all of them
+		filesize < 100KB and uint16( 0 ) == 0x5A4D and all of them
 }
 
-rule APT30_Sample_28 {
+rule APT30_Sample_28 : hardened
+{
 	meta:
 		description = "FireEye APT30 Report Sample"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -755,27 +857,30 @@ rule APT30_Sample_28 {
 		hash1 = "e62a63307deead5c9fcca6b9a2d51fb0"
 		hash2 = "5b590798da581c894d8a87964763aa8b"
 		id = "1bc8c68f-ebbb-58b1-92aa-5954318096a0"
+
 	strings:
-		$s0 = "www.flyeagles.com" fullword ascii
-		$s1 = "iexplore.exe" fullword ascii
-		$s2 = "www.km-nyc.com" fullword ascii
-		$s3 = "cmdLine.exe" fullword ascii
-		$s4 = "Software\\Microsoft\\CurrentNetInf" fullword ascii
-		$s5 = "/dizhi.gif" ascii
-		$s6 = "/connect.gif" ascii
-		$s7 = "USBTest.sys" fullword ascii
-		$s8 = "/ver.htm" fullword ascii
-		$s11 = "\\netscv.exe" ascii
-		$s12 = "/app.htm" fullword ascii
-		$s13 = "\\netsvc.exe" ascii
-		$s14 = "/exe.htm" fullword ascii
-		$s18 = "MicrosoftHaveAck" fullword ascii
-		$s19 = "MicrosoftHaveExit" fullword ascii
+		$s0 = {77 77 77 2e 66 6c 79 65 61 67 6c 65 73 2e 63 6f 6d}
+		$s1 = {69 65 78 70 6c 6f 72 65 2e 65 78 65}
+		$s2 = {77 77 77 2e 6b 6d 2d 6e 79 63 2e 63 6f 6d}
+		$s3 = {63 6d 64 4c 69 6e 65 2e 65 78 65}
+		$s4 = {53 6f 66 74 77 61 72 65 5c 4d 69 63 72 6f 73 6f 66 74 5c 43 75 72 72 65 6e 74 4e 65 74 49 6e 66}
+		$s5 = {2f 64 69 7a 68 69 2e 67 69 66}
+		$s6 = {2f 63 6f 6e 6e 65 63 74 2e 67 69 66}
+		$s7 = {55 53 42 54 65 73 74 2e 73 79 73}
+		$s8 = {2f 76 65 72 2e 68 74 6d}
+		$s11 = {5c 6e 65 74 73 63 76 2e 65 78 65}
+		$s12 = {2f 61 70 70 2e 68 74 6d}
+		$s13 = {5c 6e 65 74 73 76 63 2e 65 78 65}
+		$s14 = {2f 65 78 65 2e 68 74 6d}
+		$s18 = {4d 69 63 72 6f 73 6f 66 74 48 61 76 65 41 63 6b}
+		$s19 = {4d 69 63 72 6f 73 6f 66 74 48 61 76 65 45 78 69 74}
+
 	condition:
-		filesize < 100KB and uint16(0) == 0x5A4D and 7 of them
+		filesize < 100KB and uint16( 0 ) == 0x5A4D and 7 of them
 }
 
-rule APT30_Sample_29 {
+rule APT30_Sample_29 : hardened
+{
 	meta:
 		description = "FireEye APT30 Report Sample"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -784,20 +889,23 @@ rule APT30_Sample_29 {
 		date = "2015/04/13"
 		hash = "44492c53715d7c79895904543843a321491cb23a"
 		id = "24334885-fcb4-5a13-82e8-c8465f97361e"
+
 	strings:
-		$s0 = "LSSAS.exe" fullword ascii
-		$s1 = "Software\\Microsoft\\FlashDiskInf" fullword ascii
-		$s2 = ".petite" fullword ascii
-		$s3 = "MicrosoftFlashExit" fullword ascii
-		$s4 = "MicrosoftFlashHaveExit" fullword ascii
-		$s5 = "MicrosoftFlashHaveAck" fullword ascii
-		$s6 = "\\driver32" ascii
-		$s7 = "MicrosoftFlashZJ" fullword ascii
+		$s0 = {4c 53 53 41 53 2e 65 78 65}
+		$s1 = {53 6f 66 74 77 61 72 65 5c 4d 69 63 72 6f 73 6f 66 74 5c 46 6c 61 73 68 44 69 73 6b 49 6e 66}
+		$s2 = {2e 70 65 74 69 74 65}
+		$s3 = {4d 69 63 72 6f 73 6f 66 74 46 6c 61 73 68 45 78 69 74}
+		$s4 = {4d 69 63 72 6f 73 6f 66 74 46 6c 61 73 68 48 61 76 65 45 78 69 74}
+		$s5 = {4d 69 63 72 6f 73 6f 66 74 46 6c 61 73 68 48 61 76 65 41 63 6b}
+		$s6 = {5c 64 72 69 76 65 72 33 32}
+		$s7 = {4d 69 63 72 6f 73 6f 66 74 46 6c 61 73 68 5a 4a}
+
 	condition:
-		filesize < 100KB and uint16(0) == 0x5A4D and all of them
+		filesize < 100KB and uint16( 0 ) == 0x5A4D and all of them
 }
 
-rule APT30_Sample_30 {
+rule APT30_Sample_30 : hardened
+{
 	meta:
 		description = "FireEye APT30 Report Sample"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -806,17 +914,20 @@ rule APT30_Sample_30 {
 		date = "2015/04/13"
 		hash = "3b684fa40b4f096e99fbf535962c7da5cf0b4528"
 		id = "787b288a-6fb4-5483-af76-933651ec6d58"
+
 	strings:
-		$s0 = "5.1.2600.2180 (xpsp_sp2_rtm.040803-2158)" fullword wide
-		$s3 = "RnhwtxtkyLRRMf{jJ}ny" fullword ascii
-		$s4 = "RnhwtxtkyLRRJ}ny" fullword ascii
-		$s5 = "ZRLDownloadToFileA" fullword ascii
-		$s9 = "5.1.2600.2180" fullword wide
+		$s0 = {35 00 2e 00 31 00 2e 00 32 00 36 00 30 00 30 00 2e 00 32 00 31 00 38 00 30 00 20 00 28 00 78 00 70 00 73 00 70 00 5f 00 73 00 70 00 32 00 5f 00 72 00 74 00 6d 00 2e 00 30 00 34 00 30 00 38 00 30 00 33 00 2d 00 32 00 31 00 35 00 38 00 29 00}
+		$s3 = {52 6e 68 77 74 78 74 6b 79 4c 52 52 4d 66 7b 6a 4a 7d 6e 79}
+		$s4 = {52 6e 68 77 74 78 74 6b 79 4c 52 52 4a 7d 6e 79}
+		$s5 = {5a 52 4c 44 6f 77 6e 6c 6f 61 64 54 6f 46 69 6c 65 41}
+		$s9 = {35 00 2e 00 31 00 2e 00 32 00 36 00 30 00 30 00 2e 00 32 00 31 00 38 00 30 00}
+
 	condition:
-		filesize < 100KB and uint16(0) == 0x5A4D and all of them
+		filesize < 100KB and uint16( 0 ) == 0x5A4D and all of them
 }
 
-rule APT30_Sample_31 {
+rule APT30_Sample_31 : hardened
+{
 	meta:
 		description = "FireEye APT30 Report Sample"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -825,17 +936,20 @@ rule APT30_Sample_31 {
 		date = "2015/04/13"
 		hash = "8b4271167655787be1988574446125eae5043aca"
 		id = "9333870b-7eaa-54dd-a801-7292708fb592"
+
 	strings:
-		$s0 = "\\ZJRsv.tem" ascii
-		$s1 = "forceguest" fullword ascii
-		$s4 = "\\$NtUninstallKB570317$" ascii
-		$s8 = "[Can'tGetIP]" fullword ascii
-		$s14 = "QWERTY:,`/" fullword ascii
+		$s0 = {5c 5a 4a 52 73 76 2e 74 65 6d}
+		$s1 = {66 6f 72 63 65 67 75 65 73 74}
+		$s4 = {5c 24 4e 74 55 6e 69 6e 73 74 61 6c 6c 4b 42 35 37 30 33 31 37 24}
+		$s8 = {5b 43 61 6e 27 74 47 65 74 49 50 5d}
+		$s14 = {51 57 45 52 54 59 3a 2c 60 2f}
+
 	condition:
-		filesize < 100KB and uint16(0) == 0x5A4D and all of them
+		filesize < 100KB and uint16( 0 ) == 0x5A4D and all of them
 }
 
-rule APT30_Generic_J {
+rule APT30_Generic_J : hardened
+{
 	meta:
 		description = "FireEye APT30 Report Sample"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -849,26 +963,29 @@ rule APT30_Generic_J {
 		hash5 = "baff5262ae01a9217b10fcd5dad9d1d5"
 		hash6 = "9982fd829c0048c8f89620691316763a"
 		id = "64a5106e-d7f3-5c68-a14e-410149a1bb9e"
+
 	strings:
-		$s0 = "Launcher.EXE" fullword wide
-		$s1 = "Symantec Security Technologies" fullword wide
-		$s2 = "\\Symantec LiveUpdate.lnk" ascii
-		$s3 = "Symantec Service Framework" fullword wide
-		$s4 = "\\ccSvcHst.exe" ascii
-		$s5 = "\\wssfmgr.exe" ascii
-		$s6 = "Symantec Corporation" fullword wide
-		$s7 = "\\5.1.0.29" ascii
-		$s8 = "\\Engine" ascii
-		$s9 = "Copyright (C) 2000-2010 Symantec Corporation. All rights reserved." fullword wide
-		$s10 = "Symantec LiveUpdate" fullword ascii
-		$s11 = "\\Norton360" ascii
-		$s15 = "BinRes" fullword ascii
-		$s16 = "\\readme.lz" ascii
+		$s0 = {4c 00 61 00 75 00 6e 00 63 00 68 00 65 00 72 00 2e 00 45 00 58 00 45 00}
+		$s1 = {53 00 79 00 6d 00 61 00 6e 00 74 00 65 00 63 00 20 00 53 00 65 00 63 00 75 00 72 00 69 00 74 00 79 00 20 00 54 00 65 00 63 00 68 00 6e 00 6f 00 6c 00 6f 00 67 00 69 00 65 00 73 00}
+		$s2 = {5c 53 79 6d 61 6e 74 65 63 20 4c 69 76 65 55 70 64 61 74 65 2e 6c 6e 6b}
+		$s3 = {53 00 79 00 6d 00 61 00 6e 00 74 00 65 00 63 00 20 00 53 00 65 00 72 00 76 00 69 00 63 00 65 00 20 00 46 00 72 00 61 00 6d 00 65 00 77 00 6f 00 72 00 6b 00}
+		$s4 = {5c 63 63 53 76 63 48 73 74 2e 65 78 65}
+		$s5 = {5c 77 73 73 66 6d 67 72 2e 65 78 65}
+		$s6 = {53 00 79 00 6d 00 61 00 6e 00 74 00 65 00 63 00 20 00 43 00 6f 00 72 00 70 00 6f 00 72 00 61 00 74 00 69 00 6f 00 6e 00}
+		$s7 = {5c 35 2e 31 2e 30 2e 32 39}
+		$s8 = {5c 45 6e 67 69 6e 65}
+		$s9 = {43 00 6f 00 70 00 79 00 72 00 69 00 67 00 68 00 74 00 20 00 28 00 43 00 29 00 20 00 32 00 30 00 30 00 30 00 2d 00 32 00 30 00 31 00 30 00 20 00 53 00 79 00 6d 00 61 00 6e 00 74 00 65 00 63 00 20 00 43 00 6f 00 72 00 70 00 6f 00 72 00 61 00 74 00 69 00 6f 00 6e 00 2e 00 20 00 41 00 6c 00 6c 00 20 00 72 00 69 00 67 00 68 00 74 00 73 00 20 00 72 00 65 00 73 00 65 00 72 00 76 00 65 00 64 00 2e 00}
+		$s10 = {53 79 6d 61 6e 74 65 63 20 4c 69 76 65 55 70 64 61 74 65}
+		$s11 = {5c 4e 6f 72 74 6f 6e 33 36 30}
+		$s15 = {42 69 6e 52 65 73}
+		$s16 = {5c 72 65 61 64 6d 65 2e 6c 7a}
+
 	condition:
-		filesize < 100KB and uint16(0) == 0x5A4D and all of them
+		filesize < 100KB and uint16( 0 ) == 0x5A4D and all of them
 }
 
-rule APT30_Microfost {
+rule APT30_Microfost : hardened
+{
 	meta:
 		description = "FireEye APT30 Report Sample"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -877,46 +994,51 @@ rule APT30_Microfost {
 		date = "2015/04/13"
 		hash = "57169cb4b8ef7a0d7ebd7aa039d1a1efd6eb639e"
 		id = "19231001-1da3-5be6-8275-03c9fc7c6377"
+
 	strings:
-		$s1 = "Copyright (c) 2007 Microfost All Rights Reserved" fullword wide
-		$s2 = "Microfost" fullword wide
+		$s1 = {43 00 6f 00 70 00 79 00 72 00 69 00 67 00 68 00 74 00 20 00 28 00 63 00 29 00 20 00 32 00 30 00 30 00 37 00 20 00 4d 00 69 00 63 00 72 00 6f 00 66 00 6f 00 73 00 74 00 20 00 41 00 6c 00 6c 00 20 00 52 00 69 00 67 00 68 00 74 00 73 00 20 00 52 00 65 00 73 00 65 00 72 00 76 00 65 00 64 00}
+		$s2 = {4d 00 69 00 63 00 72 00 6f 00 66 00 6f 00 73 00 74 00}
+
 	condition:
-		filesize < 100KB and uint16(0) == 0x5A4D and all of them
+		filesize < 100KB and uint16( 0 ) == 0x5A4D and all of them
 }
 
-rule APT30_Generic_K {
-   meta:
-      description = "FireEye APT30 Report Sample"
-      author = "Florian Roth (Nextron Systems)"
-      reference = "https://www2.fireeye.com/rs/fireye/images/rpt-apt30.pdf"
-      date = "2015/04/03"
-      modified = "2023-01-06"
-      score = 75
-      hash = "142bc01ad412799a7f9ffed994069fecbd5a2f93"
-      id = "49629825-4233-5d74-b763-b2500536eb90"
-   strings:
-      $x1 = "Maybe a Encrypted Flash" fullword ascii
+rule APT30_Generic_K : hardened
+{
+	meta:
+		description = "FireEye APT30 Report Sample"
+		author = "Florian Roth (Nextron Systems)"
+		reference = "https://www2.fireeye.com/rs/fireye/images/rpt-apt30.pdf"
+		date = "2015/04/03"
+		modified = "2023-01-06"
+		score = 75
+		hash = "142bc01ad412799a7f9ffed994069fecbd5a2f93"
+		id = "49629825-4233-5d74-b763-b2500536eb90"
 
-      $s0 = "C:\\Program Files\\Common Files\\System\\wab32" fullword ascii
-      $s1 = "\\TEMP\\" ascii
-      $s2 = "\\Temporary Internet Files\\" ascii
-      $s5 = "%s Size:%u Bytes" fullword ascii
-      $s7 = "$.DATA$" fullword ascii
-      $s10 = "? Size:%u By s" fullword ascii
-      $s12 = "Maybe a Encrypted Flash" fullword ascii
-      $s14 = "Name:%-32s" fullword ascii
-      $s15 = "NickName:%-32s" fullword ascii
-      $s19 = "Email:%-32s" fullword ascii
-      $s21 = "C:\\Prog" ascii
-      $s22 = "$LDDATA$" ascii
-      $s31 = "Copy File %s OK!" fullword ascii
-      $s32 = "%s Space:%uM,FreeSpace:%uM" fullword ascii
-      $s34 = "open=%s" fullword ascii
-   condition:
-      filesize < 100KB and uint16(0) == 0x5A4D and ( all of ($x*) and 3 of ($s*) )
+	strings:
+		$x1 = {4d 61 79 62 65 20 61 20 45 6e 63 72 79 70 74 65 64 20 46 6c 61 73 68}
+		$s0 = {43 3a 5c 50 72 6f 67 72 61 6d 20 46 69 6c 65 73 5c 43 6f 6d 6d 6f 6e 20 46 69 6c 65 73 5c 53 79 73 74 65 6d 5c 77 61 62 33 32}
+		$s1 = {5c 54 45 4d 50 5c}
+		$s2 = {5c 54 65 6d 70 6f 72 61 72 79 20 49 6e 74 65 72 6e 65 74 20 46 69 6c 65 73 5c}
+		$s5 = {25 73 20 53 69 7a 65 3a 25 75 20 42 79 74 65 73}
+		$s7 = {24 2e 44 41 54 41 24}
+		$s10 = {3f 20 53 69 7a 65 3a 25 75 20 42 79 20 73}
+		$s12 = {4d 61 79 62 65 20 61 20 45 6e 63 72 79 70 74 65 64 20 46 6c 61 73 68}
+		$s14 = {4e 61 6d 65 3a 25 2d 33 32 73}
+		$s15 = {4e 69 63 6b 4e 61 6d 65 3a 25 2d 33 32 73}
+		$s19 = {45 6d 61 69 6c 3a 25 2d 33 32 73}
+		$s21 = {43 3a 5c 50 72 6f 67}
+		$s22 = {24 4c 44 44 41 54 41 24}
+		$s31 = {43 6f 70 79 20 46 69 6c 65 20 25 73 20 4f 4b 21}
+		$s32 = {25 73 20 53 70 61 63 65 3a 25 75 4d 2c 46 72 65 65 53 70 61 63 65 3a 25 75 4d}
+		$s34 = {6f 70 65 6e 3d 25 73}
+
+	condition:
+		filesize < 100KB and uint16( 0 ) == 0x5A4D and ( all of ( $x* ) and 3 of ( $s* ) )
 }
 
-rule APT30_Sample_33 {
+rule APT30_Sample_33 : hardened
+{
 	meta:
 		description = "FireEye APT30 Report Sample"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -925,20 +1047,23 @@ rule APT30_Sample_33 {
 		date = "2015/04/13"
 		hash = "72c568ee2dd75406858c0294ccfcf86ad0e390e4"
 		id = "be6afc4a-97fe-56ba-b057-e21415f9833d"
+
 	strings:
-		$s0 = "Version 4.7.3001" fullword wide
-		$s1 = "msmsgr.exe" fullword wide
-		$s2 = "MYUSER32.dll" fullword ascii
-		$s3 = "MYADVAPI32.dll" fullword ascii
-		$s4 = "CeleWare.NET1" fullword ascii
-		$s6 = "MYMSVCRT.dll" fullword ascii
-		$s7 = "Microsoft(R) is a registered trademark of Microsoft Corporation in the" wide
-		$s8 = "WWW.CeleWare.NET1" ascii
+		$s0 = {56 00 65 00 72 00 73 00 69 00 6f 00 6e 00 20 00 34 00 2e 00 37 00 2e 00 33 00 30 00 30 00 31 00}
+		$s1 = {6d 00 73 00 6d 00 73 00 67 00 72 00 2e 00 65 00 78 00 65 00}
+		$s2 = {4d 59 55 53 45 52 33 32 2e 64 6c 6c}
+		$s3 = {4d 59 41 44 56 41 50 49 33 32 2e 64 6c 6c}
+		$s4 = {43 65 6c 65 57 61 72 65 2e 4e 45 54 31}
+		$s6 = {4d 59 4d 53 56 43 52 54 2e 64 6c 6c}
+		$s7 = {4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 28 00 52 00 29 00 20 00 69 00 73 00 20 00 61 00 20 00 72 00 65 00 67 00 69 00 73 00 74 00 65 00 72 00 65 00 64 00 20 00 74 00 72 00 61 00 64 00 65 00 6d 00 61 00 72 00 6b 00 20 00 6f 00 66 00 20 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 20 00 43 00 6f 00 72 00 70 00 6f 00 72 00 61 00 74 00 69 00 6f 00 6e 00 20 00 69 00 6e 00 20 00 74 00 68 00 65 00}
+		$s8 = {57 57 57 2e 43 65 6c 65 57 61 72 65 2e 4e 45 54 31}
+
 	condition:
-		filesize < 100KB and uint16(0) == 0x5A4D and 6 of them
+		filesize < 100KB and uint16( 0 ) == 0x5A4D and 6 of them
 }
 
-rule APT30_Sample_34 {
+rule APT30_Sample_34 : hardened
+{
 	meta:
 		description = "FireEye APT30 Report Sample"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -947,19 +1072,22 @@ rule APT30_Sample_34 {
 		date = "2015/04/13"
 		hash = "216868edbcdd067bd2a9cce4f132d33ba9c0d818"
 		id = "a4802e13-4151-5f17-ba91-dcf9ef6b52bb"
+
 	strings:
-		$s0 = "dizhi.gif" ascii
-		$s1 = "eagles.vip.nse" ascii
-		$s4 = "o%S:S0" ascii
-		$s5 = "la/4.0" ascii
-		$s6 = "s#!<4!2>s02==<'s1" ascii
-		$s7 = "HlobalAl" ascii
-		$s9 = "vcMicrosoftHaveAck7"  ascii
+		$s0 = {64 69 7a 68 69 2e 67 69 66}
+		$s1 = {65 61 67 6c 65 73 2e 76 69 70 2e 6e 73 65}
+		$s4 = {6f 25 53 3a 53 30}
+		$s5 = {6c 61 2f 34 2e 30}
+		$s6 = {73 23 21 3c 34 21 32 3e 73 30 32 3d 3d 3c 27 73 31}
+		$s7 = {48 6c 6f 62 61 6c 41 6c}
+		$s9 = {76 63 4d 69 63 72 6f 73 6f 66 74 48 61 76 65 41 63 6b 37}
+
 	condition:
-		filesize < 100KB and uint16(0) == 0x5A4D and all of them
+		filesize < 100KB and uint16( 0 ) == 0x5A4D and all of them
 }
 
-rule APT30_Sample_35 {
+rule APT30_Sample_35 : hardened
+{
 	meta:
 		description = "FireEye APT30 Report Sample"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -968,15 +1096,18 @@ rule APT30_Sample_35 {
 		date = "2015/04/13"
 		hash = "df48a7cd6c4a8f78f5847bad3776abc0458499a6"
 		id = "8a30720b-06da-5a82-8bab-bf06121afd68"
+
 	strings:
-		$s0 = "WhBoyIEXPLORE.EXE.exe" fullword ascii
-		$s5 = "Startup>A" fullword ascii
-		$s18 = "olhelp32Snapshot" fullword ascii
+		$s0 = {57 68 42 6f 79 49 45 58 50 4c 4f 52 45 2e 45 58 45 2e 65 78 65}
+		$s5 = {53 74 61 72 74 75 70 3e 41}
+		$s18 = {6f 6c 68 65 6c 70 33 32 53 6e 61 70 73 68 6f 74}
+
 	condition:
-		filesize < 100KB and uint16(0) == 0x5A4D and all of them
+		filesize < 100KB and uint16( 0 ) == 0x5A4D and all of them
 }
 
-rule APT30_Sample_1 {
+rule APT30_Sample_1 : hardened
+{
 	meta:
 		description = "FireEye APT30 Report Sample"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -985,17 +1116,20 @@ rule APT30_Sample_1 {
 		date = "2015/04/13"
 		hash = "8cea83299af8f5ec6c278247e649c9d91d4cf3bc"
 		id = "e5dd6bc9-9383-5d48-92df-709996373655"
+
 	strings:
-		$s0 = "#hostid" fullword ascii
-		$s1 = "\\Windows\\C" ascii
-		$s5 = "TimUmove" fullword ascii
-		$s6 = "Moziea/4.0 (c" fullword ascii
-		$s7 = "StartupNA" fullword ascii
+		$s0 = {23 68 6f 73 74 69 64}
+		$s1 = {5c 57 69 6e 64 6f 77 73 5c 43}
+		$s5 = {54 69 6d 55 6d 6f 76 65}
+		$s6 = {4d 6f 7a 69 65 61 2f 34 2e 30 20 28 63}
+		$s7 = {53 74 61 72 74 75 70 4e 41}
+
 	condition:
-		filesize < 100KB and uint16(0) == 0x5A4D and all of them
+		filesize < 100KB and uint16( 0 ) == 0x5A4D and all of them
 }
 
-rule APT30_Generic_1 {
+rule APT30_Generic_1 : hardened
+{
 	meta:
 		description = "FireEye APT30 Report Sample"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -1011,25 +1145,29 @@ rule APT30_Generic_1 {
 		hash5 = "626dcdd7357e1f8329e9137d0f9883f57ec5c163"
 		hash6 = "843997b36ed80d3aeea3c822cb5dc446b6bfa7b9"
 		id = "4d21f402-24da-5e38-9225-a1461e61802f"
+
 	strings:
-		$s0 = "%s\\%s.txt" fullword
-		$s1 = "\\ldsysinfo.txt"
-		$s4 = "(Extended Wansung)" fullword
-		$s6 = "Computer Name:" fullword
-		$s7 = "%s %uKB %04u-%02u-%02u %02u:%02u" fullword
-		$s8 = "ASSAMESE" fullword
-		$s9 = "BELARUSIAN" fullword
-		$s10 = "(PR China)" fullword
-		$s14 = "(French)" fullword
-		$s15 = "AdvancedServer" fullword
-		$s16 = "DataCenterServer" fullword
-		$s18 = "(Finland)" fullword
-		$s19 = "%s %04u-%02u-%02u %02u:%02u" fullword
-		$s20 = "(Chile)" fullword
+		$s0 = {25 73 5c 25 73 2e 74 78 74}
+		$s1 = {5c 6c 64 73 79 73 69 6e 66 6f 2e 74 78 74}
+		$s4 = {28 45 78 74 65 6e 64 65 64 20 57 61 6e 73 75 6e 67 29}
+		$s6 = {43 6f 6d 70 75 74 65 72 20 4e 61 6d 65 3a}
+		$s7 = {25 73 20 25 75 4b 42 20 25 30 34 75 2d 25 30 32 75 2d 25 30 32 75 20 25 30 32 75 3a 25 30 32 75}
+		$s8 = {41 53 53 41 4d 45 53 45}
+		$s9 = {42 45 4c 41 52 55 53 49 41 4e}
+		$s10 = {28 50 52 20 43 68 69 6e 61 29}
+		$s14 = {28 46 72 65 6e 63 68 29}
+		$s15 = {41 64 76 61 6e 63 65 64 53 65 72 76 65 72}
+		$s16 = {44 61 74 61 43 65 6e 74 65 72 53 65 72 76 65 72}
+		$s18 = {28 46 69 6e 6c 61 6e 64 29}
+		$s19 = {25 73 20 25 30 34 75 2d 25 30 32 75 2d 25 30 32 75 20 25 30 32 75 3a 25 30 32 75}
+		$s20 = {28 43 68 69 6c 65 29}
+
 	condition:
-		filesize < 250KB and uint16(0) == 0x5A4D and all of them
+		filesize < 250KB and uint16( 0 ) == 0x5A4D and all of them
 }
-rule APT30_Generic_2 {
+
+rule APT30_Generic_2 : hardened
+{
 	meta:
 		description = "FireEye APT30 Report Sample - from many files"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -1068,46 +1206,28 @@ rule APT30_Generic_2 {
 		hash28 = "7406ebef11ca9f97c101b37f417901c70ab514b1"
 		hash29 = "53ed9b22084f89b4b595938e320f20efe65e0409"
 		id = "60d7d661-50e8-5a9b-8366-eda8ff8ad9d4"
+
 	strings:
-		$s0 = "%s\\%s\\KB985109.log" fullword
-		$s1 = "%s\\%s\\KB989109.log" fullword
-		$s2 = "Opera.exe" fullword wide
-		$s3 = "%s:All online success on %u!" fullword
-		$s4 = "%s:list online success on %u!" fullword
-		$s5 = "%s:All online fail!" fullword
-		$s6 = "Copyright Opera Software 1995-" wide
-		$s7 = "%s:list online fail!" fullword
-		$s8 = "OnlineTmp.txt" fullword
-		$s9 = "Opera Internet Browser" fullword wide
-		$s12 = "Opera Software" fullword wide
-		$s15 = "Check lan have done!!!" fullword
-		$s16 = "List End." fullword
+		$s0 = {25 73 5c 25 73 5c 4b 42 39 38 35 31 30 39 2e 6c 6f 67}
+		$s1 = {25 73 5c 25 73 5c 4b 42 39 38 39 31 30 39 2e 6c 6f 67}
+		$s2 = {4f 00 70 00 65 00 72 00 61 00 2e 00 65 00 78 00 65 00}
+		$s3 = {25 73 3a 41 6c 6c 20 6f 6e 6c 69 6e 65 20 73 75 63 63 65 73 73 20 6f 6e 20 25 75 21}
+		$s4 = {25 73 3a 6c 69 73 74 20 6f 6e 6c 69 6e 65 20 73 75 63 63 65 73 73 20 6f 6e 20 25 75 21}
+		$s5 = {25 73 3a 41 6c 6c 20 6f 6e 6c 69 6e 65 20 66 61 69 6c 21}
+		$s6 = {43 00 6f 00 70 00 79 00 72 00 69 00 67 00 68 00 74 00 20 00 4f 00 70 00 65 00 72 00 61 00 20 00 53 00 6f 00 66 00 74 00 77 00 61 00 72 00 65 00 20 00 31 00 39 00 39 00 35 00 2d 00}
+		$s7 = {25 73 3a 6c 69 73 74 20 6f 6e 6c 69 6e 65 20 66 61 69 6c 21}
+		$s8 = {4f 6e 6c 69 6e 65 54 6d 70 2e 74 78 74}
+		$s9 = {4f 00 70 00 65 00 72 00 61 00 20 00 49 00 6e 00 74 00 65 00 72 00 6e 00 65 00 74 00 20 00 42 00 72 00 6f 00 77 00 73 00 65 00 72 00}
+		$s12 = {4f 00 70 00 65 00 72 00 61 00 20 00 53 00 6f 00 66 00 74 00 77 00 61 00 72 00 65 00}
+		$s15 = {43 68 65 63 6b 20 6c 61 6e 20 68 61 76 65 20 64 6f 6e 65 21 21 21}
+		$s16 = {4c 69 73 74 20 45 6e 64 2e}
+
 	condition:
-		filesize < 100KB and uint16(0) == 0x5A4D and all of them
+		filesize < 100KB and uint16( 0 ) == 0x5A4D and all of them
 }
 
-/* I disabled this shit rule - F.R.
-rule APT30_Generic_3 {
-	meta:
-		description = "FireEye APT30 Report Sample"
-		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
-		author = "Florian Roth (Nextron Systems)"
-		reference = "https://www2.fireeye.com/rs/fireye/images/rpt-apt30.pdf"
-		date = "2015/04/13"
-		super_rule = 1
-		hash0 = "b90ac3e58ed472829e2562023e6e892d2d61ac44"
-		hash1 = "342036ace2e9e6d504b0dec6399e4fa92de46c12"
-		hash2 = "5cdf397dfd9eb66ff5ff636777f6982c1254a37a"
-	strings:
-		$s0 = "Acrobat.exe" fullword wide
-		$s14 = "********************************" fullword
-		$s16 = "FFFF:>>>>>>>>>>>>>>>>>@" fullword
-	condition:
-		filesize < 100KB and uint16(0) == 0x5A4D and all of them
-}
-*/
-
-rule APT30_Generic_4 {
+rule APT30_Generic_4 : hardened
+{
 	meta:
 		description = "FireEye APT30 Report Sample"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -1120,26 +1240,29 @@ rule APT30_Generic_4 {
 		hash2 = "a9a50673ac000a313f3ddba55d63d9773b9f4143"
 		hash3 = "ac96d7f5957aef09bd983465c497de24c6d17a92"
 		id = "2b246ae2-ec7d-5813-913e-729e4192da59"
+
 	strings:
-		$s0 = "del NetEagle_Scout.bat" fullword
-		$s1 = "NetEagle_Scout.bat" fullword
-		$s2 = "\\visit.exe"
-		$s3 = "\\System.exe"
-		$s4 = "\\System.dat"
-		$s5 = "\\ieupdate.exe"
-		$s6 = "GOTO ERROR" fullword
-		$s7 = ":ERROR" fullword
-		$s9 = "IF EXIST " fullword
-		$s10 = "ioiocn" fullword
-		$s11 = "SetFileAttribute" fullword
-		$s12 = "le_0*^il" fullword
-		$s13 = "le_.*^il" fullword
-		$s14 = "le_-*^il" fullword
+		$s0 = {64 65 6c 20 4e 65 74 45 61 67 6c 65 5f 53 63 6f 75 74 2e 62 61 74}
+		$s1 = {4e 65 74 45 61 67 6c 65 5f 53 63 6f 75 74 2e 62 61 74}
+		$s2 = {5c 76 69 73 69 74 2e 65 78 65}
+		$s3 = {5c 53 79 73 74 65 6d 2e 65 78 65}
+		$s4 = {5c 53 79 73 74 65 6d 2e 64 61 74}
+		$s5 = {5c 69 65 75 70 64 61 74 65 2e 65 78 65}
+		$s6 = {47 4f 54 4f 20 45 52 52 4f 52}
+		$s7 = {3a 45 52 52 4f 52}
+		$s9 = {49 46 20 45 58 49 53 54 20}
+		$s10 = {69 6f 69 6f 63 6e}
+		$s11 = {53 65 74 46 69 6c 65 41 74 74 72 69 62 75 74 65}
+		$s12 = {6c 65 5f 30 2a 5e 69 6c}
+		$s13 = {6c 65 5f 2e 2a 5e 69 6c}
+		$s14 = {6c 65 5f 2d 2a 5e 69 6c}
+
 	condition:
-		filesize < 250KB and uint16(0) == 0x5A4D and all of them
+		filesize < 250KB and uint16( 0 ) == 0x5A4D and all of them
 }
 
-rule APT30_Generic_5 {
+rule APT30_Generic_5 : hardened
+{
 	meta:
 		description = "FireEye APT30 Report Sample"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -1151,18 +1274,21 @@ rule APT30_Generic_5 {
 		hash1 = "dfc9a87df2d585c479ab02602133934b055d156f"
 		hash2 = "bf59d5ff7d38ec5ffb91296e002e8742baf24db5"
 		id = "e00a670e-cd95-515f-8109-219ce5121ba4"
+
 	strings:
-		$s0 = "regsvr32 /s \"%ProgramFiles%\\Norton360\\Engine\\5.1.0.29\\ashelper.dll\"" fullword
-		$s1 = "name=\"ftpserver.exe\"/>" fullword
-		$s2 = "LiveUpdate.EXE" fullword wide
-		$s3 = "<description>FTP Explorer</description>" fullword
-		$s4 = "\\ashelper.dll"
-		$s5 = "LiveUpdate" fullword wide
+		$s0 = {72 65 67 73 76 72 33 32 20 2f 73 20 22 25 50 72 6f 67 72 61 6d 46 69 6c 65 73 25 5c 4e 6f 72 74 6f 6e 33 36 30 5c 45 6e 67 69 6e 65 5c 35 2e 31 2e 30 2e 32 39 5c 61 73 68 65 6c 70 65 72 2e 64 6c 6c 22}
+		$s1 = {6e 61 6d 65 3d 22 66 74 70 73 65 72 76 65 72 2e 65 78 65 22 2f 3e}
+		$s2 = {4c 00 69 00 76 00 65 00 55 00 70 00 64 00 61 00 74 00 65 00 2e 00 45 00 58 00 45 00}
+		$s3 = {3c 64 65 73 63 72 69 70 74 69 6f 6e 3e 46 54 50 20 45 78 70 6c 6f 72 65 72 3c 2f 64 65 73 63 72 69 70 74 69 6f 6e 3e}
+		$s4 = {5c 61 73 68 65 6c 70 65 72 2e 64 6c 6c}
+		$s5 = {4c 00 69 00 76 00 65 00 55 00 70 00 64 00 61 00 74 00 65 00}
+
 	condition:
-		filesize < 100KB and uint16(0) == 0x5A4D and all of them
+		filesize < 100KB and uint16( 0 ) == 0x5A4D and all of them
 }
 
-rule APT30_Generic_6 {
+rule APT30_Generic_6 : hardened
+{
 	meta:
 		description = "FireEye APT30 Report Sample"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -1174,18 +1300,21 @@ rule APT30_Generic_6 {
 		hash1 = "2c5e347083b77c9ead9e75d41e2fabe096460bba"
 		hash2 = "5d39a567b50c74c4a921b5f65713f78023099933"
 		id = "dfd104bd-daf4-593a-b161-61f43aec048c"
+
 	strings:
-		$s0 = "GetStar" fullword
-		$s1 = ".rdUaS" fullword
-		$s2 = "%sOTwp/&A\\L" fullword
-		$s3 = "a Encrt% Flash Disk" fullword
-		$s4 = "ypeAutoRuChec" fullword
-		$s5 = "NoDriveT" fullword
+		$s0 = {47 65 74 53 74 61 72}
+		$s1 = {2e 72 64 55 61 53}
+		$s2 = {25 73 4f 54 77 70 2f 26 41 5c 4c}
+		$s3 = {61 20 45 6e 63 72 74 25 20 46 6c 61 73 68 20 44 69 73 6b}
+		$s4 = {79 70 65 41 75 74 6f 52 75 43 68 65 63}
+		$s5 = {4e 6f 44 72 69 76 65 54}
+
 	condition:
-		filesize < 100KB and uint16(0) == 0x5A4D and all of them
+		filesize < 100KB and uint16( 0 ) == 0x5A4D and all of them
 }
 
-rule APT30_Generic_7 {
+rule APT30_Generic_7 : hardened
+{
 	meta:
 		description = "FireEye APT30 Report Sample"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -1197,14 +1326,18 @@ rule APT30_Generic_7 {
 		hash1 = "e814914079af78d9f1b71000fee3c29d31d9b586"
 		hash2 = "0263de239ccef669c47399856d481e3361408e90"
 		id = "bba40092-267b-5231-92f1-f222c9f888ee"
+
 	strings:
-		$s1 = "Xjapor_*ata" fullword
-		$s2 = "Xjapor_o*ata" fullword
-		$s4 = "Ouopai" fullword
+		$s1 = {58 6a 61 70 6f 72 5f 2a 61 74 61}
+		$s2 = {58 6a 61 70 6f 72 5f 6f 2a 61 74 61}
+		$s4 = {4f 75 6f 70 61 69}
+
 	condition:
-		filesize < 100KB and uint16(0) == 0x5A4D and all of them
+		filesize < 100KB and uint16( 0 ) == 0x5A4D and all of them
 }
-rule APT30_Generic_8 {
+
+rule APT30_Generic_8 : hardened
+{
 	meta:
 		description = "FireEye APT30 Report Sample"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -1216,22 +1349,25 @@ rule APT30_Generic_8 {
 		hash1 = "a9a50673ac000a313f3ddba55d63d9773b9f4143"
 		hash2 = "ac96d7f5957aef09bd983465c497de24c6d17a92"
 		id = "a6845222-0a3e-5327-a448-36e8d54362a5"
+
 	strings:
-		$s0 = "Windows NT4.0" fullword
-		$s1 = "Windows NT3.51" fullword
-		$s2 = "%d;%d;%d;%ld;%ld;%ld;" fullword
-		$s3 = "%s %d.%d Build%d %s" fullword
-		$s4 = "MSAFD Tcpip [TCP/IP]" fullword
-		$s5 = "SQSRSS" fullword
-		$s8 = "WM_COMP" fullword
-		$s9 = "WM_MBU" fullword
-		$s11 = "WM_GRID" fullword
-		$s12 = "WM_RBU" fullword
+		$s0 = {57 69 6e 64 6f 77 73 20 4e 54 34 2e 30}
+		$s1 = {57 69 6e 64 6f 77 73 20 4e 54 33 2e 35 31}
+		$s2 = {25 64 3b 25 64 3b 25 64 3b 25 6c 64 3b 25 6c 64 3b 25 6c 64 3b}
+		$s3 = {25 73 20 25 64 2e 25 64 20 42 75 69 6c 64 25 64 20 25 73}
+		$s4 = {4d 53 41 46 44 20 54 63 70 69 70 20 5b 54 43 50 2f 49 50 5d}
+		$s5 = {53 51 53 52 53 53}
+		$s8 = {57 4d 5f 43 4f 4d 50}
+		$s9 = {57 4d 5f 4d 42 55}
+		$s11 = {57 4d 5f 47 52 49 44}
+		$s12 = {57 4d 5f 52 42 55}
+
 	condition:
-		filesize < 250KB and uint16(0) == 0x5A4D and all of them
+		filesize < 250KB and uint16( 0 ) == 0x5A4D and all of them
 }
 
-rule APT30_Generic_9 {
+rule APT30_Generic_9 : hardened
+{
 	meta:
 		description = "FireEye APT30 Report Sample"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -1244,12 +1380,15 @@ rule APT30_Generic_9 {
 		hash2 = "05f66492c163ec2a24c6a87c7a43028c5f632437"
 		hash3 = "263f094da3f64e72ef8dc3d02be4fb33de1fdb96"
 		id = "cf259f8d-e0a9-579d-93e7-ec14d99faf81"
+
 	strings:
-		$s0 = "%s\\%s\\$NtRecDoc$" fullword
-		$s1 = "%s(%u)%s" fullword
-		$s2 = "http://%s%s%s" fullword
-		$s3 = "1.9.1.17" fullword wide
-		$s4 = "(C)Firefox and Mozilla Developers, according to the MPL 1.1/GPL 2.0/LGPL" wide
+		$s0 = {25 73 5c 25 73 5c 24 4e 74 52 65 63 44 6f 63 24}
+		$s1 = {25 73 28 25 75 29 25 73}
+		$s2 = {68 74 74 70 3a 2f 2f 25 73 25 73 25 73}
+		$s3 = {31 00 2e 00 39 00 2e 00 31 00 2e 00 31 00 37 00}
+		$s4 = {28 00 43 00 29 00 46 00 69 00 72 00 65 00 66 00 6f 00 78 00 20 00 61 00 6e 00 64 00 20 00 4d 00 6f 00 7a 00 69 00 6c 00 6c 00 61 00 20 00 44 00 65 00 76 00 65 00 6c 00 6f 00 70 00 65 00 72 00 73 00 2c 00 20 00 61 00 63 00 63 00 6f 00 72 00 64 00 69 00 6e 00 67 00 20 00 74 00 6f 00 20 00 74 00 68 00 65 00 20 00 4d 00 50 00 4c 00 20 00 31 00 2e 00 31 00 2f 00 47 00 50 00 4c 00 20 00 32 00 2e 00 30 00 2f 00 4c 00 47 00 50 00 4c 00}
+
 	condition:
-		filesize < 250KB and uint16(0) == 0x5A4D and all of them
+		filesize < 250KB and uint16( 0 ) == 0x5A4D and all of them
 }
+

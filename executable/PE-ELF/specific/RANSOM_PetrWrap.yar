@@ -1,21 +1,22 @@
-// source: https://github.com/Yara-Rules/rules/blob/0f93570194a80d2f2032869055808b0ddcdfb360/malware/RANSOM_PetrWrap.yar
-
-rule ransomware_PetrWrap
+rule ransomware_PetrWrap : hardened
 {
-meta:
-	copyright= "Kaspersky Lab"
-	description = "Rule to detect PetrWrap ransomware samples"
-    reference = "https://securelist.com/schroedingers-petya/78870/"
-	last_modified = "2017-06-27"
-	author = "Kaspersky Lab"
-	hash = "71B6A493388E7D0B40C83CE903BC6B04"
-	version = "1.0"
-strings:
-	$a1 = "MIIBCgKCAQEAxP/VqKc0yLe9JhVqFMQGwUITO6WpXWnKSNQAYT0O65Cr8PjIQInTeHkXEjfO2n2JmURWV/uHB0ZrlQ/wcYJBwLhQ9EqJ3iDqmN19Oo7NtyEUmbYmopcqYLIBZzQ2ZTK0A2DtX4GRKxEEFLCy7vP12EYOPXknVy/mf0JFWixz29QiTf5oLu15wVLONCuEibGaNNpgqCXsPwfITDbDDmdrRIiUEUw6o3pt5pNOskfOJbMan2TZu" fullword wide
-	$a2 = ".3ds.7z.accdb.ai.asp.aspx.avhd.back.bak.c.cfg.conf.cpp.cs.ctl.dbf.disk.djvu.doc.docx.dwg.eml.fdb.gz.h.hdd.kdbx.mail.mdb.msg.nrg.ora.ost.ova.ovf.pdf.php.pmf.ppt.pptx.pst.pvi.py.pyc.rar.rtf.sln.sql.tar.vbox.vbs.vcb.vdi.vfd.vmc.vmdk.vmsd.vmx.vsdx.vsv.work.xls" fullword wide
-	$a3 = "DESTROY ALL OF YOUR DATA PLEASE ENSURE THAT YOUR POWER CABLE IS PLUGGED" fullword ascii
-	$a4 = "1Mz7153HMuxXTuR2R1t78mGSdzaAtNbBWX" fullword ascii
-	$a5 = "wowsmith123456posteo.net." fullword wide
-condition:
-	uint16(0) == 0x5A4D and filesize < 1000000 and any of them
+	meta:
+		copyright = "Kaspersky Lab"
+		description = "Rule to detect PetrWrap ransomware samples"
+		reference = "https://securelist.com/schroedingers-petya/78870/"
+		last_modified = "2017-06-27"
+		author = "Kaspersky Lab"
+		hash = "71B6A493388E7D0B40C83CE903BC6B04"
+		version = "1.0"
+
+	strings:
+		$a1 = {4d 00 49 00 49 00 42 00 43 00 67 00 4b 00 43 00 41 00 51 00 45 00 41 00 78 00 50 00 2f 00 56 00 71 00 4b 00 63 00 30 00 79 00 4c 00 65 00 39 00 4a 00 68 00 56 00 71 00 46 00 4d 00 51 00 47 00 77 00 55 00 49 00 54 00 4f 00 36 00 57 00 70 00 58 00 57 00 6e 00 4b 00 53 00 4e 00 51 00 41 00 59 00 54 00 30 00 4f 00 36 00 35 00 43 00 72 00 38 00 50 00 6a 00 49 00 51 00 49 00 6e 00 54 00 65 00 48 00 6b 00 58 00 45 00 6a 00 66 00 4f 00 32 00 6e 00 32 00 4a 00 6d 00 55 00 52 00 57 00 56 00 2f 00 75 00 48 00 42 00 30 00 5a 00 72 00 6c 00 51 00 2f 00 77 00 63 00 59 00 4a 00 42 00 77 00 4c 00 68 00 51 00 39 00 45 00 71 00 4a 00 33 00 69 00 44 00 71 00 6d 00 4e 00 31 00 39 00 4f 00 6f 00 37 00 4e 00 74 00 79 00 45 00 55 00 6d 00 62 00 59 00 6d 00 6f 00 70 00 63 00 71 00 59 00 4c 00 49 00 42 00 5a 00 7a 00 51 00 32 00 5a 00 54 00 4b 00 30 00 41 00 32 00 44 00 74 00 58 00 34 00 47 00 52 00 4b 00 78 00 45 00 45 00 46 00 4c 00 43 00 79 00 37 00 76 00 50 00 31 00 32 00 45 00 59 00 4f 00 50 00 58 00 6b 00 6e 00 56 00 79 00 2f 00 6d 00 66 00 30 00 4a 00 46 00 57 00 69 00 78 00 7a 00 32 00 39 00 51 00 69 00 54 00 66 00 35 00 6f 00 4c 00 75 00 31 00 35 00 77 00 56 00 4c 00 4f 00 4e 00 43 00 75 00 45 00 69 00 62 00 47 00 61 00 4e 00 4e 00 70 00 67 00 71 00 43 00 58 00 73 00 50 00 77 00 66 00 49 00 54 00 44 00 62 00 44 00 44 00 6d 00 64 00 72 00 52 00 49 00 69 00 55 00 45 00 55 00 77 00 36 00 6f 00 33 00 70 00 74 00 35 00 70 00 4e 00 4f 00 73 00 6b 00 66 00 4f 00 4a 00 62 00 4d 00 61 00 6e 00 32 00 54 00 5a 00 75 00}
+		$a2 = {2e 00 33 00 64 00 73 00 2e 00 37 00 7a 00 2e 00 61 00 63 00 63 00 64 00 62 00 2e 00 61 00 69 00 2e 00 61 00 73 00 70 00 2e 00 61 00 73 00 70 00 78 00 2e 00 61 00 76 00 68 00 64 00 2e 00 62 00 61 00 63 00 6b 00 2e 00 62 00 61 00 6b 00 2e 00 63 00 2e 00 63 00 66 00 67 00 2e 00 63 00 6f 00 6e 00 66 00 2e 00 63 00 70 00 70 00 2e 00 63 00 73 00 2e 00 63 00 74 00 6c 00 2e 00 64 00 62 00 66 00 2e 00 64 00 69 00 73 00 6b 00 2e 00 64 00 6a 00 76 00 75 00 2e 00 64 00 6f 00 63 00 2e 00 64 00 6f 00 63 00 78 00 2e 00 64 00 77 00 67 00 2e 00 65 00 6d 00 6c 00 2e 00 66 00 64 00 62 00 2e 00 67 00 7a 00 2e 00 68 00 2e 00 68 00 64 00 64 00 2e 00 6b 00 64 00 62 00 78 00 2e 00 6d 00 61 00 69 00 6c 00 2e 00 6d 00 64 00 62 00 2e 00 6d 00 73 00 67 00 2e 00 6e 00 72 00 67 00 2e 00 6f 00 72 00 61 00 2e 00 6f 00 73 00 74 00 2e 00 6f 00 76 00 61 00 2e 00 6f 00 76 00 66 00 2e 00 70 00 64 00 66 00 2e 00 70 00 68 00 70 00 2e 00 70 00 6d 00 66 00 2e 00 70 00 70 00 74 00 2e 00 70 00 70 00 74 00 78 00 2e 00 70 00 73 00 74 00 2e 00 70 00 76 00 69 00 2e 00 70 00 79 00 2e 00 70 00 79 00 63 00 2e 00 72 00 61 00 72 00 2e 00 72 00 74 00 66 00 2e 00 73 00 6c 00 6e 00 2e 00 73 00 71 00 6c 00 2e 00 74 00 61 00 72 00 2e 00 76 00 62 00 6f 00 78 00 2e 00 76 00 62 00 73 00 2e 00 76 00 63 00 62 00 2e 00 76 00 64 00 69 00 2e 00 76 00 66 00 64 00 2e 00 76 00 6d 00 63 00 2e 00 76 00 6d 00 64 00 6b 00 2e 00 76 00 6d 00 73 00 64 00 2e 00 76 00 6d 00 78 00 2e 00 76 00 73 00 64 00 78 00 2e 00 76 00 73 00 76 00 2e 00 77 00 6f 00 72 00 6b 00 2e 00 78 00 6c 00 73 00}
+		$a3 = {44 45 53 54 52 4f 59 20 41 4c 4c 20 4f 46 20 59 4f 55 52 20 44 41 54 41 20 50 4c 45 41 53 45 20 45 4e 53 55 52 45 20 54 48 41 54 20 59 4f 55 52 20 50 4f 57 45 52 20 43 41 42 4c 45 20 49 53 20 50 4c 55 47 47 45 44}
+		$a4 = {31 4d 7a 37 31 35 33 48 4d 75 78 58 54 75 52 32 52 31 74 37 38 6d 47 53 64 7a 61 41 74 4e 62 42 57 58}
+		$a5 = {77 00 6f 00 77 00 73 00 6d 00 69 00 74 00 68 00 31 00 32 00 33 00 34 00 35 00 36 00 70 00 6f 00 73 00 74 00 65 00 6f 00 2e 00 6e 00 65 00 74 00 2e 00}
+
+	condition:
+		uint16( 0 ) == 0x5A4D and filesize < 1000000 and any of them
 }
+

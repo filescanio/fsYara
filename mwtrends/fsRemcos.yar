@@ -1,4 +1,4 @@
-rule Remcos
+rule Remcos : hardened limited
 {
 	meta:
 		author = "kevoreilly"
@@ -11,19 +11,16 @@ rule Remcos
 		score = 75
 
 	strings:
-		$name = "Remcos" nocase
-		$time = "%02i:%02i:%02i:%03i"
+		$name = {52 65 6d 63 6f 73}
+		$time = {25 30 32 69 3a 25 30 32 69 3a 25 30 32 69 3a 25 30 33 69}
 		$crypto1 = {81 E1 FF 00 00 80 79 ?? 4? 81 C9 00 FF FF FF 4? 8A ?4 8?}
 		$crypto2 = {0F B6 [1-7] 8B 45 08 [0-2] 8D 34 07 8B 01 03 C2 8B CB 99 F7 F9 8A 84 95 ?? ?? FF FF 30 06 47 3B 7D 0C 72}
 
 	condition:
-		uint16(0)==0x5A4D and 
-		($name) and 
-		($time) and 
-		any of ($crypto*)
+		uint16( 0 ) == 0x5A4D and ( $name ) and ( $time ) and any of ( $crypto* )
 }
 
-rule Windows_Trojan_Remcos_b296e965
+rule Windows_Trojan_Remcos_b296e965 : hardened
 {
 	meta:
 		author = "Elastic Security"
@@ -45,16 +42,16 @@ rule Windows_Trojan_Remcos_b296e965
 		score = 75
 
 	strings:
-		$a1 = "Remcos restarted by watchdog!" ascii fullword
-		$a2 = "Mutex_RemWatchdog" ascii fullword
-		$a3 = "%02i:%02i:%02i:%03i"
-		$a4 = "* Remcos v" ascii fullword
+		$a1 = {52 65 6d 63 6f 73 20 72 65 73 74 61 72 74 65 64 20 62 79 20 77 61 74 63 68 64 6f 67 21}
+		$a2 = {4d 75 74 65 78 5f 52 65 6d 57 61 74 63 68 64 6f 67}
+		$a3 = {25 30 32 69 3a 25 30 32 69 3a 25 30 32 69 3a 25 30 33 69}
+		$a4 = {2a 20 52 65 6d 63 6f 73 20 76}
 
 	condition:
 		2 of them
 }
 
-rule Windows_Trojan_Remcos_7591e9f1
+rule Windows_Trojan_Remcos_7591e9f1 : hardened limited
 {
 	meta:
 		author = "Elastic Security"
@@ -76,18 +73,18 @@ rule Windows_Trojan_Remcos_7591e9f1
 		score = 75
 
 	strings:
-		$a1 = "ServRem" ascii fullword
-		$a2 = "Screenshots" ascii fullword
-		$a3 = "MicRecords" ascii fullword
-		$a4 = "remcos.exe" wide nocase fullword
-		$a5 = "Remcos" wide fullword
-		$a6 = "logs.dat" wide fullword
+		$a1 = {53 65 72 76 52 65 6d}
+		$a2 = {53 63 72 65 65 6e 73 68 6f 74 73}
+		$a3 = {4d 69 63 52 65 63 6f 72 64 73}
+		$a4 = {72 00 65 00 6d 00 63 00 6f 00 73 00 2e 00 65 00 78 00 65 00}
+		$a5 = {52 00 65 00 6d 00 63 00 6f 00 73 00}
+		$a6 = {6c 00 6f 00 67 00 73 00 2e 00 64 00 61 00 74 00}
 
 	condition:
 		3 of them
 }
 
-rule malware_Remcos_strings
+rule malware_Remcos_strings : hardened
 {
 	meta:
 		description = "detect Remcos in memory"
@@ -101,18 +98,16 @@ rule malware_Remcos_strings
 		score = 75
 
 	strings:
-		$remcos = "Remcos" ascii fullword
-		$url1 = "Breaking-Security.Net" ascii fullword
-		$url2 = "BreakingSecurity.Net" ascii fullword
-		$resource = "SETTINGS" ascii wide fullword
+		$remcos = {52 65 6d 63 6f 73}
+		$url1 = {42 72 65 61 6b 69 6e 67 2d 53 65 63 75 72 69 74 79 2e 4e 65 74}
+		$url2 = {42 72 65 61 6b 69 6e 67 53 65 63 75 72 69 74 79 2e 4e 65 74}
+		$resource = {((53 45 54 54 49 4e 47 53) | (53 00 45 00 54 00 54 00 49 00 4e 00 47 00 53 00))}
 
 	condition:
-		1 of ($url*) and 
-		$remcos and 
-		$resource
+		1 of ( $url* ) and $remcos and $resource
 }
 
-rule win_remcos_auto
+rule win_remcos_auto : hardened
 {
 	meta:
 		author = "Felix Bilstein - yara-signator at cocacoding dot com"
@@ -146,11 +141,10 @@ rule win_remcos_auto
 		$sequence_9 = { 85c0 7410 6a00 ff35???????? ff15???????? }
 
 	condition:
-		7 of them and 
-		filesize <1054720
+		7 of them and filesize < 1054720
 }
 
-rule Remcos_1
+rule Remcos_1 : hardened
 {
 	meta:
 		author = "@neonprimetime"
@@ -163,28 +157,27 @@ rule Remcos_1
 		score = 75
 
 	strings:
-		$a1 = "Software\\Remcos"
-		$a2 = "\\remcos\\"
-		$a3 = "REMCOS v"
-		$b1 = "Keylogger Started"
-		$b2 = "Connected to C&C"
-		$b3 = "Screenshots"
-		$b4 = "OpenCamera"
-		$b5 = "Uploading file to C&C"
-		$b6 = "Initializing connection to C&C"
-		$b7 = "cleared!]"
-		$b8 = "EnableLUA /t REG_DWORD /d 0"
-		$b9 = "Uploading file to C&C"
-		$b10 = "%02i:%02i:%02i:%03i"
-		$b11 = "[Firefox StoredLogins Cleared!]"
-		$b12 = "licence_code.txt"
+		$a1 = {53 6f 66 74 77 61 72 65 5c 52 65 6d 63 6f 73}
+		$a2 = {5c 72 65 6d 63 6f 73 5c}
+		$a3 = {52 45 4d 43 4f 53 20 76}
+		$b1 = {4b 65 79 6c 6f 67 67 65 72 20 53 74 61 72 74 65 64}
+		$b2 = {43 6f 6e 6e 65 63 74 65 64 20 74 6f 20 43 26 43}
+		$b3 = {53 63 72 65 65 6e 73 68 6f 74 73}
+		$b4 = {4f 70 65 6e 43 61 6d 65 72 61}
+		$b5 = {55 70 6c 6f 61 64 69 6e 67 20 66 69 6c 65 20 74 6f 20 43 26 43}
+		$b6 = {49 6e 69 74 69 61 6c 69 7a 69 6e 67 20 63 6f 6e 6e 65 63 74 69 6f 6e 20 74 6f 20 43 26 43}
+		$b7 = {63 6c 65 61 72 65 64 21 5d}
+		$b8 = {45 6e 61 62 6c 65 4c 55 41 20 2f 74 20 52 45 47 5f 44 57 4f 52 44 20 2f 64 20 30}
+		$b9 = {55 70 6c 6f 61 64 69 6e 67 20 66 69 6c 65 20 74 6f 20 43 26 43}
+		$b10 = {25 30 32 69 3a 25 30 32 69 3a 25 30 32 69 3a 25 30 33 69}
+		$b11 = {5b 46 69 72 65 66 6f 78 20 53 74 6f 72 65 64 4c 6f 67 69 6e 73 20 43 6c 65 61 72 65 64 21 5d}
+		$b12 = {6c 69 63 65 6e 63 65 5f 63 6f 64 65 2e 74 78 74}
 
 	condition:
-		1 of ($a*) or 
-		3 of ($b*)
+		1 of ( $a* ) or 3 of ( $b* )
 }
 
-rule MAL_Remcos_strings
+rule MAL_Remcos_strings : hardened
 {
 	meta:
 		description = "Matches strings found in Remcos RAT samples."
@@ -200,28 +193,26 @@ rule MAL_Remcos_strings
 		score = 75
 
 	strings:
-		$a = "Remcos_Mutex_Inj"
-		$b1 = "Uploading file to C&C: "
-		$b2 = "Unable to delete: "
-		$b3 = "Unable to rename file!"
-		$b4 = "Browsing directory: "
-		$b5 = "Offline Keylogger Started"
-		$b6 = "Online Keylogger Started"
-		$b7 = "[Chrome StoredLogins found, cleared!]"
-		$b8 = "[Firefox StoredLogins cleared!]"
-		$b9 = "Cleared all browser cookies, logins and passwords."
-		$b10 = "[Following text has been pasted from clipboard:]"
-		$b11 = "[End of clipboard text]"
-		$b12 = "OpenCamera"
-		$b13 = "CloseCamera"
+		$a = {52 65 6d 63 6f 73 5f 4d 75 74 65 78 5f 49 6e 6a}
+		$b1 = {55 70 6c 6f 61 64 69 6e 67 20 66 69 6c 65 20 74 6f 20 43 26 43 3a 20}
+		$b2 = {55 6e 61 62 6c 65 20 74 6f 20 64 65 6c 65 74 65 3a 20}
+		$b3 = {55 6e 61 62 6c 65 20 74 6f 20 72 65 6e 61 6d 65 20 66 69 6c 65 21}
+		$b4 = {42 72 6f 77 73 69 6e 67 20 64 69 72 65 63 74 6f 72 79 3a 20}
+		$b5 = {4f 66 66 6c 69 6e 65 20 4b 65 79 6c 6f 67 67 65 72 20 53 74 61 72 74 65 64}
+		$b6 = {4f 6e 6c 69 6e 65 20 4b 65 79 6c 6f 67 67 65 72 20 53 74 61 72 74 65 64}
+		$b7 = {5b 43 68 72 6f 6d 65 20 53 74 6f 72 65 64 4c 6f 67 69 6e 73 20 66 6f 75 6e 64 2c 20 63 6c 65 61 72 65 64 21 5d}
+		$b8 = {5b 46 69 72 65 66 6f 78 20 53 74 6f 72 65 64 4c 6f 67 69 6e 73 20 63 6c 65 61 72 65 64 21 5d}
+		$b9 = {43 6c 65 61 72 65 64 20 61 6c 6c 20 62 72 6f 77 73 65 72 20 63 6f 6f 6b 69 65 73 2c 20 6c 6f 67 69 6e 73 20 61 6e 64 20 70 61 73 73 77 6f 72 64 73 2e}
+		$b10 = {5b 46 6f 6c 6c 6f 77 69 6e 67 20 74 65 78 74 20 68 61 73 20 62 65 65 6e 20 70 61 73 74 65 64 20 66 72 6f 6d 20 63 6c 69 70 62 6f 61 72 64 3a 5d}
+		$b11 = {5b 45 6e 64 20 6f 66 20 63 6c 69 70 62 6f 61 72 64 20 74 65 78 74 5d}
+		$b12 = {4f 70 65 6e 43 61 6d 65 72 61}
+		$b13 = {43 6c 6f 73 65 43 61 6d 65 72 61}
 
 	condition:
-		uint16(0)==0x5a4d and 
-		$a and 
-		10 of ($b*)
+		uint16( 0 ) == 0x5a4d and $a and 10 of ( $b* )
 }
 
-rule malware_windows_remcos_rat
+rule malware_windows_remcos_rat : hardened
 {
 	meta:
 		description = "https://blog.fortinet.com/2017/02/14/remcos-a-new-rat-in-the-wild-2"
@@ -235,23 +226,21 @@ rule malware_windows_remcos_rat
 		score = 75
 
 	strings:
-		$a1 = "[Following text has been pasted from clipboard:]" wide ascii
-		$a2 = "[Chrome StoredLogins found, cleared!]" wide ascii
-		$a3 = "[Firefox StoredLogins cleared!]" wide ascii
-		$b1 = "getclipboard" wide ascii
-		$b2 = "stopmiccapture" wide ascii
-		$b3 = "downloadfromurltofile" wide ascii
-		$b4 = "getcamsingleframe" wide ascii
-		$c1 = "Breaking-Security.Net" wide ascii
-		$c2 = "REMCOS v" wide ascii
+		$a1 = {((5b 46 6f 6c 6c 6f 77 69 6e 67 20 74 65 78 74 20 68 61 73 20 62 65 65 6e 20 70 61 73 74 65 64 20 66 72 6f 6d 20 63 6c 69 70 62 6f 61 72 64 3a 5d) | (5b 00 46 00 6f 00 6c 00 6c 00 6f 00 77 00 69 00 6e 00 67 00 20 00 74 00 65 00 78 00 74 00 20 00 68 00 61 00 73 00 20 00 62 00 65 00 65 00 6e 00 20 00 70 00 61 00 73 00 74 00 65 00 64 00 20 00 66 00 72 00 6f 00 6d 00 20 00 63 00 6c 00 69 00 70 00 62 00 6f 00 61 00 72 00 64 00 3a 00 5d 00))}
+		$a2 = {((5b 43 68 72 6f 6d 65 20 53 74 6f 72 65 64 4c 6f 67 69 6e 73 20 66 6f 75 6e 64 2c 20 63 6c 65 61 72 65 64 21 5d) | (5b 00 43 00 68 00 72 00 6f 00 6d 00 65 00 20 00 53 00 74 00 6f 00 72 00 65 00 64 00 4c 00 6f 00 67 00 69 00 6e 00 73 00 20 00 66 00 6f 00 75 00 6e 00 64 00 2c 00 20 00 63 00 6c 00 65 00 61 00 72 00 65 00 64 00 21 00 5d 00))}
+		$a3 = {((5b 46 69 72 65 66 6f 78 20 53 74 6f 72 65 64 4c 6f 67 69 6e 73 20 63 6c 65 61 72 65 64 21 5d) | (5b 00 46 00 69 00 72 00 65 00 66 00 6f 00 78 00 20 00 53 00 74 00 6f 00 72 00 65 00 64 00 4c 00 6f 00 67 00 69 00 6e 00 73 00 20 00 63 00 6c 00 65 00 61 00 72 00 65 00 64 00 21 00 5d 00))}
+		$b1 = {((67 65 74 63 6c 69 70 62 6f 61 72 64) | (67 00 65 00 74 00 63 00 6c 00 69 00 70 00 62 00 6f 00 61 00 72 00 64 00))}
+		$b2 = {((73 74 6f 70 6d 69 63 63 61 70 74 75 72 65) | (73 00 74 00 6f 00 70 00 6d 00 69 00 63 00 63 00 61 00 70 00 74 00 75 00 72 00 65 00))}
+		$b3 = {((64 6f 77 6e 6c 6f 61 64 66 72 6f 6d 75 72 6c 74 6f 66 69 6c 65) | (64 00 6f 00 77 00 6e 00 6c 00 6f 00 61 00 64 00 66 00 72 00 6f 00 6d 00 75 00 72 00 6c 00 74 00 6f 00 66 00 69 00 6c 00 65 00))}
+		$b4 = {((67 65 74 63 61 6d 73 69 6e 67 6c 65 66 72 61 6d 65) | (67 00 65 00 74 00 63 00 61 00 6d 00 73 00 69 00 6e 00 67 00 6c 00 65 00 66 00 72 00 61 00 6d 00 65 00))}
+		$c1 = {((42 72 65 61 6b 69 6e 67 2d 53 65 63 75 72 69 74 79 2e 4e 65 74) | (42 00 72 00 65 00 61 00 6b 00 69 00 6e 00 67 00 2d 00 53 00 65 00 63 00 75 00 72 00 69 00 74 00 79 00 2e 00 4e 00 65 00 74 00))}
+		$c2 = {((52 45 4d 43 4f 53 20 76) | (52 00 45 00 4d 00 43 00 4f 00 53 00 20 00 76 00))}
 
 	condition:
-		any of ($a*) or 
-		3 of ($b*) or 
-		all of ($c*)
+		any of ( $a* ) or 3 of ( $b* ) or all of ( $c* )
 }
 
-rule win_remcos_rat_unpacked
+rule win_remcos_rat_unpacked : hardened
 {
 	meta:
 		author = "Matthew @ Embee_Research"
@@ -264,22 +253,21 @@ rule win_remcos_rat_unpacked
 		score = 75
 
 	strings:
-		$r0 = " ______                              " ascii
-		$r1 = "(_____ \\                             " ascii
-		$r2 = " _____) )_____ ____   ____ ___   ___ " ascii
-		$r3 = "|  __  /| ___ |    \\ / ___) _ \\ /___)" ascii
-		$r4 = "| |  \\ \\| ____| | | ( (__| |_| |___ |" ascii
-		$r5 = "|_|   |_|_____)_|_|_|\\____)___/(___/ " ascii
-		$s1 = "Watchdog module activated" ascii
-		$s2 = "Remcos restarted by watchdog!" ascii
-		$s3 = " BreakingSecurity.net" ascii
+		$r0 = {20 5f 5f 5f 5f 5f 5f 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20}
+		$r1 = {28 5f 5f 5f 5f 5f 20 5c 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20}
+		$r2 = {20 5f 5f 5f 5f 5f 29 20 29 5f 5f 5f 5f 5f 20 5f 5f 5f 5f 20 20 20 5f 5f 5f 5f 20 5f 5f 5f 20 20 20 5f 5f 5f 20}
+		$r3 = {7c 20 20 5f 5f 20 20 2f 7c 20 5f 5f 5f 20 7c 20 20 20 20 5c 20 2f 20 5f 5f 5f 29 20 5f 20 5c 20 2f 5f 5f 5f 29}
+		$r4 = {7c 20 7c 20 20 5c 20 5c 7c 20 5f 5f 5f 5f 7c 20 7c 20 7c 20 28 20 28 5f 5f 7c 20 7c 5f 7c 20 7c 5f 5f 5f 20 7c}
+		$r5 = {7c 5f 7c 20 20 20 7c 5f 7c 5f 5f 5f 5f 5f 29 5f 7c 5f 7c 5f 7c 5c 5f 5f 5f 5f 29 5f 5f 5f 2f 28 5f 5f 5f 2f 20}
+		$s1 = {57 61 74 63 68 64 6f 67 20 6d 6f 64 75 6c 65 20 61 63 74 69 76 61 74 65 64}
+		$s2 = {52 65 6d 63 6f 73 20 72 65 73 74 61 72 74 65 64 20 62 79 20 77 61 74 63 68 64 6f 67 21}
+		$s3 = {20 42 72 65 61 6b 69 6e 67 53 65 63 75 72 69 74 79 2e 6e 65 74}
 
 	condition:
-		(( all of ($r*)) or 
-			( all of ($s*)))
+		(( all of ( $r* ) ) or ( all of ( $s* ) ) )
 }
 
-rule Remcos_2
+rule Remcos_2 : hardened
 {
 	meta:
 		description = "detect Remcos in memory"
@@ -294,33 +282,33 @@ rule Remcos_2
 		score = 75
 
 	strings:
-		$remcos = "Remcos" ascii fullword
-		$url = "Breaking-Security.Net" ascii fullword
-		$resource = "SETTINGS" wide fullword
+		$remcos = {52 65 6d 63 6f 73}
+		$url = {42 72 65 61 6b 69 6e 67 2d 53 65 63 75 72 69 74 79 2e 4e 65 74}
+		$resource = {53 00 45 00 54 00 54 00 49 00 4e 00 47 00 53 00}
 
 	condition:
 		all of them
 }
 
-rule win_remcos : rat
+rule win_remcos : rat hardened
 {
 	meta:
 		author = "CERT Polska"
 
 	strings:
-		$convenient1 = " * Breaking-Security.Net"
-		$convenient2 = " * REMCOS v"
-		$convenient3 = "SETTINGS"
-		$convenient4 = "Remcos_Mutex_Inj"
-		$convenient5 = "Online Keylogger Started"
-		$convenient6 = "Uploading file to C&C"
-		$convenient7 = "Remcos Agent initialized"
+		$convenient1 = {20 2a 20 42 72 65 61 6b 69 6e 67 2d 53 65 63 75 72 69 74 79 2e 4e 65 74}
+		$convenient2 = {20 2a 20 52 45 4d 43 4f 53 20 76}
+		$convenient3 = {53 45 54 54 49 4e 47 53}
+		$convenient4 = {52 65 6d 63 6f 73 5f 4d 75 74 65 78 5f 49 6e 6a}
+		$convenient5 = {4f 6e 6c 69 6e 65 20 4b 65 79 6c 6f 67 67 65 72 20 53 74 61 72 74 65 64}
+		$convenient6 = {55 70 6c 6f 61 64 69 6e 67 20 66 69 6c 65 20 74 6f 20 43 26 43}
+		$convenient7 = {52 65 6d 63 6f 73 20 41 67 65 6e 74 20 69 6e 69 74 69 61 6c 69 7a 65 64}
 
 	condition:
-		3 of ($convenient*)
+		3 of ( $convenient* )
 }
 
-rule win_remcos_auto_1
+rule win_remcos_auto_1 : hardened
 {
 	meta:
 		author = "Felix Bilstein - yara-signator at cocacoding dot com"
@@ -350,7 +338,7 @@ rule win_remcos_auto_1
 		7 of them
 }
 
-rule fsRemcos
+rule fsRemcos : hardened
 {
 	meta:
 		description = "FsYARA - Malware Trends"
@@ -358,17 +346,6 @@ rule fsRemcos
 		score = 75
 
 	condition:
-		Remcos or 
-		Windows_Trojan_Remcos_b296e965 or 
-		Windows_Trojan_Remcos_7591e9f1 or 
-		malware_Remcos_strings or 
-		win_remcos_auto or 
-		Remcos_1 or 
-		MAL_Remcos_strings or 
-		malware_windows_remcos_rat or 
-		win_remcos_rat_unpacked or 
-		Remcos_2 or 
-		win_remcos or 
-		win_remcos_auto_1
+		Remcos or Windows_Trojan_Remcos_b296e965 or Windows_Trojan_Remcos_7591e9f1 or malware_Remcos_strings or win_remcos_auto or Remcos_1 or MAL_Remcos_strings or malware_windows_remcos_rat or win_remcos_rat_unpacked or Remcos_2 or win_remcos or win_remcos_auto_1
 }
 

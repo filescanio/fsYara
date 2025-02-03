@@ -1,5 +1,5 @@
-
-rule Win32_Buzus_Softpulse {
+rule Win32_Buzus_Softpulse : hardened
+{
 	meta:
 		description = "Trojan Buzus / Softpulse"
 		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
@@ -8,19 +8,17 @@ rule Win32_Buzus_Softpulse {
 		hash = "2f6df200e63a86768471399a74180466d2e99ea9"
 		score = 75
 		id = "3b555916-030a-5773-b2f1-e995fc81b697"
-	strings:
-		$x1 = "pi4izd6vp0.com" fullword ascii
 
-		$s1 = "SELECT * FROM Win32_Process" fullword wide
-		$s4 = "CurrentVersion\\Uninstall\\avast" fullword wide
-		$s5 = "Find_RepeatProcess" fullword ascii
-		$s6 = "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\" wide
-		$s7 = "myapp.exe" fullword ascii
-		$s14 = "/c ping -n 1 www.google" wide
+	strings:
+		$x1 = {70 69 34 69 7a 64 36 76 70 30 2e 63 6f 6d}
+		$s1 = {53 00 45 00 4c 00 45 00 43 00 54 00 20 00 2a 00 20 00 46 00 52 00 4f 00 4d 00 20 00 57 00 69 00 6e 00 33 00 32 00 5f 00 50 00 72 00 6f 00 63 00 65 00 73 00 73 00}
+		$s4 = {43 00 75 00 72 00 72 00 65 00 6e 00 74 00 56 00 65 00 72 00 73 00 69 00 6f 00 6e 00 5c 00 55 00 6e 00 69 00 6e 00 73 00 74 00 61 00 6c 00 6c 00 5c 00 61 00 76 00 61 00 73 00 74 00}
+		$s5 = {46 69 6e 64 5f 52 65 70 65 61 74 50 72 6f 63 65 73 73}
+		$s6 = {53 00 4f 00 46 00 54 00 57 00 41 00 52 00 45 00 5c 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 5c 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 5c 00 43 00 75 00 72 00 72 00 65 00 6e 00 74 00 56 00 65 00 72 00 73 00 69 00 6f 00 6e 00 5c 00}
+		$s7 = {6d 79 61 70 70 2e 65 78 65}
+		$s14 = {2f 00 63 00 20 00 70 00 69 00 6e 00 67 00 20 00 2d 00 6e 00 20 00 31 00 20 00 77 00 77 00 77 00 2e 00 67 00 6f 00 6f 00 67 00 6c 00 65 00}
+
 	condition:
-		uint16(0) == 0x5a4d and 
-			( 
-				( $x1 and 2 of ($s*) ) or
-				all of ($s*) 
-			)
+		uint16( 0 ) == 0x5a4d and ( ( $x1 and 2 of ( $s* ) ) or all of ( $s* ) )
 }
+

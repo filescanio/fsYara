@@ -1,4 +1,4 @@
-rule Windows_Trojan_Limerat_24269a79
+rule Windows_Trojan_Limerat_24269a79 : hardened
 {
 	meta:
 		author = "Elastic Security"
@@ -19,13 +19,13 @@ rule Windows_Trojan_Limerat_24269a79
 		score = 75
 
 	strings:
-		$a1 = "schtasks /create /f /sc ONLOGON /RL HIGHEST /tn LimeRAT-Admin /tr \"'" wide fullword
+		$a1 = {73 00 63 00 68 00 74 00 61 00 73 00 6b 00 73 00 20 00 2f 00 63 00 72 00 65 00 61 00 74 00 65 00 20 00 2f 00 66 00 20 00 2f 00 73 00 63 00 20 00 4f 00 4e 00 4c 00 4f 00 47 00 4f 00 4e 00 20 00 2f 00 52 00 4c 00 20 00 48 00 49 00 47 00 48 00 45 00 53 00 54 00 20 00 2f 00 74 00 6e 00 20 00 4c 00 69 00 6d 00 65 00 52 00 41 00 54 00 2d 00 41 00 64 00 6d 00 69 00 6e 00 20 00 2f 00 74 00 72 00 20 00 22 00 27 00}
 
 	condition:
 		all of them
 }
 
-rule ByteCode_MSIL_Backdoor_LimeRAT : tc_detection malicious
+rule ByteCode_MSIL_Backdoor_LimeRAT : tc_detection malicious hardened
 {
 	meta:
 		author = "ReversingLabs"
@@ -99,14 +99,10 @@ rule ByteCode_MSIL_Backdoor_LimeRAT : tc_detection malicious
         }
 
 	condition:
-		uint16(0)==0x5A4D and 
-		($persistence_mechanism) and 
-		($crypto_miner) and 
-		($downloader) and 
-		( all of ($network_communication_p*))
+		uint16( 0 ) == 0x5A4D and ( $persistence_mechanism ) and ( $crypto_miner ) and ( $downloader ) and ( all of ( $network_communication_p* ) )
 }
 
-rule LimeRAT
+rule LimeRAT : hardened
 {
 	meta:
 		author = "ditekshen"
@@ -118,22 +114,21 @@ rule LimeRAT
 		score = 75
 
 	strings:
-		$s1 = "schtasks /create /f /sc ONLOGON /RL HIGHEST /tn LimeRAT-Admin /tr" wide
-		$s2 = "\\vboxhook.dll" fullword wide
-		$s3 = "Win32_Processor.deviceid=\"CPU0\"" fullword wide
-		$s4 = "select CommandLine from Win32_Process where Name='{0}'" wide
-		$s5 = "Minning..." fullword wide
-		$s6 = "Regasm.exe" fullword wide
-		$s7 = "Flood!" fullword wide
-		$s8 = "Rans-Status" fullword wide
-		$s9 = "cmd.exe /c ping 0" wide
+		$s1 = {73 00 63 00 68 00 74 00 61 00 73 00 6b 00 73 00 20 00 2f 00 63 00 72 00 65 00 61 00 74 00 65 00 20 00 2f 00 66 00 20 00 2f 00 73 00 63 00 20 00 4f 00 4e 00 4c 00 4f 00 47 00 4f 00 4e 00 20 00 2f 00 52 00 4c 00 20 00 48 00 49 00 47 00 48 00 45 00 53 00 54 00 20 00 2f 00 74 00 6e 00 20 00 4c 00 69 00 6d 00 65 00 52 00 41 00 54 00 2d 00 41 00 64 00 6d 00 69 00 6e 00 20 00 2f 00 74 00 72 00}
+		$s2 = {5c 00 76 00 62 00 6f 00 78 00 68 00 6f 00 6f 00 6b 00 2e 00 64 00 6c 00 6c 00}
+		$s3 = {57 00 69 00 6e 00 33 00 32 00 5f 00 50 00 72 00 6f 00 63 00 65 00 73 00 73 00 6f 00 72 00 2e 00 64 00 65 00 76 00 69 00 63 00 65 00 69 00 64 00 3d 00 22 00 43 00 50 00 55 00 30 00 22 00}
+		$s4 = {73 00 65 00 6c 00 65 00 63 00 74 00 20 00 43 00 6f 00 6d 00 6d 00 61 00 6e 00 64 00 4c 00 69 00 6e 00 65 00 20 00 66 00 72 00 6f 00 6d 00 20 00 57 00 69 00 6e 00 33 00 32 00 5f 00 50 00 72 00 6f 00 63 00 65 00 73 00 73 00 20 00 77 00 68 00 65 00 72 00 65 00 20 00 4e 00 61 00 6d 00 65 00 3d 00 27 00 7b 00 30 00 7d 00 27 00}
+		$s5 = {4d 00 69 00 6e 00 6e 00 69 00 6e 00 67 00 2e 00 2e 00 2e 00}
+		$s6 = {52 00 65 00 67 00 61 00 73 00 6d 00 2e 00 65 00 78 00 65 00}
+		$s7 = {46 00 6c 00 6f 00 6f 00 64 00 21 00}
+		$s8 = {52 00 61 00 6e 00 73 00 2d 00 53 00 74 00 61 00 74 00 75 00 73 00}
+		$s9 = {63 00 6d 00 64 00 2e 00 65 00 78 00 65 00 20 00 2f 00 63 00 20 00 70 00 69 00 6e 00 67 00 20 00 30 00}
 
 	condition:
-		uint16(0)==0x5a4d and 
-		5 of them
+		uint16( 0 ) == 0x5a4d and 5 of them
 }
 
-rule win_limerat_j1_00cfd931
+rule win_limerat_j1_00cfd931 : hardened
 {
 	meta:
 		author = "Johannes Bader"
@@ -156,17 +151,16 @@ rule win_limerat_j1_00cfd931
 		score = 75
 
 	strings:
-		$str_1 = "Y21kLmV4ZSAvYyBwaW5nIDAgLW4gMiAmIGRlbCA=" wide
-		$str_2 = "schtasks /create /f /sc ONLOGON /RL HIGHEST /tn LimeRAT-Admin" wide
-		$str_3 = "Minning..." wide
-		$str_4 = "--donate-level=" wide
+		$str_1 = {59 00 32 00 31 00 6b 00 4c 00 6d 00 56 00 34 00 5a 00 53 00 41 00 76 00 59 00 79 00 42 00 77 00 61 00 57 00 35 00 6e 00 49 00 44 00 41 00 67 00 4c 00 57 00 34 00 67 00 4d 00 69 00 41 00 6d 00 49 00 47 00 52 00 6c 00 62 00 43 00 41 00 3d 00}
+		$str_2 = {73 00 63 00 68 00 74 00 61 00 73 00 6b 00 73 00 20 00 2f 00 63 00 72 00 65 00 61 00 74 00 65 00 20 00 2f 00 66 00 20 00 2f 00 73 00 63 00 20 00 4f 00 4e 00 4c 00 4f 00 47 00 4f 00 4e 00 20 00 2f 00 52 00 4c 00 20 00 48 00 49 00 47 00 48 00 45 00 53 00 54 00 20 00 2f 00 74 00 6e 00 20 00 4c 00 69 00 6d 00 65 00 52 00 41 00 54 00 2d 00 41 00 64 00 6d 00 69 00 6e 00}
+		$str_3 = {4d 00 69 00 6e 00 6e 00 69 00 6e 00 67 00 2e 00 2e 00 2e 00}
+		$str_4 = {2d 00 2d 00 64 00 6f 00 6e 00 61 00 74 00 65 00 2d 00 6c 00 65 00 76 00 65 00 6c 00 3d 00}
 
 	condition:
-		uint16(0)==0x5A4D and 
-		3 of them
+		uint16( 0 ) == 0x5A4D and 3 of them
 }
 
-rule LimeRAT_1
+rule LimeRAT_1 : hardened
 {
 	meta:
 		description = "Detects Lime RAT malware samples based on the strings matched"
@@ -180,22 +174,20 @@ rule LimeRAT_1
 		score = 75
 
 	strings:
-		$main = "schtasks /create /f /sc ONLOGON /RL HIGHEST /tn LimeRAT-Admin /tr" wide
-		$cmd1 = "Flood!" wide
-		$cmd2 = "!PSend" wide
-		$cmd3 = "!PStart" wide
-		$cmd4 = "SELECT * FROM AntivirusProduct" wide
-		$cmd5 = "Select * from Win32_ComputerSystem" wide
-		$cmd6 = "_USB Error!" wide
-		$cmd7 = "_PIN Error!" wide
+		$main = {73 00 63 00 68 00 74 00 61 00 73 00 6b 00 73 00 20 00 2f 00 63 00 72 00 65 00 61 00 74 00 65 00 20 00 2f 00 66 00 20 00 2f 00 73 00 63 00 20 00 4f 00 4e 00 4c 00 4f 00 47 00 4f 00 4e 00 20 00 2f 00 52 00 4c 00 20 00 48 00 49 00 47 00 48 00 45 00 53 00 54 00 20 00 2f 00 74 00 6e 00 20 00 4c 00 69 00 6d 00 65 00 52 00 41 00 54 00 2d 00 41 00 64 00 6d 00 69 00 6e 00 20 00 2f 00 74 00 72 00}
+		$cmd1 = {46 00 6c 00 6f 00 6f 00 64 00 21 00}
+		$cmd2 = {21 00 50 00 53 00 65 00 6e 00 64 00}
+		$cmd3 = {21 00 50 00 53 00 74 00 61 00 72 00 74 00}
+		$cmd4 = {53 00 45 00 4c 00 45 00 43 00 54 00 20 00 2a 00 20 00 46 00 52 00 4f 00 4d 00 20 00 41 00 6e 00 74 00 69 00 76 00 69 00 72 00 75 00 73 00 50 00 72 00 6f 00 64 00 75 00 63 00 74 00}
+		$cmd5 = {53 00 65 00 6c 00 65 00 63 00 74 00 20 00 2a 00 20 00 66 00 72 00 6f 00 6d 00 20 00 57 00 69 00 6e 00 33 00 32 00 5f 00 43 00 6f 00 6d 00 70 00 75 00 74 00 65 00 72 00 53 00 79 00 73 00 74 00 65 00 6d 00}
+		$cmd6 = {5f 00 55 00 53 00 42 00 20 00 45 00 72 00 72 00 6f 00 72 00 21 00}
+		$cmd7 = {5f 00 50 00 49 00 4e 00 20 00 45 00 72 00 72 00 6f 00 72 00 21 00}
 
 	condition:
-		uint16(0)==0x5A4D and 
-		$main and 
-		4 of ($cmd*)
+		uint16( 0 ) == 0x5A4D and $main and 4 of ( $cmd* )
 }
 
-rule fsLimeRAT
+rule fsLimeRAT : hardened
 {
 	meta:
 		description = "FsYARA - Malware Trends"
@@ -203,10 +195,6 @@ rule fsLimeRAT
 		score = 75
 
 	condition:
-		Windows_Trojan_Limerat_24269a79 or 
-		ByteCode_MSIL_Backdoor_LimeRAT or 
-		LimeRAT or 
-		win_limerat_j1_00cfd931 or 
-		LimeRAT_1
+		Windows_Trojan_Limerat_24269a79 or ByteCode_MSIL_Backdoor_LimeRAT or LimeRAT or win_limerat_j1_00cfd931 or LimeRAT_1
 }
 

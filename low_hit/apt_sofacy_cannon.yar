@@ -1,16 +1,17 @@
+rule APT_APT28_Cannon_Trojan_Nov18_1 : hardened
+{
+	meta:
+		description = "Detects Cannon Trojan used by Sofacy"
+		author = "Florian Roth (Nextron Systems)"
+		reference = "https://researchcenter.paloaltonetworks.com/2018/11/unit42-sofacy-continues-global-attacks-wheels-new-cannon-trojan/"
+		date = "2018-11-20"
+		hash1 = "61a1f3b4fb4dbd2877c91e81db4b1af8395547eab199bf920e9dd11a1127221e"
+		id = "a60f3e75-8bfe-592e-90d1-321bd86173ac"
 
-rule APT_APT28_Cannon_Trojan_Nov18_1 {
-   meta:
-      description = "Detects Cannon Trojan used by Sofacy"
-      author = "Florian Roth (Nextron Systems)"
-      reference = "https://researchcenter.paloaltonetworks.com/2018/11/unit42-sofacy-continues-global-attacks-wheels-new-cannon-trojan/"
-      date = "2018-11-20"
-      hash1 = "61a1f3b4fb4dbd2877c91e81db4b1af8395547eab199bf920e9dd11a1127221e"
-      id = "a60f3e75-8bfe-592e-90d1-321bd86173ac"
-   strings:
-      $xc1 = { 46 6F 72 6D 31 00 63 61 6E 6E 6F 6E 00 4D 44 61
+	strings:
+		$xc1 = { 46 6F 72 6D 31 00 63 61 6E 6E 6F 6E 00 4D 44 61
                74 00 41 55 54 48 }
-      $xc2 = { 13 4F 00 53 00 3A 00 20 00 20 00 7B 00 30 00 7D
+		$xc2 = { 13 4F 00 53 00 3A 00 20 00 20 00 7B 00 30 00 7D
                00 0A 00 00 17 53 00 44 00 69 00 72 00 3A 00 20
                00 20 00 7B 00 30 00 7D 00 0A 00 00 1B 44 00 6F
                00 6D 00 61 00 69 00 6E 00 3A 00 20 00 20 00 7B
@@ -20,13 +21,14 @@ rule APT_APT28_Cannon_Trojan_Nov18_1 {
                00 72 00 3A 00 20 00 7B 00 30 00 7D 00 0A 00 00
                17 54 00 69 00 6D 00 65 00 5A 00 3A 00 20 00 7B
                00 30 00 7D }
-      $x2 = "\\Desktop\\cannon\\obj\\" ascii
-      $x3 = "C:\\Users\\Public\\Music\\s.txt" fullword wide
+		$x2 = {5c 44 65 73 6b 74 6f 70 5c 63 61 6e 6e 6f 6e 5c 6f 62 6a 5c}
+		$x3 = {43 00 3a 00 5c 00 55 00 73 00 65 00 72 00 73 00 5c 00 50 00 75 00 62 00 6c 00 69 00 63 00 5c 00 4d 00 75 00 73 00 69 00 63 00 5c 00 73 00 2e 00 74 00 78 00 74 00}
+		$s1 = {43 00 3a 00 5c 00 44 00 6f 00 63 00 75 00 6d 00 65 00 6e 00 74 00 73 00 20 00 61 00 6e 00 64 00 20 00 53 00 65 00 74 00 74 00 69 00 6e 00 67 00 73 00 5c 00 41 00 6c 00 6c 00 20 00 55 00 73 00 65 00 72 00 73 00 5c 00 44 00 6f 00 63 00 75 00 6d 00 65 00 6e 00 74 00 73 00}
+		$s2 = {6e 00 6f 00 74 00 45 00 6e 00 63 00 6f 00 64 00 65 00 64 00 20 00 2d 00 20 00 56 00 61 00 6c 00 75 00 65 00 20 00 68 00 65 00 72 00 65 00 20 00 69 00 73 00 20 00 6e 00 65 00 76 00 65 00 72 00 20 00 75 00 73 00 65 00 64 00}
+		$s3 = {57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 4e 00 54 00 5c 00 43 00 75 00 72 00 72 00 65 00 6e 00 74 00 56 00 65 00 72 00 73 00 69 00 6f 00 6e 00 5c 00 57 00 69 00 6e 00 6c 00 6f 00 67 00 6f 00 6e 00 22 00}
+		$s4 = {41 6e 73 77 65 72 4d 65 73 73 61 67 65 54 72 61 76 65 72 73 65 72 60 31}
 
-      $s1 = "C:\\Documents and Settings\\All Users\\Documents" fullword wide
-      $s2 = "notEncoded - Value here is never used" fullword wide
-      $s3 = "Windows NT\\CurrentVersion\\Winlogon\"" fullword wide
-      $s4 = "AnswerMessageTraverser`1" fullword ascii
-   condition:
-      uint16(0) == 0x5a4d and filesize < 1000KB and 1 of ($x*) or 3 of them
+	condition:
+		uint16( 0 ) == 0x5a4d and filesize < 1000KB and 1 of ( $x* ) or 3 of them
 }
+

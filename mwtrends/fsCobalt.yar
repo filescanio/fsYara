@@ -1,4 +1,4 @@
-rule Cobalt_functions
+rule Cobalt_functions : hardened
 {
 	meta:
 		author = "@j0sm1"
@@ -18,10 +18,10 @@ rule Cobalt_functions
 		$h5 = {F4 00 8E CC}
 
 	condition:
-		2 of ($h*)
+		2 of ( $h* )
 }
 
-rule cobalt_strike_indicator : high
+rule cobalt_strike_indicator : high hardened limited
 {
 	meta:
 		description = "CobaltStrike indicator"
@@ -34,13 +34,13 @@ rule cobalt_strike_indicator : high
 		score = 75
 
 	strings:
-		$ref = "%s as %s\\%s: %d" ascii xor
+		$ref = {25 73 20 61 73 20 25 73 5c 25 73 3a 20 25 64}
 
 	condition:
 		any of them
 }
 
-rule CobaltStrikeBeacon
+rule CobaltStrikeBeacon : hardened limited
 {
 	meta:
 		author = "ditekshen, enzo & Elastic"
@@ -53,40 +53,32 @@ rule CobaltStrikeBeacon
 		score = 75
 
 	strings:
-		$s1 = "%%IMPORT%%" fullword ascii
-		$s2 = "www6.%x%x.%s" fullword ascii
-		$s3 = "cdn.%x%x.%s" fullword ascii
-		$s4 = "api.%x%x.%s" fullword ascii
-		$s5 = "%s (admin)" fullword ascii
-		$s6 = "could not spawn %s: %d" fullword ascii
-		$s7 = "Could not kill %d: %d" fullword ascii
-		$s8 = "Could not connect to pipe (%s): %d" fullword ascii
+		$s1 = {25 25 49 4d 50 4f 52 54 25 25}
+		$s2 = {77 77 77 36 2e 25 78 25 78 2e 25 73}
+		$s3 = {63 64 6e 2e 25 78 25 78 2e 25 73}
+		$s4 = {61 70 69 2e 25 78 25 78 2e 25 73}
+		$s5 = {25 73 20 28 61 64 6d 69 6e 29}
+		$s6 = {63 6f 75 6c 64 20 6e 6f 74 20 73 70 61 77 6e 20 25 73 3a 20 25 64}
+		$s7 = {43 6f 75 6c 64 20 6e 6f 74 20 6b 69 6c 6c 20 25 64 3a 20 25 64}
+		$s8 = {43 6f 75 6c 64 20 6e 6f 74 20 63 6f 6e 6e 65 63 74 20 74 6f 20 70 69 70 65 20 28 25 73 29 3a 20 25 64}
 		$s9 = /%s\.\d[(%08x).]+\.%x%x\.%s/ ascii
-		$pwsh1 = "IEX (New-Object Net.Webclient).DownloadString('http" ascii
-		$pwsh2 = "powershell -nop -exec bypass -EncodedCommand \"%s\"" fullword ascii
+		$pwsh1 = {49 45 58 20 28 4e 65 77 2d 4f 62 6a 65 63 74 20 4e 65 74 2e 57 65 62 63 6c 69 65 6e 74 29 2e 44 6f 77 6e 6c 6f 61 64 53 74 72 69 6e 67 28 27 68 74 74 70}
+		$pwsh2 = {70 6f 77 65 72 73 68 65 6c 6c 20 2d 6e 6f 70 20 2d 65 78 65 63 20 62 79 70 61 73 73 20 2d 45 6e 63 6f 64 65 64 43 6f 6d 6d 61 6e 64 20 22 25 73 22}
 		$ver3a = {69 68 69 68 69 6b ?? ?? 69}
 		$ver3b = {69 69 69 69}
 		$ver4a = {2e 2f 2e 2f 2e 2c ?? ?? 2e}
 		$ver4b = {2e 2e 2e 2e}
-		$a1 = "%02d/%02d/%02d %02d:%02d:%02d" xor
-		$a2 = "Started service %s on %s" xor
-		$a3 = "%s as %s\\%s: %d" xor
+		$a1 = {25 30 32 64 2f 25 30 32 64 2f 25 30 32 64 20 25 30 32 64 3a 25 30 32 64 3a 25 30 32 64}
+		$a2 = {53 74 61 72 74 65 64 20 73 65 72 76 69 63 65 20 25 73 20 6f 6e 20 25 73}
+		$a3 = {25 73 20 61 73 20 25 73 5c 25 73 3a 20 25 64}
 		$b_x64 = {4C 8B 53 08 45 8B 0A 45 8B 5A 04 4D 8D 52 08 45 85 C9 75 05 45 85 DB 74 33 45 3B CB 73 E6 49 8B F9 4C 8B 03}
 		$b_x86 = {8B 46 04 8B 08 8B 50 04 83 C0 08 89 55 08 89 45 0C 85 C9 75 04 85 D2 74 23 3B CA 73 E6 8B 06 8D 3C 08 33 D2}
 
 	condition:
-		all of ($ver3*) or 
-		all of ($ver4*) or 
-		2 of ($a*) or 
-		any of ($b*) or 
-		5 of ($s*) or 
-		( all of ($pwsh*) and 
-			2 of ($s*)) or 
-		(#s9>6 and 
-			4 of them )
+		all of ( $ver3* ) or all of ( $ver4* ) or 2 of ( $a* ) or any of ( $b* ) or 5 of ( $s* ) or ( all of ( $pwsh* ) and 2 of ( $s* ) ) or ( #s9 > 6 and 4 of them )
 }
 
-rule MALW_cobaltrike
+rule MALW_cobaltrike : hardened
 {
 	meta:
 		description = "Rule to detect CobaltStrike beacon"
@@ -125,60 +117,55 @@ rule MALW_cobaltrike
 		$pattern_15 = { 752c 4c8d45af 488d55af 488d4d27 }
 
 	condition:
-		7 of them and 
-		filesize <696320
+		7 of them and filesize < 696320
 }
 
-rule cobaltstrike_beacon_raw
+rule cobaltstrike_beacon_raw : hardened
 {
 	meta:
 		score = 75
 
 	strings:
-		$s1 = "%d is an x64 process (can't inject x86 content)" fullword
-		$s2 = "Failed to impersonate logged on user %d (%u)" fullword
-		$s3 = "powershell -nop -exec bypass -EncodedCommand \"%s\"" fullword
-		$s4 = "IEX (New-Object Net.Webclient).DownloadString('http://127.0.0.1:%u/'); %s" fullword
-		$s5 = "could not run command (w/ token) because of its length of %d bytes!" fullword
-		$s6 = "could not write to process memory: %d" fullword
-		$s7 = "%s.4%08x%08x%08x%08x%08x.%08x%08x%08x%08x%08x%08x%08x.%08x%08x%08x%08x%08x%08x%08x.%08x%08x%08x%08x%08x%08x%08x.%x%x.%s" fullword
-		$s8 = "Could not connect to pipe (%s): %d" fullword
-		$b1 = "beacon.dll" fullword
-		$b2 = "beacon.x86.dll" fullword
-		$b3 = "beacon.x64.dll" fullword
+		$s1 = {25 64 20 69 73 20 61 6e 20 78 36 34 20 70 72 6f 63 65 73 73 20 28 63 61 6e 27 74 20 69 6e 6a 65 63 74 20 78 38 36 20 63 6f 6e 74 65 6e 74 29}
+		$s2 = {46 61 69 6c 65 64 20 74 6f 20 69 6d 70 65 72 73 6f 6e 61 74 65 20 6c 6f 67 67 65 64 20 6f 6e 20 75 73 65 72 20 25 64 20 28 25 75 29}
+		$s3 = {70 6f 77 65 72 73 68 65 6c 6c 20 2d 6e 6f 70 20 2d 65 78 65 63 20 62 79 70 61 73 73 20 2d 45 6e 63 6f 64 65 64 43 6f 6d 6d 61 6e 64 20 22 25 73 22}
+		$s4 = {49 45 58 20 28 4e 65 77 2d 4f 62 6a 65 63 74 20 4e 65 74 2e 57 65 62 63 6c 69 65 6e 74 29 2e 44 6f 77 6e 6c 6f 61 64 53 74 72 69 6e 67 28 27 68 74 74 70 3a 2f 2f 31 32 37 2e 30 2e 30 2e 31 3a 25 75 2f 27 29 3b 20 25 73}
+		$s5 = {63 6f 75 6c 64 20 6e 6f 74 20 72 75 6e 20 63 6f 6d 6d 61 6e 64 20 28 77 2f 20 74 6f 6b 65 6e 29 20 62 65 63 61 75 73 65 20 6f 66 20 69 74 73 20 6c 65 6e 67 74 68 20 6f 66 20 25 64 20 62 79 74 65 73 21}
+		$s6 = {63 6f 75 6c 64 20 6e 6f 74 20 77 72 69 74 65 20 74 6f 20 70 72 6f 63 65 73 73 20 6d 65 6d 6f 72 79 3a 20 25 64}
+		$s7 = {25 73 2e 34 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78 2e 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78 2e 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78 2e 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78 2e 25 78 25 78 2e 25 73}
+		$s8 = {43 6f 75 6c 64 20 6e 6f 74 20 63 6f 6e 6e 65 63 74 20 74 6f 20 70 69 70 65 20 28 25 73 29 3a 20 25 64}
+		$b1 = {62 65 61 63 6f 6e 2e 64 6c 6c}
+		$b2 = {62 65 61 63 6f 6e 2e 78 38 36 2e 64 6c 6c}
+		$b3 = {62 65 61 63 6f 6e 2e 78 36 34 2e 64 6c 6c}
 
 	condition:
-		uint16(0)==0x5a4d and 
-		filesize <1000KB and 
-		( any of ($b*) or 
-			5 of ($s*))
+		uint16( 0 ) == 0x5a4d and filesize < 1000KB and ( any of ( $b* ) or 5 of ( $s* ) )
 }
 
-rule cobaltstrike_beacon_b64
+rule cobaltstrike_beacon_b64 : hardened
 {
 	meta:
 		score = 75
 
 	strings:
-		$s1a = "JWQgaXMgYW4geDY0IHByb2Nlc3MgKGNhbid0IGluam"
-		$s1b = "ZCBpcyBhbiB4NjQgcHJvY2VzcyAoY2FuJ3QgaW5qZW"
-		$s1c = "IGlzIGFuIHg2NCBwcm9jZXNzIChjYW4ndCBpbmplY3"
-		$s2a = "RmFpbGVkIHRvIGltcGVyc29uYXRlIGxvZ2dlZCBvbi"
-		$s2b = "YWlsZWQgdG8gaW1wZXJzb25hdGUgbG9nZ2VkIG9uIH"
-		$s2c = "aWxlZCB0byBpbXBlcnNvbmF0ZSBsb2dnZWQgb24gdX"
-		$s3a = "cG93ZXJzaGVsbCAtbm9wIC1leGVjIGJ5cGFzcyAtRW"
-		$s3b = "b3dlcnNoZWxsIC1ub3AgLWV4ZWMgYnlwYXNzIC1Fbm"
-		$s3c = "d2Vyc2hlbGwgLW5vcCAtZXhlYyBieXBhc3MgLUVuY2"
-		$s4a = "SUVYIChOZXctT2JqZWN0IE5ldC5XZWJjbGllbnQpLk"
-		$s4b = "RVggKE5ldy1PYmplY3QgTmV0LldlYmNsaWVudCkuRG"
-		$s4c = "WCAoTmV3LU9iamVjdCBOZXQuV2ViY2xpZW50KS5Eb3"
+		$s1a = {4a 57 51 67 61 58 4d 67 59 57 34 67 65 44 59 30 49 48 42 79 62 32 4e 6c 63 33 4d 67 4b 47 4e 68 62 69 64 30 49 47 6c 75 61 6d}
+		$s1b = {5a 43 42 70 63 79 42 68 62 69 42 34 4e 6a 51 67 63 48 4a 76 59 32 56 7a 63 79 41 6f 59 32 46 75 4a 33 51 67 61 57 35 71 5a 57}
+		$s1c = {49 47 6c 7a 49 47 46 75 49 48 67 32 4e 43 42 77 63 6d 39 6a 5a 58 4e 7a 49 43 68 6a 59 57 34 6e 64 43 42 70 62 6d 70 6c 59 33}
+		$s2a = {52 6d 46 70 62 47 56 6b 49 48 52 76 49 47 6c 74 63 47 56 79 63 32 39 75 59 58 52 6c 49 47 78 76 5a 32 64 6c 5a 43 42 76 62 69}
+		$s2b = {59 57 6c 73 5a 57 51 67 64 47 38 67 61 57 31 77 5a 58 4a 7a 62 32 35 68 64 47 55 67 62 47 39 6e 5a 32 56 6b 49 47 39 75 49 48}
+		$s2c = {61 57 78 6c 5a 43 42 30 62 79 42 70 62 58 42 6c 63 6e 4e 76 62 6d 46 30 5a 53 42 73 62 32 64 6e 5a 57 51 67 62 32 34 67 64 58}
+		$s3a = {63 47 39 33 5a 58 4a 7a 61 47 56 73 62 43 41 74 62 6d 39 77 49 43 31 6c 65 47 56 6a 49 47 4a 35 63 47 46 7a 63 79 41 74 52 57}
+		$s3b = {62 33 64 6c 63 6e 4e 6f 5a 57 78 73 49 43 31 75 62 33 41 67 4c 57 56 34 5a 57 4d 67 59 6e 6c 77 59 58 4e 7a 49 43 31 46 62 6d}
+		$s3c = {64 32 56 79 63 32 68 6c 62 47 77 67 4c 57 35 76 63 43 41 74 5a 58 68 6c 59 79 42 69 65 58 42 68 63 33 4d 67 4c 55 56 75 59 32}
+		$s4a = {53 55 56 59 49 43 68 4f 5a 58 63 74 54 32 4a 71 5a 57 4e 30 49 45 35 6c 64 43 35 58 5a 57 4a 6a 62 47 6c 6c 62 6e 51 70 4c 6b}
+		$s4b = {52 56 67 67 4b 45 35 6c 64 79 31 50 59 6d 70 6c 59 33 51 67 54 6d 56 30 4c 6c 64 6c 59 6d 4e 73 61 57 56 75 64 43 6b 75 52 47}
+		$s4c = {57 43 41 6f 54 6d 56 33 4c 55 39 69 61 6d 56 6a 64 43 42 4f 5a 58 51 75 56 32 56 69 59 32 78 70 5a 57 35 30 4b 53 35 45 62 33}
 
 	condition:
-		filesize <1000KB and 
-		5 of ($s*)
+		filesize < 1000KB and 5 of ( $s* )
 }
 
-rule CobaltStrike_Sleeve_BeaconLoader_HA_x86_o_v4_3_v4_4_v4_5_and_v4_6
+rule CobaltStrike_Sleeve_BeaconLoader_HA_x86_o_v4_3_v4_4_v4_5_and_v4_6 : hardened
 {
 	meta:
 		description = "Cobalt Strike's sleeve/BeaconLoader.HA.x86.o (HeapAlloc) Versions 4.3 through at least 4.6"
@@ -210,7 +197,7 @@ rule CobaltStrike_Sleeve_BeaconLoader_HA_x86_o_v4_3_v4_4_v4_5_and_v4_6
 		all of them
 }
 
-rule CobaltStrike_Sleeve_BeaconLoader_MVF_x86_o_v4_3_v4_4_v4_5_and_v4_6
+rule CobaltStrike_Sleeve_BeaconLoader_MVF_x86_o_v4_3_v4_4_v4_5_and_v4_6 : hardened
 {
 	meta:
 		description = "Cobalt Strike's sleeve/BeaconLoader.MVF.x86.o (MapViewOfFile) Versions 4.3 through at least 4.6"
@@ -246,7 +233,7 @@ rule CobaltStrike_Sleeve_BeaconLoader_MVF_x86_o_v4_3_v4_4_v4_5_and_v4_6
 		all of them
 }
 
-rule CobaltStrike_Sleeve_BeaconLoader_VA_x86_o_v4_3_v4_4_v4_5_and_v4_6
+rule CobaltStrike_Sleeve_BeaconLoader_VA_x86_o_v4_3_v4_4_v4_5_and_v4_6 : hardened
 {
 	meta:
 		description = "Cobalt Strike's sleeve/BeaconLoader.VA.x86.o (VirtualAlloc) Versions 4.3 through at least 4.6"
@@ -298,7 +285,7 @@ rule CobaltStrike_Sleeve_BeaconLoader_VA_x86_o_v4_3_v4_4_v4_5_and_v4_6
 		all of them
 }
 
-rule CobaltStrike_Sleeve_BeaconLoader_x86_o_v4_3_v4_4_v4_5_and_v4_6
+rule CobaltStrike_Sleeve_BeaconLoader_x86_o_v4_3_v4_4_v4_5_and_v4_6 : hardened
 {
 	meta:
 		description = "Cobalt Strike's sleeve/BeaconLoader.x86.o Versions 4.3 through at least 4.6"
@@ -347,11 +334,10 @@ rule CobaltStrike_Sleeve_BeaconLoader_x86_o_v4_3_v4_4_v4_5_and_v4_6
     }
 
 	condition:
-		$core_sig and 
-		not $deobfuscator
+		$core_sig and not $deobfuscator
 }
 
-rule CobaltStrike_Sleeve_BeaconLoader_HA_x64_o_v4_3_v4_4_v4_5_and_v4_6
+rule CobaltStrike_Sleeve_BeaconLoader_HA_x64_o_v4_3_v4_4_v4_5_and_v4_6 : hardened
 {
 	meta:
 		description = "Cobalt Strike's sleeve/BeaconLoader.HA.x64.o (HeapAlloc) Versions 4.3 through at least 4.6"
@@ -383,7 +369,7 @@ rule CobaltStrike_Sleeve_BeaconLoader_HA_x64_o_v4_3_v4_4_v4_5_and_v4_6
 		all of them
 }
 
-rule CobaltStrike_Sleeve_BeaconLoader_MVF_x64_o_v4_3_v4_4_v4_5_and_v4_6
+rule CobaltStrike_Sleeve_BeaconLoader_MVF_x64_o_v4_3_v4_4_v4_5_and_v4_6 : hardened
 {
 	meta:
 		description = "Cobalt Strike's sleeve/BeaconLoader.MVF.x64.o (MapViewOfFile) Versions 4.3 through at least 4.6"
@@ -418,7 +404,7 @@ rule CobaltStrike_Sleeve_BeaconLoader_MVF_x64_o_v4_3_v4_4_v4_5_and_v4_6
 		all of them
 }
 
-rule CobaltStrike_Sleeve_BeaconLoader_VA_x64_o_v4_3_v4_4_v4_5_and_v4_6
+rule CobaltStrike_Sleeve_BeaconLoader_VA_x64_o_v4_3_v4_4_v4_5_and_v4_6 : hardened
 {
 	meta:
 		description = "Cobalt Strike's sleeve/BeaconLoader.VA.x64.o (VirtualAlloc) Versions 4.3 through at least 4.6"
@@ -469,7 +455,7 @@ rule CobaltStrike_Sleeve_BeaconLoader_VA_x64_o_v4_3_v4_4_v4_5_and_v4_6
 		all of them
 }
 
-rule CobaltStrike_Sleeve_BeaconLoader_x64_o_v4_3_v4_4_v4_5_and_v4_6
+rule CobaltStrike_Sleeve_BeaconLoader_x64_o_v4_3_v4_4_v4_5_and_v4_6 : hardened
 {
 	meta:
 		description = "Cobalt Strike's sleeve/BeaconLoader.x64.o (Base) Versions 4.3 through at least 4.6"
@@ -526,11 +512,10 @@ rule CobaltStrike_Sleeve_BeaconLoader_x64_o_v4_3_v4_4_v4_5_and_v4_6
     }
 
 	condition:
-		$core_sig and 
-		not $deobfuscator
+		$core_sig and not $deobfuscator
 }
 
-rule MAL_CobaltStrike_Oct_2021_1
+rule MAL_CobaltStrike_Oct_2021_1 : hardened
 {
 	meta:
 		description = "Detect Cobalt Strike implant"
@@ -554,12 +539,10 @@ rule MAL_CobaltStrike_Oct_2021_1
 		$s4 = { 48 83 ec 48 44 89 4c 24 44 4c 89 44 24 38 48 89 54 24 30 48 89 4c 24 28 c7 44 24 24 ?? 00 00 00 48 8b 05 [3] 00 48 05 [2] 00 00 44 8b 4c 24 44 4c 8b 44 24 38 48 8b 54 24 30 48 8b 4c 24 28 ff d0 90 48 83 c4 }
 
 	condition:
-		uint16(0)==0x5A4D and 
-		filesize >20KB and 
-		3 of ($s*)
+		uint16( 0 ) == 0x5A4D and filesize > 20KB and 3 of ( $s* )
 }
 
-rule Windows_Trojan_CobaltStrike_c851687a
+rule Windows_Trojan_CobaltStrike_c851687a : hardened
 {
 	meta:
 		author = "Elastic Security"
@@ -580,32 +563,31 @@ rule Windows_Trojan_CobaltStrike_c851687a
 		score = 75
 
 	strings:
-		$a1 = "bypassuac.dll" ascii fullword
-		$a2 = "bypassuac.x64.dll" ascii fullword
-		$a3 = "\\\\.\\pipe\\bypassuac" ascii fullword
-		$b1 = "\\System32\\sysprep\\sysprep.exe" wide fullword
-		$b2 = "[-] Could not write temp DLL to '%S'" ascii fullword
-		$b3 = "[*] Cleanup successful" ascii fullword
-		$b4 = "\\System32\\cliconfg.exe" wide fullword
-		$b5 = "\\System32\\eventvwr.exe" wide fullword
-		$b6 = "[-] %S ran too long. Could not terminate the process." ascii fullword
-		$b7 = "[*] Wrote hijack DLL to '%S'" ascii fullword
-		$b8 = "\\System32\\sysprep\\" wide fullword
-		$b9 = "[-] COM initialization failed." ascii fullword
-		$b10 = "[-] Privileged file copy failed: %S" ascii fullword
-		$b11 = "[-] Failed to start %S: %d" ascii fullword
-		$b12 = "ReflectiveLoader"
-		$b13 = "[-] '%S' exists in DLL hijack location." ascii fullword
-		$b14 = "[-] Cleanup failed. Remove: %S" ascii fullword
-		$b15 = "[+] %S ran and exited." ascii fullword
-		$b16 = "[+] Privileged file copy success! %S" ascii fullword
+		$a1 = {62 79 70 61 73 73 75 61 63 2e 64 6c 6c}
+		$a2 = {62 79 70 61 73 73 75 61 63 2e 78 36 34 2e 64 6c 6c}
+		$a3 = {5c 5c 2e 5c 70 69 70 65 5c 62 79 70 61 73 73 75 61 63}
+		$b1 = {5c 00 53 00 79 00 73 00 74 00 65 00 6d 00 33 00 32 00 5c 00 73 00 79 00 73 00 70 00 72 00 65 00 70 00 5c 00 73 00 79 00 73 00 70 00 72 00 65 00 70 00 2e 00 65 00 78 00 65 00}
+		$b2 = {5b 2d 5d 20 43 6f 75 6c 64 20 6e 6f 74 20 77 72 69 74 65 20 74 65 6d 70 20 44 4c 4c 20 74 6f 20 27 25 53 27}
+		$b3 = {5b 2a 5d 20 43 6c 65 61 6e 75 70 20 73 75 63 63 65 73 73 66 75 6c}
+		$b4 = {5c 00 53 00 79 00 73 00 74 00 65 00 6d 00 33 00 32 00 5c 00 63 00 6c 00 69 00 63 00 6f 00 6e 00 66 00 67 00 2e 00 65 00 78 00 65 00}
+		$b5 = {5c 00 53 00 79 00 73 00 74 00 65 00 6d 00 33 00 32 00 5c 00 65 00 76 00 65 00 6e 00 74 00 76 00 77 00 72 00 2e 00 65 00 78 00 65 00}
+		$b6 = {5b 2d 5d 20 25 53 20 72 61 6e 20 74 6f 6f 20 6c 6f 6e 67 2e 20 43 6f 75 6c 64 20 6e 6f 74 20 74 65 72 6d 69 6e 61 74 65 20 74 68 65 20 70 72 6f 63 65 73 73 2e}
+		$b7 = {5b 2a 5d 20 57 72 6f 74 65 20 68 69 6a 61 63 6b 20 44 4c 4c 20 74 6f 20 27 25 53 27}
+		$b8 = {5c 00 53 00 79 00 73 00 74 00 65 00 6d 00 33 00 32 00 5c 00 73 00 79 00 73 00 70 00 72 00 65 00 70 00 5c 00}
+		$b9 = {5b 2d 5d 20 43 4f 4d 20 69 6e 69 74 69 61 6c 69 7a 61 74 69 6f 6e 20 66 61 69 6c 65 64 2e}
+		$b10 = {5b 2d 5d 20 50 72 69 76 69 6c 65 67 65 64 20 66 69 6c 65 20 63 6f 70 79 20 66 61 69 6c 65 64 3a 20 25 53}
+		$b11 = {5b 2d 5d 20 46 61 69 6c 65 64 20 74 6f 20 73 74 61 72 74 20 25 53 3a 20 25 64}
+		$b12 = {52 65 66 6c 65 63 74 69 76 65 4c 6f 61 64 65 72}
+		$b13 = {5b 2d 5d 20 27 25 53 27 20 65 78 69 73 74 73 20 69 6e 20 44 4c 4c 20 68 69 6a 61 63 6b 20 6c 6f 63 61 74 69 6f 6e 2e}
+		$b14 = {5b 2d 5d 20 43 6c 65 61 6e 75 70 20 66 61 69 6c 65 64 2e 20 52 65 6d 6f 76 65 3a 20 25 53}
+		$b15 = {5b 2b 5d 20 25 53 20 72 61 6e 20 61 6e 64 20 65 78 69 74 65 64 2e}
+		$b16 = {5b 2b 5d 20 50 72 69 76 69 6c 65 67 65 64 20 66 69 6c 65 20 63 6f 70 79 20 73 75 63 63 65 73 73 21 20 25 53}
 
 	condition:
-		2 of ($a*) or 
-		10 of ($b*)
+		2 of ( $a* ) or 10 of ( $b* )
 }
 
-rule Windows_Trojan_CobaltStrike_0b58325e
+rule Windows_Trojan_CobaltStrike_0b58325e : hardened
 {
 	meta:
 		author = "Elastic Security"
@@ -626,34 +608,33 @@ rule Windows_Trojan_CobaltStrike_0b58325e
 		score = 75
 
 	strings:
-		$a1 = "keylogger.dll" ascii fullword
-		$a2 = "keylogger.x64.dll" ascii fullword
-		$a3 = "\\\\.\\pipe\\keylogger" ascii fullword
-		$a4 = "%cE=======%c" ascii fullword
-		$a5 = "[unknown: %02X]" ascii fullword
-		$b1 = "ReflectiveLoader"
-		$b2 = "%c2%s%c" ascii fullword
-		$b3 = "[numlock]" ascii fullword
-		$b4 = "%cC%s" ascii fullword
-		$b5 = "[backspace]" ascii fullword
-		$b6 = "[scroll lock]" ascii fullword
-		$b7 = "[control]" ascii fullword
-		$b8 = "[left]" ascii fullword
-		$b9 = "[page up]" ascii fullword
-		$b10 = "[page down]" ascii fullword
-		$b11 = "[prtscr]" ascii fullword
-		$b12 = "ZRich9" ascii fullword
-		$b13 = "[ctrl]" ascii fullword
-		$b14 = "[home]" ascii fullword
-		$b15 = "[pause]" ascii fullword
-		$b16 = "[clear]" ascii fullword
+		$a1 = {6b 65 79 6c 6f 67 67 65 72 2e 64 6c 6c}
+		$a2 = {6b 65 79 6c 6f 67 67 65 72 2e 78 36 34 2e 64 6c 6c}
+		$a3 = {5c 5c 2e 5c 70 69 70 65 5c 6b 65 79 6c 6f 67 67 65 72}
+		$a4 = {25 63 45 3d 3d 3d 3d 3d 3d 3d 25 63}
+		$a5 = {5b 75 6e 6b 6e 6f 77 6e 3a 20 25 30 32 58 5d}
+		$b1 = {52 65 66 6c 65 63 74 69 76 65 4c 6f 61 64 65 72}
+		$b2 = {25 63 32 25 73 25 63}
+		$b3 = {5b 6e 75 6d 6c 6f 63 6b 5d}
+		$b4 = {25 63 43 25 73}
+		$b5 = {5b 62 61 63 6b 73 70 61 63 65 5d}
+		$b6 = {5b 73 63 72 6f 6c 6c 20 6c 6f 63 6b 5d}
+		$b7 = {5b 63 6f 6e 74 72 6f 6c 5d}
+		$b8 = {5b 6c 65 66 74 5d}
+		$b9 = {5b 70 61 67 65 20 75 70 5d}
+		$b10 = {5b 70 61 67 65 20 64 6f 77 6e 5d}
+		$b11 = {5b 70 72 74 73 63 72 5d}
+		$b12 = {5a 52 69 63 68 39}
+		$b13 = {5b 63 74 72 6c 5d}
+		$b14 = {5b 68 6f 6d 65 5d}
+		$b15 = {5b 70 61 75 73 65 5d}
+		$b16 = {5b 63 6c 65 61 72 5d}
 
 	condition:
-		1 of ($a*) and 
-		14 of ($b*)
+		1 of ( $a* ) and 14 of ( $b* )
 }
 
-rule Windows_Trojan_CobaltStrike_2b8cddf8
+rule Windows_Trojan_CobaltStrike_2b8cddf8 : hardened
 {
 	meta:
 		author = "Elastic Security"
@@ -674,32 +655,30 @@ rule Windows_Trojan_CobaltStrike_2b8cddf8
 		score = 75
 
 	strings:
-		$a1 = "Z:\\devcenter\\aggressor\\external\\pxlib\\bin\\dllload.x64.o" ascii fullword
-		$a2 = "Z:\\devcenter\\aggressor\\external\\pxlib\\bin\\dllload.x86.o" ascii fullword
-		$b1 = "__imp_BeaconErrorDD" ascii fullword
-		$b2 = "__imp_BeaconErrorNA" ascii fullword
-		$b3 = "__imp_BeaconErrorD" ascii fullword
-		$b4 = "__imp_BeaconDataInt" ascii fullword
-		$b5 = "__imp_KERNEL32$WriteProcessMemory" ascii fullword
-		$b6 = "__imp_KERNEL32$OpenProcess" ascii fullword
-		$b7 = "__imp_KERNEL32$CreateRemoteThread" ascii fullword
-		$b8 = "__imp_KERNEL32$VirtualAllocEx" ascii fullword
-		$c1 = "__imp__BeaconErrorDD" ascii fullword
-		$c2 = "__imp__BeaconErrorNA" ascii fullword
-		$c3 = "__imp__BeaconErrorD" ascii fullword
-		$c4 = "__imp__BeaconDataInt" ascii fullword
-		$c5 = "__imp__KERNEL32$WriteProcessMemory" ascii fullword
-		$c6 = "__imp__KERNEL32$OpenProcess" ascii fullword
-		$c7 = "__imp__KERNEL32$CreateRemoteThread" ascii fullword
-		$c8 = "__imp__KERNEL32$VirtualAllocEx" ascii fullword
+		$a1 = {5a 3a 5c 64 65 76 63 65 6e 74 65 72 5c 61 67 67 72 65 73 73 6f 72 5c 65 78 74 65 72 6e 61 6c 5c 70 78 6c 69 62 5c 62 69 6e 5c 64 6c 6c 6c 6f 61 64 2e 78 36 34 2e 6f}
+		$a2 = {5a 3a 5c 64 65 76 63 65 6e 74 65 72 5c 61 67 67 72 65 73 73 6f 72 5c 65 78 74 65 72 6e 61 6c 5c 70 78 6c 69 62 5c 62 69 6e 5c 64 6c 6c 6c 6f 61 64 2e 78 38 36 2e 6f}
+		$b1 = {5f 5f 69 6d 70 5f 42 65 61 63 6f 6e 45 72 72 6f 72 44 44}
+		$b2 = {5f 5f 69 6d 70 5f 42 65 61 63 6f 6e 45 72 72 6f 72 4e 41}
+		$b3 = {5f 5f 69 6d 70 5f 42 65 61 63 6f 6e 45 72 72 6f 72 44}
+		$b4 = {5f 5f 69 6d 70 5f 42 65 61 63 6f 6e 44 61 74 61 49 6e 74}
+		$b5 = {5f 5f 69 6d 70 5f 4b 45 52 4e 45 4c 33 32 24 57 72 69 74 65 50 72 6f 63 65 73 73 4d 65 6d 6f 72 79}
+		$b6 = {5f 5f 69 6d 70 5f 4b 45 52 4e 45 4c 33 32 24 4f 70 65 6e 50 72 6f 63 65 73 73}
+		$b7 = {5f 5f 69 6d 70 5f 4b 45 52 4e 45 4c 33 32 24 43 72 65 61 74 65 52 65 6d 6f 74 65 54 68 72 65 61 64}
+		$b8 = {5f 5f 69 6d 70 5f 4b 45 52 4e 45 4c 33 32 24 56 69 72 74 75 61 6c 41 6c 6c 6f 63 45 78}
+		$c1 = {5f 5f 69 6d 70 5f 5f 42 65 61 63 6f 6e 45 72 72 6f 72 44 44}
+		$c2 = {5f 5f 69 6d 70 5f 5f 42 65 61 63 6f 6e 45 72 72 6f 72 4e 41}
+		$c3 = {5f 5f 69 6d 70 5f 5f 42 65 61 63 6f 6e 45 72 72 6f 72 44}
+		$c4 = {5f 5f 69 6d 70 5f 5f 42 65 61 63 6f 6e 44 61 74 61 49 6e 74}
+		$c5 = {5f 5f 69 6d 70 5f 5f 4b 45 52 4e 45 4c 33 32 24 57 72 69 74 65 50 72 6f 63 65 73 73 4d 65 6d 6f 72 79}
+		$c6 = {5f 5f 69 6d 70 5f 5f 4b 45 52 4e 45 4c 33 32 24 4f 70 65 6e 50 72 6f 63 65 73 73}
+		$c7 = {5f 5f 69 6d 70 5f 5f 4b 45 52 4e 45 4c 33 32 24 43 72 65 61 74 65 52 65 6d 6f 74 65 54 68 72 65 61 64}
+		$c8 = {5f 5f 69 6d 70 5f 5f 4b 45 52 4e 45 4c 33 32 24 56 69 72 74 75 61 6c 41 6c 6c 6f 63 45 78}
 
 	condition:
-		1 of ($a*) or 
-		5 of ($b*) or 
-		5 of ($c*)
+		1 of ( $a* ) or 5 of ( $b* ) or 5 of ( $c* )
 }
 
-rule Windows_Trojan_CobaltStrike_59b44767
+rule Windows_Trojan_CobaltStrike_59b44767 : hardened
 {
 	meta:
 		author = "Elastic Security"
@@ -720,23 +699,21 @@ rule Windows_Trojan_CobaltStrike_59b44767
 		score = 75
 
 	strings:
-		$a1 = "Z:\\devcenter\\aggressor\\external\\pxlib\\bin\\getsystem.x86.o" ascii fullword
-		$a2 = "Z:\\devcenter\\aggressor\\external\\pxlib\\bin\\getsystem.x64.o" ascii fullword
-		$b1 = "getsystem failed." ascii fullword
-		$b2 = "_isSystemSID" ascii fullword
-		$b3 = "__imp__NTDLL$NtQuerySystemInformation@16" ascii fullword
-		$c1 = "getsystem failed." ascii fullword
-		$c2 = "$pdata$isSystemSID" ascii fullword
-		$c3 = "$unwind$isSystemSID" ascii fullword
-		$c4 = "__imp_NTDLL$NtQuerySystemInformation" ascii fullword
+		$a1 = {5a 3a 5c 64 65 76 63 65 6e 74 65 72 5c 61 67 67 72 65 73 73 6f 72 5c 65 78 74 65 72 6e 61 6c 5c 70 78 6c 69 62 5c 62 69 6e 5c 67 65 74 73 79 73 74 65 6d 2e 78 38 36 2e 6f}
+		$a2 = {5a 3a 5c 64 65 76 63 65 6e 74 65 72 5c 61 67 67 72 65 73 73 6f 72 5c 65 78 74 65 72 6e 61 6c 5c 70 78 6c 69 62 5c 62 69 6e 5c 67 65 74 73 79 73 74 65 6d 2e 78 36 34 2e 6f}
+		$b1 = {67 65 74 73 79 73 74 65 6d 20 66 61 69 6c 65 64 2e}
+		$b2 = {5f 69 73 53 79 73 74 65 6d 53 49 44}
+		$b3 = {5f 5f 69 6d 70 5f 5f 4e 54 44 4c 4c 24 4e 74 51 75 65 72 79 53 79 73 74 65 6d 49 6e 66 6f 72 6d 61 74 69 6f 6e 40 31 36}
+		$c1 = {67 65 74 73 79 73 74 65 6d 20 66 61 69 6c 65 64 2e}
+		$c2 = {24 70 64 61 74 61 24 69 73 53 79 73 74 65 6d 53 49 44}
+		$c3 = {24 75 6e 77 69 6e 64 24 69 73 53 79 73 74 65 6d 53 49 44}
+		$c4 = {5f 5f 69 6d 70 5f 4e 54 44 4c 4c 24 4e 74 51 75 65 72 79 53 79 73 74 65 6d 49 6e 66 6f 72 6d 61 74 69 6f 6e}
 
 	condition:
-		1 of ($a*) or 
-		3 of ($b*) or 
-		3 of ($c*)
+		1 of ( $a* ) or 3 of ( $b* ) or 3 of ( $c* )
 }
 
-rule Windows_Trojan_CobaltStrike_7efd3c3f
+rule Windows_Trojan_CobaltStrike_7efd3c3f : hardened
 {
 	meta:
 		author = "Elastic Security"
@@ -757,19 +734,19 @@ rule Windows_Trojan_CobaltStrike_7efd3c3f
 		score = 75
 
 	strings:
-		$a1 = "hashdump.dll" ascii fullword
-		$a2 = "hashdump.x64.dll" ascii fullword
-		$a3 = "\\\\.\\pipe\\hashdump" ascii fullword
-		$a4 = "ReflectiveLoader"
-		$a5 = "Global\\SAM" ascii fullword
-		$a6 = "Global\\FREE" ascii fullword
-		$a7 = "[-] no results." ascii fullword
+		$a1 = {68 61 73 68 64 75 6d 70 2e 64 6c 6c}
+		$a2 = {68 61 73 68 64 75 6d 70 2e 78 36 34 2e 64 6c 6c}
+		$a3 = {5c 5c 2e 5c 70 69 70 65 5c 68 61 73 68 64 75 6d 70}
+		$a4 = {52 65 66 6c 65 63 74 69 76 65 4c 6f 61 64 65 72}
+		$a5 = {47 6c 6f 62 61 6c 5c 53 41 4d}
+		$a6 = {47 6c 6f 62 61 6c 5c 46 52 45 45}
+		$a7 = {5b 2d 5d 20 6e 6f 20 72 65 73 75 6c 74 73 2e}
 
 	condition:
-		4 of ($a*)
+		4 of ( $a* )
 }
 
-rule Windows_Trojan_CobaltStrike_6e971281
+rule Windows_Trojan_CobaltStrike_6e971281 : hardened
 {
 	meta:
 		author = "Elastic Security"
@@ -790,28 +767,26 @@ rule Windows_Trojan_CobaltStrike_6e971281
 		score = 75
 
 	strings:
-		$a1 = "Z:\\devcenter\\aggressor\\external\\pxlib\\bin\\interfaces.x64.o" ascii fullword
-		$a2 = "Z:\\devcenter\\aggressor\\external\\pxlib\\bin\\interfaces.x86.o" ascii fullword
-		$b1 = "__imp_BeaconFormatAlloc" ascii fullword
-		$b2 = "__imp_BeaconFormatPrintf" ascii fullword
-		$b3 = "__imp_BeaconOutput" ascii fullword
-		$b4 = "__imp_KERNEL32$LocalAlloc" ascii fullword
-		$b5 = "__imp_KERNEL32$LocalFree" ascii fullword
-		$b6 = "__imp_LoadLibraryA" ascii fullword
-		$c1 = "__imp__BeaconFormatAlloc" ascii fullword
-		$c2 = "__imp__BeaconFormatPrintf" ascii fullword
-		$c3 = "__imp__BeaconOutput" ascii fullword
-		$c4 = "__imp__KERNEL32$LocalAlloc" ascii fullword
-		$c5 = "__imp__KERNEL32$LocalFree" ascii fullword
-		$c6 = "__imp__LoadLibraryA" ascii fullword
+		$a1 = {5a 3a 5c 64 65 76 63 65 6e 74 65 72 5c 61 67 67 72 65 73 73 6f 72 5c 65 78 74 65 72 6e 61 6c 5c 70 78 6c 69 62 5c 62 69 6e 5c 69 6e 74 65 72 66 61 63 65 73 2e 78 36 34 2e 6f}
+		$a2 = {5a 3a 5c 64 65 76 63 65 6e 74 65 72 5c 61 67 67 72 65 73 73 6f 72 5c 65 78 74 65 72 6e 61 6c 5c 70 78 6c 69 62 5c 62 69 6e 5c 69 6e 74 65 72 66 61 63 65 73 2e 78 38 36 2e 6f}
+		$b1 = {5f 5f 69 6d 70 5f 42 65 61 63 6f 6e 46 6f 72 6d 61 74 41 6c 6c 6f 63}
+		$b2 = {5f 5f 69 6d 70 5f 42 65 61 63 6f 6e 46 6f 72 6d 61 74 50 72 69 6e 74 66}
+		$b3 = {5f 5f 69 6d 70 5f 42 65 61 63 6f 6e 4f 75 74 70 75 74}
+		$b4 = {5f 5f 69 6d 70 5f 4b 45 52 4e 45 4c 33 32 24 4c 6f 63 61 6c 41 6c 6c 6f 63}
+		$b5 = {5f 5f 69 6d 70 5f 4b 45 52 4e 45 4c 33 32 24 4c 6f 63 61 6c 46 72 65 65}
+		$b6 = {5f 5f 69 6d 70 5f 4c 6f 61 64 4c 69 62 72 61 72 79 41}
+		$c1 = {5f 5f 69 6d 70 5f 5f 42 65 61 63 6f 6e 46 6f 72 6d 61 74 41 6c 6c 6f 63}
+		$c2 = {5f 5f 69 6d 70 5f 5f 42 65 61 63 6f 6e 46 6f 72 6d 61 74 50 72 69 6e 74 66}
+		$c3 = {5f 5f 69 6d 70 5f 5f 42 65 61 63 6f 6e 4f 75 74 70 75 74}
+		$c4 = {5f 5f 69 6d 70 5f 5f 4b 45 52 4e 45 4c 33 32 24 4c 6f 63 61 6c 41 6c 6c 6f 63}
+		$c5 = {5f 5f 69 6d 70 5f 5f 4b 45 52 4e 45 4c 33 32 24 4c 6f 63 61 6c 46 72 65 65}
+		$c6 = {5f 5f 69 6d 70 5f 5f 4c 6f 61 64 4c 69 62 72 61 72 79 41}
 
 	condition:
-		1 of ($a*) or 
-		4 of ($b*) or 
-		4 of ($c*)
+		1 of ( $a* ) or 4 of ( $b* ) or 4 of ( $c* )
 }
 
-rule Windows_Trojan_CobaltStrike_09b79efa
+rule Windows_Trojan_CobaltStrike_09b79efa : hardened
 {
 	meta:
 		author = "Elastic Security"
@@ -832,26 +807,24 @@ rule Windows_Trojan_CobaltStrike_09b79efa
 		score = 75
 
 	strings:
-		$a1 = "invokeassembly.x64.dll" ascii fullword
-		$a2 = "invokeassembly.dll" ascii fullword
-		$b1 = "[-] Failed to get default AppDomain w/hr 0x%08lx" ascii fullword
-		$b2 = "[-] Failed to load the assembly w/hr 0x%08lx" ascii fullword
-		$b3 = "[-] Failed to create the runtime host" ascii fullword
-		$b4 = "[-] Invoke_3 on EntryPoint failed." ascii fullword
-		$b5 = "[-] CLR failed to start w/hr 0x%08lx" ascii fullword
-		$b6 = "ReflectiveLoader"
-		$b7 = ".NET runtime [ver %S] cannot be loaded" ascii fullword
-		$b8 = "[-] No .NET runtime found. :(" ascii fullword
-		$b9 = "[-] ICorRuntimeHost::GetDefaultDomain failed w/hr 0x%08lx" ascii fullword
+		$a1 = {69 6e 76 6f 6b 65 61 73 73 65 6d 62 6c 79 2e 78 36 34 2e 64 6c 6c}
+		$a2 = {69 6e 76 6f 6b 65 61 73 73 65 6d 62 6c 79 2e 64 6c 6c}
+		$b1 = {5b 2d 5d 20 46 61 69 6c 65 64 20 74 6f 20 67 65 74 20 64 65 66 61 75 6c 74 20 41 70 70 44 6f 6d 61 69 6e 20 77 2f 68 72 20 30 78 25 30 38 6c 78}
+		$b2 = {5b 2d 5d 20 46 61 69 6c 65 64 20 74 6f 20 6c 6f 61 64 20 74 68 65 20 61 73 73 65 6d 62 6c 79 20 77 2f 68 72 20 30 78 25 30 38 6c 78}
+		$b3 = {5b 2d 5d 20 46 61 69 6c 65 64 20 74 6f 20 63 72 65 61 74 65 20 74 68 65 20 72 75 6e 74 69 6d 65 20 68 6f 73 74}
+		$b4 = {5b 2d 5d 20 49 6e 76 6f 6b 65 5f 33 20 6f 6e 20 45 6e 74 72 79 50 6f 69 6e 74 20 66 61 69 6c 65 64 2e}
+		$b5 = {5b 2d 5d 20 43 4c 52 20 66 61 69 6c 65 64 20 74 6f 20 73 74 61 72 74 20 77 2f 68 72 20 30 78 25 30 38 6c 78}
+		$b6 = {52 65 66 6c 65 63 74 69 76 65 4c 6f 61 64 65 72}
+		$b7 = {2e 4e 45 54 20 72 75 6e 74 69 6d 65 20 5b 76 65 72 20 25 53 5d 20 63 61 6e 6e 6f 74 20 62 65 20 6c 6f 61 64 65 64}
+		$b8 = {5b 2d 5d 20 4e 6f 20 2e 4e 45 54 20 72 75 6e 74 69 6d 65 20 66 6f 75 6e 64 2e 20 3a 28}
+		$b9 = {5b 2d 5d 20 49 43 6f 72 52 75 6e 74 69 6d 65 48 6f 73 74 3a 3a 47 65 74 44 65 66 61 75 6c 74 44 6f 6d 61 69 6e 20 66 61 69 6c 65 64 20 77 2f 68 72 20 30 78 25 30 38 6c 78}
 		$c1 = { FF 57 0C 85 C0 78 40 8B 45 F8 8D 55 F4 8B 08 52 50 }
 
 	condition:
-		1 of ($a*) or 
-		3 of ($b*) or 
-		1 of ($c*)
+		1 of ( $a* ) or 3 of ( $b* ) or 1 of ( $c* )
 }
 
-rule Windows_Trojan_CobaltStrike_6e77233e
+rule Windows_Trojan_CobaltStrike_6e77233e : hardened
 {
 	meta:
 		author = "Elastic Security"
@@ -872,31 +845,30 @@ rule Windows_Trojan_CobaltStrike_6e77233e
 		score = 75
 
 	strings:
-		$a1 = "Z:\\devcenter\\aggressor\\external\\pxlib\\bin\\kerberos.x64.o" ascii fullword
-		$a2 = "$unwind$command_kerberos_ticket_use" ascii fullword
-		$a3 = "$pdata$command_kerberos_ticket_use" ascii fullword
-		$a4 = "command_kerberos_ticket_use" ascii fullword
-		$a5 = "$pdata$command_kerberos_ticket_purge" ascii fullword
-		$a6 = "command_kerberos_ticket_purge" ascii fullword
-		$a7 = "$unwind$command_kerberos_ticket_purge" ascii fullword
-		$a8 = "$unwind$kerberos_init" ascii fullword
-		$a9 = "$unwind$KerberosTicketUse" ascii fullword
-		$a10 = "KerberosTicketUse" ascii fullword
-		$a11 = "$unwind$KerberosTicketPurge" ascii fullword
-		$b1 = "Z:\\devcenter\\aggressor\\external\\pxlib\\bin\\kerberos.x86.o" ascii fullword
-		$b2 = "_command_kerberos_ticket_use" ascii fullword
-		$b3 = "_command_kerberos_ticket_purge" ascii fullword
-		$b4 = "_kerberos_init" ascii fullword
-		$b5 = "_KerberosTicketUse" ascii fullword
-		$b6 = "_KerberosTicketPurge" ascii fullword
-		$b7 = "_LsaCallKerberosPackage" ascii fullword
+		$a1 = {5a 3a 5c 64 65 76 63 65 6e 74 65 72 5c 61 67 67 72 65 73 73 6f 72 5c 65 78 74 65 72 6e 61 6c 5c 70 78 6c 69 62 5c 62 69 6e 5c 6b 65 72 62 65 72 6f 73 2e 78 36 34 2e 6f}
+		$a2 = {24 75 6e 77 69 6e 64 24 63 6f 6d 6d 61 6e 64 5f 6b 65 72 62 65 72 6f 73 5f 74 69 63 6b 65 74 5f 75 73 65}
+		$a3 = {24 70 64 61 74 61 24 63 6f 6d 6d 61 6e 64 5f 6b 65 72 62 65 72 6f 73 5f 74 69 63 6b 65 74 5f 75 73 65}
+		$a4 = {63 6f 6d 6d 61 6e 64 5f 6b 65 72 62 65 72 6f 73 5f 74 69 63 6b 65 74 5f 75 73 65}
+		$a5 = {24 70 64 61 74 61 24 63 6f 6d 6d 61 6e 64 5f 6b 65 72 62 65 72 6f 73 5f 74 69 63 6b 65 74 5f 70 75 72 67 65}
+		$a6 = {63 6f 6d 6d 61 6e 64 5f 6b 65 72 62 65 72 6f 73 5f 74 69 63 6b 65 74 5f 70 75 72 67 65}
+		$a7 = {24 75 6e 77 69 6e 64 24 63 6f 6d 6d 61 6e 64 5f 6b 65 72 62 65 72 6f 73 5f 74 69 63 6b 65 74 5f 70 75 72 67 65}
+		$a8 = {24 75 6e 77 69 6e 64 24 6b 65 72 62 65 72 6f 73 5f 69 6e 69 74}
+		$a9 = {24 75 6e 77 69 6e 64 24 4b 65 72 62 65 72 6f 73 54 69 63 6b 65 74 55 73 65}
+		$a10 = {4b 65 72 62 65 72 6f 73 54 69 63 6b 65 74 55 73 65}
+		$a11 = {24 75 6e 77 69 6e 64 24 4b 65 72 62 65 72 6f 73 54 69 63 6b 65 74 50 75 72 67 65}
+		$b1 = {5a 3a 5c 64 65 76 63 65 6e 74 65 72 5c 61 67 67 72 65 73 73 6f 72 5c 65 78 74 65 72 6e 61 6c 5c 70 78 6c 69 62 5c 62 69 6e 5c 6b 65 72 62 65 72 6f 73 2e 78 38 36 2e 6f}
+		$b2 = {5f 63 6f 6d 6d 61 6e 64 5f 6b 65 72 62 65 72 6f 73 5f 74 69 63 6b 65 74 5f 75 73 65}
+		$b3 = {5f 63 6f 6d 6d 61 6e 64 5f 6b 65 72 62 65 72 6f 73 5f 74 69 63 6b 65 74 5f 70 75 72 67 65}
+		$b4 = {5f 6b 65 72 62 65 72 6f 73 5f 69 6e 69 74}
+		$b5 = {5f 4b 65 72 62 65 72 6f 73 54 69 63 6b 65 74 55 73 65}
+		$b6 = {5f 4b 65 72 62 65 72 6f 73 54 69 63 6b 65 74 50 75 72 67 65}
+		$b7 = {5f 4c 73 61 43 61 6c 6c 4b 65 72 62 65 72 6f 73 50 61 63 6b 61 67 65}
 
 	condition:
-		5 of ($a*) or 
-		3 of ($b*)
+		5 of ( $a* ) or 3 of ( $b* )
 }
 
-rule Windows_Trojan_CobaltStrike_de42495a
+rule Windows_Trojan_CobaltStrike_de42495a : hardened
 {
 	meta:
 		author = "Elastic Security"
@@ -917,26 +889,25 @@ rule Windows_Trojan_CobaltStrike_de42495a
 		score = 75
 
 	strings:
-		$a1 = "\\\\.\\pipe\\mimikatz" ascii fullword
-		$b1 = "ERROR kuhl_m_dpapi_chrome ; Input 'Login Data' file needed (/in:\"%%localappdata%%\\Google\\Chrome\\User Data\\Default\\Login Da" wide
-		$b2 = "ERROR kuhl_m_lsadump_getUsersAndSamKey ; kull_m_registry_RegOpenKeyEx SAM Accounts (0x%08x)" wide fullword
-		$b3 = "ERROR kuhl_m_lsadump_getUsersAndSamKey ; kuhl_m_lsadump_getSamKey KO" wide fullword
-		$b4 = "ERROR kuhl_m_lsadump_getComputerAndSyskey ; kull_m_registry_RegOpenKeyEx LSA KO" wide fullword
-		$b5 = "ERROR kuhl_m_lsadump_lsa_getHandle ; OpenProcess (0x%08x)" wide fullword
-		$b6 = "ERROR kuhl_m_lsadump_enumdomains_users ; SamLookupNamesInDomain: %08x" wide fullword
-		$b7 = "mimikatz(powershell) # %s" wide fullword
-		$b8 = "powershell_reflective_mimikatz" ascii fullword
-		$b9 = "mimikatz_dpapi_cache.ndr" wide fullword
-		$b10 = "mimikatz.log" wide fullword
-		$b11 = "ERROR mimikatz_doLocal" wide
-		$b12 = "mimikatz_x64.compressed" wide
+		$a1 = {5c 5c 2e 5c 70 69 70 65 5c 6d 69 6d 69 6b 61 74 7a}
+		$b1 = {45 00 52 00 52 00 4f 00 52 00 20 00 6b 00 75 00 68 00 6c 00 5f 00 6d 00 5f 00 64 00 70 00 61 00 70 00 69 00 5f 00 63 00 68 00 72 00 6f 00 6d 00 65 00 20 00 3b 00 20 00 49 00 6e 00 70 00 75 00 74 00 20 00 27 00 4c 00 6f 00 67 00 69 00 6e 00 20 00 44 00 61 00 74 00 61 00 27 00 20 00 66 00 69 00 6c 00 65 00 20 00 6e 00 65 00 65 00 64 00 65 00 64 00 20 00 28 00 2f 00 69 00 6e 00 3a 00 22 00 25 00 25 00 6c 00 6f 00 63 00 61 00 6c 00 61 00 70 00 70 00 64 00 61 00 74 00 61 00 25 00 25 00 5c 00 47 00 6f 00 6f 00 67 00 6c 00 65 00 5c 00 43 00 68 00 72 00 6f 00 6d 00 65 00 5c 00 55 00 73 00 65 00 72 00 20 00 44 00 61 00 74 00 61 00 5c 00 44 00 65 00 66 00 61 00 75 00 6c 00 74 00 5c 00 4c 00 6f 00 67 00 69 00 6e 00 20 00 44 00 61 00}
+		$b2 = {45 00 52 00 52 00 4f 00 52 00 20 00 6b 00 75 00 68 00 6c 00 5f 00 6d 00 5f 00 6c 00 73 00 61 00 64 00 75 00 6d 00 70 00 5f 00 67 00 65 00 74 00 55 00 73 00 65 00 72 00 73 00 41 00 6e 00 64 00 53 00 61 00 6d 00 4b 00 65 00 79 00 20 00 3b 00 20 00 6b 00 75 00 6c 00 6c 00 5f 00 6d 00 5f 00 72 00 65 00 67 00 69 00 73 00 74 00 72 00 79 00 5f 00 52 00 65 00 67 00 4f 00 70 00 65 00 6e 00 4b 00 65 00 79 00 45 00 78 00 20 00 53 00 41 00 4d 00 20 00 41 00 63 00 63 00 6f 00 75 00 6e 00 74 00 73 00 20 00 28 00 30 00 78 00 25 00 30 00 38 00 78 00 29 00}
+		$b3 = {45 00 52 00 52 00 4f 00 52 00 20 00 6b 00 75 00 68 00 6c 00 5f 00 6d 00 5f 00 6c 00 73 00 61 00 64 00 75 00 6d 00 70 00 5f 00 67 00 65 00 74 00 55 00 73 00 65 00 72 00 73 00 41 00 6e 00 64 00 53 00 61 00 6d 00 4b 00 65 00 79 00 20 00 3b 00 20 00 6b 00 75 00 68 00 6c 00 5f 00 6d 00 5f 00 6c 00 73 00 61 00 64 00 75 00 6d 00 70 00 5f 00 67 00 65 00 74 00 53 00 61 00 6d 00 4b 00 65 00 79 00 20 00 4b 00 4f 00}
+		$b4 = {45 00 52 00 52 00 4f 00 52 00 20 00 6b 00 75 00 68 00 6c 00 5f 00 6d 00 5f 00 6c 00 73 00 61 00 64 00 75 00 6d 00 70 00 5f 00 67 00 65 00 74 00 43 00 6f 00 6d 00 70 00 75 00 74 00 65 00 72 00 41 00 6e 00 64 00 53 00 79 00 73 00 6b 00 65 00 79 00 20 00 3b 00 20 00 6b 00 75 00 6c 00 6c 00 5f 00 6d 00 5f 00 72 00 65 00 67 00 69 00 73 00 74 00 72 00 79 00 5f 00 52 00 65 00 67 00 4f 00 70 00 65 00 6e 00 4b 00 65 00 79 00 45 00 78 00 20 00 4c 00 53 00 41 00 20 00 4b 00 4f 00}
+		$b5 = {45 00 52 00 52 00 4f 00 52 00 20 00 6b 00 75 00 68 00 6c 00 5f 00 6d 00 5f 00 6c 00 73 00 61 00 64 00 75 00 6d 00 70 00 5f 00 6c 00 73 00 61 00 5f 00 67 00 65 00 74 00 48 00 61 00 6e 00 64 00 6c 00 65 00 20 00 3b 00 20 00 4f 00 70 00 65 00 6e 00 50 00 72 00 6f 00 63 00 65 00 73 00 73 00 20 00 28 00 30 00 78 00 25 00 30 00 38 00 78 00 29 00}
+		$b6 = {45 00 52 00 52 00 4f 00 52 00 20 00 6b 00 75 00 68 00 6c 00 5f 00 6d 00 5f 00 6c 00 73 00 61 00 64 00 75 00 6d 00 70 00 5f 00 65 00 6e 00 75 00 6d 00 64 00 6f 00 6d 00 61 00 69 00 6e 00 73 00 5f 00 75 00 73 00 65 00 72 00 73 00 20 00 3b 00 20 00 53 00 61 00 6d 00 4c 00 6f 00 6f 00 6b 00 75 00 70 00 4e 00 61 00 6d 00 65 00 73 00 49 00 6e 00 44 00 6f 00 6d 00 61 00 69 00 6e 00 3a 00 20 00 25 00 30 00 38 00 78 00}
+		$b7 = {6d 00 69 00 6d 00 69 00 6b 00 61 00 74 00 7a 00 28 00 70 00 6f 00 77 00 65 00 72 00 73 00 68 00 65 00 6c 00 6c 00 29 00 20 00 23 00 20 00 25 00 73 00}
+		$b8 = {70 6f 77 65 72 73 68 65 6c 6c 5f 72 65 66 6c 65 63 74 69 76 65 5f 6d 69 6d 69 6b 61 74 7a}
+		$b9 = {6d 00 69 00 6d 00 69 00 6b 00 61 00 74 00 7a 00 5f 00 64 00 70 00 61 00 70 00 69 00 5f 00 63 00 61 00 63 00 68 00 65 00 2e 00 6e 00 64 00 72 00}
+		$b10 = {6d 00 69 00 6d 00 69 00 6b 00 61 00 74 00 7a 00 2e 00 6c 00 6f 00 67 00}
+		$b11 = {45 00 52 00 52 00 4f 00 52 00 20 00 6d 00 69 00 6d 00 69 00 6b 00 61 00 74 00 7a 00 5f 00 64 00 6f 00 4c 00 6f 00 63 00 61 00 6c 00}
+		$b12 = {6d 00 69 00 6d 00 69 00 6b 00 61 00 74 00 7a 00 5f 00 78 00 36 00 34 00 2e 00 63 00 6f 00 6d 00 70 00 72 00 65 00 73 00 73 00 65 00 64 00}
 
 	condition:
-		1 of ($a*) and 
-		7 of ($b*)
+		1 of ( $a* ) and 7 of ( $b* )
 }
 
-rule Windows_Trojan_CobaltStrike_72f68375
+rule Windows_Trojan_CobaltStrike_72f68375 : hardened
 {
 	meta:
 		author = "Elastic Security"
@@ -957,22 +928,20 @@ rule Windows_Trojan_CobaltStrike_72f68375
 		score = 75
 
 	strings:
-		$a1 = "Z:\\devcenter\\aggressor\\external\\pxlib\\bin\\net_domain.x64.o" ascii fullword
-		$a2 = "Z:\\devcenter\\aggressor\\external\\pxlib\\bin\\net_domain.x86.o" ascii fullword
-		$b1 = "__imp_BeaconPrintf" ascii fullword
-		$b2 = "__imp_NETAPI32$NetApiBufferFree" ascii fullword
-		$b3 = "__imp_NETAPI32$DsGetDcNameA" ascii fullword
-		$c1 = "__imp__BeaconPrintf" ascii fullword
-		$c2 = "__imp__NETAPI32$NetApiBufferFree" ascii fullword
-		$c3 = "__imp__NETAPI32$DsGetDcNameA" ascii fullword
+		$a1 = {5a 3a 5c 64 65 76 63 65 6e 74 65 72 5c 61 67 67 72 65 73 73 6f 72 5c 65 78 74 65 72 6e 61 6c 5c 70 78 6c 69 62 5c 62 69 6e 5c 6e 65 74 5f 64 6f 6d 61 69 6e 2e 78 36 34 2e 6f}
+		$a2 = {5a 3a 5c 64 65 76 63 65 6e 74 65 72 5c 61 67 67 72 65 73 73 6f 72 5c 65 78 74 65 72 6e 61 6c 5c 70 78 6c 69 62 5c 62 69 6e 5c 6e 65 74 5f 64 6f 6d 61 69 6e 2e 78 38 36 2e 6f}
+		$b1 = {5f 5f 69 6d 70 5f 42 65 61 63 6f 6e 50 72 69 6e 74 66}
+		$b2 = {5f 5f 69 6d 70 5f 4e 45 54 41 50 49 33 32 24 4e 65 74 41 70 69 42 75 66 66 65 72 46 72 65 65}
+		$b3 = {5f 5f 69 6d 70 5f 4e 45 54 41 50 49 33 32 24 44 73 47 65 74 44 63 4e 61 6d 65 41}
+		$c1 = {5f 5f 69 6d 70 5f 5f 42 65 61 63 6f 6e 50 72 69 6e 74 66}
+		$c2 = {5f 5f 69 6d 70 5f 5f 4e 45 54 41 50 49 33 32 24 4e 65 74 41 70 69 42 75 66 66 65 72 46 72 65 65}
+		$c3 = {5f 5f 69 6d 70 5f 5f 4e 45 54 41 50 49 33 32 24 44 73 47 65 74 44 63 4e 61 6d 65 41}
 
 	condition:
-		1 of ($a*) or 
-		2 of ($b*) or 
-		2 of ($c*)
+		1 of ( $a* ) or 2 of ( $b* ) or 2 of ( $c* )
 }
 
-rule Windows_Trojan_CobaltStrike_15f680fb
+rule Windows_Trojan_CobaltStrike_15f680fb : hardened
 {
 	meta:
 		author = "Elastic Security"
@@ -993,26 +962,25 @@ rule Windows_Trojan_CobaltStrike_15f680fb
 		score = 75
 
 	strings:
-		$a1 = "netview.x64.dll" ascii fullword
-		$a2 = "netview.dll" ascii fullword
-		$a3 = "\\\\.\\pipe\\netview" ascii fullword
-		$b1 = "Sessions for \\\\%s:" ascii fullword
-		$b2 = "Account information for %s on \\\\%s:" ascii fullword
-		$b3 = "Users for \\\\%s:" ascii fullword
-		$b4 = "Shares at \\\\%s:" ascii fullword
-		$b5 = "ReflectiveLoader" ascii fullword
-		$b6 = "Password changeable" ascii fullword
-		$b7 = "User's Comment" wide fullword
-		$b8 = "List of hosts for domain '%s':" ascii fullword
-		$b9 = "Password changeable" ascii fullword
-		$b10 = "Logged on users at \\\\%s:" ascii fullword
+		$a1 = {6e 65 74 76 69 65 77 2e 78 36 34 2e 64 6c 6c}
+		$a2 = {6e 65 74 76 69 65 77 2e 64 6c 6c}
+		$a3 = {5c 5c 2e 5c 70 69 70 65 5c 6e 65 74 76 69 65 77}
+		$b1 = {53 65 73 73 69 6f 6e 73 20 66 6f 72 20 5c 5c 25 73 3a}
+		$b2 = {41 63 63 6f 75 6e 74 20 69 6e 66 6f 72 6d 61 74 69 6f 6e 20 66 6f 72 20 25 73 20 6f 6e 20 5c 5c 25 73 3a}
+		$b3 = {55 73 65 72 73 20 66 6f 72 20 5c 5c 25 73 3a}
+		$b4 = {53 68 61 72 65 73 20 61 74 20 5c 5c 25 73 3a}
+		$b5 = {52 65 66 6c 65 63 74 69 76 65 4c 6f 61 64 65 72}
+		$b6 = {50 61 73 73 77 6f 72 64 20 63 68 61 6e 67 65 61 62 6c 65}
+		$b7 = {55 00 73 00 65 00 72 00 27 00 73 00 20 00 43 00 6f 00 6d 00 6d 00 65 00 6e 00 74 00}
+		$b8 = {4c 69 73 74 20 6f 66 20 68 6f 73 74 73 20 66 6f 72 20 64 6f 6d 61 69 6e 20 27 25 73 27 3a}
+		$b9 = {50 61 73 73 77 6f 72 64 20 63 68 61 6e 67 65 61 62 6c 65}
+		$b10 = {4c 6f 67 67 65 64 20 6f 6e 20 75 73 65 72 73 20 61 74 20 5c 5c 25 73 3a}
 
 	condition:
-		2 of ($a*) or 
-		6 of ($b*)
+		2 of ( $a* ) or 6 of ( $b* )
 }
 
-rule Windows_Trojan_CobaltStrike_5b4383ec
+rule Windows_Trojan_CobaltStrike_5b4383ec : hardened
 {
 	meta:
 		author = "Elastic Security"
@@ -1033,26 +1001,25 @@ rule Windows_Trojan_CobaltStrike_5b4383ec
 		score = 75
 
 	strings:
-		$a1 = "portscan.x64.dll" ascii fullword
-		$a2 = "portscan.dll" ascii fullword
-		$a3 = "\\\\.\\pipe\\portscan" ascii fullword
-		$b1 = "(ICMP) Target '%s' is alive. [read %d bytes]" ascii fullword
-		$b2 = "(ARP) Target '%s' is alive. " ascii fullword
-		$b3 = "TARGETS!12345" ascii fullword
-		$b4 = "ReflectiveLoader" ascii fullword
-		$b5 = "%s:%d (platform: %d version: %d.%d name: %S domain: %S)" ascii fullword
-		$b6 = "Scanner module is complete" ascii fullword
-		$b7 = "pingpong" ascii fullword
-		$b8 = "PORTS!12345" ascii fullword
-		$b9 = "%s:%d (%s)" ascii fullword
-		$b10 = "PREFERENCES!12345" ascii fullword
+		$a1 = {70 6f 72 74 73 63 61 6e 2e 78 36 34 2e 64 6c 6c}
+		$a2 = {70 6f 72 74 73 63 61 6e 2e 64 6c 6c}
+		$a3 = {5c 5c 2e 5c 70 69 70 65 5c 70 6f 72 74 73 63 61 6e}
+		$b1 = {28 49 43 4d 50 29 20 54 61 72 67 65 74 20 27 25 73 27 20 69 73 20 61 6c 69 76 65 2e 20 5b 72 65 61 64 20 25 64 20 62 79 74 65 73 5d}
+		$b2 = {28 41 52 50 29 20 54 61 72 67 65 74 20 27 25 73 27 20 69 73 20 61 6c 69 76 65 2e 20}
+		$b3 = {54 41 52 47 45 54 53 21 31 32 33 34 35}
+		$b4 = {52 65 66 6c 65 63 74 69 76 65 4c 6f 61 64 65 72}
+		$b5 = {25 73 3a 25 64 20 28 70 6c 61 74 66 6f 72 6d 3a 20 25 64 20 76 65 72 73 69 6f 6e 3a 20 25 64 2e 25 64 20 6e 61 6d 65 3a 20 25 53 20 64 6f 6d 61 69 6e 3a 20 25 53 29}
+		$b6 = {53 63 61 6e 6e 65 72 20 6d 6f 64 75 6c 65 20 69 73 20 63 6f 6d 70 6c 65 74 65}
+		$b7 = {70 69 6e 67 70 6f 6e 67}
+		$b8 = {50 4f 52 54 53 21 31 32 33 34 35}
+		$b9 = {25 73 3a 25 64 20 28 25 73 29}
+		$b10 = {50 52 45 46 45 52 45 4e 43 45 53 21 31 32 33 34 35}
 
 	condition:
-		2 of ($a*) or 
-		6 of ($b*)
+		2 of ( $a* ) or 6 of ( $b* )
 }
 
-rule Windows_Trojan_CobaltStrike_91e08059
+rule Windows_Trojan_CobaltStrike_91e08059 : hardened
 {
 	meta:
 		author = "Elastic Security"
@@ -1073,23 +1040,22 @@ rule Windows_Trojan_CobaltStrike_91e08059
 		score = 75
 
 	strings:
-		$a1 = "postex.x64.dll" ascii fullword
-		$a2 = "postex.dll" ascii fullword
-		$a3 = "RunAsAdminCMSTP" ascii fullword
-		$a4 = "KerberosTicketPurge" ascii fullword
-		$b1 = "GetSystem" ascii fullword
-		$b2 = "HelloWorld" ascii fullword
-		$b3 = "KerberosTicketUse" ascii fullword
-		$b4 = "SpawnAsAdmin" ascii fullword
-		$b5 = "RunAsAdmin" ascii fullword
-		$b6 = "NetDomain" ascii fullword
+		$a1 = {70 6f 73 74 65 78 2e 78 36 34 2e 64 6c 6c}
+		$a2 = {70 6f 73 74 65 78 2e 64 6c 6c}
+		$a3 = {52 75 6e 41 73 41 64 6d 69 6e 43 4d 53 54 50}
+		$a4 = {4b 65 72 62 65 72 6f 73 54 69 63 6b 65 74 50 75 72 67 65}
+		$b1 = {47 65 74 53 79 73 74 65 6d}
+		$b2 = {48 65 6c 6c 6f 57 6f 72 6c 64}
+		$b3 = {4b 65 72 62 65 72 6f 73 54 69 63 6b 65 74 55 73 65}
+		$b4 = {53 70 61 77 6e 41 73 41 64 6d 69 6e}
+		$b5 = {52 75 6e 41 73 41 64 6d 69 6e}
+		$b6 = {4e 65 74 44 6f 6d 61 69 6e}
 
 	condition:
-		2 of ($a*) or 
-		4 of ($b*)
+		2 of ( $a* ) or 4 of ( $b* )
 }
 
-rule Windows_Trojan_CobaltStrike_ee756db7
+rule Windows_Trojan_CobaltStrike_ee756db7 : hardened
 {
 	meta:
 		author = "Elastic Security"
@@ -1110,63 +1076,63 @@ rule Windows_Trojan_CobaltStrike_ee756db7
 		score = 75
 
 	strings:
-		$a1 = "%s.4%08x%08x%08x%08x%08x.%08x%08x%08x%08x%08x%08x%08x.%08x%08x%08x%08x%08x%08x%08x.%08x%08x%08x%08x%08x%08x%08x.%x%x.%s" ascii fullword
-		$a2 = "%s.3%08x%08x%08x%08x%08x%08x%08x.%08x%08x%08x%08x%08x%08x%08x.%08x%08x%08x%08x%08x%08x%08x.%x%x.%s" ascii fullword
-		$a3 = "ppid %d is in a different desktop session (spawned jobs may fail). Use 'ppid' to reset." ascii fullword
-		$a4 = "IEX (New-Object Net.Webclient).DownloadString('http://127.0.0.1:%u/'); %s" ascii fullword
-		$a5 = "IEX (New-Object Net.Webclient).DownloadString('http://127.0.0.1:%u/')" ascii fullword
-		$a6 = "%s.2%08x%08x%08x%08x%08x%08x%08x.%08x%08x%08x%08x%08x%08x%08x.%x%x.%s" ascii fullword
-		$a7 = "could not run command (w/ token) because of its length of %d bytes!" ascii fullword
-		$a8 = "%s.2%08x%08x%08x%08x%08x%08x.%08x%08x%08x%08x%08x%08x.%x%x.%s" ascii fullword
-		$a9 = "%s.2%08x%08x%08x%08x%08x.%08x%08x%08x%08x%08x.%x%x.%s" ascii fullword
-		$a10 = "powershell -nop -exec bypass -EncodedCommand \"%s\"" ascii fullword
-		$a11 = "Could not open service control manager on %s: %d" ascii fullword
-		$a12 = "%d is an x64 process (can't inject x86 content)" ascii fullword
-		$a13 = "%d is an x86 process (can't inject x64 content)" ascii fullword
-		$a14 = "Failed to impersonate logged on user %d (%u)" ascii fullword
-		$a15 = "could not create remote thread in %d: %d" ascii fullword
-		$a16 = "%s.1%08x%08x%08x%08x%08x%08x%08x.%x%x.%s" ascii fullword
-		$a17 = "could not write to process memory: %d" ascii fullword
-		$a18 = "Could not create service %s on %s: %d" ascii fullword
-		$a19 = "Could not delete service %s on %s: %d" ascii fullword
-		$a20 = "Could not open process token: %d (%u)" ascii fullword
-		$a21 = "%s.1%08x%08x%08x%08x%08x%08x.%x%x.%s" ascii fullword
-		$a22 = "Could not start service %s on %s: %d" ascii fullword
-		$a23 = "Could not query service %s on %s: %d" ascii fullword
-		$a24 = "Could not connect to pipe (%s): %d" ascii fullword
-		$a25 = "%s.1%08x%08x%08x%08x%08x.%x%x.%s" ascii fullword
-		$a26 = "could not spawn %s (token): %d" ascii fullword
-		$a27 = "could not open process %d: %d" ascii fullword
-		$a28 = "could not run %s as %s\\%s: %d" ascii fullword
-		$a29 = "%s.1%08x%08x%08x%08x.%x%x.%s" ascii fullword
-		$a30 = "kerberos ticket use failed:" ascii fullword
-		$a31 = "Started service %s on %s" ascii fullword
-		$a32 = "%s.1%08x%08x%08x.%x%x.%s" ascii fullword
-		$a33 = "I'm already in SMB mode" ascii fullword
-		$a34 = "could not spawn %s: %d" ascii fullword
-		$a35 = "could not open %s: %d" ascii fullword
-		$a36 = "%s.1%08x%08x.%x%x.%s" ascii fullword
-		$a37 = "Could not open '%s'" ascii fullword
-		$a38 = "%s.1%08x.%x%x.%s" ascii fullword
-		$a39 = "%s as %s\\%s: %d" ascii fullword
-		$a40 = "%s.1%x.%x%x.%s" ascii fullword
-		$a41 = "beacon.x64.dll" ascii fullword
-		$a42 = "%s on %s: %d" ascii fullword
-		$a43 = "www6.%x%x.%s" ascii fullword
-		$a44 = "cdn.%x%x.%s" ascii fullword
-		$a45 = "api.%x%x.%s" ascii fullword
-		$a46 = "%s (admin)" ascii fullword
-		$a47 = "beacon.dll" ascii fullword
-		$a48 = "%s%s: %s" ascii fullword
-		$a49 = "@%d.%s" ascii fullword
-		$a50 = "%02d/%02d/%02d %02d:%02d:%02d" ascii fullword
-		$a51 = "Content-Length: %d" ascii fullword
+		$a1 = {25 73 2e 34 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78 2e 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78 2e 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78 2e 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78 2e 25 78 25 78 2e 25 73}
+		$a2 = {25 73 2e 33 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78 2e 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78 2e 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78 2e 25 78 25 78 2e 25 73}
+		$a3 = {70 70 69 64 20 25 64 20 69 73 20 69 6e 20 61 20 64 69 66 66 65 72 65 6e 74 20 64 65 73 6b 74 6f 70 20 73 65 73 73 69 6f 6e 20 28 73 70 61 77 6e 65 64 20 6a 6f 62 73 20 6d 61 79 20 66 61 69 6c 29 2e 20 55 73 65 20 27 70 70 69 64 27 20 74 6f 20 72 65 73 65 74 2e}
+		$a4 = {49 45 58 20 28 4e 65 77 2d 4f 62 6a 65 63 74 20 4e 65 74 2e 57 65 62 63 6c 69 65 6e 74 29 2e 44 6f 77 6e 6c 6f 61 64 53 74 72 69 6e 67 28 27 68 74 74 70 3a 2f 2f 31 32 37 2e 30 2e 30 2e 31 3a 25 75 2f 27 29 3b 20 25 73}
+		$a5 = {49 45 58 20 28 4e 65 77 2d 4f 62 6a 65 63 74 20 4e 65 74 2e 57 65 62 63 6c 69 65 6e 74 29 2e 44 6f 77 6e 6c 6f 61 64 53 74 72 69 6e 67 28 27 68 74 74 70 3a 2f 2f 31 32 37 2e 30 2e 30 2e 31 3a 25 75 2f 27 29}
+		$a6 = {25 73 2e 32 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78 2e 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78 2e 25 78 25 78 2e 25 73}
+		$a7 = {63 6f 75 6c 64 20 6e 6f 74 20 72 75 6e 20 63 6f 6d 6d 61 6e 64 20 28 77 2f 20 74 6f 6b 65 6e 29 20 62 65 63 61 75 73 65 20 6f 66 20 69 74 73 20 6c 65 6e 67 74 68 20 6f 66 20 25 64 20 62 79 74 65 73 21}
+		$a8 = {25 73 2e 32 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78 2e 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78 2e 25 78 25 78 2e 25 73}
+		$a9 = {25 73 2e 32 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78 2e 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78 2e 25 78 25 78 2e 25 73}
+		$a10 = {70 6f 77 65 72 73 68 65 6c 6c 20 2d 6e 6f 70 20 2d 65 78 65 63 20 62 79 70 61 73 73 20 2d 45 6e 63 6f 64 65 64 43 6f 6d 6d 61 6e 64 20 22 25 73 22}
+		$a11 = {43 6f 75 6c 64 20 6e 6f 74 20 6f 70 65 6e 20 73 65 72 76 69 63 65 20 63 6f 6e 74 72 6f 6c 20 6d 61 6e 61 67 65 72 20 6f 6e 20 25 73 3a 20 25 64}
+		$a12 = {25 64 20 69 73 20 61 6e 20 78 36 34 20 70 72 6f 63 65 73 73 20 28 63 61 6e 27 74 20 69 6e 6a 65 63 74 20 78 38 36 20 63 6f 6e 74 65 6e 74 29}
+		$a13 = {25 64 20 69 73 20 61 6e 20 78 38 36 20 70 72 6f 63 65 73 73 20 28 63 61 6e 27 74 20 69 6e 6a 65 63 74 20 78 36 34 20 63 6f 6e 74 65 6e 74 29}
+		$a14 = {46 61 69 6c 65 64 20 74 6f 20 69 6d 70 65 72 73 6f 6e 61 74 65 20 6c 6f 67 67 65 64 20 6f 6e 20 75 73 65 72 20 25 64 20 28 25 75 29}
+		$a15 = {63 6f 75 6c 64 20 6e 6f 74 20 63 72 65 61 74 65 20 72 65 6d 6f 74 65 20 74 68 72 65 61 64 20 69 6e 20 25 64 3a 20 25 64}
+		$a16 = {25 73 2e 31 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78 2e 25 78 25 78 2e 25 73}
+		$a17 = {63 6f 75 6c 64 20 6e 6f 74 20 77 72 69 74 65 20 74 6f 20 70 72 6f 63 65 73 73 20 6d 65 6d 6f 72 79 3a 20 25 64}
+		$a18 = {43 6f 75 6c 64 20 6e 6f 74 20 63 72 65 61 74 65 20 73 65 72 76 69 63 65 20 25 73 20 6f 6e 20 25 73 3a 20 25 64}
+		$a19 = {43 6f 75 6c 64 20 6e 6f 74 20 64 65 6c 65 74 65 20 73 65 72 76 69 63 65 20 25 73 20 6f 6e 20 25 73 3a 20 25 64}
+		$a20 = {43 6f 75 6c 64 20 6e 6f 74 20 6f 70 65 6e 20 70 72 6f 63 65 73 73 20 74 6f 6b 65 6e 3a 20 25 64 20 28 25 75 29}
+		$a21 = {25 73 2e 31 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78 2e 25 78 25 78 2e 25 73}
+		$a22 = {43 6f 75 6c 64 20 6e 6f 74 20 73 74 61 72 74 20 73 65 72 76 69 63 65 20 25 73 20 6f 6e 20 25 73 3a 20 25 64}
+		$a23 = {43 6f 75 6c 64 20 6e 6f 74 20 71 75 65 72 79 20 73 65 72 76 69 63 65 20 25 73 20 6f 6e 20 25 73 3a 20 25 64}
+		$a24 = {43 6f 75 6c 64 20 6e 6f 74 20 63 6f 6e 6e 65 63 74 20 74 6f 20 70 69 70 65 20 28 25 73 29 3a 20 25 64}
+		$a25 = {25 73 2e 31 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78 2e 25 78 25 78 2e 25 73}
+		$a26 = {63 6f 75 6c 64 20 6e 6f 74 20 73 70 61 77 6e 20 25 73 20 28 74 6f 6b 65 6e 29 3a 20 25 64}
+		$a27 = {63 6f 75 6c 64 20 6e 6f 74 20 6f 70 65 6e 20 70 72 6f 63 65 73 73 20 25 64 3a 20 25 64}
+		$a28 = {63 6f 75 6c 64 20 6e 6f 74 20 72 75 6e 20 25 73 20 61 73 20 25 73 5c 25 73 3a 20 25 64}
+		$a29 = {25 73 2e 31 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78 2e 25 78 25 78 2e 25 73}
+		$a30 = {6b 65 72 62 65 72 6f 73 20 74 69 63 6b 65 74 20 75 73 65 20 66 61 69 6c 65 64 3a}
+		$a31 = {53 74 61 72 74 65 64 20 73 65 72 76 69 63 65 20 25 73 20 6f 6e 20 25 73}
+		$a32 = {25 73 2e 31 25 30 38 78 25 30 38 78 25 30 38 78 2e 25 78 25 78 2e 25 73}
+		$a33 = {49 27 6d 20 61 6c 72 65 61 64 79 20 69 6e 20 53 4d 42 20 6d 6f 64 65}
+		$a34 = {63 6f 75 6c 64 20 6e 6f 74 20 73 70 61 77 6e 20 25 73 3a 20 25 64}
+		$a35 = {63 6f 75 6c 64 20 6e 6f 74 20 6f 70 65 6e 20 25 73 3a 20 25 64}
+		$a36 = {25 73 2e 31 25 30 38 78 25 30 38 78 2e 25 78 25 78 2e 25 73}
+		$a37 = {43 6f 75 6c 64 20 6e 6f 74 20 6f 70 65 6e 20 27 25 73 27}
+		$a38 = {25 73 2e 31 25 30 38 78 2e 25 78 25 78 2e 25 73}
+		$a39 = {25 73 20 61 73 20 25 73 5c 25 73 3a 20 25 64}
+		$a40 = {25 73 2e 31 25 78 2e 25 78 25 78 2e 25 73}
+		$a41 = {62 65 61 63 6f 6e 2e 78 36 34 2e 64 6c 6c}
+		$a42 = {25 73 20 6f 6e 20 25 73 3a 20 25 64}
+		$a43 = {77 77 77 36 2e 25 78 25 78 2e 25 73}
+		$a44 = {63 64 6e 2e 25 78 25 78 2e 25 73}
+		$a45 = {61 70 69 2e 25 78 25 78 2e 25 73}
+		$a46 = {25 73 20 28 61 64 6d 69 6e 29}
+		$a47 = {62 65 61 63 6f 6e 2e 64 6c 6c}
+		$a48 = {25 73 25 73 3a 20 25 73}
+		$a49 = {40 25 64 2e 25 73}
+		$a50 = {25 30 32 64 2f 25 30 32 64 2f 25 30 32 64 20 25 30 32 64 3a 25 30 32 64 3a 25 30 32 64}
+		$a51 = {43 6f 6e 74 65 6e 74 2d 4c 65 6e 67 74 68 3a 20 25 64}
 
 	condition:
-		6 of ($a*)
+		6 of ( $a* )
 }
 
-rule Windows_Trojan_CobaltStrike_9c0d5561
+rule Windows_Trojan_CobaltStrike_9c0d5561 : hardened
 {
 	meta:
 		author = "Elastic Security"
@@ -1187,27 +1153,25 @@ rule Windows_Trojan_CobaltStrike_9c0d5561
 		score = 75
 
 	strings:
-		$a1 = "PowerShellRunner.dll" wide fullword
-		$a2 = "powershell.x64.dll" ascii fullword
-		$a3 = "powershell.dll" ascii fullword
-		$a4 = "\\\\.\\pipe\\powershell" ascii fullword
-		$b1 = "PowerShellRunner.PowerShellRunner" ascii fullword
-		$b2 = "Failed to invoke GetOutput w/hr 0x%08lx" ascii fullword
-		$b3 = "Failed to get default AppDomain w/hr 0x%08lx" ascii fullword
-		$b4 = "ICLRMetaHost::GetRuntime (v4.0.30319) failed w/hr 0x%08lx" ascii fullword
-		$b5 = "CustomPSHostUserInterface" ascii fullword
-		$b6 = "RuntimeClrHost::GetCurrentAppDomainId failed w/hr 0x%08lx" ascii fullword
-		$b7 = "ICorRuntimeHost::GetDefaultDomain failed w/hr 0x%08lx" ascii fullword
+		$a1 = {50 00 6f 00 77 00 65 00 72 00 53 00 68 00 65 00 6c 00 6c 00 52 00 75 00 6e 00 6e 00 65 00 72 00 2e 00 64 00 6c 00 6c 00}
+		$a2 = {70 6f 77 65 72 73 68 65 6c 6c 2e 78 36 34 2e 64 6c 6c}
+		$a3 = {70 6f 77 65 72 73 68 65 6c 6c 2e 64 6c 6c}
+		$a4 = {5c 5c 2e 5c 70 69 70 65 5c 70 6f 77 65 72 73 68 65 6c 6c}
+		$b1 = {50 6f 77 65 72 53 68 65 6c 6c 52 75 6e 6e 65 72 2e 50 6f 77 65 72 53 68 65 6c 6c 52 75 6e 6e 65 72}
+		$b2 = {46 61 69 6c 65 64 20 74 6f 20 69 6e 76 6f 6b 65 20 47 65 74 4f 75 74 70 75 74 20 77 2f 68 72 20 30 78 25 30 38 6c 78}
+		$b3 = {46 61 69 6c 65 64 20 74 6f 20 67 65 74 20 64 65 66 61 75 6c 74 20 41 70 70 44 6f 6d 61 69 6e 20 77 2f 68 72 20 30 78 25 30 38 6c 78}
+		$b4 = {49 43 4c 52 4d 65 74 61 48 6f 73 74 3a 3a 47 65 74 52 75 6e 74 69 6d 65 20 28 76 34 2e 30 2e 33 30 33 31 39 29 20 66 61 69 6c 65 64 20 77 2f 68 72 20 30 78 25 30 38 6c 78}
+		$b5 = {43 75 73 74 6f 6d 50 53 48 6f 73 74 55 73 65 72 49 6e 74 65 72 66 61 63 65}
+		$b6 = {52 75 6e 74 69 6d 65 43 6c 72 48 6f 73 74 3a 3a 47 65 74 43 75 72 72 65 6e 74 41 70 70 44 6f 6d 61 69 6e 49 64 20 66 61 69 6c 65 64 20 77 2f 68 72 20 30 78 25 30 38 6c 78}
+		$b7 = {49 43 6f 72 52 75 6e 74 69 6d 65 48 6f 73 74 3a 3a 47 65 74 44 65 66 61 75 6c 74 44 6f 6d 61 69 6e 20 66 61 69 6c 65 64 20 77 2f 68 72 20 30 78 25 30 38 6c 78}
 		$c1 = { 8B 08 50 FF 51 08 8B 7C 24 1C 8D 4C 24 10 51 C7 }
-		$c2 = "z:\\devcenter\\aggressor\\external\\PowerShellRunner\\obj\\Release\\PowerShellRunner.pdb" ascii fullword
+		$c2 = {7a 3a 5c 64 65 76 63 65 6e 74 65 72 5c 61 67 67 72 65 73 73 6f 72 5c 65 78 74 65 72 6e 61 6c 5c 50 6f 77 65 72 53 68 65 6c 6c 52 75 6e 6e 65 72 5c 6f 62 6a 5c 52 65 6c 65 61 73 65 5c 50 6f 77 65 72 53 68 65 6c 6c 52 75 6e 6e 65 72 2e 70 64 62}
 
 	condition:
-		(1 of ($a*) and 
-			4 of ($b*)) or 
-		1 of ($c*)
+		(1 of ( $a* ) and 4 of ( $b* ) ) or 1 of ( $c* )
 }
 
-rule Windows_Trojan_CobaltStrike_59ed9124
+rule Windows_Trojan_CobaltStrike_59ed9124 : hardened
 {
 	meta:
 		author = "Elastic Security"
@@ -1228,32 +1192,30 @@ rule Windows_Trojan_CobaltStrike_59ed9124
 		score = 75
 
 	strings:
-		$a1 = "Z:\\devcenter\\aggressor\\external\\pxlib\\bin\\psexec_command.x64.o" ascii fullword
-		$a2 = "Z:\\devcenter\\aggressor\\external\\pxlib\\bin\\psexec_command.x86.o" ascii fullword
-		$b1 = "__imp_BeaconDataExtract" ascii fullword
-		$b2 = "__imp_BeaconDataParse" ascii fullword
-		$b3 = "__imp_BeaconDataParse" ascii fullword
-		$b4 = "__imp_BeaconDataParse" ascii fullword
-		$b5 = "__imp_ADVAPI32$StartServiceA" ascii fullword
-		$b6 = "__imp_ADVAPI32$DeleteService" ascii fullword
-		$b7 = "__imp_ADVAPI32$QueryServiceStatus" ascii fullword
-		$b8 = "__imp_ADVAPI32$CloseServiceHandle" ascii fullword
-		$c1 = "__imp__BeaconDataExtract" ascii fullword
-		$c2 = "__imp__BeaconDataParse" ascii fullword
-		$c3 = "__imp__BeaconDataParse" ascii fullword
-		$c4 = "__imp__BeaconDataParse" ascii fullword
-		$c5 = "__imp__ADVAPI32$StartServiceA" ascii fullword
-		$c6 = "__imp__ADVAPI32$DeleteService" ascii fullword
-		$c7 = "__imp__ADVAPI32$QueryServiceStatus" ascii fullword
-		$c8 = "__imp__ADVAPI32$CloseServiceHandle" ascii fullword
+		$a1 = {5a 3a 5c 64 65 76 63 65 6e 74 65 72 5c 61 67 67 72 65 73 73 6f 72 5c 65 78 74 65 72 6e 61 6c 5c 70 78 6c 69 62 5c 62 69 6e 5c 70 73 65 78 65 63 5f 63 6f 6d 6d 61 6e 64 2e 78 36 34 2e 6f}
+		$a2 = {5a 3a 5c 64 65 76 63 65 6e 74 65 72 5c 61 67 67 72 65 73 73 6f 72 5c 65 78 74 65 72 6e 61 6c 5c 70 78 6c 69 62 5c 62 69 6e 5c 70 73 65 78 65 63 5f 63 6f 6d 6d 61 6e 64 2e 78 38 36 2e 6f}
+		$b1 = {5f 5f 69 6d 70 5f 42 65 61 63 6f 6e 44 61 74 61 45 78 74 72 61 63 74}
+		$b2 = {5f 5f 69 6d 70 5f 42 65 61 63 6f 6e 44 61 74 61 50 61 72 73 65}
+		$b3 = {5f 5f 69 6d 70 5f 42 65 61 63 6f 6e 44 61 74 61 50 61 72 73 65}
+		$b4 = {5f 5f 69 6d 70 5f 42 65 61 63 6f 6e 44 61 74 61 50 61 72 73 65}
+		$b5 = {5f 5f 69 6d 70 5f 41 44 56 41 50 49 33 32 24 53 74 61 72 74 53 65 72 76 69 63 65 41}
+		$b6 = {5f 5f 69 6d 70 5f 41 44 56 41 50 49 33 32 24 44 65 6c 65 74 65 53 65 72 76 69 63 65}
+		$b7 = {5f 5f 69 6d 70 5f 41 44 56 41 50 49 33 32 24 51 75 65 72 79 53 65 72 76 69 63 65 53 74 61 74 75 73}
+		$b8 = {5f 5f 69 6d 70 5f 41 44 56 41 50 49 33 32 24 43 6c 6f 73 65 53 65 72 76 69 63 65 48 61 6e 64 6c 65}
+		$c1 = {5f 5f 69 6d 70 5f 5f 42 65 61 63 6f 6e 44 61 74 61 45 78 74 72 61 63 74}
+		$c2 = {5f 5f 69 6d 70 5f 5f 42 65 61 63 6f 6e 44 61 74 61 50 61 72 73 65}
+		$c3 = {5f 5f 69 6d 70 5f 5f 42 65 61 63 6f 6e 44 61 74 61 50 61 72 73 65}
+		$c4 = {5f 5f 69 6d 70 5f 5f 42 65 61 63 6f 6e 44 61 74 61 50 61 72 73 65}
+		$c5 = {5f 5f 69 6d 70 5f 5f 41 44 56 41 50 49 33 32 24 53 74 61 72 74 53 65 72 76 69 63 65 41}
+		$c6 = {5f 5f 69 6d 70 5f 5f 41 44 56 41 50 49 33 32 24 44 65 6c 65 74 65 53 65 72 76 69 63 65}
+		$c7 = {5f 5f 69 6d 70 5f 5f 41 44 56 41 50 49 33 32 24 51 75 65 72 79 53 65 72 76 69 63 65 53 74 61 74 75 73}
+		$c8 = {5f 5f 69 6d 70 5f 5f 41 44 56 41 50 49 33 32 24 43 6c 6f 73 65 53 65 72 76 69 63 65 48 61 6e 64 6c 65}
 
 	condition:
-		1 of ($a*) or 
-		5 of ($b*) or 
-		5 of ($c*)
+		1 of ( $a* ) or 5 of ( $b* ) or 5 of ( $c* )
 }
 
-rule Windows_Trojan_CobaltStrike_8a791eb7
+rule Windows_Trojan_CobaltStrike_8a791eb7 : hardened
 {
 	meta:
 		author = "Elastic Security"
@@ -1274,32 +1236,30 @@ rule Windows_Trojan_CobaltStrike_8a791eb7
 		score = 75
 
 	strings:
-		$a1 = "Z:\\devcenter\\aggressor\\external\\pxlib\\bin\\registry.x64.o" ascii fullword
-		$a2 = "Z:\\devcenter\\aggressor\\external\\pxlib\\bin\\registry.x86.o" ascii fullword
-		$b1 = "__imp_ADVAPI32$RegOpenKeyExA" ascii fullword
-		$b2 = "__imp_ADVAPI32$RegEnumKeyA" ascii fullword
-		$b3 = "__imp_ADVAPI32$RegOpenCurrentUser" ascii fullword
-		$b4 = "__imp_ADVAPI32$RegCloseKey" ascii fullword
-		$b5 = "__imp_BeaconFormatAlloc" ascii fullword
-		$b6 = "__imp_BeaconOutput" ascii fullword
-		$b7 = "__imp_BeaconFormatFree" ascii fullword
-		$b8 = "__imp_BeaconDataPtr" ascii fullword
-		$c1 = "__imp__ADVAPI32$RegOpenKeyExA" ascii fullword
-		$c2 = "__imp__ADVAPI32$RegEnumKeyA" ascii fullword
-		$c3 = "__imp__ADVAPI32$RegOpenCurrentUser" ascii fullword
-		$c4 = "__imp__ADVAPI32$RegCloseKey" ascii fullword
-		$c5 = "__imp__BeaconFormatAlloc" ascii fullword
-		$c6 = "__imp__BeaconOutput" ascii fullword
-		$c7 = "__imp__BeaconFormatFree" ascii fullword
-		$c8 = "__imp__BeaconDataPtr" ascii fullword
+		$a1 = {5a 3a 5c 64 65 76 63 65 6e 74 65 72 5c 61 67 67 72 65 73 73 6f 72 5c 65 78 74 65 72 6e 61 6c 5c 70 78 6c 69 62 5c 62 69 6e 5c 72 65 67 69 73 74 72 79 2e 78 36 34 2e 6f}
+		$a2 = {5a 3a 5c 64 65 76 63 65 6e 74 65 72 5c 61 67 67 72 65 73 73 6f 72 5c 65 78 74 65 72 6e 61 6c 5c 70 78 6c 69 62 5c 62 69 6e 5c 72 65 67 69 73 74 72 79 2e 78 38 36 2e 6f}
+		$b1 = {5f 5f 69 6d 70 5f 41 44 56 41 50 49 33 32 24 52 65 67 4f 70 65 6e 4b 65 79 45 78 41}
+		$b2 = {5f 5f 69 6d 70 5f 41 44 56 41 50 49 33 32 24 52 65 67 45 6e 75 6d 4b 65 79 41}
+		$b3 = {5f 5f 69 6d 70 5f 41 44 56 41 50 49 33 32 24 52 65 67 4f 70 65 6e 43 75 72 72 65 6e 74 55 73 65 72}
+		$b4 = {5f 5f 69 6d 70 5f 41 44 56 41 50 49 33 32 24 52 65 67 43 6c 6f 73 65 4b 65 79}
+		$b5 = {5f 5f 69 6d 70 5f 42 65 61 63 6f 6e 46 6f 72 6d 61 74 41 6c 6c 6f 63}
+		$b6 = {5f 5f 69 6d 70 5f 42 65 61 63 6f 6e 4f 75 74 70 75 74}
+		$b7 = {5f 5f 69 6d 70 5f 42 65 61 63 6f 6e 46 6f 72 6d 61 74 46 72 65 65}
+		$b8 = {5f 5f 69 6d 70 5f 42 65 61 63 6f 6e 44 61 74 61 50 74 72}
+		$c1 = {5f 5f 69 6d 70 5f 5f 41 44 56 41 50 49 33 32 24 52 65 67 4f 70 65 6e 4b 65 79 45 78 41}
+		$c2 = {5f 5f 69 6d 70 5f 5f 41 44 56 41 50 49 33 32 24 52 65 67 45 6e 75 6d 4b 65 79 41}
+		$c3 = {5f 5f 69 6d 70 5f 5f 41 44 56 41 50 49 33 32 24 52 65 67 4f 70 65 6e 43 75 72 72 65 6e 74 55 73 65 72}
+		$c4 = {5f 5f 69 6d 70 5f 5f 41 44 56 41 50 49 33 32 24 52 65 67 43 6c 6f 73 65 4b 65 79}
+		$c5 = {5f 5f 69 6d 70 5f 5f 42 65 61 63 6f 6e 46 6f 72 6d 61 74 41 6c 6c 6f 63}
+		$c6 = {5f 5f 69 6d 70 5f 5f 42 65 61 63 6f 6e 4f 75 74 70 75 74}
+		$c7 = {5f 5f 69 6d 70 5f 5f 42 65 61 63 6f 6e 46 6f 72 6d 61 74 46 72 65 65}
+		$c8 = {5f 5f 69 6d 70 5f 5f 42 65 61 63 6f 6e 44 61 74 61 50 74 72}
 
 	condition:
-		1 of ($a*) or 
-		5 of ($b*) or 
-		5 of ($c*)
+		1 of ( $a* ) or 5 of ( $b* ) or 5 of ( $c* )
 }
 
-rule Windows_Trojan_CobaltStrike_d00573a3
+rule Windows_Trojan_CobaltStrike_d00573a3 : hardened
 {
 	meta:
 		author = "Elastic Security"
@@ -1320,22 +1280,21 @@ rule Windows_Trojan_CobaltStrike_d00573a3
 		score = 75
 
 	strings:
-		$a1 = "screenshot.x64.dll" ascii fullword
-		$a2 = "screenshot.dll" ascii fullword
-		$a3 = "\\\\.\\pipe\\screenshot" ascii fullword
-		$b1 = "1I1n1Q3M5Q5U5Y5]5a5e5i5u5{5" ascii fullword
-		$b2 = "GetDesktopWindow" ascii fullword
-		$b3 = "CreateCompatibleBitmap" ascii fullword
-		$b4 = "GDI32.dll" ascii fullword
-		$b5 = "ReflectiveLoader"
-		$b6 = "Adobe APP14 marker: version %d, flags 0x%04x 0x%04x, transform %d" ascii fullword
+		$a1 = {73 63 72 65 65 6e 73 68 6f 74 2e 78 36 34 2e 64 6c 6c}
+		$a2 = {73 63 72 65 65 6e 73 68 6f 74 2e 64 6c 6c}
+		$a3 = {5c 5c 2e 5c 70 69 70 65 5c 73 63 72 65 65 6e 73 68 6f 74}
+		$b1 = {31 49 31 6e 31 51 33 4d 35 51 35 55 35 59 35 5d 35 61 35 65 35 69 35 75 35 7b 35}
+		$b2 = {47 65 74 44 65 73 6b 74 6f 70 57 69 6e 64 6f 77}
+		$b3 = {43 72 65 61 74 65 43 6f 6d 70 61 74 69 62 6c 65 42 69 74 6d 61 70}
+		$b4 = {47 44 49 33 32 2e 64 6c 6c}
+		$b5 = {52 65 66 6c 65 63 74 69 76 65 4c 6f 61 64 65 72}
+		$b6 = {41 64 6f 62 65 20 41 50 50 31 34 20 6d 61 72 6b 65 72 3a 20 76 65 72 73 69 6f 6e 20 25 64 2c 20 66 6c 61 67 73 20 30 78 25 30 34 78 20 30 78 25 30 34 78 2c 20 74 72 61 6e 73 66 6f 72 6d 20 25 64}
 
 	condition:
-		2 of ($a*) or 
-		5 of ($b*)
+		2 of ( $a* ) or 5 of ( $b* )
 }
 
-rule Windows_Trojan_CobaltStrike_7bcd759c
+rule Windows_Trojan_CobaltStrike_7bcd759c : hardened
 {
 	meta:
 		author = "Elastic Security"
@@ -1356,17 +1315,16 @@ rule Windows_Trojan_CobaltStrike_7bcd759c
 		score = 75
 
 	strings:
-		$a1 = "sshagent.x64.dll" ascii fullword
-		$a2 = "sshagent.dll" ascii fullword
-		$b1 = "\\\\.\\pipe\\sshagent" ascii fullword
-		$b2 = "\\\\.\\pipe\\PIPEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" ascii fullword
+		$a1 = {73 73 68 61 67 65 6e 74 2e 78 36 34 2e 64 6c 6c}
+		$a2 = {73 73 68 61 67 65 6e 74 2e 64 6c 6c}
+		$b1 = {5c 5c 2e 5c 70 69 70 65 5c 73 73 68 61 67 65 6e 74}
+		$b2 = {5c 5c 2e 5c 70 69 70 65 5c 50 49 50 45 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41 41}
 
 	condition:
-		1 of ($a*) and 
-		1 of ($b*)
+		1 of ( $a* ) and 1 of ( $b* )
 }
 
-rule Windows_Trojan_CobaltStrike_a56b820f
+rule Windows_Trojan_CobaltStrike_a56b820f : hardened
 {
 	meta:
 		author = "Elastic Security"
@@ -1387,32 +1345,30 @@ rule Windows_Trojan_CobaltStrike_a56b820f
 		score = 75
 
 	strings:
-		$a1 = "Z:\\devcenter\\aggressor\\external\\pxlib\\bin\\timestomp.x64.o" ascii fullword
-		$a2 = "Z:\\devcenter\\aggressor\\external\\pxlib\\bin\\timestomp.x86.o" ascii fullword
-		$b1 = "__imp_KERNEL32$GetFileTime" ascii fullword
-		$b2 = "__imp_KERNEL32$SetFileTime" ascii fullword
-		$b3 = "__imp_KERNEL32$CloseHandle" ascii fullword
-		$b4 = "__imp_KERNEL32$CreateFileA" ascii fullword
-		$b5 = "__imp_BeaconDataExtract" ascii fullword
-		$b6 = "__imp_BeaconPrintf" ascii fullword
-		$b7 = "__imp_BeaconDataParse" ascii fullword
-		$b8 = "__imp_BeaconDataExtract" ascii fullword
-		$c1 = "__imp__KERNEL32$GetFileTime" ascii fullword
-		$c2 = "__imp__KERNEL32$SetFileTime" ascii fullword
-		$c3 = "__imp__KERNEL32$CloseHandle" ascii fullword
-		$c4 = "__imp__KERNEL32$CreateFileA" ascii fullword
-		$c5 = "__imp__BeaconDataExtract" ascii fullword
-		$c6 = "__imp__BeaconPrintf" ascii fullword
-		$c7 = "__imp__BeaconDataParse" ascii fullword
-		$c8 = "__imp__BeaconDataExtract" ascii fullword
+		$a1 = {5a 3a 5c 64 65 76 63 65 6e 74 65 72 5c 61 67 67 72 65 73 73 6f 72 5c 65 78 74 65 72 6e 61 6c 5c 70 78 6c 69 62 5c 62 69 6e 5c 74 69 6d 65 73 74 6f 6d 70 2e 78 36 34 2e 6f}
+		$a2 = {5a 3a 5c 64 65 76 63 65 6e 74 65 72 5c 61 67 67 72 65 73 73 6f 72 5c 65 78 74 65 72 6e 61 6c 5c 70 78 6c 69 62 5c 62 69 6e 5c 74 69 6d 65 73 74 6f 6d 70 2e 78 38 36 2e 6f}
+		$b1 = {5f 5f 69 6d 70 5f 4b 45 52 4e 45 4c 33 32 24 47 65 74 46 69 6c 65 54 69 6d 65}
+		$b2 = {5f 5f 69 6d 70 5f 4b 45 52 4e 45 4c 33 32 24 53 65 74 46 69 6c 65 54 69 6d 65}
+		$b3 = {5f 5f 69 6d 70 5f 4b 45 52 4e 45 4c 33 32 24 43 6c 6f 73 65 48 61 6e 64 6c 65}
+		$b4 = {5f 5f 69 6d 70 5f 4b 45 52 4e 45 4c 33 32 24 43 72 65 61 74 65 46 69 6c 65 41}
+		$b5 = {5f 5f 69 6d 70 5f 42 65 61 63 6f 6e 44 61 74 61 45 78 74 72 61 63 74}
+		$b6 = {5f 5f 69 6d 70 5f 42 65 61 63 6f 6e 50 72 69 6e 74 66}
+		$b7 = {5f 5f 69 6d 70 5f 42 65 61 63 6f 6e 44 61 74 61 50 61 72 73 65}
+		$b8 = {5f 5f 69 6d 70 5f 42 65 61 63 6f 6e 44 61 74 61 45 78 74 72 61 63 74}
+		$c1 = {5f 5f 69 6d 70 5f 5f 4b 45 52 4e 45 4c 33 32 24 47 65 74 46 69 6c 65 54 69 6d 65}
+		$c2 = {5f 5f 69 6d 70 5f 5f 4b 45 52 4e 45 4c 33 32 24 53 65 74 46 69 6c 65 54 69 6d 65}
+		$c3 = {5f 5f 69 6d 70 5f 5f 4b 45 52 4e 45 4c 33 32 24 43 6c 6f 73 65 48 61 6e 64 6c 65}
+		$c4 = {5f 5f 69 6d 70 5f 5f 4b 45 52 4e 45 4c 33 32 24 43 72 65 61 74 65 46 69 6c 65 41}
+		$c5 = {5f 5f 69 6d 70 5f 5f 42 65 61 63 6f 6e 44 61 74 61 45 78 74 72 61 63 74}
+		$c6 = {5f 5f 69 6d 70 5f 5f 42 65 61 63 6f 6e 50 72 69 6e 74 66}
+		$c7 = {5f 5f 69 6d 70 5f 5f 42 65 61 63 6f 6e 44 61 74 61 50 61 72 73 65}
+		$c8 = {5f 5f 69 6d 70 5f 5f 42 65 61 63 6f 6e 44 61 74 61 45 78 74 72 61 63 74}
 
 	condition:
-		1 of ($a*) or 
-		5 of ($b*) or 
-		5 of ($c*)
+		1 of ( $a* ) or 5 of ( $b* ) or 5 of ( $c* )
 }
 
-rule Windows_Trojan_CobaltStrike_92f05172
+rule Windows_Trojan_CobaltStrike_92f05172 : hardened
 {
 	meta:
 		author = "Elastic Security"
@@ -1433,26 +1389,24 @@ rule Windows_Trojan_CobaltStrike_92f05172
 		score = 75
 
 	strings:
-		$a1 = "Z:\\devcenter\\aggressor\\external\\pxlib\\bin\\uaccmstp.x64.o" ascii fullword
-		$a2 = "Z:\\devcenter\\aggressor\\external\\pxlib\\bin\\uaccmstp.x86.o" ascii fullword
-		$b1 = "elevate_cmstp" ascii fullword
-		$b2 = "$pdata$elevate_cmstp" ascii fullword
-		$b3 = "$unwind$elevate_cmstp" ascii fullword
-		$c1 = "_elevate_cmstp" ascii fullword
-		$c2 = "__imp__OLE32$CoGetObject@16" ascii fullword
-		$c3 = "__imp__KERNEL32$GetModuleFileNameA@12" ascii fullword
-		$c4 = "__imp__KERNEL32$GetSystemWindowsDirectoryA@8" ascii fullword
-		$c5 = "OLDNAMES"
-		$c6 = "__imp__BeaconDataParse" ascii fullword
-		$c7 = "_willAutoElevate" ascii fullword
+		$a1 = {5a 3a 5c 64 65 76 63 65 6e 74 65 72 5c 61 67 67 72 65 73 73 6f 72 5c 65 78 74 65 72 6e 61 6c 5c 70 78 6c 69 62 5c 62 69 6e 5c 75 61 63 63 6d 73 74 70 2e 78 36 34 2e 6f}
+		$a2 = {5a 3a 5c 64 65 76 63 65 6e 74 65 72 5c 61 67 67 72 65 73 73 6f 72 5c 65 78 74 65 72 6e 61 6c 5c 70 78 6c 69 62 5c 62 69 6e 5c 75 61 63 63 6d 73 74 70 2e 78 38 36 2e 6f}
+		$b1 = {65 6c 65 76 61 74 65 5f 63 6d 73 74 70}
+		$b2 = {24 70 64 61 74 61 24 65 6c 65 76 61 74 65 5f 63 6d 73 74 70}
+		$b3 = {24 75 6e 77 69 6e 64 24 65 6c 65 76 61 74 65 5f 63 6d 73 74 70}
+		$c1 = {5f 65 6c 65 76 61 74 65 5f 63 6d 73 74 70}
+		$c2 = {5f 5f 69 6d 70 5f 5f 4f 4c 45 33 32 24 43 6f 47 65 74 4f 62 6a 65 63 74 40 31 36}
+		$c3 = {5f 5f 69 6d 70 5f 5f 4b 45 52 4e 45 4c 33 32 24 47 65 74 4d 6f 64 75 6c 65 46 69 6c 65 4e 61 6d 65 41 40 31 32}
+		$c4 = {5f 5f 69 6d 70 5f 5f 4b 45 52 4e 45 4c 33 32 24 47 65 74 53 79 73 74 65 6d 57 69 6e 64 6f 77 73 44 69 72 65 63 74 6f 72 79 41 40 38}
+		$c5 = {4f 4c 44 4e 41 4d 45 53}
+		$c6 = {5f 5f 69 6d 70 5f 5f 42 65 61 63 6f 6e 44 61 74 61 50 61 72 73 65}
+		$c7 = {5f 77 69 6c 6c 41 75 74 6f 45 6c 65 76 61 74 65}
 
 	condition:
-		1 of ($a*) or 
-		3 of ($b*) or 
-		4 of ($c*)
+		1 of ( $a* ) or 3 of ( $b* ) or 4 of ( $c* )
 }
 
-rule Windows_Trojan_CobaltStrike_417239b5
+rule Windows_Trojan_CobaltStrike_417239b5 : hardened
 {
 	meta:
 		author = "Elastic Security"
@@ -1473,43 +1427,41 @@ rule Windows_Trojan_CobaltStrike_417239b5
 		score = 75
 
 	strings:
-		$a1 = "Z:\\devcenter\\aggressor\\external\\pxlib\\bin\\uactoken.x64.o" ascii fullword
-		$a2 = "Z:\\devcenter\\aggressor\\external\\pxlib\\bin\\uactoken.x86.o" ascii fullword
-		$a3 = "Z:\\devcenter\\aggressor\\external\\pxlib\\bin\\uactoken2.x64.o" ascii fullword
-		$a4 = "Z:\\devcenter\\aggressor\\external\\pxlib\\bin\\uactoken2.x86.o" ascii fullword
-		$b1 = "$pdata$is_admin_already" ascii fullword
-		$b2 = "$unwind$is_admin" ascii fullword
-		$b3 = "$pdata$is_admin" ascii fullword
-		$b4 = "$unwind$is_admin_already" ascii fullword
-		$b5 = "$pdata$RunAsAdmin" ascii fullword
-		$b6 = "$unwind$RunAsAdmin" ascii fullword
-		$b7 = "is_admin_already" ascii fullword
-		$b8 = "is_admin" ascii fullword
-		$b9 = "process_walk" ascii fullword
-		$b10 = "get_current_sess" ascii fullword
-		$b11 = "elevate_try" ascii fullword
-		$b12 = "RunAsAdmin" ascii fullword
-		$b13 = "is_ctfmon" ascii fullword
-		$c1 = "_is_admin_already" ascii fullword
-		$c2 = "_is_admin" ascii fullword
-		$c3 = "_process_walk" ascii fullword
-		$c4 = "_get_current_sess" ascii fullword
-		$c5 = "_elevate_try" ascii fullword
-		$c6 = "_RunAsAdmin" ascii fullword
-		$c7 = "_is_ctfmon" ascii fullword
-		$c8 = "_reg_query_dword" ascii fullword
-		$c9 = ".drectve" ascii fullword
-		$c10 = "_is_candidate" ascii fullword
-		$c11 = "_SpawnAsAdmin" ascii fullword
-		$c12 = "_SpawnAsAdminX64" ascii fullword
+		$a1 = {5a 3a 5c 64 65 76 63 65 6e 74 65 72 5c 61 67 67 72 65 73 73 6f 72 5c 65 78 74 65 72 6e 61 6c 5c 70 78 6c 69 62 5c 62 69 6e 5c 75 61 63 74 6f 6b 65 6e 2e 78 36 34 2e 6f}
+		$a2 = {5a 3a 5c 64 65 76 63 65 6e 74 65 72 5c 61 67 67 72 65 73 73 6f 72 5c 65 78 74 65 72 6e 61 6c 5c 70 78 6c 69 62 5c 62 69 6e 5c 75 61 63 74 6f 6b 65 6e 2e 78 38 36 2e 6f}
+		$a3 = {5a 3a 5c 64 65 76 63 65 6e 74 65 72 5c 61 67 67 72 65 73 73 6f 72 5c 65 78 74 65 72 6e 61 6c 5c 70 78 6c 69 62 5c 62 69 6e 5c 75 61 63 74 6f 6b 65 6e 32 2e 78 36 34 2e 6f}
+		$a4 = {5a 3a 5c 64 65 76 63 65 6e 74 65 72 5c 61 67 67 72 65 73 73 6f 72 5c 65 78 74 65 72 6e 61 6c 5c 70 78 6c 69 62 5c 62 69 6e 5c 75 61 63 74 6f 6b 65 6e 32 2e 78 38 36 2e 6f}
+		$b1 = {24 70 64 61 74 61 24 69 73 5f 61 64 6d 69 6e 5f 61 6c 72 65 61 64 79}
+		$b2 = {24 75 6e 77 69 6e 64 24 69 73 5f 61 64 6d 69 6e}
+		$b3 = {24 70 64 61 74 61 24 69 73 5f 61 64 6d 69 6e}
+		$b4 = {24 75 6e 77 69 6e 64 24 69 73 5f 61 64 6d 69 6e 5f 61 6c 72 65 61 64 79}
+		$b5 = {24 70 64 61 74 61 24 52 75 6e 41 73 41 64 6d 69 6e}
+		$b6 = {24 75 6e 77 69 6e 64 24 52 75 6e 41 73 41 64 6d 69 6e}
+		$b7 = {69 73 5f 61 64 6d 69 6e 5f 61 6c 72 65 61 64 79}
+		$b8 = {69 73 5f 61 64 6d 69 6e}
+		$b9 = {70 72 6f 63 65 73 73 5f 77 61 6c 6b}
+		$b10 = {67 65 74 5f 63 75 72 72 65 6e 74 5f 73 65 73 73}
+		$b11 = {65 6c 65 76 61 74 65 5f 74 72 79}
+		$b12 = {52 75 6e 41 73 41 64 6d 69 6e}
+		$b13 = {69 73 5f 63 74 66 6d 6f 6e}
+		$c1 = {5f 69 73 5f 61 64 6d 69 6e 5f 61 6c 72 65 61 64 79}
+		$c2 = {5f 69 73 5f 61 64 6d 69 6e}
+		$c3 = {5f 70 72 6f 63 65 73 73 5f 77 61 6c 6b}
+		$c4 = {5f 67 65 74 5f 63 75 72 72 65 6e 74 5f 73 65 73 73}
+		$c5 = {5f 65 6c 65 76 61 74 65 5f 74 72 79}
+		$c6 = {5f 52 75 6e 41 73 41 64 6d 69 6e}
+		$c7 = {5f 69 73 5f 63 74 66 6d 6f 6e}
+		$c8 = {5f 72 65 67 5f 71 75 65 72 79 5f 64 77 6f 72 64}
+		$c9 = {2e 64 72 65 63 74 76 65}
+		$c10 = {5f 69 73 5f 63 61 6e 64 69 64 61 74 65}
+		$c11 = {5f 53 70 61 77 6e 41 73 41 64 6d 69 6e}
+		$c12 = {5f 53 70 61 77 6e 41 73 41 64 6d 69 6e 58 36 34}
 
 	condition:
-		1 of ($a*) or 
-		9 of ($b*) or 
-		7 of ($c*)
+		1 of ( $a* ) or 9 of ( $b* ) or 7 of ( $c* )
 }
 
-rule Windows_Trojan_CobaltStrike_29374056
+rule Windows_Trojan_CobaltStrike_29374056 : hardened
 {
 	meta:
 		author = "Elastic Security"
@@ -1534,10 +1486,10 @@ rule Windows_Trojan_CobaltStrike_29374056
 		$a2 = { 4D 5A E8 00 00 00 00 5B 89 DF 52 45 55 89 E5 }
 
 	condition:
-		1 of ($a*)
+		1 of ( $a* )
 }
 
-rule Windows_Trojan_CobaltStrike_949f10e3
+rule Windows_Trojan_CobaltStrike_949f10e3 : hardened
 {
 	meta:
 		author = "Elastic Security"
@@ -1565,7 +1517,7 @@ rule Windows_Trojan_CobaltStrike_949f10e3
 		all of them
 }
 
-rule Windows_Trojan_CobaltStrike_8751cdf9
+rule Windows_Trojan_CobaltStrike_8751cdf9 : hardened
 {
 	meta:
 		author = "Elastic Security"
@@ -1593,7 +1545,7 @@ rule Windows_Trojan_CobaltStrike_8751cdf9
 		all of them
 }
 
-rule Windows_Trojan_CobaltStrike_8519072e
+rule Windows_Trojan_CobaltStrike_8519072e : hardened
 {
 	meta:
 		author = "Elastic Security"
@@ -1614,15 +1566,15 @@ rule Windows_Trojan_CobaltStrike_8519072e
 		score = 75
 
 	strings:
-		$a1 = "User-Agent:"
-		$a2 = "wini"
-		$a3 = "5O!P%@AP[4\\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*" ascii fullword
+		$a1 = {55 73 65 72 2d 41 67 65 6e 74 3a}
+		$a2 = {77 69 6e 69}
+		$a3 = {35 4f 21 50 25 40 41 50 5b 34 5c 50 5a 58 35 34 28 50 5e 29 37 43 43 29 37 7d 24 45 49 43 41 52 2d 53 54 41 4e 44 41 52 44 2d 41 4e 54 49 56 49 52 55 53 2d 54 45 53 54 2d 46 49 4c 45 21 24 48 2b 48 2a}
 
 	condition:
 		all of them
 }
 
-rule Windows_Trojan_CobaltStrike_663fc95d
+rule Windows_Trojan_CobaltStrike_663fc95d : hardened
 {
 	meta:
 		author = "Elastic Security"
@@ -1649,7 +1601,7 @@ rule Windows_Trojan_CobaltStrike_663fc95d
 		all of them
 }
 
-rule Windows_Trojan_CobaltStrike_b54b94ac
+rule Windows_Trojan_CobaltStrike_b54b94ac : hardened
 {
 	meta:
 		author = "Elastic Security"
@@ -1681,7 +1633,7 @@ rule Windows_Trojan_CobaltStrike_b54b94ac
 		any of them
 }
 
-rule Windows_Trojan_CobaltStrike_f0b627fc
+rule Windows_Trojan_CobaltStrike_f0b627fc : hardened
 {
 	meta:
 		author = "Elastic Security"
@@ -1713,7 +1665,7 @@ rule Windows_Trojan_CobaltStrike_f0b627fc
 		any of them
 }
 
-rule Windows_Trojan_CobaltStrike_dcdcdd8c
+rule Windows_Trojan_CobaltStrike_dcdcdd8c : hardened
 {
 	meta:
 		author = "Elastic Security"
@@ -1735,18 +1687,18 @@ rule Windows_Trojan_CobaltStrike_dcdcdd8c
 		score = 75
 
 	strings:
-		$a1 = "Z:\\devcenter\\aggressor\\external\\sleepmask\\bin\\sleepmask.x64.o" ascii fullword
-		$a2 = "Z:\\devcenter\\aggressor\\external\\sleepmask\\bin\\sleepmask.x86.o" ascii fullword
-		$a3 = "Z:\\devcenter\\aggressor\\external\\sleepmask\\bin\\sleepmask_smb.x64.o" ascii fullword
-		$a4 = "Z:\\devcenter\\aggressor\\external\\sleepmask\\bin\\sleepmask_smb.x86.o" ascii fullword
-		$a5 = "Z:\\devcenter\\aggressor\\external\\sleepmask\\bin\\sleepmask_tcp.x64.o" ascii fullword
-		$a6 = "Z:\\devcenter\\aggressor\\external\\sleepmask\\bin\\sleepmask_tcp.x86.o" ascii fullword
+		$a1 = {5a 3a 5c 64 65 76 63 65 6e 74 65 72 5c 61 67 67 72 65 73 73 6f 72 5c 65 78 74 65 72 6e 61 6c 5c 73 6c 65 65 70 6d 61 73 6b 5c 62 69 6e 5c 73 6c 65 65 70 6d 61 73 6b 2e 78 36 34 2e 6f}
+		$a2 = {5a 3a 5c 64 65 76 63 65 6e 74 65 72 5c 61 67 67 72 65 73 73 6f 72 5c 65 78 74 65 72 6e 61 6c 5c 73 6c 65 65 70 6d 61 73 6b 5c 62 69 6e 5c 73 6c 65 65 70 6d 61 73 6b 2e 78 38 36 2e 6f}
+		$a3 = {5a 3a 5c 64 65 76 63 65 6e 74 65 72 5c 61 67 67 72 65 73 73 6f 72 5c 65 78 74 65 72 6e 61 6c 5c 73 6c 65 65 70 6d 61 73 6b 5c 62 69 6e 5c 73 6c 65 65 70 6d 61 73 6b 5f 73 6d 62 2e 78 36 34 2e 6f}
+		$a4 = {5a 3a 5c 64 65 76 63 65 6e 74 65 72 5c 61 67 67 72 65 73 73 6f 72 5c 65 78 74 65 72 6e 61 6c 5c 73 6c 65 65 70 6d 61 73 6b 5c 62 69 6e 5c 73 6c 65 65 70 6d 61 73 6b 5f 73 6d 62 2e 78 38 36 2e 6f}
+		$a5 = {5a 3a 5c 64 65 76 63 65 6e 74 65 72 5c 61 67 67 72 65 73 73 6f 72 5c 65 78 74 65 72 6e 61 6c 5c 73 6c 65 65 70 6d 61 73 6b 5c 62 69 6e 5c 73 6c 65 65 70 6d 61 73 6b 5f 74 63 70 2e 78 36 34 2e 6f}
+		$a6 = {5a 3a 5c 64 65 76 63 65 6e 74 65 72 5c 61 67 67 72 65 73 73 6f 72 5c 65 78 74 65 72 6e 61 6c 5c 73 6c 65 65 70 6d 61 73 6b 5c 62 69 6e 5c 73 6c 65 65 70 6d 61 73 6b 5f 74 63 70 2e 78 38 36 2e 6f}
 
 	condition:
 		any of them
 }
 
-rule Windows_Trojan_CobaltStrike_a3fb2616
+rule Windows_Trojan_CobaltStrike_a3fb2616 : hardened
 {
 	meta:
 		author = "Elastic Security"
@@ -1768,17 +1720,16 @@ rule Windows_Trojan_CobaltStrike_a3fb2616
 		score = 75
 
 	strings:
-		$a1 = "browserpivot.dll" ascii fullword
-		$a2 = "browserpivot.x64.dll" ascii fullword
-		$b1 = "$$$THREAD.C$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$" ascii fullword
-		$b2 = "COBALTSTRIKE" ascii fullword
+		$a1 = {62 72 6f 77 73 65 72 70 69 76 6f 74 2e 64 6c 6c}
+		$a2 = {62 72 6f 77 73 65 72 70 69 76 6f 74 2e 78 36 34 2e 64 6c 6c}
+		$b1 = {24 24 24 54 48 52 45 41 44 2e 43 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24}
+		$b2 = {43 4f 42 41 4c 54 53 54 52 49 4b 45}
 
 	condition:
-		1 of ($a*) and 
-		2 of ($b*)
+		1 of ( $a* ) and 2 of ( $b* )
 }
 
-rule Windows_Trojan_CobaltStrike_8ee55ee5
+rule Windows_Trojan_CobaltStrike_8ee55ee5 : hardened
 {
 	meta:
 		author = "Elastic Security"
@@ -1800,14 +1751,14 @@ rule Windows_Trojan_CobaltStrike_8ee55ee5
 		score = 75
 
 	strings:
-		$a1 = "Z:\\devcenter\\aggressor\\external\\pxlib\\bin\\wmiexec.x64.o" ascii fullword
-		$a2 = "z:\\devcenter\\aggressor\\external\\pxlib\\bin\\wmiexec.x86.o" ascii fullword
+		$a1 = {5a 3a 5c 64 65 76 63 65 6e 74 65 72 5c 61 67 67 72 65 73 73 6f 72 5c 65 78 74 65 72 6e 61 6c 5c 70 78 6c 69 62 5c 62 69 6e 5c 77 6d 69 65 78 65 63 2e 78 36 34 2e 6f}
+		$a2 = {7a 3a 5c 64 65 76 63 65 6e 74 65 72 5c 61 67 67 72 65 73 73 6f 72 5c 65 78 74 65 72 6e 61 6c 5c 70 78 6c 69 62 5c 62 69 6e 5c 77 6d 69 65 78 65 63 2e 78 38 36 2e 6f}
 
 	condition:
-		1 of ($a*)
+		1 of ( $a* )
 }
 
-rule Windows_Trojan_CobaltStrike_8d5963a2
+rule Windows_Trojan_CobaltStrike_8d5963a2 : hardened
 {
 	meta:
 		author = "Elastic Security"
@@ -1834,7 +1785,7 @@ rule Windows_Trojan_CobaltStrike_8d5963a2
 		all of them
 }
 
-rule Windows_Trojan_CobaltStrike_1787eef5
+rule Windows_Trojan_CobaltStrike_1787eef5 : hardened
 {
 	meta:
 		author = "Elastic Security"
@@ -1863,10 +1814,10 @@ rule Windows_Trojan_CobaltStrike_1787eef5
 		$a5 = { 4D 5A 41 52 55 48 89 E5 48 81 EC ?? ?? ?? ?? 48 8D 1D ?? ?? ?? ?? 48 89 DF 48 81 C3 ?? ?? ?? ?? }
 
 	condition:
-		1 of ($a*)
+		1 of ( $a* )
 }
 
-rule HKTL_CobaltStrike_SleepMask_Jul22
+rule HKTL_CobaltStrike_SleepMask_Jul22 : hardened
 {
 	meta:
 		description = "Detects static bytes in Cobalt Strike 4.5 sleep mask function that are not obfuscated"
@@ -1887,7 +1838,7 @@ rule HKTL_CobaltStrike_SleepMask_Jul22
 		$sleep_mask
 }
 
-rule Windows_Trojan_CobaltStrike_4106070a
+rule Windows_Trojan_CobaltStrike_4106070a : hardened
 {
 	meta:
 		author = "Elastic Security"
@@ -1915,7 +1866,7 @@ rule Windows_Trojan_CobaltStrike_4106070a
 		all of them
 }
 
-rule Windows_Trojan_CobaltStrike_3dc22d14
+rule Windows_Trojan_CobaltStrike_3dc22d14 : hardened
 {
 	meta:
 		author = "Elastic Security"
@@ -1936,14 +1887,14 @@ rule Windows_Trojan_CobaltStrike_3dc22d14
 		score = 75
 
 	strings:
-		$a1 = "%02d/%02d/%02d %02d:%02d:%02d" fullword
-		$a2 = "%s as %s\\%s: %d" fullword
+		$a1 = {25 30 32 64 2f 25 30 32 64 2f 25 30 32 64 20 25 30 32 64 3a 25 30 32 64 3a 25 30 32 64}
+		$a2 = {25 73 20 61 73 20 25 73 5c 25 73 3a 20 25 64}
 
 	condition:
 		all of them
 }
 
-rule Windows_Trojan_CobaltStrike_7f8da98a
+rule Windows_Trojan_CobaltStrike_7f8da98a : hardened
 {
 	meta:
 		author = "Elastic Security"
@@ -1970,7 +1921,7 @@ rule Windows_Trojan_CobaltStrike_7f8da98a
 		all of them
 }
 
-rule CobaltStrikeStager
+rule CobaltStrikeStager : hardened
 {
 	meta:
 		author = "@dan__mayer <daniel@stairwell.com>"
@@ -1992,7 +1943,7 @@ rule CobaltStrikeStager
 		any of them
 }
 
-rule fsCobalt
+rule fsCobalt : hardened
 {
 	meta:
 		description = "FsYARA - Malware Trends"
@@ -2000,59 +1951,6 @@ rule fsCobalt
 		score = 75
 
 	condition:
-		Cobalt_functions or 
-		cobalt_strike_indicator or 
-		CobaltStrikeBeacon or 
-		MALW_cobaltrike or 
-		cobaltstrike_beacon_raw or 
-		cobaltstrike_beacon_b64 or 
-		CobaltStrike_Sleeve_BeaconLoader_HA_x86_o_v4_3_v4_4_v4_5_and_v4_6 or 
-		CobaltStrike_Sleeve_BeaconLoader_MVF_x86_o_v4_3_v4_4_v4_5_and_v4_6 or 
-		CobaltStrike_Sleeve_BeaconLoader_VA_x86_o_v4_3_v4_4_v4_5_and_v4_6 or 
-		CobaltStrike_Sleeve_BeaconLoader_x86_o_v4_3_v4_4_v4_5_and_v4_6 or 
-		CobaltStrike_Sleeve_BeaconLoader_HA_x64_o_v4_3_v4_4_v4_5_and_v4_6 or 
-		CobaltStrike_Sleeve_BeaconLoader_MVF_x64_o_v4_3_v4_4_v4_5_and_v4_6 or 
-		CobaltStrike_Sleeve_BeaconLoader_VA_x64_o_v4_3_v4_4_v4_5_and_v4_6 or 
-		CobaltStrike_Sleeve_BeaconLoader_x64_o_v4_3_v4_4_v4_5_and_v4_6 or 
-		MAL_CobaltStrike_Oct_2021_1 or 
-		Windows_Trojan_CobaltStrike_c851687a or 
-		Windows_Trojan_CobaltStrike_0b58325e or 
-		Windows_Trojan_CobaltStrike_2b8cddf8 or 
-		Windows_Trojan_CobaltStrike_59b44767 or 
-		Windows_Trojan_CobaltStrike_7efd3c3f or 
-		Windows_Trojan_CobaltStrike_6e971281 or 
-		Windows_Trojan_CobaltStrike_09b79efa or 
-		Windows_Trojan_CobaltStrike_6e77233e or 
-		Windows_Trojan_CobaltStrike_de42495a or 
-		Windows_Trojan_CobaltStrike_72f68375 or 
-		Windows_Trojan_CobaltStrike_15f680fb or 
-		Windows_Trojan_CobaltStrike_5b4383ec or 
-		Windows_Trojan_CobaltStrike_91e08059 or 
-		Windows_Trojan_CobaltStrike_ee756db7 or 
-		Windows_Trojan_CobaltStrike_9c0d5561 or 
-		Windows_Trojan_CobaltStrike_59ed9124 or 
-		Windows_Trojan_CobaltStrike_8a791eb7 or 
-		Windows_Trojan_CobaltStrike_d00573a3 or 
-		Windows_Trojan_CobaltStrike_7bcd759c or 
-		Windows_Trojan_CobaltStrike_a56b820f or 
-		Windows_Trojan_CobaltStrike_92f05172 or 
-		Windows_Trojan_CobaltStrike_417239b5 or 
-		Windows_Trojan_CobaltStrike_29374056 or 
-		Windows_Trojan_CobaltStrike_949f10e3 or 
-		Windows_Trojan_CobaltStrike_8751cdf9 or 
-		Windows_Trojan_CobaltStrike_8519072e or 
-		Windows_Trojan_CobaltStrike_663fc95d or 
-		Windows_Trojan_CobaltStrike_b54b94ac or 
-		Windows_Trojan_CobaltStrike_f0b627fc or 
-		Windows_Trojan_CobaltStrike_dcdcdd8c or 
-		Windows_Trojan_CobaltStrike_a3fb2616 or 
-		Windows_Trojan_CobaltStrike_8ee55ee5 or 
-		Windows_Trojan_CobaltStrike_8d5963a2 or 
-		Windows_Trojan_CobaltStrike_1787eef5 or 
-		HKTL_CobaltStrike_SleepMask_Jul22 or 
-		Windows_Trojan_CobaltStrike_4106070a or 
-		Windows_Trojan_CobaltStrike_3dc22d14 or 
-		Windows_Trojan_CobaltStrike_7f8da98a or 
-		CobaltStrikeStager
+		Cobalt_functions or cobalt_strike_indicator or CobaltStrikeBeacon or MALW_cobaltrike or cobaltstrike_beacon_raw or cobaltstrike_beacon_b64 or CobaltStrike_Sleeve_BeaconLoader_HA_x86_o_v4_3_v4_4_v4_5_and_v4_6 or CobaltStrike_Sleeve_BeaconLoader_MVF_x86_o_v4_3_v4_4_v4_5_and_v4_6 or CobaltStrike_Sleeve_BeaconLoader_VA_x86_o_v4_3_v4_4_v4_5_and_v4_6 or CobaltStrike_Sleeve_BeaconLoader_x86_o_v4_3_v4_4_v4_5_and_v4_6 or CobaltStrike_Sleeve_BeaconLoader_HA_x64_o_v4_3_v4_4_v4_5_and_v4_6 or CobaltStrike_Sleeve_BeaconLoader_MVF_x64_o_v4_3_v4_4_v4_5_and_v4_6 or CobaltStrike_Sleeve_BeaconLoader_VA_x64_o_v4_3_v4_4_v4_5_and_v4_6 or CobaltStrike_Sleeve_BeaconLoader_x64_o_v4_3_v4_4_v4_5_and_v4_6 or MAL_CobaltStrike_Oct_2021_1 or Windows_Trojan_CobaltStrike_c851687a or Windows_Trojan_CobaltStrike_0b58325e or Windows_Trojan_CobaltStrike_2b8cddf8 or Windows_Trojan_CobaltStrike_59b44767 or Windows_Trojan_CobaltStrike_7efd3c3f or Windows_Trojan_CobaltStrike_6e971281 or Windows_Trojan_CobaltStrike_09b79efa or Windows_Trojan_CobaltStrike_6e77233e or Windows_Trojan_CobaltStrike_de42495a or Windows_Trojan_CobaltStrike_72f68375 or Windows_Trojan_CobaltStrike_15f680fb or Windows_Trojan_CobaltStrike_5b4383ec or Windows_Trojan_CobaltStrike_91e08059 or Windows_Trojan_CobaltStrike_ee756db7 or Windows_Trojan_CobaltStrike_9c0d5561 or Windows_Trojan_CobaltStrike_59ed9124 or Windows_Trojan_CobaltStrike_8a791eb7 or Windows_Trojan_CobaltStrike_d00573a3 or Windows_Trojan_CobaltStrike_7bcd759c or Windows_Trojan_CobaltStrike_a56b820f or Windows_Trojan_CobaltStrike_92f05172 or Windows_Trojan_CobaltStrike_417239b5 or Windows_Trojan_CobaltStrike_29374056 or Windows_Trojan_CobaltStrike_949f10e3 or Windows_Trojan_CobaltStrike_8751cdf9 or Windows_Trojan_CobaltStrike_8519072e or Windows_Trojan_CobaltStrike_663fc95d or Windows_Trojan_CobaltStrike_b54b94ac or Windows_Trojan_CobaltStrike_f0b627fc or Windows_Trojan_CobaltStrike_dcdcdd8c or Windows_Trojan_CobaltStrike_a3fb2616 or Windows_Trojan_CobaltStrike_8ee55ee5 or Windows_Trojan_CobaltStrike_8d5963a2 or Windows_Trojan_CobaltStrike_1787eef5 or HKTL_CobaltStrike_SleepMask_Jul22 or Windows_Trojan_CobaltStrike_4106070a or Windows_Trojan_CobaltStrike_3dc22d14 or Windows_Trojan_CobaltStrike_7f8da98a or CobaltStrikeStager
 }
 

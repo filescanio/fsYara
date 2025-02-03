@@ -1,41 +1,30 @@
+rule xRAT_1 : hardened
+{
+	meta:
+		description = "Detects Patchwork malware"
+		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
+		author = "Florian Roth (Nextron Systems)"
+		reference = "https://goo.gl/Pg3P4W"
+		date = "2017-12-11"
+		hash1 = "92be93ec4cbe76182404af0b180871fbbfa3c7b34e4df6745dbcde480b8b4b3b"
+		hash2 = "f1a45adcf907e660ec848c6086e28c9863b7b70d0d38417dd05a4261973c955a"
+		id = "170c926a-2020-5269-85b8-6fe9ad28ef76"
 
-/*
-   Yara Rule Set
-   Author: Florian Roth
-   Date: 2017-12-11
-   Identifier: Patchwork
-   Reference: https://goo.gl/Pg3P4W
-*/
+	strings:
+		$x1 = {22 00 20 00 2d 00 43 00 48 00 45 00 43 00 4b 00 20 00 26 00 20 00 50 00 49 00 4e 00 47 00 20 00 2d 00 6e 00 20 00 32 00 20 00 31 00 32 00 37 00 2e 00 30 00 2e 00 30 00 2e 00 31 00 20 00 26 00 20 00 45 00 58 00 49 00 54 00}
+		$x2 = {78 43 6c 69 65 6e 74 2e 43 6f 72 65 2e 45 6c 65 76 61 74 69 6f 6e}
+		$x3 = {3e 00 3e 00 20 00 57 00 65 00 6c 00 63 00 6f 00 6d 00 65 00 20 00 74 00 6f 00 20 00 4d 00 41 00 58 00 2d 00 53 00 68 00 65 00 6c 00 6c 00 20 00 3a 00 53 00 65 00 73 00 73 00 69 00 6f 00 6e 00 20 00 63 00 72 00 65 00 61 00 74 00 65 00 64 00}
+		$x4 = {78 43 6c 69 65 6e 74 2e 50 72 6f 70 65 72 74 69 65 73 2e 52 65 73 6f 75 72 63 65 73 2e 72 65 73 6f 75 72 63 65 73}
+		$x5 = {3c 64 65 73 63 72 69 70 74 69 6f 6e 3e 4d 79 20 55 41 43 20 43 6f 6d 70 61 74 69 62 6c 65 20 61 70 70 6c 69 63 61 74 69 6f 6e 3c 2f 64 65 73 63 72 69 70 74 69 6f 6e 3e}
+		$s1 = {70 00 69 00 6e 00 67 00 20 00 2d 00 6e 00 20 00 32 00 30 00 20 00 6c 00 6f 00 63 00 61 00 6c 00 68 00 6f 00 73 00 74 00 20 00 3e 00 20 00 6e 00 75 00 6c 00}
+		$s2 = {44 6f 77 6e 6c 6f 61 64 41 6e 64 45 78 65 63 75 74 65}
+		$s3 = {4d 00 6f 00 7a 00 69 00 6c 00 6c 00 61 00 2f 00 35 00 2e 00 30 00 20 00 28 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 20 00 4e 00 54 00 20 00 36 00 2e 00 31 00 3b 00 20 00 57 00 4f 00 57 00 36 00 34 00 29 00 20 00 41 00 70 00 70 00 6c 00 65 00 57 00 65 00 62 00 4b 00 69 00 74 00 2f 00 35 00 33 00 37 00 2e 00 33 00 36 00 20 00 28 00 4b 00 48 00 54 00 4d 00 4c 00 2c 00 20 00 6c 00 69 00 6b 00 65 00 20 00 47 00 65 00 63 00 6b 00 6f 00 29 00 20 00 43 00 68 00 72 00 6f 00 6d 00 65 00 2f 00 33 00 35 00 2e 00 30 00 2e 00 31 00 39 00 31 00 36 00 2e 00 31 00 31 00 34 00 20 00 53 00 61 00 66 00 61 00 72 00 69 00 2f 00 35 00 33 00 37 00 2e 00 33 00 36 00}
+		$s4 = {43 6c 69 65 6e 74 2e 65 78 65}
+		$s5 = {4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 20 00 2d 00 44 00 65 00 66 00 65 00 6e 00 64 00 65 00 72 00}
+		$s6 = {4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 2d 00 20 00 44 00 65 00 66 00 65 00 6e 00 64 00 65 00 72 00}
+		$s7 = {73 65 74 5f 52 75 6e 48 69 64 64 65 6e}
 
-/* Rule Set ----------------------------------------------------------------- */
-
-rule xRAT_1 {
-   meta:
-      description = "Detects Patchwork malware"
-      license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
-      author = "Florian Roth (Nextron Systems)"
-      reference = "https://goo.gl/Pg3P4W"
-      date = "2017-12-11"
-      hash1 = "92be93ec4cbe76182404af0b180871fbbfa3c7b34e4df6745dbcde480b8b4b3b"
-      hash2 = "f1a45adcf907e660ec848c6086e28c9863b7b70d0d38417dd05a4261973c955a"
-      id = "170c926a-2020-5269-85b8-6fe9ad28ef76"
-   strings:
-      $x1 = "\" -CHECK & PING -n 2 127.0.0.1 & EXIT" fullword wide
-      $x2 = "xClient.Core.Elevation" fullword ascii
-      $x3 = ">> Welcome to MAX-Shell :Session created" fullword wide
-      $x4 = "xClient.Properties.Resources.resources" fullword ascii
-      $x5 = "<description>My UAC Compatible application</description>" fullword ascii
-
-      $s1 = "ping -n 20 localhost > nul" fullword wide
-      $s2 = "DownloadAndExecute" fullword ascii
-      $s3 = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.114 Safari/537.36" fullword wide
-      $s4 = "Client.exe" fullword ascii
-      $s5 = "Microsoft -Defender" fullword wide
-      $s6 = "Microsoft- Defender" fullword wide
-      $s7 = "set_RunHidden" fullword ascii
-   condition:
-      uint16(0) == 0x5a4d and filesize < 1000KB and (
-         1 of ($x*) or
-         3 of them
-      )
+	condition:
+		uint16( 0 ) == 0x5a4d and filesize < 1000KB and ( 1 of ( $x* ) or 3 of them )
 }
+
