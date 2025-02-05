@@ -19,7 +19,6 @@ rule WimmieStrings : Wimmie Family hardened
 		description = "Strings used by Wimmie"
 		author = "Seth Hardy"
 		last_modified = "2014-07-17"
-		vetted_family = "Wimmie"
 
 	strings:
 		$ = {00 53 63 72 69 70 74 4d 61 6e}
