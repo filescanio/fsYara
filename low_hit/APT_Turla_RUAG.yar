@@ -1,39 +1,3 @@
-rule Turla_APT_Malware_Gen2 : hardened
-{
-	meta:
-		description = "Detects Turla malware (based on sample used in the RUAG APT case)"
-		author = "Florian Roth"
-		family = "Turla"
-		reference = "https://www.govcert.admin.ch/blog/22/technical-report-about-the-ruag-espionage-case"
-		date = "2016-06-09"
-		hash1 = "0e1bf347c37fb199886f1e675e372ba55ac4627e8be2f05a76c2c64f9b6ed0e4"
-		hash2 = "7206075cd8f1004e8f1f759d46e98bfad4098b8642412811a214c0155a1f08b9"
-		hash3 = "fe3ffd7438c0d38484bf02a78a19ea81a6f51b4b3f2b2228bd21974c2538bbcd"
-		hash4 = "c49111af049dd9746c6b1980db6e150b2a79ca1569b23ed2cba81c85c00d82b4"
-
-	strings:
-		$x1 = {49 6e 74 65 72 6e 61 6c 20 63 6f 6d 6d 61 6e 64 20 6e 6f 74 20 73 75 70 70 6f 72 74 20 3d 28 28}
-		$x2 = {4c 7c 2d 31 7c 41 53 5f 43 55 52 5f 55 53 45 52 3a 4f 70 65 6e 50 72 6f 63 65 73 73 54 6f 6b 65 6e 28 29 3a 25 64 2c 20 25 73 7c}
-		$x3 = {4c 7c 2d 31 7c 43 72 65 61 74 65 50 72 6f 63 65 73 73 41 73 55 73 65 72 28 29 3a 25 64 2c 20 25 73 7c}
-		$x4 = {41 53 5f 43 55 52 5f 55 53 45 52 3a 4f 70 65 6e 50 72 6f 63 65 73 73 54 6f 6b 65 6e 28 29 3a 25 64}
-		$x5 = {4c 7c 2d 31 7c 41 53 5f 43 55 52 5f 55 53 45 52 3a 4c 6f 67 6f 6e 55 73 65 72 28 29 3a 25 64 2c 20 25 73 7c}
-		$x6 = {4c 7c 2d 31 7c 74 72 79 20 74 6f 20 72 75 6e 20 64 6c 6c 20 25 73 20 77 69 74 68 20 75 73 65 72 20 70 72 69 76 7c}
-		$x7 = {5c 5c 2e 5c 47 6c 6f 62 61 6c 5c 50 49 50 45 5c 73 64 6c 72 70 63}
-		$x8 = {5c 5c 25 73 5c 70 69 70 65 5c 63 6f 6d 6e 6f 64 65}
-		$x9 = {50 6c 75 67 69 6e 20 64 6c 6c 20 73 74 6f 70 20 66 61 69 6c 65 64 2e}
-		$x10 = {41 53 5f 55 53 45 52 3a 4c 6f 67 6f 6e 55 73 65 72 28 29 3a 25 64}
-		$s1 = {4d 00 53 00 49 00 4d 00 47 00 48 00 4c 00 50 00 2e 00 44 00 4c 00 4c 00}
-		$s2 = {6d 73 69 6d 67 68 6c 70 2e 64 6c 6c}
-		$s3 = {78 69 6d 61 72 73 68 2e 64 6c 6c}
-		$s4 = {6d 73 78 69 6d 6c 2e 64 6c 6c}
-		$s5 = {49 4e 54 45 52 4e 41 4c 2e 64 6c 6c}
-		$s6 = {5c 5c 2e 5c 47 6c 6f 62 61 6c 5c 50 49 50 45 5c}
-		$s7 = {69 65 75 73 65 72 2e 65 78 65}
-
-	condition:
-		( uint16( 0 ) == 0x5a4d and filesize < 2000KB and ( 1 of ( $x* ) or 5 of ( $s* ) ) ) or ( 10 of them )
-}
-
 rule RUAG_Tavdig_Malformed_Executable : hardened
 {
 	meta:
