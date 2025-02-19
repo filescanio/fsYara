@@ -33,4 +33,4 @@ def generate_yara_master_index(input_folder, output_file, ignore_filenames=None,
 
 # Example usage
 if __name__ == "__main__":
-    generate_yara_master_index(".", "output.yarc", ignore_filenames={"ignore_me"}, ignore_folders={"skip_this_folder"})
+    generate_yara_master_index(".", "master_file.yar",)

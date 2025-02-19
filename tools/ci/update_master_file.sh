@@ -12,6 +12,7 @@ cp "$MASTER_FILE" "$BACKUP_FILE"
 cat "$TMP_FILE" > master_file_updated.yar
 
 # Keep only "custom" rules and remove "/app/transform/yara/rules/0PSWAT_fsYara/"
+echo "" >> master_file_updated.yar
 grep 'include "/app/transform/yara/rules/custom/' "$MASTER_FILE" >> master_file_updated.yar
 
 # Replace the original master file
