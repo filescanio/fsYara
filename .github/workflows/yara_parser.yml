@@ -11,7 +11,7 @@ on:
 
 env:
   PARSER_INPUT_FOLDER: "executable"
-  PARSER_OUTPUT_FILE: "master_test.yar"    # Default - master_file.yar
+  PARSER_OUTPUT_FILE: "master_test.yar"
   PARSER_IGNORE_FILE: "python.yar"    # Default - None
   PARSER_IGNORE_FOLDER: "JAR"  # Default - None
 
@@ -36,7 +36,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: yara-master-index
-          path: master_file.yar
+          path: ${PARSER_OUTPUT_FILE}
 
   # release:
   #   needs: build-and-run
