@@ -10,10 +10,10 @@ on:
   workflow_dispatch:
 
 env:
-  PARSER_INPUT_FOLDER: "."
-  PARSER_OUTPUT_FILE: ""    # Default - master_file.yar
-  PARSER_IGNORE_FILE: ""    # Default - None
-  PARSER_IGNORE_FOLDER: ""  # Default - None
+  PARSER_INPUT_FOLDER: "executable"
+  PARSER_OUTPUT_FILE: "master_test.yar"    # Default - master_file.yar
+  PARSER_IGNORE_FILE: "python.yar"    # Default - None
+  PARSER_IGNORE_FOLDER: "JAR"  # Default - None
 
 jobs:
   build-and-run:
