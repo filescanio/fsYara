@@ -2,7 +2,7 @@ import os
 import argparse
 from datetime import datetime
 
-def generate_yara_master_index(input_folder, output_file, ignore_filenames, ignore_folders):
+def generate_yara_master_index(input_folder, output_file="master_file.yar", ignore_filenames=None, ignore_folders=None):
     """
     Generates a master YARA index file by including all `.yar` files in the given directory.
     """
@@ -35,13 +35,13 @@ def generate_yara_master_index(input_folder, output_file, ignore_filenames, igno
 def main():
     parser = argparse.ArgumentParser(description="Generates a master YARA index file by including all `.yar` files in the given directory")
     parser.add_argument("input_folder", help="Path to the input folder containing YARA rule files.")
-    parser.add_argument("output_file", help="Name of the output file", default="master_file.yar")
-    parser.add_argument("ignore_filenames", help="Files to be ignored", default=None)
-    parser.add_argument("ignore_folders", help="Folders to be ignored", default=None)
+    parser.add_argument("--output_file", help="Name of the output file", default="master_file.yar")
+    parser.add_argument("--ignore_filenames", help="Files to be ignored", default=None)
+    parser.add_argument("--ignore_folders", help="Folders to be ignored", default=None)
 
     args = parser.parse_args()
 
-    generate_yara_master_index(args.input_folder, args.output_file, args.ignore_filenames, args.ignore_folders)
+    generate_yara_master_index(args.input_folder, output_file=args.output_file, ignore_filenames=args.ignore_filenames, ignore_folders=args.ignore_folders)
 
 # Example usage
 if __name__ == "__main__":
