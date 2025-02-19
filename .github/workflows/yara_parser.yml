@@ -13,7 +13,7 @@ env:
   PARSER_INPUT_FOLDER: "."
   PARSER_OUTPUT_FILE: "test.yar"
   PARSER_IGNORE_FILE: "None"
-  PARSER_IGNORE_FOLDER: "JAR"
+  PARSER_IGNORE_FOLDER: "None"
 
 jobs:
   build-and-run:
