@@ -6,8 +6,10 @@ def generate_yara_master_index(input_folder, output_file="master_file.yar", igno
     """
     Generates a master YARA index file by including all `.yar` files in the given directory.
     """
+    print(f"Ignore files : {ignore_filenames}")
     ignore_filenames = ignore_filenames or set()
     ignore_folders = ignore_folders or set()
+    print(f"Ignore files : {ignore_filenames}")
     
     with open(output_file, "w") as fw:
         fw.write("/*\n")
