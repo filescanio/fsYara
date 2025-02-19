@@ -24,6 +24,7 @@ def generate_yara_master_index(input_folder, output_file="master_file.yar", igno
             for file in files:
                 if file.endswith(".yar") or file.endswith(".yara"):
                     if file in ignore_filenames or file == output_file:
+                        print(f"file name: {file}")
                         print(f"Ignore")
                         continue
                     yara_file_path = os.path.abspath(os.path.join(root, file))
