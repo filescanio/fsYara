@@ -31,7 +31,7 @@ jobs:
       - name: Run YARA Parser
         run: |
           # python tools/ci/parser.py ${{ env.PARSER_INPUT_FOLDER }} --output_file ${{ env.PARSER_OUTPUT_FILE }} --ignore_filenames ${{ env.PARSER_IGNORE_FILE }} --ignore_folders ${{ env.PARSER_IGNORE_FOLDER }}
-          python tools/ci/parser.py ${{ env.PARSER_INPUT_FOLDER }} --output_file ${{ env.PARSER_OUTPUT_FILE }} --ignore_filenames ${{ env.PARSER_IGNORE_FILE }}
+          python tools/ci/parser.py ${{ env.PARSER_INPUT_FOLDER }} --output_file ${{ env.PARSER_OUTPUT_FILE }} --ignore_filenames ${{ env.PARSER_IGNORE_FILE }} --ignore_folders ${{ env.PARSER_IGNORE_FOLDER }}
 
       - name: Upload Generated .yar file
         uses: actions/upload-artifact@v4
