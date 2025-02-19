@@ -3,13 +3,7 @@ name: Yara Parser CI
 on:
   push:
     branches:
-      - main
-  pull_request:
-    branches:
-      - main
-  workflow_dispatch:
-  release:
-    types: [created]
+      - '**'
 
 jobs:
   build-and-run:
