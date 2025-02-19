@@ -19,6 +19,7 @@ def generate_yara_master_index(input_folder, output_file="master_file.yar", igno
         for root, dirs, files in os.walk(input_folder):
             print(f"root: {root}")
             print(f"root: {ignore_folders}")
+            ignore_folders = ['executable']
             if any(folder in root for folder in ignore_folders):
                 print(f"root: {root}")
                 print(f"dir: {dirs}")
