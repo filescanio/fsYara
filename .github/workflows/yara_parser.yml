@@ -25,13 +25,13 @@ jobs:
       - name: Run YARA Parser
         run: |
           ls -la
-          python tools/ci/parser.py
+          python tools/ci/parser.py .
 
-      - name: Upload Generated .yarc file
+      - name: Upload Generated .yar file
         uses: actions/upload-artifact@v4
         with:
           name: yara-master-index
-          path: output.yarc
+          path: master_file.yar
 
   # release:
   #   needs: build-and-run
@@ -51,7 +51,7 @@ jobs:
   #     - name: Create GitHub Release
   #       uses: softprops/action-gh-release@v2
   #       with:
-  #         files: output.yarc
+  #         files: master_file.yar
   #       env:
   #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
  
