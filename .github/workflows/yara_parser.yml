@@ -9,6 +9,13 @@ on:
 
   workflow_dispatch:
 
+env:
+  PYTHON_VERSION: 3.9
+  PARSER_INPUT_FOLDER: "."
+  PARSER_OUTPUT_FILE: ""    # Default - master_file.yar
+  PARSER_IGNORE_FILE: ""    # Default - None
+  PARSER_IGNORE_FOLDER: ""  # Default - None
+
 jobs:
   build-and-run:
     runs-on: ubuntu-latest
@@ -20,12 +27,11 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.9'
+          python-version: ${PYTHON_VERSION}
 
       - name: Run YARA Parser
         run: |
-          ls -la
-          python tools/ci/parser.py .
+          python tools/ci/parser.py ${PARSER_INPUT_FOLDER} ${PARSER_OUTPUT_FILE} ${PARSER_IGNORE_FILE} ${PARSER_IGNORE_FOLDER}
 
       - name: Upload Generated .yar file
         uses: actions/upload-artifact@v4

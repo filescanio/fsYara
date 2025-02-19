@@ -25,7 +25,7 @@ def generate_yara_master_index(input_folder, output_file="master_file.yar", igno
                         continue
                     yara_file_path = os.path.abspath(os.path.join(root, file))
                     yara_file_path = yara_file_path.replace(
-                        "/home/runner/work/fsYara/fsYara/", 
+                        "/home/runner/work/fsYara/fsYara/",
                         "/app/transform/yara/rules/0PSWAT_fsYara/"
                     )
                     fw.write(f'include "{yara_file_path}"\n')
