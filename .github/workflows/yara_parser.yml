@@ -28,27 +28,38 @@ jobs:
         with:
           python-version: 3.9
 
-      - name: Run YARA Parser
-        run: |
-          python tools/ci/parser.py ${{ env.PARSER_INPUT_FOLDER }} --output_file ${{ env.PARSER_OUTPUT_FILE }} --ignore_filenames ${{ env.PARSER_IGNORE_FILE }} --ignore_folders ${{ env.PARSER_IGNORE_FOLDER }}
+      # - name: Run YARA Parser
+      #   run: |
+      #     python tools/ci/parser.py ${{ env.PARSER_INPUT_FOLDER }} --output_file ${{ env.PARSER_OUTPUT_FILE }} --ignore_filenames ${{ env.PARSER_IGNORE_FILE }} --ignore_folders ${{ env.PARSER_IGNORE_FOLDER }}
 
-      - name: Upload Generated .yar file
-        uses: actions/upload-artifact@v4
-        with:
-          name: yara-master-index
-          path: ${{ env.PARSER_OUTPUT_FILE }} 
+      # - name: Upload Generated .yar file
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: yara-master-index
+      #     path: ${{ env.PARSER_OUTPUT_FILE }} 
         
-      - name: Delete miscellaneous files
-        run: |
-          rm -rf .*
-          rm -rf tools*
-          rm ${{ env.PARSER_OUTPUT_FILE }}
+      # - name: Delete miscellaneous files
+      #   run: |
+      #     rm -rf .*
+      #     rm -rf tools*
+      #     rm ${{ env.PARSER_OUTPUT_FILE }}
       
-      - name: Upload Generated .yar file
-        uses: actions/upload-artifact@v4
-        with:
-          name: 0PSWAT_fsYara.zip
-          path: .
+      # - name: Upload Generated .yar file
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: 0PSWAT_fsYara.zip
+      #     path: .
+      - name: Set up SSH Key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.FSYARA_SECRET_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          export GIT_SSH_COMMAND="ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no"
+
+      - name: Clone Target Repository
+        run: |
+          rm -rf target-repo
+          git clone git@bitbucket.org:metascan/fsbin.git target-repo
 
 
   # release:
