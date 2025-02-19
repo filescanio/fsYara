@@ -17,7 +17,7 @@ def generate_yara_master_index(input_folder, output_file="master_file.yar", igno
         fw.write("*/\n\n")
         
         for root, dirs, files in os.walk(input_folder):
-            if root in ignore_folders:
+            if any(folder in root.split("/") for folder in ignore_folders):
                 print(f"root: {root}")
                 print(f"dir: {dirs}")
                 print(f"path: {os.path.basename(root)}")
