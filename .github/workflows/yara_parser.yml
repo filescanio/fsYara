@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 env:
-  PARSER_INPUT_FOLDER: "."
+  PARSER_INPUT_FOLDER: "executable"
   PARSER_OUTPUT_FILE: "master_file.yar"
   PARSER_IGNORE_FILE: "None"
   PARSER_IGNORE_FOLDER: "None"
