@@ -11,6 +11,7 @@ def generate_yara_master_index(input_folder, output_file, ignore_filenames=None,
     with open(output_file, "w") as fw:
         fw.write("/*\n")
         fw.write(f"Generated on {datetime.now().strftime('%Y-%m-%d')}\n")
+        fw.write("Copyright 2024 OPSWAT Inc., All Rights Reserved, www.filescan.com\n")
         fw.write("*/\n\n")
         
         for root, dirs, files in os.walk(input_folder):
