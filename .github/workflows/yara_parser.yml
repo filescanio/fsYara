@@ -45,7 +45,7 @@ jobs:
       - name: Upload Generated .yar file
         uses: actions/upload-artifact@v4
         with:
-          # name: 0PSWAT_fsYara.zip
+          name: 0PSWAT_fsYara.zip
           path: 0PSWAT_fsYara.zip
 
 
