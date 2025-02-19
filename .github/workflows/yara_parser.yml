@@ -38,15 +38,16 @@ jobs:
           name: yara-master-index
           path: ${{ env.PARSER_OUTPUT_FILE }} 
         
-      - name: zip rules
+      - name: Delete miscellaneous files
         run: |
-          zip -r 0PSWAT_fsYara.zip . -x ".*" "tools/*"
+          rm -rf .*
+          rm -rf tools*
       
       - name: Upload Generated .yar file
         uses: actions/upload-artifact@v4
         with:
           name: 0PSWAT_fsYara.zip
-          path: 0PSWAT_fsYara.zip
+          path: .
 
 
   # release:
