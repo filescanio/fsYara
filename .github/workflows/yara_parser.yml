@@ -24,14 +24,14 @@ jobs:
       - name: Install Python Dependencies
         run: pip install yara-python
 
-      # - name: Run YARA Parser
-      #   run: python parser.py  # Assuming `parser.py` contains your Python parser
+      - name: Run YARA Parser
+        run: python parser.py  # Assuming `parser.py` contains your Python parser
 
-      # - name: Upload Generated .yarc file
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: yara-master-index
-      #     path: output.yarc
+      - name: Upload Generated .yarc file
+        uses: actions/upload-artifact@v4
+        with:
+          name: yara-master-index
+          path: output.yarc
 
   # release:
   #   needs: build-and-run
