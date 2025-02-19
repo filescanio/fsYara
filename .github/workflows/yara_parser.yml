@@ -37,6 +37,17 @@ jobs:
         with:
           name: yara-master-index
           path: ${{ env.PARSER_OUTPUT_FILE }} 
+        
+      - name: zip rules
+        run: |
+          zip -r 0PSWAT_fsYara.zip . -x ".*" "tools/*"
+      
+      - name: Upload Generated .yar file
+        uses: actions/upload-artifact@v4
+        with:
+          # name: 0PSWAT_fsYara.zip
+          path: 0PSWAT_fsYara.zip
+
 
   # release:
   #   needs: build-and-run
