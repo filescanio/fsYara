@@ -17,18 +17,13 @@ def generate_yara_master_index(input_folder, output_file="master_file.yar", igno
         fw.write("*/\n\n")
         
         for root, dirs, files in os.walk(input_folder):
-            print(f"root: {root}")
-            print(f"root: {ignore_folders}")
-            ignore_folders = ['executable']
+
             if any(folder in root for folder in ignore_folders):
-                print(f"root: {root}")
-                print(f"dir: {dirs}")
-                print(f"path: {os.path.basename(root)}")
                 continue
             
             for file in files:
                 if file.endswith(".yar") or file.endswith(".yara"):
-                    if file in ignore_filenames or any(folder in root for folder in ignore_folders) or file == output_file:
+                    if file in ignore_filenames or file == output_file:
                         continue
                     yara_file_path = os.path.abspath(os.path.join(root, file))
                     yara_file_path = yara_file_path.replace(
@@ -48,7 +43,7 @@ def main():
 
     args = parser.parse_args()
 
-    generate_yara_master_index(args.input_folder, output_file=args.output_file, ignore_filenames=args.ignore_filenames, ignore_folders=args.ignore_folders)
+    generate_yara_master_index(args.input_folder, output_file=args.output_file, ignore_filenames=args.ignore_filenames, ignore_folders=[args.ignore_folders])
 
 # Example usage
 if __name__ == "__main__":
