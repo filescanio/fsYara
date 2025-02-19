@@ -55,7 +55,7 @@ jobs:
           echo "${{ secrets.FSYARA_SECRET_KEY }}" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
           export GIT_SSH_COMMAND="ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no"
-          ssh -T git@bitbucket.org
+          ssh -vvvT git@bitbucket.org
 
       - name: Clone Target Repository
         run: |
