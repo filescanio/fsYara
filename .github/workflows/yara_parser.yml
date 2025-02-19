@@ -25,7 +25,7 @@ jobs:
         run: pip install yara-python
 
       - name: Run YARA Parser
-        run: python parser.py  # Assuming `parser.py` contains your Python parser
+        run: python /tools/ci/parser.py
 
       - name: Upload Generated .yarc file
         uses: actions/upload-artifact@v4
