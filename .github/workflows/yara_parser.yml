@@ -22,12 +22,6 @@ jobs:
         with:
           python-version: '3.9'
 
-      - name: Install YARA
-        run: sudo apt-get install -y yara
-
-      - name: Install Python Dependencies
-        run: pip install yara-python
-
       - name: Run YARA Parser
         run: |
           ls -la
