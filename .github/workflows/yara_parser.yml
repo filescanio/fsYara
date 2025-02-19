@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - '**'
+  schedule:
+    - cron: '0 8 * * 1'
+
+  workflow_dispatch:
 
 jobs:
   build-and-run:
@@ -25,7 +29,9 @@ jobs:
         run: pip install yara-python
 
       - name: Run YARA Parser
-        run: python /tools/ci/parser.py
+        run: |
+          ls -la
+          python tools/ci/parser.py
 
       - name: Upload Generated .yarc file
         uses: actions/upload-artifact@v4
