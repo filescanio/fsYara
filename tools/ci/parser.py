@@ -1,5 +1,4 @@
 import os
-import yara
 from datetime import datetime
 
 def generate_yara_master_index(input_folder, output_file, ignore_filenames=None, ignore_folders=None):
