@@ -36,7 +36,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: yara-master-index
-          path: master_test.yar
+          path: ${{ env.PARSER_OUTPUT_FILE }}
 
   # release:
   #   needs: build-and-run
