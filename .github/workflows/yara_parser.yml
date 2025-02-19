@@ -11,7 +11,7 @@ on:
 
 env:
   PARSER_INPUT_FOLDER: "."
-  PARSER_OUTPUT_FILE: "master_test.yar"
+  PARSER_OUTPUT_FILE: "master_file.yar"
   PARSER_IGNORE_FILE: "None"
   PARSER_IGNORE_FOLDER: "None"
 
