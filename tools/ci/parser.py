@@ -43,7 +43,7 @@ def main():
 
     args = parser.parse_args()
 
-    generate_yara_master_index(args.input_folder, output_file=args.output_file, ignore_filenames=args.ignore_filenames, ignore_folders=[args.ignore_folders])
+    generate_yara_master_index(args.input_folder, output_file=args.output_file, ignore_filenames=[args.ignore_filenames], ignore_folders=[args.ignore_folders])
 
 # Example usage
 if __name__ == "__main__":
