@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 env:
-  PYTHON_VERSION: 3.9
+  PYTHON_VERSION: 3.9.21
   PARSER_INPUT_FOLDER: "."
   PARSER_OUTPUT_FILE: ""    # Default - master_file.yar
   PARSER_IGNORE_FILE: ""    # Default - None
@@ -27,7 +27,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: 3.9
+          python-version: ${PYTHON_VERSION}
 
       - name: Run YARA Parser
         run: |
