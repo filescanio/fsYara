@@ -1,0 +1,216 @@
+{
+    "Windows_Trojan_RedLineStealer_3d9371fd": {
+        "extra": [
+            "fd17ba1c5a4ebe7ad43606505471a2357cb9a6bbdf11bde9a9c18633bfedd65d"
+        ]
+    },
+    "Windows_Trojan_CobaltStrike_ee756db7": {
+        "extra": [
+            "1ceaa4b6735e54755f3d4ccc633936a96d120d6a18726c81f5caec4063418ed3"
+        ]
+    },
+    "Windows_Trojan_CobaltStrike_8519072e": {
+        "extra": [
+            "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
+            "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
+        ]
+    },
+    "APT_APT41_POISONPLUG": {
+        "extra": [
+            "ef7bac23b920c86b72c70ff6eb23504ab472e0c7d6a7c28461fd8fa846e1a4ae"
+        ]
+    },
+    "Rehashed_RAT_1": {
+        "extra": [
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
+            "a6ee06d8b84765979b3dbaab058e4934043e08a4b251efd7ecb9a5fcbea95e75",
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
+        ]
+    },
+    "Zeus_Panda": {
+        "extra": [
+            "7ca69ca5783d6c75d9001e10c883897326aea5ba6227ddc100731217d0dd6317"
+        ]
+    },
+    "PoseidonGroup_Malware": {
+        "extra": [
+            "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c"
+        ]
+    },
+    "HKTL_PowerKatz_Feb19_1": {
+        "extra": [
+            "12454a323dec0a56a23cd5215bb335d7842c85bbf38e3bd696c9237e26454388"
+        ]
+    },
+    "HKTL_LazyCat_LogEraser": {
+        "extra": [
+            "12454a323dec0a56a23cd5215bb335d7842c85bbf38e3bd696c9237e26454388"
+        ]
+    },
+    "WoolenGoldfish_Generic_1": {
+        "extra": [
+            "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c"
+        ]
+    },
+    "HKTL_RedMimicry_WinntiLoader": {
+        "extra": [
+            "1ceaa4b6735e54755f3d4ccc633936a96d120d6a18726c81f5caec4063418ed3"
+        ]
+    },
+    "Unspecified_Malware_Jul17_2C": {
+        "extra": [
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
+        ]
+    },
+    "BronzeButler_UACBypass_1": {
+        "extra": [
+            "067fca1211ab7cde65e58c057b3b8cbaf9aa6da891b7f3e9bd91b191eab649a0",
+            "f3165a426e73b3dce639c5f44c0c6dca403a363fa07abf4458e61f7a61d7d880",
+            "95e08990fdf11251e9ee935f0b2e075667133758bc68c4d390e82f041a54e4b3"
+        ]
+    },
+    "Ncat_Hacktools_CN": {
+        "extra": [
+            "e8fbec25db4f9d95b5e8f41cca51a4b32be8674a4dea7a45b6f7aeb22dbc38db"
+        ]
+    },
+    "iKAT_revelations": {
+        "extra": [
+            "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc"
+        ]
+    },
+    "Hacktools_CN_Panda_tesksd": {
+        "extra": [
+            "ea1a6496003eaf5b020d855d14757757c788049b2e2c800d806c4eb371f9567b"
+        ]
+    },
+    "BlackEnergy_BackdoorPass_DropBear_SSH": {
+        "extra": [
+            "a6ee06d8b84765979b3dbaab058e4934043e08a4b251efd7ecb9a5fcbea95e75"
+        ]
+    },
+    "HKTL_Keyword_InjectDLL": {
+        "extra": [
+            "38c381e1f0d8db27082d5809b70fc73d5c7137e266bc22b4301dd4bbd5e79637",
+            "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c"
+        ]
+    },
+    "Reflective_DLL_Loader_Aug17_1": {
+        "extra": [
+            "ea1a6496003eaf5b020d855d14757757c788049b2e2c800d806c4eb371f9567b"
+        ]
+    },
+    "INDICATOR_SUSPICIOUS_EXE_WindDefender_AntiEmaulation": {
+        "extra": [
+            "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c"
+        ]
+    },
+    "INDICATOR_SUSPICIOUS_EXE_SandboxProductID": {
+        "extra": [
+            "91caa1fe289cdd8500399b3dcb07a5417223126a8cfd6833ece052acaaeb27f7"
+        ]
+    },
+    "INDICATOR_SUSPICIOUS_EXE_TelegramChatBot": {
+        "extra": [
+            "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c"
+        ]
+    },
+    "INDICATOR_SUSPICIOUS_EXE_DotNetProcHook": {
+        "extra": [
+            "38c381e1f0d8db27082d5809b70fc73d5c7137e266bc22b4301dd4bbd5e79637",
+            "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c"
+        ]
+    },
+    "DeepPanda_htran_exe": {
+        "extra": [
+            "a6ee06d8b84765979b3dbaab058e4934043e08a4b251efd7ecb9a5fcbea95e75"
+        ]
+    },
+    "INDICATOR_EXE_Packed_ConfuserEx": {
+        "extra": [
+            "ef7bac23b920c86b72c70ff6eb23504ab472e0c7d6a7c28461fd8fa846e1a4ae",
+            "2aba476a881c4532511277702aa391e09917d05a53ab87a55830d2477573cb3f"
+        ]
+    },
+    "SystemBC_cleartext_Config": {
+        "extra": [
+            "de4e3ff7f7da5d5561e384585a9d0cb66f2c51ea324c184848d125d8792bf666"
+        ]
+    },
+    "Vermin_Keylogger_Jan18_1": {
+        "extra": [
+            "de930a748e4dc08c851ba0a22afce8dcfd0f15f23b291f9306c8ef6ccd7460a2"
+        ]
+    },
+    "MAL_Parite_Malware_May19_1": {
+        "extra": [
+            "12454a323dec0a56a23cd5215bb335d7842c85bbf38e3bd696c9237e26454388"
+        ]
+    },
+    "Turla_APT_srsvc": {
+        "extra": [
+            "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc"
+        ]
+    },
+    "Msfpayloads_msf_6": {
+        "extra": [
+            "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c"
+        ]
+    },
+    "Mimikatz_Memory_Rule_1": {
+        "extra": [
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
+            "a3b16246222b284d054201022ad62d16cf73c51dd52753d4ce4e5d94cdb3f0de",
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
+        ]
+    },
+    "Mimikatz_Strings": {
+        "extra": [
+            "91caa1fe289cdd8500399b3dcb07a5417223126a8cfd6833ece052acaaeb27f7",
+            "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c"
+        ]
+    },
+    "INDICATOR_TOOL_WEDGECUT": {
+        "extra": [
+            "5c2e9604ddf63e732a674d9672a4ba20f44891a83e10f44f1d4d764f8c59ea63",
+            "3f7c56928446baa1688c1381ee5365d7141d98274762b919168046535d17cb89"
+        ]
+    },
+    "INDICATOR_TOOL_SCN_PortScan": {
+        "extra": [
+            "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c"
+        ]
+    },
+    "Codoso_Gh0st_2": {
+        "extra": [
+            "95e08990fdf11251e9ee935f0b2e075667133758bc68c4d390e82f041a54e4b3"
+        ]
+    },
+    "Shamoon2_Wiper": {
+        "extra": [
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
+        ]
+    },
+    "Ursnif": {
+        "extra": [
+            "ea1a6496003eaf5b020d855d14757757c788049b2e2c800d806c4eb371f9567b"
+        ]
+    },
+    "CN_disclosed_20180208_KeyLogger_1": {
+        "extra": [
+            "f1d0dc52fe626c992361233304cca5a0e62eec2875f9cb4b091f88ed39a30255"
+        ]
+    },
+    "ZxShell_Jul17": {
+        "extra": [
+            "6fa0ea46cdf13cc71d9a164d0291f481d3947ec4f35f2cbf7b5c4a51ae3b0aed",
+            "12454a323dec0a56a23cd5215bb335d7842c85bbf38e3bd696c9237e26454388"
+        ]
+    },
+    "kiwi_tools": {
+        "extra": [
+            "d30f51bfd62695df96ba94cde14a7fae466b29ef45252c6ad19d57b4a87ff44e"
+        ]
+    }
+}
