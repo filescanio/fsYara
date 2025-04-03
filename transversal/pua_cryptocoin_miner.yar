@@ -1,4 +1,4 @@
-rule CoinHive_Javascript_MoneroMiner : HIGHVOL hardened
+rule CoinHive_Javascript_MoneroMiner : HIGHVOL hardened limited
 {
 	meta:
 		description = "Detects CoinHive - JavaScript Crypto Miner"
@@ -10,13 +10,13 @@ rule CoinHive_Javascript_MoneroMiner : HIGHVOL hardened
 		id = "4f40c342-fcdc-5c73-a3cf-7b2ed438eaaf"
 
 	strings:
-		$s2 = {43 6f 69 6e 48 69 76 65 2e 43 4f 4e 46 49 47 2e 52 45 51 55 49 52 45 53 5f 41 55 54 48}
+		$s2 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 43 6f 69 6e 48 69 76 65 2e 43 4f 4e 46 49 47 2e 52 45 51 55 49 52 45 53 5f 41 55 54 48 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 
 	condition:
 		filesize < 65KB and 1 of them
 }
 
-rule PUA_CryptoMiner_Jan19_1 : hardened
+rule PUA_CryptoMiner_Jan19_1 : hardened limited
 {
 	meta:
 		description = "Detects Crypto Miner strings"
@@ -28,11 +28,11 @@ rule PUA_CryptoMiner_Jan19_1 : hardened
 		id = "aebfdce9-c2dd-5f24-aa25-071e1a961239"
 
 	strings:
-		$s1 = {53 74 72 61 74 75 6d 20 6e 6f 74 69 66 79 3a 20 69 6e 76 61 6c 69 64 20 4d 65 72 6b 6c 65 20 62 72 61 6e 63 68}
-		$s2 = {2d 74 2c 20 2d 2d 74 68 72 65 61 64 73 3d 4e 20 20 20 20 20 20 20 6e 75 6d 62 65 72 20 6f 66 20 6d 69 6e 65 72 20 74 68 72 65 61 64 73 20 28 64 65 66 61 75 6c 74 3a 20 6e 75 6d 62 65 72 20 6f 66 20 70 72 6f 63 65 73 73 6f 72 73 29}
+		$s1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 53 74 72 61 74 75 6d 20 6e 6f 74 69 66 79 3a 20 69 6e 76 61 6c 69 64 20 4d 65 72 6b 6c 65 20 62 72 61 6e 63 68 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
+		$s2 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 2d 74 2c 20 2d 2d 74 68 72 65 61 64 73 3d 4e 20 20 20 20 20 20 20 6e 75 6d 62 65 72 20 6f 66 20 6d 69 6e 65 72 20 74 68 72 65 61 64 73 20 28 64 65 66 61 75 6c 74 3a 20 6e 75 6d 62 65 72 20 6f 66 20 70 72 6f 63 65 73 73 6f 72 73 29 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 		$s3 = {55 73 65 72 2d 41 67 65 6e 74 3a 20 63 70 75 6d 69 6e 65 72 2f}
-		$s4 = {68 61 73 68 20 3e 20 74 61 72 67 65 74 20 28 66 61 6c 73 65 20 70 6f 73 69 74 69 76 65 29}
-		$s5 = {74 68 72 65 61 64 20 25 64 3a 20 25 6c 75 20 68 61 73 68 65 73 2c 20 25 73 20 6b 68 61 73 68 2f 73}
+		$s4 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 68 61 73 68 20 3e 20 74 61 72 67 65 74 20 28 66 61 6c 73 65 20 70 6f 73 69 74 69 76 65 29 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
+		$s5 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 74 68 72 65 61 64 20 25 64 3a 20 25 6c 75 20 68 61 73 68 65 73 2c 20 25 73 20 6b 68 61 73 68 2f 73 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 
 	condition:
 		filesize < 1000KB and 1 of them

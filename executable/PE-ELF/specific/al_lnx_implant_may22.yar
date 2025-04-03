@@ -1,4 +1,4 @@
-rule MAL_LNX_RedMenshen_BPFDoor_May23_1 : hardened
+rule MAL_LNX_RedMenshen_BPFDoor_May23_1 : hardened limited
 {
 	meta:
 		description = "Detects BPFDoor malware"
@@ -10,12 +10,12 @@ rule MAL_LNX_RedMenshen_BPFDoor_May23_1 : hardened
 		id = "25df4dba-ec6e-5999-b6be-56fe933cb0d0"
 
 	strings:
-		$x1 = {5b 2d 5d 20 45 78 65 63 75 74 65 20 63 6f 6d 6d 61 6e 64 20 66 61 69 6c 65 64}
-		$x2 = {2f 76 61 72 2f 72 75 6e 2f 69 6e 69 74 64 2e 6c 6f 63 6b}
+		$x1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 5b 2d 5d 20 45 78 65 63 75 74 65 20 63 6f 6d 6d 61 6e 64 20 66 61 69 6c 65 64 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
+		$x2 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 2f 76 61 72 2f 72 75 6e 2f 69 6e 69 74 64 2e 6c 6f 63 6b (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 		$xc1 = { 2F 00 3E 3E 00 65 78 69 74 00 72 00 }
 		$sc1 = { 9F CD 30 44 }
 		$sc2 = { 66 27 14 5E }
-		$sa1 = {54 4c 53 2d 43 48 41 43 48 41 32 30 2d 50 4f 4c 59 31 33 30 35 2d 53 48 41 32 35 36}
+		$sa1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 54 4c 53 2d 43 48 41 43 48 41 32 30 2d 50 4f 4c 59 31 33 30 35 2d 53 48 41 32 35 36 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 		$sop1 = { 48 83 c0 01 4c 39 f8 75 ea 4c 89 7c 24 68 48 69 c3 d0 00 00 00 48 8b 5c 24 50 48 8b 54 24 78 48 c7 44 24 38 00 00 00 00 }
 		$sop2 = { 48 89 de f3 a5 89 03 8b 44 24 2c 39 44 24 28 44 89 4b 04 48 89 53 10 0f 95 c0 }
 		$sop3 = { 49 d3 cd 4d 31 cd b1 29 49 89 e9 49 d3 c8 4d 31 c5 4c 03 68 10 48 89 f9 }
@@ -24,7 +24,7 @@ rule MAL_LNX_RedMenshen_BPFDoor_May23_1 : hardened
 		uint16( 0 ) == 0x457f and filesize < 900KB and ( ( 1 of ( $x* ) and 1 of ( $s* ) ) or 4 of them or ( all of ( $sc* ) and $sc1 in ( @sc2 [ 1 ] - 50 .. @sc2 [ 1 ] + 50 ) ) ) or ( 2 of ( $x* ) or 5 of them )
 }
 
-rule APT_MAL_LNX_RedMenshen_BPFDoor_Controller_May22_1 : hardened
+rule APT_MAL_LNX_RedMenshen_BPFDoor_Controller_May22_1 : hardened limited
 {
 	meta:
 		description = "Detects unknown Linux implants (uploads from KR and MO)"
@@ -45,10 +45,10 @@ rule APT_MAL_LNX_RedMenshen_BPFDoor_Controller_May22_1 : hardened
 		id = "1438c3bf-3c42-59d5-9f3f-2d72bdaaac42"
 
 	strings:
-		$s1 = {5b 2d 5d 20 43 6f 6e 6e 65 63 74 20 66 61 69 6c 65 64 2e}
-		$s2 = {65 78 70 6f 72 74 20 4d 59 53 51 4c 5f 48 49 53 54 46 49 4c 45 3d}
-		$s3 = {75 64 70 63 6d 64}
-		$s4 = {67 65 74 73 68 65 6c 6c}
+		$s1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 5b 2d 5d 20 43 6f 6e 6e 65 63 74 20 66 61 69 6c 65 64 2e (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
+		$s2 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 65 78 70 6f 72 74 20 4d 59 53 51 4c 5f 48 49 53 54 46 49 4c 45 3d (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
+		$s3 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 75 64 70 63 6d 64 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
+		$s4 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 67 65 74 73 68 65 6c 6c (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 		$op1 = { e8 ?? ff ff ff 80 45 ee 01 0f b6 45 ee 3b 45 d4 7c 04 c6 45 ee 00 80 45 ff 01 80 7d ff 00 }
 		$op2 = { 55 48 89 e5 48 83 ec 30 89 7d ec 48 89 75 e0 89 55 dc 83 7d dc 00 75 0? }
 		$op3 = { e8 a? fe ff ff 0f b6 45 f6 48 03 45 e8 0f b6 10 0f b6 45 f7 48 03 45 e8 0f b6 00 8d 04 02 }
@@ -83,7 +83,7 @@ rule APT_MAL_LNX_RedMenshen_BPFDoor_Controller_May22_2 : hardened
 		uint16( 0 ) == 0x457f and filesize < 100KB and 2 of ( $opx* ) or 4 of them
 }
 
-rule APT_MAL_LNX_RedMenshen_BPFDoor_Controller_May22_3 : hardened
+rule APT_MAL_LNX_RedMenshen_BPFDoor_Controller_May22_3 : hardened limited
 {
 	meta:
 		description = "Detects BPFDoor implants used by Chinese actor Red Menshen"
@@ -96,9 +96,9 @@ rule APT_MAL_LNX_RedMenshen_BPFDoor_Controller_May22_3 : hardened
 		id = "91c2153a-a6e0-529e-852c-61f799838798"
 
 	strings:
-		$s1 = {68 61 6c 64 2d 61 64 64 6f 6e 2d 61 63 70 69 3a 20 6c 69 73 74 65 6e 69 6e 67 20 6f 6e 20 61 63 70 69 20 6b 65 72 6e 65 6c 20 69 6e 74 65 72 66 61 63 65 20 2f 70 72 6f 63 2f 61 63 70 69 2f 65 76 65 6e 74}
-		$s2 = {2f 73 62 69 6e 2f 6d 69 6e 67 65 74 74 79 20 2f 64 65 76}
-		$s3 = {70 69 63 6b 75 70 20 2d 6c 20 2d 74 20 66 69 66 6f 20 2d 75}
+		$s1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 68 61 6c 64 2d 61 64 64 6f 6e 2d 61 63 70 69 3a 20 6c 69 73 74 65 6e 69 6e 67 20 6f 6e 20 61 63 70 69 20 6b 65 72 6e 65 6c 20 69 6e 74 65 72 66 61 63 65 20 2f 70 72 6f 63 2f 61 63 70 69 2f 65 76 65 6e 74 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
+		$s2 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 2f 73 62 69 6e 2f 6d 69 6e 67 65 74 74 79 20 2f 64 65 76 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
+		$s3 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 70 69 63 6b 75 70 20 2d 6c 20 2d 74 20 66 69 66 6f 20 2d 75 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 
 	condition:
 		uint16( 0 ) == 0x457f and filesize < 200KB and 2 of them or all of them

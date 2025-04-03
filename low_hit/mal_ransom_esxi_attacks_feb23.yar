@@ -1,4 +1,4 @@
-rule MAL_RANSOM_SH_ESXi_Attacks_Feb23_1 : hardened
+rule MAL_RANSOM_SH_ESXi_Attacks_Feb23_1 : hardened limited
 {
 	meta:
 		description = "Detects script used in ransomware attacks exploiting and encrypting ESXi servers - file encrypt.sh"
@@ -10,17 +10,17 @@ rule MAL_RANSOM_SH_ESXi_Attacks_Feb23_1 : hardened
 		id = "7178dbe4-f573-5279-a23e-9bab8ae8b743"
 
 	strings:
-		$x1 = {2f 62 69 6e 2f 66 69 6e 64 20 2f 20 2d 6e 61 6d 65 20 2a 2e 6c 6f 67 20 2d 65 78 65 63 20 2f 62 69 6e 2f 72 6d 20 2d 72 66 20 7b 7d 20 5c 3b}
-		$x2 = {2f 62 69 6e 2f 74 6f 75 63 68 20 2d 72 20 2f 65 74 63 2f 76 6d 77 61 72 65 2f 72 68 74 74 70 70 72 6f 78 79 2f 63 6f 6e 66 69 67 2e 78 6d 6c 20 2f 62 69 6e 2f 68 6f 73 74 64 2d 70 72 6f 62 65 2e 73 68}
-		$x3 = {67 72 65 70 20 65 6e 63 72 79 70 74 20 7c 20 2f 62 69 6e 2f 67 72 65 70 20 2d 76 20 67 72 65 70 20 7c 20 2f 62 69 6e 2f 77 63 20 2d 6c 29}
-		$s1 = {23 23 20 45 4e 43 52 59 50 54}
-		$s2 = {2f 62 69 6e 2f 66 69 6e 64 20 2f 20 2d 6e 61 6d 65 20 2a 2e 6c 6f 67 20 2d 65 78 65 63 20 2f 62 69 6e}
+		$x1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 2f 62 69 6e 2f 66 69 6e 64 20 2f 20 2d 6e 61 6d 65 20 2a 2e 6c 6f 67 20 2d 65 78 65 63 20 2f 62 69 6e 2f 72 6d 20 2d 72 66 20 7b 7d 20 5c 3b (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
+		$x2 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 2f 62 69 6e 2f 74 6f 75 63 68 20 2d 72 20 2f 65 74 63 2f 76 6d 77 61 72 65 2f 72 68 74 74 70 70 72 6f 78 79 2f 63 6f 6e 66 69 67 2e 78 6d 6c 20 2f 62 69 6e 2f 68 6f 73 74 64 2d 70 72 6f 62 65 2e 73 68 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
+		$x3 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 67 72 65 70 20 65 6e 63 72 79 70 74 20 7c 20 2f 62 69 6e 2f 67 72 65 70 20 2d 76 20 67 72 65 70 20 7c 20 2f 62 69 6e 2f 77 63 20 2d 6c 29 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
+		$s1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 23 23 20 45 4e 43 52 59 50 54 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
+		$s2 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 2f 62 69 6e 2f 66 69 6e 64 20 2f 20 2d 6e 61 6d 65 20 2a 2e 6c 6f 67 20 2d 65 78 65 63 20 2f 62 69 6e (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 
 	condition:
 		uint16( 0 ) == 0x2123 and filesize < 10KB and ( 1 of ( $x* ) or 2 of them ) or 3 of them
 }
 
-rule MAL_RANSOM_ELF_ESXi_Attacks_Feb23_1 : hardened
+rule MAL_RANSOM_ELF_ESXi_Attacks_Feb23_1 : hardened limited
 {
 	meta:
 		description = "Detects ransomware exploiting and encrypting ESXi servers"
@@ -32,11 +32,11 @@ rule MAL_RANSOM_ELF_ESXi_Attacks_Feb23_1 : hardened
 		id = "d0a813aa-41f8-57df-b708-18ccb0d7a3e5"
 
 	strings:
-		$x1 = {75 73 61 67 65 3a 20 65 6e 63 72 79 70 74 20 3c 70 75 62 6c 69 63 5f 6b 65 79 3e 20 3c 66 69 6c 65 5f 74 6f 5f 65 6e 63 72 79 70 74 3e 20 5b 3c 65 6e 63 5f 73 74 65 70 3e 5d 20 5b 3c 65 6e 63 5f 73 69 7a 65 3e 5d 20 5b 3c 66 69 6c 65 5f 73 69 7a 65 3e 5d}
-		$x2 = {5b 20 25 73 20 5d 20 2d 20 46 41 49 4c 20 7b 20 45 72 72 6e 6f 3a 20 25 64 20 7d}
-		$s1 = {6c 50 45 4d 5f 72 65 61 64 5f 62 69 6f 5f 52 53 41 50 72 69 76 61 74 65 4b 65 79}
-		$s2 = {6c 45 52 52 5f 67 65 74 5f 65 72 72 6f 72}
-		$s3 = {67 65 74 5f 70 6b 5f 64 61 74 61 3a 20 6b 65 79 20 66 69 6c 65 20 69 73 20 65 6d 70 74 79 21}
+		$x1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 75 73 61 67 65 3a 20 65 6e 63 72 79 70 74 20 3c 70 75 62 6c 69 63 5f 6b 65 79 3e 20 3c 66 69 6c 65 5f 74 6f 5f 65 6e 63 72 79 70 74 3e 20 5b 3c 65 6e 63 5f 73 74 65 70 3e 5d 20 5b 3c 65 6e 63 5f 73 69 7a 65 3e 5d 20 5b 3c 66 69 6c 65 5f 73 69 7a 65 3e 5d (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
+		$x2 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 5b 20 25 73 20 5d 20 2d 20 46 41 49 4c 20 7b 20 45 72 72 6e 6f 3a 20 25 64 20 7d (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
+		$s1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 6c 50 45 4d 5f 72 65 61 64 5f 62 69 6f 5f 52 53 41 50 72 69 76 61 74 65 4b 65 79 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
+		$s2 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 6c 45 52 52 5f 67 65 74 5f 65 72 72 6f 72 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
+		$s3 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 67 65 74 5f 70 6b 5f 64 61 74 61 3a 20 6b 65 79 20 66 69 6c 65 20 69 73 20 65 6d 70 74 79 21 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 		$op1 = { 8b 45 a8 03 45 d0 89 45 d4 8b 45 a4 69 c0 07 53 65 54 89 45 a8 8b 45 a8 c1 c8 19 }
 		$op2 = { 48 89 95 40 fd ff ff 48 83 bd 40 fd ff ff 00 0f 85 2e 01 00 00 48 8b 9d 50 ff ff ff 48 89 9d 30 fd ff ff 48 83 bd 30 fd ff ff 00 78 13 f2 48 0f 2a 85 30 fd ff ff }
 		$op3 = { 31 55 b4 f7 55 b8 8b 4d ac 09 4d b8 8b 45 b8 31 45 bc c1 4d bc 13 c1 4d b4 1d }
@@ -63,7 +63,7 @@ rule APT_PY_ESXi_Backdoor_Dec22 : hardened
 		filesize < 10KB and 1 of them or all of them
 }
 
-rule APT_SH_ESXi_Backdoor_Dec22 : hardened
+rule APT_SH_ESXi_Backdoor_Dec22 : hardened limited
 {
 	meta:
 		description = "Detects malicious script found on ESXi servers"
@@ -74,7 +74,7 @@ rule APT_SH_ESXi_Backdoor_Dec22 : hardened
 		id = "983ac20c-2e61-5365-8849-b3aeb999f909"
 
 	strings:
-		$x1 = {6d 76 20 2f 62 69 6e 2f 68 6f 73 74 64 2d 70 72 6f 62 65 2e 73 68 20 2f 62 69 6e 2f 68 6f 73 74 64 2d 70 72 6f 62 65 2e 73 68 2e 31}
+		$x1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 6d 76 20 2f 62 69 6e 2f 68 6f 73 74 64 2d 70 72 6f 62 65 2e 73 68 20 2f 62 69 6e 2f 68 6f 73 74 64 2d 70 72 6f 62 65 2e 73 68 2e 31 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 		$x2 = {2f 62 69 6e 2f 6e 6f 68 75 70 20 2f 62 69 6e 2f 70 79 74 68 6f 6e 20 2d 75 20 2f 73 74 6f 72 65 2f 70 61 63 6b 61 67 65 73 2f 76 6d 74 6f 6f 6c 73 2e 70 79}
 		$x3 = {2f 62 69 6e 2f 72 6d 20 2f 62 69 6e 2f 68 6f 73 74 64 2d 70 72 6f 62 65 2e 73 68 2e 31}
 
@@ -99,7 +99,7 @@ rule MAL_RANSOM_SH_ESXi_Attacks_Feb23_2 : hardened
 		filesize < 10KB and 1 of them
 }
 
-rule SUSP_ESXiArgs_Endpoint_Conf_Aug23 : hardened
+rule SUSP_ESXiArgs_Endpoint_Conf_Aug23 : hardened limited
 {
 	meta:
 		description = "Detects indicators found in endpoint.conf files as modified by actors in the ESXiArgs campaign"
@@ -111,9 +111,9 @@ rule SUSP_ESXiArgs_Endpoint_Conf_Aug23 : hardened
 
 	strings:
 		$a1 = {2f 63 6c 69 65 6e 74 2f 63 6c 69 65 6e 74 73 2e 78 6d 6c}
-		$a2 = {2f 76 61 72 2f 72 75 6e 2f 76 6d 77 61 72 65 2f 70 72 6f 78 79 2d 73 64 6b 2d 74 75 6e 6e 65 6c}
-		$a3 = {72 65 64 69 72 65 63 74}
-		$a4 = {61 6c 6c 6f 77}
+		$a2 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 2f 76 61 72 2f 72 75 6e 2f 76 6d 77 61 72 65 2f 70 72 6f 78 79 2d 73 64 6b 2d 74 75 6e 6e 65 6c (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
+		$a3 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 72 65 64 69 72 65 63 74 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
+		$a4 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 61 6c 6c 6f 77 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 		$s1 = {20 6c 6f 63 61 6c 20 38 30 30 38 20 61 6c 6c 6f 77 20 61 6c 6c 6f 77}
 
 	condition:

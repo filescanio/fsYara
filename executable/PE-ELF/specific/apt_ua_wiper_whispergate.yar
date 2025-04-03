@@ -21,7 +21,7 @@ rule APT_HKTL_Wiper_WhisperGate_Jan22_1 : hardened
 		uint16( 0 ) == 0x5a4d and filesize < 100KB and ( 1 of ( $x* ) or 2 of them ) or all of them
 }
 
-rule APT_HKTL_Wiper_WhisperGate_Jan22_2 : hardened
+rule APT_HKTL_Wiper_WhisperGate_Jan22_2 : hardened limited
 {
 	meta:
 		description = "Detects unknown wiper malware"
@@ -42,7 +42,7 @@ rule APT_HKTL_Wiper_WhisperGate_Jan22_2 : hardened
 		$s1 = {78 00 6f 00 77 00 6e 00 78 00 6c 00 6f 00 78 00 61 00 64 00 44 00 78 00 61 00 74 00 78 00 78 00 61 00 78 00}
 		$s2 = {30 00 41 00 55 00 77 00 42 00 73 00 41 00 47 00 55 00 41 00 5a 00 51 00 42 00 77 00 41 00 43 00 41 00 41 00 4c 00 51 00 42 00 7a 00 41 00 43 00 41 00 41 00 4d 00 51 00 41 00 77 00 41 00 41 00 3d 00 3d 00}
 		$s3 = {68 00 74 00 74 00 70 00 73 00 3a 00 2f 00 2f 00 63 00 64 00 6e 00 2e 00 64 00 69 00 73 00 63 00 6f 00 72 00 64 00 61 00 70 00 70 00 2e 00 63 00 6f 00 6d 00 2f 00 61 00 74 00 74 00 61 00 63 00 68 00 6d 00 65 00 6e 00 74 00 73 00 2f 00}
-		$s4 = {66 66 66 78 66 66 66 2e 66 66 66}
+		$s4 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 66 66 66 78 66 66 66 2e 66 66 66 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 		$op1 = { 20 6b 85 b9 03 20 14 19 91 52 61 65 20 e1 ae f1 }
 		$op2 = { aa ae 74 20 d9 7c 71 04 59 20 71 cc 13 91 61 20 97 3c 2a c0 }
 		$op3 = { 38 9c f3 ff ff 20 f2 96 4d e9 20 5d ae d9 ce 58 20 4f 45 27 }
@@ -70,7 +70,7 @@ rule APT_HKTL_Wiper_WhisperGate_Stage3_Jan22 : hardened
 		uint16( filesize - 2 ) == 0x4d5a and filesize < 5000KB and all of them
 }
 
-rule MAL_OBFUSC_Unknown_Jan22_1 : hardened
+rule MAL_OBFUSC_Unknown_Jan22_1 : hardened limited
 {
 	meta:
 		description = "Detects samples similar to reversed stage3 found in Ukrainian wiper incident named WhisperGate"
@@ -88,7 +88,7 @@ rule MAL_OBFUSC_Unknown_Jan22_1 : hardened
 		$xc2 = { 4D 61 69 6E 00 43 6C 61 73 73 4C 69 62 72 61 72
                79 31 00 70 63 31 65 }
 		$s1 = {2e 00 64 00 6c 00 6c 00}
-		$s2 = {25 26 25 2c 25 73 25}
+		$s2 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 25 26 25 2c 25 73 25 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 		$op1 = { a2 87 fa b1 44 a5 f5 12 da a7 49 11 5c 8c 26 d4 75 }
 		$op2 = { d7 af 52 38 c7 47 95 c8 0e 88 f3 d5 0b }
 		$op3 = { 6c 05 df d6 b8 ac 11 f2 67 16 cb b7 34 4d b6 91 }

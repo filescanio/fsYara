@@ -158,7 +158,7 @@ rule office_document_vba : maldoc hardened
 		($officemagic at 0 and any of ( $97str* ) ) or ( $zipmagic at 0 and any of ( $xmlstr* ) )
 }
 
-rule Office_AutoOpen_Macro : maldoc hardened
+rule Office_AutoOpen_Macro : maldoc hardened limited
 {
 	meta:
 		description = "Detects an Microsoft Office file that contains the AutoOpen Macro function"
@@ -174,8 +174,8 @@ rule Office_AutoOpen_Macro : maldoc hardened
 		hash7 = "25285b8fe2c41bd54079c92c1b761381"
 
 	strings:
-		$s1 = {41 75 74 6f 4f 70 65 6e}
-		$s2 = {4d 00 61 00 63 00 72 00 6f 00 73 00}
+		$s1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 41 75 74 6f 4f 70 65 6e (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
+		$s2 = {(bf 00 | a1 00 | 21 00 | 22 00 | 23 00 | 24 00 | 25 00 | 26 00 | 27 00 | 28 00 | 29 00 | 2a 00 | 2b 00 | 2c 00 | 2d 00 | 2e 00 | 2f 00 | 3a 00 | 3b 00 | 3c 00 | 3d 00 | 3e 00 | 3f 00 | 40 00 | 5b 00 | 5c 00 | 5d 00 | 5e 00 | 5f 00 | 60 00 | 7b 00 | 7c 00 | 7d 00 | 7e 00 | 20 00 | 09 00 | 0a 00 | 0d 00 | 0b 00 | 0c 00 | 00 00 | ff) 4d 00 61 00 63 00 72 00 6f 00 73 00 (bf 00 | a1 00 | 21 00 | 22 00 | 23 00 | 24 00 | 25 00 | 26 00 | 27 00 | 28 00 | 29 00 | 2a 00 | 2b 00 | 2c 00 | 2d 00 | 2e 00 | 2f 00 | 3a 00 | 3b 00 | 3c 00 | 3d 00 | 3e 00 | 3f 00 | 40 00 | 5b 00 | 5c 00 | 5d 00 | 5e 00 | 5f 00 | 60 00 | 7b 00 | 7c 00 | 7d 00 | 7e 00 | 20 00 | 09 00 | 0a 00 | 0d 00 | 0b 00 | 0c 00 | 00 00 | ff)}
 
 	condition:
 		uint32be( 0 ) == 0xd0cf11e0 and all of ( $s* ) and filesize < 300000

@@ -13,7 +13,6 @@
     ],
     "AgentTeslaV2": [
         "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
-        "54a813d8f2aab7d1e76d8577784ccd9350c025e52f656fee6a228d39dfbac926",
         "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
     ],
     "AgentTeslaV3": [
@@ -76,9 +75,6 @@
         "54a813d8f2aab7d1e76d8577784ccd9350c025e52f656fee6a228d39dfbac926",
         "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
     ],
-    "AgentTeslaV5": [
-        "8f0fa4ed608acc49175e9c44125b945b5ca2c31071d33f9f100f51d0a961d737"
-    ],
     "Windows_Trojan_AgentTesla_ebf431a8": [
         "8f0fa4ed608acc49175e9c44125b945b5ca2c31071d33f9f100f51d0a961d737"
     ],
@@ -89,16 +85,8 @@
         "1d680c1fb7f0bdf7b659d5d0deb4cdd8a54f87196bc1fa6c0d541ed76cd25a78",
         "c853c96a5fe4098b9c2cc4c29ed159b8b95a002017d582df93ddbcfc4ccf55ff"
     ],
-    "Windows_Trojan_Limerat_24269a79": [
-        "369caea879ce15a7146b74e59ac7e172faa742d053634bfa436637c150c0c85a",
-        "0794bc31d71174be2e372f0166e041f1a6653d63df29f9aebf19233e477ea9b2"
-    ],
     "ByteCode_MSIL_Backdoor_LimeRAT": [
         "369caea879ce15a7146b74e59ac7e172faa742d053634bfa436637c150c0c85a"
-    ],
-    "LimeRAT": [
-        "369caea879ce15a7146b74e59ac7e172faa742d053634bfa436637c150c0c85a",
-        "0794bc31d71174be2e372f0166e041f1a6653d63df29f9aebf19233e477ea9b2"
     ],
     "win_limerat_j1_00cfd931": [
         "369caea879ce15a7146b74e59ac7e172faa742d053634bfa436637c150c0c85a",
@@ -158,9 +146,6 @@
     "RedLine": [
         "fd17ba1c5a4ebe7ad43606505471a2357cb9a6bbdf11bde9a9c18633bfedd65d"
     ],
-    "Windows_Trojan_RedLineStealer_3d9371fd": [
-        "fd17ba1c5a4ebe7ad43606505471a2357cb9a6bbdf11bde9a9c18633bfedd65d"
-    ],
     "Windows_Trojan_RedLineStealer_f07b3cb4": [
         "fd17ba1c5a4ebe7ad43606505471a2357cb9a6bbdf11bde9a9c18633bfedd65d"
     ],
@@ -182,14 +167,6 @@
         "5be56119732af027b1c2797f204cbc5d60f7f90afd1b5d4031f4077ca3d9ef6c",
         "7422bc2c77e70c2e90c27d030a13eb3adf0bcfc1ef2bc55b62871181af5cd955",
         "1984264959b7d63e516544cbce4b6dffb7ed5210a472437dd88068f4d39600e2",
-        "43a538ef95d4f931704d6309fa0a292f38abaeae48836f39115c0d3f4418fdec"
-    ],
-    "Windows_Trojan_Remcos_b296e965": [
-        "5be56119732af027b1c2797f204cbc5d60f7f90afd1b5d4031f4077ca3d9ef6c",
-        "7422bc2c77e70c2e90c27d030a13eb3adf0bcfc1ef2bc55b62871181af5cd955",
-        "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
-        "1984264959b7d63e516544cbce4b6dffb7ed5210a472437dd88068f4d39600e2",
-        "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779",
         "43a538ef95d4f931704d6309fa0a292f38abaeae48836f39115c0d3f4418fdec"
     ],
     "win_remcos_auto": [
@@ -256,14 +233,13 @@
         "be8567ffe0be8bcb6af197b0c4f7498756b3eb812f7f3b23a5472dfe881726e7",
         "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
     ],
-    "Remcos_2": [
-        "be8567ffe0be8bcb6af197b0c4f7498756b3eb812f7f3b23a5472dfe881726e7"
+    "Windows_Trojan_Remcos_b296e965": [
+        "7422bc2c77e70c2e90c27d030a13eb3adf0bcfc1ef2bc55b62871181af5cd955",
+        "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
+        "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
     ],
     "win_remcos_auto_1": [
         "be8567ffe0be8bcb6af197b0c4f7498756b3eb812f7f3b23a5472dfe881726e7"
-    ],
-    "Windows_Trojan_Remcos_7591e9f1": [
-        "91caa1fe289cdd8500399b3dcb07a5417223126a8cfd6833ece052acaaeb27f7"
     ],
     "Stealer_Stealc": [
         "3a34760adfbc4a5fa6e34700ecf4200826c49914913467b938f14261502d56b6"
@@ -317,22 +293,6 @@
         "d3c9a4541f5ffab522695055a082f9dfe250fcaee5cfe46a9d52581c6169b5ac",
         "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c"
     ],
-    "Windows_Trojan_Njrat_30f3c220": [
-        "9b2629c78ca9883ae21246054e37da5dbbce8db6a06998ff55d1ec2b51cff6a2",
-        "3db6003aed5663530344f627592d7071efcece6ab608d114cd219d5b19f389a5",
-        "345d5d2759abd08a84c4c2e2a337a1babd02b5eda3921db1b83eb5d5f5ccc011",
-        "efd485fb1bb495564cbaba67e413fb288abdd5dd5309c71b89607db28b0e3682",
-        "06ef6e2ffa0fdffb2ea1087200d5e283c94d06e98877543a3f45e30f0b02c933",
-        "3bf2449588aaea6f7b7f984af24bd889ee438bb33d9331f5990ef9b6184695e8"
-    ],
-    "malware_Njrat_strings": [
-        "9b2629c78ca9883ae21246054e37da5dbbce8db6a06998ff55d1ec2b51cff6a2",
-        "3db6003aed5663530344f627592d7071efcece6ab608d114cd219d5b19f389a5",
-        "345d5d2759abd08a84c4c2e2a337a1babd02b5eda3921db1b83eb5d5f5ccc011",
-        "efd485fb1bb495564cbaba67e413fb288abdd5dd5309c71b89607db28b0e3682",
-        "06ef6e2ffa0fdffb2ea1087200d5e283c94d06e98877543a3f45e30f0b02c933",
-        "3bf2449588aaea6f7b7f984af24bd889ee438bb33d9331f5990ef9b6184695e8"
-    ],
     "njrat1": [
         "3db6003aed5663530344f627592d7071efcece6ab608d114cd219d5b19f389a5",
         "efd485fb1bb495564cbaba67e413fb288abdd5dd5309c71b89607db28b0e3682",
@@ -355,11 +315,6 @@
         "3db6003aed5663530344f627592d7071efcece6ab608d114cd219d5b19f389a5",
         "efd485fb1bb495564cbaba67e413fb288abdd5dd5309c71b89607db28b0e3682",
         "06ef6e2ffa0fdffb2ea1087200d5e283c94d06e98877543a3f45e30f0b02c933"
-    ],
-    "Windows_Trojan_Njrat_30f3c220_1": [
-        "efd485fb1bb495564cbaba67e413fb288abdd5dd5309c71b89607db28b0e3682",
-        "06ef6e2ffa0fdffb2ea1087200d5e283c94d06e98877543a3f45e30f0b02c933",
-        "3bf2449588aaea6f7b7f984af24bd889ee438bb33d9331f5990ef9b6184695e8"
     ],
     "njRat": [
         "06ef6e2ffa0fdffb2ea1087200d5e283c94d06e98877543a3f45e30f0b02c933",
@@ -501,7 +456,6 @@
         "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f",
         "dea947e9bcf0eb7ba7a6cff24ddc5d2af572b658ff47e4c7e4b70b2a705dbba3",
         "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
-        "1ceaa4b6735e54755f3d4ccc633936a96d120d6a18726c81f5caec4063418ed3",
         "bbc6607ab55be9f76b07bd484a333370da22f66c5dbecac68ed7b442de3fc747",
         "39d8962831555afdbb8e3292402f28459d3bb10b2477171e33882c13cb3cc798",
         "44c8409e16943c97d73b3c89c9e2c037ecfce76ab170dae8b695b0755add9035",
@@ -714,11 +668,6 @@
         "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
         "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
     ],
-    "Windows_Trojan_CobaltStrike_8519072e": [
-        "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
-        "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779",
-        "2c412c91411ae22f34681f0d0791ec90cc5629c31ffef608b8d7a4250af69c9d"
-    ],
     "Windows_Trojan_CobaltStrike_a3fb2616": [
         "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
         "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
@@ -776,6 +725,9 @@
         "5c3d8aff277bf808e456f903153a28d4b555c32c44ed5836c44f5b4783b45225",
         "521a125f557bea10a6440ae4cede378e712590d6642ea63ac6c3119dd2b9f8a6"
     ],
+    "Windows_Trojan_CobaltStrike_8519072e": [
+        "2c412c91411ae22f34681f0d0791ec90cc5629c31ffef608b8d7a4250af69c9d"
+    ],
     "Win64_Backdoor_Voldemort": [
         "fa383eac2bf9ad3ef889e6118a28aa57a8a8e6b5224ecdf78dcffc5225ee4e1f"
     ],
@@ -799,9 +751,6 @@
     ],
     "CN_Honker_Webshell_ASPX_aspx": [
         "447026e24c84a7d35a413788c7ab176092c75086121c7719eed1ef30139e0faf"
-    ],
-    "CVE_2015_1701_Taihou": [
-        "6da003a9b9884bd50bad563ee06828e309f8dd61da2a04ab04ae06c9a89fbb7b"
     ],
     "VULN_Confluence_Questions_Plugin_CVE_2022_26138_Jul22_1": [
         "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
@@ -858,14 +807,6 @@
     "PROMETHIUM_NEODYMIUM_Malware_3": [
         "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f"
     ],
-    "PROMETHIUM_NEODYMIUM_Malware_1": [
-        "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
-        "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
-    ],
-    "PROMETHIUM_NEODYMIUM_Malware_4": [
-        "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
-        "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
-    ],
     "Scarcruft_malware_Feb18_1": [
         "e1546323dc746ed2f7a5c973dcecc79b014b68bdd8a6230239283b4f775f4bbd"
     ],
@@ -877,7 +818,6 @@
         "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
     ],
     "APT_APT41_POISONPLUG": [
-        "ef7bac23b920c86b72c70ff6eb23504ab472e0c7d6a7c28461fd8fa846e1a4ae",
         "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
     ],
     "Nautilus_forensic_artificats": [
@@ -998,10 +938,7 @@
         "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
     ],
     "Rehashed_RAT_1": [
-        "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
-        "a6ee06d8b84765979b3dbaab058e4934043e08a4b251efd7ecb9a5fcbea95e75",
-        "1eb03187b398c3079bef248a8ac7dc4bd972755c7ab814c64a4c559367f431c6",
-        "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
+        "1eb03187b398c3079bef248a8ac7dc4bd972755c7ab814c64a4c559367f431c6"
     ],
     "Payload_Exe2Hex": [
         "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f",
@@ -1010,12 +947,6 @@
     ],
     "alina": [
         "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f"
-    ],
-    "Zeus_Panda": [
-        "7ca69ca5783d6c75d9001e10c883897326aea5ba6227ddc100731217d0dd6317"
-    ],
-    "TidePool_Malware": [
-        "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
     ],
     "Hsdfihdf": [
         "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f"
@@ -1041,9 +972,7 @@
     ],
     "APT_CN_MAL_RedDelta_Shellcode_Loader_Oct20_2": [
         "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
-        "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779",
-        "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
-        "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
+        "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
     ],
     "APT_CN_MAL_RedDelta_Shellcode_Loader_Oct20_1": [
         "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
@@ -1052,10 +981,6 @@
     "StoneDrill_ntssrvr32": [
         "c3ab58b3154e5f5101ba74fccfd27a9ab445e41262cdf47e8cc3be7416a5904f",
         "f9d94c5de86aa170384f1e2e71d95ec373536899cb7985633d3ecfdb67af0f72"
-    ],
-    "StoneDrill_Malware_2": [
-        "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
-        "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
     ],
     "StoneDrill_main_sub": [
         "c9de316342aff789e9dcd725b893f48256f381c936ba19a7ccd9336e1ed9cace"
@@ -1081,9 +1006,6 @@
     "MAL_Github_Repo_Compromise_MyJino_Ru_Aug22": [
         "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
         "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
-    ],
-    "SAmSAmRansom2016": [
-        "0f2c5c39494f15b7ee637ad5b6b5d00a3e2f407b4f27d140cd5a821ff08acfac"
     ],
     "VidgrabStrings": [
         "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f"
@@ -1113,8 +1035,7 @@
         "bc062acda428f55782710f9c4f2df88c26dfbc004b94b479459f8572b1219444"
     ],
     "Sofacy_Oct17_2": [
-        "8c47961181d9929333628af20bdd750021e925f40065374e6b876e3b8afbba57",
-        "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc"
+        "8c47961181d9929333628af20bdd750021e925f40065374e6b876e3b8afbba57"
     ],
     "FourElementSword_Config_File": [
         "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f",
@@ -1126,9 +1047,6 @@
         "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
         "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
     ],
-    "FourElementSword_ElevateDLL": [
-        "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc"
-    ],
     "APT_Malware_PutterPanda_Rel": [
         "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f",
         "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
@@ -1139,12 +1057,6 @@
     ],
     "APT_Malware_PutterPanda_MsUpdater_3": [
         "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
-    ],
-    "APT_Malware_PutterPanda_MsUpdater_1": [
-        "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f"
-    ],
-    "MAL_IceId_Core_202104": [
-        "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f"
     ],
     "citadel13xy": [
         "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f",
@@ -1200,9 +1112,6 @@
         "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f",
         "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
         "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
-    ],
-    "FiveEyes_QUERTY_Malwaresig_20123_sys": [
-        "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc"
     ],
     "Unauthorized_Proxy_Server_RAT": [
         "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
@@ -1308,8 +1217,7 @@
         "e250d9a5fade99941f016c90c54c7ce6d2208072d52af09cbdcd080599f373d5"
     ],
     "PoseidonGroup_Malware": [
-        "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f",
-        "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c"
+        "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f"
     ],
     "Arkei": [
         "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
@@ -1381,12 +1289,6 @@
         "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
         "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
     ],
-    "APT_Project_Sauron_Custom_M4": [
-        "ea1a6496003eaf5b020d855d14757757c788049b2e2c800d806c4eb371f9567b"
-    ],
-    "APT_Project_Sauron_Custom_M6": [
-        "ea1a6496003eaf5b020d855d14757757c788049b2e2c800d806c4eb371f9567b"
-    ],
     "Tofu_Backdoor": [
         "1ceaa4b6735e54755f3d4ccc633936a96d120d6a18726c81f5caec4063418ed3",
         "2bedcddc4f47394606dcc97d05ed2d0200327939a62fc1415cc80ae6bc61bf62"
@@ -1397,9 +1299,6 @@
         "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779",
         "a6ee06d8b84765979b3dbaab058e4934043e08a4b251efd7ecb9a5fcbea95e75",
         "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c"
-    ],
-    "APT_APT29_NOBELIUM_NativeZone_Loader_May21_1": [
-        "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc"
     ],
     "APT_APT29_NOBELIUM_JS_EnvyScout_May21_1": [
         "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638"
@@ -1413,10 +1312,6 @@
         "a6ee06d8b84765979b3dbaab058e4934043e08a4b251efd7ecb9a5fcbea95e75",
         "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
     ],
-    "APT_APT29_NOBELIUM_Stageless_Loader_May21_2": [
-        "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
-        "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
-    ],
     "APT_APT29_NOBELIUM_BoomBox_PDF_Masq_May21_1": [
         "656384c4e5f9fe435d51edf910e7ba28b5c6d183587cf3e8f75fb2d798a01eeb"
     ],
@@ -1428,9 +1323,6 @@
     ],
     "SType_Backdoor": [
         "1ceaa4b6735e54755f3d4ccc633936a96d120d6a18726c81f5caec4063418ed3"
-    ],
-    "COZY_FANCY_BEAR_pagemgr_Hunt": [
-        "fd919ca8a89fd3b613fe99832a10973eb052cf4b400f2de1e020566665b075cf"
     ],
     "HKTL_PowerKatz_Feb19_1": [
         "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
@@ -1529,8 +1421,7 @@
         "b7d873dd66639b5bd9c7d2979c8dfbedf019ca0bc312004aaa89fe50d7622489"
     ],
     "apt_RU_MoonlightMaze_de_tool": [
-        "b7d873dd66639b5bd9c7d2979c8dfbedf019ca0bc312004aaa89fe50d7622489",
-        "041e371767c385910437ce2584a00b4c62a371f9b18b487af393e1a4e7514d52"
+        "b7d873dd66639b5bd9c7d2979c8dfbedf019ca0bc312004aaa89fe50d7622489"
     ],
     "apt_RU_MoonlightMaze_cle_tool": [
         "b7d873dd66639b5bd9c7d2979c8dfbedf019ca0bc312004aaa89fe50d7622489"
@@ -1572,10 +1463,6 @@
     "WoolenGoldfish_Generic_3": [
         "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f"
     ],
-    "WoolenGoldfish_Generic_1": [
-        "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c",
-        "c864545bd61ac07a3dae55fa930149f2e58a1a4fc2ccba28bf011b7eb5a6172d"
-    ],
     "WinPayloads_Payload": [
         "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
     ],
@@ -1583,9 +1470,7 @@
         "9fe15c38e56acc99401c37a308ea648cf89901ba31148805e1fff5a73b19bc94"
     ],
     "APT_Win_Pipcreat": [
-        "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f",
-        "38c381e1f0d8db27082d5809b70fc73d5c7137e266bc22b4301dd4bbd5e79637",
-        "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c"
+        "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f"
     ],
     "YayihStrings": [
         "1ceaa4b6735e54755f3d4ccc633936a96d120d6a18726c81f5caec4063418ed3",
@@ -1675,17 +1560,6 @@
     "APT_MAL_SLOTHFULMEDIA_Oct20_1": [
         "64d78eec46c9ddd4b9a366de62ba0f2813267dc4393bc79e4c9a51a9bb7e6273"
     ],
-    "HKTL_RedMimicry_WinntiLoader": [
-        "1ceaa4b6735e54755f3d4ccc633936a96d120d6a18726c81f5caec4063418ed3"
-    ],
-    "HKTL_RedMimicry_Agent": [
-        "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
-        "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
-    ],
-    "ME_Campaign_Malware_5": [
-        "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
-        "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
-    ],
     "KasperMalware_Oct17_1": [
         "041e371767c385910437ce2584a00b4c62a371f9b18b487af393e1a4e7514d52"
     ],
@@ -1734,10 +1608,7 @@
     "APT_PupyRAT_PY": [
         "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f",
         "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
-        "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779",
-        "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
-        "a6ee06d8b84765979b3dbaab058e4934043e08a4b251efd7ecb9a5fcbea95e75",
-        "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
+        "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
     ],
     "Silence_malware_2": [
         "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f"
@@ -1991,9 +1862,6 @@
         "1f156f86d45e28dac74015051546305497adb86b4e46bb7d9a84ccf5e25a12f4",
         "ccef64586d25ffcb2b28affc1f64319b936175c4911e7841a0e28ee6d6d4a02d"
     ],
-    "MAL_Sharpshooter_Excel4": [
-        "ccef64586d25ffcb2b28affc1f64319b936175c4911e7841a0e28ee6d6d4a02d"
-    ],
     "DirtJumper_drive2": [
         "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f"
     ],
@@ -2011,9 +1879,6 @@
         "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f",
         "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
         "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
-    ],
-    "CN_Honker_ChinaChopper_db": [
-        "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc"
     ],
     "WEBSHELL_APT_PHP_DEWMODE_UNC2546_Feb21_1": [
         "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
@@ -2042,14 +1907,6 @@
         "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
         "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
     ],
-    "TeleBots_CredRaptor_Password_Stealer": [
-        "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
-        "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
-    ],
-    "TeleBots_Win64_Spy_KeyLogger_G": [
-        "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
-        "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
-    ],
     "Nanocore_RAT_Gen_1": [
         "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f",
         "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
@@ -2060,9 +1917,6 @@
         "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
         "1a9dc2fbfe2257278e6452872cdbd18c50bf5c7142dd04c772f1633a7f20fd0d",
         "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
-    ],
-    "Nanocore_RAT_Sample_1": [
-        "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc"
     ],
     "Nanocore_RAT_Feb18_1": [
         "1a9dc2fbfe2257278e6452872cdbd18c50bf5c7142dd04c772f1633a7f20fd0d"
@@ -2716,9 +2570,6 @@
     "shimratreporter": [
         "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f"
     ],
-    "Unspecified_Malware_Jul17_2C": [
-        "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
-    ],
     "BlackRev": [
         "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f"
     ],
@@ -2736,11 +2587,6 @@
     "SUSP_OBFUSC_Indiators_XML_OfficeDoc_Sep21_2": [
         "2bedcddc4f47394606dcc97d05ed2d0200327939a62fc1415cc80ae6bc61bf62"
     ],
-    "BronzeButler_UACBypass_1": [
-        "067fca1211ab7cde65e58c057b3b8cbaf9aa6da891b7f3e9bd91b191eab649a0",
-        "f3165a426e73b3dce639c5f44c0c6dca403a363fa07abf4458e61f7a61d7d880",
-        "95e08990fdf11251e9ee935f0b2e075667133758bc68c4d390e82f041a54e4b3"
-    ],
     "APT_MAL_WinntiLinux_Main_AzazelFork_May19": [
         "2f1321c6cf0bc3cf955e86692bfc4ba836f5580c8b1469ce35aa250c97f0076e"
     ],
@@ -2749,9 +2595,6 @@
     ],
     "SNOWGLOBE_Babar_Malware": [
         "c72a055b677cd9e5e2b2dcbba520425d023d906e6ee609b79c643d9034938ebf"
-    ],
-    "RocketKitten_Keylogger": [
-        "a6ee06d8b84765979b3dbaab058e4934043e08a4b251efd7ecb9a5fcbea95e75"
     ],
     "clearlog": [
         "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f",
@@ -2776,18 +2619,12 @@
         "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
         "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
     ],
-    "Microcin_Sample_4": [
-        "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
-        "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
-    ],
     "lost_door": [
         "1a7eff2675fce8236882ee79c66d8e4953d596ff206685ee1527bc3c9fa7edb2",
         "ea1a6496003eaf5b020d855d14757757c788049b2e2c800d806c4eb371f9567b"
     ],
     "KINS_dropper": [
-        "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f",
-        "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
-        "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
+        "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f"
     ],
     "andromeda": [
         "0ba321e8ece4e89db8bacce007ca86e06bbab0ebd01c8d6b1d18c7aa9bb07a3b"
@@ -2980,7 +2817,6 @@
     ],
     "MAL_HawkEye_Keylogger_Gen_Dec18": [
         "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
-        "1ceaa4b6735e54755f3d4ccc633936a96d120d6a18726c81f5caec4063418ed3",
         "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779",
         "ea1a6496003eaf5b020d855d14757757c788049b2e2c800d806c4eb371f9567b"
     ],
@@ -3359,9 +3195,6 @@
     "VBS_dropper_script_Dec17_1": [
         "a5a9aaf3641c4243d3812d6fa638fec21ee2a81acc5845778760f1c3827b5c18"
     ],
-    "SUSP_Modified_SystemExeFileName_in_File": [
-        "30263954aaa1e13f304ef7aec413c57419ab26f5e175fbc52ce7712a1cc0e04f"
-    ],
     "SUSP_Disable_ETW_Jun20_1": [
         "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
         "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
@@ -3432,8 +3265,7 @@
         "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f"
     ],
     "Ncat_Hacktools_CN": [
-        "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f",
-        "e8fbec25db4f9d95b5e8f41cca51a4b32be8674a4dea7a45b6f7aeb22dbc38db"
+        "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f"
     ],
     "MS08_067_Exploit_Hacktools_CN": [
         "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f"
@@ -3460,9 +3292,7 @@
         "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
     ],
     "Hacktools_CN_JoHor_Posts_Killer": [
-        "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f",
-        "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
-        "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
+        "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f"
     ],
     "Hacktools_CN_Burst_Start": [
         "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f",
@@ -3482,9 +3312,7 @@
         "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f"
     ],
     "CN_Toolset_NTscan_PipeCmd": [
-        "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f",
-        "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
-        "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
+        "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f"
     ],
     "CN_Toolset_sig_1433_135_sqlr": [
         "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f",
@@ -3514,21 +3342,6 @@
         "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f",
         "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
         "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
-    ],
-    "iKAT_revelations": [
-        "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc"
-    ],
-    "DK_Brute": [
-        "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc"
-    ],
-    "XYZCmd_zip_Folder_XYZCmd": [
-        "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc"
-    ],
-    "RangeScan": [
-        "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc"
-    ],
-    "ArtTray_zip_Folder_ArtTray": [
-        "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc"
     ],
     "BeyondExec_RemoteAccess_Tool": [
         "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc"
@@ -3593,9 +3406,7 @@
     "lsremora": [
         "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
         "a6cad2d0f8dc05246846d2a9618fc93b7d97681331d5826f8353e7c3a3206e86",
-        "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779",
-        "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
-        "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
+        "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
     ],
     "cachedump": [
         "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
@@ -3660,38 +3471,7 @@
     "HKTL_htran_go": [
         "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
     ],
-    "sig_238_hunt": [
-        "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
-        "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
-    ],
-    "sig_238_eee": [
-        "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
-        "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
-    ],
-    "QQ_zip_Folder_QQ": [
-        "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f"
-    ],
-    "sig_238_TFTPD32": [
-        "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
-        "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
-    ],
-    "sig_238_nbtdump": [
-        "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
-        "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
-    ],
-    "superscan3_0": [
-        "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
-        "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
-    ],
-    "CN_Toolset_LScanPortss_2": [
-        "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
-        "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
-    ],
     "PowerShell_Mal_HackTool_Gen": [
-        "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
-        "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
-    ],
-    "HKTL_beRootexe_output": [
         "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
         "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
     ],
@@ -3705,28 +3485,7 @@
         "1328bd220d9b4baa8a92b8d3f42f0d123762972d1dfc4b1fd4b4728d67b01dfc",
         "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c"
     ],
-    "CGISscan_CGIScan": [
-        "ea1a6496003eaf5b020d855d14757757c788049b2e2c800d806c4eb371f9567b"
-    ],
-    "CN_Hacktool_SSPort_Portscanner": [
-        "ea1a6496003eaf5b020d855d14757757c788049b2e2c800d806c4eb371f9567b"
-    ],
-    "CN_Hacktool_ScanPort_Portscanner": [
-        "ea1a6496003eaf5b020d855d14757757c788049b2e2c800d806c4eb371f9567b"
-    ],
-    "CN_Hacktool_S_EXE_Portscanner": [
-        "ea1a6496003eaf5b020d855d14757757c788049b2e2c800d806c4eb371f9567b"
-    ],
     "BypassUac_EXE": [
-        "ea1a6496003eaf5b020d855d14757757c788049b2e2c800d806c4eb371f9567b"
-    ],
-    "Hacktools_CN_Panda_tesksd": [
-        "ea1a6496003eaf5b020d855d14757757c788049b2e2c800d806c4eb371f9567b"
-    ],
-    "ASPack_ASPACK": [
-        "ea1a6496003eaf5b020d855d14757757c788049b2e2c800d806c4eb371f9567b"
-    ],
-    "Antiy_Ports_1_21": [
         "ea1a6496003eaf5b020d855d14757757c788049b2e2c800d806c4eb371f9567b"
     ],
     "BitcoinAddress": [
@@ -3821,8 +3580,7 @@
     "Recon_Commands_Windows_Gen1": [
         "de85b3fd3d127bec734bcffde9733e0cd9d17197203ce2a1fc696f28d3e0af96",
         "5d204ca32a5ed72511decd3245b6cf4731378e5b5e0bf8eb5acb8069adf5136d",
-        "71f2a48766458fef9475ce7de7f1ebd270a4ddc5f3c0ced1c32f30b13ebfeaa2",
-        "ea1a6496003eaf5b020d855d14757757c788049b2e2c800d806c4eb371f9567b"
+        "71f2a48766458fef9475ce7de7f1ebd270a4ddc5f3c0ced1c32f30b13ebfeaa2"
     ],
     "TRITON_ICS_FRAMEWORK": [
         "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f",
@@ -3850,15 +3608,10 @@
         "d69665f56ddef7ad4e71971f06432e59f1510a7194386e5f0e8926aea7b88e00"
     ],
     "BlackEnergy_BackdoorPass_DropBear_SSH": [
-        "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779",
-        "a6ee06d8b84765979b3dbaab058e4934043e08a4b251efd7ecb9a5fcbea95e75"
+        "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
     ],
     "Industroyer_Malware_4": [
         "041e371767c385910437ce2584a00b4c62a371f9b18b487af393e1a4e7514d52"
-    ],
-    "Industroyer_Portscan_3": [
-        "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67",
-        "c864545bd61ac07a3dae55fa930149f2e58a1a4fc2ccba28bf011b7eb5a6172d"
     ],
     "hatman_compiled_python": [
         "e8542c07b2af63ee7e72ce5d97d91036c5da56e2b091aa2afe737b224305d230"
@@ -4661,9 +4414,6 @@
     ],
     "INDICATOR_DOC_PhishingPatterns": [
         "ccef64586d25ffcb2b28affc1f64319b936175c4911e7841a0e28ee6d6d4a02d"
-    ],
-    "TA505_Maldoc_21Nov_2": [
-        "063203ce28c4326da9ec26ef6f067c1fef64ac641d489f22f25b6fd0de6ebf82"
     ],
     "blackhole2_pdf": [
         "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
@@ -9806,10 +9556,6 @@
         "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
         "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
     ],
-    "p0wnedListenerConsole": [
-        "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67",
-        "c864545bd61ac07a3dae55fa930149f2e58a1a4fc2ccba28bf011b7eb5a6172d"
-    ],
     "SUSP_PE_Signed_by_Suspicious_Entitiy_Mar23": [
         "3e5547790a7148b99733c94dbe1b690eb13dace3d9fdc0298db7eaa2c5fd3b88"
     ],
@@ -10006,9 +9752,7 @@
         "3c096962f3f447b1a0d136c730f0d979faafb01f22eddedccfc801bc167e0925"
     ],
     "HKTL_Keyword_InjectDLL": [
-        "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779",
-        "38c381e1f0d8db27082d5809b70fc73d5c7137e266bc22b4301dd4bbd5e79637",
-        "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c"
+        "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
     ],
     "XOR_DDosv1": [
         "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f"
@@ -10039,8 +9783,7 @@
     "Reflective_DLL_Loader_Aug17_1": [
         "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f",
         "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
-        "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779",
-        "ea1a6496003eaf5b020d855d14757757c788049b2e2c800d806c4eb371f9567b"
+        "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
     ],
     "Reflective_DLL_Loader_Aug17_2": [
         "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f",
@@ -10073,12 +9816,6 @@
     "Malware_QA_update": [
         "0e8336ed51fe4551ced7d9aa5ce2dde945df8a0cc4e7c60199c24dd1cf7ccd48",
         "424e8d889288010e58a66fa8c9008c22cef78dced0e46b59ee417cc9e746c23f"
-    ],
-    "Malware_QA_not_copy": [
-        "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
-    ],
-    "Malware_QA_tls": [
-        "ea1a6496003eaf5b020d855d14757757c788049b2e2c800d806c4eb371f9567b"
     ],
     "MAL_QBot_HTML_Smuggling_Indicators_Oct22_1": [
         "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
@@ -10461,8 +10198,7 @@
     "INDICATOR_SUSPICIOUS_EXE_TelegramChatBot": [
         "682e2204557a05cddbaddef019cbc2eda6eaa50007f20851eadb9a33c35c458d",
         "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779",
-        "7de04563a9107d3c53effc75e3fe1dc9a2a59a4aa3a46d4b02522d84001dab08",
-        "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c"
+        "7de04563a9107d3c53effc75e3fe1dc9a2a59a4aa3a46d4b02522d84001dab08"
     ],
     "INDICATOR_SUSPICIOUS_EXE_Discord_Regex": [
         "682e2204557a05cddbaddef019cbc2eda6eaa50007f20851eadb9a33c35c458d",
@@ -10509,9 +10245,7 @@
     ],
     "INDICATOR_SUSPICIOUS_EXE_DotNetProcHook": [
         "88ec98143583ec8e9c2ab137463322ce04bfb1a03f112fe1fb0d09ad502a1429",
-        "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779",
-        "38c381e1f0d8db27082d5809b70fc73d5c7137e266bc22b4301dd4bbd5e79637",
-        "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c"
+        "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
     ],
     "INDICATOR_SUSPICIOUS_EXE_RawPaste_Reverse_URL": [
         "9e3611107ec36823b38b596fe3693f8046e00b3ac7ebd7064eec41208eaefcba",
@@ -10567,9 +10301,6 @@
     ],
     "INDICATOR_SUSPICIOUS_EXE_Reversed": [
         "923eb77b3c9e11d6c56052318c119c1a22d11ab71675e6b95d05eeb73d1accd6"
-    ],
-    "INDICATOR_SUSPICIOUS_EXE_Anti_OldCopyPaste": [
-        "38c381e1f0d8db27082d5809b70fc73d5c7137e266bc22b4301dd4bbd5e79637"
     ],
     "INDICATOR_SUSPICIOUS_EXE_References_PublicServiceInterface": [
         "f3a2fc1338553c29b16cb91caaffc37849537dedb67c41e2eccec879f0c8ab73"
@@ -10750,9 +10481,7 @@
         "dc476ae39effdd80399b6e36f1fde92c216a5bbdb6b8b2a7ecbe753e91e4c993"
     ],
     "ScanBox_Malware_Generic": [
-        "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f",
-        "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
-        "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
+        "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f"
     ],
     "Base64_encoded_Executable": [
         "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f",
@@ -10807,12 +10536,53 @@
     "EternalRocks_taskhost": [
         "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f",
         "cf8533849ee5e82023ad7adbdbd6543cb6db596c53048b1a0c00b3643a72db30",
-        "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc",
         "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
         "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
     ],
     "EternalRocks_svchost": [
         "94189147ba9749fd0f184fe94b345b7385348361480360a59f12adf477f61c97"
+    ],
+    "update_PcMain": [
+        "9a1d593c83f70b3957df1bf5c06871b3bfbb0edeaa78d3a8c60190a05febf634"
+    ],
+    "SqlDbx_zhs": [
+        "1e5bcfdd98d6c8ddbf8f6f625421c5b1fbbf794920c34872bef4fc08f3ec57f1"
+    ],
+    "Dos_lcx": [
+        "0b5628eb70e21d4acca4c110b2809b3b08c3acf22e379e534efde95c2374a4d1"
+    ],
+    "Dos_ch": [
+        "26fbdc3ffffa56377d5d9aa815a7e5fd087dbe8e2b635d3cd78337aef339e8e6"
+    ],
+    "FreeVersion_debug": [
+        "26fbdc3ffffa56377d5d9aa815a7e5fd087dbe8e2b635d3cd78337aef339e8e6"
+    ],
+    "FreeVersion_release": [
+        "26fbdc3ffffa56377d5d9aa815a7e5fd087dbe8e2b635d3cd78337aef339e8e6"
+    ],
+    "GoodToolset_pr": [
+        "26fbdc3ffffa56377d5d9aa815a7e5fd087dbe8e2b635d3cd78337aef339e8e6"
+    ],
+    "S_MultiFunction_Scanners_s": [
+        "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
+    ],
+    "dbexpora": [
+        "dcecdcc820b8f1372d57619e4515c6053b6519602e896aabafca0affae15b9df"
+    ],
+    "Dos_NC": [
+        "e8fbec25db4f9d95b5e8f41cca51a4b32be8674a4dea7a45b6f7aeb22dbc38db"
+    ],
+    "kiwi_tools_gentil_kiwi": [
+        "3d4d1ace6c71af52853f32fbb907196a05dcd2dae8eedaa3b30dc6a15fc8d65a"
+    ],
+    "OtherTools_xiaoa": [
+        "e76037d469045d62269760c329d42edf6d53b0ecdfa6924ee240a13a1744a519"
+    ],
+    "hydra_7_4_1_hydra": [
+        "2f3907eaa876e3e854419d9d378492bf2af598745511b9a4aa31c97bd199015c"
+    ],
+    "hydra_7_3_hydra": [
+        "2f3907eaa876e3e854419d9d378492bf2af598745511b9a4aa31c97bd199015c"
     ],
     "REDLEAVES_CoreImplant_UniqueStrings": [
         "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f",
@@ -10825,19 +10595,11 @@
     "REDLEAVES_DroppedFile_ImplantLoader_Starburn": [
         "91caa1fe289cdd8500399b3dcb07a5417223126a8cfd6833ece052acaaeb27f7"
     ],
-    "ProjectM_DarkComet_1": [
-        "8a3de78cf177be4c37c1525becf05af336c1dc2a4d181cae79f6903754902efa"
-    ],
-    "ProjectM_CrimsonDownloader": [
-        "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
-        "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
-    ],
     "DeepPanda_htran_exe": [
         "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f",
         "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
         "0b5628eb70e21d4acca4c110b2809b3b08c3acf22e379e534efde95c2374a4d1",
-        "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779",
-        "a6ee06d8b84765979b3dbaab058e4934043e08a4b251efd7ecb9a5fcbea95e75"
+        "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
     ],
     "INDICATOR_EXE_Packed_LibZ": [
         "2fc588dc806b6ccb31e3a0b8c9fd60968da7cad130e59a958d6254436d787e37",
@@ -10855,12 +10617,10 @@
     "INDICATOR_EXE_Packed_ConfuserEx": [
         "cf8533849ee5e82023ad7adbdbd6543cb6db596c53048b1a0c00b3643a72db30",
         "5c2e9604ddf63e732a674d9672a4ba20f44891a83e10f44f1d4d764f8c59ea63",
-        "ef7bac23b920c86b72c70ff6eb23504ab472e0c7d6a7c28461fd8fa846e1a4ae",
         "94189147ba9749fd0f184fe94b345b7385348361480360a59f12adf477f61c97",
         "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779",
         "8bdcd45ef7b2635fcae54376a03b803354dec1e97d9e2011e935f4ee72c3c92f",
         "38c381e1f0d8db27082d5809b70fc73d5c7137e266bc22b4301dd4bbd5e79637",
-        "2aba476a881c4532511277702aa391e09917d05a53ab87a55830d2477573cb3f",
         "91caa1fe289cdd8500399b3dcb07a5417223126a8cfd6833ece052acaaeb27f7",
         "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c",
         "41d16838d3ecde84348bfb6e88e4fd96c9e0bf291d62786952c1bfbc2363c78d"
@@ -10884,9 +10644,7 @@
     "INDICATOR_EXE_Packed_MPress": [
         "21ca06b18698d14154a45822aaae1e3837d168cc7630bcd3ec3d8c68aaa959e6",
         "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779",
-        "38c381e1f0d8db27082d5809b70fc73d5c7137e266bc22b4301dd4bbd5e79637",
         "489db926ac0420a76ff682ceb90003a78dd2a02e42c254a2aae4fc234bb013e6",
-        "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c",
         "41d16838d3ecde84348bfb6e88e4fd96c9e0bf291d62786952c1bfbc2363c78d",
         "ed02cb9e1685ac20241c4136ec13613c89449d7f966712a5904d0938df518915"
     ],
@@ -10900,8 +10658,6 @@
     "INDICATOR_EXE_Packed_VMProtect": [
         "94cc4c5fdb3aac3605ae5dd4eb83ebbbc26615a5e5a66a00d9deb63bb35dc3ad",
         "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779",
-        "38c381e1f0d8db27082d5809b70fc73d5c7137e266bc22b4301dd4bbd5e79637",
-        "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c",
         "6e0164b94476119d7ba53adeca4ae7f7cd7a96d1c90d95ca7880003ace4462aa",
         "41d16838d3ecde84348bfb6e88e4fd96c9e0bf291d62786952c1bfbc2363c78d"
     ],
@@ -10929,8 +10685,6 @@
     ],
     "INDICATOR_EXE_Packed_RLPack": [
         "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779",
-        "38c381e1f0d8db27082d5809b70fc73d5c7137e266bc22b4301dd4bbd5e79637",
-        "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c",
         "41d16838d3ecde84348bfb6e88e4fd96c9e0bf291d62786952c1bfbc2363c78d"
     ],
     "INDICATOR_EXE_Packed_Bonsai": [
@@ -11344,7 +11098,6 @@
     "Anthem_DeepPanda_lot1": [
         "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f",
         "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
-        "a6cad2d0f8dc05246846d2a9618fc93b7d97681331d5826f8353e7c3a3206e86",
         "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
     ],
     "Anthem_DeepPanda_htran_exe": [
@@ -11352,10 +11105,6 @@
         "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
         "0b5628eb70e21d4acca4c110b2809b3b08c3acf22e379e534efde95c2374a4d1",
         "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
-    ],
-    "Anthem_DeepPanda_sl_txt_packed": [
-        "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
-        "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
     ],
     "APT_apt_duqu2_loaders": [
         "6217cebf11a76c888cc6ae94f54597a877462ed70da49a88589a9197173cc072",
@@ -11369,7 +11118,6 @@
     ],
     "OpCloudHopper_Malware_5": [
         "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f",
-        "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc",
         "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
         "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
     ],
@@ -11382,12 +11130,6 @@
         "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f",
         "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
         "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
-    ],
-    "OpCloudHopper_Malware_1": [
-        "7ca3c454a08b3ae4ac9e3351604afb2d6dbf5ec8f528815b3dcdd770443537a5"
-    ],
-    "OpCloudHopper_Malware_8": [
-        "012fe771283404e5231ed2f71e4932674f89d52aa93608bfcaf67150e53609b0"
     ],
     "OpCloudHopper_Dropper_1": [
         "0195b161ac24bd4b40a9a54b2017e3f11d47468759f7c0181e52c8639904c1dd"
@@ -11504,9 +11246,7 @@
     "EquationGroup_Toolset_Apr17_Gen2": [
         "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f",
         "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
-        "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779",
-        "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
-        "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
+        "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
     ],
     "EquationGroup_Toolset_Apr17__DoubleFeatureReader_DoubleFeatureReader_0": [
         "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f"
@@ -11752,9 +11492,6 @@
         "e86e0fd56693c3928f41d566d1c11fb9a28ea6bcc9494740d49478759e20eed5",
         "b9321c27be4295c15d7f92fafc20d7ccac5f21204b79ebc2fed583dda0197cf9"
     ],
-    "SLServer_dialog_remains": [
-        "83f967523fb0904cb14ced4e84d1f299c51ff7f33a2a68348dac47e06f3fa2d2"
-    ],
     "SLServer_command_and_control": [
         "83f967523fb0904cb14ced4e84d1f299c51ff7f33a2a68348dac47e06f3fa2d2"
     ],
@@ -11773,14 +11510,8 @@
     "MAL_RANSOM_Lorenz_May21_1": [
         "79fd175ec88d06e2d635ac49782ba6d274fe27a1b7d318e399cce9955cc9d5cb"
     ],
-    "CN_Honker_termsrvhack": [
-        "1eba9a909641e64e935090956b03182335d298cad78052cef3b3f75691eb3f50"
-    ],
     "CN_Honker_HASH_32": [
         "8cb320041b76be2e673bb78fcc4e03599fdc90ad03d452eb23e2027bc0bde669"
-    ],
-    "CN_Honker_ChinaChopper": [
-        "8d96710b01b9eb3b4cf9d5b01ed53d7084a2808322f3456d4038ca2978022e16"
     ],
     "CN_Honker__lcx_HTran2_4_htran20": [
         "0b5628eb70e21d4acca4c110b2809b3b08c3acf22e379e534efde95c2374a4d1"
@@ -11788,14 +11519,8 @@
     "CN_Honker_smsniff_smsniff": [
         "d6831d36184ae91aae56a7fb7c91d7f75339429fbe5a1a0df8985d4884dcc217"
     ],
-    "CN_Honker_GetPass_GetPass": [
-        "e9cffb4773da2d46282aeafc6680e7aed8ff8537040a2a27d3c1ee3e3229d88e"
-    ],
     "CN_Honker_mempodipper2_6": [
         "edfb430cb78653f1ec5ca5a46327dacf18f7d33e409717756dba42a35650ba64"
-    ],
-    "CN_Honker__builder_shift_SkinH": [
-        "b3f4d019853c18475cbc7e02f03834f8969f69e1f0e6cfc61d31b43817e8c115"
     ],
     "CN_Honker_T00ls_Lpk_Sethc_v4_LPK": [
         "94cc4c5fdb3aac3605ae5dd4eb83ebbbc26615a5e5a66a00d9deb63bb35dc3ad"
@@ -11818,17 +11543,11 @@
     "CN_Honker_cleaniis": [
         "9d5e9384cec5323937ad26a9afc5c9112d3ba96448273439c656828c9deca024"
     ],
-    "CN_Honker_Injection_transit": [
-        "8210a79289dd3e351bd6e57318d2cbf4f69cacd028d8e4b352470c4515230380"
-    ],
     "CN_Honker_HASH_pwhash": [
         "c428f134055a6a1512b85606161996ced840006cbb928ced380265d399449689"
     ],
     "CN_Honker_SAMInside": [
         "756e3fdb7e5dedabd83ac0efd7e8cd46a43e2a735d4d9e54b5000c7fa103ef8c"
-    ],
-    "CN_Honker_WordpressScanner": [
-        "77a53280fd609c5594c6f78453ca8468dc4d0305c87293655b85a50f88681792"
     ],
     "CN_Honker_GetHashes_2": [
         "612d78523fba77054b5cb959798bb54c7f45208882e86e945b7563d501c802cd"
@@ -11845,10 +11564,6 @@
     "Xtreme": [
         "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc"
     ],
-    "Xtreme_Sep17_3": [
-        "b2d4357b66e008c97bdcbfc4802556d44affa1a94eff74fb071716efc054c94f",
-        "525d9900a7a66f91399ff13fbcb8f3071467523404c6359ea9c104d8f7f9c924"
-    ],
     "xtremrat": [
         "1ceaa4b6735e54755f3d4ccc633936a96d120d6a18726c81f5caec4063418ed3",
         "ef7bac23b920c86b72c70ff6eb23504ab472e0c7d6a7c28461fd8fa846e1a4ae",
@@ -11861,9 +11576,6 @@
     ],
     "Xtreme_Sep17_2": [
         "43106073cab228985f71d532f046f15930d08a00a5e7191fad01720aca8d1dad"
-    ],
-    "Xtreme_Sep17_1": [
-        "ef7bac23b920c86b72c70ff6eb23504ab472e0c7d6a7c28461fd8fa846e1a4ae"
     ],
     "Xtreme_RAT_Gen_Imp": [
         "525d9900a7a66f91399ff13fbcb8f3071467523404c6359ea9c104d8f7f9c924"
@@ -11895,8 +11607,7 @@
     "APT_HKTL_Wiper_WhisperGate_Jan22_2": [
         "dcbbae5a1c61dbbbb7dcd6dc5dd1eb1169f5329958d38b58c3fd9384081c9b78",
         "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
-        "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67",
-        "6d5fe2cac56f6e735461f2b6e8bf0e2b53feace3c17838cdba1ac3c848825353"
+        "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
     ],
     "MAL_Unknown_Discord_Characteristics_Jan22_1": [
         "dcbbae5a1c61dbbbb7dcd6dc5dd1eb1169f5329958d38b58c3fd9384081c9b78"
@@ -11916,19 +11627,14 @@
     "StuxNet_dll": [
         "9e392277f62206098cf794ddebafd2817483cfd57ec03c2e05e7c3c81e72f562"
     ],
-    "Stuxnet_Malware_3": [
-        "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
-        "6ba20c352fa09b4c25df7d2ee4c6848a2efbfd12caf722d931258c0348edae9e",
-        "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
-    ],
     "StuxNet_Malware_1": [
+        "6ba20c352fa09b4c25df7d2ee4c6848a2efbfd12caf722d931258c0348edae9e"
+    ],
+    "Stuxnet_Malware_3": [
         "6ba20c352fa09b4c25df7d2ee4c6848a2efbfd12caf722d931258c0348edae9e"
     ],
     "Stuxnet_maindll_decrypted_unpacked": [
         "6ba20c352fa09b4c25df7d2ee4c6848a2efbfd12caf722d931258c0348edae9e"
-    ],
-    "Stuxnet_Malware_2": [
-        "63e6b8136058d7a06dfff4034b4ab17a261cdf398e63868a601f77ddd1b32802"
     ],
     "DarkComet_2": [
         "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f"
@@ -12091,8 +11797,7 @@
     "Mirai_Botnet_Malware": [
         "5bfd7bf0f641fc87711a03c135b1cc3287f0c9766cf9c97b32eb5e4230724017",
         "048bc303b313f7d42769d957a0a917e27981f54b570ebd90e7ea9775bd2c4326",
-        "11669a09de13fec7b6f53de66a6eaebe5c9cc59f1ce190ad833cbf76db56ea5f",
-        "379dde9cec791abbac0e2466f6fbebb538b426fdb9514665c2344fb65cf2f913"
+        "11669a09de13fec7b6f53de66a6eaebe5c9cc59f1ce190ad833cbf76db56ea5f"
     ],
     "MAL_ELF_LNX_Mirai_Oct10_2": [
         "5bfd7bf0f641fc87711a03c135b1cc3287f0c9766cf9c97b32eb5e4230724017",
@@ -12138,10 +11843,6 @@
     ],
     "MAL_BurningUmbrella_Sample_18": [
         "32144ba8370826e069e5f1b6745a3625d10f50a809f3f2a72c4c7644ed0cab03"
-    ],
-    "MAL_Winnti_Sample_May18_1": [
-        "efd485fb1bb495564cbaba67e413fb288abdd5dd5309c71b89607db28b0e3682",
-        "3bf2449588aaea6f7b7f984af24bd889ee438bb33d9331f5990ef9b6184695e8"
     ],
     "MAL_BurningUmbrella_Sample_10": [
         "41b0610c4c779830aff74cbaf62ba2cbd70541a456713232bcccb84260a05823"
@@ -12280,21 +11981,13 @@
     "Vermin_Keylogger_Jan18_1": [
         "666f0c305b0a6cc558192918bc144c3119d898c33656101395140d93e9e10e69",
         "e4fcf1f6b71043e7c7c32f6954a0a1972696fa1bb9b6543ead14e85626890a11",
-        "de930a748e4dc08c851ba0a22afce8dcfd0f15f23b291f9306c8ef6ccd7460a2",
         "f1d0dc52fe626c992361233304cca5a0e62eec2875f9cb4b091f88ed39a30255",
         "30efa81a5d0d9bf04a00b4e30823c2f0c7bd6461383acf0195d857edf2162543"
-    ],
-    "Quasar_RAT_Jan18_1": [
-        "e4fcf1f6b71043e7c7c32f6954a0a1972696fa1bb9b6543ead14e85626890a11"
     ],
     "APT_UNC2447_PS1_WARPRISM_May21_1": [
         "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc",
         "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
         "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
-    ],
-    "APT_UNC2447_MAL_SOMBRAT_May21_1": [
-        "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
-        "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
     ],
     "APT_UNC2447_MAL_RANSOM_HelloKitty_May21_1": [
         "4a59b5fad3d1870845b6f589e7da0777b4b5b71f6bdb4baf374bba56c84cf51d"
@@ -12321,34 +12014,12 @@
         "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
         "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
     ],
-    "Casper_EXE_Dropper": [
-        "a6ee06d8b84765979b3dbaab058e4934043e08a4b251efd7ecb9a5fcbea95e75"
-    ],
     "MAL_GoziCrypter_Dec20_1": [
         "aa33731aa48e2ea6d1eaab7c425f9001182c0e73e0226eb01145d6b78d7cb9eb"
-    ],
-    "Regin_APT_KernelDriver_Generic_A": [
-        "9cd5127ef31da0e8a4e36292f2af5a9ec1de3b294da367d7c05786fe2d5de44f"
     ],
     "apt_regin_2011_32bit_stage1": [
         "9cd5127ef31da0e8a4e36292f2af5a9ec1de3b294da367d7c05786fe2d5de44f",
         "40c46bcab9acc0d6d235491c01a66d4c6f35d884c19c6f410901af6d1e33513b"
-    ],
-    "Regin_APT_KernelDriver_Generic_B": [
-        "40c46bcab9acc0d6d235491c01a66d4c6f35d884c19c6f410901af6d1e33513b"
-    ],
-    "Regin_APT_KernelDriver_Generic_C": [
-        "40c46bcab9acc0d6d235491c01a66d4c6f35d884c19c6f410901af6d1e33513b"
-    ],
-    "Regin_Sample_1": [
-        "a26db2eb9f3e2509b4eba949db97595cc32332d9321df68283bfc102e66d766f"
-    ],
-    "Duqu2_UAs": [
-        "53331bff5e585c471fad6789313a2a8a687a586cc0a8d006b24085b91ed7fc9a"
-    ],
-    "Duqu2_Sample4": [
-        "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
-        "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
     ],
     "Duqu2_Sample1": [
         "2e0871af9cc539acb513e8afc795c2dab01febd688f2754c6a551485184070dc"
@@ -12366,9 +12037,6 @@
     ],
     "MAL_XMR_Miner_May19_1": [
         "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
-    ],
-    "MAL_Parite_Malware_May19_1": [
-        "12454a323dec0a56a23cd5215bb335d7842c85bbf38e3bd696c9237e26454388"
     ],
     "Gafgyt_Botnet_generic": [
         "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f"
@@ -12394,12 +12062,8 @@
     ],
     "EquationDrug_HDDSSD_Op": [
         "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f",
-        "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc",
         "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
         "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
-    ],
-    "EquationDrug_NetworkSniffer3": [
-        "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc"
     ],
     "apt_equation_exploitlib_mutexes": [
         "54a0c42a920a1080f6478054d0a73296c14e22096bcf901177ef0d28baa1728e",
@@ -12425,17 +12089,8 @@
     "Equation_Kaspersky_GROK_Keylogger": [
         "441f2a6775621af8c5d1ead7082e9573ad878bc90675ed55f86abfc8a9e8cc6f"
     ],
-    "Equation_Kaspersky_EquationDrugInstaller": [
-        "1b0eb1a1591140175d1ac111a98c89472b196599baf13ef67ee7f63d0052b00e"
-    ],
     "Equation_Kaspersky_DoubleFantasy_1": [
         "1e55abb94951cedc548fd8d67bd1b50476808f1d0ae72f9842181761ff92f83f"
-    ],
-    "EquationDrug_VolRec_Driver": [
-        "ea1a6496003eaf5b020d855d14757757c788049b2e2c800d806c4eb371f9567b"
-    ],
-    "EquationDrug_FileSystem_Filter": [
-        "ea1a6496003eaf5b020d855d14757757c788049b2e2c800d806c4eb371f9567b"
     ],
     "Turla_APT_Malware_Gen1": [
         "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f",
@@ -12452,9 +12107,6 @@
         "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
         "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779",
         "9fe15c38e56acc99401c37a308ea648cf89901ba31148805e1fff5a73b19bc94"
-    ],
-    "Turla_APT_srsvc": [
-        "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc"
     ],
     "XMRIG_Monero_Miner": [
         "cea67033ab3af68f964d27f43e5a30810d94d9902de1bb2004e477471520c038",
@@ -12685,7 +12337,6 @@
         "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779",
         "b6a68af1d4852476d62b6aa231f9629260ec4cbcaba051feba5742913ffbebe7",
         "e596a17260e6e5ec4c5d2160a6d645cdefb7a4bbe57efc7a5c963ad677cd98f6",
-        "38c381e1f0d8db27082d5809b70fc73d5c7137e266bc22b4301dd4bbd5e79637",
         "5c3d8aff277bf808e456f903153a28d4b555c32c44ed5836c44f5b4783b45225",
         "521a125f557bea10a6440ae4cede378e712590d6642ea63ac6c3119dd2b9f8a6",
         "d7c3e904363ca8a7c9438e9bf607180412ce40ab576e8f6a5f2d0f1d508d38c9",
@@ -12694,10 +12345,6 @@
         "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67",
         "51de40c31c3436ee5c701985fe44aa92f7d1b097cc86ce2c203e2865de75e99b",
         "8943f142b2d66d20b07defba56f54d5e75223b55a4e82cd0153753d79df27428"
-    ],
-    "Msfpayloads_msf_5": [
-        "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc",
-        "a6ee06d8b84765979b3dbaab058e4934043e08a4b251efd7ecb9a5fcbea95e75"
     ],
     "Msfpayloads_msf_3": [
         "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
@@ -12722,8 +12369,7 @@
         "1ceaa4b6735e54755f3d4ccc633936a96d120d6a18726c81f5caec4063418ed3"
     ],
     "Msfpayloads_msf_6": [
-        "c57f7ed4d9373c96cd228884c535a545c388d6edee4fae49afb7763c69450281",
-        "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c"
+        "c57f7ed4d9373c96cd228884c535a545c388d6edee4fae49afb7763c69450281"
     ],
     "MAL_Metasploit_Framework_UA": [
         "c4a781efd5a8fd7141f1646ac99633979f3aaa8d502ce9f72a65b67573642bfd"
@@ -12749,10 +12395,7 @@
         "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
     ],
     "Mimikatz_Memory_Rule_1": [
-        "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
-        "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
-        "a3b16246222b284d054201022ad62d16cf73c51dd52753d4ce4e5d94cdb3f0de",
-        "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
+        "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638"
     ],
     "power_pe_injection": [
         "b7d873dd66639b5bd9c7d2979c8dfbedf019ca0bc312004aaa89fe50d7622489",
@@ -12879,10 +12522,6 @@
         "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c",
         "aef6ce3014add838cf676b57957d630cd2bb15b0c9193cf349bcffecddbc3623"
     ],
-    "INDICATOR_TOOL_EXP_PetitPotam01": [
-        "61c0810a23580cf492a6ba4f7654566108331e7a4134c968c2d6a05261b2d8a1",
-        "441cb0576151b2e5b5127be72a5bcdf3577a596f0a4e1f2c6836248fe07eb818"
-    ],
     "INDICATOR_TOOL_PRI_InstallerFileTakeOver": [
         "0185eb8294ca76dfe90a4c57444860f98156a10d86346647407194bbd2eff343",
         "670b7ecddd5e5d8b6840464d644a7354da74beb150206c7128e826469484ebd2",
@@ -12897,21 +12536,12 @@
         "5c2e9604ddf63e732a674d9672a4ba20f44891a83e10f44f1d4d764f8c59ea63",
         "19896a23d7b054625c2f6b1ee1551a0da68ad25cddbb24510a3b74578418e618"
     ],
-    "INDICATOR_TOOL_WEDGECUT": [
-        "5c2e9604ddf63e732a674d9672a4ba20f44891a83e10f44f1d4d764f8c59ea63",
-        "3f7c56928446baa1688c1381ee5365d7141d98274762b919168046535d17cb89",
-        "a1cde243e77d9d4c8e5585097400e53a2fe915f0bfc27368d2ea1ee197b2fabb"
-    ],
     "INDICATOR_TOOL_PWS_Fgdump": [
         "a6cad2d0f8dc05246846d2a9618fc93b7d97681331d5826f8353e7c3a3206e86",
         "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
     ],
     "INDICATOR_TOOL_PRI_JuicyPotato": [
         "ed26bdb3427053d3c5feca22c4a003cc9a2e0ba4c54b86a00cf1d73cf5861c66",
-        "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
-    ],
-    "INDICATOR_TOOL_EXP_SeriousSAM01": [
-        "8bbdc61e5fb515717d53fa2431ed928f930550ff55ef2a942276e33558c0215c",
         "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
     ],
     "INDICATOR_TOOL_PWS_LaZagne": [
@@ -12924,8 +12554,7 @@
     ],
     "INDICATOR_TOOL_SCN_PortScan": [
         "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779",
-        "1328bd220d9b4baa8a92b8d3f42f0d123762972d1dfc4b1fd4b4728d67b01dfc",
-        "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c"
+        "1328bd220d9b4baa8a92b8d3f42f0d123762972d1dfc4b1fd4b4728d67b01dfc"
     ],
     "INDICATOR_TOOL_PWS_SniffPass": [
         "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
@@ -12964,8 +12593,7 @@
         "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
     ],
     "INDICATOR_TOOL_PWS_LSASS_CreateMiniDump": [
-        "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779",
-        "5d119697f8a1aa52781fa7b5fd0994a916ab0fbd43c6d1f22cb6154f98a53e0b"
+        "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
     ],
     "INDICATOR_TOOL_PWS_SecurityXploded_BrowserPasswordDumper": [
         "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
@@ -12984,6 +12612,9 @@
         "a9182d5d0ba9d59e50b7237cb0a44398d7d0cd253f5395a9b2e089b148460488"
     ],
     "INDICATOR_TOOL_EXFIL_SharpBox": [
+        "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
+    ],
+    "INDICATOR_TOOL_EXP_SeriousSAM01": [
         "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
     ],
     "INDICATOR_TOOL_PET_SharpStrike": [
@@ -13021,14 +12652,14 @@
     "INDICATOR_TOOL_ChromeCookiesView": [
         "d2517353de2908d3f97471d8d2e90f713d893ea473372a67ede2eb633047b0b6"
     ],
+    "INDICATOR_TOOL_WEDGECUT": [
+        "a1cde243e77d9d4c8e5585097400e53a2fe915f0bfc27368d2ea1ee197b2fabb"
+    ],
     "INDICATOR_TOOL_PWS_SharpWeb": [
         "c9214b7c531379d186eb18a22e33c64b516e6c235ddd67708bde60839bf2c50f"
     ],
     "INDICATOR_TOOL_EXP_SeriousSAM02": [
         "cd48acb618e7e4f17984031ffaa54594de60956961a72f5e1bf76d4f6dd57b18"
-    ],
-    "INDICATOR_TOOL_PRV_AdvancedRun": [
-        "ed63b2a33066ef63bdb5b99c40d660f29653386b334f45d5296ead6fbcbc2861"
     ],
     "INDICATOR_TOOL_HFS_WebServer": [
         "e678899d7ea9702184167b56655f91a69f8a0bdc9df65612762252c053c2cd7c"
@@ -13047,19 +12678,15 @@
     ],
     "Codoso_Gh0st_2": [
         "067fca1211ab7cde65e58c057b3b8cbaf9aa6da891b7f3e9bd91b191eab649a0",
-        "f3165a426e73b3dce639c5f44c0c6dca403a363fa07abf4458e61f7a61d7d880",
-        "95e08990fdf11251e9ee935f0b2e075667133758bc68c4d390e82f041a54e4b3"
+        "f3165a426e73b3dce639c5f44c0c6dca403a363fa07abf4458e61f7a61d7d880"
     ],
     "Codoso_Gh0st_1": [
         "067fca1211ab7cde65e58c057b3b8cbaf9aa6da891b7f3e9bd91b191eab649a0",
         "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f",
         "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
         "f3165a426e73b3dce639c5f44c0c6dca403a363fa07abf4458e61f7a61d7d880",
-        "1ceaa4b6735e54755f3d4ccc633936a96d120d6a18726c81f5caec4063418ed3",
         "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779",
-        "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
-        "95e08990fdf11251e9ee935f0b2e075667133758bc68c4d390e82f041a54e4b3",
-        "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
+        "95e08990fdf11251e9ee935f0b2e075667133758bc68c4d390e82f041a54e4b3"
     ],
     "Codoso_CustomTCP_4": [
         "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f",
@@ -13070,17 +12697,12 @@
         "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f",
         "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
         "4b74fbd877b7e3e1e325df75ddd3cfece7404a4104a646a65a1a4b7614f9478c",
-        "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779",
-        "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
-        "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
+        "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
     ],
     "Codoso_PGV_PVID_1": [
         "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f",
         "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
         "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
-    ],
-    "Codoso_PlugX_2": [
-        "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc"
     ],
     "WimmieStrings": [
         "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
@@ -13140,9 +12762,6 @@
     "milleniumRAT": [
         "7de04563a9107d3c53effc75e3fe1dc9a2a59a4aa3a46d4b02522d84001dab08"
     ],
-    "APT_APT28_Downdelph_Feb_2021_1": [
-        "cf684f708f1b6ffbc2b46b498cb9e9b40bfd813958fd7fc4db56f9642dd5da33"
-    ],
     "Greenbug_Malware_2": [
         "767e4cecf0c7e009ec8edd90fb8d7d5a2650fbc643b902714f7378e170b5409a",
         "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
@@ -13151,9 +12770,6 @@
         "5d204ca32a5ed72511decd3245b6cf4731378e5b5e0bf8eb5acb8069adf5136d"
     ],
     "MuddyWater_Mal_Doc_Feb18_1": [
-        "063203ce28c4326da9ec26ef6f067c1fef64ac641d489f22f25b6fd0de6ebf82"
-    ],
-    "MuddyWater_Mal_Doc_Feb18_2": [
         "063203ce28c4326da9ec26ef6f067c1fef64ac641d489f22f25b6fd0de6ebf82"
     ],
     "Sliver_Implant_32bit": [
@@ -13169,15 +12785,8 @@
     "crime_win_rat_AlienSpy": [
         "75ff23be22ed5a003fde654d37d1b423e6353ea2e58adfcb8405a18dcbc951f6"
     ],
-    "EldoS_RawDisk": [
-        "c3ab58b3154e5f5101ba74fccfd27a9ab445e41262cdf47e8cc3be7416a5904f"
-    ],
     "Shamoon_Disttrack_Dropper": [
         "5a826b4fa10891cf63aae832fc645ce680a483b915c608ca26cedbb173b1b80a"
-    ],
-    "Shamoon2_Wiper": [
-        "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
-        "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
     ],
     "CrowdStrike_Shamoon_DroppedFile": [
         "f9d94c5de86aa170384f1e2e71d95ec373536899cb7985633d3ecfdb67af0f72"
@@ -13314,9 +12923,6 @@
     "Mirai_2": [
         "11669a09de13fec7b6f53de66a6eaebe5c9cc59f1ce190ad833cbf76db56ea5f"
     ],
-    "Andromeda_MalBot_Jun_1A": [
-        "8033de2d5e64df2df391ddebdc41c6c6041b552779550c2e5f10ceedfd63c7ec"
-    ],
     "MAL_Emotet_Jan20_1": [
         "591d32aeae0554f744df8843727e794d33495ff0a4b90a9f7861ab526988ded7"
     ],
@@ -13343,10 +12949,6 @@
     "APT28_SourFace_Malware1": [
         "e6d09ce32cc62b6f17279204fac1771a6eb35077bb79471115e8dfed2c86cd75"
     ],
-    "RemoteCmd": [
-        "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
-        "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
-    ],
     "ChromePass": [
         "19bab15a34d5ad838ccf4d187eb40379c335fa56446d0f9621865b2767d4ac7d"
     ],
@@ -13370,8 +12972,7 @@
         "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
         "1ceaa4b6735e54755f3d4ccc633936a96d120d6a18726c81f5caec4063418ed3",
         "ef7bac23b920c86b72c70ff6eb23504ab472e0c7d6a7c28461fd8fa846e1a4ae",
-        "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779",
-        "ea1a6496003eaf5b020d855d14757757c788049b2e2c800d806c4eb371f9567b"
+        "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
     ],
     "Himawari": [
         "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
@@ -13470,13 +13071,6 @@
         "d64f906376f21677d0585e93dae8b36248f94be7091b01fd1d4381916a326afe"
     ],
     "CN_disclosed_20180208_c": [
-        "9b2629c78ca9883ae21246054e37da5dbbce8db6a06998ff55d1ec2b51cff6a2",
-        "345d5d2759abd08a84c4c2e2a337a1babd02b5eda3921db1b83eb5d5f5ccc011",
-        "efd485fb1bb495564cbaba67e413fb288abdd5dd5309c71b89607db28b0e3682",
-        "06ef6e2ffa0fdffb2ea1087200d5e283c94d06e98877543a3f45e30f0b02c933",
-        "3bf2449588aaea6f7b7f984af24bd889ee438bb33d9331f5990ef9b6184695e8"
-    ],
-    "CN_disclosed_20180208_Mal5": [
         "9b2629c78ca9883ae21246054e37da5dbbce8db6a06998ff55d1ec2b51cff6a2"
     ],
     "CN_disclosed_20180208_Mal1": [
@@ -13488,7 +13082,6 @@
     ],
     "CN_disclosed_20180208_KeyLogger_1": [
         "666f0c305b0a6cc558192918bc144c3119d898c33656101395140d93e9e10e69",
-        "f1d0dc52fe626c992361233304cca5a0e62eec2875f9cb4b091f88ed39a30255",
         "30efa81a5d0d9bf04a00b4e30823c2f0c7bd6461383acf0195d857edf2162543"
     ],
     "hacktool_multi_masscan": [
@@ -13542,8 +13135,6 @@
         "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f",
         "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
         "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779",
-        "6fa0ea46cdf13cc71d9a164d0291f481d3947ec4f35f2cbf7b5c4a51ae3b0aed",
-        "12454a323dec0a56a23cd5215bb335d7842c85bbf38e3bd696c9237e26454388",
         "2bedcddc4f47394606dcc97d05ed2d0200327939a62fc1415cc80ae6bc61bf62"
     ],
     "ZXshell_20171211_chrsben": [
@@ -13592,9 +13183,6 @@
         "abe852af3f7e360e9a5aff4a4ff67ac5e23dfd8b6fe06e28ac3d0ac2fba20214",
         "f9612e6bd426943e8d8a32e5aeeca40a2a739f7f709b7a7dfaf764aa4b10fdc2"
     ],
-    "Trojan_Win_Generic_101": [
-        "e5aea542ee91767b72924b3379cf0af3da6a8168686eab1621350b96bfadb0de"
-    ],
     "HackTool_MSIL_KeeFarce_1": [
         "f7ee631c2fa267f48f9c0f556255c0e3f2819c7f5d60f9f84425a8f9aa75e09c",
         "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c"
@@ -13623,9 +13211,6 @@
     "HackTool_MSIL_KeePersist_1": [
         "f7ee631c2fa267f48f9c0f556255c0e3f2819c7f5d60f9f84425a8f9aa75e09c",
         "a6ee06d8b84765979b3dbaab058e4934043e08a4b251efd7ecb9a5fcbea95e75"
-    ],
-    "Loader_Win_Generic_19": [
-        "e86e0fd56693c3928f41d566d1c11fb9a28ea6bcc9494740d49478759e20eed5"
     ],
     "HackTool_MSIL_SharPersist_2": [
         "e9711f47cf9171f79bf34b342279f6fd9275c8ae65f3eb2c6ebb0b8432ea14f8"
@@ -13738,7 +13323,6 @@
         "d1dcf4c2165f3cf5729ba76e1ee80f4709d8e7eca7a6c29ceffc5fc6b09660fe"
     ],
     "Dexter_Malware": [
-        "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc",
         "ef90d0e88895e3e292c3ea9f356f346771d50587ffb1b29e2028a259abfd3c5b"
     ],
     "pony": [
@@ -13805,63 +13389,6 @@
     ],
     "Ran_OnyxLocker_Nov_2020_1": [
         "e87644c2fb002d7f290c9ef4cb4daf8f8d2fc9ab1e6f418c69705059ff15334b"
-    ],
-    "CookieTools": [
-        "0d8cc0a75238c05e1b072683ee43d7e0bf827dde7a652df1467333a2b1f6a570"
-    ],
-    "update_PcMain": [
-        "9a1d593c83f70b3957df1bf5c06871b3bfbb0edeaa78d3a8c60190a05febf634"
-    ],
-    "SqlDbx_zhs": [
-        "1e5bcfdd98d6c8ddbf8f6f625421c5b1fbbf794920c34872bef4fc08f3ec57f1"
-    ],
-    "Dos_lcx": [
-        "0b5628eb70e21d4acca4c110b2809b3b08c3acf22e379e534efde95c2374a4d1"
-    ],
-    "Smartniff": [
-        "d6831d36184ae91aae56a7fb7c91d7f75339429fbe5a1a0df8985d4884dcc217"
-    ],
-    "Dos_GetPass": [
-        "e9cffb4773da2d46282aeafc6680e7aed8ff8537040a2a27d3c1ee3e3229d88e"
-    ],
-    "ChinaChopper_caidao": [
-        "be24561427d754c0c150272cab5017d5a2da64d41bec74416b8ae363fb07fd77"
-    ],
-    "Dos_ch": [
-        "26fbdc3ffffa56377d5d9aa815a7e5fd087dbe8e2b635d3cd78337aef339e8e6"
-    ],
-    "FreeVersion_debug": [
-        "26fbdc3ffffa56377d5d9aa815a7e5fd087dbe8e2b635d3cd78337aef339e8e6"
-    ],
-    "FreeVersion_release": [
-        "26fbdc3ffffa56377d5d9aa815a7e5fd087dbe8e2b635d3cd78337aef339e8e6"
-    ],
-    "GoodToolset_pr": [
-        "26fbdc3ffffa56377d5d9aa815a7e5fd087dbe8e2b635d3cd78337aef339e8e6"
-    ],
-    "S_MultiFunction_Scanners_s": [
-        "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
-    ],
-    "dbexpora": [
-        "dcecdcc820b8f1372d57619e4515c6053b6519602e896aabafca0affae15b9df"
-    ],
-    "Dos_NC": [
-        "e8fbec25db4f9d95b5e8f41cca51a4b32be8674a4dea7a45b6f7aeb22dbc38db"
-    ],
-    "kiwi_tools_gentil_kiwi": [
-        "3d4d1ace6c71af52853f32fbb907196a05dcd2dae8eedaa3b30dc6a15fc8d65a"
-    ],
-    "OtherTools_xiaoa": [
-        "e76037d469045d62269760c329d42edf6d53b0ecdfa6924ee240a13a1744a519"
-    ],
-    "kiwi_tools": [
-        "d30f51bfd62695df96ba94cde14a7fae466b29ef45252c6ad19d57b4a87ff44e"
-    ],
-    "hydra_7_4_1_hydra": [
-        "2f3907eaa876e3e854419d9d378492bf2af598745511b9a4aa31c97bd199015c"
-    ],
-    "hydra_7_3_hydra": [
-        "2f3907eaa876e3e854419d9d378492bf2af598745511b9a4aa31c97bd199015c"
     ],
     "Ran_Buran_Oct_2020_1": [
         "4ded976d2e5474b5ce1562ceb032981e23f170e7d6ec07fadd131aea82715a5a"

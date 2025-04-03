@@ -47,7 +47,7 @@ rule Windows_Trojan_Amadey_7abb059b : hardened
 		all of them
 }
 
-rule Windows_Trojan_Amadey_c4df8d4a : hardened
+rule Windows_Trojan_Amadey_c4df8d4a : hardened limited
 {
 	meta:
 		author = "Elastic Security"
@@ -68,7 +68,7 @@ rule Windows_Trojan_Amadey_c4df8d4a : hardened
 		score = 75
 
 	strings:
-		$a1 = {44 3a 5c 4d 6b 74 6d 70 5c 4e 4c 31 5c 52 65 6c 65 61 73 65 5c 4e 4c 31 2e 70 64 62}
+		$a1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 44 3a 5c 4d 6b 74 6d 70 5c 4e 4c 31 5c 52 65 6c 65 61 73 65 5c 4e 4c 31 2e 70 64 62 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 
 	condition:
 		all of them

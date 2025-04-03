@@ -1,4 +1,4 @@
-rule Ysoserial_Payload_MozillaRhino1 : hardened
+rule Ysoserial_Payload_MozillaRhino1 : hardened limited
 {
 	meta:
 		description = "Ysoserial Payloads - file MozillaRhino1.bin"
@@ -10,13 +10,13 @@ rule Ysoserial_Payload_MozillaRhino1 : hardened
 		id = "c269e032-b6ce-5faa-b3ce-a5304f3e9dab"
 
 	strings:
-		$s3 = {79 73 6f 73 65 72 69 61 6c 2e 70 61 79 6c 6f 61 64 73}
+		$s3 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 79 73 6f 73 65 72 69 61 6c 2e 70 61 79 6c 6f 61 64 73 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 
 	condition:
 		( uint16( 0 ) == 0xedac and filesize < 40KB and all of them )
 }
 
-rule Ysoserial_Payload_C3P0 : hardened
+rule Ysoserial_Payload_C3P0 : hardened limited
 {
 	meta:
 		description = "Ysoserial Payloads - file C3P0.bin"
@@ -28,7 +28,7 @@ rule Ysoserial_Payload_C3P0 : hardened
 		id = "c269e032-b6ce-5faa-b3ce-a5304f3e9dab"
 
 	strings:
-		$x1 = {65 78 70 6c 6f 69 74 70 70 70 70 77}
+		$x1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 65 78 70 6c 6f 69 74 70 70 70 70 77 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 
 	condition:
 		( uint16( 0 ) == 0xedac and filesize < 3KB and all of them )
@@ -58,7 +58,7 @@ rule Ysoserial_Payload_Spring1 : hardened
 		1 of them
 }
 
-rule Ysoserial_Payload : hardened
+rule Ysoserial_Payload : hardened limited
 {
 	meta:
 		description = "Ysoserial Payloads"
@@ -84,14 +84,14 @@ rule Ysoserial_Payload : hardened
 
 	strings:
 		$x1 = {79 73 6f 73 65 72 69 61 6c 2f 70 61 79 6c 6f 61 64 73 2f}
-		$s1 = {53 74 75 62 54 72 61 6e 73 6c 65 74 50 61 79 6c 6f 61 64}
-		$s2 = {50 77 6e 72 70 77}
+		$s1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 53 74 75 62 54 72 61 6e 73 6c 65 74 50 61 79 6c 6f 61 64 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
+		$s2 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 50 77 6e 72 70 77 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 
 	condition:
 		( uint16( 0 ) == 0xedac and filesize < 40KB and $x1 ) or ( all of them )
 }
 
-rule Ysoserial_Payload_3 : hardened
+rule Ysoserial_Payload_3 : hardened limited
 {
 	meta:
 		description = "Ysoserial Payloads - from files JavassistWeld1.bin, JBossInterceptors.bin"
@@ -105,12 +105,12 @@ rule Ysoserial_Payload_3 : hardened
 		id = "7fb67f48-66dc-57a4-9075-49b2277fa186"
 
 	strings:
-		$x1 = {79 73 6f 73 65 72 69 61 6c 71}
-		$s1 = {74 61 72 67 65 74 43 6c 61 73 73 49 6e 74 65 72 63 65 70 74 6f 72 4d 65 74 61 64 61 74 61 74}
-		$s2 = {74 61 72 67 65 74 49 6e 73 74 61 6e 63 65 74}
-		$s3 = {74 61 72 67 65 74 43 6c 61 73 73 4c}
-		$s4 = {50 4f 53 54 5f 41 43 54 49 56 41 54 45 73 72}
-		$s5 = {50 52 45 5f 44 45 53 54 52 4f 59 73 71}
+		$x1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 79 73 6f 73 65 72 69 61 6c 71 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
+		$s1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 74 61 72 67 65 74 43 6c 61 73 73 49 6e 74 65 72 63 65 70 74 6f 72 4d 65 74 61 64 61 74 61 74 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
+		$s2 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 74 61 72 67 65 74 49 6e 73 74 61 6e 63 65 74 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
+		$s3 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 74 61 72 67 65 74 43 6c 61 73 73 4c (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
+		$s4 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 50 4f 53 54 5f 41 43 54 49 56 41 54 45 73 72 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
+		$s5 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 50 52 45 5f 44 45 53 54 52 4f 59 73 71 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 
 	condition:
 		( uint16( 0 ) == 0xedac and filesize < 10KB and $x1 ) or ( all of them )

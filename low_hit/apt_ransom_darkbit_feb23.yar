@@ -19,7 +19,7 @@ rule MAL_RANSOM_DarkBit_Feb23_1 : hardened
 		uint16( 0 ) == 0x5a4d and filesize < 10MB and ( 1 of ( $x* ) or 2 of them ) or 4 of them or ( filesize < 10MB and $xn1 )
 }
 
-rule MAL_RANSOM_DarkBit_Feb23_2 : hardened
+rule MAL_RANSOM_DarkBit_Feb23_2 : hardened limited
 {
 	meta:
 		description = "Detects Go based DarkBit ransomware (garbled code; could trigger on other obfuscated samples, too)"
@@ -31,10 +31,10 @@ rule MAL_RANSOM_DarkBit_Feb23_2 : hardened
 		id = "f530815c-68e7-55f1-8e36-bc74a1059584"
 
 	strings:
-		$s1 = {72 75 6e 74 69 6d 65 2e 69 6e 69 74 4c 6f 6e 67 50 61 74 68 53 75 70 70 6f 72 74}
+		$s1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 72 75 6e 74 69 6d 65 2e 69 6e 69 74 4c 6f 6e 67 50 61 74 68 53 75 70 70 6f 72 74 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 		$s2 = {72 65 66 6c 65 63 74 2e}
-		$s3 = {20 20 20 20 22 70 72 6f 63 65 73 73 65 73 22 3a 20 5b 5d 2c}
-		$s4 = {5e 21 2a 20 25 21 28 21}
+		$s3 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 20 20 20 20 22 70 72 6f 63 65 73 73 65 73 22 3a 20 5b 5d 2c (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
+		$s4 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 5e 21 2a 20 25 21 28 21 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 		$op1 = { 4d 8b b6 00 00 00 00 48 8b 94 24 40 05 00 00 31 c0 87 82 30 03 00 00 b8 01 00 00 00 f0 0f c1 82 00 03 00 00 48 8b 44 24 48 48 8b 0d ba 1f 32 00 }
 		$op2 = { 49 8d 49 01 0f 1f 00 48 39 d9 7c e2 b9 0b 00 00 00 49 89 d8 e9 28 fc ff ff e8 89 6c d7 ff }
 

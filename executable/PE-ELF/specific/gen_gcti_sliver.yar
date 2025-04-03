@@ -1,4 +1,4 @@
-rule Sliver_Implant_32bit : hardened
+rule Sliver_Implant_32bit : hardened limited
 {
 	meta:
 		description = "Sliver 32-bit implant (with and without --debug flag at compile)"
@@ -16,13 +16,13 @@ rule Sliver_Implant_32bit : hardened
 		$s_http = { 81 ?? 68 74 74 70 }
 		$s_https = { 81 ?? 68 74 74 70 [2-20] 80 ?? 04 73 }
 		$s_mtls = { 81 ?? 6D 74 6C 73 }
-		$fp1 = {63 6c 6f 75 64 66 6f 75 6e 64 72 79}
+		$fp1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 63 6c 6f 75 64 66 6f 75 6e 64 72 79 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 
 	condition:
 		4 of ( $s* ) and not 1 of ( $fp* )
 }
 
-rule Sliver_Implant_64bit : hardened
+rule Sliver_Implant_64bit : hardened limited
 {
 	meta:
 		description = "Sliver 64-bit implant (with and without --debug flag at compile)"
@@ -40,7 +40,7 @@ rule Sliver_Implant_64bit : hardened
 		$s_wg = {66 81 ?? 77 67}
 		$s_dns = { 66 81 ?? 64 6E [2-20] 80 ?? 02 73 }
 		$s_mtls = {  81 ?? 6D 74 6C 73  }
-		$fp1 = {63 6c 6f 75 64 66 6f 75 6e 64 72 79}
+		$fp1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 63 6c 6f 75 64 66 6f 75 6e 64 72 79 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 
 	condition:
 		5 of ( $s* ) and not 1 of ( $fp* )

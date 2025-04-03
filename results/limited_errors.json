@@ -1,7 +1,158 @@
 {
+    "AgentTeslaV2": {
+        "missing": [
+            "54a813d8f2aab7d1e76d8577784ccd9350c025e52f656fee6a228d39dfbac926"
+        ]
+    },
+    "AgentTeslaV5": {
+        "missing": [
+            "8f0fa4ed608acc49175e9c44125b945b5ca2c31071d33f9f100f51d0a961d737"
+        ]
+    },
+    "Windows_Trojan_Limerat_24269a79": {
+        "missing": [
+            "369caea879ce15a7146b74e59ac7e172faa742d053634bfa436637c150c0c85a",
+            "0794bc31d71174be2e372f0166e041f1a6653d63df29f9aebf19233e477ea9b2"
+        ]
+    },
+    "LimeRAT": {
+        "missing": [
+            "369caea879ce15a7146b74e59ac7e172faa742d053634bfa436637c150c0c85a",
+            "0794bc31d71174be2e372f0166e041f1a6653d63df29f9aebf19233e477ea9b2"
+        ]
+    },
+    "Windows_Trojan_Remcos_b296e965": {
+        "missing": [
+            "5be56119732af027b1c2797f204cbc5d60f7f90afd1b5d4031f4077ca3d9ef6c",
+            "1984264959b7d63e516544cbce4b6dffb7ed5210a472437dd88068f4d39600e2",
+            "43a538ef95d4f931704d6309fa0a292f38abaeae48836f39115c0d3f4418fdec"
+        ]
+    },
+    "Remcos_2": {
+        "missing": [
+            "be8567ffe0be8bcb6af197b0c4f7498756b3eb812f7f3b23a5472dfe881726e7"
+        ]
+    },
+    "Windows_Trojan_Njrat_30f3c220": {
+        "missing": [
+            "9b2629c78ca9883ae21246054e37da5dbbce8db6a06998ff55d1ec2b51cff6a2",
+            "3db6003aed5663530344f627592d7071efcece6ab608d114cd219d5b19f389a5",
+            "345d5d2759abd08a84c4c2e2a337a1babd02b5eda3921db1b83eb5d5f5ccc011",
+            "efd485fb1bb495564cbaba67e413fb288abdd5dd5309c71b89607db28b0e3682",
+            "06ef6e2ffa0fdffb2ea1087200d5e283c94d06e98877543a3f45e30f0b02c933",
+            "3bf2449588aaea6f7b7f984af24bd889ee438bb33d9331f5990ef9b6184695e8"
+        ]
+    },
+    "malware_Njrat_strings": {
+        "missing": [
+            "9b2629c78ca9883ae21246054e37da5dbbce8db6a06998ff55d1ec2b51cff6a2",
+            "3db6003aed5663530344f627592d7071efcece6ab608d114cd219d5b19f389a5",
+            "345d5d2759abd08a84c4c2e2a337a1babd02b5eda3921db1b83eb5d5f5ccc011",
+            "efd485fb1bb495564cbaba67e413fb288abdd5dd5309c71b89607db28b0e3682",
+            "06ef6e2ffa0fdffb2ea1087200d5e283c94d06e98877543a3f45e30f0b02c933",
+            "3bf2449588aaea6f7b7f984af24bd889ee438bb33d9331f5990ef9b6184695e8"
+        ]
+    },
+    "Windows_Trojan_Njrat_30f3c220_1": {
+        "missing": [
+            "efd485fb1bb495564cbaba67e413fb288abdd5dd5309c71b89607db28b0e3682",
+            "06ef6e2ffa0fdffb2ea1087200d5e283c94d06e98877543a3f45e30f0b02c933",
+            "3bf2449588aaea6f7b7f984af24bd889ee438bb33d9331f5990ef9b6184695e8"
+        ]
+    },
+    "CVE_2015_1701_Taihou": {
+        "missing": [
+            "6da003a9b9884bd50bad563ee06828e309f8dd61da2a04ab04ae06c9a89fbb7b"
+        ]
+    },
+    "PROMETHIUM_NEODYMIUM_Malware_1": {
+        "missing": [
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
+        ]
+    },
+    "PROMETHIUM_NEODYMIUM_Malware_4": {
+        "missing": [
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
+        ]
+    },
+    "TidePool_Malware": {
+        "missing": [
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
+        ]
+    },
+    "APT_CN_MAL_RedDelta_Shellcode_Loader_Oct20_2": {
+        "missing": [
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
+        ]
+    },
+    "StoneDrill_Malware_2": {
+        "missing": [
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
+        ]
+    },
+    "SAmSAmRansom2016": {
+        "missing": [
+            "0f2c5c39494f15b7ee637ad5b6b5d00a3e2f407b4f27d140cd5a821ff08acfac"
+        ]
+    },
+    "Sofacy_Oct17_2": {
+        "missing": [
+            "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc"
+        ]
+    },
+    "FourElementSword_ElevateDLL": {
+        "missing": [
+            "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc"
+        ]
+    },
+    "APT_Malware_PutterPanda_MsUpdater_1": {
+        "missing": [
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f"
+        ]
+    },
+    "MAL_IceId_Core_202104": {
+        "missing": [
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f"
+        ]
+    },
+    "FiveEyes_QUERTY_Malwaresig_20123_sys": {
+        "missing": [
+            "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc"
+        ]
+    },
     "APT_DeputyDog_Fexel": {
         "missing": [
             "a6ee06d8b84765979b3dbaab058e4934043e08a4b251efd7ecb9a5fcbea95e75"
+        ]
+    },
+    "APT_Project_Sauron_Custom_M4": {
+        "missing": [
+            "ea1a6496003eaf5b020d855d14757757c788049b2e2c800d806c4eb371f9567b"
+        ]
+    },
+    "APT_Project_Sauron_Custom_M6": {
+        "missing": [
+            "ea1a6496003eaf5b020d855d14757757c788049b2e2c800d806c4eb371f9567b"
+        ]
+    },
+    "APT_APT29_NOBELIUM_NativeZone_Loader_May21_1": {
+        "missing": [
+            "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc"
+        ]
+    },
+    "APT_APT29_NOBELIUM_Stageless_Loader_May21_2": {
+        "missing": [
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
+        ]
+    },
+    "COZY_FANCY_BEAR_pagemgr_Hunt": {
+        "missing": [
+            "fd919ca8a89fd3b613fe99832a10973eb052cf4b400f2de1e020566665b075cf"
         ]
     },
     "nkminer_monero": {
@@ -9,14 +160,98 @@
             "1ceaa4b6735e54755f3d4ccc633936a96d120d6a18726c81f5caec4063418ed3"
         ]
     },
+    "apt_RU_MoonlightMaze_de_tool": {
+        "missing": [
+            "041e371767c385910437ce2584a00b4c62a371f9b18b487af393e1a4e7514d52"
+        ]
+    },
+    "WoolenGoldfish_Generic_1": {
+        "missing": [
+            "c864545bd61ac07a3dae55fa930149f2e58a1a4fc2ccba28bf011b7eb5a6172d"
+        ]
+    },
+    "APT_Win_Pipcreat": {
+        "missing": [
+            "38c381e1f0d8db27082d5809b70fc73d5c7137e266bc22b4301dd4bbd5e79637",
+            "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c"
+        ]
+    },
+    "HKTL_RedMimicry_Agent": {
+        "missing": [
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
+        ]
+    },
+    "ME_Campaign_Malware_5": {
+        "missing": [
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
+        ]
+    },
+    "APT_PupyRAT_PY": {
+        "missing": [
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
+            "a6ee06d8b84765979b3dbaab058e4934043e08a4b251efd7ecb9a5fcbea95e75",
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
+        ]
+    },
+    "MAL_Sharpshooter_Excel4": {
+        "missing": [
+            "ccef64586d25ffcb2b28affc1f64319b936175c4911e7841a0e28ee6d6d4a02d"
+        ]
+    },
+    "CN_Honker_ChinaChopper_db": {
+        "missing": [
+            "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc"
+        ]
+    },
+    "TeleBots_CredRaptor_Password_Stealer": {
+        "missing": [
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
+        ]
+    },
+    "TeleBots_Win64_Spy_KeyLogger_G": {
+        "missing": [
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
+        ]
+    },
+    "Nanocore_RAT_Sample_1": {
+        "missing": [
+            "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc"
+        ]
+    },
     "banbra": {
         "missing": [
             "1ceaa4b6735e54755f3d4ccc633936a96d120d6a18726c81f5caec4063418ed3"
         ]
     },
+    "RocketKitten_Keylogger": {
+        "missing": [
+            "a6ee06d8b84765979b3dbaab058e4934043e08a4b251efd7ecb9a5fcbea95e75"
+        ]
+    },
+    "Microcin_Sample_4": {
+        "missing": [
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
+        ]
+    },
+    "KINS_dropper": {
+        "missing": [
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
+        ]
+    },
     "PlugXStrings": {
         "missing": [
             "a6ee06d8b84765979b3dbaab058e4934043e08a4b251efd7ecb9a5fcbea95e75"
+        ]
+    },
+    "MAL_HawkEye_Keylogger_Gen_Dec18": {
+        "missing": [
+            "1ceaa4b6735e54755f3d4ccc633936a96d120d6a18726c81f5caec4063418ed3"
         ]
     },
     "INDICATOR_SUSPICIOUS_JS_WMI_ExecQuery": {
@@ -40,10 +275,136 @@
             "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
         ]
     },
+    "SUSP_Modified_SystemExeFileName_in_File": {
+        "missing": [
+            "30263954aaa1e13f304ef7aec413c57419ab26f5e175fbc52ce7712a1cc0e04f"
+        ]
+    },
     "SUSP_PDB_Path_Keywords": {
         "missing": [
             "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779",
             "12454a323dec0a56a23cd5215bb335d7842c85bbf38e3bd696c9237e26454388"
+        ]
+    },
+    "Hacktools_CN_JoHor_Posts_Killer": {
+        "missing": [
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
+        ]
+    },
+    "CN_Toolset_NTscan_PipeCmd": {
+        "missing": [
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
+        ]
+    },
+    "DK_Brute": {
+        "missing": [
+            "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc"
+        ]
+    },
+    "XYZCmd_zip_Folder_XYZCmd": {
+        "missing": [
+            "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc"
+        ]
+    },
+    "RangeScan": {
+        "missing": [
+            "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc"
+        ]
+    },
+    "ArtTray_zip_Folder_ArtTray": {
+        "missing": [
+            "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc"
+        ]
+    },
+    "lsremora": {
+        "missing": [
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
+        ]
+    },
+    "sig_238_hunt": {
+        "missing": [
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
+        ]
+    },
+    "sig_238_eee": {
+        "missing": [
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
+        ]
+    },
+    "QQ_zip_Folder_QQ": {
+        "missing": [
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f"
+        ]
+    },
+    "sig_238_TFTPD32": {
+        "missing": [
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
+        ]
+    },
+    "sig_238_nbtdump": {
+        "missing": [
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
+        ]
+    },
+    "superscan3_0": {
+        "missing": [
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
+        ]
+    },
+    "CN_Toolset_LScanPortss_2": {
+        "missing": [
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
+        ]
+    },
+    "HKTL_beRootexe_output": {
+        "missing": [
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
+        ]
+    },
+    "CGISscan_CGIScan": {
+        "missing": [
+            "ea1a6496003eaf5b020d855d14757757c788049b2e2c800d806c4eb371f9567b"
+        ]
+    },
+    "CN_Hacktool_SSPort_Portscanner": {
+        "missing": [
+            "ea1a6496003eaf5b020d855d14757757c788049b2e2c800d806c4eb371f9567b"
+        ]
+    },
+    "CN_Hacktool_ScanPort_Portscanner": {
+        "missing": [
+            "ea1a6496003eaf5b020d855d14757757c788049b2e2c800d806c4eb371f9567b"
+        ]
+    },
+    "CN_Hacktool_S_EXE_Portscanner": {
+        "missing": [
+            "ea1a6496003eaf5b020d855d14757757c788049b2e2c800d806c4eb371f9567b"
+        ]
+    },
+    "ASPack_ASPACK": {
+        "missing": [
+            "ea1a6496003eaf5b020d855d14757757c788049b2e2c800d806c4eb371f9567b"
+        ]
+    },
+    "Antiy_Ports_1_21": {
+        "missing": [
+            "ea1a6496003eaf5b020d855d14757757c788049b2e2c800d806c4eb371f9567b"
+        ]
+    },
+    "Industroyer_Portscan_3": {
+        "missing": [
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67",
+            "c864545bd61ac07a3dae55fa930149f2e58a1a4fc2ccba28bf011b7eb5a6172d"
         ]
     },
     "IronTiger_ASPXSpy": {
@@ -69,6 +430,11 @@
     "WScriptShell_Case_Anomaly": {
         "missing": [
             "ea1a6496003eaf5b020d855d14757757c788049b2e2c800d806c4eb371f9567b"
+        ]
+    },
+    "TA505_Maldoc_21Nov_2": {
+        "missing": [
+            "063203ce28c4326da9ec26ef6f067c1fef64ac641d489f22f25b6fd0de6ebf82"
         ]
     },
     "PowerShell_Susp_Parameter_Combo": {
@@ -511,6 +877,12 @@
             "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c"
         ]
     },
+    "p0wnedListenerConsole": {
+        "missing": [
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67",
+            "c864545bd61ac07a3dae55fa930149f2e58a1a4fc2ccba28bf011b7eb5a6172d"
+        ]
+    },
     "dbgdetect_procs": {
         "missing": [
             "be8567ffe0be8bcb6af197b0c4f7498756b3eb812f7f3b23a5472dfe881726e7",
@@ -544,6 +916,16 @@
             "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c",
             "c85091a01faba998f437e9b44c215804a8013050c6684670581cd1c8a8f216f2",
             "c864545bd61ac07a3dae55fa930149f2e58a1a4fc2ccba28bf011b7eb5a6172d"
+        ]
+    },
+    "Malware_QA_not_copy": {
+        "missing": [
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
+        ]
+    },
+    "Malware_QA_tls": {
+        "missing": [
+            "ea1a6496003eaf5b020d855d14757757c788049b2e2c800d806c4eb371f9567b"
         ]
     },
     "INDICATOR_SUSPICIOUS_Binary_References_Browsers": {
@@ -683,6 +1065,11 @@
             "7de04563a9107d3c53effc75e3fe1dc9a2a59a4aa3a46d4b02522d84001dab08"
         ]
     },
+    "INDICATOR_SUSPICIOUS_EXE_Anti_OldCopyPaste": {
+        "missing": [
+            "38c381e1f0d8db27082d5809b70fc73d5c7137e266bc22b4301dd4bbd5e79637"
+        ]
+    },
     "SUSP_XORed_Mozilla": {
         "missing": [
             "ad0474f0d6021d0de97c77ca222a05777762aad59bda2be2f3b1a8f1a8022707",
@@ -728,6 +1115,66 @@
             "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c"
         ]
     },
+    "ScanBox_Malware_Generic": {
+        "missing": [
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
+        ]
+    },
+    "EternalRocks_taskhost": {
+        "missing": [
+            "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc"
+        ]
+    },
+    "CookieTools": {
+        "missing": [
+            "0d8cc0a75238c05e1b072683ee43d7e0bf827dde7a652df1467333a2b1f6a570"
+        ]
+    },
+    "Smartniff": {
+        "missing": [
+            "d6831d36184ae91aae56a7fb7c91d7f75339429fbe5a1a0df8985d4884dcc217"
+        ]
+    },
+    "Dos_GetPass": {
+        "missing": [
+            "e9cffb4773da2d46282aeafc6680e7aed8ff8537040a2a27d3c1ee3e3229d88e"
+        ]
+    },
+    "ChinaChopper_caidao": {
+        "missing": [
+            "be24561427d754c0c150272cab5017d5a2da64d41bec74416b8ae363fb07fd77"
+        ]
+    },
+    "ProjectM_DarkComet_1": {
+        "missing": [
+            "8a3de78cf177be4c37c1525becf05af336c1dc2a4d181cae79f6903754902efa"
+        ]
+    },
+    "ProjectM_CrimsonDownloader": {
+        "missing": [
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
+        ]
+    },
+    "INDICATOR_EXE_Packed_MPress": {
+        "missing": [
+            "38c381e1f0d8db27082d5809b70fc73d5c7137e266bc22b4301dd4bbd5e79637",
+            "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c"
+        ]
+    },
+    "INDICATOR_EXE_Packed_VMProtect": {
+        "missing": [
+            "38c381e1f0d8db27082d5809b70fc73d5c7137e266bc22b4301dd4bbd5e79637",
+            "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c"
+        ]
+    },
+    "INDICATOR_EXE_Packed_RLPack": {
+        "missing": [
+            "38c381e1f0d8db27082d5809b70fc73d5c7137e266bc22b4301dd4bbd5e79637",
+            "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c"
+        ]
+    },
     "Cerberus": {
         "missing": [
             "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
@@ -738,9 +1185,182 @@
             "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
         ]
     },
-    "Regin_APT_KernelDriver_Generic_B": {
+    "Anthem_DeepPanda_lot1": {
+        "missing": [
+            "a6cad2d0f8dc05246846d2a9618fc93b7d97681331d5826f8353e7c3a3206e86"
+        ]
+    },
+    "Anthem_DeepPanda_sl_txt_packed": {
+        "missing": [
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
+        ]
+    },
+    "OpCloudHopper_Malware_5": {
+        "missing": [
+            "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc"
+        ]
+    },
+    "OpCloudHopper_Malware_1": {
+        "missing": [
+            "7ca3c454a08b3ae4ac9e3351604afb2d6dbf5ec8f528815b3dcdd770443537a5"
+        ]
+    },
+    "OpCloudHopper_Malware_8": {
+        "missing": [
+            "012fe771283404e5231ed2f71e4932674f89d52aa93608bfcaf67150e53609b0"
+        ]
+    },
+    "EquationGroup_Toolset_Apr17_Gen2": {
+        "missing": [
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
+        ]
+    },
+    "SLServer_dialog_remains": {
+        "missing": [
+            "83f967523fb0904cb14ced4e84d1f299c51ff7f33a2a68348dac47e06f3fa2d2"
+        ]
+    },
+    "CN_Honker_termsrvhack": {
+        "missing": [
+            "1eba9a909641e64e935090956b03182335d298cad78052cef3b3f75691eb3f50"
+        ]
+    },
+    "CN_Honker_ChinaChopper": {
+        "missing": [
+            "8d96710b01b9eb3b4cf9d5b01ed53d7084a2808322f3456d4038ca2978022e16"
+        ]
+    },
+    "CN_Honker_GetPass_GetPass": {
+        "missing": [
+            "e9cffb4773da2d46282aeafc6680e7aed8ff8537040a2a27d3c1ee3e3229d88e"
+        ]
+    },
+    "CN_Honker__builder_shift_SkinH": {
+        "missing": [
+            "b3f4d019853c18475cbc7e02f03834f8969f69e1f0e6cfc61d31b43817e8c115"
+        ]
+    },
+    "CN_Honker_Injection_transit": {
+        "missing": [
+            "8210a79289dd3e351bd6e57318d2cbf4f69cacd028d8e4b352470c4515230380"
+        ]
+    },
+    "CN_Honker_WordpressScanner": {
+        "missing": [
+            "77a53280fd609c5594c6f78453ca8468dc4d0305c87293655b85a50f88681792"
+        ]
+    },
+    "Xtreme_Sep17_3": {
+        "missing": [
+            "b2d4357b66e008c97bdcbfc4802556d44affa1a94eff74fb071716efc054c94f",
+            "525d9900a7a66f91399ff13fbcb8f3071467523404c6359ea9c104d8f7f9c924"
+        ]
+    },
+    "Xtreme_Sep17_1": {
+        "missing": [
+            "ef7bac23b920c86b72c70ff6eb23504ab472e0c7d6a7c28461fd8fa846e1a4ae"
+        ]
+    },
+    "APT_HKTL_Wiper_WhisperGate_Jan22_2": {
+        "missing": [
+            "6d5fe2cac56f6e735461f2b6e8bf0e2b53feace3c17838cdba1ac3c848825353"
+        ]
+    },
+    "Stuxnet_Malware_3": {
+        "missing": [
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
+        ]
+    },
+    "Stuxnet_Malware_2": {
+        "missing": [
+            "63e6b8136058d7a06dfff4034b4ab17a261cdf398e63868a601f77ddd1b32802"
+        ]
+    },
+    "Mirai_Botnet_Malware": {
+        "missing": [
+            "379dde9cec791abbac0e2466f6fbebb538b426fdb9514665c2344fb65cf2f913"
+        ]
+    },
+    "MAL_Winnti_Sample_May18_1": {
+        "missing": [
+            "efd485fb1bb495564cbaba67e413fb288abdd5dd5309c71b89607db28b0e3682",
+            "3bf2449588aaea6f7b7f984af24bd889ee438bb33d9331f5990ef9b6184695e8"
+        ]
+    },
+    "Quasar_RAT_Jan18_1": {
+        "missing": [
+            "e4fcf1f6b71043e7c7c32f6954a0a1972696fa1bb9b6543ead14e85626890a11"
+        ]
+    },
+    "APT_UNC2447_MAL_SOMBRAT_May21_1": {
+        "missing": [
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
+        ]
+    },
+    "Casper_EXE_Dropper": {
+        "missing": [
+            "a6ee06d8b84765979b3dbaab058e4934043e08a4b251efd7ecb9a5fcbea95e75"
+        ]
+    },
+    "Regin_APT_KernelDriver_Generic_A": {
         "missing": [
             "9cd5127ef31da0e8a4e36292f2af5a9ec1de3b294da367d7c05786fe2d5de44f"
+        ]
+    },
+    "Regin_APT_KernelDriver_Generic_B": {
+        "missing": [
+            "9cd5127ef31da0e8a4e36292f2af5a9ec1de3b294da367d7c05786fe2d5de44f",
+            "40c46bcab9acc0d6d235491c01a66d4c6f35d884c19c6f410901af6d1e33513b"
+        ]
+    },
+    "Regin_APT_KernelDriver_Generic_C": {
+        "missing": [
+            "40c46bcab9acc0d6d235491c01a66d4c6f35d884c19c6f410901af6d1e33513b"
+        ]
+    },
+    "Regin_Sample_1": {
+        "missing": [
+            "a26db2eb9f3e2509b4eba949db97595cc32332d9321df68283bfc102e66d766f"
+        ]
+    },
+    "Duqu2_UAs": {
+        "missing": [
+            "53331bff5e585c471fad6789313a2a8a687a586cc0a8d006b24085b91ed7fc9a"
+        ]
+    },
+    "Duqu2_Sample4": {
+        "missing": [
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
+        ]
+    },
+    "EquationDrug_HDDSSD_Op": {
+        "missing": [
+            "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc"
+        ]
+    },
+    "EquationDrug_NetworkSniffer3": {
+        "missing": [
+            "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc"
+        ]
+    },
+    "Equation_Kaspersky_EquationDrugInstaller": {
+        "missing": [
+            "1b0eb1a1591140175d1ac111a98c89472b196599baf13ef67ee7f63d0052b00e"
+        ]
+    },
+    "EquationDrug_VolRec_Driver": {
+        "missing": [
+            "ea1a6496003eaf5b020d855d14757757c788049b2e2c800d806c4eb371f9567b"
+        ]
+    },
+    "EquationDrug_FileSystem_Filter": {
+        "missing": [
+            "ea1a6496003eaf5b020d855d14757757c788049b2e2c800d806c4eb371f9567b"
         ]
     },
     "FE_CPE_MS17_010_RANSOMWARE": {
@@ -748,9 +1368,103 @@
             "1ceaa4b6735e54755f3d4ccc633936a96d120d6a18726c81f5caec4063418ed3"
         ]
     },
+    "HKTL_Meterpreter_inMemory": {
+        "missing": [
+            "38c381e1f0d8db27082d5809b70fc73d5c7137e266bc22b4301dd4bbd5e79637"
+        ]
+    },
+    "Msfpayloads_msf_5": {
+        "missing": [
+            "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc",
+            "a6ee06d8b84765979b3dbaab058e4934043e08a4b251efd7ecb9a5fcbea95e75"
+        ]
+    },
+    "INDICATOR_TOOL_EXP_PetitPotam01": {
+        "missing": [
+            "61c0810a23580cf492a6ba4f7654566108331e7a4134c968c2d6a05261b2d8a1",
+            "441cb0576151b2e5b5127be72a5bcdf3577a596f0a4e1f2c6836248fe07eb818"
+        ]
+    },
+    "INDICATOR_TOOL_EXP_SeriousSAM01": {
+        "missing": [
+            "8bbdc61e5fb515717d53fa2431ed928f930550ff55ef2a942276e33558c0215c"
+        ]
+    },
+    "INDICATOR_TOOL_PWS_LSASS_CreateMiniDump": {
+        "missing": [
+            "5d119697f8a1aa52781fa7b5fd0994a916ab0fbd43c6d1f22cb6154f98a53e0b"
+        ]
+    },
     "INDICATOR_TOOL_PWS_SharpWeb": {
         "missing": [
             "ea33954741d44c9f46ab6f40fed29acd2833b9fdcc33b3990fab573522f2e446"
+        ]
+    },
+    "INDICATOR_TOOL_PRV_AdvancedRun": {
+        "missing": [
+            "ed63b2a33066ef63bdb5b99c40d660f29653386b334f45d5296ead6fbcbc2861"
+        ]
+    },
+    "Codoso_Gh0st_1": {
+        "missing": [
+            "1ceaa4b6735e54755f3d4ccc633936a96d120d6a18726c81f5caec4063418ed3",
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
+        ]
+    },
+    "Codoso_Gh0st_3": {
+        "missing": [
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
+        ]
+    },
+    "Codoso_PlugX_2": {
+        "missing": [
+            "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc"
+        ]
+    },
+    "APT_APT28_Downdelph_Feb_2021_1": {
+        "missing": [
+            "cf684f708f1b6ffbc2b46b498cb9e9b40bfd813958fd7fc4db56f9642dd5da33"
+        ]
+    },
+    "MuddyWater_Mal_Doc_Feb18_2": {
+        "missing": [
+            "063203ce28c4326da9ec26ef6f067c1fef64ac641d489f22f25b6fd0de6ebf82"
+        ]
+    },
+    "EldoS_RawDisk": {
+        "missing": [
+            "c3ab58b3154e5f5101ba74fccfd27a9ab445e41262cdf47e8cc3be7416a5904f"
+        ]
+    },
+    "Andromeda_MalBot_Jun_1A": {
+        "missing": [
+            "8033de2d5e64df2df391ddebdc41c6c6041b552779550c2e5f10ceedfd63c7ec"
+        ]
+    },
+    "RemoteCmd": {
+        "missing": [
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
+        ]
+    },
+    "CN_disclosed_20180208_c": {
+        "missing": [
+            "345d5d2759abd08a84c4c2e2a337a1babd02b5eda3921db1b83eb5d5f5ccc011",
+            "efd485fb1bb495564cbaba67e413fb288abdd5dd5309c71b89607db28b0e3682",
+            "06ef6e2ffa0fdffb2ea1087200d5e283c94d06e98877543a3f45e30f0b02c933",
+            "3bf2449588aaea6f7b7f984af24bd889ee438bb33d9331f5990ef9b6184695e8"
+        ]
+    },
+    "CN_disclosed_20180208_Mal5": {
+        "missing": [
+            "9b2629c78ca9883ae21246054e37da5dbbce8db6a06998ff55d1ec2b51cff6a2"
+        ]
+    },
+    "Trojan_Win_Generic_101": {
+        "missing": [
+            "e5aea542ee91767b72924b3379cf0af3da6a8168686eab1621350b96bfadb0de"
         ]
     },
     "HackTool_MSIL_SEATBELT_2": {
@@ -762,6 +1476,11 @@
     "HackTool_MSIL_Rubeus_1": {
         "missing": [
             "08df8b5dffd969737f25bdd7d089ba40787c77c64ef3ef313a93b1a0d5ae6c34"
+        ]
+    },
+    "Loader_Win_Generic_19": {
+        "missing": [
+            "e86e0fd56693c3928f41d566d1c11fb9a28ea6bcc9494740d49478759e20eed5"
         ]
     },
     "HackTool_MSIL_SharPersist_1": {
@@ -778,6 +1497,11 @@
         "missing": [
             "a6ee06d8b84765979b3dbaab058e4934043e08a4b251efd7ecb9a5fcbea95e75",
             "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c"
+        ]
+    },
+    "Dexter_Malware": {
+        "missing": [
+            "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc"
         ]
     },
     "suspicious_javascript_object": {
@@ -886,14 +1610,35 @@
             "e47f3baa180f2050da0e158492bf2fced4858a633c3dff69944f87d7ce27cd57"
         ]
     },
-    "Windows_Trojan_Remcos_7591e9f1": {
+    "HKTL_PowerKatz_Feb19_1": {
+        "extra": [
+            "12454a323dec0a56a23cd5215bb335d7842c85bbf38e3bd696c9237e26454388"
+        ]
+    },
+    "HKTL_LazyCat_LogEraser": {
+        "extra": [
+            "12454a323dec0a56a23cd5215bb335d7842c85bbf38e3bd696c9237e26454388"
+        ]
+    },
+    "INDICATOR_SUSPICIOUS_EXE_WindDefender_AntiEmaulation": {
+        "extra": [
+            "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c"
+        ]
+    },
+    "INDICATOR_SUSPICIOUS_EXE_SandboxProductID": {
         "extra": [
             "91caa1fe289cdd8500399b3dcb07a5417223126a8cfd6833ece052acaaeb27f7"
         ]
     },
-    "Recon_Commands_Windows_Gen1": {
+    "SystemBC_cleartext_Config": {
         "extra": [
-            "ea1a6496003eaf5b020d855d14757757c788049b2e2c800d806c4eb371f9567b"
+            "de4e3ff7f7da5d5561e384585a9d0cb66f2c51ea324c184848d125d8792bf666"
+        ]
+    },
+    "Mimikatz_Strings": {
+        "extra": [
+            "91caa1fe289cdd8500399b3dcb07a5417223126a8cfd6833ece052acaaeb27f7",
+            "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c"
         ]
     },
     "IceID_Bank_trojan": {

@@ -233,7 +233,7 @@ rule SEH_Init : Tactic_DefensiveEvasion Technique_AntiDebugging SubTechnique_SEH
 		WindowsPE and ( $a or $b )
 }
 
-rule Check_Dlls : hardened limited
+rule Check_Dlls : hardened loosened limited
 {
 	meta:
 		Author = "Nick Hoffman"

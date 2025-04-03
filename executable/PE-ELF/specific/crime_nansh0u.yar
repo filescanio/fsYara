@@ -1,6 +1,6 @@
 import "pe"
 
-rule MAL_XMR_Miner_May19_1 : HIGHVOL hardened
+rule MAL_XMR_Miner_May19_1 : HIGHVOL hardened limited
 {
 	meta:
 		description = "Detects Monero Crypto Coin Miner"
@@ -12,10 +12,10 @@ rule MAL_XMR_Miner_May19_1 : HIGHVOL hardened
 		id = "233d1d47-de67-55a9-ae7e-46b5dd34e6ce"
 
 	strings:
-		$x1 = {64 6f 6e 61 74 65 2e 73 73 6c 2e 78 6d 72 69 67 2e 63 6f 6d}
-		$x2 = {2a 20 43 4f 4d 4d 41 4e 44 53 20 20 20 20 20 27 68 27 20 68 61 73 68 72 61 74 65 2c 20 27 70 27 20 70 61 75 73 65 2c 20 27 72 27 20 72 65 73 75 6d 65}
-		$s1 = {5b 25 73 5d 20 6c 6f 67 69 6e 20 65 72 72 6f 72 20 63 6f 64 65 3a 20 25 64}
-		$s2 = {5c 5c 3f 5c 70 69 70 65 5c 75 76 5c 25 70 2d 25 6c 75}
+		$x1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 64 6f 6e 61 74 65 2e 73 73 6c 2e 78 6d 72 69 67 2e 63 6f 6d (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
+		$x2 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 2a 20 43 4f 4d 4d 41 4e 44 53 20 20 20 20 20 27 68 27 20 68 61 73 68 72 61 74 65 2c 20 27 70 27 20 70 61 75 73 65 2c 20 27 72 27 20 72 65 73 75 6d 65 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
+		$s1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 5b 25 73 5d 20 6c 6f 67 69 6e 20 65 72 72 6f 72 20 63 6f 64 65 3a 20 25 64 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
+		$s2 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 5c 5c 3f 5c 70 69 70 65 5c 75 76 5c 25 70 2d 25 6c 75 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 
 	condition:
 		uint16( 0 ) == 0x5a4d and filesize < 14000KB and ( pe.imphash ( ) == "25d9618d1e16608cd5d14d8ad6e1f98e" or 1 of ( $x* ) or 2 of them )
@@ -55,7 +55,7 @@ rule SUSP_PDB_CN_Threat_Actor_May19_1 : hardened
 		uint16( 0 ) == 0x5a4d and filesize < 400KB and 1 of them
 }
 
-rule MAL_Parite_Malware_May19_1 : hardened
+rule MAL_Parite_Malware_May19_1 : hardened limited
 {
 	meta:
 		description = "Detects Parite malware"
@@ -70,10 +70,10 @@ rule MAL_Parite_Malware_May19_1 : hardened
 		id = "f4c9da17-9894-5243-828a-827accb0bac5"
 
 	strings:
-		$s1 = {74 61 73 6b 6b 69 6c 6c 20 2f 69 6d 20 63 6d 64 2e 65 78 65 20 2f 66}
-		$s2 = {4c 4f 41 44 45 52 58 36 34 2e 64 6c 6c}
+		$s1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 74 61 73 6b 6b 69 6c 6c 20 2f 69 6d 20 63 6d 64 2e 65 78 65 20 2f 66 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
+		$s2 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 4c 4f 41 44 45 52 58 36 34 2e 64 6c 6c (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 		$x1 = {5c 64 6c 6c 68 6f 74 2e 65 78 65}
-		$x2 = {64 6c 6c 68 6f 74 2e 65 78 65 20 2d 2d 61 75 74 6f 20 2d 2d 61 6e 79 20 2d 2d 66 6f 72 65 76 65 72 20 2d 2d 6b 65 65 70 61 6c 69 76 65}
+		$x2 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 64 6c 6c 68 6f 74 2e 65 78 65 20 2d 2d 61 75 74 6f 20 2d 2d 61 6e 79 20 2d 2d 66 6f 72 65 76 65 72 20 2d 2d 6b 65 65 70 61 6c 69 76 65 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 
 	condition:
 		uint16( 0 ) == 0x5a4d and filesize < 10000KB and ( 1 of ( $x* ) or 2 of them )
@@ -98,7 +98,7 @@ rule MAL_Parite_Malware_May19_2 : hardened
 		uint16( 0 ) == 0x5a4d and filesize < 18000KB and ( pe.imphash ( ) == "b132a2719be01a6ef87d9939d785e19e" or pe.imphash ( ) == "78f4f885323ffee9f8fa011455d0523d" )
 }
 
-rule EXPL_Strings_CVE_POC_May19_1 : hardened
+rule EXPL_Strings_CVE_POC_May19_1 : hardened limited
 {
 	meta:
 		description = "Detects strings used in CVE POC noticed in May 2019"
@@ -112,8 +112,8 @@ rule EXPL_Strings_CVE_POC_May19_1 : hardened
 	strings:
 		$x1 = {5c 44 65 62 75 67 5c 70 6f 63 5f 63 76 65 5f 32 30}
 		$x2 = {5c 52 65 6c 65 61 73 65 5c 70 6f 63 5f 63 76 65 5f 32 30}
-		$x3 = {61 6c 6c 6f 63 20 66 61 6b 65 20 66 61 69 6c 3a 20 25 78 21}
-		$x4 = {41 6c 6c 6f 63 61 74 65 20 66 61 6b 65 20 74 61 67 57 6e 64 20 66 61 69 6c 21}
+		$x3 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 61 6c 6c 6f 63 20 66 61 6b 65 20 66 61 69 6c 3a 20 25 78 21 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
+		$x4 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 41 6c 6c 6f 63 61 74 65 20 66 61 6b 65 20 74 61 67 57 6e 64 20 66 61 69 6c 21 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 
 	condition:
 		uint16( 0 ) == 0x5a4d and filesize < 400KB and 1 of them

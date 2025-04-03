@@ -1,4 +1,4 @@
-rule WEBSHELL_PHP_Generic : hardened limited
+rule WEBSHELL_PHP_Generic : hardened loosened limited
 {
 	meta:
 		description = "php webshell having some kind of input and some kind of payload. restricted to small files or big ones inclusing suspicious strings"
@@ -38,8 +38,8 @@ rule WEBSHELL_PHP_Generic : hardened limited
 		id = "294ce5d5-55b2-5c79-b0f8-b66f949efbb2"
 
 	strings:
-		$wfp_tiny1 = {65 73 63 61 70 65 73 68 65 6c 6c 61 72 67}
-		$wfp_tiny2 = {61 64 64 73 6c 61 73 68 65 73}
+		$wfp_tiny1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 65 73 63 61 70 65 73 68 65 6c 6c 61 72 67 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
+		$wfp_tiny2 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 61 64 64 73 6c 61 73 68 65 73 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 		$gfp_tiny3 = {69 6e 63 6c 75 64 65 20 22 2e 2f 63 6f 6d 6d 6f 6e 2e 70 68 70 22 3b}
 		$gfp_tiny4 = {61 73 73 65 72 74 28 27 46 41 4c 53 45 27 29 3b}
 		$gfp_tiny5 = {61 73 73 65 72 74 28 66 61 6c 73 65 29 3b}
@@ -217,7 +217,7 @@ rule WEBSHELL_PHP_Generic : hardened limited
 		not ( any of ( $gfp_tiny* ) or 1 of ( $fp* ) ) and ( ( ( $php_short in ( 0 .. 100 ) or $php_short in ( filesize - 1000 .. filesize ) ) and not any of ( $no_* ) ) or any of ( $php_new* ) ) and ( any of ( $inp* ) ) and ( any of ( $cpayload* ) or all of ( $m_cpayload_preg_filter* ) ) and ( ( filesize < 1000 and not any of ( $wfp_tiny* ) ) or ( ( $gif at 0 or ( filesize < 4KB and ( 1 of ( $gen_much_sus* ) or 2 of ( $gen_bit_sus* ) ) ) or ( filesize < 20KB and ( 2 of ( $gen_much_sus* ) or 3 of ( $gen_bit_sus* ) ) ) or ( filesize < 50KB and ( 2 of ( $gen_much_sus* ) or 4 of ( $gen_bit_sus* ) ) ) or ( filesize < 100KB and ( 2 of ( $gen_much_sus* ) or 6 of ( $gen_bit_sus* ) ) ) or ( filesize < 150KB and ( 3 of ( $gen_much_sus* ) or 7 of ( $gen_bit_sus* ) ) ) or ( filesize < 500KB and ( 4 of ( $gen_much_sus* ) or 8 of ( $gen_bit_sus* ) ) ) ) and ( filesize > 5KB or not any of ( $wfp_tiny* ) ) ) or ( filesize < 500KB and ( 4 of ( $cmpayload* ) ) ) )
 }
 
-rule WEBSHELL_PHP_Generic_Callback : hardened limited
+rule WEBSHELL_PHP_Generic_Callback : hardened loosened limited
 {
 	meta:
 		description = "php webshell having some kind of input and using a callback to execute the payload. restricted to small files or would give lots of false positives"
@@ -429,7 +429,7 @@ rule WEBSHELL_PHP_Generic_Callback : hardened limited
 		not ( any of ( $gfp* ) ) and not ( any of ( $gfp_tiny* ) ) and ( any of ( $inp* ) ) and ( not any of ( $cfp* ) and ( any of ( $callback* ) or all of ( $m_callback* ) ) ) and ( filesize < 1000 or ( $gif at 0 or ( filesize < 4KB and ( 1 of ( $gen_much_sus* ) or 2 of ( $gen_bit_sus* ) ) ) or ( filesize < 20KB and ( 2 of ( $gen_much_sus* ) or 3 of ( $gen_bit_sus* ) ) ) or ( filesize < 50KB and ( 2 of ( $gen_much_sus* ) or 4 of ( $gen_bit_sus* ) ) ) or ( filesize < 100KB and ( 2 of ( $gen_much_sus* ) or 6 of ( $gen_bit_sus* ) ) ) or ( filesize < 150KB and ( 3 of ( $gen_much_sus* ) or 7 of ( $gen_bit_sus* ) ) ) or ( filesize < 500KB and ( 4 of ( $gen_much_sus* ) or 8 of ( $gen_bit_sus* ) ) ) ) )
 }
 
-rule WEBSHELL_PHP_Base64_Encoded_Payloads : FILE hardened limited
+rule WEBSHELL_PHP_Base64_Encoded_Payloads : FILE hardened loosened limited
 {
 	meta:
 		description = "php webshell containing base64 encoded payload"
@@ -617,7 +617,7 @@ rule WEBSHELL_PHP_Generic_Eval : hardened
 		filesize < 300KB and not ( any of ( $gfp* ) ) and $geval
 }
 
-rule WEBSHELL_PHP_Double_Eval_Tiny : hardened limited
+rule WEBSHELL_PHP_Double_Eval_Tiny : hardened loosened limited
 {
 	meta:
 		description = "PHP webshell which probably hides the input inside an eval()ed obfuscated string"
@@ -653,7 +653,7 @@ rule WEBSHELL_PHP_Double_Eval_Tiny : hardened limited
 		filesize > 70 and filesize < 300 and ( ( ( $php_short in ( 0 .. 100 ) or $php_short in ( filesize - 1000 .. filesize ) ) and not any of ( $no_* ) ) or any of ( $php_new* ) ) and #payload >= 2 and not any of ( $fp* )
 }
 
-rule WEBSHELL_PHP_OBFUSC : hardened limited
+rule WEBSHELL_PHP_OBFUSC : hardened loosened limited
 {
 	meta:
 		description = "PHP webshell obfuscated"
@@ -859,7 +859,7 @@ rule WEBSHELL_PHP_OBFUSC_Tiny : hardened limited
 		filesize < 500 and not ( any of ( $gfp* ) ) and ( ( ( $php_short in ( 0 .. 100 ) or $php_short in ( filesize - 1000 .. filesize ) ) and not any of ( $no_* ) ) or any of ( $php_new* ) ) and ( any of ( $cpayload* ) or all of ( $m_cpayload_preg_filter* ) ) and ( ( #obf1 + #obf2 ) > 2 or #obf3 > 10 )
 }
 
-rule WEBSHELL_PHP_OBFUSC_Str_Replace : hardened limited
+rule WEBSHELL_PHP_OBFUSC_Str_Replace : hardened loosened limited
 {
 	meta:
 		description = "PHP webshell which eval()s obfuscated string"
@@ -991,7 +991,7 @@ rule WEBSHELL_PHP_Gzinflated : hardened limited
 		filesize < 700KB and not ( any of ( $gfp* ) ) and ( ( ( $php_short in ( 0 .. 100 ) or $php_short in ( filesize - 1000 .. filesize ) ) and not any of ( $no_* ) ) or any of ( $php_new* ) ) and 1 of ( $payload* ) and not any of ( $fp* )
 }
 
-rule WEBSHELL_PHP_OBFUSC_3 : hardened limited
+rule WEBSHELL_PHP_OBFUSC_3 : hardened loosened limited
 {
 	meta:
 		description = "PHP webshell which eval()s obfuscated string"
@@ -1193,7 +1193,7 @@ rule WEBSHELL_PHP_OBFUSC_3 : hardened limited
 		(( ( $php_short in ( 0 .. 100 ) or $php_short in ( filesize - 1000 .. filesize ) ) and not any of ( $no_* ) ) or any of ( $php_new* ) ) and ( ( not any of ( $cfp* ) and ( any of ( $callback* ) or all of ( $m_callback* ) ) ) or ( any of ( $cpayload* ) or all of ( $m_cpayload_preg_filter* ) ) ) and ( any of ( $cobfs* ) ) and ( filesize < 1KB or ( filesize < 3KB and ( ( $gif at 0 or ( filesize < 4KB and ( 1 of ( $gen_much_sus* ) or 2 of ( $gen_bit_sus* ) ) ) or ( filesize < 20KB and ( 2 of ( $gen_much_sus* ) or 3 of ( $gen_bit_sus* ) ) ) or ( filesize < 50KB and ( 2 of ( $gen_much_sus* ) or 4 of ( $gen_bit_sus* ) ) ) or ( filesize < 100KB and ( 2 of ( $gen_much_sus* ) or 6 of ( $gen_bit_sus* ) ) ) or ( filesize < 150KB and ( 3 of ( $gen_much_sus* ) or 7 of ( $gen_bit_sus* ) ) ) or ( filesize < 500KB and ( 4 of ( $gen_much_sus* ) or 8 of ( $gen_bit_sus* ) ) ) ) or #obf1 > 10 ) ) )
 }
 
-rule WEBSHELL_PHP_Includer_Eval : hardened limited
+rule WEBSHELL_PHP_Includer_Eval : hardened loosened limited
 {
 	meta:
 		description = "PHP webshell which eval()s another included file"
@@ -1311,7 +1311,7 @@ rule WEBSHELL_PHP_Dynamic : hardened limited
 
 import "math"
 
-rule WEBSHELL_PHP_Dynamic_Big : hardened limited
+rule WEBSHELL_PHP_Dynamic_Big : hardened loosened limited
 {
 	meta:
 		description = "PHP webshell using $a($code) for kind of eval with encoded blob to decode, e.g. b374k"
@@ -1600,7 +1600,7 @@ rule WEBSHELL_PHP_Generic_Backticks_OBFUSC : hardened limited
 		filesize < 500 and ( ( ( $php_short in ( 0 .. 100 ) or $php_short in ( filesize - 1000 .. filesize ) ) and not any of ( $no_* ) ) or any of ( $php_new* ) ) and $s1
 }
 
-rule WEBSHELL_PHP_By_String_Known_Webshell : hardened limited
+rule WEBSHELL_PHP_By_String_Known_Webshell : hardened loosened limited
 {
 	meta:
 		description = "Known PHP Webshells which contain unique strings, lousy rule for low hanging fruits. Most are catched by other rules in here but maybe these catch different versions."
@@ -1824,7 +1824,7 @@ rule WEBSHELL_PHP_Function_Via_Get : hardened
 		filesize < 500KB and not ( any of ( $gfp* ) ) and any of ( $sr* )
 }
 
-rule WEBSHELL_PHP_Writer : hardened limited
+rule WEBSHELL_PHP_Writer : hardened loosened limited
 {
 	meta:
 		description = "PHP webshell which only writes an uploaded file to disk"
@@ -1879,7 +1879,7 @@ rule WEBSHELL_PHP_Writer : hardened limited
 		(( ( $php_short in ( 0 .. 100 ) or $php_short in ( filesize - 1000 .. filesize ) ) and not any of ( $no_* ) ) or any of ( $php_new* ) ) and ( any of ( $inp* ) ) and ( any of ( $php_write* ) or all of ( $php_multi_write* ) ) and ( filesize < 400 or ( filesize < 4000 and 1 of ( $sus* ) ) )
 }
 
-rule WEBSHELL_ASP_Writer : hardened limited
+rule WEBSHELL_ASP_Writer : hardened loosened limited
 {
 	meta:
 		description = "ASP webshell which only writes an uploaded file to disk"
@@ -1936,7 +1936,7 @@ rule WEBSHELL_ASP_Writer : hardened limited
 		$jsp5 = {((74 68 72 6f 77 73) | (74 00 68 00 72 00 6f 00 77 00 73 00))}
 		$jsp6 = {((67 65 74 56 61 6c 75 65) | (67 00 65 00 74 00 56 00 61 00 6c 00 75 00 65 00))}
 		$jsp7 = {((67 65 74 42 79 74 65 73) | (67 00 65 00 74 00 42 00 79 00 74 00 65 00 73 00))}
-		$perl1 = {50 65 72 6c 53 63 72 69 70 74}
+		$perl1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 50 65 72 6c 53 63 72 69 70 74 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 		$asp_input1 = {((72 65 71 75 65 73 74) | (72 00 65 00 71 00 75 00 65 00 73 00 74 00))}
 		$asp_input2 = {((50 61 67 65 5f 4c 6f 61 64) | (50 00 61 00 67 00 65 00 5f 00 4c 00 6f 00 61 00 64 00))}
 		$asp_input3 = {((55 6d 56 78 64 57 56 7a 64 43 35 47 62 33 4a 74 4b) | (55 00 6d 00 56 00 78 00 64 00 57 00 56 00 7a 00 64 00 43 00 35 00 47 00 62 00 33 00 4a 00 74 00 4b 00))}
@@ -1963,7 +1963,7 @@ rule WEBSHELL_ASP_Writer : hardened limited
 		(( any of ( $tagasp_long* ) or any of ( $tagasp_classid* ) or ( $tagasp_short1 and $tagasp_short2 in ( filesize - 100 .. filesize ) ) or ( $tagasp_short2 and ( $tagasp_short1 in ( 0 .. 1000 ) or $tagasp_short1 in ( filesize - 1000 .. filesize ) ) ) ) and not ( ( any of ( $perl* ) or $php1 at 0 or $php2 at 0 ) or ( ( #jsp1 + #jsp2 + #jsp3 ) > 0 and ( #jsp4 + #jsp5 + #jsp6 + #jsp7 ) > 0 ) ) ) and ( any of ( $asp_input* ) or ( $asp_xml_http and any of ( $asp_xml_method* ) ) or ( any of ( $asp_form* ) and any of ( $asp_text* ) and $asp_asp ) ) and ( any of ( $asp_always_write* ) and ( any of ( $asp_write_way_one* ) and any of ( $asp_cr_write* ) ) or ( any of ( $asp_streamwriter* ) ) ) and ( filesize < 400 or ( filesize < 6000 and 1 of ( $sus* ) ) )
 }
 
-rule WEBSHELL_ASP_OBFUSC : hardened limited
+rule WEBSHELL_ASP_OBFUSC : hardened loosened limited
 {
 	meta:
 		description = "ASP webshell obfuscated"
@@ -2015,7 +2015,7 @@ rule WEBSHELL_ASP_OBFUSC : hardened limited
 		$jsp5 = {((74 68 72 6f 77 73) | (74 00 68 00 72 00 6f 00 77 00 73 00))}
 		$jsp6 = {((67 65 74 56 61 6c 75 65) | (67 00 65 00 74 00 56 00 61 00 6c 00 75 00 65 00))}
 		$jsp7 = {((67 65 74 42 79 74 65 73) | (67 00 65 00 74 00 42 00 79 00 74 00 65 00 73 00))}
-		$perl1 = {50 65 72 6c 53 63 72 69 70 74}
+		$perl1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 50 65 72 6c 53 63 72 69 70 74 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 		$asp_payload0 = {((65 76 61 6c 5f 72) | (65 00 76 00 61 00 6c 00 5f 00 72 00))}
 		$asp_payload1 = /\beval\s/ nocase wide ascii
 		$asp_payload2 = /\beval\(/ nocase wide ascii
@@ -2071,7 +2071,7 @@ rule WEBSHELL_ASP_OBFUSC : hardened limited
 		filesize < 100KB and ( ( any of ( $tagasp_long* ) or any of ( $tagasp_classid* ) or ( $tagasp_short1 and $tagasp_short2 in ( filesize - 100 .. filesize ) ) or ( $tagasp_short2 and ( $tagasp_short1 in ( 0 .. 1000 ) or $tagasp_short1 in ( filesize - 1000 .. filesize ) ) ) ) and not ( ( any of ( $perl* ) or $php1 at 0 or $php2 at 0 ) or ( ( #jsp1 + #jsp2 + #jsp3 ) > 0 and ( #jsp4 + #jsp5 + #jsp6 + #jsp7 ) > 0 ) ) ) and ( ( ( any of ( $asp_payload* ) or all of ( $asp_multi_payload_one* ) or all of ( $asp_multi_payload_two* ) or all of ( $asp_multi_payload_three* ) or all of ( $asp_multi_payload_four* ) or all of ( $asp_multi_payload_five* ) ) or ( any of ( $asp_always_write* ) and ( any of ( $asp_write_way_one* ) and any of ( $asp_cr_write* ) ) or ( any of ( $asp_streamwriter* ) ) ) ) and ( ( ( filesize < 100KB and ( ( #o4 + #o5 + #o6 + #o7 + #o8 + #o9 ) > 20 ) ) or ( filesize < 5KB and ( ( #o4 + #o5 + #o6 + #o7 + #o8 + #o9 ) > 5 or ( ( #m_multi_one1 + #m_multi_one2 + #m_multi_one3 + #m_multi_one4 + #m_multi_one5 ) > 3 ) ) ) or ( filesize < 700 and ( ( #o4 + #o5 + #o6 + #o7 + #o8 + #o9 ) > 3 or ( #m_multi_one1 + #m_multi_one2 + #m_multi_one3 + #m_multi_one4 + #m_multi_one5 ) > 2 ) ) ) or any of ( $asp_obf* ) ) or ( ( filesize < 100KB and ( ( #oo1 ) > 2 or $oo2 ) ) or ( filesize < 25KB and ( ( #oo1 ) > 1 ) ) or ( filesize < 1KB and ( ( #oo1 ) > 0 ) ) ) ) and not any of ( $m_fp* )
 }
 
-rule WEBSHELL_ASP_Nano : hardened limited
+rule WEBSHELL_ASP_Nano : hardened loosened limited
 {
 	meta:
 		description = "Generic ASP webshell which uses any eval/exec function"
@@ -2136,7 +2136,7 @@ rule WEBSHELL_ASP_Nano : hardened limited
 		$jsp5 = {((74 68 72 6f 77 73) | (74 00 68 00 72 00 6f 00 77 00 73 00))}
 		$jsp6 = {((67 65 74 56 61 6c 75 65) | (67 00 65 00 74 00 56 00 61 00 6c 00 75 00 65 00))}
 		$jsp7 = {((67 65 74 42 79 74 65 73) | (67 00 65 00 74 00 42 00 79 00 74 00 65 00 73 00))}
-		$perl1 = {50 65 72 6c 53 63 72 69 70 74}
+		$perl1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 50 65 72 6c 53 63 72 69 70 74 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 		$asp_payload0 = {((65 76 61 6c 5f 72) | (65 00 76 00 61 00 6c 00 5f 00 72 00))}
 		$asp_payload1 = /\beval\s/ nocase wide ascii
 		$asp_payload2 = /\beval\(/ nocase wide ascii
@@ -2177,7 +2177,7 @@ rule WEBSHELL_ASP_Nano : hardened limited
 		(( any of ( $tagasp_long* ) or any of ( $tagasp_classid* ) or ( $tagasp_short1 and $tagasp_short2 in ( filesize - 100 .. filesize ) ) or ( $tagasp_short2 and ( $tagasp_short1 in ( 0 .. 1000 ) or $tagasp_short1 in ( filesize - 1000 .. filesize ) ) ) ) and not ( ( any of ( $perl* ) or $php1 at 0 or $php2 at 0 ) or ( ( #jsp1 + #jsp2 + #jsp3 ) > 0 and ( #jsp4 + #jsp5 + #jsp6 + #jsp7 ) > 0 ) ) ) and ( ( any of ( $asp_payload* ) or all of ( $asp_multi_payload_one* ) or all of ( $asp_multi_payload_two* ) or all of ( $asp_multi_payload_three* ) or all of ( $asp_multi_payload_four* ) or all of ( $asp_multi_payload_five* ) ) or ( any of ( $asp_always_write* ) and ( any of ( $asp_write_way_one* ) and any of ( $asp_cr_write* ) ) or ( any of ( $asp_streamwriter* ) ) ) ) and not any of ( $fp* ) and ( filesize < 200 or ( filesize < 1000 and any of ( $susasp* ) ) )
 }
 
-rule WEBSHELL_ASP_Encoded : hardened limited
+rule WEBSHELL_ASP_Encoded : hardened loosened limited
 {
 	meta:
 		description = "Webshell in VBscript or JScript encoded using *.Encode plus a suspicious string"
@@ -2225,13 +2225,13 @@ rule WEBSHELL_ASP_Encoded : hardened limited
 		$jsp5 = {((74 68 72 6f 77 73) | (74 00 68 00 72 00 6f 00 77 00 73 00))}
 		$jsp6 = {((67 65 74 56 61 6c 75 65) | (67 00 65 00 74 00 56 00 61 00 6c 00 75 00 65 00))}
 		$jsp7 = {((67 65 74 42 79 74 65 73) | (67 00 65 00 74 00 42 00 79 00 74 00 65 00 73 00))}
-		$perl1 = {50 65 72 6c 53 63 72 69 70 74}
+		$perl1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 50 65 72 6c 53 63 72 69 70 74 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 
 	condition:
 		filesize < 500KB and ( ( any of ( $tagasp_long* ) or any of ( $tagasp_classid* ) or ( $tagasp_short1 and $tagasp_short2 in ( filesize - 100 .. filesize ) ) or ( $tagasp_short2 and ( $tagasp_short1 in ( 0 .. 1000 ) or $tagasp_short1 in ( filesize - 1000 .. filesize ) ) ) ) and not ( ( any of ( $perl* ) or $php1 at 0 or $php2 at 0 ) or ( ( #jsp1 + #jsp2 + #jsp3 ) > 0 and ( #jsp4 + #jsp5 + #jsp6 + #jsp7 ) > 0 ) ) ) and any of ( $encoded* ) and any of ( $data* ) and ( any of ( $sus* ) or ( filesize < 20KB and #data1 > 4 ) or ( filesize < 700 and #data1 > 0 ) )
 }
 
-rule WEBSHELL_ASP_Encoded_AspCoding : hardened limited
+rule WEBSHELL_ASP_Encoded_AspCoding : hardened loosened limited
 {
 	meta:
 		description = "ASP Webshell encoded using ASPEncodeDLL.AspCoding"
@@ -2274,13 +2274,13 @@ rule WEBSHELL_ASP_Encoded_AspCoding : hardened limited
 		$jsp5 = {((74 68 72 6f 77 73) | (74 00 68 00 72 00 6f 00 77 00 73 00))}
 		$jsp6 = {((67 65 74 56 61 6c 75 65) | (67 00 65 00 74 00 56 00 61 00 6c 00 75 00 65 00))}
 		$jsp7 = {((67 65 74 42 79 74 65 73) | (67 00 65 00 74 00 42 00 79 00 74 00 65 00 73 00))}
-		$perl1 = {50 65 72 6c 53 63 72 69 70 74}
+		$perl1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 50 65 72 6c 53 63 72 69 70 74 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 
 	condition:
 		filesize < 500KB and ( ( any of ( $tagasp_long* ) or any of ( $tagasp_classid* ) or ( $tagasp_short1 and $tagasp_short2 in ( filesize - 100 .. filesize ) ) or ( $tagasp_short2 and ( $tagasp_short1 in ( 0 .. 1000 ) or $tagasp_short1 in ( filesize - 1000 .. filesize ) ) ) ) and not ( ( any of ( $perl* ) or $php1 at 0 or $php2 at 0 ) or ( ( #jsp1 + #jsp2 + #jsp3 ) > 0 and ( #jsp4 + #jsp5 + #jsp6 + #jsp7 ) > 0 ) ) ) and all of ( $encoded* ) and any of ( $data* )
 }
 
-rule WEBSHELL_ASP_By_String : hardened limited
+rule WEBSHELL_ASP_By_String : hardened loosened limited
 {
 	meta:
 		description = "Known ASP Webshells which contain unique strings, lousy rule for low hanging fruits. Most are catched by other rules in here but maybe these catch different versions."
@@ -2389,13 +2389,13 @@ rule WEBSHELL_ASP_By_String : hardened limited
 		$jsp5 = {((74 68 72 6f 77 73) | (74 00 68 00 72 00 6f 00 77 00 73 00))}
 		$jsp6 = {((67 65 74 56 61 6c 75 65) | (67 00 65 00 74 00 56 00 61 00 6c 00 75 00 65 00))}
 		$jsp7 = {((67 65 74 42 79 74 65 73) | (67 00 65 00 74 00 42 00 79 00 74 00 65 00 73 00))}
-		$perl1 = {50 65 72 6c 53 63 72 69 70 74}
+		$perl1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 50 65 72 6c 53 63 72 69 70 74 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 
 	condition:
 		filesize < 200KB and ( ( any of ( $tagasp_long* ) or any of ( $tagasp_classid* ) or ( $tagasp_short1 and $tagasp_short2 in ( filesize - 100 .. filesize ) ) or ( $tagasp_short2 and ( $tagasp_short1 in ( 0 .. 1000 ) or $tagasp_short1 in ( filesize - 1000 .. filesize ) ) ) ) and not ( ( any of ( $perl* ) or $php1 at 0 or $php2 at 0 ) or ( ( #jsp1 + #jsp2 + #jsp3 ) > 0 and ( #jsp4 + #jsp5 + #jsp6 + #jsp7 ) > 0 ) ) ) and any of ( $asp_string* )
 }
 
-rule WEBSHELL_ASP_Sniffer : hardened limited
+rule WEBSHELL_ASP_Sniffer : hardened loosened limited
 {
 	meta:
 		description = "ASP webshell which can sniff local traffic"
@@ -2440,7 +2440,7 @@ rule WEBSHELL_ASP_Sniffer : hardened limited
 		$jsp5 = {((74 68 72 6f 77 73) | (74 00 68 00 72 00 6f 00 77 00 73 00))}
 		$jsp6 = {((67 65 74 56 61 6c 75 65) | (67 00 65 00 74 00 56 00 61 00 6c 00 75 00 65 00))}
 		$jsp7 = {((67 65 74 42 79 74 65 73) | (67 00 65 00 74 00 42 00 79 00 74 00 65 00 73 00))}
-		$perl1 = {50 65 72 6c 53 63 72 69 70 74}
+		$perl1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 50 65 72 6c 53 63 72 69 70 74 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 		$asp_input1 = {((72 65 71 75 65 73 74) | (72 00 65 00 71 00 75 00 65 00 73 00 74 00))}
 		$asp_input2 = {((50 61 67 65 5f 4c 6f 61 64) | (50 00 61 00 67 00 65 00 5f 00 4c 00 6f 00 61 00 64 00))}
 		$asp_input3 = {((55 6d 56 78 64 57 56 7a 64 43 35 47 62 33 4a 74 4b) | (55 00 6d 00 56 00 78 00 64 00 57 00 56 00 7a 00 64 00 43 00 35 00 47 00 62 00 33 00 4a 00 74 00 4b 00))}
@@ -2459,7 +2459,7 @@ rule WEBSHELL_ASP_Sniffer : hardened limited
 		(( any of ( $tagasp_long* ) or any of ( $tagasp_classid* ) or ( $tagasp_short1 and $tagasp_short2 in ( filesize - 100 .. filesize ) ) or ( $tagasp_short2 and ( $tagasp_short1 in ( 0 .. 1000 ) or $tagasp_short1 in ( filesize - 1000 .. filesize ) ) ) ) and not ( ( any of ( $perl* ) or $php1 at 0 or $php2 at 0 ) or ( ( #jsp1 + #jsp2 + #jsp3 ) > 0 and ( #jsp4 + #jsp5 + #jsp6 + #jsp7 ) > 0 ) ) ) and ( any of ( $asp_input* ) or ( $asp_xml_http and any of ( $asp_xml_method* ) ) or ( any of ( $asp_form* ) and any of ( $asp_text* ) and $asp_asp ) ) and filesize < 30KB and all of ( $sniff* )
 }
 
-rule WEBSHELL_ASP_Generic_Tiny : hardened limited
+rule WEBSHELL_ASP_Generic_Tiny : hardened loosened limited
 {
 	meta:
 		description = "Generic tiny ASP webshell which uses any eval/exec function indirectly on user input or writes a file"
@@ -2500,7 +2500,7 @@ rule WEBSHELL_ASP_Generic_Tiny : hardened limited
 		$jsp5 = {((74 68 72 6f 77 73) | (74 00 68 00 72 00 6f 00 77 00 73 00))}
 		$jsp6 = {((67 65 74 56 61 6c 75 65) | (67 00 65 00 74 00 56 00 61 00 6c 00 75 00 65 00))}
 		$jsp7 = {((67 65 74 42 79 74 65 73) | (67 00 65 00 74 00 42 00 79 00 74 00 65 00 73 00))}
-		$perl1 = {50 65 72 6c 53 63 72 69 70 74}
+		$perl1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 50 65 72 6c 53 63 72 69 70 74 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 		$asp_input1 = {((72 65 71 75 65 73 74) | (72 00 65 00 71 00 75 00 65 00 73 00 74 00))}
 		$asp_input2 = {((50 61 67 65 5f 4c 6f 61 64) | (50 00 61 00 67 00 65 00 5f 00 4c 00 6f 00 61 00 64 00))}
 		$asp_input3 = {((55 6d 56 78 64 57 56 7a 64 43 35 47 62 33 4a 74 4b) | (55 00 6d 00 56 00 78 00 64 00 57 00 56 00 7a 00 64 00 43 00 35 00 47 00 62 00 33 00 4a 00 74 00 4b 00))}
@@ -2556,7 +2556,7 @@ rule WEBSHELL_ASP_Generic_Tiny : hardened limited
 		(( any of ( $tagasp_long* ) or any of ( $tagasp_classid* ) or ( $tagasp_short1 and $tagasp_short2 in ( filesize - 100 .. filesize ) ) or ( $tagasp_short2 and ( $tagasp_short1 in ( 0 .. 1000 ) or $tagasp_short1 in ( filesize - 1000 .. filesize ) ) ) ) and not ( ( any of ( $perl* ) or $php1 at 0 or $php2 at 0 ) or ( ( #jsp1 + #jsp2 + #jsp3 ) > 0 and ( #jsp4 + #jsp5 + #jsp6 + #jsp7 ) > 0 ) ) ) and ( any of ( $asp_input* ) or ( $asp_xml_http and any of ( $asp_xml_method* ) ) or ( any of ( $asp_form* ) and any of ( $asp_text* ) and $asp_asp ) ) and not 1 of ( $fp* ) and not ( uint16( 0 ) == 0x5a4d or $dex at 0 or $pack at 0 or uint16( 0 ) == 0x4b50 ) and ( filesize < 700 and ( ( any of ( $asp_payload* ) or all of ( $asp_multi_payload_one* ) or all of ( $asp_multi_payload_two* ) or all of ( $asp_multi_payload_three* ) or all of ( $asp_multi_payload_four* ) or all of ( $asp_multi_payload_five* ) ) or ( any of ( $asp_always_write* ) and ( any of ( $asp_write_way_one* ) and any of ( $asp_cr_write* ) ) or ( any of ( $asp_streamwriter* ) ) ) ) )
 }
 
-rule WEBSHELL_ASP_Generic : FILE hardened limited
+rule WEBSHELL_ASP_Generic : FILE hardened loosened limited
 {
 	meta:
 		description = "Generic ASP webshell which uses any eval/exec function indirectly on user input or writes a file"
@@ -2655,7 +2655,7 @@ rule WEBSHELL_ASP_Generic : FILE hardened limited
 		$jsp5 = {((74 68 72 6f 77 73) | (74 00 68 00 72 00 6f 00 77 00 73 00))}
 		$jsp6 = {((67 65 74 56 61 6c 75 65) | (67 00 65 00 74 00 56 00 61 00 6c 00 75 00 65 00))}
 		$jsp7 = {((67 65 74 42 79 74 65 73) | (67 00 65 00 74 00 42 00 79 00 74 00 65 00 73 00))}
-		$perl1 = {50 65 72 6c 53 63 72 69 70 74}
+		$perl1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 50 65 72 6c 53 63 72 69 70 74 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 		$dex = { 64 65 ( 78 | 79 ) 0a 30 }
 		$pack = { 50 41 43 4b 00 00 00 02 00 }
 		$asp_input1 = {((72 65 71 75 65 73 74) | (72 00 65 00 71 00 75 00 65 00 73 00 74 00))}
@@ -2716,7 +2716,7 @@ rule WEBSHELL_ASP_Generic : FILE hardened limited
 		(( any of ( $tagasp_long* ) or any of ( $tagasp_classid* ) or ( $tagasp_short1 and $tagasp_short2 in ( filesize - 100 .. filesize ) ) or ( $tagasp_short2 and ( $tagasp_short1 in ( 0 .. 1000 ) or $tagasp_short1 in ( filesize - 1000 .. filesize ) ) ) ) and not ( ( any of ( $perl* ) or $php1 at 0 or $php2 at 0 ) or ( ( #jsp1 + #jsp2 + #jsp3 ) > 0 and ( #jsp4 + #jsp5 + #jsp6 + #jsp7 ) > 0 ) ) ) and not ( uint16( 0 ) == 0x5a4d or $dex at 0 or $pack at 0 or uint16( 0 ) == 0x4b50 ) and ( any of ( $asp_input* ) or ( $asp_xml_http and any of ( $asp_xml_method* ) ) or ( any of ( $asp_form* ) and any of ( $asp_text* ) and $asp_asp ) ) and ( any of ( $asp_payload* ) or all of ( $asp_multi_payload_one* ) or all of ( $asp_multi_payload_two* ) or all of ( $asp_multi_payload_three* ) or all of ( $asp_multi_payload_four* ) or all of ( $asp_multi_payload_five* ) ) and not any of ( $fp* ) and ( ( filesize < 3KB and ( 1 of ( $asp_slightly_sus* ) ) ) or ( filesize < 25KB and ( 1 of ( $asp_much_sus* ) or 1 of ( $asp_gen_sus* ) or ( #asp_gen_obf1 > 2 ) ) ) or ( filesize < 50KB and ( 1 of ( $asp_much_sus* ) or 3 of ( $asp_gen_sus* ) or ( #asp_gen_obf1 > 6 ) ) ) or ( filesize < 150KB and ( 1 of ( $asp_much_sus* ) or 4 of ( $asp_gen_sus* ) or ( #asp_gen_obf1 > 6 ) or ( ( any of ( $asp_always_write* ) and ( any of ( $asp_write_way_one* ) and any of ( $asp_cr_write* ) ) or ( any of ( $asp_streamwriter* ) ) ) and ( 1 of ( $asp_much_sus* ) or 2 of ( $asp_gen_sus* ) or ( #asp_gen_obf1 > 3 ) ) ) ) ) or ( filesize < 100KB and ( any of ( $tagasp_capa_classid* ) ) ) )
 }
 
-rule WEBSHELL_ASP_Generic_Registry_Reader : hardened limited
+rule WEBSHELL_ASP_Generic_Registry_Reader : hardened loosened limited
 {
 	meta:
 		description = "Generic ASP webshell which reads the registry (might look for passwords, license keys, database settings, general recon, ..."
@@ -2768,7 +2768,7 @@ rule WEBSHELL_ASP_Generic_Registry_Reader : hardened limited
 		$jsp5 = {((74 68 72 6f 77 73) | (74 00 68 00 72 00 6f 00 77 00 73 00))}
 		$jsp6 = {((67 65 74 56 61 6c 75 65) | (67 00 65 00 74 00 56 00 61 00 6c 00 75 00 65 00))}
 		$jsp7 = {((67 65 74 42 79 74 65 73) | (67 00 65 00 74 00 42 00 79 00 74 00 65 00 73 00))}
-		$perl1 = {50 65 72 6c 53 63 72 69 70 74}
+		$perl1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 50 65 72 6c 53 63 72 69 70 74 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 		$asp_input1 = {((72 65 71 75 65 73 74) | (72 00 65 00 71 00 75 00 65 00 73 00 74 00))}
 		$asp_input2 = {((50 61 67 65 5f 4c 6f 61 64) | (50 00 61 00 67 00 65 00 5f 00 4c 00 6f 00 61 00 64 00))}
 		$asp_input3 = {((55 6d 56 78 64 57 56 7a 64 43 35 47 62 33 4a 74 4b) | (55 00 6d 00 56 00 78 00 64 00 57 00 56 00 7a 00 64 00 43 00 35 00 47 00 62 00 33 00 4a 00 74 00 4b 00))}
@@ -2787,7 +2787,7 @@ rule WEBSHELL_ASP_Generic_Registry_Reader : hardened limited
 		(( any of ( $tagasp_long* ) or any of ( $tagasp_classid* ) or ( $tagasp_short1 and $tagasp_short2 in ( filesize - 100 .. filesize ) ) or ( $tagasp_short2 and ( $tagasp_short1 in ( 0 .. 1000 ) or $tagasp_short1 in ( filesize - 1000 .. filesize ) ) ) ) and not ( ( any of ( $perl* ) or $php1 at 0 or $php2 at 0 ) or ( ( #jsp1 + #jsp2 + #jsp3 ) > 0 and ( #jsp4 + #jsp5 + #jsp6 + #jsp7 ) > 0 ) ) ) and all of ( $asp_reg* ) and any of ( $sus* ) and not any of ( $fp* ) and ( filesize < 10KB or ( filesize < 150KB and ( any of ( $asp_input* ) or ( $asp_xml_http and any of ( $asp_xml_method* ) ) or ( any of ( $asp_form* ) and any of ( $asp_text* ) and $asp_asp ) ) ) )
 }
 
-rule WEBSHELL_ASPX_Regeorg_CSHARP : hardened limited
+rule WEBSHELL_ASPX_Regeorg_CSHARP : hardened loosened limited
 {
 	meta:
 		description = "Webshell regeorg aspx c# version"
@@ -2836,13 +2836,13 @@ rule WEBSHELL_ASPX_Regeorg_CSHARP : hardened limited
 		$jsp5 = {((74 68 72 6f 77 73) | (74 00 68 00 72 00 6f 00 77 00 73 00))}
 		$jsp6 = {((67 65 74 56 61 6c 75 65) | (67 00 65 00 74 00 56 00 61 00 6c 00 75 00 65 00))}
 		$jsp7 = {((67 65 74 42 79 74 65 73) | (67 00 65 00 74 00 42 00 79 00 74 00 65 00 73 00))}
-		$perl1 = {50 65 72 6c 53 63 72 69 70 74}
+		$perl1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 50 65 72 6c 53 63 72 69 70 74 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 
 	condition:
 		filesize < 300KB and ( ( any of ( $tagasp_long* ) or any of ( $tagasp_classid* ) or ( $tagasp_short1 and $tagasp_short2 in ( filesize - 100 .. filesize ) ) or ( $tagasp_short2 and ( $tagasp_short1 in ( 0 .. 1000 ) or $tagasp_short1 in ( filesize - 1000 .. filesize ) ) ) ) and not ( ( any of ( $perl* ) or $php1 at 0 or $php2 at 0 ) or ( ( #jsp1 + #jsp2 + #jsp3 ) > 0 and ( #jsp4 + #jsp5 + #jsp6 + #jsp7 ) > 0 ) ) ) and ( $georg or ( all of ( $sa* ) and any of ( $input_sa* ) ) )
 }
 
-rule WEBSHELL_CSHARP_Generic : hardened limited
+rule WEBSHELL_CSHARP_Generic : hardened loosened limited
 {
 	meta:
 		description = "Webshell in c#"
@@ -2890,13 +2890,13 @@ rule WEBSHELL_CSHARP_Generic : hardened limited
 		$jsp5 = {((74 68 72 6f 77 73) | (74 00 68 00 72 00 6f 00 77 00 73 00))}
 		$jsp6 = {((67 65 74 56 61 6c 75 65) | (67 00 65 00 74 00 56 00 61 00 6c 00 75 00 65 00))}
 		$jsp7 = {((67 65 74 42 79 74 65 73) | (67 00 65 00 74 00 42 00 79 00 74 00 65 00 73 00))}
-		$perl1 = {50 65 72 6c 53 63 72 69 70 74}
+		$perl1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 50 65 72 6c 53 63 72 69 70 74 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 
 	condition:
 		(( any of ( $tagasp_long* ) or any of ( $tagasp_classid* ) or ( $tagasp_short1 and $tagasp_short2 in ( filesize - 100 .. filesize ) ) or ( $tagasp_short2 and ( $tagasp_short1 in ( 0 .. 1000 ) or $tagasp_short1 in ( filesize - 1000 .. filesize ) ) ) ) and not ( ( any of ( $perl* ) or $php1 at 0 or $php2 at 0 ) or ( ( #jsp1 + #jsp2 + #jsp3 ) > 0 and ( #jsp4 + #jsp5 + #jsp6 + #jsp7 ) > 0 ) ) ) and filesize < 300KB and ( $input_http or all of ( $input_form* ) ) and all of ( $exec_proc* ) and any of ( $exec_shell* )
 }
 
-rule WEBSHELL_ASP_Runtime_Compile : FILE hardened limited
+rule WEBSHELL_ASP_Runtime_Compile : FILE hardened loosened limited
 {
 	meta:
 		description = "ASP webshell compiling payload in memory at runtime, e.g. sharpyshell"
@@ -2957,7 +2957,7 @@ rule WEBSHELL_ASP_Runtime_Compile : FILE hardened limited
 		(( filesize < 50KB and any of ( $sus_refl* ) ) or filesize < 10KB ) and ( any of ( $asp_input* ) or ( $asp_xml_http and any of ( $asp_xml_method* ) ) or ( any of ( $asp_form* ) and any of ( $asp_text* ) and $asp_asp ) ) and not any of ( $rc_fp* ) and ( ( all of ( $payload_reflection* ) and any of ( $payload_load_reflection* ) ) or ( all of ( $payload_compile* ) and any of ( $payload_invoke* ) ) or all of ( $payload_xamlreader* ) or all of ( $payload_powershell* ) )
 }
 
-rule WEBSHELL_ASP_SQL : hardened limited
+rule WEBSHELL_ASP_SQL : hardened loosened limited
 {
 	meta:
 		description = "ASP webshell giving SQL access. Might also be a dual use tool."
@@ -3037,7 +3037,7 @@ rule WEBSHELL_ASP_SQL : hardened limited
 		$jsp5 = {((74 68 72 6f 77 73) | (74 00 68 00 72 00 6f 00 77 00 73 00))}
 		$jsp6 = {((67 65 74 56 61 6c 75 65) | (67 00 65 00 74 00 56 00 61 00 6c 00 75 00 65 00))}
 		$jsp7 = {((67 65 74 42 79 74 65 73) | (67 00 65 00 74 00 42 00 79 00 74 00 65 00 73 00))}
-		$perl1 = {50 65 72 6c 53 63 72 69 70 74}
+		$perl1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 50 65 72 6c 53 63 72 69 70 74 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 		$asp_input1 = {((72 65 71 75 65 73 74) | (72 00 65 00 71 00 75 00 65 00 73 00 74 00))}
 		$asp_input2 = {((50 61 67 65 5f 4c 6f 61 64) | (50 00 61 00 67 00 65 00 5f 00 4c 00 6f 00 61 00 64 00))}
 		$asp_input3 = {((55 6d 56 78 64 57 56 7a 64 43 35 47 62 33 4a 74 4b) | (55 00 6d 00 56 00 78 00 64 00 57 00 56 00 7a 00 64 00 43 00 35 00 47 00 62 00 33 00 4a 00 74 00 4b 00))}
@@ -3056,7 +3056,7 @@ rule WEBSHELL_ASP_SQL : hardened limited
 		(( any of ( $tagasp_long* ) or any of ( $tagasp_classid* ) or ( $tagasp_short1 and $tagasp_short2 in ( filesize - 100 .. filesize ) ) or ( $tagasp_short2 and ( $tagasp_short1 in ( 0 .. 1000 ) or $tagasp_short1 in ( filesize - 1000 .. filesize ) ) ) ) and not ( ( any of ( $perl* ) or $php1 at 0 or $php2 at 0 ) or ( ( #jsp1 + #jsp2 + #jsp3 ) > 0 and ( #jsp4 + #jsp5 + #jsp6 + #jsp7 ) > 0 ) ) ) and ( any of ( $asp_input* ) or ( $asp_xml_http and any of ( $asp_xml_method* ) ) or ( any of ( $asp_form* ) and any of ( $asp_text* ) and $asp_asp ) ) and ( 6 of ( $sql* ) or all of ( $o_sql* ) or 3 of ( $a_sql* ) or all of ( $c_sql* ) ) and ( ( filesize < 150KB and any of ( $sus* ) ) or ( filesize < 5KB and any of ( $slightly_sus* ) ) )
 }
 
-rule WEBSHELL_ASP_Scan_Writable : hardened limited
+rule WEBSHELL_ASP_Scan_Writable : hardened loosened limited
 {
 	meta:
 		description = "ASP webshell searching for writable directories (to hide more webshells ...)"
@@ -3105,7 +3105,7 @@ rule WEBSHELL_ASP_Scan_Writable : hardened limited
 		$jsp5 = {((74 68 72 6f 77 73) | (74 00 68 00 72 00 6f 00 77 00 73 00))}
 		$jsp6 = {((67 65 74 56 61 6c 75 65) | (67 00 65 00 74 00 56 00 61 00 6c 00 75 00 65 00))}
 		$jsp7 = {((67 65 74 42 79 74 65 73) | (67 00 65 00 74 00 42 00 79 00 74 00 65 00 73 00))}
-		$perl1 = {50 65 72 6c 53 63 72 69 70 74}
+		$perl1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 50 65 72 6c 53 63 72 69 70 74 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 		$asp_input1 = {((72 65 71 75 65 73 74) | (72 00 65 00 71 00 75 00 65 00 73 00 74 00))}
 		$asp_input2 = {((50 61 67 65 5f 4c 6f 61 64) | (50 00 61 00 67 00 65 00 5f 00 4c 00 6f 00 61 00 64 00))}
 		$asp_input3 = {((55 6d 56 78 64 57 56 7a 64 43 35 47 62 33 4a 74 4b) | (55 00 6d 00 56 00 78 00 64 00 57 00 56 00 7a 00 64 00 43 00 35 00 47 00 62 00 33 00 4a 00 74 00 4b 00))}
@@ -3124,7 +3124,7 @@ rule WEBSHELL_ASP_Scan_Writable : hardened limited
 		filesize < 10KB and ( ( any of ( $tagasp_long* ) or any of ( $tagasp_classid* ) or ( $tagasp_short1 and $tagasp_short2 in ( filesize - 100 .. filesize ) ) or ( $tagasp_short2 and ( $tagasp_short1 in ( 0 .. 1000 ) or $tagasp_short1 in ( filesize - 1000 .. filesize ) ) ) ) and not ( ( any of ( $perl* ) or $php1 at 0 or $php2 at 0 ) or ( ( #jsp1 + #jsp2 + #jsp3 ) > 0 and ( #jsp4 + #jsp5 + #jsp6 + #jsp7 ) > 0 ) ) ) and ( any of ( $asp_input* ) or ( $asp_xml_http and any of ( $asp_xml_method* ) ) or ( any of ( $asp_form* ) and any of ( $asp_text* ) and $asp_asp ) ) and 6 of ( $scan* ) and any of ( $sus* )
 }
 
-rule WEBSHELL_JSP_ReGeorg : hardened limited
+rule WEBSHELL_JSP_ReGeorg : hardened loosened limited
 {
 	meta:
 		description = "Webshell regeorg JSP version"
@@ -3162,7 +3162,7 @@ rule WEBSHELL_JSP_ReGeorg : hardened limited
 		filesize < 300KB and ( $cjsp_short1 at 0 or any of ( $cjsp_long* ) or $cjsp_short2 in ( filesize - 100 .. filesize ) or ( $cjsp_short2 and ( $cjsp_short1 in ( 0 .. 1000 ) or $cjsp_short1 in ( filesize - 1000 .. filesize ) ) ) ) and all of ( $jgeorg* )
 }
 
-rule WEBSHELL_JSP_HTTP_Proxy : hardened limited
+rule WEBSHELL_JSP_HTTP_Proxy : hardened loosened limited
 {
 	meta:
 		description = "Webshell JSP HTTP proxy"
@@ -3198,7 +3198,7 @@ rule WEBSHELL_JSP_HTTP_Proxy : hardened limited
 		filesize < 10KB and ( $cjsp_short1 at 0 or any of ( $cjsp_long* ) or $cjsp_short2 in ( filesize - 100 .. filesize ) or ( $cjsp_short2 and ( $cjsp_short1 in ( 0 .. 1000 ) or $cjsp_short1 in ( filesize - 1000 .. filesize ) ) ) ) and all of ( $jh* )
 }
 
-rule WEBSHELL_JSP_Writer_Nano : hardened limited
+rule WEBSHELL_JSP_Writer_Nano : hardened loosened limited
 {
 	meta:
 		description = "JSP file writer"
@@ -3245,7 +3245,7 @@ rule WEBSHELL_JSP_Writer_Nano : hardened limited
 		( any of ( $input* ) and any of ( $req* ) ) and ( filesize < 200 or ( filesize < 1000 and any of ( $jw_sus* ) ) ) and ( $cjsp_short1 at 0 or any of ( $cjsp_long* ) or $cjsp_short2 in ( filesize - 100 .. filesize ) or ( $cjsp_short2 and ( $cjsp_short1 in ( 0 .. 1000 ) or $cjsp_short1 in ( filesize - 1000 .. filesize ) ) ) ) and ( 2 of ( $payload* ) or all of ( $logger* ) )
 }
 
-rule WEBSHELL_JSP_Generic_Tiny : hardened limited
+rule WEBSHELL_JSP_Generic_Tiny : hardened loosened limited
 {
 	meta:
 		description = "Generic JSP webshell tiny"
@@ -3292,7 +3292,7 @@ rule WEBSHELL_JSP_Generic_Tiny : hardened limited
 		(( filesize < 1000 and any of ( $jg_sus* ) ) or filesize < 250 ) and ( $cjsp_short1 at 0 or any of ( $cjsp_long* ) or $cjsp_short2 in ( filesize - 100 .. filesize ) or ( $cjsp_short2 and ( $cjsp_short1 in ( 0 .. 1000 ) or $cjsp_short1 in ( filesize - 1000 .. filesize ) ) ) ) and ( ( any of ( $input* ) and any of ( $req* ) ) or ( any of ( $fixed_cmd* ) ) ) and ( 1 of ( $payload* ) or all of ( $payload_rt* ) )
 }
 
-rule WEBSHELL_JSP_Generic : hardened limited
+rule WEBSHELL_JSP_Generic : hardened loosened limited
 {
 	meta:
 		description = "Generic JSP webshell"
@@ -3396,7 +3396,7 @@ rule WEBSHELL_JSP_Generic_Base64 : hardened limited
 		($cjsp_short1 at 0 or any of ( $cjsp_long* ) or $cjsp_short2 in ( filesize - 100 .. filesize ) or ( $cjsp_short2 and ( $cjsp_short1 in ( 0 .. 1000 ) or $cjsp_short1 in ( filesize - 1000 .. filesize ) ) ) ) and not ( uint16( 0 ) == 0x5a4d or $dex at 0 or $pack at 0 or uint16( 0 ) == 0x4b50 ) and filesize < 300KB and ( any of ( $one* ) and any of ( $two* ) or any of ( $three* ) )
 }
 
-rule WEBSHELL_JSP_Generic_ProcessBuilder : hardened
+rule WEBSHELL_JSP_Generic_ProcessBuilder : hardened loosened limited
 {
 	meta:
 		description = "Generic JSP webshell which uses processbuilder to execute user input"
@@ -3429,7 +3429,7 @@ rule WEBSHELL_JSP_Generic_ProcessBuilder : hardened
 
 import "math"
 
-rule WEBSHELL_JSP_Generic_Reflection : hardened limited
+rule WEBSHELL_JSP_Generic_Reflection : hardened loosened limited
 {
 	meta:
 		description = "Generic JSP webshell which uses reflection to execute user input"
@@ -3497,7 +3497,7 @@ rule WEBSHELL_JSP_Generic_Encoded_Shell : hardened
 		filesize < 300KB and any of ( $sj* )
 }
 
-rule WEBSHELL_JSP_NetSpy : hardened limited
+rule WEBSHELL_JSP_NetSpy : hardened loosened limited
 {
 	meta:
 		description = "JSP netspy webshell"
@@ -3543,7 +3543,7 @@ rule WEBSHELL_JSP_NetSpy : hardened limited
 		filesize < 30KB and ( $cjsp_short1 at 0 or any of ( $cjsp_long* ) or $cjsp_short2 in ( filesize - 100 .. filesize ) or ( $cjsp_short2 and ( $cjsp_short1 in ( 0 .. 1000 ) or $cjsp_short1 in ( filesize - 1000 .. filesize ) ) ) ) and ( any of ( $input* ) and any of ( $req* ) ) and 4 of ( $scan* ) and 1 of ( $write* ) and $http
 }
 
-rule WEBSHELL_JSP_By_String : hardened limited
+rule WEBSHELL_JSP_By_String : hardened loosened limited
 {
 	meta:
 		description = "JSP Webshells which contain unique strings, lousy rule for low hanging fruits. Most are catched by other rules in here but maybe these catch different versions."
@@ -3604,7 +3604,7 @@ rule WEBSHELL_JSP_By_String : hardened limited
 		not ( uint16( 0 ) == 0x5a4d or $dex at 0 or $pack at 0 or uint16( 0 ) == 0x4b50 ) and ( ( filesize < 100KB and ( $cjsp_short1 at 0 or any of ( $cjsp_long* ) or $cjsp_short2 in ( filesize - 100 .. filesize ) or ( $cjsp_short2 and ( $cjsp_short1 in ( 0 .. 1000 ) or $cjsp_short1 in ( filesize - 1000 .. filesize ) ) ) ) and any of ( $jstring* ) ) or ( filesize < 500KB and ( #jstring21 > 20 or $jstring18 or $jstring19 or $jstring20 ) ) )
 }
 
-rule WEBSHELL_JSP_Input_Upload_Write : hardened limited
+rule WEBSHELL_JSP_Input_Upload_Write : hardened loosened limited
 {
 	meta:
 		description = "JSP uploader which gets input, writes files and contains upload"
@@ -3644,7 +3644,7 @@ rule WEBSHELL_JSP_Input_Upload_Write : hardened limited
 		filesize < 10KB and ( $cjsp_short1 at 0 or any of ( $cjsp_long* ) or $cjsp_short2 in ( filesize - 100 .. filesize ) or ( $cjsp_short2 and ( $cjsp_short1 in ( 0 .. 1000 ) or $cjsp_short1 in ( filesize - 1000 .. filesize ) ) ) ) and ( any of ( $input* ) and any of ( $req* ) ) and $upload and 1 of ( $write* )
 }
 
-rule WEBSHELL_Generic_OS_Strings : FILE hardened limited
+rule WEBSHELL_Generic_OS_Strings : FILE hardened loosened limited
 {
 	meta:
 		description = "typical webshell strings"
@@ -3689,7 +3689,7 @@ rule WEBSHELL_Generic_OS_Strings : FILE hardened limited
 		$jsp5 = {((74 68 72 6f 77 73) | (74 00 68 00 72 00 6f 00 77 00 73 00))}
 		$jsp6 = {((67 65 74 56 61 6c 75 65) | (67 00 65 00 74 00 56 00 61 00 6c 00 75 00 65 00))}
 		$jsp7 = {((67 65 74 42 79 74 65 73) | (67 00 65 00 74 00 42 00 79 00 74 00 65 00 73 00))}
-		$perl1 = {50 65 72 6c 53 63 72 69 70 74}
+		$perl1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 50 65 72 6c 53 63 72 69 70 74 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 		$php_short = {((3c 3f) | (3c 00 3f 00))}
 		$no_xml1 = {((3c 3f 78 6d 6c 20 76 65 72 73 69 6f 6e) | (3c 00 3f 00 78 00 6d 00 6c 00 20 00 76 00 65 00 72 00 73 00 69 00 6f 00 6e 00))}
 		$no_xml2 = {((3c 3f 78 6d 6c 2d 73 74 79 6c 65 73 68 65 65 74) | (3c 00 3f 00 78 00 6d 00 6c 00 2d 00 73 00 74 00 79 00 6c 00 65 00 73 00 68 00 65 00 65 00 74 00))}
@@ -3720,7 +3720,7 @@ rule WEBSHELL_Generic_OS_Strings : FILE hardened limited
 		filesize < 70KB and ( ( ( any of ( $tagasp_long* ) or any of ( $tagasp_classid* ) or ( $tagasp_short1 and $tagasp_short2 in ( filesize - 100 .. filesize ) ) or ( $tagasp_short2 and ( $tagasp_short1 in ( 0 .. 1000 ) or $tagasp_short1 in ( filesize - 1000 .. filesize ) ) ) ) and not ( ( any of ( $perl* ) or $php1 at 0 or $php2 at 0 ) or ( ( #jsp1 + #jsp2 + #jsp3 ) > 0 and ( #jsp4 + #jsp5 + #jsp6 + #jsp7 ) > 0 ) ) ) or ( ( ( $php_short in ( 0 .. 100 ) or $php_short in ( filesize - 1000 .. filesize ) ) and not any of ( $no_* ) ) or any of ( $php_new* ) ) or ( $cjsp_short1 at 0 or any of ( $cjsp_long* ) or $cjsp_short2 in ( filesize - 100 .. filesize ) or ( $cjsp_short2 and ( $cjsp_short1 in ( 0 .. 1000 ) or $cjsp_short1 in ( filesize - 1000 .. filesize ) ) ) ) ) and ( filesize < 300KB and not uint16( 0 ) == 0x5a4d and ( all of ( $w* ) or all of ( $l* ) or 2 of ( $take_two* ) ) ) and not any of ( $fp* )
 }
 
-rule WEBSHELL_In_Image : hardened limited
+rule WEBSHELL_In_Image : hardened loosened limited
 {
 	meta:
 		description = "Webshell in GIF, PNG or JPG"
@@ -3803,7 +3803,7 @@ rule WEBSHELL_In_Image : hardened limited
 		$jsp5 = {((74 68 72 6f 77 73) | (74 00 68 00 72 00 6f 00 77 00 73 00))}
 		$jsp6 = {((67 65 74 56 61 6c 75 65) | (67 00 65 00 74 00 56 00 61 00 6c 00 75 00 65 00))}
 		$jsp7 = {((67 65 74 42 79 74 65 73) | (67 00 65 00 74 00 42 00 79 00 74 00 65 00 73 00))}
-		$perl1 = {50 65 72 6c 53 63 72 69 70 74}
+		$perl1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 50 65 72 6c 53 63 72 69 70 74 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 		$asp_payload0 = {((65 76 61 6c 5f 72) | (65 00 76 00 61 00 6c 00 5f 00 72 00))}
 		$asp_payload1 = /\beval\s/ nocase wide ascii
 		$asp_payload2 = /\beval\(/ nocase wide ascii

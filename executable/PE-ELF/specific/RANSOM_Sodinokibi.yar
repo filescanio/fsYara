@@ -1,6 +1,6 @@
 import "pe"
 
-rule ransomware_sodinokibi : hardened
+rule ransomware_sodinokibi : hardened limited
 {
 	meta:
 		description = "Using a recently disclosed vulnerability in Oracle WebLogic, criminals use it to install a new variant of ransomware called “Sodinokibi"
@@ -14,7 +14,7 @@ rule ransomware_sodinokibi : hardened
 		hash4 = "9b62f917afa1c1a61e3be0978c8692dac797dd67ce0e5fd2305cc7c6b5fef392"
 
 	strings:
-		$x1 = {73 00 6f 00 64 00 69 00 6e 00 6f 00 6b 00 69 00 62 00 69 00 2e 00 65 00 78 00 65 00}
+		$x1 = {(bf 00 | a1 00 | 21 00 | 22 00 | 23 00 | 24 00 | 25 00 | 26 00 | 27 00 | 28 00 | 29 00 | 2a 00 | 2b 00 | 2c 00 | 2d 00 | 2e 00 | 2f 00 | 3a 00 | 3b 00 | 3c 00 | 3d 00 | 3e 00 | 3f 00 | 40 00 | 5b 00 | 5c 00 | 5d 00 | 5e 00 | 5f 00 | 60 00 | 7b 00 | 7c 00 | 7d 00 | 7e 00 | 20 00 | 09 00 | 0a 00 | 0d 00 | 0b 00 | 0c 00 | 00 00 | ff) 73 00 6f 00 64 00 69 00 6e 00 6f 00 6b 00 69 00 62 00 69 00 2e 00 65 00 78 00 65 00 (bf 00 | a1 00 | 21 00 | 22 00 | 23 00 | 24 00 | 25 00 | 26 00 | 27 00 | 28 00 | 29 00 | 2a 00 | 2b 00 | 2c 00 | 2d 00 | 2e 00 | 2f 00 | 3a 00 | 3b 00 | 3c 00 | 3d 00 | 3e 00 | 3f 00 | 40 00 | 5b 00 | 5c 00 | 5d 00 | 5e 00 | 5f 00 | 60 00 | 7b 00 | 7c 00 | 7d 00 | 7e 00 | 20 00 | 09 00 | 0a 00 | 0d 00 | 0b 00 | 0c 00 | 00 00 | ff)}
 		$y0 = { 8d 85 6c ff ff ff 50 53 50 e8 62 82 00 00 83 c4 }
 		$y1 = { e8 24 ea ff ff ff 75 08 8b ce e8 61 fc ff ff 8b }
 		$y2 = { e8 01 64 ff ff ff b6 b0 }

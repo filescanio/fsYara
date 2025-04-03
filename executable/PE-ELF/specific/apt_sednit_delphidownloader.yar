@@ -29,7 +29,7 @@ rule MAL_Sednit_DelphiDownloader_Apr18_2 : hardened
 		filesize < 4000KB and 1 of ( $s* ) and not 1 of ( $fp* )
 }
 
-rule MAL_Sednit_DelphiDownloader_Apr18_3 : hardened
+rule MAL_Sednit_DelphiDownloader_Apr18_3 : hardened limited
 {
 	meta:
 		description = "Detects malware from Sednit Delphi Downloader report"
@@ -42,15 +42,15 @@ rule MAL_Sednit_DelphiDownloader_Apr18_3 : hardened
 		id = "2200fbdc-3600-51d4-a273-dc7fd4127c05"
 
 	strings:
-		$ = {50 72 6f 63 65 73 73 6f 72 20 4c 65 76 65 6c 3a 20}
-		$ = {43 4f 4e 4e 45 43 54 49 4f 4e 20 45 52 52 4f 52}
+		$ = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 50 72 6f 63 65 73 73 6f 72 20 4c 65 76 65 6c 3a 20 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
+		$ = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 43 4f 4e 4e 45 43 54 49 4f 4e 20 45 52 52 4f 52 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 		$ = {46 49 4c 45 5f 45 58 45 43 55 54 45 5f 41 4e 44 5f 4b 49 4c 4c 5f 4d 59 53 45 4c 46}
 		$ = {2d 4b 49 4c 4c 5f 50 52 4f 43 45 53 53 2d}
 		$ = {2d 46 49 4c 45 5f 45 58 45 43 55 54 45 2d}
 		$ = {2d 44 4f 57 4e 4c 4f 41 44 5f 45 52 52 4f 52 2d}
-		$ = {43 4d 44 5f 45 58 45 43 55 54 45}
+		$ = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 43 4d 44 5f 45 58 45 43 55 54 45 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 		$ = {5c 49 6e 74 65 72 66 61 63 65 5c 4f 66 66 69 63 65 5c 7b 33 31 45 31 32 46 45 38 2d 39 33 37 46 2d 31 45 33 32 2d 38 37 31 44 2d 42 31 43 39 41 4f 45 46 34 44 34 7d 5c}
-		$ = {4d 6f 7a 69 6c 6c 61 2f 33 2e 30 20 28 63 6f 6d 70 61 74 69 62 6c 65 3b 20 49 6e 64 79 20 4c 69 62 72 61 72 79 29}
+		$ = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 4d 6f 7a 69 6c 6c 61 2f 33 2e 30 20 28 63 6f 6d 70 61 74 69 62 6c 65 3b 20 49 6e 64 79 20 4c 69 62 72 61 72 79 29 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 
 	condition:
 		uint16( 0 ) == 0x5a4d and filesize < 2000KB and 3 of them

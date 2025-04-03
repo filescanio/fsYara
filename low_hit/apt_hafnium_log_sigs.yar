@@ -1,4 +1,4 @@
-rule EXPL_LOG_CVE_2021_27065_Exchange_Forensic_Artefacts_Mar21_1 : LOG hardened
+rule EXPL_LOG_CVE_2021_27065_Exchange_Forensic_Artefacts_Mar21_1 : LOG hardened loosened limited
 {
 	meta:
 		description = "Detects forensic artefacts found in HAFNIUM intrusions exploiting CVE-2021-27065"

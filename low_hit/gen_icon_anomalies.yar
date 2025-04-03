@@ -37,7 +37,7 @@ rule SUSP_AdobePDF_SFX_Bitmap_Combo_Executable : hardened
 
 import "pe"
 
-rule SUSP_AdobePDF_Bitmap_Executable : hardened
+rule SUSP_AdobePDF_Bitmap_Executable : hardened loosened limited
 {
 	meta:
 		description = "Detects a suspicious executable that contains a Adobe PDF icon and no shows no sign of actual Adobe software"

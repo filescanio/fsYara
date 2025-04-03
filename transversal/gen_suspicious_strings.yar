@@ -16,7 +16,7 @@ rule Ping_Command_in_EXE : hardened
 		uint16( 0 ) == 0x5a4d and all of them
 }
 
-rule GoogleBot_UserAgent : hardened
+rule GoogleBot_UserAgent : hardened limited
 {
 	meta:
 		description = "Detects the GoogleBot UserAgent String in an Executable"
@@ -28,7 +28,7 @@ rule GoogleBot_UserAgent : hardened
 		id = "621532ac-fc0b-5118-84b0-eac110693320"
 
 	strings:
-		$x1 = {4d 6f 7a 69 6c 6c 61 2f 35 2e 30 20 28 63 6f 6d 70 61 74 69 62 6c 65 3b 20 47 6f 6f 67 6c 65 62 6f 74 2f 32 2e 31 3b 20 2b 68 74 74 70 3a 2f 2f 77 77 77 2e 67 6f 6f 67 6c 65 2e 63 6f 6d 2f 62 6f 74 2e 68 74 6d 6c 29}
+		$x1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 4d 6f 7a 69 6c 6c 61 2f 35 2e 30 20 28 63 6f 6d 70 61 74 69 62 6c 65 3b 20 47 6f 6f 67 6c 65 62 6f 74 2f 32 2e 31 3b 20 2b 68 74 74 70 3a 2f 2f 77 77 77 2e 67 6f 6f 67 6c 65 2e 63 6f 6d 2f 62 6f 74 2e 68 74 6d 6c 29 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 		$fp1 = {4d 00 63 00 41 00 66 00 65 00 65 00 2c 00 20 00 49 00 6e 00 63 00 2e 00}
 
 	condition:
@@ -99,7 +99,7 @@ rule ReconCommands_in_File : FILE hardened
 		filesize < 5KB and 4 of them
 }
 
-rule VBS_dropper_script_Dec17_1 : hardened
+rule VBS_dropper_script_Dec17_1 : hardened limited
 {
 	meta:
 		description = "Detects a VBS script that drops an executable"
@@ -116,7 +116,7 @@ rule VBS_dropper_script_Dec17_1 : hardened
 		$s3 = {54 56 71 41 41 41 45 41 41 41 41 45 41 42}
 		$s4 = {54 56 70 51 41 41 49 41 41 41 41 45 41 41}
 		$s5 = {54 56 71 51 41 41 4d 41 41 41 41 45 41 41}
-		$a1 = {3d 20 43 72 65 61 74 65 4f 62 6a 65 63 74 28 22 57 73 63 72 69 70 74 2e 53 68 65 6c 6c 22 29}
+		$a1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 3d 20 43 72 65 61 74 65 4f 62 6a 65 63 74 28 22 57 73 63 72 69 70 74 2e 53 68 65 6c 6c 22 29 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 
 	condition:
 		filesize < 600KB and $a1 and 1 of ( $s* )
@@ -147,7 +147,7 @@ rule SUSP_PDB_Strings_Keylogger_Backdoor : HIGHVOL hardened
 		uint16( 0 ) == 0x5a4d and filesize < 1000KB and 1 of them
 }
 
-rule SUSP_Microsoft_Copyright_String_Anomaly_2 : hardened
+rule SUSP_Microsoft_Copyright_String_Anomaly_2 : hardened limited
 {
 	meta:
 		description = "Detects Floxif Malware"
@@ -160,13 +160,13 @@ rule SUSP_Microsoft_Copyright_String_Anomaly_2 : hardened
 		id = "3257aff0-b923-5e56-b67c-fa676341a102"
 
 	strings:
-		$s1 = {4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 28 00 43 00 29 00 20 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 28 00 43 00 29 00 20 00 4f 00 70 00 65 00 72 00 61 00 74 00 69 00 6e 00 67 00 20 00 53 00 79 00 73 00 74 00 65 00 6d 00}
+		$s1 = {(bf 00 | a1 00 | 21 00 | 22 00 | 23 00 | 24 00 | 25 00 | 26 00 | 27 00 | 28 00 | 29 00 | 2a 00 | 2b 00 | 2c 00 | 2d 00 | 2e 00 | 2f 00 | 3a 00 | 3b 00 | 3c 00 | 3d 00 | 3e 00 | 3f 00 | 40 00 | 5b 00 | 5c 00 | 5d 00 | 5e 00 | 5f 00 | 60 00 | 7b 00 | 7c 00 | 7d 00 | 7e 00 | 20 00 | 09 00 | 0a 00 | 0d 00 | 0b 00 | 0c 00 | 00 00 | ff) 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 28 00 43 00 29 00 20 00 57 00 69 00 6e 00 64 00 6f 00 77 00 73 00 28 00 43 00 29 00 20 00 4f 00 70 00 65 00 72 00 61 00 74 00 69 00 6e 00 67 00 20 00 53 00 79 00 73 00 74 00 65 00 6d 00 (bf 00 | a1 00 | 21 00 | 22 00 | 23 00 | 24 00 | 25 00 | 26 00 | 27 00 | 28 00 | 29 00 | 2a 00 | 2b 00 | 2c 00 | 2d 00 | 2e 00 | 2f 00 | 3a 00 | 3b 00 | 3c 00 | 3d 00 | 3e 00 | 3f 00 | 40 00 | 5b 00 | 5c 00 | 5d 00 | 5e 00 | 5f 00 | 60 00 | 7b 00 | 7c 00 | 7d 00 | 7e 00 | 20 00 | 09 00 | 0a 00 | 0d 00 | 0b 00 | 0c 00 | 00 00 | ff)}
 
 	condition:
 		uint16( 0 ) == 0x5a4d and filesize < 200KB and 1 of them
 }
 
-rule SUSP_LNK_File_AppData_Roaming : hardened
+rule SUSP_LNK_File_AppData_Roaming : hardened limited
 {
 	meta:
 		description = "Detects a suspicious link file that references to AppData Roaming"
@@ -178,8 +178,8 @@ rule SUSP_LNK_File_AppData_Roaming : hardened
 		id = "d905e58f-ae2e-5dc2-b206-d0435b023df0"
 
 	strings:
-		$s2 = {41 00 70 00 70 00 44 00 61 00 74 00 61 00}
-		$s3 = {52 00 6f 00 61 00 6d 00 69 00 6e 00 67 00}
+		$s2 = {(bf 00 | a1 00 | 21 00 | 22 00 | 23 00 | 24 00 | 25 00 | 26 00 | 27 00 | 28 00 | 29 00 | 2a 00 | 2b 00 | 2c 00 | 2d 00 | 2e 00 | 2f 00 | 3a 00 | 3b 00 | 3c 00 | 3d 00 | 3e 00 | 3f 00 | 40 00 | 5b 00 | 5c 00 | 5d 00 | 5e 00 | 5f 00 | 60 00 | 7b 00 | 7c 00 | 7d 00 | 7e 00 | 20 00 | 09 00 | 0a 00 | 0d 00 | 0b 00 | 0c 00 | 00 00 | ff) 41 00 70 00 70 00 44 00 61 00 74 00 61 00 (bf 00 | a1 00 | 21 00 | 22 00 | 23 00 | 24 00 | 25 00 | 26 00 | 27 00 | 28 00 | 29 00 | 2a 00 | 2b 00 | 2c 00 | 2d 00 | 2e 00 | 2f 00 | 3a 00 | 3b 00 | 3c 00 | 3d 00 | 3e 00 | 3f 00 | 40 00 | 5b 00 | 5c 00 | 5d 00 | 5e 00 | 5f 00 | 60 00 | 7b 00 | 7c 00 | 7d 00 | 7e 00 | 20 00 | 09 00 | 0a 00 | 0d 00 | 0b 00 | 0c 00 | 00 00 | ff)}
+		$s3 = {(bf 00 | a1 00 | 21 00 | 22 00 | 23 00 | 24 00 | 25 00 | 26 00 | 27 00 | 28 00 | 29 00 | 2a 00 | 2b 00 | 2c 00 | 2d 00 | 2e 00 | 2f 00 | 3a 00 | 3b 00 | 3c 00 | 3d 00 | 3e 00 | 3f 00 | 40 00 | 5b 00 | 5c 00 | 5d 00 | 5e 00 | 5f 00 | 60 00 | 7b 00 | 7c 00 | 7d 00 | 7e 00 | 20 00 | 09 00 | 0a 00 | 0d 00 | 0b 00 | 0c 00 | 00 00 | ff) 52 00 6f 00 61 00 6d 00 69 00 6e 00 67 00 (bf 00 | a1 00 | 21 00 | 22 00 | 23 00 | 24 00 | 25 00 | 26 00 | 27 00 | 28 00 | 29 00 | 2a 00 | 2b 00 | 2c 00 | 2d 00 | 2e 00 | 2f 00 | 3a 00 | 3b 00 | 3c 00 | 3d 00 | 3e 00 | 3f 00 | 40 00 | 5b 00 | 5c 00 | 5d 00 | 5e 00 | 5f 00 | 60 00 | 7b 00 | 7c 00 | 7d 00 | 7e 00 | 20 00 | 09 00 | 0a 00 | 0d 00 | 0b 00 | 0c 00 | 00 00 | ff)}
 		$s4 = { 00 2E 00 65 00 78 00 65 00 2E 00 43 00 3A 00 5C
               00 55 00 73 00 65 00 72 00 73 00 5C }
 
@@ -222,7 +222,7 @@ rule SUSP_Script_Obfuscation_Char_Concat : hardened
 		1 of them
 }
 
-rule SUSP_Win32dll_String : hardened
+rule SUSP_Win32dll_String : hardened limited
 {
 	meta:
 		description = "Detects suspicious string in executables"
@@ -233,13 +233,13 @@ rule SUSP_Win32dll_String : hardened
 		id = "b1c78386-c23d-5138-942a-3da90e5802cc"
 
 	strings:
-		$s1 = {77 69 6e 33 32 64 6c 6c 2e 64 6c 6c}
+		$s1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 77 69 6e 33 32 64 6c 6c 2e 64 6c 6c (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 
 	condition:
 		filesize < 60KB and all of them
 }
 
-rule SUSP_Modified_SystemExeFileName_in_File : hardened
+rule SUSP_Modified_SystemExeFileName_in_File : hardened limited
 {
 	meta:
 		description = "Detecst a variant of a system file name often used by attackers to cloak their activity"
@@ -252,7 +252,7 @@ rule SUSP_Modified_SystemExeFileName_in_File : hardened
 		id = "97d91e1b-49b8-504e-9e9c-6cfb7c2afe41"
 
 	strings:
-		$s1 = {73 00 76 00 63 00 68 00 6f 00 73 00 74 00 73 00 2e 00 65 00 78 00 65 00}
+		$s1 = {(bf 00 | a1 00 | 21 00 | 22 00 | 23 00 | 24 00 | 25 00 | 26 00 | 27 00 | 28 00 | 29 00 | 2a 00 | 2b 00 | 2c 00 | 2d 00 | 2e 00 | 2f 00 | 3a 00 | 3b 00 | 3c 00 | 3d 00 | 3e 00 | 3f 00 | 40 00 | 5b 00 | 5c 00 | 5d 00 | 5e 00 | 5f 00 | 60 00 | 7b 00 | 7c 00 | 7d 00 | 7e 00 | 20 00 | 09 00 | 0a 00 | 0d 00 | 0b 00 | 0c 00 | 00 00 | ff) 73 00 76 00 63 00 68 00 6f 00 73 00 74 00 73 00 2e 00 65 00 78 00 65 00 (bf 00 | a1 00 | 21 00 | 22 00 | 23 00 | 24 00 | 25 00 | 26 00 | 27 00 | 28 00 | 29 00 | 2a 00 | 2b 00 | 2c 00 | 2d 00 | 2e 00 | 2f 00 | 3a 00 | 3b 00 | 3c 00 | 3d 00 | 3e 00 | 3f 00 | 40 00 | 5b 00 | 5c 00 | 5d 00 | 5e 00 | 5f 00 | 60 00 | 7b 00 | 7c 00 | 7d 00 | 7e 00 | 20 00 | 09 00 | 0a 00 | 0d 00 | 0b 00 | 0c 00 | 00 00 | ff)}
 
 	condition:
 		uint16( 0 ) == 0x5a4d and filesize < 200KB and 1 of them
@@ -272,8 +272,8 @@ rule SUSP_JAVA_Class_with_VBS_Content : hardened limited
 	strings:
 		$a1 = {6a 61 76 61 2f 6c 61 6e 67 2f 53 74 72 69 6e 67}
 		$s1 = {2e 76 62 73}
-		$s2 = {63 72 65 61 74 65 4e 65 77 46 69 6c 65}
-		$s3 = {77 73 63 72 69 70 74}
+		$s2 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 63 72 65 61 74 65 4e 65 77 46 69 6c 65 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
+		$s3 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 77 73 63 72 69 70 74 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 
 	condition:
 		( uint16( 0 ) == 0xfeca or uint16( 0 ) == 0xfacf or uint32( 0 ) == 0xbebafeca ) and filesize < 100KB and $a1 and 3 of ( $s* )
@@ -318,7 +318,7 @@ rule SUSP_Netsh_PortProxy_Command : hardened
 		1 of them
 }
 
-rule SUSP_DropperBackdoor_Keywords : hardened
+rule SUSP_DropperBackdoor_Keywords : hardened loosened limited
 {
 	meta:
 		description = "Detects suspicious keywords that indicate a backdoor"
@@ -369,7 +369,7 @@ rule SUSP_XMRIG_Reference : hardened
 		uint16( 0 ) == 0x5a4d and filesize < 2000KB and 1 of them
 }
 
-rule SUSP_Just_EICAR : hardened
+rule SUSP_Just_EICAR : hardened limited
 {
 	meta:
 		description = "Just an EICAR test file - this is boring but users asked for it"
@@ -381,7 +381,7 @@ rule SUSP_Just_EICAR : hardened
 		id = "e5eedd77-36e2-56a0-be0c-2553043c225a"
 
 	strings:
-		$s1 = {58 35 4f 21 50 25 40 41 50 5b 34 5c 50 5a 58 35 34 28 50 5e 29 37 43 43 29 37 7d 24 45 49 43 41 52 2d 53 54 41 4e 44 41 52 44 2d 41 4e 54 49 56 49 52 55 53 2d 54 45 53 54 2d 46 49 4c 45 21 24 48 2b 48 2a}
+		$s1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 58 35 4f 21 50 25 40 41 50 5b 34 5c 50 5a 58 35 34 28 50 5e 29 37 43 43 29 37 7d 24 45 49 43 41 52 2d 53 54 41 4e 44 41 52 44 2d 41 4e 54 49 56 49 52 55 53 2d 54 45 53 54 2d 46 49 4c 45 21 24 48 2b 48 2a (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 
 	condition:
 		uint16( 0 ) == 0x3558 and filesize < 70 and $s1 at 0
@@ -418,7 +418,7 @@ rule SUSP_PDB_Path_Keywords : hardened limited
 		uint16( 0 ) == 0x5a4d and 1 of them
 }
 
-rule SUSP_Disable_ETW_Jun20_1 : hardened
+rule SUSP_Disable_ETW_Jun20_1 : hardened loosened limited
 {
 	meta:
 		description = "Detects method to disable ETW in ENV vars before executing a program"

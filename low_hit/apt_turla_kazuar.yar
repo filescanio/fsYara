@@ -16,7 +16,7 @@ rule apt_RU_Turla_Kazuar_DebugView_peFeatures : hardened
 		uint16( 0 ) == 0x5a4d and ( pe.version_info [ "LegalCopyright" ] == "Test Copyright" and ( ( pe.version_info [ "ProductName" ] == "Sysinternals DebugView" and pe.version_info [ "Description" ] == "Sysinternals DebugView" ) or ( pe.version_info [ "FileVersion" ] == "4.80.0.0" and pe.version_info [ "Comments" ] == "Sysinternals DebugView" ) or ( pe.version_info [ "OriginalName" ] contains "DebugView.exe" and pe.version_info [ "InternalName" ] contains "DebugView.exe" ) or ( pe.version_info [ "OriginalName" ] == "Agent.exe" and pe.version_info [ "InternalName" ] == "Agent.exe" ) ) )
 }
 
-rule APT_MAL_RU_Turla_Kazuar_May20_1 : hardened
+rule APT_MAL_RU_Turla_Kazuar_May20_1 : hardened limited
 {
 	meta:
 		description = "Detects Turla Kazuar malware"
@@ -30,8 +30,8 @@ rule APT_MAL_RU_Turla_Kazuar_May20_1 : hardened
 		id = "cd0d1fa2-5303-55f8-90a7-4a699ec79230"
 
 	strings:
-		$s1 = {53 79 73 69 6e 74 65 72 6e 61 6c 73}
-		$s2 = {54 00 65 00 73 00 74 00 20 00 43 00 6f 00 70 00 79 00 72 00 69 00 67 00 68 00 74 00}
+		$s1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 53 79 73 69 6e 74 65 72 6e 61 6c 73 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
+		$s2 = {(bf 00 | a1 00 | 21 00 | 22 00 | 23 00 | 24 00 | 25 00 | 26 00 | 27 00 | 28 00 | 29 00 | 2a 00 | 2b 00 | 2c 00 | 2d 00 | 2e 00 | 2f 00 | 3a 00 | 3b 00 | 3c 00 | 3d 00 | 3e 00 | 3f 00 | 40 00 | 5b 00 | 5c 00 | 5d 00 | 5e 00 | 5f 00 | 60 00 | 7b 00 | 7c 00 | 7d 00 | 7e 00 | 20 00 | 09 00 | 0a 00 | 0d 00 | 0b 00 | 0c 00 | 00 00 | ff) 54 00 65 00 73 00 74 00 20 00 43 00 6f 00 70 00 79 00 72 00 69 00 67 00 68 00 74 00 (bf 00 | a1 00 | 21 00 | 22 00 | 23 00 | 24 00 | 25 00 | 26 00 | 27 00 | 28 00 | 29 00 | 2a 00 | 2b 00 | 2c 00 | 2d 00 | 2e 00 | 2f 00 | 3a 00 | 3b 00 | 3c 00 | 3d 00 | 3e 00 | 3f 00 | 40 00 | 5b 00 | 5c 00 | 5d 00 | 5e 00 | 5f 00 | 60 00 | 7b 00 | 7c 00 | 7d 00 | 7e 00 | 20 00 | 09 00 | 0a 00 | 0d 00 | 0b 00 | 0c 00 | 00 00 | ff)}
 		$op1 = { 0d 01 00 08 34 2e 38 30 2e 30 2e 30 00 00 13 01 }
 
 	condition:

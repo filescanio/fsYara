@@ -10,7 +10,7 @@ private rule is__elf : hardened
 		$header at 0
 }
 
-rule is__Mirai_gen7 : hardened limited
+rule is__Mirai_gen7 : hardened loosened limited
 {
 	meta:
 		description = "Generic detection for MiraiX version 7"

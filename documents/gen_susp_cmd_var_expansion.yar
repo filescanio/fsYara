@@ -1,4 +1,4 @@
-rule SUSP_CMD_Var_Expansion : hardened
+rule SUSP_CMD_Var_Expansion : hardened loosened limited
 {
 	meta:
 		description = "Detects Office droppers that include a variable expansion string"

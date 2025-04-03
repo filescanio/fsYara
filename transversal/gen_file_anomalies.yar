@@ -31,7 +31,7 @@ rule SUSP_GIF_Anomalies : hardened
 
 import "pe"
 
-rule SUSP_HxD_Icon_Anomaly_May23_1 : hardened
+rule SUSP_HxD_Icon_Anomaly_May23_1 : hardened loosened limited
 {
 	meta:
 		description = "Detects suspicious use of the the free hex editor HxD's icon in PE files that don't seem to be a legitimate version of HxD"
@@ -59,7 +59,7 @@ rule SUSP_HxD_Icon_Anomaly_May23_1 : hardened
                FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF }
 		$s1 = { 00 4D 00 61 00 EB 00 6C 00 20 00 48 00 F6 00 72 00 7A }
 		$s2 = {((6d 68 2d 6e 65 78 75 73 2e 64 65) | (6d 00 68 00 2d 00 6e 00 65 00 78 00 75 00 73 00 2e 00 64 00 65 00))}
-		$upx1 = {55 50 58 30}
+		$upx1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 55 50 58 30 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 		$xs1 = {((74 65 72 6d 69 6e 61 74 6f 72) | (74 00 65 00 72 00 6d 00 69 00 6e 00 61 00 74 00 6f 00 72 00))}
 		$xs2 = {((54 65 72 6d 69 6e 61 74 6f 72) | (54 00 65 00 72 00 6d 00 69 00 6e 00 61 00 74 00 6f 00 72 00))}
 

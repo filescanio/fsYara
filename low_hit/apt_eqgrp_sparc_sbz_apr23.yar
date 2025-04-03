@@ -17,7 +17,7 @@ rule SUSP_ELF_SPARC_Hunting_SBZ_Obfuscation : hardened
 		uint32be( 0 ) == 0x7f454c46 and $a1 and $xor_block
 }
 
-rule SUSP_ELF_SPARC_Hunting_SBZ_UniqueStrings : hardened
+rule SUSP_ELF_SPARC_Hunting_SBZ_UniqueStrings : hardened limited
 {
 	meta:
 		description = "This rule is UNTESTED against a large dataset and is for hunting purposes only."
@@ -30,7 +30,7 @@ rule SUSP_ELF_SPARC_Hunting_SBZ_UniqueStrings : hardened
 
 	strings:
 		$s1 = {3c 25 75 3e 5b 25 73 5d 20 45 76 65 6e 74 20 23 25 75 3a 20}
-		$s2 = {6c 70 72 63 3a 25 30 38 58}
+		$s2 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 6c 70 72 63 3a 25 30 38 58 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 		$s3 = {64 69 75 58 78 6f 62 42}
 		$s4 = {43 48 4d 5f 46 57}
 

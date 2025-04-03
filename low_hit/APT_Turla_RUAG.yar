@@ -42,7 +42,7 @@ rule RUAG_Cobra_Malware : hardened
 		uint16( 0 ) == 0x5a4d and $s1
 }
 
-rule RUAG_Cobra_Config_File : hardened
+rule RUAG_Cobra_Config_File : hardened limited
 {
 	meta:
 		description = "Detects a config text file used by malware Cobra in RUAG case"
@@ -53,9 +53,9 @@ rule RUAG_Cobra_Config_File : hardened
 	strings:
 		$h1 = {5b 4e 41 4d 45 5d}
 		$s1 = {6f 62 6a 65 63 74 5f 69 64 3d}
-		$s2 = {5b 54 49 4d 45 5d}
+		$s2 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 5b 54 49 4d 45 5d (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 		$s3 = {6c 61 73 74 63 6f 6e 6e 65 63 74}
-		$s4 = {5b 43 57 5f 4c 4f 43 41 4c 5d}
+		$s4 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 5b 43 57 5f 4c 4f 43 41 4c 5d (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 		$s5 = {73 79 73 74 65 6d 5f 70 69 70 65}
 		$s6 = {75 73 65 72 5f 70 69 70 65}
 		$s7 = {5b 54 52 41 4e 53 50 4f 52 54 5d}

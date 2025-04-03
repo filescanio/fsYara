@@ -92,7 +92,7 @@ rule SUSP_Script_Base64_Blocks_Jun20_1 : hardened
 		all of them
 }
 
-rule SUSP_Reversed_Hacktool_Author : FILE hardened
+rule SUSP_Reversed_Hacktool_Author : FILE hardened loosened limited
 {
 	meta:
 		description = "Detects a suspicious path traversal into a Windows folder"

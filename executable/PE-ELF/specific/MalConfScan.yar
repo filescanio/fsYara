@@ -134,7 +134,7 @@ rule zark20rk : hardened
 		all of them
 }
 
-rule Ursnif : hardened
+rule Ursnif : hardened limited
 {
 	meta:
 		description = "detect Ursnif(a.k.a. Dreambot, Gozi, ISFB) in memory"
@@ -148,7 +148,7 @@ rule Ursnif : hardened
 
 	strings:
 		$a1 = {73 6f 66 74 3d 25 75 26 76 65 72 73 69 6f 6e 3d 25 75 26 75 73 65 72 3d 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78 26 73 65 72 76 65 72 3d 25 75 26 69 64 3d 25 75 26 63 72 63 3d 25 78}
-		$b1 = {63 6c 69 65 6e 74 2e 64 6c 6c}
+		$b1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 63 6c 69 65 6e 74 2e 64 6c 6c (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 		$c1 = {76 65 72 73 69 6f 6e 3d 25 75}
 		$c2 = {75 73 65 72 3d 25 30 38 78 25 30 38 78 25 30 38 78 25 30 38 78}
 		$c3 = {73 65 72 76 65 72 3d 25 75}

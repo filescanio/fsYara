@@ -1,4 +1,4 @@
-rule Maze : hardened
+rule Maze : hardened loosened limited
 {
 	meta:
 		description = "Identifies Maze ransomware in memory or unpacked."

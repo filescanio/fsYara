@@ -1,4 +1,4 @@
-rule WEBSHELL_APT_PHP_DEWMODE_UNC2546_Feb21_1 : hardened
+rule WEBSHELL_APT_PHP_DEWMODE_UNC2546_Feb21_1 : hardened limited
 {
 	meta:
 		description = "Detects DEWMODE webshells"
@@ -10,7 +10,7 @@ rule WEBSHELL_APT_PHP_DEWMODE_UNC2546_Feb21_1 : hardened
 		id = "ea883f25-0e9b-5617-b05e-191a4a5c5a52"
 
 	strings:
-		$x1 = {3c 66 6f 6e 74 20 73 69 7a 65 3d 34 3e 43 6c 65 61 6e 75 70 20 53 68 65 6c 6c 3c 2f 66 6f 6e 74 3e 3c 2f 61 3e 27 3b}
+		$x1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 3c 66 6f 6e 74 20 73 69 7a 65 3d 34 3e 43 6c 65 61 6e 75 70 20 53 68 65 6c 6c 3c 2f 66 6f 6e 74 3e 3c 2f 61 3e 27 3b (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 		$x2 = {24 28 73 68 20 2f 74 6d 70 2f 2e 73 63 72 29}
 		$x3 = {40 73 79 73 74 65 6d 28 27 73 75 64 6f 20 2f 75 73 72 2f 6c 6f 63 61 6c 2f 62 69 6e 2f 61 64 6d 69 6e 2e 70 6c 20 2d 2d 6d 6f 75 6e 74 5f 63 69 66 73 3d}
 		$s1 = {74 61 72 67 65 74 3d 5c 5c 22 5f 62 6c 61 6e 6b 5c 5c 22 3e 44 6f 77 6e 6c 6f 61 64 3c 2f 61 3e 3c 2f 74 64 3e 22 3b}

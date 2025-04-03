@@ -119,7 +119,7 @@ rule APT_APT29_NOBELIUM_LNK_Samples_May21_1 : hardened
 		uint16( 0 ) == 0x004c and filesize < 4KB and $a1 and ( all of ( $sa* ) or all of ( $sb* ) or all of ( $sc* ) or all of ( $sd* ) or all of ( $se* ) )
 }
 
-rule APT_APT29_NOBELIUM_BoomBox_May21_1 : hardened
+rule APT_APT29_NOBELIUM_BoomBox_May21_1 : hardened loosened limited
 {
 	meta:
 		description = "Detects BoomBox malware as described in APT29 NOBELIUM report"
@@ -160,7 +160,7 @@ rule APT_APT29_NOBELIUM_BoomBox_PDF_Masq_May21_1 : hardened
 		$ah1 at 0 and $af1 at ( filesize - 7 ) and filesize < 100KB and not 1 of ( $fp* ) and math.entropy ( 16 , filesize ) > 7
 }
 
-rule APT_APT29_NOBELIUM_NativeZone_Loader_May21_1 : hardened
+rule APT_APT29_NOBELIUM_NativeZone_Loader_May21_1 : hardened limited
 {
 	meta:
 		description = "Detects NativeZone loader as described in APT29 NOBELIUM report"
@@ -173,8 +173,8 @@ rule APT_APT29_NOBELIUM_NativeZone_Loader_May21_1 : hardened
 
 	strings:
 		$s1 = {5c 53 79 73 74 65 6d 43 65 72 74 69 66 69 63 61 74 65 73 5c 4c 69 62 5c 43 65 72 74 50 4b 49 50 72 6f 76 69 64 65 72 2e 64 6c 6c}
-		$s2 = {72 75 6e 64 6c 6c 33 32 2e 65 78 65 20 25 73 20 25 73}
-		$s3 = {65 67 6c 47 65 74 43 6f 6e 66 69 67 73}
+		$s2 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 72 75 6e 64 6c 6c 33 32 2e 65 78 65 20 25 73 20 25 73 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
+		$s3 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 65 67 6c 47 65 74 43 6f 6e 66 69 67 73 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 		$op1 = { 80 3d 74 8c 01 10 00 0f 85 96 00 00 00 33 c0 40 b9 6c 8c 01 10 87 01 33 db 89 5d fc }
 		$op2 = { 8b 46 18 e9 30 ff ff ff 90 87 2f 00 10 90 2f 00 10 }
 		$op3 = { e8 14 dd ff ff 8b f1 80 3d 74 8c 01 10 00 0f 85 96 00 00 00 33 c0 40 b9 6c 8c 01 10 87 01 }
@@ -183,7 +183,7 @@ rule APT_APT29_NOBELIUM_NativeZone_Loader_May21_1 : hardened
 		uint16( 0 ) == 0x5a4d and filesize < 3000KB and 3 of them or 4 of them
 }
 
-rule APT_APT29_NOBELIUM_BoomBox_May21_2 : hardened
+rule APT_APT29_NOBELIUM_BoomBox_May21_2 : hardened limited
 {
 	meta:
 		description = "Detects BoomBox malware used by APT29 / NOBELIUM"
@@ -198,11 +198,11 @@ rule APT_APT29_NOBELIUM_BoomBox_May21_2 : hardened
 	strings:
 		$x1 = {5c 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 5c 00 4e 00 61 00 74 00 69 00 76 00 65 00 43 00 61 00 63 00 68 00 65 00 5c 00 4e 00 61 00 74 00 69 00 76 00 65 00 43 00 61 00 63 00 68 00 65 00 53 00 76 00 63 00 2e 00 64 00 6c 00 6c 00}
 		$x2 = {5c 00 4e 00 61 00 74 00 69 00 76 00 65 00 43 00 61 00 63 00 68 00 65 00 53 00 76 00 63 00 2e 00 64 00 6c 00 6c 00 20 00 5f 00 63 00 6f 00 6e 00 66 00 69 00 67 00 4e 00 61 00 74 00 69 00 76 00 65 00 43 00 61 00 63 00 68 00 65 00}
-		$a1 = {2f 00 63 00 6f 00 6e 00 74 00 65 00 6e 00 74 00 2e 00 64 00 72 00 6f 00 70 00 62 00 6f 00 78 00 61 00 70 00 69 00 2e 00 63 00 6f 00 6d 00}
-		$s1 = {72 00 75 00 6e 00 64 00 6c 00 6c 00 33 00 32 00 2e 00 65 00 78 00 65 00 20 00 7b 00 30 00 7d 00 20 00 7b 00 31 00 7d 00}
+		$a1 = {(bf 00 | a1 00 | 21 00 | 22 00 | 23 00 | 24 00 | 25 00 | 26 00 | 27 00 | 28 00 | 29 00 | 2a 00 | 2b 00 | 2c 00 | 2d 00 | 2e 00 | 2f 00 | 3a 00 | 3b 00 | 3c 00 | 3d 00 | 3e 00 | 3f 00 | 40 00 | 5b 00 | 5c 00 | 5d 00 | 5e 00 | 5f 00 | 60 00 | 7b 00 | 7c 00 | 7d 00 | 7e 00 | 20 00 | 09 00 | 0a 00 | 0d 00 | 0b 00 | 0c 00 | 00 00 | ff) 2f 00 63 00 6f 00 6e 00 74 00 65 00 6e 00 74 00 2e 00 64 00 72 00 6f 00 70 00 62 00 6f 00 78 00 61 00 70 00 69 00 2e 00 63 00 6f 00 6d 00 (bf 00 | a1 00 | 21 00 | 22 00 | 23 00 | 24 00 | 25 00 | 26 00 | 27 00 | 28 00 | 29 00 | 2a 00 | 2b 00 | 2c 00 | 2d 00 | 2e 00 | 2f 00 | 3a 00 | 3b 00 | 3c 00 | 3d 00 | 3e 00 | 3f 00 | 40 00 | 5b 00 | 5c 00 | 5d 00 | 5e 00 | 5f 00 | 60 00 | 7b 00 | 7c 00 | 7d 00 | 7e 00 | 20 00 | 09 00 | 0a 00 | 0d 00 | 0b 00 | 0c 00 | 00 00 | ff)}
+		$s1 = {(bf 00 | a1 00 | 21 00 | 22 00 | 23 00 | 24 00 | 25 00 | 26 00 | 27 00 | 28 00 | 29 00 | 2a 00 | 2b 00 | 2c 00 | 2d 00 | 2e 00 | 2f 00 | 3a 00 | 3b 00 | 3c 00 | 3d 00 | 3e 00 | 3f 00 | 40 00 | 5b 00 | 5c 00 | 5d 00 | 5e 00 | 5f 00 | 60 00 | 7b 00 | 7c 00 | 7d 00 | 7e 00 | 20 00 | 09 00 | 0a 00 | 0d 00 | 0b 00 | 0c 00 | 00 00 | ff) 72 00 75 00 6e 00 64 00 6c 00 6c 00 33 00 32 00 2e 00 65 00 78 00 65 00 20 00 7b 00 30 00 7d 00 20 00 7b 00 31 00 7d 00 (bf 00 | a1 00 | 21 00 | 22 00 | 23 00 | 24 00 | 25 00 | 26 00 | 27 00 | 28 00 | 29 00 | 2a 00 | 2b 00 | 2c 00 | 2d 00 | 2e 00 | 2f 00 | 3a 00 | 3b 00 | 3c 00 | 3d 00 | 3e 00 | 3f 00 | 40 00 | 5b 00 | 5c 00 | 5d 00 | 5e 00 | 5f 00 | 60 00 | 7b 00 | 7c 00 | 7d 00 | 7e 00 | 20 00 | 09 00 | 0a 00 | 0d 00 | 0b 00 | 0c 00 | 00 00 | ff)}
 		$s2 = {5c 00 5c 00 43 00 65 00 72 00 74 00 50 00 4b 00 49 00 50 00 72 00 6f 00 76 00 69 00 64 00 65 00 72 00 2e 00 64 00 6c 00 6c 00}
 		$s3 = {2f 00 74 00 6d 00 70 00 2f 00 72 00 65 00 61 00 64 00 6d 00 65 00 2e 00 70 00 64 00 66 00}
-		$s4 = {74 00 65 00 6d 00 70 00 2f 00 5b 00 5e 00 22 00 5d 00 2a 00 29 00 22 00}
+		$s4 = {(bf 00 | a1 00 | 21 00 | 22 00 | 23 00 | 24 00 | 25 00 | 26 00 | 27 00 | 28 00 | 29 00 | 2a 00 | 2b 00 | 2c 00 | 2d 00 | 2e 00 | 2f 00 | 3a 00 | 3b 00 | 3c 00 | 3d 00 | 3e 00 | 3f 00 | 40 00 | 5b 00 | 5c 00 | 5d 00 | 5e 00 | 5f 00 | 60 00 | 7b 00 | 7c 00 | 7d 00 | 7e 00 | 20 00 | 09 00 | 0a 00 | 0d 00 | 0b 00 | 0c 00 | 00 00 | ff) 74 00 65 00 6d 00 70 00 2f 00 5b 00 5e 00 22 00 5d 00 2a 00 29 00 22 00 (bf 00 | a1 00 | 21 00 | 22 00 | 23 00 | 24 00 | 25 00 | 26 00 | 27 00 | 28 00 | 29 00 | 2a 00 | 2b 00 | 2c 00 | 2d 00 | 2e 00 | 2f 00 | 3a 00 | 3b 00 | 3c 00 | 3d 00 | 3e 00 | 3f 00 | 40 00 | 5b 00 | 5c 00 | 5d 00 | 5e 00 | 5f 00 | 60 00 | 7b 00 | 7c 00 | 7d 00 | 7e 00 | 20 00 | 09 00 | 0a 00 | 0d 00 | 0b 00 | 0c 00 | 00 00 | ff)}
 		$op1 = { 00 78 00 2d 00 41 00 50 00 49 00 2d 00 41 00 72 00 67 00 01 2f 4f 00 72 00 }
 		$op2 = { 25 72 98 01 00 70 6f 34 00 00 0a 25 6f 35 00 00 0a 72 71 02 00 70 72 }
 		$op3 = { 4d 05 20 00 12 80 91 04 20 01 08 0e 04 20 00 12 }
@@ -243,10 +243,10 @@ rule APT_APT29_NOBELIUM_Stageless_Loader_May21_2 : hardened limited
 		id = "7b83d327-52fc-5401-ae35-00f6b825678a"
 
 	strings:
-		$x1 = {44 4c 4c 5f 73 74 61 67 65 6c 65 73 73 2e 64 6c 6c}
-		$s1 = {63 3a 5c 75 73 65 72 73 5c 64 65 76 75 73 65 72 5c 64 6f 63 75 6d 65 6e 74 73}
-		$s2 = {56 69 73 75 61 6c 53 65 72 76 69 63 65 43 6f 6d 70 6f 6e 65 6e 74}
-		$s3 = {43 68 65 63 6b 55 70 64 74 65 46 72 61 6d 65 4a 61 76 61 43 75 72 72 65 6e 74 56 65 72 73 69 6f 6e}
+		$x1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 44 4c 4c 5f 73 74 61 67 65 6c 65 73 73 2e 64 6c 6c (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
+		$s1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 63 3a 5c 75 73 65 72 73 5c 64 65 76 75 73 65 72 5c 64 6f 63 75 6d 65 6e 74 73 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
+		$s2 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 56 69 73 75 61 6c 53 65 72 76 69 63 65 43 6f 6d 70 6f 6e 65 6e 74 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
+		$s3 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 43 68 65 63 6b 55 70 64 74 65 46 72 61 6d 65 4a 61 76 61 43 75 72 72 65 6e 74 56 65 72 73 69 6f 6e (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 		$op1 = { a3 d? 6? 04 10 ff d6 33 05 00 ?0 0? 10 68 d8 d4 00 10 57 a3 d? 6? 04 10 ff d6 33 05 00 ?0 0? 10 }
 		$op2 = { ff d6 33 05 00 ?0 0? 10 68 d8 d4 00 10 57 a3 d? 6? 04 10 ff d6 33 05 00 ?0 0? 10 68 e8 d4 00 10 }
 
@@ -254,7 +254,7 @@ rule APT_APT29_NOBELIUM_Stageless_Loader_May21_2 : hardened limited
 		uint16( 0 ) == 0x5a4d and filesize < 900KB and 2 of them or 3 of them
 }
 
-rule APT_APT29_NOBELIUM_Malware_May21_3 : hardened
+rule APT_APT29_NOBELIUM_Malware_May21_3 : hardened limited
 {
 	meta:
 		description = "Detects malware used by APT29 / NOBELIUM"
@@ -265,7 +265,7 @@ rule APT_APT29_NOBELIUM_Malware_May21_3 : hardened
 		id = "89cb6884-4242-5b5a-b0ac-b31041dd261c"
 
 	strings:
-		$s1 = {57 69 6e 33 32 50 72 6f 6a 65 63 74 31 2e 64 6c 6c}
+		$s1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 57 69 6e 33 32 50 72 6f 6a 65 63 74 31 2e 64 6c 6c (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 		$op1 = { 59 c3 6a 08 68 70 5e 01 10 e8 d2 8c ff ff 8b 7d 08 8b c7 c1 f8 05 }
 		$op2 = { 8d 4d f0 e8 c4 12 00 00 68 64 5b 01 10 8d 45 f0 c7 45 f0 6c 01 01 10 50 e8 ea 13 00 00 cc }
 		$op4 = { 40 c3 8b 65 e8 e8 a6 86 ff ff cc 6a 0c 68 88 60 01 10 e8 b0 4d ff ff }
@@ -278,7 +278,7 @@ rule APT_APT29_NOBELIUM_Malware_May21_3 : hardened
 		filesize < 3000KB and ( $xc1 or 3 of them )
 }
 
-rule APT_APT29_NOBELIUM_Malware_May21_4 : hardened
+rule APT_APT29_NOBELIUM_Malware_May21_4 : hardened limited
 {
 	meta:
 		description = "Detects malware used by APT29 / NOBELIUM"
@@ -289,7 +289,7 @@ rule APT_APT29_NOBELIUM_Malware_May21_4 : hardened
 		id = "56193475-52b4-5720-abc5-72249e2a0c37"
 
 	strings:
-		$s1 = {4b 4d 2e 46 69 6c 65 53 79 73 74 65 6d 2e 64 6c 6c}
+		$s1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 4b 4d 2e 46 69 6c 65 53 79 73 74 65 6d 2e 64 6c 6c (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 		$op1 = { 80 3d 50 6b 04 10 00 0f 85 96 00 00 00 33 c0 40 b9 48 6b 04 10 87 01 33 db 89 5d fc }
 		$op2 = { c3 33 c0 b9 7c 6f 04 10 40 87 01 c3 8b ff 55 }
 		$op3 = { 8d 4d f4 e8 53 ff ff ff 68 d0 22 01 10 8d 45 f4 50 e8 d8 05 00 00 cc 8b 41 04 }

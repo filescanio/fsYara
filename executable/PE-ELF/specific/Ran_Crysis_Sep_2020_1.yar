@@ -1,4 +1,4 @@
-rule Ran_Crysis_Sep_2020_1 : hardened
+rule Ran_Crysis_Sep_2020_1 : hardened limited
 {
 	meta:
 		description = "Detect Crysis ransomware"
@@ -20,7 +20,7 @@ rule Ran_Crysis_Sep_2020_1 : hardened
 		$s6 = { 3b 32 32 64 56 3a 3a 74 4e 0a 0a 14 1e 49 49 92 db 06 06 0c 0a 24 24 48 6c 5c 5c b8 e4 c2 c2 9f 5d d3 d3 bd 6e ac ac 43 ef 62 62 }
 		$s7 = { 26 4c 6a 26 36 6c 5a 36 3f 7e 41 3f f7 f5 02 f7 cc 83 4f cc 34 68 5c 34 a5 51 f4 a5 e5 d1 34 e5 f1 f9 08 f1 71 e2 93 71 d8 ab 73 d8 31 62 53 31 15 2a 3f 15 04 08 0c 04 c7 95 52 c7 23 46 65 23 }
 		$s8 = { 7e fc 82 7e 3d 7a 47 3d 64 c8 ac 64 5d ba e7 5d 19 32 2b 19 73 e6 95 73 60 c0 a0 60 81 19 98 81 4f 9e d1 4f dc a3 7f dc 22 44 66 22 2a 54 7e 2a 90 3b ab 90 88 0b 83 88 46 8c ca 46 ee c7 29 }
-		$s9 = {73 73 73 73 73 62 73 73 73}
+		$s9 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 73 73 73 73 73 62 73 73 73 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 
 	condition:
 		uint16( 0 ) == 0x5a4d and filesize > 30KB and all of them

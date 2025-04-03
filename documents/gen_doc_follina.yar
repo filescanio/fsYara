@@ -1,4 +1,4 @@
-rule SUSP_PS1_Msdt_Execution_May22 : hardened
+rule SUSP_PS1_Msdt_Execution_May22 : hardened loosened limited
 {
 	meta:
 		description = "Detects suspicious calls of msdt.exe as seen in CVE-2022-30190 / Follina exploitation"

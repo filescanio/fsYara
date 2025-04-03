@@ -1,4 +1,4 @@
-rule Rana_Android_resources : hardened
+rule Rana_Android_resources : hardened loosened limited
 {
 	meta:
 		score = 60

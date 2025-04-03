@@ -1,6 +1,6 @@
 import "pe"
 
-rule MAL_Malware_Imphash_Mar23_1 : HIGHVOL hardened
+rule MAL_Malware_Imphash_Mar23_1 : HIGHVOL hardened limited
 {
 	meta:
 		description = "Detects malware by known bad imphash or rich_pe_header_hash"
@@ -57,7 +57,7 @@ rule MAL_Malware_Imphash_Mar23_1 : HIGHVOL hardened
 
 	strings:
 		$fp1 = {57 00 69 00 6e 00 33 00 32 00 20 00 43 00 61 00 62 00 69 00 6e 00 65 00 74 00 20 00 53 00 65 00 6c 00 66 00 2d 00 45 00 78 00 74 00 72 00 61 00 63 00 74 00 6f 00 72 00}
-		$fp2 = {45 58 54 52 41 43 54 4f 50 54}
+		$fp2 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 45 58 54 52 41 43 54 4f 50 54 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 
 	condition:
 		uint16( 0 ) == 0x5A4D and ( pe.imphash ( ) == "9ee34731129f4801db97fd66adbfeaa0" or pe.imphash ( ) == "f9e8597c55008e10a8cdc8a0764d5341" or pe.imphash ( ) == "0a76016a514d8ed3124268734a31e2d2" or pe.imphash ( ) == "d3cbd6e8f81da85f6bf0529e69de9251" or pe.imphash ( ) == "d8b32e731e5438c6329455786e51ab4b" or pe.imphash ( ) == "cdf5bbb8693f29ef22aef04d2a161dd7" or pe.imphash ( ) == "890e522b31701e079a367b89393329e6" or pe.imphash ( ) == "bf5a4aa99e5b160f8521cadd6bfe73b8" or pe.imphash ( ) == "646167cce332c1c252cdcb1839e0cf48" or pe.imphash ( ) == "9f4693fc0c511135129493f2161d1e86" or pe.imphash ( ) == "b4c6fff030479aa3b12625be67bf4914" ) and not 1 of ( $fp* )

@@ -52,7 +52,7 @@ rule JS_Suspicious_MSHTA_Bypass : hardened limited
 		2 of them
 }
 
-rule JavaScript_Run_Suspicious : hardened
+rule JavaScript_Run_Suspicious : hardened limited
 {
 	meta:
 		description = "Detects a suspicious Javascript Run command"
@@ -64,7 +64,7 @@ rule JavaScript_Run_Suspicious : hardened
 
 	strings:
 		$s1 = {77 20 3d 20 6e 65 77 20 41 63 74 69 76 65 58 4f 62 6a 65 63 74 28}
-		$s2 = {20 77 2e 52 75 6e 28 72 29 3b}
+		$s2 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 20 77 2e 52 75 6e 28 72 29 3b (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 
 	condition:
 		all of them
@@ -101,7 +101,7 @@ rule Certutil_Decode_OR_Download : score hardened
 		( not MSI and filesize < 700KB and 1 of them )
 }
 
-rule Suspicious_JS_script_content : hardened
+rule Suspicious_JS_script_content : hardened limited
 {
 	meta:
 		description = "Detects suspicious statements in JavaScript files"
@@ -115,14 +115,14 @@ rule Suspicious_JS_script_content : hardened
 	strings:
 		$x1 = {6e 65 77 20 41 63 74 69 76 65 58 4f 62 6a 65 63 74 28 27 57 53 63 72 69 70 74 2e 53 68 65 6c 6c 27 29 29 2e 52 75 6e 28 27 63 6d 64 20 2f 63 20}
 		$x2 = {2e 52 75 6e 28 27 72 65 67 73 76 72 33 32 20 2f 73 20 2f 75 20 2f 69 3a}
-		$x3 = {6e 65 77 20 41 63 74 69 76 65 58 4f 62 6a 65 63 74 28 27 57 53 63 72 69 70 74 2e 53 68 65 6c 6c 27 29 29 2e 52 75 6e 28 27 72 65 67 73 76 72 33 32 20 2f 73}
+		$x3 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 6e 65 77 20 41 63 74 69 76 65 58 4f 62 6a 65 63 74 28 27 57 53 63 72 69 70 74 2e 53 68 65 6c 6c 27 29 29 2e 52 75 6e 28 27 72 65 67 73 76 72 33 32 20 2f 73 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 		$x4 = {61 72 67 73 3d 27 2f 73 20 2f 75 20 2f 69 3a}
 
 	condition:
 		( filesize < 10KB and 1 of them )
 }
 
-rule Universal_Exploit_Strings : hardened
+rule Universal_Exploit_Strings : hardened limited
 {
 	meta:
 		description = "Detects a group of strings often used in exploit codes"
@@ -134,8 +134,8 @@ rule Universal_Exploit_Strings : hardened
 		hash1 = "9b07dacf8a45218ede6d64327c38478640ff17d0f1e525bd392c002e49fe3629"
 
 	strings:
-		$s1 = {45 78 70 6c 6f 69 74}
-		$s2 = {50 61 79 6c 6f 61 64}
+		$s1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 45 78 70 6c 6f 69 74 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
+		$s2 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 50 61 79 6c 6f 61 64 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 		$s3 = {43 56 45 2d 32 30 31}
 		$s4 = {62 69 6e 64 73 68 65 6c 6c}
 
@@ -143,7 +143,7 @@ rule Universal_Exploit_Strings : hardened
 		( filesize < 2KB and 3 of them )
 }
 
-rule VBS_Obfuscated_Mal_Feb18_1 : hardened
+rule VBS_Obfuscated_Mal_Feb18_1 : hardened limited
 {
 	meta:
 		description = "Detects malicious obfuscated VBS observed in February 2018"
@@ -163,7 +163,7 @@ rule VBS_Obfuscated_Mal_Feb18_1 : hardened
 		$x4 = {26 20 41 28 20 41 72 72 61 79 28 20 20 28 31 2a 20 32 5e 31 20 29 2b}
 		$s1 = {2e 53 59 53 54 45 4d 54 59 50 45 3a 4e 45 58 54 3a 49 46 20 28 55 43 41 53 45 28}
 		$s2 = {41 20 3d 20 53 54 52 3a 6e 65 78 74 3a 65 6e 64 20 66 75 6e 63 74 69 6f 6e}
-		$s3 = {26 57 53 43 52 49 50 54 2e 53 43 52 49 50 54 46 55 4c 4c 4e 41 4d 45 26 43 48 52}
+		$s3 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 26 57 53 43 52 49 50 54 2e 53 43 52 49 50 54 46 55 4c 4c 4e 41 4d 45 26 43 48 52 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 
 	condition:
 		filesize < 600KB and ( 1 of ( $x* ) or 3 of them )

@@ -111,7 +111,7 @@ rule SystemBC_Socks : hardened
 		any of them
 }
 
-rule SystemBC_cleartext_Config : hardened
+rule SystemBC_cleartext_Config : hardened loosened limited
 {
 	meta:
 		description = "Detects SystemBC Config in cleartext"

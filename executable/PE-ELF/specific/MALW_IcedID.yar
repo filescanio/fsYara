@@ -1,6 +1,6 @@
 import "pe"
 
-rule IceID_Bank_trojan : hardened limited
+rule IceID_Bank_trojan : hardened loosened limited
 {
 	meta:
 		description = "Detects IcedID..adjusted several times"

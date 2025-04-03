@@ -7,7 +7,7 @@ private rule MachO : hardened
 		uint32( 0 ) == 0xfeedface or uint32( 0 ) == 0xcefaedfe or uint32( 0 ) == 0xfeedfacf or uint32( 0 ) == 0xcffaedfe or uint32( 0 ) == 0xcafebabe or uint32( 0 ) == 0xbebafeca
 }
 
-rule hacktool_macos_exploit_cve_5889 : hardened
+rule hacktool_macos_exploit_cve_5889 : hardened loosened limited
 {
 	meta:
 		description = "http://www.cvedetails.com/cve/cve-2015-5889"
@@ -308,7 +308,7 @@ rule hacktool_macos_ptoomey3_keychain_dumper : hardened
 		all of ( $a* )
 }
 
-rule hacktool_multi_bloodhound_owned : hardened
+rule hacktool_multi_bloodhound_owned : hardened loosened limited
 {
 	meta:
 		description = "Bloodhound: Custom queries to document a compromise, find collateral spread of owned nodes, and visualize deltas in privilege gains"
@@ -346,7 +346,7 @@ rule hacktool_multi_jtesta_ssh_mitm : hardened
 		all of ( $a* )
 }
 
-rule hacktool_multi_masscan : hardened
+rule hacktool_multi_masscan : hardened loosened limited
 {
 	meta:
 		description = "masscan is a performant port scanner, it produces results similar to nmap"
@@ -367,7 +367,7 @@ rule hacktool_multi_masscan : hardened
 		all of ( $a* ) or any of ( $b* )
 }
 
-rule hacktool_multi_ncc_ABPTTS : hardened
+rule hacktool_multi_ncc_ABPTTS : hardened loosened limited
 {
 	meta:
 		description = "Allows for TCP tunneling over HTTP"
@@ -404,7 +404,7 @@ rule hacktool_multi_ntlmrelayx : hardened
 		any of ( $a* )
 }
 
-rule hacktool_multi_pyrasite_py : hardened
+rule hacktool_multi_pyrasite_py : hardened loosened limited
 {
 	meta:
 		description = "A tool for injecting arbitrary code into running Python processes."
@@ -431,7 +431,7 @@ rule hacktool_multi_pyrasite_py : hardened
 		any of them
 }
 
-rule hacktool_multi_responder_py : hardened
+rule hacktool_multi_responder_py : hardened loosened limited
 {
 	meta:
 		description = "Responder is a LLMNR, NBT-NS and MDNS poisoner, with built-in HTTP/SMB/MSSQL/FTP/LDAP rogue authentication server"
@@ -526,7 +526,7 @@ rule hacktool_windows_rdp_cmd_delivery : hardened
 		any of them
 }
 
-rule hacktool_windows_wmi_implant : hardened
+rule hacktool_windows_wmi_implant : hardened loosened limited
 {
 	meta:
 		description = "A PowerShell based tool that is designed to act like a RAT"
@@ -550,7 +550,7 @@ rule hacktool_windows_wmi_implant : hardened
 		any of them
 }
 
-rule hacktool_windows_mimikatz_copywrite : hardened
+rule hacktool_windows_mimikatz_copywrite : hardened loosened limited
 {
 	meta:
 		description = "Mimikatz credential dump tool: Author copywrite"
@@ -568,16 +568,16 @@ rule hacktool_windows_mimikatz_copywrite : hardened
 		$s2 = {((42 65 6e 6a 61 6d 69 6e 20 44 45 4c 50 59 20 60 67 65 6e 74 69 6c 6b 69 77 69 60) | (42 00 65 00 6e 00 6a 00 61 00 6d 00 69 00 6e 00 20 00 44 00 45 00 4c 00 50 00 59 00 20 00 60 00 67 00 65 00 6e 00 74 00 69 00 6c 00 6b 00 69 00 77 00 69 00 60 00))}
 		$s3 = {((68 74 74 70 3a 2f 2f 62 6c 6f 67 2e 67 65 6e 74 69 6c 6b 69 77 69 2e 63 6f 6d 2f 6d 69 6d 69 6b 61 74 7a) | (68 00 74 00 74 00 70 00 3a 00 2f 00 2f 00 62 00 6c 00 6f 00 67 00 2e 00 67 00 65 00 6e 00 74 00 69 00 6c 00 6b 00 69 00 77 00 69 00 2e 00 63 00 6f 00 6d 00 2f 00 6d 00 69 00 6d 00 69 00 6b 00 61 00 74 00 7a 00))}
 		$s4 = {((42 75 69 6c 64 20 77 69 74 68 20 6c 6f 76 65 20 66 6f 72 20 50 4f 43 20 6f 6e 6c 79) | (42 00 75 00 69 00 6c 00 64 00 20 00 77 00 69 00 74 00 68 00 20 00 6c 00 6f 00 76 00 65 00 20 00 66 00 6f 00 72 00 20 00 50 00 4f 00 43 00 20 00 6f 00 6e 00 6c 00 79 00))}
-		$s5 = {67 00 65 00 6e 00 74 00 69 00 6c 00 6b 00 69 00 77 00 69 00 20 00 28 00 42 00 65 00 6e 00 6a 00 61 00 6d 00 69 00 6e 00 20 00 44 00 45 00 4c 00 50 00 59 00 29 00}
-		$s6 = {4b 00 69 00 77 00 69 00 53 00 53 00 50 00}
-		$s7 = {4b 00 69 00 77 00 69 00 20 00 53 00 65 00 63 00 75 00 72 00 69 00 74 00 79 00 20 00 53 00 75 00 70 00 70 00 6f 00 72 00 74 00 20 00 50 00 72 00 6f 00 76 00 69 00 64 00 65 00 72 00}
-		$s8 = {6b 00 69 00 77 00 69 00 20 00 66 00 6c 00 61 00 76 00 6f 00 72 00 20 00 21 00}
+		$s5 = {(bf 00 | a1 00 | 21 00 | 22 00 | 23 00 | 24 00 | 25 00 | 26 00 | 27 00 | 28 00 | 29 00 | 2a 00 | 2b 00 | 2c 00 | 2d 00 | 2e 00 | 2f 00 | 3a 00 | 3b 00 | 3c 00 | 3d 00 | 3e 00 | 3f 00 | 40 00 | 5b 00 | 5c 00 | 5d 00 | 5e 00 | 5f 00 | 60 00 | 7b 00 | 7c 00 | 7d 00 | 7e 00 | 20 00 | 09 00 | 0a 00 | 0d 00 | 0b 00 | 0c 00 | 00 00 | ff) 67 00 65 00 6e 00 74 00 69 00 6c 00 6b 00 69 00 77 00 69 00 20 00 28 00 42 00 65 00 6e 00 6a 00 61 00 6d 00 69 00 6e 00 20 00 44 00 45 00 4c 00 50 00 59 00 29 00 (bf 00 | a1 00 | 21 00 | 22 00 | 23 00 | 24 00 | 25 00 | 26 00 | 27 00 | 28 00 | 29 00 | 2a 00 | 2b 00 | 2c 00 | 2d 00 | 2e 00 | 2f 00 | 3a 00 | 3b 00 | 3c 00 | 3d 00 | 3e 00 | 3f 00 | 40 00 | 5b 00 | 5c 00 | 5d 00 | 5e 00 | 5f 00 | 60 00 | 7b 00 | 7c 00 | 7d 00 | 7e 00 | 20 00 | 09 00 | 0a 00 | 0d 00 | 0b 00 | 0c 00 | 00 00 | ff)}
+		$s6 = {(bf 00 | a1 00 | 21 00 | 22 00 | 23 00 | 24 00 | 25 00 | 26 00 | 27 00 | 28 00 | 29 00 | 2a 00 | 2b 00 | 2c 00 | 2d 00 | 2e 00 | 2f 00 | 3a 00 | 3b 00 | 3c 00 | 3d 00 | 3e 00 | 3f 00 | 40 00 | 5b 00 | 5c 00 | 5d 00 | 5e 00 | 5f 00 | 60 00 | 7b 00 | 7c 00 | 7d 00 | 7e 00 | 20 00 | 09 00 | 0a 00 | 0d 00 | 0b 00 | 0c 00 | 00 00 | ff) 4b 00 69 00 77 00 69 00 53 00 53 00 50 00 (bf 00 | a1 00 | 21 00 | 22 00 | 23 00 | 24 00 | 25 00 | 26 00 | 27 00 | 28 00 | 29 00 | 2a 00 | 2b 00 | 2c 00 | 2d 00 | 2e 00 | 2f 00 | 3a 00 | 3b 00 | 3c 00 | 3d 00 | 3e 00 | 3f 00 | 40 00 | 5b 00 | 5c 00 | 5d 00 | 5e 00 | 5f 00 | 60 00 | 7b 00 | 7c 00 | 7d 00 | 7e 00 | 20 00 | 09 00 | 0a 00 | 0d 00 | 0b 00 | 0c 00 | 00 00 | ff)}
+		$s7 = {(bf 00 | a1 00 | 21 00 | 22 00 | 23 00 | 24 00 | 25 00 | 26 00 | 27 00 | 28 00 | 29 00 | 2a 00 | 2b 00 | 2c 00 | 2d 00 | 2e 00 | 2f 00 | 3a 00 | 3b 00 | 3c 00 | 3d 00 | 3e 00 | 3f 00 | 40 00 | 5b 00 | 5c 00 | 5d 00 | 5e 00 | 5f 00 | 60 00 | 7b 00 | 7c 00 | 7d 00 | 7e 00 | 20 00 | 09 00 | 0a 00 | 0d 00 | 0b 00 | 0c 00 | 00 00 | ff) 4b 00 69 00 77 00 69 00 20 00 53 00 65 00 63 00 75 00 72 00 69 00 74 00 79 00 20 00 53 00 75 00 70 00 70 00 6f 00 72 00 74 00 20 00 50 00 72 00 6f 00 76 00 69 00 64 00 65 00 72 00 (bf 00 | a1 00 | 21 00 | 22 00 | 23 00 | 24 00 | 25 00 | 26 00 | 27 00 | 28 00 | 29 00 | 2a 00 | 2b 00 | 2c 00 | 2d 00 | 2e 00 | 2f 00 | 3a 00 | 3b 00 | 3c 00 | 3d 00 | 3e 00 | 3f 00 | 40 00 | 5b 00 | 5c 00 | 5d 00 | 5e 00 | 5f 00 | 60 00 | 7b 00 | 7c 00 | 7d 00 | 7e 00 | 20 00 | 09 00 | 0a 00 | 0d 00 | 0b 00 | 0c 00 | 00 00 | ff)}
+		$s8 = {(bf 00 | a1 00 | 21 00 | 22 00 | 23 00 | 24 00 | 25 00 | 26 00 | 27 00 | 28 00 | 29 00 | 2a 00 | 2b 00 | 2c 00 | 2d 00 | 2e 00 | 2f 00 | 3a 00 | 3b 00 | 3c 00 | 3d 00 | 3e 00 | 3f 00 | 40 00 | 5b 00 | 5c 00 | 5d 00 | 5e 00 | 5f 00 | 60 00 | 7b 00 | 7c 00 | 7d 00 | 7e 00 | 20 00 | 09 00 | 0a 00 | 0d 00 | 0b 00 | 0c 00 | 00 00 | ff) 6b 00 69 00 77 00 69 00 20 00 66 00 6c 00 61 00 76 00 6f 00 72 00 20 00 21 00 (bf 00 | a1 00 | 21 00 | 22 00 | 23 00 | 24 00 | 25 00 | 26 00 | 27 00 | 28 00 | 29 00 | 2a 00 | 2b 00 | 2c 00 | 2d 00 | 2e 00 | 2f 00 | 3a 00 | 3b 00 | 3c 00 | 3d 00 | 3e 00 | 3f 00 | 40 00 | 5b 00 | 5c 00 | 5d 00 | 5e 00 | 5f 00 | 60 00 | 7b 00 | 7c 00 | 7d 00 | 7e 00 | 20 00 | 09 00 | 0a 00 | 0d 00 | 0b 00 | 0c 00 | 00 00 | ff)}
 
 	condition:
 		uint16( 0 ) == 0x5a4d and filesize < 800KB and any of them
 }
 
-rule hacktool_windows_mimikatz_errors : hardened
+rule hacktool_windows_mimikatz_errors : hardened loosened limited
 {
 	meta:
 		description = "Mimikatz credential dump tool: Error messages"
@@ -597,7 +597,7 @@ rule hacktool_windows_mimikatz_errors : hardened
 		all of them
 }
 
-rule hacktool_windows_mimikatz_files : hardened
+rule hacktool_windows_mimikatz_files : hardened loosened limited
 {
 	meta:
 		description = "Mimikatz credential dump tool: Files"
@@ -608,15 +608,15 @@ rule hacktool_windows_mimikatz_files : hardened
 		score = 75
 
 	strings:
-		$s1 = {6b 00 69 00 77 00 69 00 66 00 69 00 6c 00 74 00 65 00 72 00 2e 00 6c 00 6f 00 67 00}
-		$s2 = {6b 00 69 00 77 00 69 00 73 00 73 00 70 00 2e 00 6c 00 6f 00 67 00}
+		$s1 = {(bf 00 | a1 00 | 21 00 | 22 00 | 23 00 | 24 00 | 25 00 | 26 00 | 27 00 | 28 00 | 29 00 | 2a 00 | 2b 00 | 2c 00 | 2d 00 | 2e 00 | 2f 00 | 3a 00 | 3b 00 | 3c 00 | 3d 00 | 3e 00 | 3f 00 | 40 00 | 5b 00 | 5c 00 | 5d 00 | 5e 00 | 5f 00 | 60 00 | 7b 00 | 7c 00 | 7d 00 | 7e 00 | 20 00 | 09 00 | 0a 00 | 0d 00 | 0b 00 | 0c 00 | 00 00 | ff) 6b 00 69 00 77 00 69 00 66 00 69 00 6c 00 74 00 65 00 72 00 2e 00 6c 00 6f 00 67 00 (bf 00 | a1 00 | 21 00 | 22 00 | 23 00 | 24 00 | 25 00 | 26 00 | 27 00 | 28 00 | 29 00 | 2a 00 | 2b 00 | 2c 00 | 2d 00 | 2e 00 | 2f 00 | 3a 00 | 3b 00 | 3c 00 | 3d 00 | 3e 00 | 3f 00 | 40 00 | 5b 00 | 5c 00 | 5d 00 | 5e 00 | 5f 00 | 60 00 | 7b 00 | 7c 00 | 7d 00 | 7e 00 | 20 00 | 09 00 | 0a 00 | 0d 00 | 0b 00 | 0c 00 | 00 00 | ff)}
+		$s2 = {(bf 00 | a1 00 | 21 00 | 22 00 | 23 00 | 24 00 | 25 00 | 26 00 | 27 00 | 28 00 | 29 00 | 2a 00 | 2b 00 | 2c 00 | 2d 00 | 2e 00 | 2f 00 | 3a 00 | 3b 00 | 3c 00 | 3d 00 | 3e 00 | 3f 00 | 40 00 | 5b 00 | 5c 00 | 5d 00 | 5e 00 | 5f 00 | 60 00 | 7b 00 | 7c 00 | 7d 00 | 7e 00 | 20 00 | 09 00 | 0a 00 | 0d 00 | 0b 00 | 0c 00 | 00 00 | ff) 6b 00 69 00 77 00 69 00 73 00 73 00 70 00 2e 00 6c 00 6f 00 67 00 (bf 00 | a1 00 | 21 00 | 22 00 | 23 00 | 24 00 | 25 00 | 26 00 | 27 00 | 28 00 | 29 00 | 2a 00 | 2b 00 | 2c 00 | 2d 00 | 2e 00 | 2f 00 | 3a 00 | 3b 00 | 3c 00 | 3d 00 | 3e 00 | 3f 00 | 40 00 | 5b 00 | 5c 00 | 5d 00 | 5e 00 | 5f 00 | 60 00 | 7b 00 | 7c 00 | 7d 00 | 7e 00 | 20 00 | 09 00 | 0a 00 | 0d 00 | 0b 00 | 0c 00 | 00 00 | ff)}
 		$s3 = {((6d 69 6d 69 6c 69 62 2e 64 6c 6c) | (6d 00 69 00 6d 00 69 00 6c 00 69 00 62 00 2e 00 64 00 6c 00 6c 00))}
 
 	condition:
 		uint16( 0 ) == 0x5a4d and filesize < 800KB and any of them
 }
 
-rule hacktool_windows_mimikatz_modules : hardened
+rule hacktool_windows_mimikatz_modules : hardened loosened limited
 {
 	meta:
 		description = "Mimikatz credential dump tool: Modules"
@@ -640,7 +640,7 @@ rule hacktool_windows_mimikatz_modules : hardened
 		uint16( 0 ) == 0x5a4d and filesize < 800KB and 1 of ( $s* ) and not 1 of ( $fp* )
 }
 
-rule hacktool_windows_mimikatz_sekurlsa : hardened
+rule hacktool_windows_mimikatz_sekurlsa : hardened loosened limited
 {
 	meta:
 		description = "Mimikatz credential dump tool"

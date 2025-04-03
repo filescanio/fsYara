@@ -1,6 +1,6 @@
 import "pe"
 
-rule APT_MAL_REvil_Kaseya_Jul21_1 : hardened
+rule APT_MAL_REvil_Kaseya_Jul21_1 : hardened limited
 {
 	meta:
 		description = "Detects malware used in the Kaseya supply chain attack"
@@ -14,8 +14,8 @@ rule APT_MAL_REvil_Kaseya_Jul21_1 : hardened
 		id = "7356f4ea-183f-52ec-a167-fc16b8bfb55a"
 
 	strings:
-		$s1 = {4d 00 70 00 73 00 76 00 63 00 2e 00 64 00 6c 00 6c 00}
-		$s2 = {3a 30 3a 34 3a 38 3a 3c 3a 40 3a 44 3a 48 3a 4c 3a 50 3a 54 3a 58 3a 5c 3a 60 3a 64 3a 68 3a 6c 3a 70 3a 74 3a 78 3a 48 3c 4c 3c 50 3c 5c 3c 60 3c}
+		$s1 = {(bf 00 | a1 00 | 21 00 | 22 00 | 23 00 | 24 00 | 25 00 | 26 00 | 27 00 | 28 00 | 29 00 | 2a 00 | 2b 00 | 2c 00 | 2d 00 | 2e 00 | 2f 00 | 3a 00 | 3b 00 | 3c 00 | 3d 00 | 3e 00 | 3f 00 | 40 00 | 5b 00 | 5c 00 | 5d 00 | 5e 00 | 5f 00 | 60 00 | 7b 00 | 7c 00 | 7d 00 | 7e 00 | 20 00 | 09 00 | 0a 00 | 0d 00 | 0b 00 | 0c 00 | 00 00 | ff) 4d 00 70 00 73 00 76 00 63 00 2e 00 64 00 6c 00 6c 00 (bf 00 | a1 00 | 21 00 | 22 00 | 23 00 | 24 00 | 25 00 | 26 00 | 27 00 | 28 00 | 29 00 | 2a 00 | 2b 00 | 2c 00 | 2d 00 | 2e 00 | 2f 00 | 3a 00 | 3b 00 | 3c 00 | 3d 00 | 3e 00 | 3f 00 | 40 00 | 5b 00 | 5c 00 | 5d 00 | 5e 00 | 5f 00 | 60 00 | 7b 00 | 7c 00 | 7d 00 | 7e 00 | 20 00 | 09 00 | 0a 00 | 0d 00 | 0b 00 | 0c 00 | 00 00 | ff)}
+		$s2 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 3a 30 3a 34 3a 38 3a 3c 3a 40 3a 44 3a 48 3a 4c 3a 50 3a 54 3a 58 3a 5c 3a 60 3a 64 3a 68 3a 6c 3a 70 3a 74 3a 78 3a 48 3c 4c 3c 50 3c 5c 3c 60 3c (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 		$op1 = { 40 87 01 c3 6a 08 68 f8 0e 41 00 e8 ae db ff ff be 80 25 41 00 39 35 ?? 32 41 00 }
 		$op2 = { 8b 40 04 2b c2 c1 f8 02 3b c8 0f 84 56 ff ff ff 68 15 50 40 00 2b c1 6a 04 }
 		$op3 = { 74 73 db e2 e8 ad 07 00 00 68 60 1a 40 00 e8 8f 04 00 00 e8 3a 05 00 00 50 e8 25 26 00 00 }

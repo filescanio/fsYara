@@ -419,7 +419,7 @@ rule INDICATOR_RTF_Forms_HTML_Execution : hardened limited
 		uint32( 0 ) == 0x74725c7b and filesize < 1500KB and ( $img_clsid or $sub_clsid ) and ( $http_url or $file_url )
 }
 
-rule INDICATOR_PUB_MSIEXEC_Remote : hardened
+rule INDICATOR_PUB_MSIEXEC_Remote : hardened limited
 {
 	meta:
 		description = "detects VB-enable Microsoft Publisher files utilizing Microsoft Installer to retrieve remote files and execute them"
@@ -431,7 +431,7 @@ rule INDICATOR_PUB_MSIEXEC_Remote : hardened
 		$s3 = {44 6f 63 75 6d 65 6e 74 5f 4f 70 65 6e}
 		$s4 = {2f 6e 6f 72 65 73 74 61 72 74}
 		$s5 = {2f 69 20 68 74 74 70}
-		$s6 = {57 73 63 72 69 70 74 2e 53 68 65 6c 6c}
+		$s6 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 57 73 63 72 69 70 74 2e 53 68 65 6c 6c (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 		$s7 = {5c 00 56 00 42 00 45 00 36 00 2e 00 44 00 4c 00 4c 00 23 00}
 
 	condition:
@@ -689,7 +689,7 @@ rule INDICATOR_OLE_Excel4Macros_DL1 : hardened limited
 		description = "Detects OLE Excel 4 Macros documents acting as downloaders"
 
 	strings:
-		$s1 = {4d 61 63 72 6f 73 20 45 78 63 65 6c 20 34 2e 30}
+		$s1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 4d 61 63 72 6f 73 20 45 78 63 65 6c 20 34 2e 30 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 		$s2 = { 00 4d 61 63 72 6f 31 85 00 }
 		$s3 = {68 74 74 70}
 		$s4 = {66 69 6c 65 3a}
@@ -728,7 +728,7 @@ rule INDICATOR_OLE_Excel4Macros_DL2 : hardened limited
 		$x2 = {3d 45 58 45 43 28 43 48 41 52 28}
 		$x3 = {2d 77 20 31 20 73 74 41 52 74 60 2d 73}
 		$x4 = {29 26 43 48 41 52 28}
-		$x5 = {52 65 76 65 72 73 65}
+		$x5 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 52 65 76 65 72 73 65 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 
 	condition:
 		uint16( 0 ) == 0xcfd0 and ( 1 of ( $e* ) and 1 of ( $a* ) and ( #x1 > 3 or 2 of ( $x* ) ) )

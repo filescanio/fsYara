@@ -24,7 +24,7 @@ rule Careto : hardened
 		$name1 and ( any of ( $s_* ) ) or all of ( $sign_* ) or any of ( $rc4_* ) or all of ( $dec_* )
 }
 
-rule Careto_SGH : hardened
+rule Careto_SGH : hardened loosened limited
 {
 	meta:
 		author = "AlienVault (Alberto Ortega)"

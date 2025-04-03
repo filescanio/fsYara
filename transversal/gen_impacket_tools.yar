@@ -1,4 +1,4 @@
-rule Impacket_Tools_tracer : hardened
+rule Impacket_Tools_tracer : hardened limited
 {
 	meta:
 		description = "Compiled Impacket Tools"
@@ -10,15 +10,15 @@ rule Impacket_Tools_tracer : hardened
 		id = "aea71154-5e19-522f-93b0-ff43fee0c5c0"
 
 	strings:
-		$s1 = {62 74 6b 38 35 2e 64 6c 6c}
-		$s2 = {62 74 63 6c 38 35 2e 64 6c 6c}
-		$s3 = {78 74 6b 5c 75 6e 73 75 70 70 6f 72 74 65 64 2e 74 63 6c}
+		$s1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 62 74 6b 38 35 2e 64 6c 6c (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
+		$s2 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 62 74 63 6c 38 35 2e 64 6c 6c (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
+		$s3 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 78 74 6b 5c 75 6e 73 75 70 70 6f 72 74 65 64 2e 74 63 6c (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 
 	condition:
 		( uint16( 0 ) == 0x5a4d and filesize < 21000KB and all of them )
 }
 
-rule Impacket_Tools_wmiexec : hardened
+rule Impacket_Tools_wmiexec : hardened limited
 {
 	meta:
 		description = "Compiled Impacket Tools"
@@ -30,15 +30,15 @@ rule Impacket_Tools_wmiexec : hardened
 		id = "3c2c7edf-da71-53dc-9ddf-dfbf10838a27"
 
 	strings:
-		$s1 = {62 77 6d 69 65 78 65 63 2e 65 78 65 2e 6d 61 6e 69 66 65 73 74}
-		$s2 = {73 77 6d 69 65 78 65 63}
+		$s1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 62 77 6d 69 65 78 65 63 2e 65 78 65 2e 6d 61 6e 69 66 65 73 74 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
+		$s2 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 73 77 6d 69 65 78 65 63 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 		$s3 = {5c 79 7a 48 50 6c 55 3d 51 41}
 
 	condition:
 		( uint16( 0 ) == 0x5a4d and filesize < 17000KB and 2 of them )
 }
 
-rule Impacket_Tools_sniffer : hardened
+rule Impacket_Tools_sniffer : hardened limited
 {
 	meta:
 		description = "Compiled Impacket Tools"
@@ -50,14 +50,14 @@ rule Impacket_Tools_sniffer : hardened
 		id = "07051edc-91a8-59d6-87bf-dba98ef28588"
 
 	strings:
-		$s1 = {73 73 6e 69 66 66 65 72}
+		$s1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 73 73 6e 69 66 66 65 72 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 		$s2 = {69 6d 70 61 63 6b 65 74 2e 64 68 63 70 28}
 
 	condition:
 		( uint16( 0 ) == 0x5a4d and filesize < 15000KB and all of them )
 }
 
-rule Impacket_Tools_mmcexec : hardened
+rule Impacket_Tools_mmcexec : hardened limited
 {
 	meta:
 		description = "Compiled Impacket Tools"
@@ -69,14 +69,14 @@ rule Impacket_Tools_mmcexec : hardened
 		id = "cca2082f-72a4-50c8-80b8-a9bed430dc4e"
 
 	strings:
-		$s1 = {73 6d 6d 63 65 78 65 63}
+		$s1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 73 6d 6d 63 65 78 65 63 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 		$s2 = {5c 79 7a 48 50 6c 55 3d 51 41}
 
 	condition:
 		( uint16( 0 ) == 0x5a4d and filesize < 16000KB and all of them )
 }
 
-rule Impacket_Tools_ifmap : hardened
+rule Impacket_Tools_ifmap : hardened limited
 {
 	meta:
 		description = "Compiled Impacket Tools"
@@ -88,14 +88,14 @@ rule Impacket_Tools_ifmap : hardened
 		id = "e5461916-ec2b-5f65-b938-267483f50bb2"
 
 	strings:
-		$s1 = {62 69 66 6d 61 70 2e 65 78 65 2e 6d 61 6e 69 66 65 73 74}
+		$s1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 62 69 66 6d 61 70 2e 65 78 65 2e 6d 61 6e 69 66 65 73 74 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 		$s2 = {69 6d 70 61 63 6b 65 74 2e 64 63 65 72 70 63 2e 76 35 2e 65 70 6d 28}
 
 	condition:
 		( uint16( 0 ) == 0x5a4d and filesize < 15000KB and all of them )
 }
 
-rule karmaSMB : hardened
+rule karmaSMB : hardened limited
 {
 	meta:
 		description = "Compiled Impacket Tools"
@@ -107,13 +107,13 @@ rule karmaSMB : hardened
 		id = "32c810c7-02e7-5203-b2ed-4e930b318cc0"
 
 	strings:
-		$s1 = {62 6b 61 72 6d 61 53 4d 42 2e 65 78 65 2e 6d 61 6e 69 66 65 73 74}
+		$s1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 62 6b 61 72 6d 61 53 4d 42 2e 65 78 65 2e 6d 61 6e 69 66 65 73 74 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 
 	condition:
 		( uint16( 0 ) == 0x5a4d and filesize < 17000KB and all of them )
 }
 
-rule samrdump : hardened
+rule samrdump : hardened limited
 {
 	meta:
 		description = "Compiled Impacket Tools"
@@ -125,14 +125,14 @@ rule samrdump : hardened
 		id = "cd274719-c8cc-5882-8d75-192ad822c6b3"
 
 	strings:
-		$s2 = {62 73 61 6d 72 64 75 6d 70 2e 65 78 65 2e 6d 61 6e 69 66 65 73 74}
-		$s3 = {73 73 61 6d 72 64 75 6d 70}
+		$s2 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 62 73 61 6d 72 64 75 6d 70 2e 65 78 65 2e 6d 61 6e 69 66 65 73 74 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
+		$s3 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 73 73 61 6d 72 64 75 6d 70 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 
 	condition:
 		( uint16( 0 ) == 0x5a4d and filesize < 17000KB and all of them )
 }
 
-rule Impacket_Tools_rpcdump : hardened
+rule Impacket_Tools_rpcdump : hardened limited
 {
 	meta:
 		description = "Compiled Impacket Tools"
@@ -144,14 +144,14 @@ rule Impacket_Tools_rpcdump : hardened
 		id = "3f998aa6-c260-5fef-99ef-e8b4770c68c6"
 
 	strings:
-		$s1 = {73 72 70 63 64 75 6d 70}
+		$s1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 73 72 70 63 64 75 6d 70 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 		$s2 = {69 6d 70 61 63 6b 65 74 2e 64 63 65 72 70 63 2e 76 35 2e 65 70 6d 28}
 
 	condition:
 		( uint16( 0 ) == 0x5a4d and filesize < 17000KB and all of them )
 }
 
-rule Impacket_Tools_secretsdump : hardened
+rule Impacket_Tools_secretsdump : hardened limited
 {
 	meta:
 		description = "Compiled Impacket Tools"
@@ -163,14 +163,14 @@ rule Impacket_Tools_secretsdump : hardened
 		id = "c944d051-ea24-5595-abef-59e326ad56de"
 
 	strings:
-		$s1 = {73 73 65 63 72 65 74 73 64 75 6d 70}
+		$s1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 73 73 65 63 72 65 74 73 64 75 6d 70 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 		$s2 = {69 6d 70 61 63 6b 65 74 2e 65 73 65 28}
 
 	condition:
 		( uint16( 0 ) == 0x5a4d and filesize < 17000KB and all of them )
 }
 
-rule Impacket_Tools_esentutl : hardened
+rule Impacket_Tools_esentutl : hardened limited
 {
 	meta:
 		description = "Compiled Impacket Tools"
@@ -183,13 +183,13 @@ rule Impacket_Tools_esentutl : hardened
 
 	strings:
 		$s1 = {69 6d 70 61 63 6b 65 74 2e 65 73 65 28}
-		$s2 = {73 65 73 65 6e 74 75 74 6c}
+		$s2 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 73 65 73 65 6e 74 75 74 6c (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 
 	condition:
 		( uint16( 0 ) == 0x5a4d and filesize < 11000KB and all of them )
 }
 
-rule Impacket_Tools_opdump : hardened
+rule Impacket_Tools_opdump : hardened limited
 {
 	meta:
 		description = "Compiled Impacket Tools"
@@ -201,14 +201,14 @@ rule Impacket_Tools_opdump : hardened
 		id = "1bb0e747-e9b7-5a54-8052-428351be8d0d"
 
 	strings:
-		$s2 = {62 6f 70 64 75 6d 70 2e 65 78 65 2e 6d 61 6e 69 66 65 73 74}
-		$s3 = {73 6f 70 64 75 6d 70}
+		$s2 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 62 6f 70 64 75 6d 70 2e 65 78 65 2e 6d 61 6e 69 66 65 73 74 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
+		$s3 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 73 6f 70 64 75 6d 70 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 
 	condition:
 		( uint16( 0 ) == 0x5a4d and filesize < 17000KB and all of them )
 }
 
-rule Impacket_Tools_sniff : hardened
+rule Impacket_Tools_sniff : hardened limited
 {
 	meta:
 		description = "Compiled Impacket Tools"
@@ -220,14 +220,14 @@ rule Impacket_Tools_sniff : hardened
 		id = "07051edc-91a8-59d6-87bf-dba98ef28588"
 
 	strings:
-		$s1 = {73 73 6e 69 66 66}
+		$s1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 73 73 6e 69 66 66 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 		$s2 = {69 6d 70 61 63 6b 65 74 2e 65 61 70 28}
 
 	condition:
 		( uint16( 0 ) == 0x5a4d and filesize < 15000KB and all of them )
 }
 
-rule Impacket_Tools_smbexec : hardened
+rule Impacket_Tools_smbexec : hardened limited
 {
 	meta:
 		description = "Compiled Impacket Tools"
@@ -240,13 +240,13 @@ rule Impacket_Tools_smbexec : hardened
 
 	strings:
 		$s1 = {6c 6f 67 67 69 6e 67 2e 63 6f 6e 66 69 67 28}
-		$s2 = {73 73 6d 62 65 78 65 63}
+		$s2 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 73 73 6d 62 65 78 65 63 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 
 	condition:
 		( uint16( 0 ) == 0x5a4d and filesize < 17000KB and all of them )
 }
 
-rule Impacket_Tools_goldenPac : hardened
+rule Impacket_Tools_goldenPac : hardened limited
 {
 	meta:
 		description = "Compiled Impacket Tools"
@@ -259,14 +259,14 @@ rule Impacket_Tools_goldenPac : hardened
 
 	strings:
 		$s1 = {69 6d 70 61 63 6b 65 74 2e 65 78 61 6d 70 6c 65 73 2e 73 65 72 76 69 63 65 69 6e 73 74 61 6c 6c 28}
-		$s2 = {62 67 6f 6c 64 65 6e 50 61 63 2e 65 78 65}
+		$s2 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 62 67 6f 6c 64 65 6e 50 61 63 2e 65 78 65 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 		$s3 = {6a 73 6f 6e 2e 73 63 61 6e 6e 65 72 28}
 
 	condition:
 		( uint16( 0 ) == 0x5a4d and filesize < 17000KB and all of them )
 }
 
-rule Impacket_Tools_netview : hardened
+rule Impacket_Tools_netview : hardened limited
 {
 	meta:
 		description = "Compiled Impacket Tools"
@@ -280,13 +280,13 @@ rule Impacket_Tools_netview : hardened
 	strings:
 		$s1 = {69 6d 70 61 63 6b 65 74 2e 64 63 65 72 70 63 2e 76 35 2e 77 6b 73 74 28}
 		$s2 = {64 75 6d 6d 79 5f 74 68 72 65 61 64 69 6e 67 28}
-		$s3 = {73 6e 65 74 76 69 65 77}
+		$s3 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 73 6e 65 74 76 69 65 77 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 
 	condition:
 		( uint16( 0 ) == 0x5a4d and filesize < 17000KB and all of them )
 }
 
-rule Impacket_Tools_smbtorture : hardened
+rule Impacket_Tools_smbtorture : hardened limited
 {
 	meta:
 		description = "Compiled Impacket Tools"
@@ -298,14 +298,14 @@ rule Impacket_Tools_smbtorture : hardened
 		id = "4f9b55e2-93ce-5d08-a228-73233fb0a2c6"
 
 	strings:
-		$s1 = {69 6d 70 61 63 6b 65 74}
-		$s2 = {73 73 6d 62 74 6f 72 74 75 72 65}
+		$s1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 69 6d 70 61 63 6b 65 74 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
+		$s2 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 73 73 6d 62 74 6f 72 74 75 72 65 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 
 	condition:
 		( uint16( 0 ) == 0x5a4d and filesize < 17000KB and all of them )
 }
 
-rule Impacket_Tools_mimikatz : hardened
+rule Impacket_Tools_mimikatz : hardened limited
 {
 	meta:
 		description = "Compiled Impacket Tools"
@@ -317,15 +317,15 @@ rule Impacket_Tools_mimikatz : hardened
 		id = "0b1f5ad0-7070-58d5-946f-157dcb9627ab"
 
 	strings:
-		$s1 = {69 6d 70 61 63 6b 65 74}
-		$s2 = {73 6d 69 6d 69 6b 61 74 7a}
-		$s3 = {6f 74 77 73 64 6c 63}
+		$s1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 69 6d 70 61 63 6b 65 74 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
+		$s2 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 73 6d 69 6d 69 6b 61 74 7a (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
+		$s3 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 6f 74 77 73 64 6c 63 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 
 	condition:
 		( uint16( 0 ) == 0x5a4d and filesize < 17000KB and all of them )
 }
 
-rule Impacket_Tools_smbrelayx : hardened
+rule Impacket_Tools_smbrelayx : hardened limited
 {
 	meta:
 		description = "Compiled Impacket Tools"
@@ -337,8 +337,8 @@ rule Impacket_Tools_smbrelayx : hardened
 		id = "84abf3cf-841c-592d-a9d1-71d5e76eb43f"
 
 	strings:
-		$s1 = {69 6d 70 61 63 6b 65 74 2e 65 78 61 6d 70 6c 65 73 2e 73 65 63 72 65 74 73 64 75 6d 70}
-		$s2 = {69 6d 70 61 63 6b 65 74 2e 65 78 61 6d 70 6c 65 73 2e 73 65 72 76 69 63 65 69 6e 73 74 61 6c 6c}
+		$s1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 69 6d 70 61 63 6b 65 74 2e 65 78 61 6d 70 6c 65 73 2e 73 65 63 72 65 74 73 64 75 6d 70 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
+		$s2 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 69 6d 70 61 63 6b 65 74 2e 65 78 61 6d 70 6c 65 73 2e 73 65 72 76 69 63 65 69 6e 73 74 61 6c 6c (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 		$s3 = {69 6d 70 61 63 6b 65 74 2e 73 6d 62 73 65 72 76 65 72 28}
 		$s4 = {53 69 6d 70 6c 65 48 54 54 50 53 65 72 76 65 72 28}
 
@@ -346,7 +346,7 @@ rule Impacket_Tools_smbrelayx : hardened
 		( uint16( 0 ) == 0x5a4d and filesize < 18000KB and 3 of them )
 }
 
-rule Impacket_Tools_wmipersist : hardened
+rule Impacket_Tools_wmipersist : hardened limited
 {
 	meta:
 		description = "Compiled Impacket Tools"
@@ -358,14 +358,14 @@ rule Impacket_Tools_wmipersist : hardened
 		id = "29bda652-28f0-5ab6-9bc2-411f20ab0dda"
 
 	strings:
-		$s1 = {73 77 6d 69 70 65 72 73 69 73 74}
+		$s1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 73 77 6d 69 70 65 72 73 69 73 74 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 		$s2 = {5c 79 7a 48 50 6c 55 3d 51 41}
 
 	condition:
 		( uint16( 0 ) == 0x5a4d and filesize < 17000KB and all of them )
 }
 
-rule Impacket_Tools_lookupsid : hardened
+rule Impacket_Tools_lookupsid : hardened limited
 {
 	meta:
 		description = "Compiled Impacket Tools"
@@ -377,14 +377,14 @@ rule Impacket_Tools_lookupsid : hardened
 		id = "27f13397-b044-54b4-b5e8-c5f7ed374f59"
 
 	strings:
-		$s1 = {73 6c 6f 6f 6b 75 70 73 69 64}
-		$s2 = {69 6d 70 61 63 6b 65 74 2e 64 63 65 72 70 63}
+		$s1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 73 6c 6f 6f 6b 75 70 73 69 64 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
+		$s2 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 69 6d 70 61 63 6b 65 74 2e 64 63 65 72 70 63 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 
 	condition:
 		( uint16( 0 ) == 0x5a4d and filesize < 15000KB and all of them )
 }
 
-rule Impacket_Tools_wmiquery : hardened
+rule Impacket_Tools_wmiquery : hardened limited
 {
 	meta:
 		description = "Compiled Impacket Tools"
@@ -396,14 +396,14 @@ rule Impacket_Tools_wmiquery : hardened
 		id = "e8bdf27a-9763-5947-854f-162f74ff53be"
 
 	strings:
-		$s1 = {73 77 6d 69 71 75 65 72 79}
+		$s1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 73 77 6d 69 71 75 65 72 79 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 		$s2 = {5c 79 7a 48 50 6c 55 3d 51 41}
 
 	condition:
 		( uint16( 0 ) == 0x5a4d and filesize < 17000KB and all of them )
 }
 
-rule Impacket_Tools_atexec : hardened
+rule Impacket_Tools_atexec : hardened limited
 {
 	meta:
 		description = "Compiled Impacket Tools"
@@ -415,16 +415,16 @@ rule Impacket_Tools_atexec : hardened
 		id = "4f02e304-69d4-5952-80be-793379bccac0"
 
 	strings:
-		$s1 = {62 61 74 65 78 65 63 2e 65 78 65 2e 6d 61 6e 69 66 65 73 74}
-		$s2 = {73 61 74 65 78 65 63}
-		$s3 = {69 6d 70 61 63 6b 65 74 2e 64 63 65 72 70 63}
-		$s4 = {23 20 43 53 5a 71}
+		$s1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 62 61 74 65 78 65 63 2e 65 78 65 2e 6d 61 6e 69 66 65 73 74 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
+		$s2 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 73 61 74 65 78 65 63 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
+		$s3 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 69 6d 70 61 63 6b 65 74 2e 64 63 65 72 70 63 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
+		$s4 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 23 20 43 53 5a 71 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 
 	condition:
 		( uint16( 0 ) == 0x5a4d and filesize < 15000KB and 3 of them )
 }
 
-rule Impacket_Tools_psexec : hardened
+rule Impacket_Tools_psexec : hardened limited
 {
 	meta:
 		description = "Compiled Impacket Tools"
@@ -437,14 +437,14 @@ rule Impacket_Tools_psexec : hardened
 
 	strings:
 		$s1 = {69 6d 70 61 63 6b 65 74 2e 65 78 61 6d 70 6c 65 73 2e 73 65 72 76 69 63 65 69 6e 73 74 61 6c 6c 28}
-		$s2 = {73 70 73 65 78 65 63}
+		$s2 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 73 70 73 65 78 65 63 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 		$s3 = {69 6d 70 61 63 6b 65 74 2e 65 78 61 6d 70 6c 65 73 2e 72 65 6d 63 6f 6d 73 76 63 28}
 
 	condition:
 		( uint16( 0 ) == 0x5a4d and filesize < 17000KB and 2 of them )
 }
 
-rule Impacket_Tools_Generic_1 : hardened
+rule Impacket_Tools_Generic_1 : hardened limited
 {
 	meta:
 		description = "Compiled Impacket Tools"
@@ -477,8 +477,8 @@ rule Impacket_Tools_Generic_1 : hardened
 		id = "d2ce6426-d165-5569-a992-268f05622653"
 
 	strings:
-		$s1 = {62 70 79 77 69 6e 74 79 70 65 73 32 37 2e 64 6c 6c}
-		$s2 = {68 5a 46 74 50 43}
+		$s1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 62 70 79 77 69 6e 74 79 70 65 73 32 37 2e 64 6c 6c (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
+		$s2 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 68 5a 46 74 50 43 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 		$s3 = {69 6d 70 61 63 6b 65 74}
 
 	condition:

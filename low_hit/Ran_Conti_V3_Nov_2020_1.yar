@@ -1,4 +1,4 @@
-rule Ran_Conti_Loader_V3_Nov_2020_1 : hardened
+rule Ran_Conti_Loader_V3_Nov_2020_1 : hardened limited
 {
 	meta:
 		description = "Detect Conti V3 loader"
@@ -14,7 +14,7 @@ rule Ran_Conti_Loader_V3_Nov_2020_1 : hardened
 		$seq2 = { 8b 4c 24 24 8d 44 24 20 50 51 56 e8 1d fe ff ff 83 c4 24 ff d6 8b 54 24 28 5f 89 15 08 36 40 00 5e 33 c0 83 c4 }
 		$s1 = { 3e 35 44 35 4c 35 53 35 58 35 5e 35 64 35 6c 35 72 35 79 35 }
 		$s2 = { 31 07 32 0d 32 25 32 2b 32 30 32 36 32 4c 32 6a 32 }
-		$s3 = {5f 69 6e 76 6f 6b 65 5f 77 61 74 73 6f 6e}
+		$s3 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 5f 69 6e 76 6f 6b 65 5f 77 61 74 73 6f 6e (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 		$s4 = { 8b 2d bc 36 40 00 0f b6 04 2f 0f b6 da 8b 54 24 14 0f b6 14 13 8d 0c 2f 03 d6 03 c2 99 be 40 03 00 00 f7 fe 0f b6 f2 8d 04 2e e8 7f ff ff ff 8d 43 01 99 f7 7c 24 18 47 81 ff 40 }
 
 	condition:

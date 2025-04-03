@@ -1,4 +1,4 @@
-rule PowerShell_ISESteroids_Obfuscation : hardened
+rule PowerShell_ISESteroids_Obfuscation : hardened limited
 {
 	meta:
 		description = "Detects PowerShell ISESteroids obfuscation"
@@ -11,7 +11,7 @@ rule PowerShell_ISESteroids_Obfuscation : hardened
 	strings:
 		$x1 = {2f 5c 2f 3d 3d 3d 5c 5f 5f}
 		$x2 = {24 7b 5f 5f 2f 5c 2f 3d 3d}
-		$x3 = {43 61 74 63 68 20 7b 20 7d}
+		$x3 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 43 61 74 63 68 20 7b 20 7d (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 		$x4 = {5c 5f 2f 3d 7d 20 24 7b 5f}
 
 	condition:

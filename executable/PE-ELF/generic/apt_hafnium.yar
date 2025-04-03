@@ -17,7 +17,7 @@ rule WEBSHELL_ASP_Embedded_Mar21_1 : hardened limited
 		filesize < 100KB and all of them
 }
 
-rule APT_WEBSHELL_HAFNIUM_SecChecker_Mar21_1 : hardened
+rule APT_WEBSHELL_HAFNIUM_SecChecker_Mar21_1 : hardened limited
 {
 	meta:
 		description = "Detects HAFNIUM SecChecker webshell"
@@ -29,13 +29,13 @@ rule APT_WEBSHELL_HAFNIUM_SecChecker_Mar21_1 : hardened
 
 	strings:
 		$x1 = {3c 25 69 66 28 53 79 73 74 65 6d 2e 49 4f 2e 46 69 6c 65 2e 45 78 69 73 74 73 28 22 63 3a 5c 5c 70 72 6f 67 72 61 6d 20 66 69 6c 65 73 20 28 78 38 36 29 5c 5c 66 69 72 65 65 79 65 5c 5c 78 61 67 74 2e 65 78 65}
-		$x2 = {5c 63 73 66 61 6c 63 6f 6e 73 65 72 76 69 63 65 2e 65 78 65 22 29 29 7b 52 65 73 70 6f 6e 73 65 2e 57 72 69 74 65 28 20 22 33 22 29 3b 7d 25 3e 3c 2f 68 65 61 64 3e}
+		$x2 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 5c 63 73 66 61 6c 63 6f 6e 73 65 72 76 69 63 65 2e 65 78 65 22 29 29 7b 52 65 73 70 6f 6e 73 65 2e 57 72 69 74 65 28 20 22 33 22 29 3b 7d 25 3e 3c 2f 68 65 61 64 3e (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 
 	condition:
 		uint16( 0 ) == 0x253c and filesize < 1KB and 1 of them or 2 of them
 }
 
-rule APT_HAFNIUM_Forensic_Artefacts_Mar21_1 : hardened
+rule APT_HAFNIUM_Forensic_Artefacts_Mar21_1 : hardened loosened limited
 {
 	meta:
 		description = "Detects forensic artefacts found in HAFNIUM intrusions"
@@ -91,7 +91,7 @@ rule APT_WEBSHELL_Tiny_WebShell : APT Hafnium WebShell hardened
 		filesize < 300 and all of ( $s* ) and $x1
 }
 
-rule HKTL_PS1_PowerCat_Mar21 : hardened
+rule HKTL_PS1_PowerCat_Mar21 : hardened limited
 {
 	meta:
 		description = "Detects PowerCat hacktool"
@@ -103,10 +103,10 @@ rule HKTL_PS1_PowerCat_Mar21 : hardened
 		score = 75
 
 	strings:
-		$x1 = {70 6f 77 65 72 63 61 74 20 2d 6c 20 2d 70 20 38 30 30 30 20 2d 72 20 64 6e 73 3a 31 30 2e 31 2e 31 2e 31 3a 35 33 3a 63 32 2e 65 78 61 6d 70 6c 65 2e 63 6f 6d}
-		$x2 = {74 72 79 7b 5b 62 79 74 65 5b 5d 5d 24 52 65 74 75 72 6e 65 64 44 61 74 61 20 3d 20 24 45 6e 63 6f 64 69 6e 67 2e 47 65 74 42 79 74 65 73 28 28 49 45 58 20 24 43 6f 6d 6d 61 6e 64 54 6f 45 78 65 63 75 74 65 20 32 3e 26 31 20 7c 20 4f 75 74 2d 53 74 72 69 6e 67 29 29 7d}
+		$x1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 70 6f 77 65 72 63 61 74 20 2d 6c 20 2d 70 20 38 30 30 30 20 2d 72 20 64 6e 73 3a 31 30 2e 31 2e 31 2e 31 3a 35 33 3a 63 32 2e 65 78 61 6d 70 6c 65 2e 63 6f 6d (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
+		$x2 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 74 72 79 7b 5b 62 79 74 65 5b 5d 5d 24 52 65 74 75 72 6e 65 64 44 61 74 61 20 3d 20 24 45 6e 63 6f 64 69 6e 67 2e 47 65 74 42 79 74 65 73 28 28 49 45 58 20 24 43 6f 6d 6d 61 6e 64 54 6f 45 78 65 63 75 74 65 20 32 3e 26 31 20 7c 20 4f 75 74 2d 53 74 72 69 6e 67 29 29 7d (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 		$s1 = {52 65 74 75 72 6e 69 6e 67 20 45 6e 63 6f 64 65 64 20 50 61 79 6c 6f 61 64 2e 2e 2e}
-		$s2 = {24 43 6f 6d 6d 61 6e 64 54 6f 45 78 65 63 75 74 65 20 3d}
+		$s2 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 24 43 6f 6d 6d 61 6e 64 54 6f 45 78 65 63 75 74 65 20 3d (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 		$s3 = {5b 61 6c 69 61 73 28 22 45 78 65 63 75 74 65 22 29 5d 5b 73 74 72 69 6e 67 5d 24 65 3d 22 22 2c}
 
 	condition:
@@ -257,7 +257,7 @@ rule APT_MAL_ASPX_HAFNIUM_Chopper_Mar21_4 : hardened limited
 		filesize < 850 and all of them
 }
 
-rule APT_HAFNIUM_ForensicArtefacts_WER_Mar21_1 : hardened
+rule APT_HAFNIUM_ForensicArtefacts_WER_Mar21_1 : hardened limited
 {
 	meta:
 		description = "Detects a Windows Error Report (WER) that indicates and exploitation attempt of the Exchange server as described in CVE-2021-26857 after the corresponding patches have been applied. WER files won't be written upon successful exploitation before applying the patch. Therefore, this indicates an unsuccessful attempt."
@@ -268,14 +268,14 @@ rule APT_HAFNIUM_ForensicArtefacts_WER_Mar21_1 : hardened
 		id = "06771101-10ce-5d6b-99f7-a321aade7f69"
 
 	strings:
-		$s1 = {41 00 70 00 70 00 50 00 61 00 74 00 68 00 3d 00 63 00 3a 00 5c 00 77 00 69 00 6e 00 64 00 6f 00 77 00 73 00 5c 00 73 00 79 00 73 00 74 00 65 00 6d 00 33 00 32 00 5c 00 69 00 6e 00 65 00 74 00 73 00 72 00 76 00 5c 00 77 00 33 00 77 00 70 00 2e 00 65 00 78 00 65 00}
+		$s1 = {(bf 00 | a1 00 | 21 00 | 22 00 | 23 00 | 24 00 | 25 00 | 26 00 | 27 00 | 28 00 | 29 00 | 2a 00 | 2b 00 | 2c 00 | 2d 00 | 2e 00 | 2f 00 | 3a 00 | 3b 00 | 3c 00 | 3d 00 | 3e 00 | 3f 00 | 40 00 | 5b 00 | 5c 00 | 5d 00 | 5e 00 | 5f 00 | 60 00 | 7b 00 | 7c 00 | 7d 00 | 7e 00 | 20 00 | 09 00 | 0a 00 | 0d 00 | 0b 00 | 0c 00 | 00 00 | ff) 41 00 70 00 70 00 50 00 61 00 74 00 68 00 3d 00 63 00 3a 00 5c 00 77 00 69 00 6e 00 64 00 6f 00 77 00 73 00 5c 00 73 00 79 00 73 00 74 00 65 00 6d 00 33 00 32 00 5c 00 69 00 6e 00 65 00 74 00 73 00 72 00 76 00 5c 00 77 00 33 00 77 00 70 00 2e 00 65 00 78 00 65 00 (bf 00 | a1 00 | 21 00 | 22 00 | 23 00 | 24 00 | 25 00 | 26 00 | 27 00 | 28 00 | 29 00 | 2a 00 | 2b 00 | 2c 00 | 2d 00 | 2e 00 | 2f 00 | 3a 00 | 3b 00 | 3c 00 | 3d 00 | 3e 00 | 3f 00 | 40 00 | 5b 00 | 5c 00 | 5d 00 | 5e 00 | 5f 00 | 60 00 | 7b 00 | 7c 00 | 7d 00 | 7e 00 | 20 00 | 09 00 | 0a 00 | 0d 00 | 0b 00 | 0c 00 | 00 00 | ff)}
 		$s7 = {2e 00 56 00 61 00 6c 00 75 00 65 00 3d 00 77 00 33 00 77 00 70 00 23 00 4d 00 53 00 45 00 78 00 63 00 68 00 61 00 6e 00 67 00 65 00 45 00 43 00 50 00 41 00 70 00 70 00 50 00 6f 00 6f 00 6c 00}
 
 	condition:
 		uint16( 0 ) == 0xfeff and filesize < 8KB and all of them
 }
 
-rule APT_HAFNIUM_ForensicArtefacts_Cab_Recon_Mar21_1 : hardened
+rule APT_HAFNIUM_ForensicArtefacts_Cab_Recon_Mar21_1 : hardened limited
 {
 	meta:
 		description = "Detects suspicious CAB files used by HAFNIUM for recon activity"
@@ -286,16 +286,16 @@ rule APT_HAFNIUM_ForensicArtefacts_Cab_Recon_Mar21_1 : hardened
 		id = "b0caf9d9-af0a-5181-85e4-6091cd6699e3"
 
 	strings:
-		$s1 = {69 70 2e 74 78 74}
-		$s2 = {61 72 70 2e 74 78 74}
-		$s3 = {73 79 73 74 65 6d}
-		$s4 = {73 65 63 75 72 69 74 79}
+		$s1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 69 70 2e 74 78 74 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
+		$s2 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 61 72 70 2e 74 78 74 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
+		$s3 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 73 79 73 74 65 6d (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
+		$s4 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 73 65 63 75 72 69 74 79 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 
 	condition:
 		uint32( 0 ) == 0x4643534d and filesize < 10000KB and ( $s1 in ( 0 .. 200 ) and $s2 in ( 0 .. 200 ) and $s3 in ( 0 .. 200 ) and $s4 in ( 0 .. 200 ) )
 }
 
-rule WEBSHELL_Compiled_Webshell_Mar2021_1 : hardened limited
+rule WEBSHELL_Compiled_Webshell_Mar2021_1 : hardened loosened limited
 {
 	meta:
 		description = "Triggers on temporary pe files containing strings commonly used in webshells."
@@ -320,7 +320,7 @@ rule WEBSHELL_Compiled_Webshell_Mar2021_1 : hardened limited
 		uint16( 0 ) == 0x5a4d and filesize > 5KB and filesize < 40KB and all of ( $x* ) and 1 of ( $a* ) and ( all of ( $b* ) or all of ( $c* ) )
 }
 
-rule APT_MAL_ASP_DLL_HAFNIUM_Mar21_1 : hardened
+rule APT_MAL_ASP_DLL_HAFNIUM_Mar21_1 : hardened limited
 {
 	meta:
 		description = "Detects HAFNIUM compiled ASP.NET DLLs dropped on compromised servers"
@@ -337,7 +337,7 @@ rule APT_MAL_ASP_DLL_HAFNIUM_Mar21_1 : hardened
 		id = "68b8252e-a07d-5507-b556-a4d473f98157"
 
 	strings:
-		$s1 = {50 61 67 65 5f 4c 6f 61 64}
+		$s1 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 50 61 67 65 5f 4c 6f 61 64 (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
 		$sc1 = { 20 00 3A 00 20 00 68 00 74 00 74 00 70 00 3A 00
                2F 00 2F 00 (66|67) 00 2F 00 00 89 A3 0D 00 0A 00 }
 		$op1 = { 00 43 00 58 00 77 00 30 00 4a 00 45 00 00 51 7e 00 2f }
