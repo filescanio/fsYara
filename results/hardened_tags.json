@@ -16756,6 +16756,12 @@
         "loosened",
         "limited"
     ],
+    "Mersenne_Twister": [
+        "hardened"
+    ],
+    "mersenne_twister_constants": [
+        "hardened"
+    ],
     "WEBSHELL_ASP_Embedded_Mar21_1": [
         "hardened",
         "limited"
