@@ -29777,6 +29777,279 @@
         "hardened",
         "limited"
     ],
+    "api_hashes_zloader_bot": [
+        "hardened"
+    ],
+    "api_hashes_xor_rol9": [
+        "hardened"
+    ],
+    "api_hashes_tonepipeshell": [
+        "hardened"
+    ],
+    "api_hashes_tonepipeshell_feb_2025": [
+        "hardened"
+    ],
+    "api_hashes_tonepipeshell_alt": [
+        "hardened"
+    ],
+    "api_hashes_smokeloader_rol8_xor": [
+        "hardened"
+    ],
+    "api_hashes_shr2_shl5_xor_init_c4d5a97a_stealbit": [
+        "hardened"
+    ],
+    "api_hashes_sdbm_65599_x64": [
+        "hardened"
+    ],
+    "api_hashes_ror13_add_negative_seed": [
+        "hardened"
+    ],
+    "api_hashes_ror8_add_xor_ab832e83": [
+        "hardened"
+    ],
+    "api_hashes_permutations_e8c77835": [
+        "hardened"
+    ],
+    "api_hashes_permutations_82f63b78": [
+        "hardened"
+    ],
+    "api_hashes_paradise_murmurhash3": [
+        "hardened"
+    ],
+    "api_hashes_or23_xor_rol17": [
+        "hardened"
+    ],
+    "api_hashes_or21_xor_rol11": [
+        "hardened"
+    ],
+    "api_hashes_or20_xor_rol19": [
+        "hardened"
+    ],
+    "api_hashes_mythic_unknown": [
+        "hardened"
+    ],
+    "api_hashes_mult3_add_init_9C": [
+        "hardened"
+    ],
+    "api_hashes_mul21_add_seed_8952": [
+        "hardened"
+    ],
+    "api_hashes_mul7_add": [
+        "hardened"
+    ],
+    "api_hashes_mamon_hash": [
+        "hardened"
+    ],
+    "api_hashes_lumma_fnv1a": [
+        "hardened"
+    ],
+    "api_hashes_lokibot": [
+        "hardened"
+    ],
+    "api_hashes_lockbit4_0225": [
+        "hardened"
+    ],
+    "api_hashes_guloader_3C389ABC": [
+        "hardened"
+    ],
+    "api_hashes_fnv1a_64": [
+        "hardened"
+    ],
+    "api_hashes_fnv1a": [
+        "hardened"
+    ],
+    "api_hashes_fnv1": [
+        "hardened"
+    ],
+    "api_hashes_fnv1_64": [
+        "hardened"
+    ],
+    "api_hashes_emotet": [
+        "hardened"
+    ],
+    "api_hashes_emotet_mul_65599_xor_19ad760": [
+        "hardened"
+    ],
+    "api_hashes_djb2_vohuk_ransomware": [
+        "hardened"
+    ],
+    "api_hashes_djb2_uppercase": [
+        "hardened"
+    ],
+    "api_hashes_djb2_nokoyawa": [
+        "hardened"
+    ],
+    "api_hashes_deedrat": [
+        "hardened"
+    ],
+    "api_hashes_deedrat_export_name": [
+        "hardened"
+    ],
+    "api_hashes_danabot": [
+        "hardened"
+    ],
+    "api_hashes_d0nut": [
+        "hardened"
+    ],
+    "api_hashes_crypto_ror13_add_10": [
+        "hardened"
+    ],
+    "api_hashes_crc64_ecma_182": [
+        "hardened"
+    ],
+    "api_hashes_crc32_mpeg_2": [
+        "hardened"
+    ],
+    "api_hashes_conti": [
+        "hardened"
+    ],
+    "api_hashes_conti_mm3": [
+        "hardened"
+    ],
+    "api_hashes_conti_e9ff0077": [
+        "hardened"
+    ],
+    "api_hashes_conti_b801fcda": [
+        "hardened"
+    ],
+    "api_hashes_conti_5b2d": [
+        "hardened"
+    ],
+    "api_hashes_brc4_joaat": [
+        "hardened"
+    ],
+    "api_hashes_blister2": [
+        "hardened"
+    ],
+    "api_hashes_babbleloader": [
+        "hardened"
+    ],
+    "api_hashes_babbleloader_0125": [
+        "hardened"
+    ],
+    "api_hashes_alder32_666": [
+        "hardened"
+    ],
+    "api_hashes_add_hiword_add_lowword": [
+        "hardened"
+    ],
+    "api_hashes_add_65599": [
+        "hardened"
+    ],
+    "api_hashes_ror7AddHash32": [
+        "hardened"
+    ],
+    "api_hashes_ror9AddHash32": [
+        "hardened"
+    ],
+    "api_hashes_ror11AddHash32": [
+        "hardened"
+    ],
+    "api_hashes_ror13AddHash32": [
+        "hardened"
+    ],
+    "api_hashes_ror13AddHash32AddDll": [
+        "hardened"
+    ],
+    "api_hashes_ror13AddHash32DllSimple": [
+        "hardened"
+    ],
+    "api_hashes_ror13AddHash32Sub20h": [
+        "hardened"
+    ],
+    "api_hashes_ror13AddHash32Sub1": [
+        "hardened"
+    ],
+    "api_hashes_addRor4WithNullHash32": [
+        "hardened"
+    ],
+    "api_hashes_addRor13Hash32": [
+        "hardened"
+    ],
+    "api_hashes_addRor13HashOncemore32": [
+        "hardened"
+    ],
+    "api_hashes_rol3XorEax": [
+        "hardened"
+    ],
+    "api_hashes_rol3XorHash32": [
+        "hardened"
+    ],
+    "api_hashes_rol5AddHash32": [
+        "hardened"
+    ],
+    "api_hashes_addRol5HashOncemore32": [
+        "hardened"
+    ],
+    "api_hashes_rol7AddHash32": [
+        "hardened"
+    ],
+    "api_hashes_rol7AddXor2Hash32": [
+        "hardened"
+    ],
+    "api_hashes_rol7XorHash32": [
+        "hardened"
+    ],
+    "api_hashes_rol5XorHash32": [
+        "hardened"
+    ],
+    "api_hashes_rol8Xor0xB0D4D06Hash32": [
+        "hardened"
+    ],
+    "api_hashes_chAddRol8Hash32": [
+        "hardened"
+    ],
+    "api_hashes_rol9AddHash32": [
+        "hardened"
+    ],
+    "api_hashes_rol9XorHash32": [
+        "hardened"
+    ],
+    "api_hashes_shl7Shr19XorHash32": [
+        "hardened"
+    ],
+    "api_hashes_shl7SubHash32DoublePulser": [
+        "hardened"
+    ],
+    "api_hashes_sll1AddHash32": [
+        "hardened"
+    ],
+    "api_hashes_shr2Shl5XorHash32": [
+        "hardened"
+    ],
+    "api_hashes_xorShr8Hash32": [
+        "hardened"
+    ],
+    "api_hashes_imul83hAdd": [
+        "hardened"
+    ],
+    "api_hashes_imul21hAddHash32": [
+        "hardened"
+    ],
+    "api_hashes_poisonIvyHash": [
+        "hardened"
+    ],
+    "api_hashes_crc32": [
+        "hardened"
+    ],
+    "api_hashes_mult21AddHash32": [
+        "hardened"
+    ],
+    "api_hashes_add1505Shl5Hash32": [
+        "hardened"
+    ],
+    "api_hashes_dualaccModFFF1Hash": [
+        "hardened"
+    ],
+    "api_hashes_hash_Carbanak": [
+        "hardened"
+    ],
+    "api_hashes_fnv1Xor67f": [
+        "hardened"
+    ],
+    "api_hashes_bzip2_crc32": [
+        "hardened"
+    ],
     "RAN_CRing_Apr_2021_1": [
         "hardened"
     ],

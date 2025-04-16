@@ -15248,6 +15248,50 @@
     "suspicious_string_Shellcode_NOP_sled": [
         "59fe169797953f2046b283235fe80158ebf02ba586eabfea306402fba8473dae"
     ],
+    "api_hashes_danabot": [
+        "09a708ae9d9e32becb6b41f5cb4f500000805771ca1e2431d6501dc9a56a2e34",
+        "5c2e9604ddf63e732a674d9672a4ba20f44891a83e10f44f1d4d764f8c59ea63",
+        "80c1ea737d33c6bfac09b101b8d77ab0f9f6630128c3ed052f9d945bed54e7e4",
+        "313ecd0410fe1cc36292d9f2771ac41d9e4b67344339c2a46ce8e6445ceed0e4",
+        "1dbfa42c271e51d48de2bbc445f8a6e3c7c38cdc9b724d927bf4b46b02a08447"
+    ],
+    "api_hashes_sll1AddHash32": [
+        "09a708ae9d9e32becb6b41f5cb4f500000805771ca1e2431d6501dc9a56a2e34",
+        "5c2e9604ddf63e732a674d9672a4ba20f44891a83e10f44f1d4d764f8c59ea63",
+        "041e371767c385910437ce2584a00b4c62a371f9b18b487af393e1a4e7514d52",
+        "489db926ac0420a76ff682ceb90003a78dd2a02e42c254a2aae4fc234bb013e6",
+        "6533922b30c15b5c1f747bc3c85d4c9a4d67a227f9dd461adb7529415cfee709",
+        "1dbfa42c271e51d48de2bbc445f8a6e3c7c38cdc9b724d927bf4b46b02a08447"
+    ],
+    "api_hashes_crc32": [
+        "c21ecd18f0bbb28112240013ad42dad5c01d20927791239ada5b61e1c6f5f010",
+        "5457e36971779555fc051dbf6969871394fc3c772027a985060b2c4242bc642a"
+    ],
+    "api_hashes_rol7XorHash32": [
+        "3b0102e94a22bef70889a8ef737d1cd09e65160aea4b93d454e46c03e8fd3a87",
+        "bc062acda428f55782710f9c4f2df88c26dfbc004b94b479459f8572b1219444",
+        "6d88756625bf8ff65b12fd68e94520eac22996803b47117a37e4fb3484220823",
+        "3d13f2e5b241168005425b15410556bcf26d04078da6b2ef42bc0c2be7654bf8",
+        "91caa1fe289cdd8500399b3dcb07a5417223126a8cfd6833ece052acaaeb27f7"
+    ],
+    "api_hashes_lokibot": [
+        "7b49315a07d92562008785f18022b53b380f999abe92a6d4014c014461660dff"
+    ],
+    "api_hashes_bzip2_crc32": [
+        "11c98c3bbf3f08f0d47153a819980189eacc20b3eaa44d2a88ec8a8aac17abda"
+    ],
+    "api_hashes_rol3XorHash32": [
+        "44d797eec60a722113f751292c090b43e99756c5def56d12d4eeb1fef8ccfbac"
+    ],
+    "api_hashes_or21_xor_rol11": [
+        "0ba321e8ece4e89db8bacce007ca86e06bbab0ebd01c8d6b1d18c7aa9bb07a3b"
+    ],
+    "api_hashes_ror13AddHash32": [
+        "041e371767c385910437ce2584a00b4c62a371f9b18b487af393e1a4e7514d52"
+    ],
+    "api_hashes_mythic_unknown": [
+        "53df444a17fdedc8cf7d80da7904db174fb3113632327d9407b12862eef5fe65"
+    ],
     "RAN_CRing_Apr_2021_1": [
         "ebb528207b2fc06a6bc89e9d430bcdfe254f0838b0f4660f67cc6bd1ebc193be"
     ],
