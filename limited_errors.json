@@ -918,6 +918,12 @@
             "c864545bd61ac07a3dae55fa930149f2e58a1a4fc2ccba28bf011b7eb5a6172d"
         ]
     },
+    "pe_hex_encoded_pe": {
+        "missing": [
+            "c57f7ed4d9373c96cd228884c535a545c388d6edee4fae49afb7763c69450281",
+            "934b069bb6d8e7b03747dc90a00c94df491d8e7b2d8955793c317ce9361b8e19"
+        ]
+    },
     "Malware_QA_not_copy": {
         "missing": [
             "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"

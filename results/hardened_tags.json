@@ -16315,6 +16315,126 @@
     "SUSP_Unsigned_GoogleUpdate": [
         "hardened"
     ],
+    "pe_timestamp_in_future": [
+        "hardened"
+    ],
+    "pe_susp_number_data_directories": [
+        "hardened"
+    ],
+    "pe_unusual_entrypoint_section": [
+        "hardened"
+    ],
+    "pe_characteristics_dll_but_not_dll": [
+        "hardened"
+    ],
+    "pe_number_of_sections_uncommon": [
+        "hardened"
+    ],
+    "pe_purely_virtual_executable_section": [
+        "hardened"
+    ],
+    "pe_purely_physical_section": [
+        "hardened"
+    ],
+    "pe_unbalanced_virtual_physical_ratio": [
+        "hardened"
+    ],
+    "pe_section_wx": [
+        "hardened"
+    ],
+    "pe_section_rwx": [
+        "hardened"
+    ],
+    "pe_section_no_name": [
+        "hardened"
+    ],
+    "pe_executable_section_and_no_code": [
+        "hardened"
+    ],
+    "pe_code_section_and_no_executable": [
+        "hardened"
+    ],
+    "pe_high_entropy_section": [
+        "hardened"
+    ],
+    "pe_overlapping_sections": [
+        "hardened"
+    ],
+    "pe_no_import_table": [
+        "hardened"
+    ],
+    "pe_zero_imports": [
+        "hardened"
+    ],
+    "pe_gui_and_no_window_apis": [
+        "hardened"
+    ],
+    "pe_dynamic_download_imports": [
+        "hardened"
+    ],
+    "pe_dynamic_crypto_imports": [
+        "hardened"
+    ],
+    "pe_dynamic_injection_imports": [
+        "hardened"
+    ],
+    "pe_signature_expired": [
+        "hardened"
+    ],
+    "pe_signature_expires_soon": [
+        "hardened"
+    ],
+    "pe_high_entropy_resource_no_image": [
+        "hardened"
+    ],
+    "pe_large_overlay": [
+        "hardened"
+    ],
+    "pe_high_entropy_overlay": [
+        "hardened"
+    ],
+    "pe_embedded_pe": [
+        "hardened"
+    ],
+    "pe_embedded_x509_cert": [
+        "hardened",
+        "limited"
+    ],
+    "pe_resource_reversed_pe": [
+        "hardened"
+    ],
+    "pe_overlay_reversed_pe": [
+        "hardened"
+    ],
+    "pe_resource_base64d_pe": [
+        "hardened"
+    ],
+    "pe_overlay_base64d_pe": [
+        "hardened"
+    ],
+    "pe_resource_single_byte_xor_PE": [
+        "hardened"
+    ],
+    "pe_overlay_single_byte_xor_PE": [
+        "hardened"
+    ],
+    "pe_hex_encoded_pe": [
+        "hardened",
+        "limited"
+    ],
+    "pe_xored_dos_message": [
+        "hardened",
+        "limited"
+    ],
+    "pe_base64d_pe": [
+        "hardened"
+    ],
+    "pe_reversed_base64d_pe": [
+        "hardened"
+    ],
+    "pe_double_base64d_pe": [
+        "hardened"
+    ],
     "SUSP_BAT2EXE_BDargo_Converted_BAT": [
         "hardened",
         "limited"
