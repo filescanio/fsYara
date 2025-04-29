@@ -1,5 +1,5 @@
-import "pe"
 import "time"
+import "pe"
 
 rule pe_timestamp_in_future : hardened
 {
@@ -61,10 +61,10 @@ rule pe_number_of_sections_uncommon : hardened
 
 import "pe"
 
-rule pe_purely_virtual_executable_section : hardened
+rule pe_purely_vrtl_executable_section : hardened
 {
 	meta:
-		description = "PE section is executable, purely virtual (SizeOfRawData == 0)"
+		description = "PE section is executable, purely vrtl (SizeOfRawData == 0)"
 		score = 50
 
 	condition:
@@ -85,10 +85,10 @@ rule pe_purely_physical_section : hardened
 
 import "pe"
 
-rule pe_unbalanced_virtual_physical_ratio : hardened
+rule pe_unbalanced_vrtl_physical_rtio : hardened
 {
 	meta:
-		description = "PE section with large difference between physical and virtual size"
+		description = "PE section with large difference between physical and vrtl size"
 		score = 50
 
 	condition:
@@ -153,13 +153,13 @@ rule pe_code_section_and_no_executable : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 and pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE == 0 )
 }
 
-import "pe"
 import "math"
+import "pe"
 
-rule pe_high_entropy_section : hardened
+rule pe_high_ntrpy_section : hardened
 {
 	meta:
-		description = "PE file with section entropy higher than 7"
+		description = "PE file with section ntrpy higher than 7"
 		score = 50
 
 	condition:
@@ -171,7 +171,7 @@ import "pe"
 rule pe_overlapping_sections : hardened
 {
 	meta:
-		description = "PE sections have overlapping virtual or raw addresses"
+		description = "PE sections have overlapping vrtl or raw addresses"
 		score = 50
 
 	condition:
@@ -256,8 +256,8 @@ rule pe_dynamic_injection_imports : hardened
 		pe.is_pe and #injection_api > 3 and pe.imports ( /kernel32.dll/i , /(VirtualProtect(Ex)?|VirtualAlloc(Ex(Numa)?)?|ResumeThread|SetThreadContext|FindResourceA|LockResource|LoadResource)/i ) == 0 and pe.imports ( /ntdll.dll/i , /(Ldr(AccessResource|FindResource_U)|Nt(ResumeThread|AllocateVirtualMemory|MapViewOfSection|ProtectVirtualMemory))/i ) == 0
 }
 
-import "pe"
 import "time"
+import "pe"
 
 rule pe_signature_expired : hardened
 {
@@ -268,8 +268,8 @@ rule pe_signature_expired : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_signatures - 1 ) : ( pe.signatures [ i ] . not_after < time.now ( ) )
 }
 
-import "pe"
 import "time"
+import "pe"
 
 rule pe_signature_expires_soon : hardened
 {
@@ -280,13 +280,13 @@ rule pe_signature_expires_soon : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_signatures - 1 ) : ( not pe.signatures [ i ] . not_after < time.now ( ) and pe.signatures [ i ] . not_after < time.now ( ) + 86400 * 15 )
 }
 
-import "pe"
 import "math"
+import "pe"
 
-rule pe_high_entropy_resource_no_image : hardened
+rule pe_high_ntrpy_resource_no_image : hardened
 {
 	meta:
-		description = "PE with embedded resource with high entropy (rcdata)"
+		description = "PE with embedded resource with high ntrpy (rcdata)"
 		score = 50
 
 	condition:
@@ -304,13 +304,13 @@ rule pe_large_overlay : hardened
 		pe.is_pe and pe.overlay.size > 20480
 }
 
-import "pe"
 import "math"
+import "pe"
 
-rule pe_high_entropy_overlay : hardened
+rule pe_high_ntrpy_overlay : hardened
 {
 	meta:
-		description = "PE overlay with high entropy"
+		description = "PE overlay with high ntrpy"
 		score = 50
 
 	strings:
