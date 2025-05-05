@@ -1,4 +1,5 @@
 import "pe"
+import "math"
 
 rule api_hashes_zloader_bot : hardened
 {
@@ -375,10 +376,11 @@ rule api_hashes_zloader_bot : hardened
 		$EnumProcessModules = {((1f c7 ca d3) | (d3 ca c7 1f))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_xor_rol9 : hardened
 {
@@ -755,10 +757,11 @@ rule api_hashes_xor_rol9 : hardened
 		$EnumProcessModules = {((bc 8d d6 ec) | (ec d6 8d bc))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_tonepipeshell : hardened
 {
@@ -1135,10 +1138,11 @@ rule api_hashes_tonepipeshell : hardened
 		$EnumProcessModules = {((55 77 4e 4d) | (4d 4e 77 55))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_tonepipeshell_feb_2025 : hardened
 {
@@ -1515,10 +1519,11 @@ rule api_hashes_tonepipeshell_feb_2025 : hardened
 		$EnumProcessModules = {((18 d0 15 19) | (19 15 d0 18))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_tonepipeshell_alt : hardened
 {
@@ -1895,10 +1900,11 @@ rule api_hashes_tonepipeshell_alt : hardened
 		$EnumProcessModules = {((4d 13 ae 4d) | (4d ae 13 4d))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_smokeloader_rol8_xor : hardened
 {
@@ -2275,10 +2281,11 @@ rule api_hashes_smokeloader_rol8_xor : hardened
 		$EnumProcessModules = {((c7 4b 3e 92) | (92 3e 4b c7))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_shr2_shl5_xor_init_c4d5a97a_stealbit : hardened
 {
@@ -2655,10 +2662,11 @@ rule api_hashes_shr2_shl5_xor_init_c4d5a97a_stealbit : hardened
 		$EnumProcessModules = {((2a 2d cf c2) | (c2 cf 2d 2a))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_sdbm_65599_x64 : hardened
 {
@@ -3035,10 +3043,11 @@ rule api_hashes_sdbm_65599_x64 : hardened
 		$EnumProcessModules = {((e3 30 73 c9 09 90 33 19) | (19 33 90 09 c9 73 30 e3))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_ror13_add_negative_seed : hardened
 {
@@ -3415,10 +3424,11 @@ rule api_hashes_ror13_add_negative_seed : hardened
 		$EnumProcessModules = {((6a b3 4f 73) | (73 4f b3 6a))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_ror8_add_xor_ab832e83 : hardened
 {
@@ -3795,10 +3805,11 @@ rule api_hashes_ror8_add_xor_ab832e83 : hardened
 		$EnumProcessModules = {((1a 81 13 1e) | (1e 13 81 1a))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_permutations_e8c77835 : hardened
 {
@@ -4175,10 +4186,11 @@ rule api_hashes_permutations_e8c77835 : hardened
 		$EnumProcessModules = {((d9 bf 5a dd) | (dd 5a bf d9))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_permutations_82f63b78 : hardened
 {
@@ -4555,10 +4567,11 @@ rule api_hashes_permutations_82f63b78 : hardened
 		$EnumProcessModules = {((ce d8 36 cf) | (cf 36 d8 ce))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_paradise_murmurhash3 : hardened
 {
@@ -4935,10 +4948,11 @@ rule api_hashes_paradise_murmurhash3 : hardened
 		$EnumProcessModules = {((15 93 b1 c8) | (c8 b1 93 15))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_or23_xor_rol17 : hardened
 {
@@ -5315,10 +5329,11 @@ rule api_hashes_or23_xor_rol17 : hardened
 		$EnumProcessModules = {((27 0e c2 c8) | (c8 c2 0e 27))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_or21_xor_rol11 : hardened
 {
@@ -5695,10 +5710,11 @@ rule api_hashes_or21_xor_rol11 : hardened
 		$EnumProcessModules = {((22 9c b8 ec) | (ec b8 9c 22))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_or20_xor_rol19 : hardened
 {
@@ -6075,10 +6091,11 @@ rule api_hashes_or20_xor_rol19 : hardened
 		$EnumProcessModules = {((bc d7 32 c5) | (c5 32 d7 bc))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_mythic_unknown : hardened
 {
@@ -6455,10 +6472,11 @@ rule api_hashes_mythic_unknown : hardened
 		$EnumProcessModules = {((21 57 d5 3d) | (3d d5 57 21))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_mult3_add_init_9C : hardened
 {
@@ -6830,10 +6848,11 @@ rule api_hashes_mult3_add_init_9C : hardened
 		$EnumProcessModules = {((cf c5 f7 35) | (35 f7 c5 cf))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_mul21_add_seed_8952 : hardened
 {
@@ -7210,10 +7229,11 @@ rule api_hashes_mul21_add_seed_8952 : hardened
 		$EnumProcessModules = {((b5 97 a6 65) | (65 a6 97 b5))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_mul7_add : hardened
 {
@@ -7587,10 +7607,11 @@ rule api_hashes_mul7_add : hardened
 		$EnumProcessModules = {((98 97 b4 39) | (39 b4 97 98))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_mamon_hash : hardened
 {
@@ -7967,10 +7988,11 @@ rule api_hashes_mamon_hash : hardened
 		$EnumProcessModules = {((df 85 a8 0f) | (0f a8 85 df))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_lumma_fnv1a : hardened
 {
@@ -8347,10 +8369,11 @@ rule api_hashes_lumma_fnv1a : hardened
 		$EnumProcessModules = {((8d ec 7b 71) | (71 7b ec 8d))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_lokibot : hardened
 {
@@ -8727,10 +8750,11 @@ rule api_hashes_lokibot : hardened
 		$EnumProcessModules = {((d5 cc fc 09) | (09 fc cc d5))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_lockbit4_0225 : hardened
 {
@@ -9107,10 +9131,11 @@ rule api_hashes_lockbit4_0225 : hardened
 		$EnumProcessModules = {((e8 f1 e9 cf) | (cf e9 f1 e8))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_guloader_3C389ABC : hardened
 {
@@ -9487,10 +9512,11 @@ rule api_hashes_guloader_3C389ABC : hardened
 		$EnumProcessModules = {((98 59 55 22) | (22 55 59 98))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_fnv1a_64 : hardened
 {
@@ -9867,10 +9893,11 @@ rule api_hashes_fnv1a_64 : hardened
 		$EnumProcessModules = {((a0 4a a7 0b 87 11 e5 a2) | (a2 e5 11 87 0b a7 4a a0))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_fnv1a : hardened
 {
@@ -10247,10 +10274,11 @@ rule api_hashes_fnv1a : hardened
 		$EnumProcessModules = {((c6 eb ff a2) | (a2 ff eb c6))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_fnv1 : hardened
 {
@@ -10627,10 +10655,11 @@ rule api_hashes_fnv1 : hardened
 		$EnumProcessModules = {((ef 8b d7 24) | (24 d7 8b ef))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_fnv1_64 : hardened
 {
@@ -11007,10 +11036,11 @@ rule api_hashes_fnv1_64 : hardened
 		$EnumProcessModules = {((b1 75 d5 c5 79 15 2b 84) | (84 2b 15 79 c5 d5 75 b1))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_emotet : hardened
 {
@@ -11387,10 +11417,11 @@ rule api_hashes_emotet : hardened
 		$EnumProcessModules = {((09 90 33 19) | (19 33 90 09))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_emotet_mul_65599_xor_19ad760 : hardened
 {
@@ -11767,10 +11798,11 @@ rule api_hashes_emotet_mul_65599_xor_19ad760 : hardened
 		$EnumProcessModules = {((08 0a e4 79) | (79 e4 0a 08))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_djb2_vohuk_ransomware : hardened
 {
@@ -12147,10 +12179,11 @@ rule api_hashes_djb2_vohuk_ransomware : hardened
 		$EnumProcessModules = {((6f f1 af f2) | (f2 af f1 6f))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_djb2_uppercase : hardened
 {
@@ -12527,10 +12560,11 @@ rule api_hashes_djb2_uppercase : hardened
 		$EnumProcessModules = {((94 f2 c0 64) | (64 c0 f2 94))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_djb2_nokoyawa : hardened
 {
@@ -12907,10 +12941,11 @@ rule api_hashes_djb2_nokoyawa : hardened
 		$EnumProcessModules = {((bf 17 49 b2) | (b2 49 17 bf))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_deedrat : hardened
 {
@@ -13287,10 +13322,11 @@ rule api_hashes_deedrat : hardened
 		$EnumProcessModules = {((b9 a9 20 c7) | (c7 20 a9 b9))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_deedrat_export_name : hardened
 {
@@ -13667,390 +13703,11 @@ rule api_hashes_deedrat_export_name : hardened
 		$EnumProcessModules = {((77 17 13 1b) | (1b 13 17 77))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
-
-rule api_hashes_danabot : hardened
-{
-	strings:
-		$ControlService = {((00 b7 d8 5d) | (5d d8 b7 00))}
-		$HttpSendRequestA = {((00 b7 4b 43) | (43 4b b7 00))}
-		$SetThreadPriority = {((00 d1 90 cf) | (cf 90 d1 00))}
-		$Recv = {((00 2a d1 2b) | (2b d1 2a 00))}
-		$QueryPerformanceFrequency = {((01 81 82 a1) | (a1 82 81 01))}
-		$RegDeleteValueA = {((00 ba 15 e5) | (e5 15 ba 00))}
-		$GetWindowsDirectoryA = {((01 11 f9 ab) | (ab f9 11 01))}
-		$CryptSetKeyParam = {((00 b1 27 eb) | (eb 27 b1 00))}
-		$RegCreateKeyExA = {((00 b9 ea 5f) | (5f ea b9 00))}
-		$Module32Next = {((00 69 8f 52) | (52 8f 69 00))}
-		$RegOpenUserClassesRoot = {((01 0d 80 b3) | (b3 80 0d 01))}
-		$NtReadVirtualMemoryEx = {((01 12 10 f1) | (f1 10 12 01))}
-		$InternetOpenA = {((00 a3 24 01) | (01 24 a3 00))}
-		$URLOpenBlockingStream = {((01 1f b3 7b) | (7b b3 1f 01))}
-		$NtSetInformationThread = {((01 3e f4 0b) | (0b f4 3e 01))}
-		$CreateFileA = {((00 85 f0 60) | (60 f0 85 00))}
-		$UnhookWindowsHookEx = {((01 31 4d 77) | (77 4d 31 01))}
-		$GetCurrentThreadId = {((00 eb 63 41) | (41 63 eb 00))}
-		$Accept = {((00 3d b0 78) | (78 b0 3d 00))}
-		$HeapReAlloc = {((00 77 3c 1a) | (1a 3c 77 00))}
-		$WinExec = {((00 4d 57 d4) | (d4 57 4d 00))}
-		$NtQueueApcThreadEx = {((00 da ff 0a) | (0a ff da 00))}
-		$VirtualAllocFromApp = {((01 09 a4 1f) | (1f a4 09 01))}
-		$RegLoadKeyA = {((00 76 7b fe) | (fe 7b 76 00))}
-		$OutputDebugStringA = {((00 e3 f4 81) | (81 f4 e3 00))}
-		$GetFileAttributesA = {((00 f4 fb 5b) | (5b fb f4 00))}
-		$SetWaitableTimer = {((00 dc 8b fa) | (fa 8b dc 00))}
-		$SendMessageA = {((00 94 f0 5e) | (5e f0 94 00))}
-		$RegUnLoadKeyA = {((00 89 4c 87) | (87 4c 89 00))}
-		$SetEnvironmentVariableA = {((01 4f 54 67) | (67 54 4f 01))}
-		$VirtualAlloc2 = {((00 9a 61 fc) | (fc 61 9a 00))}
-		$CryptProtectData = {((00 b6 f5 7f) | (7f f5 b6 00))}
-		$GetDesktopWindow = {((00 e2 d8 f7) | (f7 d8 e2 00))}
-		$RegGetKeySecurity = {((00 d1 6a 4d) | (4d 6a d1 00))}
-		$GetDC = {((00 25 82 3e) | (3e 82 25 00))}
-		$LookupPrivilegeValueA = {((01 29 54 a3) | (a3 54 29 01))}
-		$CryptGetHashParam = {((00 c7 bb 08) | (08 bb c7 00))}
-		$HeapAlloc = {((00 59 91 71) | (71 91 59 00))}
-		$RegCloseKey = {((00 7b c0 2b) | (2b c0 7b 00))}
-		$CryptHashData = {((00 b4 28 91) | (91 28 b4 00))}
-		$GlobalAlloc = {((00 6f cc d7) | (d7 cc 6f 00))}
-		$RegOverridePredefKey = {((01 05 ad 6c) | (6c ad 05 01))}
-		$EnumSystemLocalesA = {((01 09 8b 8e) | (8e 8b 09 01))}
-		$GetProcessId = {((00 a7 f1 5c) | (5c f1 a7 00))}
-		$RegLoadMUIStringA = {((00 d7 e3 cf) | (cf e3 d7 00))}
-		$SearchPathA = {((00 8e 4a 6d) | (6d 4a 8e 00))}
-		$FindClose = {((00 5f 94 09) | (09 94 5f 00))}
-		$NtDeleteValueKey = {((00 e1 60 67) | (67 60 e1 00))}
-		$URLDownloadToFile = {((00 ea 41 83) | (83 41 ea 00))}
-		$Toolhelp32ReadProcessMemory = {((01 6d 8f e4) | (e4 8f 6d 01))}
-		$GetProcAddress = {((00 c1 e9 bc) | (bc e9 c1 00))}
-		$OpenProcessToken = {((00 e3 89 02) | (02 89 e3 00))}
-		$HeapCreate = {((00 82 a6 2a) | (2a a6 82 00))}
-		$UuidFromStringA = {((00 bd 96 36) | (36 96 bd 00))}
-		$VirtualProtectEx = {((00 c4 f2 f7) | (f7 f2 c4 00))}
-		$GetSystemTimeAsFileTime = {((01 31 8b d6) | (d6 8b 31 01))}
-		$GetModuleBaseNameA = {((01 0e 65 17) | (17 65 0e 01))}
-		$lstrcatA = {((00 7c f8 07) | (07 f8 7c 00))}
-		$SetFileAttributesA = {((00 ec 84 13) | (13 84 ec 00))}
-		$FindResourceA = {((00 a6 b5 a2) | (a2 b5 a6 00))}
-		$WaitForMultipleObjects = {((01 35 4d 03) | (03 4d 35 01))}
-		$QueryPerformanceCounter = {((01 38 65 02) | (02 65 38 01))}
-		$NtCreateThreadEx = {((00 ca 9b 04) | (04 9b ca 00))}
-		$NtContinue = {((00 77 30 c6) | (c6 30 77 00))}
-		$IsWoW64Process = {((00 9d d4 8b) | (8b d4 9d 00))}
-		$DnsQuery_A = {((00 8a 7a 0f) | (0f 7a 8a 00))}
-		$VirtualProtectFromApp = {((00 fd 6d 1b) | (1b 6d fd 00))}
-		$GetAsyncKeyState = {((00 c9 37 82) | (82 37 c9 00))}
-		$EncryptFileA = {((00 96 36 15) | (15 36 96 00))}
-		$DuplicateToken = {((00 b3 37 2f) | (2f 37 b3 00))}
-		$CryptDeriveKey = {((00 c0 f8 5c) | (5c f8 c0 00))}
-		$LockResource = {((00 9c 3b af) | (af 3b 9c 00))}
-		$ResumeThread = {((00 a9 5f f8) | (f8 5f a9 00))}
-		$WaitForSingleObjectEx = {((01 28 96 80) | (80 96 28 01))}
-		$NtSuspendProcess = {((00 c6 e1 ae) | (ae e1 c6 00))}
-		$NetShareCheck = {((00 9a 77 0a) | (0a 77 9a 00))}
-		$OpenThread = {((00 7e d3 bd) | (bd d3 7e 00))}
-		$URLOpenStream = {((00 97 9d ce) | (ce 9d 97 00))}
-		$UnmapViewOfFile = {((00 a6 99 a6) | (a6 99 a6 00))}
-		$CreateFile2 = {((00 83 7d 98) | (98 7d 83 00))}
-		$DeleteService = {((00 a6 ca b8) | (b8 ca a6 00))}
-		$GetThreadId = {((00 8d 1a 89) | (89 1a 8d 00))}
-		$RegDeleteKeyA = {((00 93 56 fd) | (fd 56 93 00))}
-		$CreateTimerQueueTimer = {((00 ff ae f7) | (f7 ae ff 00))}
-		$SetProcessDEPPolicy = {((00 da 1b c7) | (c7 1b da 00))}
-		$CreateServiceA = {((00 c8 49 40) | (40 49 c8 00))}
-		$ExitWindowsEx = {((00 a3 f0 80) | (80 f0 a3 00))}
-		$NtMapViewOfSection = {((00 fb a5 e6) | (e6 a5 fb 00))}
-		$NtTerminateThread = {((00 f1 39 25) | (25 39 f1 00))}
-		$Process32First = {((00 b8 56 53) | (53 56 b8 00))}
-		$RegCreateKeyTransactedA = {((01 2c 55 ed) | (ed 55 2c 01))}
-		$GetUserNameA = {((00 97 46 33) | (33 46 97 00))}
-		$MapVirtualKeyA = {((00 b8 1c ac) | (ac 1c b8 00))}
-		$WNetCloseEnum = {((00 8f 7e 78) | (78 7e 8f 00))}
-		$InternetReadFileExA = {((01 10 58 7a) | (7a 58 10 01))}
-		$GetComputerNameA = {((00 de 47 81) | (81 47 de 00))}
-		$RegFlushKey = {((00 84 29 37) | (37 29 84 00))}
-		$VirtualAllocEx = {((00 ac 5d 4f) | (4f 5d ac 00))}
-		$GetSystemDefaultLangId = {((01 23 cd af) | (af cd 23 01))}
-		$SetFileTime = {((00 84 f6 70) | (70 f6 84 00))}
-		$SendNotifyMessageA = {((01 06 f9 72) | (72 f9 06 01))}
-		$LookupAccountNameA = {((01 18 f0 21) | (21 f0 18 01))}
-		$NetShareEnum = {((00 8b 41 bf) | (bf 41 8b 00))}
-		$IcmpSendEcho = {((00 85 71 3a) | (3a 71 85 00))}
-		$DebugActiveProcessStop = {((01 15 96 db) | (db 96 15 01))}
-		$NtCreateFile = {((00 8d 98 00) | (00 98 8d 00))}
-		$DecryptFileA = {((00 98 2e 5b) | (5b 2e 98 00))}
-		$GetRawInputData = {((00 cc ec 29) | (29 ec cc 00))}
-		$BringWindowToTop = {((00 e1 f9 98) | (98 f9 e1 00))}
-		$NetShareSetInfo = {((00 b3 31 ba) | (ba 31 b3 00))}
-		$GetLogicalDrives = {((00 ec 21 38) | (38 21 ec 00))}
-		$WriteFile = {((00 72 ad fe) | (fe ad 72 00))}
-		$BitBlt = {((00 3a 82 bf) | (bf 82 3a 00))}
-		$SendMessageTimeoutA = {((01 13 b8 0a) | (0a b8 13 01))}
-		$GetCurrentProcess = {((00 d3 25 5b) | (5b 25 d3 00))}
-		$RegDeleteTreeA = {((00 b1 44 7e) | (7e 44 b1 00))}
-		$CreateProcessWithTokenW = {((01 2f aa 16) | (16 aa 2f 01))}
-		$FindWindowA = {((00 7b 76 b8) | (b8 76 7b 00))}
-		$CopyFileA = {((00 5e 95 1f) | (1f 95 5e 00))}
-		$FtpPutFileA = {((00 98 97 9a) | (9a 97 98 00))}
-		$NtOpenProcess = {((00 a5 8f b3) | (b3 8f a5 00))}
-		$Send = {((00 28 24 bc) | (bc 24 28 00))}
-		$EnumDeviceDrivers = {((00 ef 17 0b) | (0b 17 ef 00))}
-		$Process32Next = {((00 a5 74 f9) | (f9 74 a5 00))}
-		$GetWindowDC = {((00 86 37 98) | (98 37 86 00))}
-		$CryptDecrypt = {((00 bf 61 d2) | (d2 61 bf 00))}
-		$ReadFile = {((00 58 87 95) | (95 87 58 00))}
-		$VirtualProtect = {((00 d5 41 fa) | (fa 41 d5 00))}
-		$OpenProcess = {((00 8e d0 34) | (34 d0 8e 00))}
-		$WaitForMultipleObjectsEx = {((01 61 70 5f) | (5f 70 61 01))}
-		$Inet_addr = {((00 6a 05 e2) | (e2 05 6a 00))}
-		$WSAStartup = {((00 95 c4 81) | (81 c4 95 00))}
-		$Bind = {((00 24 d3 52) | (52 d3 24 00))}
-		$GetTempFileNameA = {((00 e8 ba fb) | (fb ba e8 00))}
-		$CreateMutexExA = {((00 bf 5d 99) | (99 5d bf 00))}
-		$DeviceIoControl = {((00 ac 36 73) | (73 36 ac 00))}
-		$CryptDestroyHash = {((00 bc 8e 66) | (66 8e bc 00))}
-		$CryptEncrypt = {((00 bc 4e 6d) | (6d 4e bc 00))}
-		$NtSetContextThread = {((00 f2 8b cf) | (cf 8b f2 00))}
-		$CryptReleaseContext = {((00 fd c9 d6) | (d6 c9 fd 00))}
-		$StretchBlt = {((00 8a 86 ba) | (ba 86 8a 00))}
-		$NtWaitForSingleObject = {((01 21 11 5d) | (5d 11 21 01))}
-		$LoadLibraryExA = {((00 a8 23 c2) | (c2 23 a8 00))}
-		$PeekMessageA = {((00 95 c7 af) | (af c7 95 00))}
-		$WNetAddConnectionA = {((01 0f b1 60) | (60 b1 0f 01))}
-		$NtCreateThread = {((00 b8 81 f6) | (f6 81 b8 00))}
-		$ShellExecuteExA = {((00 bc 41 56) | (56 41 bc 00))}
-		$GetMessageA = {((00 8e 50 4b) | (4b 50 8e 00))}
-		$GetCurrentHwProfileA = {((00 fc 94 3f) | (3f 94 fc 00))}
-		$PostThreadMessageA = {((00 ef b6 0a) | (0a b6 ef 00))}
-		$RegOpenKeyExA = {((00 8f 0d d5) | (d5 0d 8f 00))}
-		$CreateWaitableTimer = {((01 0e 2d 5a) | (5a 2d 0e 01))}
-		$NtSetInformationProcess = {((01 43 ae a7) | (a7 ae 43 01))}
-		$InternetSetOptionA = {((01 02 4a 67) | (67 4a 02 01))}
-		$GetClipboardData = {((00 dc d7 0f) | (0f d7 dc 00))}
-		$HttpSendRequestExA = {((00 d6 2b 76) | (76 2b d6 00))}
-		$CreateProcessA = {((00 cd 89 21) | (21 89 cd 00))}
-		$CreateToolhelp32Snapshot = {((01 43 9e 00) | (00 9e 43 01))}
-		$GetProcessHeap = {((00 c0 74 15) | (15 74 c0 00))}
-		$MapVirtualKeyExA = {((00 c2 67 98) | (98 67 c2 00))}
-		$NtTerminateProcess = {((00 f4 bf 1a) | (1a bf f4 00))}
-		$CallNextHookEx = {((00 94 ee 46) | (46 ee 94 00))}
-		$TerminateProcess = {((00 da c6 35) | (35 c6 da 00))}
-		$GetIpNetTable = {((00 9a 75 21) | (21 75 9a 00))}
-		$SetThreadToken = {((00 b4 fb 97) | (97 fb b4 00))}
-		$SetCurrentDirectory = {((00 ef 1d 21) | (21 1d ef 00))}
-		$GetFileTime = {((00 7f 04 f0) | (f0 04 7f 00))}
-		$CreateRemoteThread = {((00 ff f6 9c) | (9c f6 ff 00))}
-		$KeInsertQueueApc = {((00 c2 f4 e1) | (e1 f4 c2 00))}
-		$SetWindowsHookExA = {((00 e6 66 83) | (83 66 e6 00))}
-		$EnumWindows = {((00 8b 46 8d) | (8d 46 8b 00))}
-		$NtSetSystemEnvironmentValueEx = {((01 8d 9c 40) | (40 9c 8d 01))}
-		$GetKeynameTextA = {((00 b7 03 71) | (71 03 b7 00))}
-		$CryptCreateHash = {((00 da b9 00) | (00 b9 da 00))}
-		$CreateThread = {((00 a1 b4 0a) | (0a b4 a1 00))}
-		$GetCurrentThread = {((00 c9 f7 e9) | (e9 f7 c9 00))}
-		$EnumResourceTypesExA = {((00 f4 3e 9b) | (9b 3e f4 00))}
-		$OpenSCManagerA = {((00 9b 36 fc) | (fc 36 9b 00))}
-		$NtWriteVirtualMemory = {((00 fb 7b d2) | (d2 7b fb 00))}
-		$WSASocketA = {((00 74 20 63) | (63 20 74 00))}
-		$SetWindowLongPtrA = {((00 e6 91 88) | (88 91 e6 00))}
-		$CryptAcquireContextA = {((00 fe 2c 72) | (72 2c fe 00))}
-		$Thread32Next = {((00 7b d4 54) | (54 d4 7b 00))}
-		$RegisterRawInputDevices = {((01 23 e9 8e) | (8e e9 23 01))}
-		$Gethostbyname = {((00 ab 49 81) | (81 49 ab 00))}
-		$GetLogicalProcessorInformationEx = {((01 5e 12 7a) | (7a 12 5e 01))}
-		$CreateWindowExA = {((00 b8 3a 9f) | (9f 3a b8 00))}
-		$GetTickCount64 = {((00 99 f3 58) | (58 f3 99 00))}
-		$SendMessageCallbackA = {((01 2d 11 9b) | (9b 11 2d 01))}
-		$WNetAddConnection2A = {((01 12 f0 47) | (47 f0 12 01))}
-		$ShellExecuteA = {((00 9d 88 1b) | (1b 88 9d 00))}
-		$CryptGenRandom = {((00 b3 6f 1f) | (1f 6f b3 00))}
-		$RegConnectRegistryA = {((01 02 7f ca) | (ca 7f 02 01))}
-		$CryptBinaryToString = {((00 e5 80 02) | (02 80 e5 00))}
-		$RtlMoveMemory = {((00 99 8c ec) | (ec 8c 99 00))}
-		$CopyFile2 = {((00 5c a9 45) | (45 a9 5c 00))}
-		$TimeGetTime = {((00 89 18 12) | (12 18 89 00))}
-		$Thread32First = {((00 9a f6 d5) | (d5 f6 9a 00))}
-		$PostMessageA = {((00 a6 ea 9a) | (9a ea a6 00))}
-		$WSACleanup = {((00 77 0f cc) | (cc 0f 77 00))}
-		$NtShutdownSystem = {((00 d0 ce c5) | (c5 ce d0 00))}
-		$GetModuleFileNameA = {((01 22 54 40) | (40 54 22 01))}
-		$Socket = {((00 44 93 21) | (21 93 44 00))}
-		$NtCreateUserProcess = {((00 e0 aa c6) | (c6 aa e0 00))}
-		$GetCurrentProcessId = {((00 e3 d9 6f) | (6f d9 e3 00))}
-		$InternetCloseHandle = {((01 2b e0 6c) | (6c e0 2b 01))}
-		$OpenFileMappingA = {((00 f1 7e 61) | (61 7e f1 00))}
-		$NtQueryDirectoryFile = {((01 03 5b 0c) | (0c 5b 03 01))}
-		$GetAdaptersInfo = {((00 c5 32 1d) | (1d 32 c5 00))}
-		$MapViewOfFile = {((00 88 d1 4d) | (4d d1 88 00))}
-		$TerminateThread = {((00 cf 46 23) | (23 46 cf 00))}
-		$ControlServiceExA = {((00 e8 66 15) | (15 66 e8 00))}
-		$CreateProcessInternal = {((01 1f 15 68) | (68 15 1f 01))}
-		$CreateMutexA = {((00 9e 80 f4) | (f4 80 9e 00))}
-		$WSAIoctl = {((00 58 d8 70) | (70 d8 58 00))}
-		$RegOpenKeyTransactedA = {((01 15 02 e1) | (e1 02 15 01))}
-		$Connect = {((00 46 0a ea) | (ea 0a 46 00))}
-		$RegQueryInfoKeyA = {((00 cf bd ca) | (ca bd cf 00))}
-		$RegSetKeySecurity = {((00 ca b3 01) | (01 b3 ca 00))}
-		$NtClose = {((00 47 a7 7c) | (7c a7 47 00))}
-		$Sleep = {((00 35 05 33) | (33 05 35 00))}
-		$NtProtectVirtualMemory = {((01 1d 19 43) | (43 19 1d 01))}
-		$NtReadVirtualMemory = {((01 05 0b 62) | (62 0b 05 01))}
-		$Gethostname = {((00 92 01 5e) | (5e 01 92 00))}
-		$CopyFileExA = {((00 79 bf 14) | (14 bf 79 00))}
-		$Wow64SetThreadContext = {((00 d3 a8 36) | (36 a8 d3 00))}
-		$EnumProcessModulesEx = {((01 0d 59 5e) | (5e 59 0d 01))}
-		$GetSystemDirectoryA = {((00 f5 4e 3a) | (3a 4e f5 00))}
-		$NtCreateProcess = {((00 cd 68 eb) | (eb 68 cd 00))}
-		$SetThreadContext = {((00 d3 01 75) | (75 01 d3 00))}
-		$DnsQueryEx = {((00 8d 2f c7) | (c7 2f 8d 00))}
-		$LoadResource = {((00 9b 95 02) | (02 95 9b 00))}
-		$NtAllocateVirtualMemory = {((01 46 44 7b) | (7b 44 46 01))}
-		$ConnectNamedPipe = {((00 f5 3a 5e) | (5e 3a f5 00))}
-		$RegDeleteKeyValueA = {((00 fb eb 44) | (44 eb fb 00))}
-		$CreatePipe = {((00 88 76 49) | (49 76 88 00))}
-		$NtDelayExecution = {((00 e8 bf aa) | (aa bf e8 00))}
-		$RtlGetVersion = {((00 a9 5e e4) | (e4 5e a9 00))}
-		$NtOpenThread = {((00 89 93 d6) | (d6 93 89 00))}
-		$RegReplaceKeyA = {((00 b3 4a 07) | (07 4a b3 00))}
-		$RtlCreateHeap = {((00 af 4c a4) | (a4 4c af 00))}
-		$CheckRemoteDebuggerPresent = {((01 b6 01 28) | (28 01 b6 01))}
-		$GetProcessIdOfThread = {((00 fe bc 03) | (03 bc fe 00))}
-		$SetForegroundWindow = {((01 0a c6 56) | (56 c6 0a 01))}
-		$SetWinEventHook = {((00 a7 9a cc) | (cc 9a a7 00))}
-		$RegisterHotKey = {((00 b9 50 6d) | (6d 50 b9 00))}
-		$NtQueryInformationProcess = {((01 68 d2 65) | (65 d2 68 01))}
-		$CreateRemoteThreadEx = {((01 0b f0 eb) | (eb f0 0b 01))}
-		$OpenClipboard = {((00 9a 2f b0) | (b0 2f 9a 00))}
-		$RegEnumValueA = {((00 97 d3 11) | (11 d3 97 00))}
-		$URLDownloadToCacheFile = {((01 2d f7 9d) | (9d f7 2d 01))}
-		$LocalAlloc = {((00 61 e2 eb) | (eb e2 61 00))}
-		$ShowWindow = {((00 7c c0 09) | (09 c0 7c 00))}
-		$VirtualQueryEx = {((00 d7 4f 88) | (88 4f d7 00))}
-		$NtQueueApcThread = {((00 be 94 a0) | (a0 94 be 00))}
-		$NtMakeTemporaryObject = {((01 27 ef b8) | (b8 ef 27 01))}
-		$VirtualAllocExNuma = {((01 01 8e cb) | (cb 8e 01 01))}
-		$RegOpenKeyA = {((00 7e b9 e2) | (e2 b9 7e 00))}
-		$EnumDesktopWindows = {((01 0b 53 3b) | (3b 53 0b 01))}
-		$WaitForSingleObject = {((01 14 de fd) | (fd de 14 01))}
-		$FindResourceExA = {((00 ba b2 07) | (07 b2 ba 00))}
-		$CryptStringToBinary = {((00 ec 7f fa) | (fa 7f ec 00))}
-		$RegEnumKeyA = {((00 7f 19 6d) | (6d 19 7f 00))}
-		$Select = {((00 41 05 57) | (57 05 41 00))}
-		$WNetEnumResourceA = {((00 d1 1c 2b) | (2b 1c d1 00))}
-		$EnumProcesses = {((00 b4 16 73) | (73 16 b4 00))}
-		$Listen = {((00 49 0e 98) | (98 0e 49 00))}
-		$RegCreateKeyA = {((00 a5 9e 82) | (82 9e a5 00))}
-		$IsDebuggerPresent = {((00 de 4c f8) | (f8 4c de 00))}
-		$FindNextUrlCacheEntryA = {((01 2b dc 63) | (63 dc 2b 01))}
-		$StartServiceA = {((00 ca ee b7) | (b7 ee ca 00))}
-		$GetThreadContext = {((00 dc 3f 15) | (15 3f dc 00))}
-		$VirtualAlloc = {((00 92 90 e8) | (e8 90 92 00))}
-		$Module32First = {((00 82 a1 45) | (45 a1 82 00))}
-		$FindFirstUrlCacheEntryA = {((01 37 d8 47) | (47 d8 37 01))}
-		$SleepEx = {((00 4e f8 d6) | (d6 f8 4e 00))}
-		$MoveFileA = {((00 5d 1f cd) | (cd 1f 5d 00))}
-		$NtSetValueKey = {((00 99 26 66) | (66 26 99 00))}
-		$SetWindowLongA = {((00 9e b4 2a) | (2a b4 9e 00))}
-		$MapViewOfFileEx = {((00 a0 0a 5b) | (5b 0a a0 00))}
-		$NtDuplicateObject = {((00 f3 28 fa) | (fa 28 f3 00))}
-		$GetKeyboardState = {((00 d6 f6 74) | (74 f6 d6 00))}
-		$GetSystemTime = {((00 a7 ec bd) | (bd ec a7 00))}
-		$FindWindowExA = {((00 8a 12 e7) | (e7 12 8a 00))}
-		$RegQueryMultipleValuesA = {((01 1f 7a 45) | (45 7a 1f 01))}
-		$DrawTextExA = {((00 99 7b fd) | (fd 7b 99 00))}
-		$RegEnumKeyExA = {((00 8e a8 70) | (70 a8 8e 00))}
-		$QueueUserAPC = {((00 a6 a9 ba) | (ba a9 a6 00))}
-		$RegSaveKeyA = {((00 87 c2 bb) | (bb c2 87 00))}
-		$CreateFileMappingA = {((01 0a cc 3c) | (3c cc 0a 01))}
-		$CryptDestroyKey = {((00 d9 0a 5e) | (5e 0a d9 00))}
-		$RegDeleteKeyExA = {((00 af 6b ac) | (ac 6b af 00))}
-		$EnumResourceTypesA = {((00 ec ca af) | (af ca ec 00))}
-		$RegSetKeyValueA = {((00 c0 7c 2d) | (2d 7c c0 00))}
-		$timeSetEvent = {((00 9f 22 1e) | (1e 22 9f 00))}
-		$RegSaveKeyExA = {((00 9e 6a 10) | (10 6a 9e 00))}
-		$CountClipboardFormats = {((01 30 63 b2) | (b2 63 30 01))}
-		$HttpAddRequestHeaders = {((00 fb 50 24) | (24 50 fb 00))}
-		$NtQueueApcThreadEx2 = {((00 e4 2c d6) | (d6 2c e4 00))}
-		$RegCopyTreeA = {((00 9f 26 31) | (31 26 9f 00))}
-		$ImpersonateLoggedOnUser = {((01 45 92 23) | (23 92 45 01))}
-		$GetDriveTypeA = {((00 ad 02 5c) | (5c 02 ad 00))}
-		$GetVersionExA = {((00 a2 39 33) | (33 39 a2 00))}
-		$InternetReadFile = {((00 eb 09 a2) | (a2 09 eb 00))}
-		$RegOpenCurrentUser = {((00 d9 9d e9) | (e9 9d d9 00))}
-		$GetThreadLocale = {((00 b5 26 ef) | (ef 26 b5 00))}
-		$NtUnmapViewOfSection = {((01 0b 9c 77) | (77 9c 0b 01))}
-		$FindNextFileA = {((00 82 6b c7) | (c7 6b 82 00))}
-		$GetLogicalProcessorInformation = {((01 d7 75 99) | (99 75 d7 01))}
-		$FlushEfsCache = {((00 9b a7 fa) | (fa a7 9b 00))}
-		$Closesocket = {((00 87 f8 67) | (67 f8 87 00))}
-		$NetShareGetInfo = {((00 ab 11 56) | (56 11 ab 00))}
-		$GetModuleHandleA = {((00 f9 a1 34) | (34 a1 f9 00))}
-		$VirtualAlloc2FromApp = {((00 f6 de 47) | (47 de f6 00))}
-		$MoveFileExA = {((00 78 1f 5c) | (5c 1f 78 00))}
-		$NtWaitForMultipleObjects = {((01 5f c0 f5) | (f5 c0 5f 01))}
-		$DeleteFileA = {((00 83 31 96) | (96 31 83 00))}
-		$StartServiceCtrlDispatcherA = {((01 8d 05 a5) | (a5 05 8d 01))}
-		$HttpOpenRequestA = {((00 b9 bd 0d) | (0d bd b9 00))}
-		$GetThreadInformation = {((01 27 64 2e) | (2e 64 27 01))}
-		$NtDeleteKey = {((00 82 0b 40) | (40 0b 82 00))}
-		$InternetWriteFile = {((00 f6 30 1b) | (1b 30 f6 00))}
-		$LoadLibraryA = {((00 8c 91 64) | (64 91 8c 00))}
-		$RegQueryValueExA = {((00 bb 98 3d) | (3d 98 bb 00))}
-		$NtCreateProcessEx = {((00 ce c1 ea) | (ea c1 ce 00))}
-		$GetForegroundWindow = {((01 15 ec 96) | (96 ec 15 01))}
-		$NtQuerySystemEnvironmentValueEx = {((01 aa 3b 4e) | (4e 3b aa 01))}
-		$SizeOfResource = {((00 ba 26 d3) | (d3 26 ba 00))}
-		$RegGetValueA = {((00 94 a5 c1) | (c1 a5 94 00))}
-		$LdrLoadDll = {((00 68 0c 21) | (21 0c 68 00))}
-		$NtResumeThread = {((00 ba f8 62) | (62 f8 ba 00))}
-		$MapViewOfFile3 = {((00 95 a9 41) | (41 a9 95 00))}
-		$NtQueryTimer = {((00 9e 2b bf) | (bf 2b 9e 00))}
-		$RtlCopyMemory = {((00 a5 a6 64) | (64 a6 a5 00))}
-		$InternetConnectA = {((00 f8 83 17) | (17 83 f8 00))}
-		$SetClipboardData = {((00 d3 44 bb) | (bb 44 d3 00))}
-		$GetKeyState = {((00 98 9d 3b) | (3b 9d 98 00))}
-		$WriteProcessMemory = {((00 f3 36 73) | (73 36 f3 00))}
-		$RtlSetProcessIsCritical = {((01 25 fb 94) | (94 fb 25 01))}
-		$NetShareAdd = {((00 85 9f 5d) | (5d 9f 85 00))}
-		$NtResumeProcess = {((00 d1 71 1a) | (1a 71 d1 00))}
-		$GetProcessHeaps = {((00 d3 13 f5) | (f5 13 d3 00))}
-		$RegDeleteKeyTransactedA = {((01 33 ce 6c) | (6c ce 33 01))}
-		$ReadProcessMemory = {((00 e6 04 1e) | (1e 04 e6 00))}
-		$GetNativeSystemInfo = {((01 06 1a 45) | (45 1a 06 01))}
-		$ioctlsocket = {((00 92 67 88) | (88 67 92 00))}
-		$CreateProcessAsUserA = {((00 ef 3e 2b) | (2b 3e ef 00))}
-		$PeekNamedPipe = {((00 96 7b ac) | (ac 7b 96 00))}
-		$SuspendThread = {((00 be 18 ea) | (ea 18 be 00))}
-		$CallWindowProcA = {((00 ac fd 5c) | (5c fd ac 00))}
-		$OpenServiceA = {((00 9b 3e 60) | (60 3e 9b 00))}
-		$SetTimer = {((00 69 e4 b6) | (b6 e4 69 00))}
-		$MapViewOfFile2 = {((00 95 89 14) | (14 89 95 00))}
-		$RegRestoreKeyA = {((00 bd 20 3d) | (3d 20 bd 00))}
-		$InternetOpenUrlA = {((00 dc b4 22) | (22 b4 dc 00))}
-		$GetTempPathA = {((00 97 62 88) | (88 62 97 00))}
-		$NtAdjustPrivilegesToken = {((01 31 af ca) | (ca af 31 01))}
-		$GetTickCount = {((00 8e 31 48) | (48 31 8e 00))}
-		$RegSetValueExA = {((00 b5 fb ca) | (ca fb b5 00))}
-		$NtCreateSection = {((00 c0 70 1f) | (1f 70 c0 00))}
-		$SetPropA = {((00 72 fe cb) | (cb fe 72 00))}
-		$GetModuleFileNameExA = {((01 18 93 ec) | (ec 93 18 01))}
-		$PathFileExistsA = {((00 ca e0 92) | (92 e0 ca 00))}
-		$SetFocus = {((00 71 88 13) | (13 88 71 00))}
-		$GetDCEx = {((00 33 6c 4c) | (4c 6c 33 00))}
-		$WNetOpenEnumA = {((00 88 7a 9b) | (9b 7a 88 00))}
-		$FindFirstFileA = {((00 9e 20 fb) | (fb 20 9e 00))}
-		$AttachThreadInput = {((00 dc 1a f5) | (f5 1a dc 00))}
-		$AdjustTokenPrivileges = {((01 20 30 c1) | (c1 30 20 01))}
-		$EnumProcessModules = {((01 03 2b e9) | (e9 2b 03 01))}
-
-	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
-}
-
-import "pe"
+import "math"
 
 rule api_hashes_d0nut : hardened
 {
@@ -14427,10 +14084,11 @@ rule api_hashes_d0nut : hardened
 		$EnumProcessModules = {((c9 1e f2 a0) | (a0 f2 1e c9))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_crypto_ror13_add_10 : hardened
 {
@@ -14807,10 +14465,11 @@ rule api_hashes_crypto_ror13_add_10 : hardened
 		$EnumProcessModules = {((09 4f c1 49) | (49 c1 4f 09))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_crc64_ecma_182 : hardened
 {
@@ -15187,10 +14846,11 @@ rule api_hashes_crc64_ecma_182 : hardened
 		$EnumProcessModules = {((9d 9d 23 06 14 22 a4 fb) | (fb a4 22 14 06 23 9d 9d))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_crc32_mpeg_2 : hardened
 {
@@ -15567,10 +15227,11 @@ rule api_hashes_crc32_mpeg_2 : hardened
 		$EnumProcessModules = {((55 9f d7 99) | (99 d7 9f 55))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_conti : hardened
 {
@@ -15947,10 +15608,11 @@ rule api_hashes_conti : hardened
 		$EnumProcessModules = {((23 a9 e4 3c) | (3c e4 a9 23))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_conti_mm3 : hardened
 {
@@ -16327,10 +15989,11 @@ rule api_hashes_conti_mm3 : hardened
 		$EnumProcessModules = {((ef 7c cf 6d) | (6d cf 7c ef))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_conti_e9ff0077 : hardened
 {
@@ -16707,10 +16370,11 @@ rule api_hashes_conti_e9ff0077 : hardened
 		$EnumProcessModules = {((01 b6 71 3b) | (3b 71 b6 01))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_conti_b801fcda : hardened
 {
@@ -17087,10 +16751,11 @@ rule api_hashes_conti_b801fcda : hardened
 		$EnumProcessModules = {((4b 5b 3a 28) | (28 3a 5b 4b))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_conti_5b2d : hardened
 {
@@ -17467,10 +17132,11 @@ rule api_hashes_conti_5b2d : hardened
 		$EnumProcessModules = {((28 0b 71 a5) | (a5 71 0b 28))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_brc4_joaat : hardened
 {
@@ -17847,10 +17513,11 @@ rule api_hashes_brc4_joaat : hardened
 		$EnumProcessModules = {((d6 8e ec d4) | (d4 ec 8e d6))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_blister2 : hardened
 {
@@ -18227,10 +17894,11 @@ rule api_hashes_blister2 : hardened
 		$EnumProcessModules = {((4b c3 bd c4) | (c4 bd c3 4b))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_babbleloader : hardened
 {
@@ -18607,10 +18275,11 @@ rule api_hashes_babbleloader : hardened
 		$EnumProcessModules = {((12 87 41 58) | (58 41 87 12))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_babbleloader_0125 : hardened
 {
@@ -18987,10 +18656,11 @@ rule api_hashes_babbleloader_0125 : hardened
 		$EnumProcessModules = {((61 52 29 d0) | (d0 29 52 61))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_alder32_666 : hardened
 {
@@ -19367,10 +19037,11 @@ rule api_hashes_alder32_666 : hardened
 		$EnumProcessModules = {((72 e1 09 e7) | (e7 09 e1 72))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_add_hiword_add_lowword : hardened
 {
@@ -19747,10 +19418,11 @@ rule api_hashes_add_hiword_add_lowword : hardened
 		$EnumProcessModules = {((45 17 07 5b) | (5b 07 17 45))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_add_65599 : hardened
 {
@@ -20127,10 +19799,11 @@ rule api_hashes_add_65599 : hardened
 		$EnumProcessModules = {((74 02 f2 f9) | (f9 f2 02 74))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_ror7AddHash32 : hardened
 {
@@ -20507,10 +20180,11 @@ rule api_hashes_ror7AddHash32 : hardened
 		$EnumProcessModules = {((c9 9b 56 a8) | (a8 56 9b c9))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_ror9AddHash32 : hardened
 {
@@ -20887,10 +20561,11 @@ rule api_hashes_ror9AddHash32 : hardened
 		$EnumProcessModules = {((ba d7 81 02) | (02 81 d7 ba))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_ror11AddHash32 : hardened
 {
@@ -21267,10 +20942,11 @@ rule api_hashes_ror11AddHash32 : hardened
 		$EnumProcessModules = {((41 15 5d 38) | (38 5d 15 41))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_ror13AddHash32 : hardened
 {
@@ -21647,10 +21323,11 @@ rule api_hashes_ror13AddHash32 : hardened
 		$EnumProcessModules = {((6a b3 4f 7b) | (7b 4f b3 6a))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_ror13AddHash32AddDll : hardened
 {
@@ -22027,10 +21704,11 @@ rule api_hashes_ror13AddHash32AddDll : hardened
 		$EnumProcessModules = {((0d db 5d e2) | (e2 5d db 0d))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_ror13AddHash32DllSimple : hardened
 {
@@ -22407,10 +22085,11 @@ rule api_hashes_ror13AddHash32DllSimple : hardened
 		$EnumProcessModules = {((6d 33 60 04) | (04 60 33 6d))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_ror13AddHash32Sub20h : hardened
 {
@@ -22787,10 +22466,11 @@ rule api_hashes_ror13AddHash32Sub20h : hardened
 		$EnumProcessModules = {((09 4f c1 3f) | (3f c1 4f 09))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_ror13AddHash32Sub1 : hardened
 {
@@ -23167,10 +22847,11 @@ rule api_hashes_ror13AddHash32Sub1 : hardened
 		$EnumProcessModules = {((6a b3 4f 7a) | (7a 4f b3 6a))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_addRor4WithNullHash32 : hardened
 {
@@ -23547,10 +23228,11 @@ rule api_hashes_addRor4WithNullHash32 : hardened
 		$EnumProcessModules = {((d5 be 22 b8) | (b8 22 be d5))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_addRor13Hash32 : hardened
 {
@@ -23927,10 +23609,11 @@ rule api_hashes_addRor13Hash32 : hardened
 		$EnumProcessModules = {((7b db 55 9a) | (9a 55 db 7b))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_addRor13HashOncemore32 : hardened
 {
@@ -24307,10 +23990,11 @@ rule api_hashes_addRor13HashOncemore32 : hardened
 		$EnumProcessModules = {((ac d3 de da) | (da de d3 ac))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_rol3XorEax : hardened
 {
@@ -24687,10 +24371,11 @@ rule api_hashes_rol3XorEax : hardened
 		$EnumProcessModules = {((14 8d 3c 52) | (52 3c 8d 14))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_rol3XorHash32 : hardened
 {
@@ -25064,10 +24749,11 @@ rule api_hashes_rol3XorHash32 : hardened
 		$EnumProcessModules = {((96 2c 09 be) | (be 09 2c 96))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_rol5AddHash32 : hardened
 {
@@ -25444,10 +25130,11 @@ rule api_hashes_rol5AddHash32 : hardened
 		$EnumProcessModules = {((86 a7 17 a6) | (a6 17 a7 86))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_addRol5HashOncemore32 : hardened
 {
@@ -25824,10 +25511,11 @@ rule api_hashes_addRol5HashOncemore32 : hardened
 		$EnumProcessModules = {((9c 5e 9a 1a) | (1a 9a 5e 9c))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_rol7AddHash32 : hardened
 {
@@ -26204,10 +25892,11 @@ rule api_hashes_rol7AddHash32 : hardened
 		$EnumProcessModules = {((ec bf 4f 1a) | (1a 4f bf ec))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_rol7AddXor2Hash32 : hardened
 {
@@ -26584,10 +26273,11 @@ rule api_hashes_rol7AddXor2Hash32 : hardened
 		$EnumProcessModules = {((1b d9 9b 92) | (92 9b d9 1b))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_rol7XorHash32 : hardened
 {
@@ -26964,10 +26654,11 @@ rule api_hashes_rol7XorHash32 : hardened
 		$EnumProcessModules = {((18 9f 16 c9) | (c9 16 9f 18))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_rol5XorHash32 : hardened
 {
@@ -27344,10 +27035,11 @@ rule api_hashes_rol5XorHash32 : hardened
 		$EnumProcessModules = {((82 b6 5f f7) | (f7 5f b6 82))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_rol8Xor0xB0D4D06Hash32 : hardened
 {
@@ -27724,10 +27416,11 @@ rule api_hashes_rol8Xor0xB0D4D06Hash32 : hardened
 		$EnumProcessModules = {((cc 46 73 94) | (94 73 46 cc))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_chAddRol8Hash32 : hardened
 {
@@ -28104,10 +27797,11 @@ rule api_hashes_chAddRol8Hash32 : hardened
 		$EnumProcessModules = {((68 4b 21 72) | (72 21 4b 68))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_rol9AddHash32 : hardened
 {
@@ -28484,10 +28178,11 @@ rule api_hashes_rol9AddHash32 : hardened
 		$EnumProcessModules = {((9e 3e 82 05) | (05 82 3e 9e))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_rol9XorHash32 : hardened
 {
@@ -28864,10 +28559,11 @@ rule api_hashes_rol9XorHash32 : hardened
 		$EnumProcessModules = {((76 5e 46 eb) | (eb 46 5e 76))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_shl7Shr19XorHash32 : hardened
 {
@@ -29244,10 +28940,11 @@ rule api_hashes_shl7Shr19XorHash32 : hardened
 		$EnumProcessModules = {((66 62 ed 3f) | (3f ed 62 66))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_shl7SubHash32DoublePulser : hardened
 {
@@ -29624,10 +29321,11 @@ rule api_hashes_shl7SubHash32DoublePulser : hardened
 		$EnumProcessModules = {((46 b2 c6 67) | (67 c6 b2 46))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_sll1AddHash32 : hardened
 {
@@ -29983,10 +29681,11 @@ rule api_hashes_sll1AddHash32 : hardened
 		$EnumProcessModules = {((03 53 20 ea) | (ea 20 53 03))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_shr2Shl5XorHash32 : hardened
 {
@@ -30363,10 +30062,11 @@ rule api_hashes_shr2Shl5XorHash32 : hardened
 		$EnumProcessModules = {((b1 2f cc 1b) | (1b cc 2f b1))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_xorShr8Hash32 : hardened
 {
@@ -30743,10 +30443,11 @@ rule api_hashes_xorShr8Hash32 : hardened
 		$EnumProcessModules = {((77 96 f5 19) | (19 f5 96 77))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_imul83hAdd : hardened
 {
@@ -31123,10 +30824,11 @@ rule api_hashes_imul83hAdd : hardened
 		$EnumProcessModules = {((e4 7f c0 b9) | (b9 c0 7f e4))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_imul21hAddHash32 : hardened
 {
@@ -31503,10 +31205,11 @@ rule api_hashes_imul21hAddHash32 : hardened
 		$EnumProcessModules = {((bf 17 49 b2) | (b2 49 17 bf))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_poisonIvyHash : hardened
 {
@@ -31883,10 +31586,11 @@ rule api_hashes_poisonIvyHash : hardened
 		$EnumProcessModules = {((a7 b6 e4 3b) | (3b e4 b6 a7))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_crc32 : hardened
 {
@@ -32263,10 +31967,11 @@ rule api_hashes_crc32 : hardened
 		$EnumProcessModules = {((de a8 2a c2) | (c2 2a a8 de))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_mult21AddHash32 : hardened
 {
@@ -32643,10 +32348,11 @@ rule api_hashes_mult21AddHash32 : hardened
 		$EnumProcessModules = {((47 37 4b 4d) | (4d 4b 37 47))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_add1505Shl5Hash32 : hardened
 {
@@ -33023,10 +32729,11 @@ rule api_hashes_add1505Shl5Hash32 : hardened
 		$EnumProcessModules = {((a5 de 9f 92) | (92 9f de a5))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_dualaccModFFF1Hash : hardened
 {
@@ -33403,10 +33110,11 @@ rule api_hashes_dualaccModFFF1Hash : hardened
 		$EnumProcessModules = {((44 1f 07 4e) | (4e 07 1f 44))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_hash_Carbanak : hardened
 {
@@ -33783,10 +33491,11 @@ rule api_hashes_hash_Carbanak : hardened
 		$EnumProcessModules = {((0f c7 ca d3) | (d3 ca c7 0f))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_fnv1Xor67f : hardened
 {
@@ -34163,10 +33872,11 @@ rule api_hashes_fnv1Xor67f : hardened
 		$EnumProcessModules = {((c6 eb f9 dd) | (dd f9 eb c6))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
 import "pe"
+import "math"
 
 rule api_hashes_bzip2_crc32 : hardened
 {
@@ -34543,6 +34253,6 @@ rule api_hashes_bzip2_crc32 : hardened
 		$EnumProcessModules = {((da 5e fa 01) | (01 fa 5e da))}
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
+		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
