@@ -1,5 +1,5 @@
-import "dotnet"
 import "math"
+import "dotnet"
 
 rule bitmap_dotnet_packer : hardened
 {
@@ -7,6 +7,7 @@ rule bitmap_dotnet_packer : hardened
 		author = "ppt0"
 		description = "Hunt potential .NET packer - stego bitmap in .NET resource. Key is presented as hexadecimal string"
 		score = 50
+		tags = "bitmap,stego"
 
 	strings:
 		$net_subresource_magic_number = { 40 00 01 00 00 00 FF FF FF }
