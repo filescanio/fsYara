@@ -8284,11 +8284,6 @@
         "Family",
         "hardened"
     ],
-    "MW_neuron2_decryption_routine": [
-        "Turla",
-        "APT",
-        "hardened"
-    ],
     "MAL_Polazert_Apr_2021_1": [
         "hardened"
     ],
@@ -10822,6 +10817,11 @@
         "limited"
     ],
     "APT_Neuron2_Loader_Strings": [
+        "hardened"
+    ],
+    "MW_neuron2_decryption_routine": [
+        "Turla",
+        "APT",
         "hardened"
     ],
     "asp_file": [
