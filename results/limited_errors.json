@@ -1127,6 +1127,19 @@
             "c57f7ed4d9373c96cd228884c535a545c388d6edee4fae49afb7763c69450281"
         ]
     },
+    "pe_xored_dos_message": {
+        "missing": [
+            "38c381e1f0d8db27082d5809b70fc73d5c7137e266bc22b4301dd4bbd5e79637",
+            "067c59ea6a6c74ab1450f89b6c3aae5a7f689a201414bdf62f5ce5290729a654",
+            "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c",
+            "83f967523fb0904cb14ced4e84d1f299c51ff7f33a2a68348dac47e06f3fa2d2",
+            "5b875ecf0b7f67a4429aeaa841eddf8e6b58771e16dbdb43ad6918aa7a5b582d",
+            "f1e7ced872b766d3a345710492b0b27c79e4673f7668acf2e8c8efdff2dbc171",
+            "6ba20c352fa09b4c25df7d2ee4c6848a2efbfd12caf722d931258c0348edae9e",
+            "43a538ef95d4f931704d6309fa0a292f38abaeae48836f39115c0d3f4418fdec",
+            "6e0164b94476119d7ba53adeca4ae7f7cd7a96d1c90d95ca7880003ace4462aa"
+        ]
+    },
     "HackTool_MSIL_SharpHound_3": {
         "missing": [
             "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c",

@@ -1,5 +1,5 @@
-import "pe"
 import "time"
+import "pe"
 
 rule pe_timestamp_in_future : hardened
 {
@@ -36,6 +36,7 @@ rule pe_unusual_entrypoint_section : hardened
 }
 
 import "pe"
+import "dotnet"
 
 rule pe_characteristics_dll_but_not_dll : hardened
 {
@@ -44,10 +45,11 @@ rule pe_characteristics_dll_but_not_dll : hardened
 		score = 50
 
 	condition:
-		pe.is_pe and pe.characteristics & pe.DLL and pe.number_of_exports == 0 and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( pe.sections [ i ] . name == ".text" or pe.sections [ i ] . name == ".code" )
+		not dotnet.is_dotnet and pe.is_pe and pe.characteristics & pe.DLL and pe.number_of_exports == 0 and for any section in pe.sections : ( section.name == ".text" or section.name == ".code" )
 }
 
 import "pe"
+import "dotnet"
 
 rule pe_number_of_sections_uncommon : hardened
 {
@@ -56,19 +58,19 @@ rule pe_number_of_sections_uncommon : hardened
 		score = 50
 
 	condition:
-		pe.is_pe and not pe.is_dll ( ) and ( pe.number_of_sections < 2 or pe.number_of_sections > 10 )
+		not dotnet.is_dotnet and pe.is_pe and not pe.is_dll ( ) and ( pe.number_of_sections < 2 or pe.number_of_sections > 10 )
 }
 
 import "pe"
 
-rule pe_purely_vrtl_executable_section : hardened
+rule pe_purely_virtual_executable_section : hardened
 {
 	meta:
 		description = "PE section is executable, purely vrtl (SizeOfRawData == 0)"
 		score = 50
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( pe.sections [ i ] . raw_data_size == 0 and pe.sections [ i ] . virtual_size > 0 and ( pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 ) )
+		pe.is_pe and for any section in pe.sections : ( section.raw_data_size == 0 and section.virtual_size > 0 and ( section.characteristics & pe.SECTION_CNT_CODE != 0 or section.characteristics & pe.SECTION_MEM_EXECUTE != 0 ) )
 }
 
 import "pe"
@@ -80,19 +82,19 @@ rule pe_purely_physical_section : hardened
 		score = 50
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( pe.sections [ i ] . raw_data_size > 0 and pe.sections [ i ] . virtual_size == 0 )
+		pe.is_pe and for any section in pe.sections : ( section.raw_data_size > 0 and section.virtual_size == 0 )
 }
 
 import "pe"
 
-rule pe_unbalanced_vrtl_physical_rtio : hardened
+rule pe_unbalanced_virtual_physical_ratio : hardened
 {
 	meta:
 		description = "PE section with large difference between physical and vrtl size"
 		score = 50
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( pe.sections [ i ] . raw_data_size > 0 and pe.sections [ i ] . virtual_size > 0 and ( ( pe.sections [ i ] . virtual_size > pe.sections [ i ] . raw_data_size + 0x10000 or pe.sections [ i ] . raw_data_size > pe.sections [ i ] . virtual_size + 0x10000 ) and ( pe.sections [ i ] . name != ".data" and pe.sections [ i ] . name != ".idata" and pe.sections [ i ] . name != ".pdata" and pe.sections [ i ] . name != ".rdata" ) ) )
+		pe.is_pe and for any section in pe.sections : ( section.raw_data_size > 0 and section.virtual_size > 0 and ( section.virtual_size > section.raw_data_size + 0x10000 or section.raw_data_size > section.virtual_size + 0x10000 ) )
 }
 
 import "pe"
@@ -103,7 +105,7 @@ rule pe_section_wx : hardened
 		description = "PE section is both executable and writable"
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 and pe.sections [ i ] . characteristics & pe.SECTION_MEM_WRITE != 0 )
+		pe.is_pe and for any section in pe.sections : ( section.characteristics & pe.SECTION_MEM_EXECUTE != 0 and section.characteristics & pe.SECTION_MEM_WRITE != 0 )
 }
 
 import "pe"
@@ -115,7 +117,7 @@ rule pe_section_rwx : hardened
 		score = 50
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_READ != 0 and pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 and pe.sections [ i ] . characteristics & pe.SECTION_MEM_WRITE != 0 )
+		pe.is_pe and for any section in pe.sections : ( section.characteristics & pe.SECTION_MEM_READ != 0 and section.characteristics & pe.SECTION_MEM_EXECUTE != 0 and section.characteristics & pe.SECTION_MEM_WRITE != 0 )
 }
 
 import "pe"
@@ -126,7 +128,7 @@ rule pe_section_no_name : hardened
 		description = "PE section name is empty"
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( pe.sections [ i ] . name == "" )
+		pe.is_pe and for any section in pe.sections : ( section.name == "" )
 }
 
 import "pe"
@@ -138,7 +140,7 @@ rule pe_executable_section_and_no_code : hardened
 		score = 50
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 and pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE == 0 )
+		pe.is_pe and for any section in pe.sections : ( section.characteristics & pe.SECTION_MEM_EXECUTE != 0 and section.characteristics & pe.SECTION_CNT_CODE == 0 )
 }
 
 import "pe"
@@ -150,20 +152,20 @@ rule pe_code_section_and_no_executable : hardened
 		score = 50
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 and pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE == 0 )
+		pe.is_pe and for any section in pe.sections : ( section.characteristics & pe.SECTION_CNT_CODE != 0 and section.characteristics & pe.SECTION_MEM_EXECUTE == 0 )
 }
 
 import "pe"
 import "math"
 
-rule pe_high_ntrpy_section : hardened
+rule pe_high_entropy_section : hardened
 {
 	meta:
 		description = "PE file with section ntrpy higher than 7"
 		score = 50
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) >= 7 )
+		pe.is_pe and for any section in pe.sections : ( math.entropy ( section.raw_data_offset , section.raw_data_size ) >= 7 )
 }
 
 import "pe"
@@ -179,6 +181,7 @@ rule pe_overlapping_sections : hardened
 }
 
 import "pe"
+import "dotnet"
 
 rule pe_no_import_table : hardened
 {
@@ -186,10 +189,11 @@ rule pe_no_import_table : hardened
 		description = "PE Import Table is missing"
 
 	condition:
-		pe.is_pe and not pe.is_dll ( ) and ( pe.number_of_rva_and_sizes <= pe.IMAGE_DIRECTORY_ENTRY_IMPORT or pe.data_directories [ pe.IMAGE_DIRECTORY_ENTRY_IMPORT ] . virtual_address == 0 or pe.data_directories [ pe.IMAGE_DIRECTORY_ENTRY_IMPORT ] . size == 0 )
+		not dotnet.is_dotnet and pe.is_pe and not pe.is_dll ( ) and ( pe.number_of_rva_and_sizes <= pe.IMAGE_DIRECTORY_ENTRY_IMPORT or pe.data_directories [ pe.IMAGE_DIRECTORY_ENTRY_IMPORT ] . virtual_address == 0 or pe.data_directories [ pe.IMAGE_DIRECTORY_ENTRY_IMPORT ] . size == 0 )
 }
 
 import "pe"
+import "dotnet"
 
 rule pe_zero_imports : hardened
 {
@@ -197,10 +201,34 @@ rule pe_zero_imports : hardened
 		description = "PE does not imports functions"
 
 	condition:
-		pe.is_pe and not pe.is_dll ( ) and pe.number_of_imports == 0
+		not dotnet.is_dotnet and pe.is_pe and not pe.is_dll ( ) and pe.number_of_imported_functions == 0
 }
 
 import "pe"
+import "dotnet"
+
+rule pe_very_low_imports : hardened
+{
+	meta:
+		description = "PE imports few functions"
+
+	condition:
+		not dotnet.is_dotnet and pe.is_pe and not pe.is_dll ( ) and pe.number_of_imported_functions <= 5
+}
+
+import "pe"
+
+rule pe_imports_by_ordinal : hardened
+{
+	meta:
+		description = "Detect PE imports using function ordinals (no named imports)"
+
+	condition:
+		pe.is_pe and for any i in ( 0 .. pe.number_of_imports - 1 ) : ( for any function in pe.import_details [ i ] . functions : ( function.name == "" and function.ordinal != 0 ) )
+}
+
+import "pe"
+import "dotnet"
 
 rule pe_gui_and_no_window_apis : hardened
 {
@@ -208,7 +236,18 @@ rule pe_gui_and_no_window_apis : hardened
 		description = "PE with SUBSYSTEM_WINDOWS_GUI but no related imports"
 
 	condition:
-		pe.is_pe and not pe.is_dll ( ) and pe.subsystem == pe.SUBSYSTEM_WINDOWS_GUI and ( not pe.imports ( /user32.dll/i , /(CreateWindow|CreateDialogIndirectParam|DialogBoxIndirectParam|DialogBoxParam|DispatchMessage|DefDlgProc|MessageBox|GetDC)/i ) > 0 and not pe.imports ( /mscoree.dll/i , /\_CorExeMain/i ) > 0 )
+		not dotnet.is_dotnet and pe.is_pe and not pe.is_dll ( ) and pe.subsystem == pe.SUBSYSTEM_WINDOWS_GUI and ( not pe.imports ( /user32.dll/i , /(CreateWindow|CreateDialogIndirectParam|DialogBoxIndirectParam|DialogBoxParam|DispatchMessage|DefDlgProc|MessageBox|GetDC)/i ) > 0 and not pe.imports ( /mscoree.dll/i , /\_CorExeMain/i ) > 0 )
+}
+
+import "pe"
+
+rule pe_dynamic_api_resolution_imports : hardened
+{
+	meta:
+		description = "PE imports few functions, including LoadLibrary and GetProcAddress"
+
+	condition:
+		pe.is_pe and pe.number_of_imported_functions <= 5 and pe.imports ( /kernel32.dll/i , /loadlibrary(a|w)|getprocaddress/i ) == 2
 }
 
 import "pe"
@@ -256,8 +295,8 @@ rule pe_dynamic_injection_imports : hardened
 		pe.is_pe and #injection_api > 3 and pe.imports ( /kernel32.dll/i , /(VirtualProtect(Ex)?|VirtualAlloc(Ex(Numa)?)?|ResumeThread|SetThreadContext|FindResourceA|LockResource|LoadResource)/i ) == 0 and pe.imports ( /ntdll.dll/i , /(Ldr(AccessResource|FindResource_U)|Nt(ResumeThread|AllocateVirtualMemory|MapViewOfSection|ProtectVirtualMemory))/i ) == 0
 }
 
-import "pe"
 import "time"
+import "pe"
 
 rule pe_signature_expired : hardened
 {
@@ -265,11 +304,11 @@ rule pe_signature_expired : hardened
 		description = "PE signature has expired"
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_signatures - 1 ) : ( pe.signatures [ i ] . not_after < time.now ( ) )
+		pe.is_pe and for any signature in pe.signatures : ( signature.not_after < time.now ( ) )
 }
 
-import "pe"
 import "time"
+import "pe"
 
 rule pe_signature_expires_soon : hardened
 {
@@ -277,20 +316,20 @@ rule pe_signature_expires_soon : hardened
 		description = "PE signature expires soon"
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_signatures - 1 ) : ( not pe.signatures [ i ] . not_after < time.now ( ) and pe.signatures [ i ] . not_after < time.now ( ) + 86400 * 15 )
+		pe.is_pe and for any signature in pe.signatures : ( not signature.not_after < time.now ( ) and signature.not_after < time.now ( ) + 86400 * 15 )
 }
 
 import "pe"
 import "math"
 
-rule pe_high_ntrpy_resource_no_image : hardened
+rule pe_high_entropy_resource_no_image : hardened
 {
 	meta:
 		description = "PE with embedded resource with high ntrpy (rcdata)"
 		score = 50
 
 	condition:
-		pe.is_pe and pe.number_of_resources > 0 and for any i in ( 0 .. pe.number_of_resources - 1 ) : ( pe.resources [ i ] . length > 1024 and pe.resources [ i ] . type == pe.RESOURCE_TYPE_RCDATA and math.entropy ( pe.resources [ i ] . offset , pe.resources [ i ] . length ) >= 7 )
+		pe.is_pe and pe.number_of_resources > 0 and for any resource in pe.resources : ( resource.length > 1024 and resource.type == pe.RESOURCE_TYPE_RCDATA and math.entropy ( resource.offset , resource.length ) >= 7 )
 }
 
 import "pe"
@@ -343,8 +382,8 @@ rule pe_embedded_x509_cert : hardened limited
 
 	strings:
 		$cert = {((42 45 47 49 4e 20 43 45 52 54 49 46 49 43 41 54 45) | (42 00 45 00 47 00 49 00 4e 00 20 00 43 00 45 00 52 00 54 00 49 00 46 00 49 00 43 00 41 00 54 00 45 00))}
-		$cert_xor = {(( 42 45 47 49 4e 20 43 45 52 54 49 46 49 43 41 54 45) |( 43 44 46 48 4f 21 42 44 53 55 48 47 48 42 40 55 44) |( 40 47 45 4b 4c 22 41 47 50 56 4b 44 4b 41 43 56 47) |( 41 46 44 4a 4d 23 40 46 51 57 4a 45 4a 40 42 57 46) |( 46 41 43 4d 4a 24 47 41 56 50 4d 42 4d 47 45 50 41) |( 47 40 42 4c 4b 25 46 40 57 51 4c 43 4c 46 44 51 40) |( 44 43 41 4f 48 26 45 43 54 52 4f 40 4f 45 47 52 43) |( 45 42 40 4e 49 27 44 42 55 53 4e 41 4e 44 46 53 42) |( 4a 4d 4f 41 46 28 4b 4d 5a 5c 41 4e 41 4b 49 5c 4d) |( 4b 4c 4e 40 47 29 4a 4c 5b 5d 40 4f 40 4a 48 5d 4c) |( 48 4f 4d 43 44 2a 49 4f 58 5e 43 4c 43 49 4b 5e 4f) |( 49 4e 4c 42 45 2b 48 4e 59 5f 42 4d 42 48 4a 5f 4e) |( 4e 49 4b 45 42 2c 4f 49 5e 58 45 4a 45 4f 4d 58 49) |( 4f 48 4a 44 43 2d 4e 48 5f 59 44 4b 44 4e 4c 59 48) |( 4c 4b 49 47 40 2e 4d 4b 5c 5a 47 48 47 4d 4f 5a 4b) |( 4d 4a 48 46 41 2f 4c 4a 5d 5b 46 49 46 4c 4e 5b 4a) |( 52 55 57 59 5e 30 53 55 42 44 59 56 59 53 51 44 55) |( 53 54 56 58 5f 31 52 54 43 45 58 57 58 52 50 45 54) |( 50 57 55 5b 5c 32 51 57 40 46 5b 54 5b 51 53 46 57) |( 51 56 54 5a 5d 33 50 56 41 47 5a 55 5a 50 52 47 56) |( 56 51 53 5d 5a 34 57 51 46 40 5d 52 5d 57 55 40 51) |( 57 50 52 5c 5b 35 56 50 47 41 5c 53 5c 56 54 41 50) |( 54 53 51 5f 58 36 55 53 44 42 5f 50 5f 55 57 42 53) |( 55 52 50 5e 59 37 54 52 45 43 5e 51 5e 54 56 43 52) |( 5a 5d 5f 51 56 38 5b 5d 4a 4c 51 5e 51 5b 59 4c 5d) |( 5b 5c 5e 50 57 39 5a 5c 4b 4d 50 5f 50 5a 58 4d 5c) |( 58 5f 5d 53 54 3a 59 5f 48 4e 53 5c 53 59 5b 4e 5f) |( 59 5e 5c 52 55 3b 58 5e 49 4f 52 5d 52 58 5a 4f 5e) |( 5e 59 5b 55 52 3c 5f 59 4e 48 55 5a 55 5f 5d 48 59) |( 5f 58 5a 54 53 3d 5e 58 4f 49 54 5b 54 5e 5c 49 58) |( 5c 5b 59 57 50 3e 5d 5b 4c 4a 57 58 57 5d 5f 4a 5b) |( 5d 5a 58 56 51 3f 5c 5a 4d 4b 56 59 56 5c 5e 4b 5a) |( 62 65 67 69 6e 00 63 65 72 74 69 66 69 63 61 74 65) |( 63 64 66 68 6f 01 62 64 73 75 68 67 68 62 60 75 64) |( 60 67 65 6b 6c 02 61 67 70 76 6b 64 6b 61 63 76 67) |( 61 66 64 6a 6d 03 60 66 71 77 6a 65 6a 60 62 77 66) |( 66 61 63 6d 6a 04 67 61 76 70 6d 62 6d 67 65 70 61) |( 67 60 62 6c 6b 05 66 60 77 71 6c 63 6c 66 64 71 60) |( 64 63 61 6f 68 06 65 63 74 72 6f 60 6f 65 67 72 63) |( 65 62 60 6e 69 07 64 62 75 73 6e 61 6e 64 66 73 62) |( 6a 6d 6f 61 66 08 6b 6d 7a 7c 61 6e 61 6b 69 7c 6d) |( 6b 6c 6e 60 67 09 6a 6c 7b 7d 60 6f 60 6a 68 7d 6c) |( 68 6f 6d 63 64 0a 69 6f 78 7e 63 6c 63 69 6b 7e 6f) |( 69 6e 6c 62 65 0b 68 6e 79 7f 62 6d 62 68 6a 7f 6e) |( 6e 69 6b 65 62 0c 6f 69 7e 78 65 6a 65 6f 6d 78 69) |( 6f 68 6a 64 63 0d 6e 68 7f 79 64 6b 64 6e 6c 79 68) |( 6c 6b 69 67 60 0e 6d 6b 7c 7a 67 68 67 6d 6f 7a 6b) |( 6d 6a 68 66 61 0f 6c 6a 7d 7b 66 69 66 6c 6e 7b 6a) |( 72 75 77 79 7e 10 73 75 62 64 79 76 79 73 71 64 75) |( 73 74 76 78 7f 11 72 74 63 65 78 77 78 72 70 65 74) |( 70 77 75 7b 7c 12 71 77 60 66 7b 74 7b 71 73 66 77) |( 71 76 74 7a 7d 13 70 76 61 67 7a 75 7a 70 72 67 76) |( 76 71 73 7d 7a 14 77 71 66 60 7d 72 7d 77 75 60 71) |( 77 70 72 7c 7b 15 76 70 67 61 7c 73 7c 76 74 61 70) |( 74 73 71 7f 78 16 75 73 64 62 7f 70 7f 75 77 62 73) |( 75 72 70 7e 79 17 74 72 65 63 7e 71 7e 74 76 63 72) |( 7a 7d 7f 71 76 18 7b 7d 6a 6c 71 7e 71 7b 79 6c 7d) |( 7b 7c 7e 70 77 19 7a 7c 6b 6d 70 7f 70 7a 78 6d 7c) |( 78 7f 7d 73 74 1a 79 7f 68 6e 73 7c 73 79 7b 6e 7f) |( 79 7e 7c 72 75 1b 78 7e 69 6f 72 7d 72 78 7a 6f 7e) |( 7e 79 7b 75 72 1c 7f 79 6e 68 75 7a 75 7f 7d 68 79) )}
-		$cert_base64 = {((51 6b 56 48 53 55 34 67 51 30 56 53 56 45 6c 47 53 55 4e 42 56 45 55 3d) | (51 00 6b 00 56 00 48 00 53 00 55 00 34 00 67 00 51 00 30 00 56 00 53 00 56 00 45 00 6c 00 47 00 53 00 55 00 4e 00 42 00 56 00 45 00 55 00 3d 00))}
+		$cert_xor = {(( 43 44 46 48 4f 21 42 44 53 55 48 47 48 42 40 55 44) |( 40 47 45 4b 4c 22 41 47 50 56 4b 44 4b 41 43 56 47) |( 41 46 44 4a 4d 23 40 46 51 57 4a 45 4a 40 42 57 46) |( 46 41 43 4d 4a 24 47 41 56 50 4d 42 4d 47 45 50 41) |( 47 40 42 4c 4b 25 46 40 57 51 4c 43 4c 46 44 51 40) |( 44 43 41 4f 48 26 45 43 54 52 4f 40 4f 45 47 52 43) |( 45 42 40 4e 49 27 44 42 55 53 4e 41 4e 44 46 53 42) |( 4a 4d 4f 41 46 28 4b 4d 5a 5c 41 4e 41 4b 49 5c 4d) |( 4b 4c 4e 40 47 29 4a 4c 5b 5d 40 4f 40 4a 48 5d 4c) |( 48 4f 4d 43 44 2a 49 4f 58 5e 43 4c 43 49 4b 5e 4f) |( 49 4e 4c 42 45 2b 48 4e 59 5f 42 4d 42 48 4a 5f 4e) |( 4e 49 4b 45 42 2c 4f 49 5e 58 45 4a 45 4f 4d 58 49) |( 4f 48 4a 44 43 2d 4e 48 5f 59 44 4b 44 4e 4c 59 48) |( 4c 4b 49 47 40 2e 4d 4b 5c 5a 47 48 47 4d 4f 5a 4b) |( 4d 4a 48 46 41 2f 4c 4a 5d 5b 46 49 46 4c 4e 5b 4a) |( 52 55 57 59 5e 30 53 55 42 44 59 56 59 53 51 44 55) |( 53 54 56 58 5f 31 52 54 43 45 58 57 58 52 50 45 54) |( 50 57 55 5b 5c 32 51 57 40 46 5b 54 5b 51 53 46 57) |( 51 56 54 5a 5d 33 50 56 41 47 5a 55 5a 50 52 47 56) |( 56 51 53 5d 5a 34 57 51 46 40 5d 52 5d 57 55 40 51) |( 57 50 52 5c 5b 35 56 50 47 41 5c 53 5c 56 54 41 50) |( 54 53 51 5f 58 36 55 53 44 42 5f 50 5f 55 57 42 53) |( 55 52 50 5e 59 37 54 52 45 43 5e 51 5e 54 56 43 52) |( 5a 5d 5f 51 56 38 5b 5d 4a 4c 51 5e 51 5b 59 4c 5d) |( 5b 5c 5e 50 57 39 5a 5c 4b 4d 50 5f 50 5a 58 4d 5c) |( 58 5f 5d 53 54 3a 59 5f 48 4e 53 5c 53 59 5b 4e 5f) |( 59 5e 5c 52 55 3b 58 5e 49 4f 52 5d 52 58 5a 4f 5e) |( 5e 59 5b 55 52 3c 5f 59 4e 48 55 5a 55 5f 5d 48 59) |( 5f 58 5a 54 53 3d 5e 58 4f 49 54 5b 54 5e 5c 49 58) |( 5c 5b 59 57 50 3e 5d 5b 4c 4a 57 58 57 5d 5f 4a 5b) |( 5d 5a 58 56 51 3f 5c 5a 4d 4b 56 59 56 5c 5e 4b 5a) |( 62 65 67 69 6e 00 63 65 72 74 69 66 69 63 61 74 65) |( 63 64 66 68 6f 01 62 64 73 75 68 67 68 62 60 75 64) |( 60 67 65 6b 6c 02 61 67 70 76 6b 64 6b 61 63 76 67) |( 61 66 64 6a 6d 03 60 66 71 77 6a 65 6a 60 62 77 66) |( 66 61 63 6d 6a 04 67 61 76 70 6d 62 6d 67 65 70 61) |( 67 60 62 6c 6b 05 66 60 77 71 6c 63 6c 66 64 71 60) |( 64 63 61 6f 68 06 65 63 74 72 6f 60 6f 65 67 72 63) |( 65 62 60 6e 69 07 64 62 75 73 6e 61 6e 64 66 73 62) |( 6a 6d 6f 61 66 08 6b 6d 7a 7c 61 6e 61 6b 69 7c 6d) |( 6b 6c 6e 60 67 09 6a 6c 7b 7d 60 6f 60 6a 68 7d 6c) |( 68 6f 6d 63 64 0a 69 6f 78 7e 63 6c 63 69 6b 7e 6f) |( 69 6e 6c 62 65 0b 68 6e 79 7f 62 6d 62 68 6a 7f 6e) |( 6e 69 6b 65 62 0c 6f 69 7e 78 65 6a 65 6f 6d 78 69) |( 6f 68 6a 64 63 0d 6e 68 7f 79 64 6b 64 6e 6c 79 68) |( 6c 6b 69 67 60 0e 6d 6b 7c 7a 67 68 67 6d 6f 7a 6b) |( 6d 6a 68 66 61 0f 6c 6a 7d 7b 66 69 66 6c 6e 7b 6a) |( 72 75 77 79 7e 10 73 75 62 64 79 76 79 73 71 64 75) |( 73 74 76 78 7f 11 72 74 63 65 78 77 78 72 70 65 74) |( 70 77 75 7b 7c 12 71 77 60 66 7b 74 7b 71 73 66 77) |( 71 76 74 7a 7d 13 70 76 61 67 7a 75 7a 70 72 67 76) |( 76 71 73 7d 7a 14 77 71 66 60 7d 72 7d 77 75 60 71) |( 77 70 72 7c 7b 15 76 70 67 61 7c 73 7c 76 74 61 70) |( 74 73 71 7f 78 16 75 73 64 62 7f 70 7f 75 77 62 73) |( 75 72 70 7e 79 17 74 72 65 63 7e 71 7e 74 76 63 72) |( 7a 7d 7f 71 76 18 7b 7d 6a 6c 71 7e 71 7b 79 6c 7d) |( 7b 7c 7e 70 77 19 7a 7c 6b 6d 70 7f 70 7a 78 6d 7c) |( 78 7f 7d 73 74 1a 79 7f 68 6e 73 7c 73 79 7b 6e 7f) |( 79 7e 7c 72 75 1b 78 7e 69 6f 72 7d 72 78 7a 6f 7e) |( 7e 79 7b 75 72 1c 7f 79 6e 68 75 7a 75 7f 7d 68 79) |( 7f 78 7a 74 73 1d 7e 78 6f 69 74 7b 74 7e 7c 69 78) )}
+		$cert_base64 = {42 45 47 49 4e 20 43 45 52 54 49 46 49 43 41 54 45}
 		$cert_flipflop = {((45 42 49 47 20 4e 45 43 54 52 46 49 43 49 54 41 45) | (45 00 42 00 49 00 47 00 20 00 4e 00 45 00 43 00 54 00 52 00 46 00 49 00 43 00 49 00 54 00 41 00 45 00))}
 		$cert_reverse = {((45 54 41 43 49 46 49 54 52 45 43 20 4e 49 47 45 42) | (45 00 54 00 41 00 43 00 49 00 46 00 49 00 54 00 52 00 45 00 43 00 20 00 4e 00 49 00 47 00 45 00 42 00))}
 		$cert_hex = {((34 32 34 35 34 37 34 39 34 65 32 30 34 33 34 35 35 32 35 34 34 39 34 36 34 39 34 33 34 31 35 34 34 35) | (34 00 32 00 34 00 35 00 34 00 37 00 34 00 39 00 34 00 65 00 32 00 30 00 34 00 33 00 34 00 35 00 35 00 32 00 35 00 34 00 34 00 39 00 34 00 36 00 34 00 39 00 34 00 33 00 34 00 31 00 35 00 34 00 34 00 35 00))}
@@ -362,7 +401,7 @@ rule pe_resource_reversed_pe : hardened
 		score = 75
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_resources - 1 ) : ( uint16be( ( pe.resources [ i ] . offset + pe.resources [ i ] . length ) - 2 ) == 0x5a4d )
+		pe.is_pe and for any resource in pe.resources : ( uint16be( ( resource.offset + resource.length ) - 2 ) == 0x5a4d )
 }
 
 import "pe"
@@ -386,7 +425,7 @@ rule pe_resource_base64d_pe : hardened
 		score = 75
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_resources - 1 ) : ( uint32be( pe.resources [ i ] . offset ) == 0x54567151 and uint32be( pe.resources [ i ] . offset + 4 ) == 0x41414D41 )
+		pe.is_pe and for any resource in pe.resources : ( uint32be( resource.offset ) == 0x54567151 and uint32be( resource.offset + 4 ) == 0x41414D41 )
 }
 
 import "pe"
@@ -407,10 +446,9 @@ rule pe_resource_single_byte_xor_PE : hardened
 {
 	meta:
 		description = "Try the 3rd byte as a XOR key, since typically that byte is zero in a PE, meaning in encoded form it will contain the XOR key"
-		score = 75
 
 	condition:
-		pe.is_pe and for any i in ( 0 .. pe.number_of_resources - 1 ) : ( uint16( pe.resources [ i ] . offset ) != 0x5a4d and uint8( pe.resources [ i ] . offset ) ^ uint8( pe.resources [ i ] . offset + 3 ) == 0x4d and uint8( pe.resources [ i ] . offset + 1 ) ^ uint8( pe.resources [ i ] . offset + 3 ) == 0x5a )
+		pe.is_pe and for any resource in pe.resources : ( uint16( resource.offset ) != 0x5a4d and uint8( resource.offset ) ^ uint8( resource.offset + 3 ) == 0x4d and uint8( resource.offset + 1 ) ^ uint8( resource.offset + 3 ) == 0x5a )
 }
 
 import "pe"
@@ -446,11 +484,10 @@ rule pe_xored_dos_message : hardened limited
 		score = 50
 
 	strings:
-		$xored_dos_message = {(( 54 68 69 73 20 70 72 6f 67 72 61 6d 20 63 61 6e 6e 6f 74 20 62 65 20 72 75 6e 20 69 6e 20 44 4f 53 20 6d 6f 64 65) |( 55 69 68 72 21 71 73 6e 66 73 60 6c 21 62 60 6f 6f 6e 75 21 63 64 21 73 74 6f 21 68 6f 21 45 4e 52 21 6c 6e 65 64) |( 56 6a 6b 71 22 72 70 6d 65 70 63 6f 22 61 63 6c 6c 6d 76 22 60 67 22 70 77 6c 22 6b 6c 22 46 4d 51 22 6f 6d 66 67) |( 57 6b 6a 70 23 73 71 6c 64 71 62 6e 23 60 62 6d 6d 6c 77 23 61 66 23 71 76 6d 23 6a 6d 23 47 4c 50 23 6e 6c 67 66) |( 50 6c 6d 77 24 74 76 6b 63 76 65 69 24 67 65 6a 6a 6b 70 24 66 61 24 76 71 6a 24 6d 6a 24 40 4b 57 24 69 6b 60 61) |( 51 6d 6c 76 25 75 77 6a 62 77 64 68 25 66 64 6b 6b 6a 71 25 67 60 25 77 70 6b 25 6c 6b 25 41 4a 56 25 68 6a 61 60) |( 52 6e 6f 75 26 76 74 69 61 74 67 6b 26 65 67 68 68 69 72 26 64 63 26 74 73 68 26 6f 68 26 42 49 55 26 6b 69 62 63) |( 53 6f 6e 74 27 77 75 68 60 75 66 6a 27 64 66 69 69 68 73 27 65 62 27 75 72 69 27 6e 69 27 43 48 54 27 6a 68 63 62) |( 5c 60 61 7b 28 78 7a 67 6f 7a 69 65 28 6b 69 66 66 67 7c 28 6a 6d 28 7a 7d 66 28 61 66 28 4c 47 5b 28 65 67 6c 6d) |( 5d 61 60 7a 29 79 7b 66 6e 7b 68 64 29 6a 68 67 67 66 7d 29 6b 6c 29 7b 7c 67 29 60 67 29 4d 46 5a 29 64 66 6d 6c) |( 5e 62 63 79 2a 7a 78 65 6d 78 6b 67 2a 69 6b 64 64 65 7e 2a 68 6f 2a 78 7f 64 2a 63 64 2a 4e 45 59 2a 67 65 6e 6f) |( 5f 63 62 78 2b 7b 79 64 6c 79 6a 66 2b 68 6a 65 65 64 7f 2b 69 6e 2b 79 7e 65 2b 62 65 2b 4f 44 58 2b 66 64 6f 6e) |( 58 64 65 7f 2c 7c 7e 63 6b 7e 6d 61 2c 6f 6d 62 62 63 78 2c 6e 69 2c 7e 79 62 2c 65 62 2c 48 43 5f 2c 61 63 68 69) |( 59 65 64 7e 2d 7d 7f 62 6a 7f 6c 60 2d 6e 6c 63 63 62 79 2d 6f 68 2d 7f 78 63 2d 64 63 2d 49 42 5e 2d 60 62 69 68) |( 5a 66 67 7d 2e 7e 7c 61 69 7c 6f 63 2e 6d 6f 60 60 61 7a 2e 6c 6b 2e 7c 7b 60 2e 67 60 2e 4a 41 5d 2e 63 61 6a 6b) |( 5b 67 66 7c 2f 7f 7d 60 68 7d 6e 62 2f 6c 6e 61 61 60 7b 2f 6d 6a 2f 7d 7a 61 2f 66 61 2f 4b 40 5c 2f 62 60 6b 6a) |( 44 78 79 63 30 60 62 7f 77 62 71 7d 30 73 71 7e 7e 7f 64 30 72 75 30 62 65 7e 30 79 7e 30 54 5f 43 30 7d 7f 74 75) |( 45 79 78 62 31 61 63 7e 76 63 70 7c 31 72 70 7f 7f 7e 65 31 73 74 31 63 64 7f 31 78 7f 31 55 5e 42 31 7c 7e 75 74) |( 46 7a 7b 61 32 62 60 7d 75 60 73 7f 32 71 73 7c 7c 7d 66 32 70 77 32 60 67 7c 32 7b 7c 32 56 5d 41 32 7f 7d 76 77) |( 47 7b 7a 60 33 63 61 7c 74 61 72 7e 33 70 72 7d 7d 7c 67 33 71 76 33 61 66 7d 33 7a 7d 33 57 5c 40 33 7e 7c 77 76) |( 40 7c 7d 67 34 64 66 7b 73 66 75 79 34 77 75 7a 7a 7b 60 34 76 71 34 66 61 7a 34 7d 7a 34 50 5b 47 34 79 7b 70 71) |( 41 7d 7c 66 35 65 67 7a 72 67 74 78 35 76 74 7b 7b 7a 61 35 77 70 35 67 60 7b 35 7c 7b 35 51 5a 46 35 78 7a 71 70) |( 42 7e 7f 65 36 66 64 79 71 64 77 7b 36 75 77 78 78 79 62 36 74 73 36 64 63 78 36 7f 78 36 52 59 45 36 7b 79 72 73) |( 43 7f 7e 64 37 67 65 78 70 65 76 7a 37 74 76 79 79 78 63 37 75 72 37 65 62 79 37 7e 79 37 53 58 44 37 7a 78 73 72) |( 4c 70 71 6b 38 68 6a 77 7f 6a 79 75 38 7b 79 76 76 77 6c 38 7a 7d 38 6a 6d 76 38 71 76 38 5c 57 4b 38 75 77 7c 7d) |( 4d 71 70 6a 39 69 6b 76 7e 6b 78 74 39 7a 78 77 77 76 6d 39 7b 7c 39 6b 6c 77 39 70 77 39 5d 56 4a 39 74 76 7d 7c) |( 4e 72 73 69 3a 6a 68 75 7d 68 7b 77 3a 79 7b 74 74 75 6e 3a 78 7f 3a 68 6f 74 3a 73 74 3a 5e 55 49 3a 77 75 7e 7f) |( 4f 73 72 68 3b 6b 69 74 7c 69 7a 76 3b 78 7a 75 75 74 6f 3b 79 7e 3b 69 6e 75 3b 72 75 3b 5f 54 48 3b 76 74 7f 7e) |( 48 74 75 6f 3c 6c 6e 73 7b 6e 7d 71 3c 7f 7d 72 72 73 68 3c 7e 79 3c 6e 69 72 3c 75 72 3c 58 53 4f 3c 71 73 78 79) |( 49 75 74 6e 3d 6d 6f 72 7a 6f 7c 70 3d 7e 7c 73 73 72 69 3d 7f 78 3d 6f 68 73 3d 74 73 3d 59 52 4e 3d 70 72 79 78) |( 4a 76 77 6d 3e 6e 6c 71 79 6c 7f 73 3e 7d 7f 70 70 71 6a 3e 7c 7b 3e 6c 6b 70 3e 77 70 3e 5a 51 4d 3e 73 71 7a 7b) |( 4b 77 76 6c 3f 6f 6d 70 78 6d 7e 72 3f 7c 7e 71 71 70 6b 3f 7d 7a 3f 6d 6a 71 3f 76 71 3f 5b 50 4c 3f 72 70 7b 7a) |( 74 48 49 53 00 50 52 4f 47 52 41 4d 00 43 41 4e 4e 4f 54 00 42 45 00 52 55 4e 00 49 4e 00 64 6f 73 00 4d 4f 44 45) |( 75 49 48 52 01 51 53 4e 46 53 40 4c 01 42 40 4f 4f 4e 55 01 43 44 01 53 54 4f 01 48 4f 01 65 6e 72 01 4c 4e 45 44) |( 76 4a 4b 51 02 52 50 4d 45 50 43 4f 02 41 43 4c 4c 4d 56 02 40 47 02 50 57 4c 02 4b 4c 02 66 6d 71 02 4f 4d 46 47) |( 77 4b 4a 50 03 53 51 4c 44 51 42 4e 03 40 42 4d 4d 4c 57 03 41 46 03 51 56 4d 03 4a 4d 03 67 6c 70 03 4e 4c 47 46) |( 70 4c 4d 57 04 54 56 4b 43 56 45 49 04 47 45 4a 4a 4b 50 04 46 41 04 56 51 4a 04 4d 4a 04 60 6b 77 04 49 4b 40 41) |( 71 4d 4c 56 05 55 57 4a 42 57 44 48 05 46 44 4b 4b 4a 51 05 47 40 05 57 50 4b 05 4c 4b 05 61 6a 76 05 48 4a 41 40) |( 72 4e 4f 55 06 56 54 49 41 54 47 4b 06 45 47 48 48 49 52 06 44 43 06 54 53 48 06 4f 48 06 62 69 75 06 4b 49 42 43) |( 73 4f 4e 54 07 57 55 48 40 55 46 4a 07 44 46 49 49 48 53 07 45 42 07 55 52 49 07 4e 49 07 63 68 74 07 4a 48 43 42) |( 7c 40 41 5b 08 58 5a 47 4f 5a 49 45 08 4b 49 46 46 47 5c 08 4a 4d 08 5a 5d 46 08 41 46 08 6c 67 7b 08 45 47 4c 4d) |( 7d 41 40 5a 09 59 5b 46 4e 5b 48 44 09 4a 48 47 47 46 5d 09 4b 4c 09 5b 5c 47 09 40 47 09 6d 66 7a 09 44 46 4d 4c) |( 7e 42 43 59 0a 5a 58 45 4d 58 4b 47 0a 49 4b 44 44 45 5e 0a 48 4f 0a 58 5f 44 0a 43 44 0a 6e 65 79 0a 47 45 4e 4f) |( 7f 43 42 58 0b 5b 59 44 4c 59 4a 46 0b 48 4a 45 45 44 5f 0b 49 4e 0b 59 5e 45 0b 42 45 0b 6f 64 78 0b 46 44 4f 4e) |( 78 44 45 5f 0c 5c 5e 43 4b 5e 4d 41 0c 4f 4d 42 42 43 58 0c 4e 49 0c 5e 59 42 0c 45 42 0c 68 63 7f 0c 41 43 48 49) |( 79 45 44 5e 0d 5d 5f 42 4a 5f 4c 40 0d 4e 4c 43 43 42 59 0d 4f 48 0d 5f 58 43 0d 44 43 0d 69 62 7e 0d 40 42 49 48) |( 7a 46 47 5d 0e 5e 5c 41 49 5c 4f 43 0e 4d 4f 40 40 41 5a 0e 4c 4b 0e 5c 5b 40 0e 47 40 0e 6a 61 7d 0e 43 41 4a 4b) |( 7b 47 46 5c 0f 5f 5d 40 48 5d 4e 42 0f 4c 4e 41 41 40 5b 0f 4d 4a 0f 5d 5a 41 0f 46 41 0f 6b 60 7c 0f 42 40 4b 4a) |( 64 58 59 43 10 40 42 5f 57 42 51 5d 10 53 51 5e 5e 5f 44 10 52 55 10 42 45 5e 10 59 5e 10 74 7f 63 10 5d 5f 54 55) |( 65 59 58 42 11 41 43 5e 56 43 50 5c 11 52 50 5f 5f 5e 45 11 53 54 11 43 44 5f 11 58 5f 11 75 7e 62 11 5c 5e 55 54) |( 66 5a 5b 41 12 42 40 5d 55 40 53 5f 12 51 53 5c 5c 5d 46 12 50 57 12 40 47 5c 12 5b 5c 12 76 7d 61 12 5f 5d 56 57) |( 67 5b 5a 40 13 43 41 5c 54 41 52 5e 13 50 52 5d 5d 5c 47 13 51 56 13 41 46 5d 13 5a 5d 13 77 7c 60 13 5e 5c 57 56) |( 60 5c 5d 47 14 44 46 5b 53 46 55 59 14 57 55 5a 5a 5b 40 14 56 51 14 46 41 5a 14 5d 5a 14 70 7b 67 14 59 5b 50 51) |( 61 5d 5c 46 15 45 47 5a 52 47 54 58 15 56 54 5b 5b 5a 41 15 57 50 15 47 40 5b 15 5c 5b 15 71 7a 66 15 58 5a 51 50) |( 62 5e 5f 45 16 46 44 59 51 44 57 5b 16 55 57 58 58 59 42 16 54 53 16 44 43 58 16 5f 58 16 72 79 65 16 5b 59 52 53) |( 63 5f 5e 44 17 47 45 58 50 45 56 5a 17 54 56 59 59 58 43 17 55 52 17 45 42 59 17 5e 59 17 73 78 64 17 5a 58 53 52) |( 6c 50 51 4b 18 48 4a 57 5f 4a 59 55 18 5b 59 56 56 57 4c 18 5a 5d 18 4a 4d 56 18 51 56 18 7c 77 6b 18 55 57 5c 5d) |( 6d 51 50 4a 19 49 4b 56 5e 4b 58 54 19 5a 58 57 57 56 4d 19 5b 5c 19 4b 4c 57 19 50 57 19 7d 76 6a 19 54 56 5d 5c) |( 6e 52 53 49 1a 4a 48 55 5d 48 5b 57 1a 59 5b 54 54 55 4e 1a 58 5f 1a 48 4f 54 1a 53 54 1a 7e 75 69 1a 57 55 5e 5f) |( 6f 53 52 48 1b 4b 49 54 5c 49 5a 56 1b 58 5a 55 55 54 4f 1b 59 5e 1b 49 4e 55 1b 52 55 1b 7f 74 68 1b 56 54 5f 5e) |( 68 54 55 4f 1c 4c 4e 53 5b 4e 5d 51 1c 5f 5d 52 52 53 48 1c 5e 59 1c 4e 49 52 1c 55 52 1c 78 73 6f 1c 51 53 58 59) )}
-		$clear_dos_message = {54 68 69 73 20 70 72 6f 67 72 61 6d 20 63 61 6e 6e 6f 74 20 62 65 20 72 75 6e 20 69 6e 20 44 4f 53 20 6d 6f 64 65}
+		$dos_message = {(( 55 69 68 72 21 71 73 6e 66 73 60 6c 21 62 60 6f 6f 6e 75 21 63 64 21 73 74 6f 21 68 6f 21 45 4e 52 21 6c 6e 65 64) |( 56 6a 6b 71 22 72 70 6d 65 70 63 6f 22 61 63 6c 6c 6d 76 22 60 67 22 70 77 6c 22 6b 6c 22 46 4d 51 22 6f 6d 66 67) |( 57 6b 6a 70 23 73 71 6c 64 71 62 6e 23 60 62 6d 6d 6c 77 23 61 66 23 71 76 6d 23 6a 6d 23 47 4c 50 23 6e 6c 67 66) |( 50 6c 6d 77 24 74 76 6b 63 76 65 69 24 67 65 6a 6a 6b 70 24 66 61 24 76 71 6a 24 6d 6a 24 40 4b 57 24 69 6b 60 61) |( 51 6d 6c 76 25 75 77 6a 62 77 64 68 25 66 64 6b 6b 6a 71 25 67 60 25 77 70 6b 25 6c 6b 25 41 4a 56 25 68 6a 61 60) |( 52 6e 6f 75 26 76 74 69 61 74 67 6b 26 65 67 68 68 69 72 26 64 63 26 74 73 68 26 6f 68 26 42 49 55 26 6b 69 62 63) |( 53 6f 6e 74 27 77 75 68 60 75 66 6a 27 64 66 69 69 68 73 27 65 62 27 75 72 69 27 6e 69 27 43 48 54 27 6a 68 63 62) |( 5c 60 61 7b 28 78 7a 67 6f 7a 69 65 28 6b 69 66 66 67 7c 28 6a 6d 28 7a 7d 66 28 61 66 28 4c 47 5b 28 65 67 6c 6d) |( 5d 61 60 7a 29 79 7b 66 6e 7b 68 64 29 6a 68 67 67 66 7d 29 6b 6c 29 7b 7c 67 29 60 67 29 4d 46 5a 29 64 66 6d 6c) |( 5e 62 63 79 2a 7a 78 65 6d 78 6b 67 2a 69 6b 64 64 65 7e 2a 68 6f 2a 78 7f 64 2a 63 64 2a 4e 45 59 2a 67 65 6e 6f) |( 5f 63 62 78 2b 7b 79 64 6c 79 6a 66 2b 68 6a 65 65 64 7f 2b 69 6e 2b 79 7e 65 2b 62 65 2b 4f 44 58 2b 66 64 6f 6e) |( 58 64 65 7f 2c 7c 7e 63 6b 7e 6d 61 2c 6f 6d 62 62 63 78 2c 6e 69 2c 7e 79 62 2c 65 62 2c 48 43 5f 2c 61 63 68 69) |( 59 65 64 7e 2d 7d 7f 62 6a 7f 6c 60 2d 6e 6c 63 63 62 79 2d 6f 68 2d 7f 78 63 2d 64 63 2d 49 42 5e 2d 60 62 69 68) |( 5a 66 67 7d 2e 7e 7c 61 69 7c 6f 63 2e 6d 6f 60 60 61 7a 2e 6c 6b 2e 7c 7b 60 2e 67 60 2e 4a 41 5d 2e 63 61 6a 6b) |( 5b 67 66 7c 2f 7f 7d 60 68 7d 6e 62 2f 6c 6e 61 61 60 7b 2f 6d 6a 2f 7d 7a 61 2f 66 61 2f 4b 40 5c 2f 62 60 6b 6a) |( 44 78 79 63 30 60 62 7f 77 62 71 7d 30 73 71 7e 7e 7f 64 30 72 75 30 62 65 7e 30 79 7e 30 54 5f 43 30 7d 7f 74 75) |( 45 79 78 62 31 61 63 7e 76 63 70 7c 31 72 70 7f 7f 7e 65 31 73 74 31 63 64 7f 31 78 7f 31 55 5e 42 31 7c 7e 75 74) |( 46 7a 7b 61 32 62 60 7d 75 60 73 7f 32 71 73 7c 7c 7d 66 32 70 77 32 60 67 7c 32 7b 7c 32 56 5d 41 32 7f 7d 76 77) |( 47 7b 7a 60 33 63 61 7c 74 61 72 7e 33 70 72 7d 7d 7c 67 33 71 76 33 61 66 7d 33 7a 7d 33 57 5c 40 33 7e 7c 77 76) |( 40 7c 7d 67 34 64 66 7b 73 66 75 79 34 77 75 7a 7a 7b 60 34 76 71 34 66 61 7a 34 7d 7a 34 50 5b 47 34 79 7b 70 71) |( 41 7d 7c 66 35 65 67 7a 72 67 74 78 35 76 74 7b 7b 7a 61 35 77 70 35 67 60 7b 35 7c 7b 35 51 5a 46 35 78 7a 71 70) |( 42 7e 7f 65 36 66 64 79 71 64 77 7b 36 75 77 78 78 79 62 36 74 73 36 64 63 78 36 7f 78 36 52 59 45 36 7b 79 72 73) |( 43 7f 7e 64 37 67 65 78 70 65 76 7a 37 74 76 79 79 78 63 37 75 72 37 65 62 79 37 7e 79 37 53 58 44 37 7a 78 73 72) |( 4c 70 71 6b 38 68 6a 77 7f 6a 79 75 38 7b 79 76 76 77 6c 38 7a 7d 38 6a 6d 76 38 71 76 38 5c 57 4b 38 75 77 7c 7d) |( 4d 71 70 6a 39 69 6b 76 7e 6b 78 74 39 7a 78 77 77 76 6d 39 7b 7c 39 6b 6c 77 39 70 77 39 5d 56 4a 39 74 76 7d 7c) |( 4e 72 73 69 3a 6a 68 75 7d 68 7b 77 3a 79 7b 74 74 75 6e 3a 78 7f 3a 68 6f 74 3a 73 74 3a 5e 55 49 3a 77 75 7e 7f) |( 4f 73 72 68 3b 6b 69 74 7c 69 7a 76 3b 78 7a 75 75 74 6f 3b 79 7e 3b 69 6e 75 3b 72 75 3b 5f 54 48 3b 76 74 7f 7e) |( 48 74 75 6f 3c 6c 6e 73 7b 6e 7d 71 3c 7f 7d 72 72 73 68 3c 7e 79 3c 6e 69 72 3c 75 72 3c 58 53 4f 3c 71 73 78 79) |( 49 75 74 6e 3d 6d 6f 72 7a 6f 7c 70 3d 7e 7c 73 73 72 69 3d 7f 78 3d 6f 68 73 3d 74 73 3d 59 52 4e 3d 70 72 79 78) |( 4a 76 77 6d 3e 6e 6c 71 79 6c 7f 73 3e 7d 7f 70 70 71 6a 3e 7c 7b 3e 6c 6b 70 3e 77 70 3e 5a 51 4d 3e 73 71 7a 7b) |( 4b 77 76 6c 3f 6f 6d 70 78 6d 7e 72 3f 7c 7e 71 71 70 6b 3f 7d 7a 3f 6d 6a 71 3f 76 71 3f 5b 50 4c 3f 72 70 7b 7a)  | ( 55 01 69 01 68 01 72 01 21 01 71 01 73 01 6e 01 66 01 73 01 60 01 6c 01 21 01 62 01 60 01 6f 01 6f 01 6e 01 75 01 21 01 63 01 64 01 21 01 73 01 74 01 6f 01 21 01 68 01 6f 01 21 01 45 01 4e 01 52 01 21 01 6c 01 6e 01 65 01 64 01) |( 56 02 6a 02 6b 02 71 02 22 02 72 02 70 02 6d 02 65 02 70 02 63 02 6f 02 22 02 61 02 63 02 6c 02 6c 02 6d 02 76 02 22 02 60 02 67 02 22 02 70 02 77 02 6c 02 22 02 6b 02 6c 02 22 02 46 02 4d 02 51 02 22 02 6f 02 6d 02 66 02 67 02) |( 57 03 6b 03 6a 03 70 03 23 03 73 03 71 03 6c 03 64 03 71 03 62 03 6e 03 23 03 60 03 62 03 6d 03 6d 03 6c 03 77 03 23 03 61 03 66 03 23 03 71 03 76 03 6d 03 23 03 6a 03 6d 03 23 03 47 03 4c 03 50 03 23 03 6e 03 6c 03 67 03 66 03) |( 50 04 6c 04 6d 04 77 04 24 04 74 04 76 04 6b 04 63 04 76 04 65 04 69 04 24 04 67 04 65 04 6a 04 6a 04 6b 04 70 04 24 04 66 04 61 04 24 04 76 04 71 04 6a 04 24 04 6d 04 6a 04 24 04 40 04 4b 04 57 04 24 04 69 04 6b 04 60 04 61 04) |( 51 05 6d 05 6c 05 76 05 25 05 75 05 77 05 6a 05 62 05 77 05 64 05 68 05 25 05 66 05 64 05 6b 05 6b 05 6a 05 71 05 25 05 67 05 60 05 25 05 77 05 70 05 6b 05 25 05 6c 05 6b 05 25 05 41 05 4a 05 56 05 25 05 68 05 6a 05 61 05 60 05) |( 52 06 6e 06 6f 06 75 06 26 06 76 06 74 06 69 06 61 06 74 06 67 06 6b 06 26 06 65 06 67 06 68 06 68 06 69 06 72 06 26 06 64 06 63 06 26 06 74 06 73 06 68 06 26 06 6f 06 68 06 26 06 42 06 49 06 55 06 26 06 6b 06 69 06 62 06 63 06) |( 53 07 6f 07 6e 07 74 07 27 07 77 07 75 07 68 07 60 07 75 07 66 07 6a 07 27 07 64 07 66 07 69 07 69 07 68 07 73 07 27 07 65 07 62 07 27 07 75 07 72 07 69 07 27 07 6e 07 69 07 27 07 43 07 48 07 54 07 27 07 6a 07 68 07 63 07 62 07) |( 5c 08 60 08 61 08 7b 08 28 08 78 08 7a 08 67 08 6f 08 7a 08 69 08 65 08 28 08 6b 08 69 08 66 08 66 08 67 08 7c 08 28 08 6a 08 6d 08 28 08 7a 08 7d 08 66 08 28 08 61 08 66 08 28 08 4c 08 47 08 5b 08 28 08 65 08 67 08 6c 08 6d 08) |( 5d 09 61 09 60 09 7a 09 29 09 79 09 7b 09 66 09 6e 09 7b 09 68 09 64 09 29 09 6a 09 68 09 67 09 67 09 66 09 7d 09 29 09 6b 09 6c 09 29 09 7b 09 7c 09 67 09 29 09 60 09 67 09 29 09 4d 09 46 09 5a 09 29 09 64 09 66 09 6d 09 6c 09) |( 5e 0a 62 0a 63 0a 79 0a 2a 0a 7a 0a 78 0a 65 0a 6d 0a 78 0a 6b 0a 67 0a 2a 0a 69 0a 6b 0a 64 0a 64 0a 65 0a 7e 0a 2a 0a 68 0a 6f 0a 2a 0a 78 0a 7f 0a 64 0a 2a 0a 63 0a 64 0a 2a 0a 4e 0a 45 0a 59 0a 2a 0a 67 0a 65 0a 6e 0a 6f 0a) |( 5f 0b 63 0b 62 0b 78 0b 2b 0b 7b 0b 79 0b 64 0b 6c 0b 79 0b 6a 0b 66 0b 2b 0b 68 0b 6a 0b 65 0b 65 0b 64 0b 7f 0b 2b 0b 69 0b 6e 0b 2b 0b 79 0b 7e 0b 65 0b 2b 0b 62 0b 65 0b 2b 0b 4f 0b 44 0b 58 0b 2b 0b 66 0b 64 0b 6f 0b 6e 0b) |( 58 0c 64 0c 65 0c 7f 0c 2c 0c 7c 0c 7e 0c 63 0c 6b 0c 7e 0c 6d 0c 61 0c 2c 0c 6f 0c 6d 0c 62 0c 62 0c 63 0c 78 0c 2c 0c 6e 0c 69 0c 2c 0c 7e 0c 79 0c 62 0c 2c 0c 65 0c 62 0c 2c 0c 48 0c 43 0c 5f 0c 2c 0c 61 0c 63 0c 68 0c 69 0c) |( 59 0d 65 0d 64 0d 7e 0d 2d 0d 7d 0d 7f 0d 62 0d 6a 0d 7f 0d 6c 0d 60 0d 2d 0d 6e 0d 6c 0d 63 0d 63 0d 62 0d 79 0d 2d 0d 6f 0d 68 0d 2d 0d 7f 0d 78 0d 63 0d 2d 0d 64 0d 63 0d 2d 0d 49 0d 42 0d 5e 0d 2d 0d 60 0d 62 0d 69 0d 68 0d) |( 5a 0e 66 0e 67 0e 7d 0e 2e 0e 7e 0e 7c 0e 61 0e 69 0e 7c 0e 6f 0e 63 0e 2e 0e 6d 0e 6f 0e 60 0e 60 0e 61 0e 7a 0e 2e 0e 6c 0e 6b 0e 2e 0e 7c 0e 7b 0e 60 0e 2e 0e 67 0e 60 0e 2e 0e 4a 0e 41 0e 5d 0e 2e 0e 63 0e 61 0e 6a 0e 6b 0e) |( 5b 0f 67 0f 66 0f 7c 0f 2f 0f 7f 0f 7d 0f 60 0f 68 0f 7d 0f 6e 0f 62 0f 2f 0f 6c 0f 6e 0f 61 0f 61 0f 60 0f 7b 0f 2f 0f 6d 0f 6a 0f 2f 0f 7d 0f 7a 0f 61 0f 2f 0f 66 0f 61 0f 2f 0f 4b 0f 40 0f 5c 0f 2f 0f 62 0f 60 0f 6b 0f 6a 0f) |( 44 10 78 10 79 10 63 10 30 10 60 10 62 10 7f 10 77 10 62 10 71 10 7d 10 30 10 73 10 71 10 7e 10 7e 10 7f 10 64 10 30 10 72 10 75 10 30 10 62 10 65 10 7e 10 30 10 79 10 7e 10 30 10 54 10 5f 10 43 10 30 10 7d 10 7f 10 74 10 75 10) |( 45 11 79 11 78 11 62 11 31 11 61 11 63 11 7e 11 76 11 63 11 70 11 7c 11 31 11 72 11 70 11 7f 11 7f 11 7e 11 65 11 31 11 73 11 74 11 31 11 63 11 64 11 7f 11 31 11 78 11 7f 11 31 11 55 11 5e 11 42 11 31 11 7c 11 7e 11 75 11 74 11) |( 46 12 7a 12 7b 12 61 12 32 12 62 12 60 12 7d 12 75 12 60 12 73 12 7f 12 32 12 71 12 73 12 7c 12 7c 12 7d 12 66 12 32 12 70 12 77 12 32 12 60 12 67 12 7c 12 32 12 7b 12 7c 12 32 12 56 12 5d 12 41 12 32 12 7f 12 7d 12 76 12 77 12) |( 47 13 7b 13 7a 13 60 13 33 13 63 13 61 13 7c 13 74 13 61 13 72 13 7e 13 33 13 70 13 72 13 7d 13 7d 13 7c 13 67 13 33 13 71 13 76 13 33 13 61 13 66 13 7d 13 33 13 7a 13 7d 13 33 13 57 13 5c 13 40 13 33 13 7e 13 7c 13 77 13 76 13) |( 40 14 7c 14 7d 14 67 14 34 14 64 14 66 14 7b 14 73 14 66 14 75 14 79 14 34 14 77 14 75 14 7a 14 7a 14 7b 14 60 14 34 14 76 14 71 14 34 14 66 14 61 14 7a 14 34 14 7d 14 7a 14 34 14 50 14 5b 14 47 14 34 14 79 14 7b 14 70 14 71 14) |( 41 15 7d 15 7c 15 66 15 35 15 65 15 67 15 7a 15 72 15 67 15 74 15 78 15 35 15 76 15 74 15 7b 15 7b 15 7a 15 61 15 35 15 77 15 70 15 35 15 67 15 60 15 7b 15 35 15 7c 15 7b 15 35 15 51 15 5a 15 46 15 35 15 78 15 7a 15 71 15 70 15) |( 42 16 7e 16 7f 16 65 16 36 16 66 16 64 16 79 16 71 16 64 16 77 16 7b 16 36 16 75 16 77 16 78 16 78 16 79 16 62 16 36 16 74 16 73 16 36 16 64 16 63 16 78 16 36 16 7f 16 78 16 36 16 52 16 59 16 45 16 36 16 7b 16 79 16 72 16 73 16) |( 43 17 7f 17 7e 17 64 17 37 17 67 17 65 17 78 17 70 17 65 17 76 17 7a 17 37 17 74 17 76 17 79 17 79 17 78 17 63 17 37 17 75 17 72 17 37 17 65 17 62 17 79 17 37 17 7e 17 79 17 37 17 53 17 58 17 44 17 37 17 7a 17 78 17 73 17 72 17) |( 4c 18 70 18 71 18 6b 18 38 18 68 18 6a 18 77 18 7f 18 6a 18 79 18 75 18 38 18 7b 18 79 18 76 18 76 18 77 18 6c 18 38 18 7a 18 7d 18 38 18 6a 18 6d 18 76 18 38 18 71 18 76 18 38 18 5c 18 57 18 4b 18 38 18 75 18 77 18 7c 18 7d 18) |( 4d 19 71 19 70 19 6a 19 39 19 69 19 6b 19 76 19 7e 19 6b 19 78 19 74 19 39 19 7a 19 78 19 77 19 77 19 76 19 6d 19 39 19 7b 19 7c 19 39 19 6b 19 6c 19 77 19 39 19 70 19 77 19 39 19 5d 19 56 19 4a 19 39 19 74 19 76 19 7d 19 7c 19) |( 4e 1a 72 1a 73 1a 69 1a 3a 1a 6a 1a 68 1a 75 1a 7d 1a 68 1a 7b 1a 77 1a 3a 1a 79 1a 7b 1a 74 1a 74 1a 75 1a 6e 1a 3a 1a 78 1a 7f 1a 3a 1a 68 1a 6f 1a 74 1a 3a 1a 73 1a 74 1a 3a 1a 5e 1a 55 1a 49 1a 3a 1a 77 1a 75 1a 7e 1a 7f 1a) |( 4f 1b 73 1b 72 1b 68 1b 3b 1b 6b 1b 69 1b 74 1b 7c 1b 69 1b 7a 1b 76 1b 3b 1b 78 1b 7a 1b 75 1b 75 1b 74 1b 6f 1b 3b 1b 79 1b 7e 1b 3b 1b 69 1b 6e 1b 75 1b 3b 1b 72 1b 75 1b 3b 1b 5f 1b 54 1b 48 1b 3b 1b 76 1b 74 1b 7f 1b 7e 1b) |( 48 1c 74 1c 75 1c 6f 1c 3c 1c 6c 1c 6e 1c 73 1c 7b 1c 6e 1c 7d 1c 71 1c 3c 1c 7f 1c 7d 1c 72 1c 72 1c 73 1c 68 1c 3c 1c 7e 1c 79 1c 3c 1c 6e 1c 69 1c 72 1c 3c 1c 75 1c 72 1c 3c 1c 58 1c 53 1c 4f 1c 3c 1c 71 1c 73 1c 78 1c 79 1c) |( 49 1d 75 1d 74 1d 6e 1d 3d 1d 6d 1d 6f 1d 72 1d 7a 1d 6f 1d 7c 1d 70 1d 3d 1d 7e 1d 7c 1d 73 1d 73 1d 72 1d 69 1d 3d 1d 7f 1d 78 1d 3d 1d 6f 1d 68 1d 73 1d 3d 1d 74 1d 73 1d 3d 1d 59 1d 52 1d 4e 1d 3d 1d 70 1d 72 1d 79 1d 78 1d) |( 4a 1e 76 1e 77 1e 6d 1e 3e 1e 6e 1e 6c 1e 71 1e 79 1e 6c 1e 7f 1e 73 1e 3e 1e 7d 1e 7f 1e 70 1e 70 1e 71 1e 6a 1e 3e 1e 7c 1e 7b 1e 3e 1e 6c 1e 6b 1e 70 1e 3e 1e 77 1e 70 1e 3e 1e 5a 1e 51 1e 4d 1e 3e 1e 73 1e 71 1e 7a 1e 7b 1e) |( 4b 1f 77 1f 76 1f 6c 1f 3f 1f 6f 1f 6d 1f 70 1f 78 1f 6d 1f 7e 1f 72 1f 3f 1f 7c 1f 7e 1f 71 1f 71 1f 70 1f 6b 1f 3f 1f 7d 1f 7a 1f 3f 1f 6d 1f 6a 1f 71 1f 3f 1f 76 1f 71 1f 3f 1f 5b 1f 50 1f 4c 1f 3f 1f 72 1f 70 1f 7b 1f 7a 1f) )}
 
 	condition:
-		$xored_dos_message and not $clear_dos_message
+		any of them
 }
 
 rule pe_base64d_pe : hardened

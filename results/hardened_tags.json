@@ -18764,13 +18764,13 @@
     "pe_number_of_sections_uncommon": [
         "hardened"
     ],
-    "pe_purely_vrtl_executable_section": [
+    "pe_purely_virtual_executable_section": [
         "hardened"
     ],
     "pe_purely_physical_section": [
         "hardened"
     ],
-    "pe_unbalanced_vrtl_physical_rtio": [
+    "pe_unbalanced_virtual_physical_ratio": [
         "hardened"
     ],
     "pe_section_wx": [
@@ -18788,7 +18788,7 @@
     "pe_code_section_and_no_executable": [
         "hardened"
     ],
-    "pe_high_ntrpy_section": [
+    "pe_high_entropy_section": [
         "hardened"
     ],
     "pe_overlapping_sections": [
@@ -18800,7 +18800,16 @@
     "pe_zero_imports": [
         "hardened"
     ],
+    "pe_very_low_imports": [
+        "hardened"
+    ],
+    "pe_imports_by_ordinal": [
+        "hardened"
+    ],
     "pe_gui_and_no_window_apis": [
+        "hardened"
+    ],
+    "pe_dynamic_api_resolution_imports": [
         "hardened"
     ],
     "pe_dynamic_download_imports": [
@@ -18818,7 +18827,7 @@
     "pe_signature_expires_soon": [
         "hardened"
     ],
-    "pe_high_ntrpy_resource_no_image": [
+    "pe_high_entropy_resource_no_image": [
         "hardened"
     ],
     "pe_large_overlay": [
