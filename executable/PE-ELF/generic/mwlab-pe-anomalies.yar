@@ -1,5 +1,5 @@
-import "time"
 import "pe"
+import "time"
 
 rule pe_timestamp_in_future : hardened
 {
@@ -35,8 +35,8 @@ rule pe_unusual_entrypoint_section : hardened
 		pe.is_pe and pe.entry_point != 0 and not pe.is_dll ( ) and not ( pe.entry_point >= pe.sections [ 0 ] . raw_data_offset and pe.entry_point < pe.sections [ 0 ] . raw_data_offset + pe.sections [ 0 ] . raw_data_size )
 }
 
-import "dotnet"
 import "pe"
+import "dotnet"
 
 rule pe_characteristics_dll_but_not_dll : hardened
 {
@@ -48,8 +48,8 @@ rule pe_characteristics_dll_but_not_dll : hardened
 		not dotnet.is_dotnet and pe.is_pe and pe.characteristics & pe.DLL and pe.number_of_exports == 0 and for any section in pe.sections : ( section.name == ".text" or section.name == ".code" )
 }
 
-import "dotnet"
 import "pe"
+import "dotnet"
 
 rule pe_number_of_sections_uncommon : hardened
 {
@@ -63,7 +63,7 @@ rule pe_number_of_sections_uncommon : hardened
 
 import "pe"
 
-rule pe_purely_virtual_executable_section : hardened
+rule pe_purely_vrtl_executable_section : hardened
 {
 	meta:
 		description = "PE section is executable, purely vrtl (SizeOfRawData == 0)"
@@ -87,7 +87,7 @@ rule pe_purely_physical_section : hardened
 
 import "pe"
 
-rule pe_unbalanced_virtual_physical_ratio : hardened
+rule pe_unbalanced_vrtl_physical_ratio : hardened
 {
 	meta:
 		description = "PE section with large difference between physical and vrtl size"
@@ -158,7 +158,7 @@ rule pe_code_section_and_no_executable : hardened
 import "pe"
 import "math"
 
-rule pe_high_entropy_section : hardened
+rule pe_high_ntrpy_section : hardened
 {
 	meta:
 		description = "PE file with section ntrpy higher than 7"
@@ -180,8 +180,8 @@ rule pe_overlapping_sections : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( for any j in ( i + 1 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . virtual_address != 0 and pe.sections [ j ] . virtual_address != 0 and pe.sections [ i ] . virtual_address + pe.sections [ i ] . virtual_size > pe.sections [ j ] . virtual_address ) or ( pe.sections [ i ] . raw_data_offset != 0 and pe.sections [ j ] . raw_data_offset != 0 and pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size > pe.sections [ j ] . raw_data_offset ) ) )
 }
 
-import "dotnet"
 import "pe"
+import "dotnet"
 
 rule pe_no_import_table : hardened
 {
@@ -192,8 +192,8 @@ rule pe_no_import_table : hardened
 		not dotnet.is_dotnet and pe.is_pe and not pe.is_dll ( ) and ( pe.number_of_rva_and_sizes <= pe.IMAGE_DIRECTORY_ENTRY_IMPORT or pe.data_directories [ pe.IMAGE_DIRECTORY_ENTRY_IMPORT ] . virtual_address == 0 or pe.data_directories [ pe.IMAGE_DIRECTORY_ENTRY_IMPORT ] . size == 0 )
 }
 
-import "dotnet"
 import "pe"
+import "dotnet"
 
 rule pe_zero_imports : hardened
 {
@@ -204,8 +204,8 @@ rule pe_zero_imports : hardened
 		not dotnet.is_dotnet and pe.is_pe and not pe.is_dll ( ) and pe.number_of_imported_functions == 0
 }
 
-import "dotnet"
 import "pe"
+import "dotnet"
 
 rule pe_very_low_imports : hardened
 {
@@ -227,8 +227,8 @@ rule pe_imports_by_ordinal : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_imports - 1 ) : ( for any function in pe.import_details [ i ] . functions : ( function.name == "" and function.ordinal != 0 ) )
 }
 
-import "dotnet"
 import "pe"
+import "dotnet"
 
 rule pe_gui_and_no_window_apis : hardened
 {
@@ -295,8 +295,8 @@ rule pe_dynamic_injection_imports : hardened
 		pe.is_pe and #injection_api > 3 and pe.imports ( /kernel32.dll/i , /(VirtualProtect(Ex)?|VirtualAlloc(Ex(Numa)?)?|ResumeThread|SetThreadContext|FindResourceA|LockResource|LoadResource)/i ) == 0 and pe.imports ( /ntdll.dll/i , /(Ldr(AccessResource|FindResource_U)|Nt(ResumeThread|AllocateVirtualMemory|MapViewOfSection|ProtectVirtualMemory))/i ) == 0
 }
 
-import "time"
 import "pe"
+import "time"
 
 rule pe_signature_expired : hardened
 {
@@ -307,8 +307,8 @@ rule pe_signature_expired : hardened
 		pe.is_pe and for any signature in pe.signatures : ( signature.not_after < time.now ( ) )
 }
 
-import "time"
 import "pe"
+import "time"
 
 rule pe_signature_expires_soon : hardened
 {
@@ -322,7 +322,7 @@ rule pe_signature_expires_soon : hardened
 import "pe"
 import "math"
 
-rule pe_high_entropy_resource_no_image : hardened
+rule pe_high_ntrpy_resource_no_image : hardened
 {
 	meta:
 		description = "PE with embedded resource with high ntrpy (rcdata)"

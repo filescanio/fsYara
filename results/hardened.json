@@ -11125,7 +11125,7 @@
         "bc062acda428f55782710f9c4f2df88c26dfbc004b94b479459f8572b1219444",
         "9be5a7e0652d43093c9b8635a693a61db8a08a240ce390e6208ed9fda8f2c445"
     ],
-    "pe_high_entropy_section": [
+    "pe_high_ntrpy_section": [
         "649fb2d4763c3125492a886f3d9da2870ccc37444a841a7780ee6633798eb93d",
         "ef008dfebb3791c2e1abbebc3ca77eea25180fb216bccd1d6e3300847d055016",
         "d2517353de2908d3f97471d8d2e90f713d893ea473372a67ede2eb633047b0b6",
@@ -11313,7 +11313,7 @@
         "ed01ebfbc9eb5bbea545af4d01bf5f1071661840480439c6e5babe8e080e41aa",
         "06ef6e2ffa0fdffb2ea1087200d5e283c94d06e98877543a3f45e30f0b02c933"
     ],
-    "pe_high_entropy_resource_no_image": [
+    "pe_high_ntrpy_resource_no_image": [
         "649fb2d4763c3125492a886f3d9da2870ccc37444a841a7780ee6633798eb93d",
         "b2d4357b66e008c97bdcbfc4802556d44affa1a94eff74fb071716efc054c94f",
         "42a0db67763e46452119a662ce0d65d4d9dd0380e96e4c9bfb26c938882b800c",
@@ -11424,7 +11424,7 @@
         "424e8d889288010e58a66fa8c9008c22cef78dced0e46b59ee417cc9e746c23f",
         "06ef6e2ffa0fdffb2ea1087200d5e283c94d06e98877543a3f45e30f0b02c933"
     ],
-    "pe_purely_virtual_executable_section": [
+    "pe_purely_vrtl_executable_section": [
         "ef008dfebb3791c2e1abbebc3ca77eea25180fb216bccd1d6e3300847d055016",
         "b2d4357b66e008c97bdcbfc4802556d44affa1a94eff74fb071716efc054c94f",
         "42a0db67763e46452119a662ce0d65d4d9dd0380e96e4c9bfb26c938882b800c",
@@ -11466,7 +11466,7 @@
         "75a984721a04c29b7a7da97665e7db964304c333e4806193bce5fc077cd4d9d4",
         "96377dbd06a57e63e8b3c6b18c92beb2b2e87c9aa155ec11bc7f24ec1e5d7699"
     ],
-    "pe_unbalanced_virtual_physical_ratio": [
+    "pe_unbalanced_vrtl_physical_ratio": [
         "ef008dfebb3791c2e1abbebc3ca77eea25180fb216bccd1d6e3300847d055016",
         "c61412dacc526624ec3171c1d7b98d5deee2861e43c282ba1af2db7aab8028ce",
         "0e0f1e9b6ef23a6f9a81442521969df413664441c8da9c0de75395827d61763b",
