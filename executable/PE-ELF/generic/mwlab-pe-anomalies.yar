@@ -35,8 +35,8 @@ rule pe_unusual_entrypoint_section : hardened
 		pe.is_pe and pe.entry_point != 0 and not pe.is_dll ( ) and not ( pe.entry_point >= pe.sections [ 0 ] . raw_data_offset and pe.entry_point < pe.sections [ 0 ] . raw_data_offset + pe.sections [ 0 ] . raw_data_size )
 }
 
-import "pe"
 import "dotnet"
+import "pe"
 
 rule pe_characteristics_dll_but_not_dll : hardened
 {
@@ -48,8 +48,8 @@ rule pe_characteristics_dll_but_not_dll : hardened
 		not dotnet.is_dotnet and pe.is_pe and pe.characteristics & pe.DLL and pe.number_of_exports == 0 and for any section in pe.sections : ( section.name == ".text" or section.name == ".code" )
 }
 
-import "pe"
 import "dotnet"
+import "pe"
 
 rule pe_number_of_sections_uncommon : hardened
 {
@@ -180,8 +180,8 @@ rule pe_overlapping_sections : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( for any j in ( i + 1 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . virtual_address != 0 and pe.sections [ j ] . virtual_address != 0 and pe.sections [ i ] . virtual_address + pe.sections [ i ] . virtual_size > pe.sections [ j ] . virtual_address ) or ( pe.sections [ i ] . raw_data_offset != 0 and pe.sections [ j ] . raw_data_offset != 0 and pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size > pe.sections [ j ] . raw_data_offset ) ) )
 }
 
-import "pe"
 import "dotnet"
+import "pe"
 
 rule pe_no_import_table : hardened
 {
@@ -192,8 +192,8 @@ rule pe_no_import_table : hardened
 		not dotnet.is_dotnet and pe.is_pe and not pe.is_dll ( ) and ( pe.number_of_rva_and_sizes <= pe.IMAGE_DIRECTORY_ENTRY_IMPORT or pe.data_directories [ pe.IMAGE_DIRECTORY_ENTRY_IMPORT ] . virtual_address == 0 or pe.data_directories [ pe.IMAGE_DIRECTORY_ENTRY_IMPORT ] . size == 0 )
 }
 
-import "pe"
 import "dotnet"
+import "pe"
 
 rule pe_zero_imports : hardened
 {
@@ -204,8 +204,8 @@ rule pe_zero_imports : hardened
 		not dotnet.is_dotnet and pe.is_pe and not pe.is_dll ( ) and pe.number_of_imported_functions == 0
 }
 
-import "pe"
 import "dotnet"
+import "pe"
 
 rule pe_very_low_imports : hardened
 {
@@ -227,8 +227,8 @@ rule pe_imports_by_ordinal : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_imports - 1 ) : ( for any function in pe.import_details [ i ] . functions : ( function.name == "" and function.ordinal != 0 ) )
 }
 
-import "pe"
 import "dotnet"
+import "pe"
 
 rule pe_gui_and_no_window_apis : hardened
 {

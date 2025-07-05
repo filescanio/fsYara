@@ -19948,6 +19948,15 @@
     "APT_Dropper_Win64_TEARDROP_1": [
         "hardened"
     ],
+    "Octowave_Installer_03_2025": [
+        "hardened"
+    ],
+    "Octowave_Loader_03_2025": [
+        "hardened"
+    ],
+    "Octowave_Loader_Supporting_File_03_2025": [
+        "hardened"
+    ],
     "kraken_cryptor_ransomware_loader": [
         "hardened",
         "limited"
