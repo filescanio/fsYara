@@ -1,19 +1,13 @@
 {
     "SUSP_PDB_Path_Keywords": {
         "missing": [
-            "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779",
-            "12454a323dec0a56a23cd5215bb335d7842c85bbf38e3bd696c9237e26454388"
+            "12454a323dec0a56a23cd5215bb335d7842c85bbf38e3bd696c9237e26454388",
+            "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
         ]
     },
     "SUSP_Modified_SystemExeFileName_in_File": {
         "missing": [
             "30263954aaa1e13f304ef7aec413c57419ab26f5e175fbc52ce7712a1cc0e04f"
-        ]
-    },
-    "Industroyer_Portscan_3": {
-        "missing": [
-            "c864545bd61ac07a3dae55fa930149f2e58a1a4fc2ccba28bf011b7eb5a6172d",
-            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
         ]
     },
     "PowerShell_Case_Anomaly": {
@@ -28,87 +22,62 @@
     },
     "Hacktools_CN_JoHor_Posts_Killer": {
         "missing": [
-            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
-            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67",
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f"
         ]
     },
     "sig_238_hunt": {
         "missing": [
-            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
-            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67",
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f"
         ]
     },
     "sig_238_eee": {
         "missing": [
-            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
-            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
-        ]
-    },
-    "QQ_zip_Folder_QQ": {
-        "missing": [
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67",
             "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f"
         ]
     },
     "sig_238_TFTPD32": {
         "missing": [
-            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
-            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67",
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f"
         ]
     },
     "sig_238_nbtdump": {
         "missing": [
-            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
-            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67",
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f"
         ]
     },
     "superscan3_0": {
         "missing": [
-            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
-            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67",
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f"
         ]
     },
     "CN_Toolset_NTscan_PipeCmd": {
         "missing": [
-            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
-            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67",
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f"
         ]
     },
     "CN_Toolset_LScanPortss_2": {
         "missing": [
-            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
-            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67",
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f"
         ]
     },
     "lsremora": {
         "missing": [
-            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
-            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67",
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f"
         ]
     },
     "HKTL_beRootexe_output": {
         "missing": [
-            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
-            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
-        ]
-    },
-    "DK_Brute": {
-        "missing": [
-            "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc"
-        ]
-    },
-    "XYZCmd_zip_Folder_XYZCmd": {
-        "missing": [
-            "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc"
-        ]
-    },
-    "RangeScan": {
-        "missing": [
-            "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc"
-        ]
-    },
-    "ArtTray_zip_Folder_ArtTray": {
-        "missing": [
-            "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc"
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67",
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f"
         ]
     },
     "CGISscan_CGIScan": {
@@ -141,19 +110,29 @@
             "ea1a6496003eaf5b020d855d14757757c788049b2e2c800d806c4eb371f9567b"
         ]
     },
-    "IronTiger_ASPXSpy": {
+    "DK_Brute": {
         "missing": [
-            "1ceaa4b6735e54755f3d4ccc633936a96d120d6a18726c81f5caec4063418ed3",
-            "91caa1fe289cdd8500399b3dcb07a5417223126a8cfd6833ece052acaaeb27f7",
-            "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779",
-            "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc",
-            "f1375cf097b3f28247762147f8ee3755e0ce26e24fbf8a785fe4e5b42c1fed05"
+            "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc"
         ]
     },
-    "IronTiger_NBDDos_Gh0stvariant_dropper": {
+    "XYZCmd_zip_Folder_XYZCmd": {
         "missing": [
-            "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c",
-            "38c381e1f0d8db27082d5809b70fc73d5c7137e266bc22b4301dd4bbd5e79637"
+            "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc"
+        ]
+    },
+    "RangeScan": {
+        "missing": [
+            "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc"
+        ]
+    },
+    "ArtTray_zip_Folder_ArtTray": {
+        "missing": [
+            "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc"
+        ]
+    },
+    "QQ_zip_Folder_QQ": {
+        "missing": [
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f"
         ]
     },
     "Cobaltbaltstrike_Payload_Encoded": {
@@ -170,60 +149,238 @@
     },
     "INDICATOR_SUSPICIOUS_JS_WMI_ExecQuery": {
         "missing": [
+            "a6ee06d8b84765979b3dbaab058e4934043e08a4b251efd7ecb9a5fcbea95e75",
+            "041e371767c385910437ce2584a00b4c62a371f9b18b487af393e1a4e7514d52",
             "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c",
             "1ceaa4b6735e54755f3d4ccc633936a96d120d6a18726c81f5caec4063418ed3",
-            "91caa1fe289cdd8500399b3dcb07a5417223126a8cfd6833ece052acaaeb27f7",
-            "a6ee06d8b84765979b3dbaab058e4934043e08a4b251efd7ecb9a5fcbea95e75",
+            "91caa1fe289cdd8500399b3dcb07a5417223126a8cfd6833ece052acaaeb27f7"
+        ]
+    },
+    "Industroyer_Portscan_3": {
+        "missing": [
+            "c864545bd61ac07a3dae55fa930149f2e58a1a4fc2ccba28bf011b7eb5a6172d",
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
+        ]
+    },
+    "IronTiger_ASPXSpy": {
+        "missing": [
+            "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc",
+            "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779",
+            "1ceaa4b6735e54755f3d4ccc633936a96d120d6a18726c81f5caec4063418ed3",
+            "f1375cf097b3f28247762147f8ee3755e0ce26e24fbf8a785fe4e5b42c1fed05",
+            "91caa1fe289cdd8500399b3dcb07a5417223126a8cfd6833ece052acaaeb27f7"
+        ]
+    },
+    "IronTiger_NBDDos_Gh0stvariant_dropper": {
+        "missing": [
+            "38c381e1f0d8db27082d5809b70fc73d5c7137e266bc22b4301dd4bbd5e79637",
+            "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c"
+        ]
+    },
+    "TidePool_Malware": {
+        "missing": [
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
+        ]
+    },
+    "RocketKitten_Keylogger": {
+        "missing": [
+            "a6ee06d8b84765979b3dbaab058e4934043e08a4b251efd7ecb9a5fcbea95e75"
+        ]
+    },
+    "MAL_HawkEye_Keylogger_Gen_Dec18": {
+        "missing": [
+            "1ceaa4b6735e54755f3d4ccc633936a96d120d6a18726c81f5caec4063418ed3"
+        ]
+    },
+    "APT_Win_Pipcreat": {
+        "missing": [
+            "38c381e1f0d8db27082d5809b70fc73d5c7137e266bc22b4301dd4bbd5e79637",
+            "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c"
+        ]
+    },
+    "APT_CN_MAL_RedDelta_Shellcode_Loader_Oct20_2": {
+        "missing": [
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67",
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f"
+        ]
+    },
+    "WoolenGoldfish_Generic_1": {
+        "missing": [
+            "c864545bd61ac07a3dae55fa930149f2e58a1a4fc2ccba28bf011b7eb5a6172d"
+        ]
+    },
+    "apt_RU_MoonlightMaze_de_tool": {
+        "missing": [
             "041e371767c385910437ce2584a00b4c62a371f9b18b487af393e1a4e7514d52"
         ]
     },
-    "AgentTeslaV5": {
+    "KINS_dropper": {
         "missing": [
-            "8f0fa4ed608acc49175e9c44125b945b5ca2c31071d33f9f100f51d0a961d737"
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67",
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f"
         ]
     },
-    "AgentTeslaV2": {
+    "HKTL_RedMimicry_Agent": {
         "missing": [
-            "54a813d8f2aab7d1e76d8577784ccd9350c025e52f656fee6a228d39dfbac926"
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67",
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f"
+        ]
+    },
+    "banbra": {
+        "missing": [
+            "1ceaa4b6735e54755f3d4ccc633936a96d120d6a18726c81f5caec4063418ed3"
+        ]
+    },
+    "APT_APT29_NOBELIUM_Stageless_Loader_May21_2": {
+        "missing": [
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67",
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f"
+        ]
+    },
+    "APT_APT29_NOBELIUM_NativeZone_Loader_May21_1": {
+        "missing": [
+            "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc"
+        ]
+    },
+    "SAmSAmRansom2016": {
+        "missing": [
+            "0f2c5c39494f15b7ee637ad5b6b5d00a3e2f407b4f27d140cd5a821ff08acfac"
+        ]
+    },
+    "FourElementSword_ElevateDLL": {
+        "missing": [
+            "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc"
+        ]
+    },
+    "Microcin_Sample_4": {
+        "missing": [
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67",
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f"
+        ]
+    },
+    "TeleBots_CredRaptor_Password_Stealer": {
+        "missing": [
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67",
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f"
+        ]
+    },
+    "TeleBots_Win64_Spy_KeyLogger_G": {
+        "missing": [
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67",
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f"
+        ]
+    },
+    "MAL_IceId_Core_202104": {
+        "missing": [
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f"
+        ]
+    },
+    "ME_Campaign_Malware_5": {
+        "missing": [
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67",
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f"
+        ]
+    },
+    "APT_Malware_PutterPanda_MsUpdater_1": {
+        "missing": [
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f"
+        ]
+    },
+    "PlugXStrings": {
+        "missing": [
+            "a6ee06d8b84765979b3dbaab058e4934043e08a4b251efd7ecb9a5fcbea95e75"
+        ]
+    },
+    "FiveEyes_QUERTY_Malwaresig_20123_sys": {
+        "missing": [
+            "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc"
+        ]
+    },
+    "MAL_Sharpshooter_Excel4": {
+        "missing": [
+            "ccef64586d25ffcb2b28affc1f64319b936175c4911e7841a0e28ee6d6d4a02d"
+        ]
+    },
+    "APT_PupyRAT_PY": {
+        "missing": [
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67",
+            "a6ee06d8b84765979b3dbaab058e4934043e08a4b251efd7ecb9a5fcbea95e75",
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f"
+        ]
+    },
+    "CN_Honker_ChinaChopper_db": {
+        "missing": [
+            "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc"
+        ]
+    },
+    "PROMETHIUM_NEODYMIUM_Malware_1": {
+        "missing": [
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67",
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f"
+        ]
+    },
+    "PROMETHIUM_NEODYMIUM_Malware_4": {
+        "missing": [
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67",
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f"
+        ]
+    },
+    "Nanocore_RAT_Sample_1": {
+        "missing": [
+            "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc"
+        ]
+    },
+    "CVE_2015_1701_Taihou": {
+        "missing": [
+            "6da003a9b9884bd50bad563ee06828e309f8dd61da2a04ab04ae06c9a89fbb7b"
+        ]
+    },
+    "Sofacy_Oct17_2": {
+        "missing": [
+            "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc"
+        ]
+    },
+    "APT_Project_Sauron_Custom_M4": {
+        "missing": [
+            "ea1a6496003eaf5b020d855d14757757c788049b2e2c800d806c4eb371f9567b"
+        ]
+    },
+    "APT_Project_Sauron_Custom_M6": {
+        "missing": [
+            "ea1a6496003eaf5b020d855d14757757c788049b2e2c800d806c4eb371f9567b"
+        ]
+    },
+    "StoneDrill_Malware_2": {
+        "missing": [
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67",
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f"
+        ]
+    },
+    "COZY_FANCY_BEAR_pagemgr_Hunt": {
+        "missing": [
+            "fd919ca8a89fd3b613fe99832a10973eb052cf4b400f2de1e020566665b075cf"
+        ]
+    },
+    "nkminer_monero": {
+        "missing": [
+            "1ceaa4b6735e54755f3d4ccc633936a96d120d6a18726c81f5caec4063418ed3"
+        ]
+    },
+    "APT_DeputyDog_Fexel": {
+        "missing": [
+            "a6ee06d8b84765979b3dbaab058e4934043e08a4b251efd7ecb9a5fcbea95e75"
         ]
     },
     "Windows_Trojan_Remcos_b296e965": {
         "missing": [
-            "43a538ef95d4f931704d6309fa0a292f38abaeae48836f39115c0d3f4418fdec",
             "5be56119732af027b1c2797f204cbc5d60f7f90afd1b5d4031f4077ca3d9ef6c",
+            "43a538ef95d4f931704d6309fa0a292f38abaeae48836f39115c0d3f4418fdec",
             "1984264959b7d63e516544cbce4b6dffb7ed5210a472437dd88068f4d39600e2"
         ]
     },
     "Remcos_2": {
         "missing": [
             "be8567ffe0be8bcb6af197b0c4f7498756b3eb812f7f3b23a5472dfe881726e7"
-        ]
-    },
-    "Windows_Trojan_Njrat_30f3c220": {
-        "missing": [
-            "3bf2449588aaea6f7b7f984af24bd889ee438bb33d9331f5990ef9b6184695e8",
-            "3db6003aed5663530344f627592d7071efcece6ab608d114cd219d5b19f389a5",
-            "345d5d2759abd08a84c4c2e2a337a1babd02b5eda3921db1b83eb5d5f5ccc011",
-            "efd485fb1bb495564cbaba67e413fb288abdd5dd5309c71b89607db28b0e3682",
-            "9b2629c78ca9883ae21246054e37da5dbbce8db6a06998ff55d1ec2b51cff6a2",
-            "06ef6e2ffa0fdffb2ea1087200d5e283c94d06e98877543a3f45e30f0b02c933"
-        ]
-    },
-    "malware_Njrat_strings": {
-        "missing": [
-            "3bf2449588aaea6f7b7f984af24bd889ee438bb33d9331f5990ef9b6184695e8",
-            "3db6003aed5663530344f627592d7071efcece6ab608d114cd219d5b19f389a5",
-            "345d5d2759abd08a84c4c2e2a337a1babd02b5eda3921db1b83eb5d5f5ccc011",
-            "efd485fb1bb495564cbaba67e413fb288abdd5dd5309c71b89607db28b0e3682",
-            "9b2629c78ca9883ae21246054e37da5dbbce8db6a06998ff55d1ec2b51cff6a2",
-            "06ef6e2ffa0fdffb2ea1087200d5e283c94d06e98877543a3f45e30f0b02c933"
-        ]
-    },
-    "Windows_Trojan_Njrat_30f3c220_1": {
-        "missing": [
-            "3bf2449588aaea6f7b7f984af24bd889ee438bb33d9331f5990ef9b6184695e8",
-            "efd485fb1bb495564cbaba67e413fb288abdd5dd5309c71b89607db28b0e3682",
-            "06ef6e2ffa0fdffb2ea1087200d5e283c94d06e98877543a3f45e30f0b02c933"
         ]
     },
     "Windows_Trojan_Limerat_24269a79": {
@@ -238,214 +395,46 @@
             "369caea879ce15a7146b74e59ac7e172faa742d053634bfa436637c150c0c85a"
         ]
     },
+    "AgentTeslaV5": {
+        "missing": [
+            "8f0fa4ed608acc49175e9c44125b945b5ca2c31071d33f9f100f51d0a961d737"
+        ]
+    },
+    "AgentTeslaV2": {
+        "missing": [
+            "54a813d8f2aab7d1e76d8577784ccd9350c025e52f656fee6a228d39dfbac926"
+        ]
+    },
+    "Windows_Trojan_Njrat_30f3c220": {
+        "missing": [
+            "3db6003aed5663530344f627592d7071efcece6ab608d114cd219d5b19f389a5",
+            "efd485fb1bb495564cbaba67e413fb288abdd5dd5309c71b89607db28b0e3682",
+            "345d5d2759abd08a84c4c2e2a337a1babd02b5eda3921db1b83eb5d5f5ccc011",
+            "06ef6e2ffa0fdffb2ea1087200d5e283c94d06e98877543a3f45e30f0b02c933",
+            "3bf2449588aaea6f7b7f984af24bd889ee438bb33d9331f5990ef9b6184695e8",
+            "9b2629c78ca9883ae21246054e37da5dbbce8db6a06998ff55d1ec2b51cff6a2"
+        ]
+    },
+    "malware_Njrat_strings": {
+        "missing": [
+            "3db6003aed5663530344f627592d7071efcece6ab608d114cd219d5b19f389a5",
+            "efd485fb1bb495564cbaba67e413fb288abdd5dd5309c71b89607db28b0e3682",
+            "345d5d2759abd08a84c4c2e2a337a1babd02b5eda3921db1b83eb5d5f5ccc011",
+            "06ef6e2ffa0fdffb2ea1087200d5e283c94d06e98877543a3f45e30f0b02c933",
+            "3bf2449588aaea6f7b7f984af24bd889ee438bb33d9331f5990ef9b6184695e8",
+            "9b2629c78ca9883ae21246054e37da5dbbce8db6a06998ff55d1ec2b51cff6a2"
+        ]
+    },
+    "Windows_Trojan_Njrat_30f3c220_1": {
+        "missing": [
+            "efd485fb1bb495564cbaba67e413fb288abdd5dd5309c71b89607db28b0e3682",
+            "06ef6e2ffa0fdffb2ea1087200d5e283c94d06e98877543a3f45e30f0b02c933",
+            "3bf2449588aaea6f7b7f984af24bd889ee438bb33d9331f5990ef9b6184695e8"
+        ]
+    },
     "TA505_Maldoc_21Nov_2": {
         "missing": [
             "063203ce28c4326da9ec26ef6f067c1fef64ac641d489f22f25b6fd0de6ebf82"
-        ]
-    },
-    "StoneDrill_Malware_2": {
-        "missing": [
-            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
-            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
-        ]
-    },
-    "apt_RU_MoonlightMaze_de_tool": {
-        "missing": [
-            "041e371767c385910437ce2584a00b4c62a371f9b18b487af393e1a4e7514d52"
-        ]
-    },
-    "APT_DeputyDog_Fexel": {
-        "missing": [
-            "a6ee06d8b84765979b3dbaab058e4934043e08a4b251efd7ecb9a5fcbea95e75"
-        ]
-    },
-    "FourElementSword_ElevateDLL": {
-        "missing": [
-            "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc"
-        ]
-    },
-    "Microcin_Sample_4": {
-        "missing": [
-            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
-            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
-        ]
-    },
-    "APT_CN_MAL_RedDelta_Shellcode_Loader_Oct20_2": {
-        "missing": [
-            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
-            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
-        ]
-    },
-    "PROMETHIUM_NEODYMIUM_Malware_1": {
-        "missing": [
-            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
-            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
-        ]
-    },
-    "PROMETHIUM_NEODYMIUM_Malware_4": {
-        "missing": [
-            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
-            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
-        ]
-    },
-    "MAL_IceId_Core_202104": {
-        "missing": [
-            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f"
-        ]
-    },
-    "APT_PupyRAT_PY": {
-        "missing": [
-            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
-            "a6ee06d8b84765979b3dbaab058e4934043e08a4b251efd7ecb9a5fcbea95e75",
-            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
-        ]
-    },
-    "APT_APT29_NOBELIUM_Stageless_Loader_May21_2": {
-        "missing": [
-            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
-            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
-        ]
-    },
-    "APT_APT29_NOBELIUM_NativeZone_Loader_May21_1": {
-        "missing": [
-            "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc"
-        ]
-    },
-    "MAL_Sharpshooter_Excel4": {
-        "missing": [
-            "ccef64586d25ffcb2b28affc1f64319b936175c4911e7841a0e28ee6d6d4a02d"
-        ]
-    },
-    "TeleBots_CredRaptor_Password_Stealer": {
-        "missing": [
-            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
-            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
-        ]
-    },
-    "TeleBots_Win64_Spy_KeyLogger_G": {
-        "missing": [
-            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
-            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
-        ]
-    },
-    "nkminer_monero": {
-        "missing": [
-            "1ceaa4b6735e54755f3d4ccc633936a96d120d6a18726c81f5caec4063418ed3"
-        ]
-    },
-    "MAL_HawkEye_Keylogger_Gen_Dec18": {
-        "missing": [
-            "1ceaa4b6735e54755f3d4ccc633936a96d120d6a18726c81f5caec4063418ed3"
-        ]
-    },
-    "PlugXStrings": {
-        "missing": [
-            "a6ee06d8b84765979b3dbaab058e4934043e08a4b251efd7ecb9a5fcbea95e75"
-        ]
-    },
-    "FiveEyes_QUERTY_Malwaresig_20123_sys": {
-        "missing": [
-            "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc"
-        ]
-    },
-    "COZY_FANCY_BEAR_pagemgr_Hunt": {
-        "missing": [
-            "fd919ca8a89fd3b613fe99832a10973eb052cf4b400f2de1e020566665b075cf"
-        ]
-    },
-    "APT_Project_Sauron_Custom_M4": {
-        "missing": [
-            "ea1a6496003eaf5b020d855d14757757c788049b2e2c800d806c4eb371f9567b"
-        ]
-    },
-    "APT_Project_Sauron_Custom_M6": {
-        "missing": [
-            "ea1a6496003eaf5b020d855d14757757c788049b2e2c800d806c4eb371f9567b"
-        ]
-    },
-    "CVE_2015_1701_Taihou": {
-        "missing": [
-            "6da003a9b9884bd50bad563ee06828e309f8dd61da2a04ab04ae06c9a89fbb7b"
-        ]
-    },
-    "Nanocore_RAT_Sample_1": {
-        "missing": [
-            "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc"
-        ]
-    },
-    "ME_Campaign_Malware_5": {
-        "missing": [
-            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
-            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
-        ]
-    },
-    "SAmSAmRansom2016": {
-        "missing": [
-            "0f2c5c39494f15b7ee637ad5b6b5d00a3e2f407b4f27d140cd5a821ff08acfac"
-        ]
-    },
-    "CN_Honker_ChinaChopper_db": {
-        "missing": [
-            "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc"
-        ]
-    },
-    "WoolenGoldfish_Generic_1": {
-        "missing": [
-            "c864545bd61ac07a3dae55fa930149f2e58a1a4fc2ccba28bf011b7eb5a6172d"
-        ]
-    },
-    "Sofacy_Oct17_2": {
-        "missing": [
-            "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc"
-        ]
-    },
-    "APT_Win_Pipcreat": {
-        "missing": [
-            "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c",
-            "38c381e1f0d8db27082d5809b70fc73d5c7137e266bc22b4301dd4bbd5e79637"
-        ]
-    },
-    "banbra": {
-        "missing": [
-            "1ceaa4b6735e54755f3d4ccc633936a96d120d6a18726c81f5caec4063418ed3"
-        ]
-    },
-    "APT_Malware_PutterPanda_MsUpdater_1": {
-        "missing": [
-            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f"
-        ]
-    },
-    "TidePool_Malware": {
-        "missing": [
-            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
-        ]
-    },
-    "RocketKitten_Keylogger": {
-        "missing": [
-            "a6ee06d8b84765979b3dbaab058e4934043e08a4b251efd7ecb9a5fcbea95e75"
-        ]
-    },
-    "HKTL_RedMimicry_Agent": {
-        "missing": [
-            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
-            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
-        ]
-    },
-    "KINS_dropper": {
-        "missing": [
-            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
-            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
-        ]
-    },
-    "Suspicious_PowerShell_WebDownload_1": {
-        "missing": [
-            "abe852af3f7e360e9a5aff4a4ff67ac5e23dfd8b6fe06e28ac3d0ac2fba20214",
-            "041e371767c385910437ce2584a00b4c62a371f9b18b487af393e1a4e7514d52"
-        ]
-    },
-    "PowerShell_in_Word_Doc": {
-        "missing": [
-            "62b96f7ff4146f33146f2c134e2bfe2ad3bc2df63f1276c9eb6ad1af5952940e"
         ]
     },
     "PowerShell_Susp_Parameter_Combo": {
@@ -458,20 +447,14 @@
             "acdebbac5f3410f66167748961b4bd9e70d37eef92c3e71ba3a769077b7f979b"
         ]
     },
-    "WEBSHELL_ASP_Generic": {
-        "missing": [
-            "30ce460b7556cd59def93926bcd3b3e3e2ff24a66f368c9deed7efe7117d0105"
-        ]
-    },
-    "WEBSHELL_CSHARP_Generic": {
-        "missing": [
-            "447026e24c84a7d35a413788c7ab176092c75086121c7719eed1ef30139e0faf",
-            "4635f8b00cb662ea935e90643cba438447a4bd0d9063d17138de49e7031db273"
-        ]
-    },
     "WEBSHELL_ASP_Nano": {
         "missing": [
             "4d9f5862e1b3a9b005f71c3f05e2446a18b2b0797518417f1d7e0ebbf5cb4517"
+        ]
+    },
+    "WEBSHELL_ASP_Generic": {
+        "missing": [
+            "30ce460b7556cd59def93926bcd3b3e3e2ff24a66f368c9deed7efe7117d0105"
         ]
     },
     "WEBSHELL_ASP_Runtime_Compile": {
@@ -480,213 +463,704 @@
             "c15abaf51e78ca56c0376522d699c978217bf041a3bd3c71d09193efa5717c71"
         ]
     },
-    "ProjectM_CrimsonDownloader": {
+    "WEBSHELL_CSHARP_Generic": {
         "missing": [
-            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
+            "447026e24c84a7d35a413788c7ab176092c75086121c7719eed1ef30139e0faf",
+            "4635f8b00cb662ea935e90643cba438447a4bd0d9063d17138de49e7031db273"
+        ]
+    },
+    "Suspicious_PowerShell_WebDownload_1": {
+        "missing": [
+            "041e371767c385910437ce2584a00b4c62a371f9b18b487af393e1a4e7514d52",
+            "abe852af3f7e360e9a5aff4a4ff67ac5e23dfd8b6fe06e28ac3d0ac2fba20214"
+        ]
+    },
+    "PowerShell_in_Word_Doc": {
+        "missing": [
+            "62b96f7ff4146f33146f2c134e2bfe2ad3bc2df63f1276c9eb6ad1af5952940e"
+        ]
+    },
+    "SUSP_XORed_MSDOS_Stub_Message": {
+        "missing": [
+            "6e0164b94476119d7ba53adeca4ae7f7cd7a96d1c90d95ca7880003ace4462aa",
+            "aed92a8301931959100a1bb8c52251df2fdddaf8b76ab34b6f24d7bbe58a4fe6",
+            "5b875ecf0b7f67a4429aeaa841eddf8e6b58771e16dbdb43ad6918aa7a5b582d",
+            "6ba20c352fa09b4c25df7d2ee4c6848a2efbfd12caf722d931258c0348edae9e",
+            "f1e7ced872b766d3a345710492b0b27c79e4673f7668acf2e8c8efdff2dbc171",
+            "43a538ef95d4f931704d6309fa0a292f38abaeae48836f39115c0d3f4418fdec",
+            "83f967523fb0904cb14ced4e84d1f299c51ff7f33a2a68348dac47e06f3fa2d2",
+            "067c59ea6a6c74ab1450f89b6c3aae5a7f689a201414bdf62f5ce5290729a654"
+        ]
+    },
+    "SUSP_XORed_Mozilla": {
+        "missing": [
+            "51de40c31c3436ee5c701985fe44aa92f7d1b097cc86ce2c203e2865de75e99b",
+            "b6a68af1d4852476d62b6aa231f9629260ec4cbcaba051feba5742913ffbebe7",
+            "83ccd18b92f9d4736c1b0f7a7b75e5f929ccc7ba7e665cd420f68ee618d7b145",
+            "15f82b0d1b4828c648be52d056e9c0d89b242cda5ac0da180a86fceb5554fccc",
+            "c972c181d76e446d45915b6752e57fe9abe9f23ba35277366c8488266a5ca6e9",
+            "dea947e9bcf0eb7ba7a6cff24ddc5d2af572b658ff47e4c7e4b70b2a705dbba3",
+            "5bfd7bf0f641fc87711a03c135b1cc3287f0c9766cf9c97b32eb5e4230724017",
+            "44c8409e16943c97d73b3c89c9e2c037ecfce76ab170dae8b695b0755add9035",
+            "9be5a7e0652d43093c9b8635a693a61db8a08a240ce390e6208ed9fda8f2c445",
+            "ad0474f0d6021d0de97c77ca222a05777762aad59bda2be2f3b1a8f1a8022707",
+            "f5b831a2e590467895e1372992121297835d46ae1807fc0af01d28b53fd851e5",
+            "fb89ffc12f3587399e1dbd85fe8da85a6170848698d0b15e2cd8f81d0b9875f4",
+            "e596a17260e6e5ec4c5d2160a6d645cdefb7a4bbe57efc7a5c963ad677cd98f6",
+            "561760568f0a8ad75775986bb0506b8e6c7c1d414b699724e4a66bde7ca88388",
+            "521a125f557bea10a6440ae4cede378e712590d6642ea63ac6c3119dd2b9f8a6",
+            "4b7a3e51c67fc348633918c70637aa43955fc4ad138aace0e441c956e31efa02",
+            "813968129895b83a1bd7b14fd1bbc52b4364029e38ff561c69a4b6d6eb9bc8eb",
+            "8943f142b2d66d20b07defba56f54d5e75223b55a4e82cd0153753d79df27428"
+        ]
+    },
+    "Malware_QA_not_copy": {
+        "missing": [
             "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
         ]
     },
-    "ProjectM_DarkComet_1": {
+    "Malware_QA_tls": {
         "missing": [
-            "8a3de78cf177be4c37c1525becf05af336c1dc2a4d181cae79f6903754902efa"
+            "ea1a6496003eaf5b020d855d14757757c788049b2e2c800d806c4eb371f9567b"
         ]
     },
-    "CookieTools": {
+    "ScanBox_Malware_Generic": {
         "missing": [
-            "0d8cc0a75238c05e1b072683ee43d7e0bf827dde7a652df1467333a2b1f6a570"
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67",
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f"
         ]
     },
-    "ChinaChopper_caidao": {
+    "pe_xored_dos_message": {
         "missing": [
-            "be24561427d754c0c150272cab5017d5a2da64d41bec74416b8ae363fb07fd77"
+            "6e0164b94476119d7ba53adeca4ae7f7cd7a96d1c90d95ca7880003ace4462aa",
+            "38c381e1f0d8db27082d5809b70fc73d5c7137e266bc22b4301dd4bbd5e79637",
+            "5b875ecf0b7f67a4429aeaa841eddf8e6b58771e16dbdb43ad6918aa7a5b582d",
+            "6ba20c352fa09b4c25df7d2ee4c6848a2efbfd12caf722d931258c0348edae9e",
+            "f1e7ced872b766d3a345710492b0b27c79e4673f7668acf2e8c8efdff2dbc171",
+            "43a538ef95d4f931704d6309fa0a292f38abaeae48836f39115c0d3f4418fdec",
+            "83f967523fb0904cb14ced4e84d1f299c51ff7f33a2a68348dac47e06f3fa2d2",
+            "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c",
+            "067c59ea6a6c74ab1450f89b6c3aae5a7f689a201414bdf62f5ce5290729a654"
         ]
     },
-    "Smartniff": {
+    "pe_hex_encoded_pe": {
         "missing": [
-            "d6831d36184ae91aae56a7fb7c91d7f75339429fbe5a1a0df8985d4884dcc217"
+            "c57f7ed4d9373c96cd228884c535a545c388d6edee4fae49afb7763c69450281",
+            "934b069bb6d8e7b03747dc90a00c94df491d8e7b2d8955793c317ce9361b8e19"
         ]
     },
-    "Dos_GetPass": {
+    "vmdetect": {
         "missing": [
-            "e9cffb4773da2d46282aeafc6680e7aed8ff8537040a2a27d3c1ee3e3229d88e"
+            "fd919ca8a89fd3b613fe99832a10973eb052cf4b400f2de1e020566665b075cf",
+            "3f7c56928446baa1688c1381ee5365d7141d98274762b919168046535d17cb89",
+            "41d16838d3ecde84348bfb6e88e4fd96c9e0bf291d62786952c1bfbc2363c78d",
+            "22c7c6cb3a12ee1302df54fa8ee5c6714f42cb1a1b837ed3285c713f4e17cb84",
+            "3e5547790a7148b99733c94dbe1b690eb13dace3d9fdc0298db7eaa2c5fd3b88",
+            "d024f69697324942a47f367e129b439f27d181b0cc49b7fc8a6ca2cd40d483ce",
+            "12454a323dec0a56a23cd5215bb335d7842c85bbf38e3bd696c9237e26454388",
+            "a3b16246222b284d054201022ad62d16cf73c51dd52753d4ce4e5d94cdb3f0de",
+            "19cc096e939e3f37625eb21ae03eccaab1dab7483be362dc4247538ead697379",
+            "6c9a40572d66c58abe6c1baf33e27a19f5493c3b74a03d35a62d5e8062948a86",
+            "21ca06b18698d14154a45822aaae1e3837d168cc7630bcd3ec3d8c68aaa959e6",
+            "80c1ea737d33c6bfac09b101b8d77ab0f9f6630128c3ed052f9d945bed54e7e4",
+            "1a7b540a68ac6564e292ccb758eab02f2a548684cd16404a2b077b2a1dcbe778",
+            "7986bbaee8940da11ce089383521ab420c443ab7b15ed42aed91fd31ce833896"
         ]
     },
-    "Andromeda_MalBot_Jun_1A": {
+    "anti_dbg": {
         "missing": [
-            "8033de2d5e64df2df391ddebdc41c6c6041b552779550c2e5f10ceedfd63c7ec"
+            "7b2c4995806c90eb7d4b164766909a336bfd1f10d9da69a7e21f7ab0d19fbdba",
+            "0b5628eb70e21d4acca4c110b2809b3b08c3acf22e379e534efde95c2374a4d1",
+            "ed26bdb3427053d3c5feca22c4a003cc9a2e0ba4c54b86a00cf1d73cf5861c66",
+            "3db6003aed5663530344f627592d7071efcece6ab608d114cd219d5b19f389a5",
+            "aa33731aa48e2ea6d1eaab7c425f9001182c0e73e0226eb01145d6b78d7cb9eb",
+            "e3834a2cca58589cd5ae7b74554bdeb7b034c3e9c20a242bda50630c085b7b08",
+            "5262cb9791df50fafcb2fbd5f93226050b51efe400c2924eecba97b7ce437481",
+            "20ac1420eade0bdb464cd9f6d26a84094271b252c0650a7853721d8e928f6e6c",
+            "309f08d7b46a4a2469593b6398f75ac9f3153886f6b74dee29b253e5fd3a588e",
+            "d2517353de2908d3f97471d8d2e90f713d893ea473372a67ede2eb633047b0b6",
+            "5bae961fec67565fb88c8bcd3841b7090566d8fc12ccb70436b5269456e55c00",
+            "648e1c9fd7aacb58c4285cf6a54d9e58f5c2c1f6cc1f166b9e13e7d6a3c4a7fb",
+            "d58f2a799552aff8358e9c63a4345ea971b27edd14b8eac825db30a8321d1a7a",
+            "6e0164b94476119d7ba53adeca4ae7f7cd7a96d1c90d95ca7880003ace4462aa",
+            "877c612cf42d85b943010437599b828383ecdf02a17e2b017367db34637e5463",
+            "51de40c31c3436ee5c701985fe44aa92f7d1b097cc86ce2c203e2865de75e99b",
+            "b6a68af1d4852476d62b6aa231f9629260ec4cbcaba051feba5742913ffbebe7",
+            "aed92a8301931959100a1bb8c52251df2fdddaf8b76ab34b6f24d7bbe58a4fe6",
+            "83ccd18b92f9d4736c1b0f7a7b75e5f929ccc7ba7e665cd420f68ee618d7b145",
+            "e8542c07b2af63ee7e72ce5d97d91036c5da56e2b091aa2afe737b224305d230",
+            "3f7c56928446baa1688c1381ee5365d7141d98274762b919168046535d17cb89",
+            "027b1042621f86394fd7da27c5310e4906f41b96f6e5474875e63d39b32a9c11",
+            "9d06018f57d680e259aad12814c93f666142e34571e24ddca23984bfd3e6846d",
+            "c864545bd61ac07a3dae55fa930149f2e58a1a4fc2ccba28bf011b7eb5a6172d",
+            "f3a2fc1338553c29b16cb91caaffc37849537dedb67c41e2eccec879f0c8ab73",
+            "d90f1a023afe926064c13ca144ce2877b9bb8dbb2eabe9ecbdc1f31d17002afd",
+            "5884f3fc15c710fb754f31c368acaf37582ab1d63125233fd3cb91d50a9098af",
+            "dfdc0318f3dc5ba3f960b1f338b638cd9645856d2a2af8aa33ea0f9979a9ca4c",
+            "22e20fbd8e95ac7b3a77b815e1a438e545354adb5a1bd5a90220a9c17b4008db",
+            "38e2d5ef7a11d7e083390109c9ceaec4723c66474f7e7e3fcfdf710251feafdd",
+            "15f82b0d1b4828c648be52d056e9c0d89b242cda5ac0da180a86fceb5554fccc",
+            "de400840b917c33a82ba316ae244d8691ec0f5a1fd81d7d24763c0513985fe26",
+            "f2ce2a00de8673f52d37911f3e0752b8dfab751b2a17e719a565b4083455528e",
+            "5c2e9604ddf63e732a674d9672a4ba20f44891a83e10f44f1d4d764f8c59ea63",
+            "8562ca8c164ba2f81606f9c9bce97cda3fbe59c6cb25f0cc0cf3fe0a562e6b4f",
+            "3a34760adfbc4a5fa6e34700ecf4200826c49914913467b938f14261502d56b6",
+            "612d78523fba77054b5cb959798bb54c7f45208882e86e945b7563d501c802cd",
+            "41d16838d3ecde84348bfb6e88e4fd96c9e0bf291d62786952c1bfbc2363c78d",
+            "b26749b17ca691328ba67ee49d4d9997c101966c607ab578afad204459b7bf8f",
+            "edb1ff2521fb4bf748111f92786d260d40407a2e8463dcd24bb09f908ee13eb9",
+            "5be56119732af027b1c2797f204cbc5d60f7f90afd1b5d4031f4077ca3d9ef6c",
+            "7de04563a9107d3c53effc75e3fe1dc9a2a59a4aa3a46d4b02522d84001dab08",
+            "eae9771e2eeb7ea3c6059485da39e77b8c0c369232f01334954fbac1c186c998",
+            "670b7ecddd5e5d8b6840464d644a7354da74beb150206c7128e826469484ebd2",
+            "ed2f501408a7a6e1a854c29c4b0bc5648a6aa8612432df829008931b3e34bf56",
+            "95e08990fdf11251e9ee935f0b2e075667133758bc68c4d390e82f041a54e4b3",
+            "c1d52d4552d39f1f0ec9a19e6ef3e3ab6b27c2956875e8e0655de98d7a8462ef",
+            "3b6bf984e0407aa79250f6ea639175975cc47b83077fe3c66c28aa2a44d90fbf",
+            "7c40019c1d4cef2ffdd1dd8f388aaba537440b1bffee41789c900122d075a86d",
+            "e62467fc0e7982279b2752a3330e741135366e7b318890aa9613ccc5ddcfd37f",
+            "a6ee06d8b84765979b3dbaab058e4934043e08a4b251efd7ecb9a5fcbea95e75",
+            "19fefb958bd9c9280d07754ab903022a3dc9fc380a6964733a1dcc016aba8150",
+            "e406f86a610a8c6101fad131bff82b151d8b4b78c2d135a07a1a50b1d6e938bb",
+            "26d2ab8af070f89c06f6f734615f289b63d81cb9ed411ef3b90f7bb4a82dc317",
+            "6cd30c85dd8a64ca529c6eab98a757fb326de639a39b597414d5340285ba91c6",
+            "b55734d89184434a24d04af85019fd34dc0b054f13d8fb1a16ee977aea723217",
+            "2b9838da7edb0decd32b086e47a31e8f5733b5981ad8247a2f9508e232589bff",
+            "9aff1e12a1b447ca8ab3076f684716a859c906f9b2d0e870d59d0f06fc548d0d",
+            "d55f983c994caa160ec63a59f6b4250fe67fb3e8c43a388aec60a4a6978e9f1e",
+            "02c3f0624bbb51e5b527e2e80ceb443ccb3b251d08fcb3132becae4950303170",
+            "86dd21b8388f23371d680e2632d0855b442f0fa7e93cd009d6e762715ba2d054",
+            "2465009c7a47dde070ab7f8f4a9c53a8afa6b8ec4b1414c28bfd9a6f3b9d98bc",
+            "49f94ed44fa9a834f246a5a038aa971b26f928d32ed438faacccba2398753297",
+            "d07adf2032c1274ef810aa9146e0407dbe76335b2121c6f98667f67a90f63ce3",
+            "6217cebf11a76c888cc6ae94f54597a877462ed70da49a88589a9197173cc072",
+            "c821012f7c8258d151158223848d2254ea4f7a27d33c50e30af36a60496430fc",
+            "39a83f7c88140cdf97f04ca8405d6811271305d6a5ca4cff8ca2bb1368e7b614",
+            "22c7c6cb3a12ee1302df54fa8ee5c6714f42cb1a1b837ed3285c713f4e17cb84",
+            "f9d94c5de86aa170384f1e2e71d95ec373536899cb7985633d3ecfdb67af0f72",
+            "d759b44ef4b0e86c75b73383138d578029997f5458f287049f6c3e7d8b5852b9",
+            "0185eb8294ca76dfe90a4c57444860f98156a10d86346647407194bbd2eff343",
+            "d816db15ccd6b15dc1a369f0fd460d4bed0ac21e2694379cdc96cf4781fd6b0a",
+            "75f0072a6c408cdc30190ed534d7503906881d958504d1d11634c3677dbaf623",
+            "d1071e745fe33dbfeea1d838e797ceea8323cec3acaf40cc9b9aef6fbf27469e",
+            "8d4b46cefdfe68f3ad53b53d1d26f60d4361868554f50ccdd7f482e9d0c95ccf",
+            "88e7813340194acc4b094fd48ecf665a12d19245b90f2a69dab5861982ca95f6",
+            "be9ddcdedf8c36c64e6b0a32d2686b74a112913c54217ccaa46675bfd1dc82f1",
+            "82a2dafd6ce594f2cf8588f32585c71be2180fc4cf9a144e300b1692f3de5807",
+            "c0fad450912952f53809a54690d235aa8b4e25b9f46650693c7cbee1b4c074b7",
+            "9ef7dbd3da51332a78eff19146d21c82957821e464e8133e9594a07d716d892d",
+            "e6762cb7d09cd90d5469e3c3bfc3b47979cd67aa06c06e893015a87b0348c32c",
+            "041e371767c385910437ce2584a00b4c62a371f9b18b487af393e1a4e7514d52",
+            "d0d7a8f588693b7cc967fb4069419125625eb7454ba553c0416f35fc95307cbe",
+            "205aa1007e97a58ecb6e9f9a143ed7d337de98864d566d8f6967a9496beff815",
+            "43a538ef95d4f931704d6309fa0a292f38abaeae48836f39115c0d3f4418fdec",
+            "d0b88ab321a05fc94505620c9d02baec4cb1de7bb3b0067de4f8c0d3ba8548b2",
+            "bef6b79f9ad6a470dcca8fdce35ec97361c36c6a38bc25987a0dc63e134a359a",
+            "dea947e9bcf0eb7ba7a6cff24ddc5d2af572b658ff47e4c7e4b70b2a705dbba3",
+            "4f1923485e8cdd052467d335a6384f93cd1d50b5d927aea471e56290be29ffa3",
+            "e142a1e51ce0e8d28fd852683b65688dcc97a6b705e8adc799d5af0bdefefecf",
+            "5c3d8aff277bf808e456f903153a28d4b555c32c44ed5836c44f5b4783b45225",
+            "b6fc4b646543a7abb4a19ebd5e6e505d77ab732f5b1bc9e335eff1733897cad2",
+            "19bab15a34d5ad838ccf4d187eb40379c335fa56446d0f9621865b2767d4ac7d",
+            "1ecfd3755eba578108363c0705c6ec205972080739ed0fbd17439f8139ba7e08",
+            "fd6a956a7708708cddff78c8505c7db73d7c4e961da8a3c00cc5a51171a92b7b",
+            "d1dcf4c2165f3cf5729ba76e1ee80f4709d8e7eca7a6c29ceffc5fc6b09660fe",
+            "d11793433065633b84567de403c1989640a07c9a399dd2753aaf118891ce791c",
+            "0e95b7f179aa7dc57bece8213f9850e351f24fac33808b789a396433ed9bbe31",
+            "43b7a60c0ef8b4af001f45a0c57410b7374b1d75a6811e0dfc86e4d60f503856",
+            "f8d5d7e976ecc0ecf1870b5fcf4d25cdf9bd3621445a8b8fea54cb4ad5d79816",
+            "4c34d33446c0351c41110b6214fd9691b7ea26db9798346520ef79537ad7184b",
+            "834d1dbfab8330ea5f1844f6e905ed0ac19d1033ee9a9f1122ad2051c56783dc",
+            "4a2cfbe2d173a1ac42dd21383ff9c8044ec615b2df7340f268017dc10526bf76",
+            "fe4640fefa4bef02041a771a206f9184adb38de051f0d8726c4579736fe13bb6",
+            "682e2204557a05cddbaddef019cbc2eda6eaa50007f20851eadb9a33c35c458d",
+            "487980e866977a1c7dc1c1d092f45789d4749df74ff340834b29c3c7b2e44846",
+            "962caf150b14b5804de96484e8b911f93fcb26ab11f7e713d3f0c02a211c2577",
+            "bf581c92f97c67c6dac7e3079dd54f118ec209599a82fd12a47406122ee13d2f",
+            "4263eacd358d5ef9efacff1f63ff79487639136c0268938755a4bfe3f5797167",
+            "44c8409e16943c97d73b3c89c9e2c037ecfce76ab170dae8b695b0755add9035",
+            "e678899d7ea9702184167b56655f91a69f8a0bdc9df65612762252c053c2cd7c",
+            "9be5a7e0652d43093c9b8635a693a61db8a08a240ce390e6208ed9fda8f2c445",
+            "4a59b5fad3d1870845b6f589e7da0777b4b5b71f6bdb4baf374bba56c84cf51d",
+            "ef90d0e88895e3e292c3ea9f356f346771d50587ffb1b29e2028a259abfd3c5b",
+            "39d8962831555afdbb8e3292402f28459d3bb10b2477171e33882c13cb3cc798",
+            "21ca06b18698d14154a45822aaae1e3837d168cc7630bcd3ec3d8c68aaa959e6",
+            "0d8cc0a75238c05e1b072683ee43d7e0bf827dde7a652df1467333a2b1f6a570",
+            "b35507be7902c807636fa775e3e170869ac3b99052de9833318da3b16b332b19",
+            "f285006661a7c47aab70034566a3f1daf6ea7d09d31ed85303d45f5f8d3c67fd",
+            "1b17ce735512f3104557afe3becacd05ac802b2af79dab5bb1a7ac8d10dccffd",
+            "84c00741099c035fb5059cdb3da09afdc6b64d3b6433bbaca4e4a454ccff239a",
+            "6da003a9b9884bd50bad563ee06828e309f8dd61da2a04ab04ae06c9a89fbb7b",
+            "20999ffb10d43fa421e03f2900759f8ca98ce0216b3dd9c09179a47fec29a6e2",
+            "ba698610d9810da8ea5a8d193e916fb962c888f8874a41fdc3a5ccdaf23d9d66",
+            "b38b4c1dcf6d6ecd1bbfc236b43c37c18044c2f42f11e5088384f4bd0751929c",
+            "64d78eec46c9ddd4b9a366de62ba0f2813267dc4393bc79e4c9a51a9bb7e6273",
+            "5d204ca32a5ed72511decd3245b6cf4731378e5b5e0bf8eb5acb8069adf5136d",
+            "1fc16d54c6aec5ee05d4150dde2e108e8e6def4db83677087c98b270d0e02e9a",
+            "1eba9a909641e64e935090956b03182335d298cad78052cef3b3f75691eb3f50",
+            "ad0474f0d6021d0de97c77ca222a05777762aad59bda2be2f3b1a8f1a8022707",
+            "002f33fee7b8a159058368b7e93e492931c4ca72e90660bdb2691bcd62fedd3c",
+            "cf582215a37617a76b80490a80f71cf31324ce354eaf88a54d995e734503fa40",
+            "5d40615701c48a122e44f831e7c8643d07765629a83b15d090587f469c77693d",
+            "d7d6161ad07e77f28b2fe685e8afb39bc2cf9c0f697df5e7fff38f3a101b44a7",
+            "07c44729e2c570b37db695323249474831f5861d45318bf49ccf5d2f5c8ea1cd",
+            "8e797fff8fae9afb216b81ae341aac9f05f419061075b0f6ce4c0c7a67f458a4",
+            "ca702ddbd55edfa036747c8ac4a0506c3719428bb8b8db558a80a71a1d9d5b15",
+            "36bc478b1e6cfcdfd8906ac5caf156cc1c6a3663a46f5cbf89193ff8ea794bf0",
+            "77bacb44132eba894ff4cb9c8aa50c3e9c6a26a08f93168f65c48571fdf48e2a",
+            "2571ce50bf1b9be041bd8b50075dfcffca9fbde758afa5dbce7a325344b04da2",
+            "7d8666c5c5bf67beaf472ead5b3f6cb101ad3238fbc58337bdf3abf89e78c1eb",
+            "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc",
+            "fb89ffc12f3587399e1dbd85fe8da85a6170848698d0b15e2cd8f81d0b9875f4",
+            "cf684f708f1b6ffbc2b46b498cb9e9b40bfd813958fd7fc4db56f9642dd5da33",
+            "1fe9b489c25bb23b04d9996e8107671edee69bd6f6def2fe7ece38a0fb35f98e",
+            "6d5fe2cac56f6e735461f2b6e8bf0e2b53feace3c17838cdba1ac3c848825353",
+            "e596a17260e6e5ec4c5d2160a6d645cdefb7a4bbe57efc7a5c963ad677cd98f6",
+            "754bb708cf068adf1fdbcde6949f37b4a6501b66f6c5a050f23a0bae09aad40b",
+            "441cb0576151b2e5b5127be72a5bcdf3577a596f0a4e1f2c6836248fe07eb818",
+            "313ecd0410fe1cc36292d9f2771ac41d9e4b67344339c2a46ce8e6445ceed0e4",
+            "b3de3f9309b2f320738772353eb724a0782a1fc2c912483c036c303389307e2e",
+            "2d13424b09ba004135a26ccd60b64cdd6917d80ce43070cbc114569eae608588",
+            "d3c9a4541f5ffab522695055a082f9dfe250fcaee5cfe46a9d52581c6169b5ac",
+            "d4492a9eb36f87a9b3156b59052ebaf10e264d5d1ce4c015a6b0d205614e58e3",
+            "df33e906ce0b0148cc1be8daffa51775b4a806eb1745385fd4eaf1c2c71c45e2",
+            "3d4d1ace6c71af52853f32fbb907196a05dcd2dae8eedaa3b30dc6a15fc8d65a",
+            "c3dc5d9c25e3ef368835ad761bc9b0650170a018d70f93869608105375b73019",
+            "e84be291efadd53a8bb965bfb589590ffe870da9187e6752cc7a9f028053ff5d",
+            "59e1edf4d82fae4978e97512b0331b7eb21dd4b838b850ba46794d9c7a2c0983",
+            "561760568f0a8ad75775986bb0506b8e6c7c1d414b699724e4a66bde7ca88388",
+            "1984264959b7d63e516544cbce4b6dffb7ed5210a472437dd88068f4d39600e2",
+            "a5ba661d89492b11b8c9a8b6a0022da3f03943037b4a982aef736a9bed428a48",
+            "50f7e5fad8c4fe72d36d7e004616e458aabacc74f8a806ce608121f63fda7e5d",
+            "8ebc97e05c8e1073bda2efb6f4d00ad7e789260afa2c276f0c72740b838a0a93",
+            "1ceaa4b6735e54755f3d4ccc633936a96d120d6a18726c81f5caec4063418ed3",
+            "f368400a4f67b6f2390343181e5d1945967c6cd25088798984e6e4654a1b928c",
+            "7986bbaee8940da11ce089383521ab420c443ab7b15ed42aed91fd31ce833896",
+            "39638cfc4579cf9a2b3fc0f0cac0aaf83a28e802e3b80ffe1a10f73edfd39a2a",
+            "067c59ea6a6c74ab1450f89b6c3aae5a7f689a201414bdf62f5ce5290729a654",
+            "08e5e7e5f30801b363f08a6106425faa1c505bd048a18c846a5b3e5959a4998e",
+            "26b2401211769d2fa1415228b4b1305eeeed249a996d149ad83b6fc9c4f703ce",
+            "b56279136d816a11cf4db9fc1b249da04b3fa3aef4ba709b20cdfbe572394812",
+            "510c6896ab176ad04a534ed48a3c74957ca929accbaf277ee1d678eac6bf3b36",
+            "7907dd95c1d36cf3dc842a1bd804f0db511a0f68f4b3d382c23a3c974a383cad",
+            "c428f134055a6a1512b85606161996ced840006cbb928ced380265d399449689",
+            "79fd175ec88d06e2d635ac49782ba6d274fe27a1b7d318e399cce9955cc9d5cb",
+            "6f92254f2be9ba0ff838200e6e433767278a4bf24779df765bc71e8c05fa230e",
+            "e4287e9708a73ce6a9b7a3e7c72462b01f7cc3c595d972cf2984185ac1a3a4a8",
+            "ecf3426a7fc625c3b6c9a5c5d6a9035a56756a4c0419f79f44fd5288c2bfb2ed",
+            "720610b9067c8afe857819a098a44cab24e9da5cf6a086351d01b73714afd397",
+            "0f2c5c39494f15b7ee637ad5b6b5d00a3e2f407b4f27d140cd5a821ff08acfac",
+            "1dbfa42c271e51d48de2bbc445f8a6e3c7c38cdc9b724d927bf4b46b02a08447",
+            "32f24601153be0885f11d62e0a8a2f0280a2034fc981d8184180c5d3b1b9e8cf",
+            "c900719c0b010d052df2f7e6c7a0cff6f629ef64e2516697f80a9b72ff35d383",
+            "cd48acb618e7e4f17984031ffaa54594de60956961a72f5e1bf76d4f6dd57b18",
+            "93eebf148d241c7f4ca10ae7f0ab23078696cb3909d9efa8fef1c8df3f4bf33c",
+            "f77a9875dbf1a1807082117d69bdbdd14eaa112996962f613de4204db34faba7",
+            "871bb7796f7a12be233911d3948e4f3bb0fa1c4166e89c31585ade90320a4952",
+            "19896a23d7b054625c2f6b1ee1551a0da68ad25cddbb24510a3b74578418e618",
+            "a6cad2d0f8dc05246846d2a9618fc93b7d97681331d5826f8353e7c3a3206e86",
+            "bbc6607ab55be9f76b07bd484a333370da22f66c5dbecac68ed7b442de3fc747",
+            "0041d82cc2a5bb2f447f9c40989292675232cb8404bbfa751c9b961e2f6149c7",
+            "ac9b3cac16ab223a1853b307f67a2f3c1f5f7605b3979969120a2f2d189d6f28",
+            "7ca69ca5783d6c75d9001e10c883897326aea5ba6227ddc100731217d0dd6317",
+            "178348c14324bc0a3e57559a01a6ae6aa0cb4013aabbe324b51f906dcf5d537e",
+            "5b355db75fc87d8f580eaa6a1eb4ea426ecc8e4b74a96196607fe63847f15004",
+            "da62155d5ae726b7f38847e06a5fd6a3dba5fb0ef66f4aa6ace974e0a04526c0",
+            "683a09da219918258c58a7f61f7dc4161a3a7a377cf82a31b840baabfb9a4a96",
+            "922163713b973cf8c4ad80f16cf69305ed0ca319b314e7ec8ae1982ed5f2a9ed",
+            "66a64168ef1203b08b4dc0cde4b184c4db9023951f5ce9e12e3f93f3fde17c6d",
+            "3243ad6e3775e9c1f308405a6a78b831874397e0ac625cda60295d6c81209bca",
+            "13037b749aa4b1eda538fda26d6ac41c8f7b1d02d83f47b0d187dd645154e033",
+            "767e4cecf0c7e009ec8edd90fb8d7d5a2650fbc643b902714f7378e170b5409a",
+            "0e0f1e9b6ef23a6f9a81442521969df413664441c8da9c0de75395827d61763b",
+            "813968129895b83a1bd7b14fd1bbc52b4364029e38ff561c69a4b6d6eb9bc8eb",
+            "4adb059e56c95dcd1779d72106f5bf7107befd1163ca14fa069279c2ed7db3fc",
+            "6f0a2c9e8423977aaa763982235616f4ed39099ee179aa64758b048937de2186",
+            "d79416a475f66f1da2aedf24251c0677f24d6103a3346da901c996350bb6c94b",
+            "ba35a9d5be32170a498b267c5ae4924a5675982aa936e1f856fdb960388ce103",
+            "8943f142b2d66d20b07defba56f54d5e75223b55a4e82cd0153753d79df27428",
+            "a9182d5d0ba9d59e50b7237cb0a44398d7d0cd253f5395a9b2e089b148460488",
+            "ed63b2a33066ef63bdb5b99c40d660f29653386b334f45d5296ead6fbcbc2861",
+            "4b8be22b23cd9098218a6f744baeb45c51b6fad6a559b01fe92dbb53c6e2c128",
+            "537a987d9bfe60b24a9bef0a9214f64202e91ea5fe14b1c3063317387f595bf7",
+            "067fca1211ab7cde65e58c057b3b8cbaf9aa6da891b7f3e9bd91b191eab649a0",
+            "f5fb7fa5231c18f0951c755c4cb0ec07b0889b5e320f42213cbf6bbbe499ad31",
+            "61c0810a23580cf492a6ba4f7654566108331e7a4134c968c2d6a05261b2d8a1",
+            "c82e2202947ba1b6e8f4cf4849d2f39158c913522ff66ee724792d04bd0dbbe3",
+            "c97d9bbc80b573bdeeda3812f4d00e5183493dd0d5805e2508728f65977dda15",
+            "99c1b4887d96cb94f32b280c1039b3a7e39ad996859ffa6dd011cf3cca4f1ba5",
+            "91caa1fe289cdd8500399b3dcb07a5417223126a8cfd6833ece052acaaeb27f7",
+            "0ceffb1a04743d4cb81fde0bf40abfd39dd2cb4d26a0b458b19a0dc844bac2fb",
+            "c3ab58b3154e5f5101ba74fccfd27a9ab445e41262cdf47e8cc3be7416a5904f",
+            "fa383eac2bf9ad3ef889e6118a28aa57a8a8e6b5224ecdf78dcffc5225ee4e1f",
+            "e1546323dc746ed2f7a5c973dcecc79b014b68bdd8a6230239283b4f775f4bbd",
+            "3a9323a939fbecbc6d0ceb5c1e1f3ebde91e9f186b46fdf3ba1aee03d1d41cd8",
+            "03597628e999d791f4cc442328024235db9a929467a62ef0a00c91a76161f0e1",
+            "c4a781efd5a8fd7141f1646ac99633979f3aaa8d502ce9f72a65b67573642bfd",
+            "c72a055b677cd9e5e2b2dcbba520425d023d906e6ee609b79c643d9034938ebf",
+            "a1cde243e77d9d4c8e5585097400e53a2fe915f0bfc27368d2ea1ee197b2fabb",
+            "9e392277f62206098cf794ddebafd2817483cfd57ec03c2e05e7c3c81e72f562",
+            "c1d981cef08120e7b95ef0979847158fcbbfc4ffee67a2d107408bcf931f1514",
+            "714350cce9dfe61bfd79c2b9ec68af8e794fe1f26ff0d792d56817dcebcce56b"
+        ]
+    },
+    "win_hook": {
+        "missing": [
+            "648e1c9fd7aacb58c4285cf6a54d9e58f5c2c1f6cc1f166b9e13e7d6a3c4a7fb",
+            "002aff376ec452ec35ae2930dfbb51bd40229c258611d19b86863c3b0d156705",
+            "ec2a717739947d3512513889bbecd9a0dac3fb65f8e171f8a0835abe8c1537e3",
+            "6ba20c352fa09b4c25df7d2ee4c6848a2efbfd12caf722d931258c0348edae9e",
+            "5be56119732af027b1c2797f204cbc5d60f7f90afd1b5d4031f4077ca3d9ef6c",
+            "22c7c6cb3a12ee1302df54fa8ee5c6714f42cb1a1b837ed3285c713f4e17cb84",
+            "8d4b46cefdfe68f3ad53b53d1d26f60d4361868554f50ccdd7f482e9d0c95ccf",
+            "a2aee24f25daf95a9873069d3ad8af986f43188b9cb18e8228311e5772cfdf60",
+            "de74906547ec883e6bf5eec0f360e627175505074dc17632907db26b67a448ca",
+            "43a538ef95d4f931704d6309fa0a292f38abaeae48836f39115c0d3f4418fdec",
+            "4b74fbd877b7e3e1e325df75ddd3cfece7404a4104a646a65a1a4b7614f9478c",
+            "1e5bcfdd98d6c8ddbf8f6f625421c5b1fbbf794920c34872bef4fc08f3ec57f1",
+            "80c1ea737d33c6bfac09b101b8d77ab0f9f6630128c3ed052f9d945bed54e7e4",
+            "cf684f708f1b6ffbc2b46b498cb9e9b40bfd813958fd7fc4db56f9642dd5da33",
+            "313ecd0410fe1cc36292d9f2771ac41d9e4b67344339c2a46ce8e6445ceed0e4",
+            "1984264959b7d63e516544cbce4b6dffb7ed5210a472437dd88068f4d39600e2",
+            "8ebc97e05c8e1073bda2efb6f4d00ad7e789260afa2c276f0c72740b838a0a93",
+            "067c59ea6a6c74ab1450f89b6c3aae5a7f689a201414bdf62f5ce5290729a654",
+            "da62155d5ae726b7f38847e06a5fd6a3dba5fb0ef66f4aa6ace974e0a04526c0",
+            "7422bc2c77e70c2e90c27d030a13eb3adf0bcfc1ef2bc55b62871181af5cd955",
+            "8d96710b01b9eb3b4cf9d5b01ed53d7084a2808322f3456d4038ca2978022e16"
+        ]
+    },
+    "antisb_threatExpert": {
+        "missing": [
+            "10f8162a780d95006b866fca225276cfff93084ed72ab5517c4aaef65e4be54d",
+            "d7d6161ad07e77f28b2fe685e8afb39bc2cf9c0f697df5e7fff38f3a101b44a7"
+        ]
+    },
+    "vmdetect_misc": {
+        "missing": [
+            "e3834a2cca58589cd5ae7b74554bdeb7b034c3e9c20a242bda50630c085b7b08",
+            "6f92254f2be9ba0ff838200e6e433767278a4bf24779df765bc71e8c05fa230e"
+        ]
+    },
+    "disable_antivirus": {
+        "missing": [
+            "0e70c1fc058416b2eaeee6a3a48611622423db5b35e8503bd8e2ecc8cac1404d",
+            "22e20fbd8e95ac7b3a77b815e1a438e545354adb5a1bd5a90220a9c17b4008db",
+            "041e371767c385910437ce2584a00b4c62a371f9b18b487af393e1a4e7514d52",
+            "f7414a0d715bc6e8c30037a15136a8e5bb19766959aef1a204f5d4a17ccef35a",
+            "ca702ddbd55edfa036747c8ac4a0506c3719428bb8b8db558a80a71a1d9d5b15",
+            "36bc478b1e6cfcdfd8906ac5caf156cc1c6a3663a46f5cbf89193ff8ea794bf0",
+            "517fc58c8b68cebba639c52b668cbd8418f30b457093dcc8a1d282cc8db69e78",
+            "59e1edf4d82fae4978e97512b0331b7eb21dd4b838b850ba46794d9c7a2c0983",
+            "50f7e5fad8c4fe72d36d7e004616e458aabacc74f8a806ce608121f63fda7e5d"
+        ]
+    },
+    "Check_Dlls": {
+        "missing": [
+            "74a088d2383a234893c361ddd60c3b3ad269fedba974bdc70750d69efd1f2313",
+            "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f",
+            "6f92254f2be9ba0ff838200e6e433767278a4bf24779df765bc71e8c05fa230e",
+            "15cc3cad7aec406a9ec93554c9eaf0bfbcc740bef9d52dbc32bf559e90f53fee"
+        ]
+    },
+    "anti_dbgtools": {
+        "missing": [
+            "7634559c1f31d02170001101a08597f37d49f99dbb6a9846739b8c50d12d6553",
+            "36bc478b1e6cfcdfd8906ac5caf156cc1c6a3663a46f5cbf89193ff8ea794bf0",
+            "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc",
+            "ef7bac23b920c86b72c70ff6eb23504ab472e0c7d6a7c28461fd8fa846e1a4ae"
+        ]
+    },
+    "antisb_sandboxie": {
+        "missing": [
+            "aed92a8301931959100a1bb8c52251df2fdddaf8b76ab34b6f24d7bbe58a4fe6",
+            "74a088d2383a234893c361ddd60c3b3ad269fedba974bdc70750d69efd1f2313",
+            "38c381e1f0d8db27082d5809b70fc73d5c7137e266bc22b4301dd4bbd5e79637",
+            "5b875ecf0b7f67a4429aeaa841eddf8e6b58771e16dbdb43ad6918aa7a5b582d",
+            "a6ee06d8b84765979b3dbaab058e4934043e08a4b251efd7ecb9a5fcbea95e75",
+            "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f",
+            "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c",
+            "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc",
+            "b3de3f9309b2f320738772353eb724a0782a1fc2c912483c036c303389307e2e",
+            "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779",
+            "1ceaa4b6735e54755f3d4ccc633936a96d120d6a18726c81f5caec4063418ed3",
+            "15cc3cad7aec406a9ec93554c9eaf0bfbcc740bef9d52dbc32bf559e90f53fee",
+            "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
+            "be8567ffe0be8bcb6af197b0c4f7498756b3eb812f7f3b23a5472dfe881726e7",
+            "91caa1fe289cdd8500399b3dcb07a5417223126a8cfd6833ece052acaaeb27f7"
+        ]
+    },
+    "antivm_virtualbox": {
+        "missing": [
+            "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f",
+            "ef90d0e88895e3e292c3ea9f356f346771d50587ffb1b29e2028a259abfd3c5b",
+            "6d5fe2cac56f6e735461f2b6e8bf0e2b53feace3c17838cdba1ac3c848825353",
+            "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779",
+            "50f7e5fad8c4fe72d36d7e004616e458aabacc74f8a806ce608121f63fda7e5d",
+            "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638"
+        ]
+    },
+    "disable_firewall": {
+        "missing": [
+            "38c381e1f0d8db27082d5809b70fc73d5c7137e266bc22b4301dd4bbd5e79637",
+            "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c"
+        ]
+    },
+    "disable_registry": {
+        "missing": [
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67",
+            "38c381e1f0d8db27082d5809b70fc73d5c7137e266bc22b4301dd4bbd5e79637",
+            "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c",
+            "1ceaa4b6735e54755f3d4ccc633936a96d120d6a18726c81f5caec4063418ed3"
+        ]
+    },
+    "disable_taskmanager": {
+        "missing": [
+            "38c381e1f0d8db27082d5809b70fc73d5c7137e266bc22b4301dd4bbd5e79637",
+            "d6d55a8fbd1c603719fe611e572e2431512e7063c44896f705524dab66234d45",
+            "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c",
+            "6fa0ea46cdf13cc71d9a164d0291f481d3947ec4f35f2cbf7b5c4a51ae3b0aed"
+        ]
+    },
+    "WMI_VM_Detect": {
+        "missing": [
+            "a6ee06d8b84765979b3dbaab058e4934043e08a4b251efd7ecb9a5fcbea95e75",
+            "12454a323dec0a56a23cd5215bb335d7842c85bbf38e3bd696c9237e26454388",
+            "ef90d0e88895e3e292c3ea9f356f346771d50587ffb1b29e2028a259abfd3c5b",
+            "1a7b540a68ac6564e292ccb758eab02f2a548684cd16404a2b077b2a1dcbe778",
+            "d3c9a4541f5ffab522695055a082f9dfe250fcaee5cfe46a9d52581c6169b5ac"
+        ]
+    },
+    "Check_VBox_VideoDrivers": {
+        "missing": [
+            "e61569632ff7445216220571e82f860f749282adddfa50fa0233923f7b963055"
+        ]
+    },
+    "Check_VmTools": {
+        "missing": [
+            "e61569632ff7445216220571e82f860f749282adddfa50fa0233923f7b963055"
+        ]
+    },
+    "antivm_bios": {
+        "missing": [
+            "ef90d0e88895e3e292c3ea9f356f346771d50587ffb1b29e2028a259abfd3c5b",
+            "50f7e5fad8c4fe72d36d7e004616e458aabacc74f8a806ce608121f63fda7e5d"
+        ]
+    },
+    "pos_memory_scrapper_": {
+        "missing": [
+            "38c381e1f0d8db27082d5809b70fc73d5c7137e266bc22b4301dd4bbd5e79637",
+            "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c"
+        ]
+    },
+    "rootkit": {
+        "missing": [
+            "c85091a01faba998f437e9b44c215804a8013050c6684670581cd1c8a8f216f2"
+        ]
+    },
+    "dbgdetect_procs": {
+        "missing": [
+            "7b2c4995806c90eb7d4b164766909a336bfd1f10d9da69a7e21f7ab0d19fbdba",
+            "e3834a2cca58589cd5ae7b74554bdeb7b034c3e9c20a242bda50630c085b7b08",
+            "5c2e9604ddf63e732a674d9672a4ba20f44891a83e10f44f1d4d764f8c59ea63",
+            "041e371767c385910437ce2584a00b4c62a371f9b18b487af393e1a4e7514d52",
+            "7634559c1f31d02170001101a08597f37d49f99dbb6a9846739b8c50d12d6553",
+            "4a2cfbe2d173a1ac42dd21383ff9c8044ec615b2df7340f268017dc10526bf76",
+            "9be5a7e0652d43093c9b8635a693a61db8a08a240ce390e6208ed9fda8f2c445",
+            "36bc478b1e6cfcdfd8906ac5caf156cc1c6a3663a46f5cbf89193ff8ea794bf0",
+            "6d5fe2cac56f6e735461f2b6e8bf0e2b53feace3c17838cdba1ac3c848825353",
+            "871bb7796f7a12be233911d3948e4f3bb0fa1c4166e89c31585ade90320a4952",
+            "3243ad6e3775e9c1f308405a6a78b831874397e0ac625cda60295d6c81209bca",
+            "8943f142b2d66d20b07defba56f54d5e75223b55a4e82cd0153753d79df27428",
+            "ef7bac23b920c86b72c70ff6eb23504ab472e0c7d6a7c28461fd8fa846e1a4ae",
+            "be8567ffe0be8bcb6af197b0c4f7498756b3eb812f7f3b23a5472dfe881726e7"
+        ]
+    },
+    "dbgdetect_files": {
+        "missing": [
+            "c864545bd61ac07a3dae55fa930149f2e58a1a4fc2ccba28bf011b7eb5a6172d",
+            "c93e6237abf041bc2530ccb510dd016ef1cc6847d43bf023351dce2a96fdc33b",
+            "38c381e1f0d8db27082d5809b70fc73d5c7137e266bc22b4301dd4bbd5e79637",
+            "a6ee06d8b84765979b3dbaab058e4934043e08a4b251efd7ecb9a5fcbea95e75",
+            "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c",
+            "36bc478b1e6cfcdfd8906ac5caf156cc1c6a3663a46f5cbf89193ff8ea794bf0",
+            "80c1ea737d33c6bfac09b101b8d77ab0f9f6630128c3ed052f9d945bed54e7e4",
+            "0c182effba3008ed3c0ce431b5f153ca6115f279c11c4829377d48d14c3b71c7",
+            "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779",
+            "521a125f557bea10a6440ae4cede378e712590d6642ea63ac6c3119dd2b9f8a6",
+            "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
+            "91caa1fe289cdd8500399b3dcb07a5417223126a8cfd6833ece052acaaeb27f7",
+            "c85091a01faba998f437e9b44c215804a8013050c6684670581cd1c8a8f216f2"
+        ]
+    },
+    "INDICATOR_SUSPICIOUS_EXE_SandboxUserNames": {
+        "missing": [
+            "7de04563a9107d3c53effc75e3fe1dc9a2a59a4aa3a46d4b02522d84001dab08",
+            "537a987d9bfe60b24a9bef0a9214f64202e91ea5fe14b1c3063317387f595bf7"
+        ],
+        "extra": [
+            "6e0164b94476119d7ba53adeca4ae7f7cd7a96d1c90d95ca7880003ace4462aa",
+            "c864545bd61ac07a3dae55fa930149f2e58a1a4fc2ccba28bf011b7eb5a6172d",
+            "a6ee06d8b84765979b3dbaab058e4934043e08a4b251efd7ecb9a5fcbea95e75",
+            "041e371767c385910437ce2584a00b4c62a371f9b18b487af393e1a4e7514d52",
+            "36bc478b1e6cfcdfd8906ac5caf156cc1c6a3663a46f5cbf89193ff8ea794bf0",
+            "50f7e5fad8c4fe72d36d7e004616e458aabacc74f8a806ce608121f63fda7e5d",
+            "91caa1fe289cdd8500399b3dcb07a5417223126a8cfd6833ece052acaaeb27f7",
+            "a1cde243e77d9d4c8e5585097400e53a2fe915f0bfc27368d2ea1ee197b2fabb"
+        ]
+    },
+    "INDICATOR_SUSPICIOUS_EXE_SandboxComputerNames": {
+        "missing": [
+            "7de04563a9107d3c53effc75e3fe1dc9a2a59a4aa3a46d4b02522d84001dab08"
+        ]
+    },
+    "INDICATOR_SUSPICIOUS_EXE_References_CryptoWallets": {
+        "missing": [
+            "22e20fbd8e95ac7b3a77b815e1a438e545354adb5a1bd5a90220a9c17b4008db",
+            "cbf4e042e45bf47e1070d666b8078444303b423ecb62fe98ee9a11c905b4fd16",
+            "d024f69697324942a47f367e129b439f27d181b0cc49b7fc8a6ca2cd40d483ce",
+            "041e371767c385910437ce2584a00b4c62a371f9b18b487af393e1a4e7514d52",
+            "ea33954741d44c9f46ab6f40fed29acd2833b9fdcc33b3990fab573522f2e446",
+            "537a987d9bfe60b24a9bef0a9214f64202e91ea5fe14b1c3063317387f595bf7",
+            "6fa0ea46cdf13cc71d9a164d0291f481d3947ec4f35f2cbf7b5c4a51ae3b0aed"
+        ]
+    },
+    "INDICATOR_SUSPICIOUS_EXE_References_PasswordManagers": {
+        "missing": [
+            "e3834a2cca58589cd5ae7b74554bdeb7b034c3e9c20a242bda50630c085b7b08"
+        ]
+    },
+    "INDICATOR_SUSPICIOUS_GENRansomware": {
+        "missing": [
+            "13ccf6c512823f7d30f14d06fd50e00bce8dd03ca331dd5c5d9fee64c340c92d",
+            "c864545bd61ac07a3dae55fa930149f2e58a1a4fc2ccba28bf011b7eb5a6172d",
+            "0e70c1fc058416b2eaeee6a3a48611622423db5b35e8503bd8e2ecc8cac1404d",
+            "028facff67136de55fe200177a190da625c8e1713b4e7d95bf5fc5412a5afffc",
+            "a6ee06d8b84765979b3dbaab058e4934043e08a4b251efd7ecb9a5fcbea95e75",
+            "10f9ad4e9f6e0dc1793be80203b258f8c5114d01cb17307c1b2fdcca37d4edf9",
+            "30a8cf3e6863030c762b468bf48d679f3dd053a80793770443938fa18de89617",
+            "d1dcf4c2165f3cf5729ba76e1ee80f4709d8e7eca7a6c29ceffc5fc6b09660fe",
+            "30efa81a5d0d9bf04a00b4e30823c2f0c7bd6461383acf0195d857edf2162543",
+            "cf582215a37617a76b80490a80f71cf31324ce354eaf88a54d995e734503fa40",
+            "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc",
+            "5eae13527d4e39059025c3e56dad966cf67476fe7830090e40c14d0a4046adf0",
+            "ef7bac23b920c86b72c70ff6eb23504ab472e0c7d6a7c28461fd8fa846e1a4ae"
+        ]
+    },
+    "INDICATOR_SUSPICOUS_EXE_References_VEEAM": {
+        "missing": [
+            "5bc9478d90533ebccf09c7204999853bae36db997b230e2809090c7827c8ced0"
+        ]
+    },
+    "INDICATOR_SUSPICIOUS_Binary_References_Browsers": {
+        "missing": [
+            "c864545bd61ac07a3dae55fa930149f2e58a1a4fc2ccba28bf011b7eb5a6172d",
+            "f61a7fa3ca28133a6fcefa0e04b0de4dc1e4020a87388b4b3a315dc8dc18194e",
+            "a6ee06d8b84765979b3dbaab058e4934043e08a4b251efd7ecb9a5fcbea95e75",
+            "91caa1fe289cdd8500399b3dcb07a5417223126a8cfd6833ece052acaaeb27f7"
+        ]
+    },
+    "INDICATOR_SUSPICIOUS_EXE_RegKeyComb_DisableWinDefender": {
+        "missing": [
+            "d2517353de2908d3f97471d8d2e90f713d893ea473372a67ede2eb633047b0b6",
+            "5c2e9604ddf63e732a674d9672a4ba20f44891a83e10f44f1d4d764f8c59ea63",
+            "a6ee06d8b84765979b3dbaab058e4934043e08a4b251efd7ecb9a5fcbea95e75",
+            "0cd33e6b180862072a00a0c2f897afa754df071bcec3d13e581c41a5c27a3102"
+        ]
+    },
+    "INDICATOR_SUSPICIOUS_EXE_UACBypass_EventViewer": {
+        "missing": [
+            "dfb49254d96bcff901131cfa03aef8a19fc91a22b62e0e058b7446010486feba"
+        ]
+    },
+    "INDICATOR_SUSPICIOUS_EXE_SQLQuery_ConfidentialDataStore": {
+        "missing": [
+            "c864545bd61ac07a3dae55fa930149f2e58a1a4fc2ccba28bf011b7eb5a6172d",
+            "f3a2fc1338553c29b16cb91caaffc37849537dedb67c41e2eccec879f0c8ab73",
+            "7de04563a9107d3c53effc75e3fe1dc9a2a59a4aa3a46d4b02522d84001dab08",
+            "7c40019c1d4cef2ffdd1dd8f388aaba537440b1bffee41789c900122d075a86d",
+            "db3d98c97cfb274f58de6efc1739357371bcb8d006e02ff2857ef8d3605a9c06",
+            "7d4d612275a6f4c3d1b0d23c3ae19cf39fcdd729f3f899f3df44b619bea7e17b",
+            "c9214b7c531379d186eb18a22e33c64b516e6c235ddd67708bde60839bf2c50f",
+            "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c",
+            "b3bcbd59e3ebbc3b5ecc7289d8ed6780c282158598c00af265622b2ee6485e2b",
+            "a2fa2e4bdd546b1b7908af709d23ffb41443e2cdc03af562f6d93ca548b09776",
+            "ea33954741d44c9f46ab6f40fed29acd2833b9fdcc33b3990fab573522f2e446",
+            "e0f37b772074acd08e74d9cb1d349afcfec7a93d7e922eefd43ee0501ddd78cf",
+            "178348c14324bc0a3e57559a01a6ae6aa0cb4013aabbe324b51f906dcf5d537e",
+            "f55278bbd173d865d196e9f08452c9df44f3412f466bc8906d86a4f5a0e4edfa",
+            "3a9323a939fbecbc6d0ceb5c1e1f3ebde91e9f186b46fdf3ba1aee03d1d41cd8"
+        ]
+    },
+    "INDICATOR_SUSPICIOUS_EXE_SandboxHookingDLL": {
+        "missing": [
+            "38c381e1f0d8db27082d5809b70fc73d5c7137e266bc22b4301dd4bbd5e79637",
+            "7de04563a9107d3c53effc75e3fe1dc9a2a59a4aa3a46d4b02522d84001dab08",
+            "682e2204557a05cddbaddef019cbc2eda6eaa50007f20851eadb9a33c35c458d",
+            "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c",
+            "b3de3f9309b2f320738772353eb724a0782a1fc2c912483c036c303389307e2e"
+        ]
+    },
+    "INDICATOR_SUSPICIOUS_EXE_References_Confidential_Data_Store": {
+        "missing": [
+            "54a813d8f2aab7d1e76d8577784ccd9350c025e52f656fee6a228d39dfbac926"
+        ]
+    },
+    "INDICATOR_SUSPICIOUS_References_SecTools": {
+        "missing": [
+            "041e371767c385910437ce2584a00b4c62a371f9b18b487af393e1a4e7514d52",
+            "7634559c1f31d02170001101a08597f37d49f99dbb6a9846739b8c50d12d6553",
+            "4a59b5fad3d1870845b6f589e7da0777b4b5b71f6bdb4baf374bba56c84cf51d",
+            "d3c9a4541f5ffab522695055a082f9dfe250fcaee5cfe46a9d52581c6169b5ac"
+        ]
+    },
+    "INDICATOR_SUSPICIOUS_EXE_Anti_OldCopyPaste": {
+        "missing": [
+            "38c381e1f0d8db27082d5809b70fc73d5c7137e266bc22b4301dd4bbd5e79637"
+        ]
+    },
+    "INDICATOR_SUSPICIOUS_ClearWinLogs": {
+        "missing": [
+            "91caa1fe289cdd8500399b3dcb07a5417223126a8cfd6833ece052acaaeb27f7"
+        ]
+    },
+    "INDICATOR_SUSPICIOUS_Sandbox_Evasion_FilesComb": {
+        "missing": [
+            "22c7c6cb3a12ee1302df54fa8ee5c6714f42cb1a1b837ed3285c713f4e17cb84",
+            "91caa1fe289cdd8500399b3dcb07a5417223126a8cfd6833ece052acaaeb27f7"
+        ]
+    },
+    "INDICATOR_SUSPICIOUS_EXE_Discord_Regex": {
+        "missing": [
+            "91caa1fe289cdd8500399b3dcb07a5417223126a8cfd6833ece052acaaeb27f7"
+        ]
+    },
+    "p0wnedListenerConsole": {
+        "missing": [
+            "c864545bd61ac07a3dae55fa930149f2e58a1a4fc2ccba28bf011b7eb5a6172d",
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
+        ]
+    },
+    "EternalRocks_taskhost": {
+        "missing": [
+            "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc"
         ]
     },
     "INDICATOR_EXE_Packed_VMProtect": {
         "missing": [
-            "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c",
-            "38c381e1f0d8db27082d5809b70fc73d5c7137e266bc22b4301dd4bbd5e79637"
+            "38c381e1f0d8db27082d5809b70fc73d5c7137e266bc22b4301dd4bbd5e79637",
+            "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c"
         ]
     },
     "INDICATOR_EXE_Packed_MPress": {
         "missing": [
-            "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c",
-            "38c381e1f0d8db27082d5809b70fc73d5c7137e266bc22b4301dd4bbd5e79637"
+            "38c381e1f0d8db27082d5809b70fc73d5c7137e266bc22b4301dd4bbd5e79637",
+            "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c"
         ]
     },
     "INDICATOR_EXE_Packed_RLPack": {
         "missing": [
-            "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c",
-            "38c381e1f0d8db27082d5809b70fc73d5c7137e266bc22b4301dd4bbd5e79637"
-        ]
-    },
-    "HackTool_MSIL_SharpHound_3": {
-        "missing": [
-            "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c",
-            "a6ee06d8b84765979b3dbaab058e4934043e08a4b251efd7ecb9a5fcbea95e75"
-        ]
-    },
-    "HackTool_MSIL_SharPersist_1": {
-        "missing": [
-            "e9711f47cf9171f79bf34b342279f6fd9275c8ae65f3eb2c6ebb0b8432ea14f8"
-        ]
-    },
-    "Trojan_Win_Generic_101": {
-        "missing": [
-            "e5aea542ee91767b72924b3379cf0af3da6a8168686eab1621350b96bfadb0de"
-        ]
-    },
-    "HackTool_MSIL_Rubeus_1": {
-        "missing": [
-            "08df8b5dffd969737f25bdd7d089ba40787c77c64ef3ef313a93b1a0d5ae6c34"
-        ]
-    },
-    "HackTool_MSIL_SAFETYKATZ_4": {
-        "missing": [
-            "a6ee06d8b84765979b3dbaab058e4934043e08a4b251efd7ecb9a5fcbea95e75"
-        ]
-    },
-    "HackTool_MSIL_SEATBELT_2": {
-        "missing": [
-            "30263954aaa1e13f304ef7aec413c57419ab26f5e175fbc52ce7712a1cc0e04f",
-            "b84963f226474d1de9042082600b883b75705d08c36a32e0a30dfe6acb4bb057"
-        ]
-    },
-    "Loader_Win_Generic_19": {
-        "missing": [
-            "e86e0fd56693c3928f41d566d1c11fb9a28ea6bcc9494740d49478759e20eed5"
-        ]
-    },
-    "Duqu2_Sample4": {
-        "missing": [
-            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
-            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
-        ]
-    },
-    "Duqu2_UAs": {
-        "missing": [
-            "53331bff5e585c471fad6789313a2a8a687a586cc0a8d006b24085b91ed7fc9a"
-        ]
-    },
-    "RemoteCmd": {
-        "missing": [
-            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
-            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
-        ]
-    },
-    "APT_UNC2447_MAL_SOMBRAT_May21_1": {
-        "missing": [
-            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
-            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
-        ]
-    },
-    "CN_Honker_termsrvhack": {
-        "missing": [
-            "1eba9a909641e64e935090956b03182335d298cad78052cef3b3f75691eb3f50"
-        ]
-    },
-    "CN_Honker_ChinaChopper": {
-        "missing": [
-            "8d96710b01b9eb3b4cf9d5b01ed53d7084a2808322f3456d4038ca2978022e16"
-        ]
-    },
-    "CN_Honker_WordpressScanner": {
-        "missing": [
-            "77a53280fd609c5594c6f78453ca8468dc4d0305c87293655b85a50f88681792"
-        ]
-    },
-    "CN_Honker_GetPass_GetPass": {
-        "missing": [
-            "e9cffb4773da2d46282aeafc6680e7aed8ff8537040a2a27d3c1ee3e3229d88e"
-        ]
-    },
-    "CN_Honker__builder_shift_SkinH": {
-        "missing": [
-            "b3f4d019853c18475cbc7e02f03834f8969f69e1f0e6cfc61d31b43817e8c115"
-        ]
-    },
-    "CN_Honker_Injection_transit": {
-        "missing": [
-            "8210a79289dd3e351bd6e57318d2cbf4f69cacd028d8e4b352470c4515230380"
-        ]
-    },
-    "HKTL_Meterpreter_inMemory": {
-        "missing": [
-            "38c381e1f0d8db27082d5809b70fc73d5c7137e266bc22b4301dd4bbd5e79637"
-        ]
-    },
-    "Msfpayloads_msf_5": {
-        "missing": [
-            "a6ee06d8b84765979b3dbaab058e4934043e08a4b251efd7ecb9a5fcbea95e75",
-            "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc"
-        ]
-    },
-    "Cerberus": {
-        "missing": [
-            "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c",
             "38c381e1f0d8db27082d5809b70fc73d5c7137e266bc22b4301dd4bbd5e79637",
-            "6fa0ea46cdf13cc71d9a164d0291f481d3947ec4f35f2cbf7b5c4a51ae3b0aed",
-            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
-            "a6ee06d8b84765979b3dbaab058e4934043e08a4b251efd7ecb9a5fcbea95e75",
-            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
-        ]
-    },
-    "MuddyWater_Mal_Doc_Feb18_2": {
-        "missing": [
-            "063203ce28c4326da9ec26ef6f067c1fef64ac641d489f22f25b6fd0de6ebf82"
-        ]
-    },
-    "EldoS_RawDisk": {
-        "missing": [
-            "c3ab58b3154e5f5101ba74fccfd27a9ab445e41262cdf47e8cc3be7416a5904f"
-        ]
-    },
-    "Quasar_RAT_Jan18_1": {
-        "missing": [
-            "e4fcf1f6b71043e7c7c32f6954a0a1972696fa1bb9b6543ead14e85626890a11"
-        ]
-    },
-    "Codoso_Gh0st_1": {
-        "missing": [
-            "1ceaa4b6735e54755f3d4ccc633936a96d120d6a18726c81f5caec4063418ed3",
-            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
-            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
-        ]
-    },
-    "Codoso_Gh0st_3": {
-        "missing": [
-            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
-            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
-        ]
-    },
-    "Codoso_PlugX_2": {
-        "missing": [
-            "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc"
-        ]
-    },
-    "Stuxnet_Malware_2": {
-        "missing": [
-            "63e6b8136058d7a06dfff4034b4ab17a261cdf398e63868a601f77ddd1b32802"
-        ]
-    },
-    "Stuxnet_Malware_3": {
-        "missing": [
-            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
-            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
+            "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c"
         ]
     },
     "SLServer_dialog_remains": {
@@ -694,25 +1168,35 @@
             "83f967523fb0904cb14ced4e84d1f299c51ff7f33a2a68348dac47e06f3fa2d2"
         ]
     },
-    "Casper_EXE_Dropper": {
+    "INDICATOR_TOOL_PWS_LSASS_CreateMiniDump": {
         "missing": [
-            "a6ee06d8b84765979b3dbaab058e4934043e08a4b251efd7ecb9a5fcbea95e75"
+            "5d119697f8a1aa52781fa7b5fd0994a916ab0fbd43c6d1f22cb6154f98a53e0b"
         ]
     },
-    "Dexter_Malware": {
+    "INDICATOR_TOOL_PWS_SharpWeb": {
+        "missing": [
+            "ea33954741d44c9f46ab6f40fed29acd2833b9fdcc33b3990fab573522f2e446"
+        ]
+    },
+    "INDICATOR_TOOL_EXP_PetitPotam01": {
+        "missing": [
+            "441cb0576151b2e5b5127be72a5bcdf3577a596f0a4e1f2c6836248fe07eb818",
+            "61c0810a23580cf492a6ba4f7654566108331e7a4134c968c2d6a05261b2d8a1"
+        ]
+    },
+    "INDICATOR_TOOL_EXP_SeriousSAM01": {
+        "missing": [
+            "8bbdc61e5fb515717d53fa2431ed928f930550ff55ef2a942276e33558c0215c"
+        ]
+    },
+    "INDICATOR_TOOL_PRV_AdvancedRun": {
+        "missing": [
+            "ed63b2a33066ef63bdb5b99c40d660f29653386b334f45d5296ead6fbcbc2861"
+        ]
+    },
+    "OpCloudHopper_Malware_5": {
         "missing": [
             "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc"
-        ]
-    },
-    "Xtreme_Sep17_3": {
-        "missing": [
-            "b2d4357b66e008c97bdcbfc4802556d44affa1a94eff74fb071716efc054c94f",
-            "525d9900a7a66f91399ff13fbcb8f3071467523404c6359ea9c104d8f7f9c924"
-        ]
-    },
-    "Xtreme_Sep17_1": {
-        "missing": [
-            "ef7bac23b920c86b72c70ff6eb23504ab472e0c7d6a7c28461fd8fa846e1a4ae"
         ]
     },
     "OpCloudHopper_Malware_8": {
@@ -725,75 +1209,26 @@
             "7ca3c454a08b3ae4ac9e3351604afb2d6dbf5ec8f528815b3dcdd770443537a5"
         ]
     },
-    "OpCloudHopper_Malware_5": {
+    "Andromeda_MalBot_Jun_1A": {
         "missing": [
-            "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc"
+            "8033de2d5e64df2df391ddebdc41c6c6041b552779550c2e5f10ceedfd63c7ec"
         ]
     },
-    "INDICATOR_TOOL_PWS_SharpWeb": {
+    "Xtreme_Sep17_3": {
         "missing": [
-            "ea33954741d44c9f46ab6f40fed29acd2833b9fdcc33b3990fab573522f2e446"
+            "525d9900a7a66f91399ff13fbcb8f3071467523404c6359ea9c104d8f7f9c924",
+            "b2d4357b66e008c97bdcbfc4802556d44affa1a94eff74fb071716efc054c94f"
         ]
     },
-    "INDICATOR_TOOL_EXP_SeriousSAM01": {
+    "Xtreme_Sep17_1": {
         "missing": [
-            "8bbdc61e5fb515717d53fa2431ed928f930550ff55ef2a942276e33558c0215c"
-        ]
-    },
-    "INDICATOR_TOOL_EXP_PetitPotam01": {
-        "missing": [
-            "441cb0576151b2e5b5127be72a5bcdf3577a596f0a4e1f2c6836248fe07eb818",
-            "61c0810a23580cf492a6ba4f7654566108331e7a4134c968c2d6a05261b2d8a1"
-        ]
-    },
-    "INDICATOR_TOOL_PWS_LSASS_CreateMiniDump": {
-        "missing": [
-            "5d119697f8a1aa52781fa7b5fd0994a916ab0fbd43c6d1f22cb6154f98a53e0b"
-        ]
-    },
-    "INDICATOR_TOOL_PRV_AdvancedRun": {
-        "missing": [
-            "ed63b2a33066ef63bdb5b99c40d660f29653386b334f45d5296ead6fbcbc2861"
-        ]
-    },
-    "FE_CPE_MS17_010_RANSOMWARE": {
-        "missing": [
-            "1ceaa4b6735e54755f3d4ccc633936a96d120d6a18726c81f5caec4063418ed3"
-        ]
-    },
-    "APT_HKTL_Wiper_WhisperGate_Jan22_2": {
-        "missing": [
-            "6d5fe2cac56f6e735461f2b6e8bf0e2b53feace3c17838cdba1ac3c848825353"
-        ]
-    },
-    "CN_disclosed_20180208_c": {
-        "missing": [
-            "3bf2449588aaea6f7b7f984af24bd889ee438bb33d9331f5990ef9b6184695e8",
-            "345d5d2759abd08a84c4c2e2a337a1babd02b5eda3921db1b83eb5d5f5ccc011",
-            "efd485fb1bb495564cbaba67e413fb288abdd5dd5309c71b89607db28b0e3682",
-            "06ef6e2ffa0fdffb2ea1087200d5e283c94d06e98877543a3f45e30f0b02c933"
-        ]
-    },
-    "CN_disclosed_20180208_Mal5": {
-        "missing": [
-            "9b2629c78ca9883ae21246054e37da5dbbce8db6a06998ff55d1ec2b51cff6a2"
-        ]
-    },
-    "Mirai_Botnet_Malware": {
-        "missing": [
-            "379dde9cec791abbac0e2466f6fbebb538b426fdb9514665c2344fb65cf2f913"
-        ]
-    },
-    "EquationGroup_Toolset_Apr17_Gen2": {
-        "missing": [
-            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
-            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
+            "ef7bac23b920c86b72c70ff6eb23504ab472e0c7d6a7c28461fd8fa846e1a4ae"
         ]
     },
     "Anthem_DeepPanda_sl_txt_packed": {
         "missing": [
-            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
-            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67",
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f"
         ]
     },
     "Anthem_DeepPanda_lot1": {
@@ -801,15 +1236,25 @@
             "a6cad2d0f8dc05246846d2a9618fc93b7d97681331d5826f8353e7c3a3206e86"
         ]
     },
-    "APT_APT28_Downdelph_Feb_2021_1": {
+    "Dexter_Malware": {
         "missing": [
-            "cf684f708f1b6ffbc2b46b498cb9e9b40bfd813958fd7fc4db56f9642dd5da33"
+            "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc"
         ]
     },
-    "MAL_Winnti_Sample_May18_1": {
+    "RemoteCmd": {
         "missing": [
-            "3bf2449588aaea6f7b7f984af24bd889ee438bb33d9331f5990ef9b6184695e8",
-            "efd485fb1bb495564cbaba67e413fb288abdd5dd5309c71b89607db28b0e3682"
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67",
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f"
+        ]
+    },
+    "Cerberus": {
+        "missing": [
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67",
+            "38c381e1f0d8db27082d5809b70fc73d5c7137e266bc22b4301dd4bbd5e79637",
+            "a6ee06d8b84765979b3dbaab058e4934043e08a4b251efd7ecb9a5fcbea95e75",
+            "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c",
+            "6fa0ea46cdf13cc71d9a164d0291f481d3947ec4f35f2cbf7b5c4a51ae3b0aed",
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f"
         ]
     },
     "Regin_Sample_1": {
@@ -833,12 +1278,187 @@
             "40c46bcab9acc0d6d235491c01a66d4c6f35d884c19c6f410901af6d1e33513b"
         ]
     },
-    "EquationDrug_HDDSSD_Op": {
+    "Quasar_RAT_Jan18_1": {
         "missing": [
+            "e4fcf1f6b71043e7c7c32f6954a0a1972696fa1bb9b6543ead14e85626890a11"
+        ]
+    },
+    "ProjectM_DarkComet_1": {
+        "missing": [
+            "8a3de78cf177be4c37c1525becf05af336c1dc2a4d181cae79f6903754902efa"
+        ]
+    },
+    "ProjectM_CrimsonDownloader": {
+        "missing": [
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67",
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f"
+        ]
+    },
+    "FE_CPE_MS17_010_RANSOMWARE": {
+        "missing": [
+            "1ceaa4b6735e54755f3d4ccc633936a96d120d6a18726c81f5caec4063418ed3"
+        ]
+    },
+    "HackTool_MSIL_SharPersist_1": {
+        "missing": [
+            "e9711f47cf9171f79bf34b342279f6fd9275c8ae65f3eb2c6ebb0b8432ea14f8"
+        ]
+    },
+    "HackTool_MSIL_SAFETYKATZ_4": {
+        "missing": [
+            "a6ee06d8b84765979b3dbaab058e4934043e08a4b251efd7ecb9a5fcbea95e75"
+        ]
+    },
+    "HackTool_MSIL_SharpHound_3": {
+        "missing": [
+            "a6ee06d8b84765979b3dbaab058e4934043e08a4b251efd7ecb9a5fcbea95e75",
+            "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c"
+        ]
+    },
+    "Loader_Win_Generic_19": {
+        "missing": [
+            "e86e0fd56693c3928f41d566d1c11fb9a28ea6bcc9494740d49478759e20eed5"
+        ]
+    },
+    "HackTool_MSIL_SEATBELT_2": {
+        "missing": [
+            "b84963f226474d1de9042082600b883b75705d08c36a32e0a30dfe6acb4bb057",
+            "30263954aaa1e13f304ef7aec413c57419ab26f5e175fbc52ce7712a1cc0e04f"
+        ]
+    },
+    "HackTool_MSIL_Rubeus_1": {
+        "missing": [
+            "08df8b5dffd969737f25bdd7d089ba40787c77c64ef3ef313a93b1a0d5ae6c34"
+        ]
+    },
+    "Trojan_Win_Generic_101": {
+        "missing": [
+            "e5aea542ee91767b72924b3379cf0af3da6a8168686eab1621350b96bfadb0de"
+        ]
+    },
+    "CN_Honker_GetPass_GetPass": {
+        "missing": [
+            "e9cffb4773da2d46282aeafc6680e7aed8ff8537040a2a27d3c1ee3e3229d88e"
+        ]
+    },
+    "CN_Honker_termsrvhack": {
+        "missing": [
+            "1eba9a909641e64e935090956b03182335d298cad78052cef3b3f75691eb3f50"
+        ]
+    },
+    "CN_Honker_WordpressScanner": {
+        "missing": [
+            "77a53280fd609c5594c6f78453ca8468dc4d0305c87293655b85a50f88681792"
+        ]
+    },
+    "CN_Honker_Injection_transit": {
+        "missing": [
+            "8210a79289dd3e351bd6e57318d2cbf4f69cacd028d8e4b352470c4515230380"
+        ]
+    },
+    "CN_Honker__builder_shift_SkinH": {
+        "missing": [
+            "b3f4d019853c18475cbc7e02f03834f8969f69e1f0e6cfc61d31b43817e8c115"
+        ]
+    },
+    "CN_Honker_ChinaChopper": {
+        "missing": [
+            "8d96710b01b9eb3b4cf9d5b01ed53d7084a2808322f3456d4038ca2978022e16"
+        ]
+    },
+    "APT_APT28_Downdelph_Feb_2021_1": {
+        "missing": [
+            "cf684f708f1b6ffbc2b46b498cb9e9b40bfd813958fd7fc4db56f9642dd5da33"
+        ]
+    },
+    "APT_HKTL_Wiper_WhisperGate_Jan22_2": {
+        "missing": [
+            "6d5fe2cac56f6e735461f2b6e8bf0e2b53feace3c17838cdba1ac3c848825353"
+        ]
+    },
+    "Stuxnet_Malware_3": {
+        "missing": [
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67",
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f"
+        ]
+    },
+    "Stuxnet_Malware_2": {
+        "missing": [
+            "63e6b8136058d7a06dfff4034b4ab17a261cdf398e63868a601f77ddd1b32802"
+        ]
+    },
+    "Smartniff": {
+        "missing": [
+            "d6831d36184ae91aae56a7fb7c91d7f75339429fbe5a1a0df8985d4884dcc217"
+        ]
+    },
+    "ChinaChopper_caidao": {
+        "missing": [
+            "be24561427d754c0c150272cab5017d5a2da64d41bec74416b8ae363fb07fd77"
+        ]
+    },
+    "Dos_GetPass": {
+        "missing": [
+            "e9cffb4773da2d46282aeafc6680e7aed8ff8537040a2a27d3c1ee3e3229d88e"
+        ]
+    },
+    "CookieTools": {
+        "missing": [
+            "0d8cc0a75238c05e1b072683ee43d7e0bf827dde7a652df1467333a2b1f6a570"
+        ]
+    },
+    "Casper_EXE_Dropper": {
+        "missing": [
+            "a6ee06d8b84765979b3dbaab058e4934043e08a4b251efd7ecb9a5fcbea95e75"
+        ]
+    },
+    "EldoS_RawDisk": {
+        "missing": [
+            "c3ab58b3154e5f5101ba74fccfd27a9ab445e41262cdf47e8cc3be7416a5904f"
+        ]
+    },
+    "HKTL_Meterpreter_inMemory": {
+        "missing": [
+            "38c381e1f0d8db27082d5809b70fc73d5c7137e266bc22b4301dd4bbd5e79637"
+        ]
+    },
+    "Msfpayloads_msf_5": {
+        "missing": [
+            "a6ee06d8b84765979b3dbaab058e4934043e08a4b251efd7ecb9a5fcbea95e75",
             "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc"
         ]
     },
-    "EquationDrug_NetworkSniffer3": {
+    "MuddyWater_Mal_Doc_Feb18_2": {
+        "missing": [
+            "063203ce28c4326da9ec26ef6f067c1fef64ac641d489f22f25b6fd0de6ebf82"
+        ]
+    },
+    "EquationGroup_Toolset_Apr17_Gen2": {
+        "missing": [
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67",
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f"
+        ]
+    },
+    "APT_UNC2447_MAL_SOMBRAT_May21_1": {
+        "missing": [
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67",
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f"
+        ]
+    },
+    "CN_disclosed_20180208_c": {
+        "missing": [
+            "efd485fb1bb495564cbaba67e413fb288abdd5dd5309c71b89607db28b0e3682",
+            "345d5d2759abd08a84c4c2e2a337a1babd02b5eda3921db1b83eb5d5f5ccc011",
+            "06ef6e2ffa0fdffb2ea1087200d5e283c94d06e98877543a3f45e30f0b02c933",
+            "3bf2449588aaea6f7b7f984af24bd889ee438bb33d9331f5990ef9b6184695e8"
+        ]
+    },
+    "CN_disclosed_20180208_Mal5": {
+        "missing": [
+            "9b2629c78ca9883ae21246054e37da5dbbce8db6a06998ff55d1ec2b51cff6a2"
+        ]
+    },
+    "EquationDrug_HDDSSD_Op": {
         "missing": [
             "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc"
         ]
@@ -858,765 +1478,102 @@
             "ea1a6496003eaf5b020d855d14757757c788049b2e2c800d806c4eb371f9567b"
         ]
     },
-    "EternalRocks_taskhost": {
+    "EquationDrug_NetworkSniffer3": {
         "missing": [
             "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc"
         ]
     },
-    "anti_dbg": {
+    "Duqu2_Sample4": {
         "missing": [
-            "027b1042621f86394fd7da27c5310e4906f41b96f6e5474875e63d39b32a9c11",
-            "b56279136d816a11cf4db9fc1b249da04b3fa3aef4ba709b20cdfbe572394812",
-            "6e0164b94476119d7ba53adeca4ae7f7cd7a96d1c90d95ca7880003ace4462aa",
-            "537a987d9bfe60b24a9bef0a9214f64202e91ea5fe14b1c3063317387f595bf7",
-            "309f08d7b46a4a2469593b6398f75ac9f3153886f6b74dee29b253e5fd3a588e",
-            "0b5628eb70e21d4acca4c110b2809b3b08c3acf22e379e534efde95c2374a4d1",
-            "be9ddcdedf8c36c64e6b0a32d2686b74a112913c54217ccaa46675bfd1dc82f1",
-            "5b355db75fc87d8f580eaa6a1eb4ea426ecc8e4b74a96196607fe63847f15004",
-            "0d8cc0a75238c05e1b072683ee43d7e0bf827dde7a652df1467333a2b1f6a570",
-            "26d2ab8af070f89c06f6f734615f289b63d81cb9ed411ef3b90f7bb4a82dc317",
-            "f285006661a7c47aab70034566a3f1daf6ea7d09d31ed85303d45f5f8d3c67fd",
-            "d90f1a023afe926064c13ca144ce2877b9bb8dbb2eabe9ecbdc1f31d17002afd",
-            "9e392277f62206098cf794ddebafd2817483cfd57ec03c2e05e7c3c81e72f562",
-            "3db6003aed5663530344f627592d7071efcece6ab608d114cd219d5b19f389a5",
-            "962caf150b14b5804de96484e8b911f93fcb26ab11f7e713d3f0c02a211c2577",
-            "1eba9a909641e64e935090956b03182335d298cad78052cef3b3f75691eb3f50",
-            "ba35a9d5be32170a498b267c5ae4924a5675982aa936e1f856fdb960388ce103",
-            "fd6a956a7708708cddff78c8505c7db73d7c4e961da8a3c00cc5a51171a92b7b",
-            "7c40019c1d4cef2ffdd1dd8f388aaba537440b1bffee41789c900122d075a86d",
-            "cf684f708f1b6ffbc2b46b498cb9e9b40bfd813958fd7fc4db56f9642dd5da33",
-            "84c00741099c035fb5059cdb3da09afdc6b64d3b6433bbaca4e4a454ccff239a",
-            "43a538ef95d4f931704d6309fa0a292f38abaeae48836f39115c0d3f4418fdec",
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67",
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f"
+        ]
+    },
+    "Duqu2_UAs": {
+        "missing": [
+            "53331bff5e585c471fad6789313a2a8a687a586cc0a8d006b24085b91ed7fc9a"
+        ]
+    },
+    "MAL_Winnti_Sample_May18_1": {
+        "missing": [
+            "efd485fb1bb495564cbaba67e413fb288abdd5dd5309c71b89607db28b0e3682",
+            "3bf2449588aaea6f7b7f984af24bd889ee438bb33d9331f5990ef9b6184695e8"
+        ]
+    },
+    "Mirai_Botnet_Malware": {
+        "missing": [
+            "379dde9cec791abbac0e2466f6fbebb538b426fdb9514665c2344fb65cf2f913"
+        ]
+    },
+    "Codoso_Gh0st_3": {
+        "missing": [
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67",
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f"
+        ]
+    },
+    "Codoso_Gh0st_1": {
+        "missing": [
+            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67",
             "1ceaa4b6735e54755f3d4ccc633936a96d120d6a18726c81f5caec4063418ed3",
-            "20ac1420eade0bdb464cd9f6d26a84094271b252c0650a7853721d8e928f6e6c",
-            "b6fc4b646543a7abb4a19ebd5e6e505d77ab732f5b1bc9e335eff1733897cad2",
-            "83ccd18b92f9d4736c1b0f7a7b75e5f929ccc7ba7e665cd420f68ee618d7b145",
-            "c1d52d4552d39f1f0ec9a19e6ef3e3ab6b27c2956875e8e0655de98d7a8462ef",
-            "64d78eec46c9ddd4b9a366de62ba0f2813267dc4393bc79e4c9a51a9bb7e6273",
-            "c72a055b677cd9e5e2b2dcbba520425d023d906e6ee609b79c643d9034938ebf",
-            "5884f3fc15c710fb754f31c368acaf37582ab1d63125233fd3cb91d50a9098af",
-            "d0b88ab321a05fc94505620c9d02baec4cb1de7bb3b0067de4f8c0d3ba8548b2",
-            "d4492a9eb36f87a9b3156b59052ebaf10e264d5d1ce4c015a6b0d205614e58e3",
-            "a9182d5d0ba9d59e50b7237cb0a44398d7d0cd253f5395a9b2e089b148460488",
-            "39a83f7c88140cdf97f04ca8405d6811271305d6a5ca4cff8ca2bb1368e7b614",
-            "21ca06b18698d14154a45822aaae1e3837d168cc7630bcd3ec3d8c68aaa959e6",
-            "91caa1fe289cdd8500399b3dcb07a5417223126a8cfd6833ece052acaaeb27f7",
-            "4b8be22b23cd9098218a6f744baeb45c51b6fad6a559b01fe92dbb53c6e2c128",
-            "e142a1e51ce0e8d28fd852683b65688dcc97a6b705e8adc799d5af0bdefefecf",
-            "2571ce50bf1b9be041bd8b50075dfcffca9fbde758afa5dbce7a325344b04da2",
-            "2b9838da7edb0decd32b086e47a31e8f5733b5981ad8247a2f9508e232589bff",
-            "7d8666c5c5bf67beaf472ead5b3f6cb101ad3238fbc58337bdf3abf89e78c1eb",
-            "3a34760adfbc4a5fa6e34700ecf4200826c49914913467b938f14261502d56b6",
-            "d816db15ccd6b15dc1a369f0fd460d4bed0ac21e2694379cdc96cf4781fd6b0a",
-            "ca702ddbd55edfa036747c8ac4a0506c3719428bb8b8db558a80a71a1d9d5b15",
-            "754bb708cf068adf1fdbcde6949f37b4a6501b66f6c5a050f23a0bae09aad40b",
-            "19896a23d7b054625c2f6b1ee1551a0da68ad25cddbb24510a3b74578418e618",
-            "0041d82cc2a5bb2f447f9c40989292675232cb8404bbfa751c9b961e2f6149c7",
-            "3d4d1ace6c71af52853f32fbb907196a05dcd2dae8eedaa3b30dc6a15fc8d65a",
-            "d0d7a8f588693b7cc967fb4069419125625eb7454ba553c0416f35fc95307cbe",
-            "c821012f7c8258d151158223848d2254ea4f7a27d33c50e30af36a60496430fc",
-            "612d78523fba77054b5cb959798bb54c7f45208882e86e945b7563d501c802cd",
-            "19fefb958bd9c9280d07754ab903022a3dc9fc380a6964733a1dcc016aba8150",
-            "767e4cecf0c7e009ec8edd90fb8d7d5a2650fbc643b902714f7378e170b5409a",
-            "c900719c0b010d052df2f7e6c7a0cff6f629ef64e2516697f80a9b72ff35d383",
-            "cf582215a37617a76b80490a80f71cf31324ce354eaf88a54d995e734503fa40",
-            "07c44729e2c570b37db695323249474831f5861d45318bf49ccf5d2f5c8ea1cd",
-            "c97d9bbc80b573bdeeda3812f4d00e5183493dd0d5805e2508728f65977dda15",
-            "561760568f0a8ad75775986bb0506b8e6c7c1d414b699724e4a66bde7ca88388",
-            "e8542c07b2af63ee7e72ce5d97d91036c5da56e2b091aa2afe737b224305d230",
-            "e4287e9708a73ce6a9b7a3e7c72462b01f7cc3c595d972cf2984185ac1a3a4a8",
-            "41d16838d3ecde84348bfb6e88e4fd96c9e0bf291d62786952c1bfbc2363c78d",
-            "95e08990fdf11251e9ee935f0b2e075667133758bc68c4d390e82f041a54e4b3",
-            "1ecfd3755eba578108363c0705c6ec205972080739ed0fbd17439f8139ba7e08",
-            "fb89ffc12f3587399e1dbd85fe8da85a6170848698d0b15e2cd8f81d0b9875f4",
-            "9be5a7e0652d43093c9b8635a693a61db8a08a240ce390e6208ed9fda8f2c445",
-            "7907dd95c1d36cf3dc842a1bd804f0db511a0f68f4b3d382c23a3c974a383cad",
-            "38e2d5ef7a11d7e083390109c9ceaec4723c66474f7e7e3fcfdf710251feafdd",
-            "4f1923485e8cdd052467d335a6384f93cd1d50b5d927aea471e56290be29ffa3",
-            "82a2dafd6ce594f2cf8588f32585c71be2180fc4cf9a144e300b1692f3de5807",
-            "8e797fff8fae9afb216b81ae341aac9f05f419061075b0f6ce4c0c7a67f458a4",
-            "79fd175ec88d06e2d635ac49782ba6d274fe27a1b7d318e399cce9955cc9d5cb",
-            "441cb0576151b2e5b5127be72a5bcdf3577a596f0a4e1f2c6836248fe07eb818",
-            "aa33731aa48e2ea6d1eaab7c425f9001182c0e73e0226eb01145d6b78d7cb9eb",
-            "1b17ce735512f3104557afe3becacd05ac802b2af79dab5bb1a7ac8d10dccffd",
-            "75f0072a6c408cdc30190ed534d7503906881d958504d1d11634c3677dbaf623",
-            "15f82b0d1b4828c648be52d056e9c0d89b242cda5ac0da180a86fceb5554fccc",
-            "d58f2a799552aff8358e9c63a4345ea971b27edd14b8eac825db30a8321d1a7a",
-            "a1cde243e77d9d4c8e5585097400e53a2fe915f0bfc27368d2ea1ee197b2fabb",
-            "ac9b3cac16ab223a1853b307f67a2f3c1f5f7605b3979969120a2f2d189d6f28",
-            "dfdc0318f3dc5ba3f960b1f338b638cd9645856d2a2af8aa33ea0f9979a9ca4c",
-            "df33e906ce0b0148cc1be8daffa51775b4a806eb1745385fd4eaf1c2c71c45e2",
-            "002f33fee7b8a159058368b7e93e492931c4ca72e90660bdb2691bcd62fedd3c",
-            "5be56119732af027b1c2797f204cbc5d60f7f90afd1b5d4031f4077ca3d9ef6c",
-            "7b2c4995806c90eb7d4b164766909a336bfd1f10d9da69a7e21f7ab0d19fbdba",
-            "c4a781efd5a8fd7141f1646ac99633979f3aaa8d502ce9f72a65b67573642bfd",
-            "b3de3f9309b2f320738772353eb724a0782a1fc2c912483c036c303389307e2e",
-            "20999ffb10d43fa421e03f2900759f8ca98ce0216b3dd9c09179a47fec29a6e2",
-            "dea947e9bcf0eb7ba7a6cff24ddc5d2af572b658ff47e4c7e4b70b2a705dbba3",
-            "b35507be7902c807636fa775e3e170869ac3b99052de9833318da3b16b332b19",
-            "7de04563a9107d3c53effc75e3fe1dc9a2a59a4aa3a46d4b02522d84001dab08",
-            "067c59ea6a6c74ab1450f89b6c3aae5a7f689a201414bdf62f5ce5290729a654",
-            "067fca1211ab7cde65e58c057b3b8cbaf9aa6da891b7f3e9bd91b191eab649a0",
-            "32f24601153be0885f11d62e0a8a2f0280a2034fc981d8184180c5d3b1b9e8cf",
-            "66a64168ef1203b08b4dc0cde4b184c4db9023951f5ce9e12e3f93f3fde17c6d",
-            "c864545bd61ac07a3dae55fa930149f2e58a1a4fc2ccba28bf011b7eb5a6172d",
-            "fe4640fefa4bef02041a771a206f9184adb38de051f0d8726c4579736fe13bb6",
-            "9d06018f57d680e259aad12814c93f666142e34571e24ddca23984bfd3e6846d",
-            "2465009c7a47dde070ab7f8f4a9c53a8afa6b8ec4b1414c28bfd9a6f3b9d98bc",
-            "13037b749aa4b1eda538fda26d6ac41c8f7b1d02d83f47b0d187dd645154e033",
-            "a5ba661d89492b11b8c9a8b6a0022da3f03943037b4a982aef736a9bed428a48",
-            "cd48acb618e7e4f17984031ffaa54594de60956961a72f5e1bf76d4f6dd57b18",
-            "1984264959b7d63e516544cbce4b6dffb7ed5210a472437dd88068f4d39600e2",
-            "7ca69ca5783d6c75d9001e10c883897326aea5ba6227ddc100731217d0dd6317",
-            "a6ee06d8b84765979b3dbaab058e4934043e08a4b251efd7ecb9a5fcbea95e75",
-            "02c3f0624bbb51e5b527e2e80ceb443ccb3b251d08fcb3132becae4950303170",
-            "9ef7dbd3da51332a78eff19146d21c82957821e464e8133e9594a07d716d892d",
-            "670b7ecddd5e5d8b6840464d644a7354da74beb150206c7128e826469484ebd2",
-            "813968129895b83a1bd7b14fd1bbc52b4364029e38ff561c69a4b6d6eb9bc8eb",
-            "d07adf2032c1274ef810aa9146e0407dbe76335b2121c6f98667f67a90f63ce3",
-            "1fe9b489c25bb23b04d9996e8107671edee69bd6f6def2fe7ece38a0fb35f98e",
-            "8943f142b2d66d20b07defba56f54d5e75223b55a4e82cd0153753d79df27428",
-            "36bc478b1e6cfcdfd8906ac5caf156cc1c6a3663a46f5cbf89193ff8ea794bf0",
-            "c1d981cef08120e7b95ef0979847158fcbbfc4ffee67a2d107408bcf931f1514",
-            "d55f983c994caa160ec63a59f6b4250fe67fb3e8c43a388aec60a4a6978e9f1e",
-            "7986bbaee8940da11ce089383521ab420c443ab7b15ed42aed91fd31ce833896",
-            "834d1dbfab8330ea5f1844f6e905ed0ac19d1033ee9a9f1122ad2051c56783dc",
-            "86dd21b8388f23371d680e2632d0855b442f0fa7e93cd009d6e762715ba2d054",
-            "5c3d8aff277bf808e456f903153a28d4b555c32c44ed5836c44f5b4783b45225",
-            "f9d94c5de86aa170384f1e2e71d95ec373536899cb7985633d3ecfdb67af0f72",
-            "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc",
-            "9aff1e12a1b447ca8ab3076f684716a859c906f9b2d0e870d59d0f06fc548d0d",
-            "d11793433065633b84567de403c1989640a07c9a399dd2753aaf118891ce791c",
-            "c3dc5d9c25e3ef368835ad761bc9b0650170a018d70f93869608105375b73019",
-            "39638cfc4579cf9a2b3fc0f0cac0aaf83a28e802e3b80ffe1a10f73edfd39a2a",
-            "b26749b17ca691328ba67ee49d4d9997c101966c607ab578afad204459b7bf8f",
-            "6d5fe2cac56f6e735461f2b6e8bf0e2b53feace3c17838cdba1ac3c848825353",
-            "e3834a2cca58589cd5ae7b74554bdeb7b034c3e9c20a242bda50630c085b7b08",
-            "d2517353de2908d3f97471d8d2e90f713d893ea473372a67ede2eb633047b0b6",
-            "b6a68af1d4852476d62b6aa231f9629260ec4cbcaba051feba5742913ffbebe7",
-            "50f7e5fad8c4fe72d36d7e004616e458aabacc74f8a806ce608121f63fda7e5d",
-            "8d4b46cefdfe68f3ad53b53d1d26f60d4361868554f50ccdd7f482e9d0c95ccf",
-            "3243ad6e3775e9c1f308405a6a78b831874397e0ac625cda60295d6c81209bca",
-            "720610b9067c8afe857819a098a44cab24e9da5cf6a086351d01b73714afd397",
-            "bbc6607ab55be9f76b07bd484a333370da22f66c5dbecac68ed7b442de3fc747",
-            "e62467fc0e7982279b2752a3330e741135366e7b318890aa9613ccc5ddcfd37f",
-            "6f92254f2be9ba0ff838200e6e433767278a4bf24779df765bc71e8c05fa230e",
-            "99c1b4887d96cb94f32b280c1039b3a7e39ad996859ffa6dd011cf3cca4f1ba5",
-            "bef6b79f9ad6a470dcca8fdce35ec97361c36c6a38bc25987a0dc63e134a359a",
-            "c3ab58b3154e5f5101ba74fccfd27a9ab445e41262cdf47e8cc3be7416a5904f",
-            "61c0810a23580cf492a6ba4f7654566108331e7a4134c968c2d6a05261b2d8a1",
-            "4a59b5fad3d1870845b6f589e7da0777b4b5b71f6bdb4baf374bba56c84cf51d",
-            "714350cce9dfe61bfd79c2b9ec68af8e794fe1f26ff0d792d56817dcebcce56b",
-            "ed26bdb3427053d3c5feca22c4a003cc9a2e0ba4c54b86a00cf1d73cf5861c66",
-            "ba698610d9810da8ea5a8d193e916fb962c888f8874a41fdc3a5ccdaf23d9d66",
-            "5bae961fec67565fb88c8bcd3841b7090566d8fc12ccb70436b5269456e55c00",
-            "d79416a475f66f1da2aedf24251c0677f24d6103a3346da901c996350bb6c94b",
-            "2d13424b09ba004135a26ccd60b64cdd6917d80ce43070cbc114569eae608588",
-            "5262cb9791df50fafcb2fbd5f93226050b51efe400c2924eecba97b7ce437481",
-            "aed92a8301931959100a1bb8c52251df2fdddaf8b76ab34b6f24d7bbe58a4fe6",
-            "f77a9875dbf1a1807082117d69bdbdd14eaa112996962f613de4204db34faba7",
-            "ed63b2a33066ef63bdb5b99c40d660f29653386b334f45d5296ead6fbcbc2861",
-            "205aa1007e97a58ecb6e9f9a143ed7d337de98864d566d8f6967a9496beff815",
-            "d3c9a4541f5ffab522695055a082f9dfe250fcaee5cfe46a9d52581c6169b5ac",
-            "22c7c6cb3a12ee1302df54fa8ee5c6714f42cb1a1b837ed3285c713f4e17cb84",
-            "f368400a4f67b6f2390343181e5d1945967c6cd25088798984e6e4654a1b928c",
-            "77bacb44132eba894ff4cb9c8aa50c3e9c6a26a08f93168f65c48571fdf48e2a",
-            "5d204ca32a5ed72511decd3245b6cf4731378e5b5e0bf8eb5acb8069adf5136d",
-            "19bab15a34d5ad838ccf4d187eb40379c335fa56446d0f9621865b2767d4ac7d",
-            "03597628e999d791f4cc442328024235db9a929467a62ef0a00c91a76161f0e1",
-            "648e1c9fd7aacb58c4285cf6a54d9e58f5c2c1f6cc1f166b9e13e7d6a3c4a7fb",
-            "f8d5d7e976ecc0ecf1870b5fcf4d25cdf9bd3621445a8b8fea54cb4ad5d79816",
-            "871bb7796f7a12be233911d3948e4f3bb0fa1c4166e89c31585ade90320a4952",
-            "4c34d33446c0351c41110b6214fd9691b7ea26db9798346520ef79537ad7184b",
-            "e6762cb7d09cd90d5469e3c3bfc3b47979cd67aa06c06e893015a87b0348c32c",
-            "0e0f1e9b6ef23a6f9a81442521969df413664441c8da9c0de75395827d61763b",
-            "26b2401211769d2fa1415228b4b1305eeeed249a996d149ad83b6fc9c4f703ce",
-            "1fc16d54c6aec5ee05d4150dde2e108e8e6def4db83677087c98b270d0e02e9a",
-            "39d8962831555afdbb8e3292402f28459d3bb10b2477171e33882c13cb3cc798",
-            "e596a17260e6e5ec4c5d2160a6d645cdefb7a4bbe57efc7a5c963ad677cd98f6",
-            "6217cebf11a76c888cc6ae94f54597a877462ed70da49a88589a9197173cc072",
-            "f3a2fc1338553c29b16cb91caaffc37849537dedb67c41e2eccec879f0c8ab73",
-            "88e7813340194acc4b094fd48ecf665a12d19245b90f2a69dab5861982ca95f6",
-            "ad0474f0d6021d0de97c77ca222a05777762aad59bda2be2f3b1a8f1a8022707",
-            "4a2cfbe2d173a1ac42dd21383ff9c8044ec615b2df7340f268017dc10526bf76",
-            "22e20fbd8e95ac7b3a77b815e1a438e545354adb5a1bd5a90220a9c17b4008db",
-            "487980e866977a1c7dc1c1d092f45789d4749df74ff340834b29c3c7b2e44846",
-            "d1dcf4c2165f3cf5729ba76e1ee80f4709d8e7eca7a6c29ceffc5fc6b09660fe",
-            "ed2f501408a7a6e1a854c29c4b0bc5648a6aa8612432df829008931b3e34bf56",
-            "6da003a9b9884bd50bad563ee06828e309f8dd61da2a04ab04ae06c9a89fbb7b",
-            "de400840b917c33a82ba316ae244d8691ec0f5a1fd81d7d24763c0513985fe26",
-            "59e1edf4d82fae4978e97512b0331b7eb21dd4b838b850ba46794d9c7a2c0983",
-            "922163713b973cf8c4ad80f16cf69305ed0ca319b314e7ec8ae1982ed5f2a9ed",
-            "edb1ff2521fb4bf748111f92786d260d40407a2e8463dcd24bb09f908ee13eb9",
-            "4adb059e56c95dcd1779d72106f5bf7107befd1163ca14fa069279c2ed7db3fc",
-            "510c6896ab176ad04a534ed48a3c74957ca929accbaf277ee1d678eac6bf3b36",
-            "3a9323a939fbecbc6d0ceb5c1e1f3ebde91e9f186b46fdf3ba1aee03d1d41cd8",
-            "a6cad2d0f8dc05246846d2a9618fc93b7d97681331d5826f8353e7c3a3206e86",
-            "682e2204557a05cddbaddef019cbc2eda6eaa50007f20851eadb9a33c35c458d",
-            "5d40615701c48a122e44f831e7c8643d07765629a83b15d090587f469c77693d",
-            "1dbfa42c271e51d48de2bbc445f8a6e3c7c38cdc9b724d927bf4b46b02a08447",
-            "44c8409e16943c97d73b3c89c9e2c037ecfce76ab170dae8b695b0755add9035",
-            "5c2e9604ddf63e732a674d9672a4ba20f44891a83e10f44f1d4d764f8c59ea63",
-            "8562ca8c164ba2f81606f9c9bce97cda3fbe59c6cb25f0cc0cf3fe0a562e6b4f",
-            "178348c14324bc0a3e57559a01a6ae6aa0cb4013aabbe324b51f906dcf5d537e",
-            "4263eacd358d5ef9efacff1f63ff79487639136c0268938755a4bfe3f5797167",
-            "0185eb8294ca76dfe90a4c57444860f98156a10d86346647407194bbd2eff343",
-            "d759b44ef4b0e86c75b73383138d578029997f5458f287049f6c3e7d8b5852b9",
-            "c0fad450912952f53809a54690d235aa8b4e25b9f46650693c7cbee1b4c074b7",
-            "93eebf148d241c7f4ca10ae7f0ab23078696cb3909d9efa8fef1c8df3f4bf33c",
-            "d1071e745fe33dbfeea1d838e797ceea8323cec3acaf40cc9b9aef6fbf27469e",
-            "683a09da219918258c58a7f61f7dc4161a3a7a377cf82a31b840baabfb9a4a96",
-            "b38b4c1dcf6d6ecd1bbfc236b43c37c18044c2f42f11e5088384f4bd0751929c",
-            "da62155d5ae726b7f38847e06a5fd6a3dba5fb0ef66f4aa6ace974e0a04526c0",
-            "877c612cf42d85b943010437599b828383ecdf02a17e2b017367db34637e5463",
-            "3b6bf984e0407aa79250f6ea639175975cc47b83077fe3c66c28aa2a44d90fbf",
-            "51de40c31c3436ee5c701985fe44aa92f7d1b097cc86ce2c203e2865de75e99b",
-            "f2ce2a00de8673f52d37911f3e0752b8dfab751b2a17e719a565b4083455528e",
-            "43b7a60c0ef8b4af001f45a0c57410b7374b1d75a6811e0dfc86e4d60f503856",
-            "bf581c92f97c67c6dac7e3079dd54f118ec209599a82fd12a47406122ee13d2f",
-            "08e5e7e5f30801b363f08a6106425faa1c505bd048a18c846a5b3e5959a4998e",
-            "eae9771e2eeb7ea3c6059485da39e77b8c0c369232f01334954fbac1c186c998",
-            "3f7c56928446baa1688c1381ee5365d7141d98274762b919168046535d17cb89",
-            "49f94ed44fa9a834f246a5a038aa971b26f928d32ed438faacccba2398753297",
-            "ef90d0e88895e3e292c3ea9f356f346771d50587ffb1b29e2028a259abfd3c5b",
-            "c82e2202947ba1b6e8f4cf4849d2f39158c913522ff66ee724792d04bd0dbbe3",
-            "e406f86a610a8c6101fad131bff82b151d8b4b78c2d135a07a1a50b1d6e938bb",
-            "0f2c5c39494f15b7ee637ad5b6b5d00a3e2f407b4f27d140cd5a821ff08acfac",
-            "6f0a2c9e8423977aaa763982235616f4ed39099ee179aa64758b048937de2186",
-            "0e95b7f179aa7dc57bece8213f9850e351f24fac33808b789a396433ed9bbe31",
-            "e84be291efadd53a8bb965bfb589590ffe870da9187e6752cc7a9f028053ff5d",
-            "e1546323dc746ed2f7a5c973dcecc79b014b68bdd8a6230239283b4f775f4bbd",
-            "b55734d89184434a24d04af85019fd34dc0b054f13d8fb1a16ee977aea723217",
-            "f5fb7fa5231c18f0951c755c4cb0ec07b0889b5e320f42213cbf6bbbe499ad31",
-            "041e371767c385910437ce2584a00b4c62a371f9b18b487af393e1a4e7514d52",
-            "d7d6161ad07e77f28b2fe685e8afb39bc2cf9c0f697df5e7fff38f3a101b44a7",
-            "313ecd0410fe1cc36292d9f2771ac41d9e4b67344339c2a46ce8e6445ceed0e4",
-            "0ceffb1a04743d4cb81fde0bf40abfd39dd2cb4d26a0b458b19a0dc844bac2fb",
-            "ecf3426a7fc625c3b6c9a5c5d6a9035a56756a4c0419f79f44fd5288c2bfb2ed",
-            "c428f134055a6a1512b85606161996ced840006cbb928ced380265d399449689",
-            "e678899d7ea9702184167b56655f91a69f8a0bdc9df65612762252c053c2cd7c",
-            "fa383eac2bf9ad3ef889e6118a28aa57a8a8e6b5224ecdf78dcffc5225ee4e1f",
-            "6cd30c85dd8a64ca529c6eab98a757fb326de639a39b597414d5340285ba91c6",
-            "8ebc97e05c8e1073bda2efb6f4d00ad7e789260afa2c276f0c72740b838a0a93"
+            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f"
         ]
     },
-    "vmdetect": {
+    "Codoso_PlugX_2": {
         "missing": [
-            "80c1ea737d33c6bfac09b101b8d77ab0f9f6630128c3ed052f9d945bed54e7e4",
-            "21ca06b18698d14154a45822aaae1e3837d168cc7630bcd3ec3d8c68aaa959e6",
-            "6c9a40572d66c58abe6c1baf33e27a19f5493c3b74a03d35a62d5e8062948a86",
-            "41d16838d3ecde84348bfb6e88e4fd96c9e0bf291d62786952c1bfbc2363c78d",
-            "a3b16246222b284d054201022ad62d16cf73c51dd52753d4ce4e5d94cdb3f0de",
-            "7986bbaee8940da11ce089383521ab420c443ab7b15ed42aed91fd31ce833896",
-            "3e5547790a7148b99733c94dbe1b690eb13dace3d9fdc0298db7eaa2c5fd3b88",
-            "1a7b540a68ac6564e292ccb758eab02f2a548684cd16404a2b077b2a1dcbe778",
-            "22c7c6cb3a12ee1302df54fa8ee5c6714f42cb1a1b837ed3285c713f4e17cb84",
-            "19cc096e939e3f37625eb21ae03eccaab1dab7483be362dc4247538ead697379",
-            "fd919ca8a89fd3b613fe99832a10973eb052cf4b400f2de1e020566665b075cf",
-            "12454a323dec0a56a23cd5215bb335d7842c85bbf38e3bd696c9237e26454388",
-            "d024f69697324942a47f367e129b439f27d181b0cc49b7fc8a6ca2cd40d483ce",
-            "3f7c56928446baa1688c1381ee5365d7141d98274762b919168046535d17cb89"
-        ]
-    },
-    "antisb_threatExpert": {
-        "missing": [
-            "10f8162a780d95006b866fca225276cfff93084ed72ab5517c4aaef65e4be54d",
-            "d7d6161ad07e77f28b2fe685e8afb39bc2cf9c0f697df5e7fff38f3a101b44a7"
-        ]
-    },
-    "win_hook": {
-        "missing": [
-            "80c1ea737d33c6bfac09b101b8d77ab0f9f6630128c3ed052f9d945bed54e7e4",
-            "cf684f708f1b6ffbc2b46b498cb9e9b40bfd813958fd7fc4db56f9642dd5da33",
-            "43a538ef95d4f931704d6309fa0a292f38abaeae48836f39115c0d3f4418fdec",
-            "ec2a717739947d3512513889bbecd9a0dac3fb65f8e171f8a0835abe8c1537e3",
-            "a2aee24f25daf95a9873069d3ad8af986f43188b9cb18e8228311e5772cfdf60",
-            "8d96710b01b9eb3b4cf9d5b01ed53d7084a2808322f3456d4038ca2978022e16",
-            "6ba20c352fa09b4c25df7d2ee4c6848a2efbfd12caf722d931258c0348edae9e",
-            "5be56119732af027b1c2797f204cbc5d60f7f90afd1b5d4031f4077ca3d9ef6c",
-            "067c59ea6a6c74ab1450f89b6c3aae5a7f689a201414bdf62f5ce5290729a654",
-            "1984264959b7d63e516544cbce4b6dffb7ed5210a472437dd88068f4d39600e2",
-            "de74906547ec883e6bf5eec0f360e627175505074dc17632907db26b67a448ca",
-            "8d4b46cefdfe68f3ad53b53d1d26f60d4361868554f50ccdd7f482e9d0c95ccf",
-            "22c7c6cb3a12ee1302df54fa8ee5c6714f42cb1a1b837ed3285c713f4e17cb84",
-            "648e1c9fd7aacb58c4285cf6a54d9e58f5c2c1f6cc1f166b9e13e7d6a3c4a7fb",
-            "7422bc2c77e70c2e90c27d030a13eb3adf0bcfc1ef2bc55b62871181af5cd955",
-            "1e5bcfdd98d6c8ddbf8f6f625421c5b1fbbf794920c34872bef4fc08f3ec57f1",
-            "4b74fbd877b7e3e1e325df75ddd3cfece7404a4104a646a65a1a4b7614f9478c",
-            "da62155d5ae726b7f38847e06a5fd6a3dba5fb0ef66f4aa6ace974e0a04526c0",
-            "002aff376ec452ec35ae2930dfbb51bd40229c258611d19b86863c3b0d156705",
-            "313ecd0410fe1cc36292d9f2771ac41d9e4b67344339c2a46ce8e6445ceed0e4",
-            "8ebc97e05c8e1073bda2efb6f4d00ad7e789260afa2c276f0c72740b838a0a93"
-        ]
-    },
-    "antivm_bios": {
-        "missing": [
-            "50f7e5fad8c4fe72d36d7e004616e458aabacc74f8a806ce608121f63fda7e5d",
-            "ef90d0e88895e3e292c3ea9f356f346771d50587ffb1b29e2028a259abfd3c5b"
-        ]
-    },
-    "disable_antivirus": {
-        "missing": [
-            "517fc58c8b68cebba639c52b668cbd8418f30b457093dcc8a1d282cc8db69e78",
-            "ca702ddbd55edfa036747c8ac4a0506c3719428bb8b8db558a80a71a1d9d5b15",
-            "36bc478b1e6cfcdfd8906ac5caf156cc1c6a3663a46f5cbf89193ff8ea794bf0",
-            "50f7e5fad8c4fe72d36d7e004616e458aabacc74f8a806ce608121f63fda7e5d",
-            "22e20fbd8e95ac7b3a77b815e1a438e545354adb5a1bd5a90220a9c17b4008db",
-            "f7414a0d715bc6e8c30037a15136a8e5bb19766959aef1a204f5d4a17ccef35a",
-            "59e1edf4d82fae4978e97512b0331b7eb21dd4b838b850ba46794d9c7a2c0983",
-            "0e70c1fc058416b2eaeee6a3a48611622423db5b35e8503bd8e2ecc8cac1404d",
-            "041e371767c385910437ce2584a00b4c62a371f9b18b487af393e1a4e7514d52"
-        ]
-    },
-    "Check_Dlls": {
-        "missing": [
-            "74a088d2383a234893c361ddd60c3b3ad269fedba974bdc70750d69efd1f2313",
-            "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f",
-            "15cc3cad7aec406a9ec93554c9eaf0bfbcc740bef9d52dbc32bf559e90f53fee",
-            "6f92254f2be9ba0ff838200e6e433767278a4bf24779df765bc71e8c05fa230e"
-        ]
-    },
-    "antisb_sandboxie": {
-        "missing": [
-            "74a088d2383a234893c361ddd60c3b3ad269fedba974bdc70750d69efd1f2313",
-            "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c",
-            "1ceaa4b6735e54755f3d4ccc633936a96d120d6a18726c81f5caec4063418ed3",
-            "38c381e1f0d8db27082d5809b70fc73d5c7137e266bc22b4301dd4bbd5e79637",
-            "91caa1fe289cdd8500399b3dcb07a5417223126a8cfd6833ece052acaaeb27f7",
-            "b3de3f9309b2f320738772353eb724a0782a1fc2c912483c036c303389307e2e",
-            "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779",
-            "a6ee06d8b84765979b3dbaab058e4934043e08a4b251efd7ecb9a5fcbea95e75",
-            "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f",
-            "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc",
-            "be8567ffe0be8bcb6af197b0c4f7498756b3eb812f7f3b23a5472dfe881726e7",
-            "15cc3cad7aec406a9ec93554c9eaf0bfbcc740bef9d52dbc32bf559e90f53fee",
-            "aed92a8301931959100a1bb8c52251df2fdddaf8b76ab34b6f24d7bbe58a4fe6",
-            "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
-            "5b875ecf0b7f67a4429aeaa841eddf8e6b58771e16dbdb43ad6918aa7a5b582d"
-        ]
-    },
-    "disable_firewall": {
-        "missing": [
-            "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c",
-            "38c381e1f0d8db27082d5809b70fc73d5c7137e266bc22b4301dd4bbd5e79637"
-        ]
-    },
-    "anti_dbgtools": {
-        "missing": [
-            "36bc478b1e6cfcdfd8906ac5caf156cc1c6a3663a46f5cbf89193ff8ea794bf0",
-            "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc",
-            "7634559c1f31d02170001101a08597f37d49f99dbb6a9846739b8c50d12d6553",
-            "ef7bac23b920c86b72c70ff6eb23504ab472e0c7d6a7c28461fd8fa846e1a4ae"
-        ]
-    },
-    "antivm_virtualbox": {
-        "missing": [
-            "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779",
-            "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f",
-            "6d5fe2cac56f6e735461f2b6e8bf0e2b53feace3c17838cdba1ac3c848825353",
-            "50f7e5fad8c4fe72d36d7e004616e458aabacc74f8a806ce608121f63fda7e5d",
-            "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
-            "ef90d0e88895e3e292c3ea9f356f346771d50587ffb1b29e2028a259abfd3c5b"
-        ]
-    },
-    "disable_registry": {
-        "missing": [
-            "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c",
-            "1ceaa4b6735e54755f3d4ccc633936a96d120d6a18726c81f5caec4063418ed3",
-            "38c381e1f0d8db27082d5809b70fc73d5c7137e266bc22b4301dd4bbd5e79637",
-            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
-        ]
-    },
-    "disable_taskmanager": {
-        "missing": [
-            "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c",
-            "38c381e1f0d8db27082d5809b70fc73d5c7137e266bc22b4301dd4bbd5e79637",
-            "6fa0ea46cdf13cc71d9a164d0291f481d3947ec4f35f2cbf7b5c4a51ae3b0aed",
-            "d6d55a8fbd1c603719fe611e572e2431512e7063c44896f705524dab66234d45"
-        ]
-    },
-    "vmdetect_misc": {
-        "missing": [
-            "e3834a2cca58589cd5ae7b74554bdeb7b034c3e9c20a242bda50630c085b7b08",
-            "6f92254f2be9ba0ff838200e6e433767278a4bf24779df765bc71e8c05fa230e"
-        ]
-    },
-    "WMI_VM_Detect": {
-        "missing": [
-            "a6ee06d8b84765979b3dbaab058e4934043e08a4b251efd7ecb9a5fcbea95e75",
-            "1a7b540a68ac6564e292ccb758eab02f2a548684cd16404a2b077b2a1dcbe778",
-            "d3c9a4541f5ffab522695055a082f9dfe250fcaee5cfe46a9d52581c6169b5ac",
-            "12454a323dec0a56a23cd5215bb335d7842c85bbf38e3bd696c9237e26454388",
-            "ef90d0e88895e3e292c3ea9f356f346771d50587ffb1b29e2028a259abfd3c5b"
-        ]
-    },
-    "Check_VBox_VideoDrivers": {
-        "missing": [
-            "e61569632ff7445216220571e82f860f749282adddfa50fa0233923f7b963055"
-        ]
-    },
-    "Check_VmTools": {
-        "missing": [
-            "e61569632ff7445216220571e82f860f749282adddfa50fa0233923f7b963055"
-        ]
-    },
-    "pe_xored_dos_message": {
-        "missing": [
-            "6e0164b94476119d7ba53adeca4ae7f7cd7a96d1c90d95ca7880003ace4462aa",
-            "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c",
-            "43a538ef95d4f931704d6309fa0a292f38abaeae48836f39115c0d3f4418fdec",
-            "38c381e1f0d8db27082d5809b70fc73d5c7137e266bc22b4301dd4bbd5e79637",
-            "6ba20c352fa09b4c25df7d2ee4c6848a2efbfd12caf722d931258c0348edae9e",
-            "067c59ea6a6c74ab1450f89b6c3aae5a7f689a201414bdf62f5ce5290729a654",
-            "f1e7ced872b766d3a345710492b0b27c79e4673f7668acf2e8c8efdff2dbc171",
-            "83f967523fb0904cb14ced4e84d1f299c51ff7f33a2a68348dac47e06f3fa2d2",
-            "5b875ecf0b7f67a4429aeaa841eddf8e6b58771e16dbdb43ad6918aa7a5b582d"
-        ]
-    },
-    "pe_hex_encoded_pe": {
-        "missing": [
-            "c57f7ed4d9373c96cd228884c535a545c388d6edee4fae49afb7763c69450281",
-            "934b069bb6d8e7b03747dc90a00c94df491d8e7b2d8955793c317ce9361b8e19"
-        ]
-    },
-    "ScanBox_Malware_Generic": {
-        "missing": [
-            "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
-            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
-        ]
-    },
-    "p0wnedListenerConsole": {
-        "missing": [
-            "c864545bd61ac07a3dae55fa930149f2e58a1a4fc2ccba28bf011b7eb5a6172d",
-            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
-        ]
-    },
-    "SUSP_XORed_Mozilla": {
-        "missing": [
-            "5bfd7bf0f641fc87711a03c135b1cc3287f0c9766cf9c97b32eb5e4230724017",
-            "83ccd18b92f9d4736c1b0f7a7b75e5f929ccc7ba7e665cd420f68ee618d7b145",
-            "561760568f0a8ad75775986bb0506b8e6c7c1d414b699724e4a66bde7ca88388",
-            "4b7a3e51c67fc348633918c70637aa43955fc4ad138aace0e441c956e31efa02",
-            "fb89ffc12f3587399e1dbd85fe8da85a6170848698d0b15e2cd8f81d0b9875f4",
-            "9be5a7e0652d43093c9b8635a693a61db8a08a240ce390e6208ed9fda8f2c445",
-            "15f82b0d1b4828c648be52d056e9c0d89b242cda5ac0da180a86fceb5554fccc",
-            "dea947e9bcf0eb7ba7a6cff24ddc5d2af572b658ff47e4c7e4b70b2a705dbba3",
-            "813968129895b83a1bd7b14fd1bbc52b4364029e38ff561c69a4b6d6eb9bc8eb",
-            "521a125f557bea10a6440ae4cede378e712590d6642ea63ac6c3119dd2b9f8a6",
-            "8943f142b2d66d20b07defba56f54d5e75223b55a4e82cd0153753d79df27428",
-            "b6a68af1d4852476d62b6aa231f9629260ec4cbcaba051feba5742913ffbebe7",
-            "e596a17260e6e5ec4c5d2160a6d645cdefb7a4bbe57efc7a5c963ad677cd98f6",
-            "ad0474f0d6021d0de97c77ca222a05777762aad59bda2be2f3b1a8f1a8022707",
-            "c972c181d76e446d45915b6752e57fe9abe9f23ba35277366c8488266a5ca6e9",
-            "44c8409e16943c97d73b3c89c9e2c037ecfce76ab170dae8b695b0755add9035",
-            "51de40c31c3436ee5c701985fe44aa92f7d1b097cc86ce2c203e2865de75e99b",
-            "f5b831a2e590467895e1372992121297835d46ae1807fc0af01d28b53fd851e5"
-        ]
-    },
-    "SUSP_XORed_MSDOS_Stub_Message": {
-        "missing": [
-            "6e0164b94476119d7ba53adeca4ae7f7cd7a96d1c90d95ca7880003ace4462aa",
-            "43a538ef95d4f931704d6309fa0a292f38abaeae48836f39115c0d3f4418fdec",
-            "6ba20c352fa09b4c25df7d2ee4c6848a2efbfd12caf722d931258c0348edae9e",
-            "067c59ea6a6c74ab1450f89b6c3aae5a7f689a201414bdf62f5ce5290729a654",
-            "f1e7ced872b766d3a345710492b0b27c79e4673f7668acf2e8c8efdff2dbc171",
-            "aed92a8301931959100a1bb8c52251df2fdddaf8b76ab34b6f24d7bbe58a4fe6",
-            "83f967523fb0904cb14ced4e84d1f299c51ff7f33a2a68348dac47e06f3fa2d2",
-            "5b875ecf0b7f67a4429aeaa841eddf8e6b58771e16dbdb43ad6918aa7a5b582d"
-        ]
-    },
-    "pos_memory_scrapper_": {
-        "missing": [
-            "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c",
-            "38c381e1f0d8db27082d5809b70fc73d5c7137e266bc22b4301dd4bbd5e79637"
-        ]
-    },
-    "Malware_QA_not_copy": {
-        "missing": [
-            "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
-        ]
-    },
-    "Malware_QA_tls": {
-        "missing": [
-            "ea1a6496003eaf5b020d855d14757757c788049b2e2c800d806c4eb371f9567b"
-        ]
-    },
-    "dbgdetect_files": {
-        "missing": [
-            "80c1ea737d33c6bfac09b101b8d77ab0f9f6630128c3ed052f9d945bed54e7e4",
-            "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c",
-            "38c381e1f0d8db27082d5809b70fc73d5c7137e266bc22b4301dd4bbd5e79637",
-            "91caa1fe289cdd8500399b3dcb07a5417223126a8cfd6833ece052acaaeb27f7",
-            "0c182effba3008ed3c0ce431b5f153ca6115f279c11c4829377d48d14c3b71c7",
-            "c864545bd61ac07a3dae55fa930149f2e58a1a4fc2ccba28bf011b7eb5a6172d",
-            "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779",
-            "a6ee06d8b84765979b3dbaab058e4934043e08a4b251efd7ecb9a5fcbea95e75",
-            "521a125f557bea10a6440ae4cede378e712590d6642ea63ac6c3119dd2b9f8a6",
-            "36bc478b1e6cfcdfd8906ac5caf156cc1c6a3663a46f5cbf89193ff8ea794bf0",
-            "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
-            "c93e6237abf041bc2530ccb510dd016ef1cc6847d43bf023351dce2a96fdc33b",
-            "c85091a01faba998f437e9b44c215804a8013050c6684670581cd1c8a8f216f2"
-        ]
-    },
-    "dbgdetect_procs": {
-        "missing": [
-            "9be5a7e0652d43093c9b8635a693a61db8a08a240ce390e6208ed9fda8f2c445",
-            "7b2c4995806c90eb7d4b164766909a336bfd1f10d9da69a7e21f7ab0d19fbdba",
-            "8943f142b2d66d20b07defba56f54d5e75223b55a4e82cd0153753d79df27428",
-            "36bc478b1e6cfcdfd8906ac5caf156cc1c6a3663a46f5cbf89193ff8ea794bf0",
-            "be8567ffe0be8bcb6af197b0c4f7498756b3eb812f7f3b23a5472dfe881726e7",
-            "6d5fe2cac56f6e735461f2b6e8bf0e2b53feace3c17838cdba1ac3c848825353",
-            "e3834a2cca58589cd5ae7b74554bdeb7b034c3e9c20a242bda50630c085b7b08",
-            "3243ad6e3775e9c1f308405a6a78b831874397e0ac625cda60295d6c81209bca",
-            "7634559c1f31d02170001101a08597f37d49f99dbb6a9846739b8c50d12d6553",
-            "871bb7796f7a12be233911d3948e4f3bb0fa1c4166e89c31585ade90320a4952",
-            "4a2cfbe2d173a1ac42dd21383ff9c8044ec615b2df7340f268017dc10526bf76",
-            "ef7bac23b920c86b72c70ff6eb23504ab472e0c7d6a7c28461fd8fa846e1a4ae",
-            "5c2e9604ddf63e732a674d9672a4ba20f44891a83e10f44f1d4d764f8c59ea63",
-            "041e371767c385910437ce2584a00b4c62a371f9b18b487af393e1a4e7514d52"
-        ]
-    },
-    "rootkit": {
-        "missing": [
-            "c85091a01faba998f437e9b44c215804a8013050c6684670581cd1c8a8f216f2"
-        ]
-    },
-    "INDICATOR_SUSPICIOUS_EXE_SQLQuery_ConfidentialDataStore": {
-        "missing": [
-            "c9214b7c531379d186eb18a22e33c64b516e6c235ddd67708bde60839bf2c50f",
-            "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c",
-            "7c40019c1d4cef2ffdd1dd8f388aaba537440b1bffee41789c900122d075a86d",
-            "7de04563a9107d3c53effc75e3fe1dc9a2a59a4aa3a46d4b02522d84001dab08",
-            "c864545bd61ac07a3dae55fa930149f2e58a1a4fc2ccba28bf011b7eb5a6172d",
-            "e0f37b772074acd08e74d9cb1d349afcfec7a93d7e922eefd43ee0501ddd78cf",
-            "ea33954741d44c9f46ab6f40fed29acd2833b9fdcc33b3990fab573522f2e446",
-            "f3a2fc1338553c29b16cb91caaffc37849537dedb67c41e2eccec879f0c8ab73",
-            "3a9323a939fbecbc6d0ceb5c1e1f3ebde91e9f186b46fdf3ba1aee03d1d41cd8",
-            "a2fa2e4bdd546b1b7908af709d23ffb41443e2cdc03af562f6d93ca548b09776",
-            "178348c14324bc0a3e57559a01a6ae6aa0cb4013aabbe324b51f906dcf5d537e",
-            "7d4d612275a6f4c3d1b0d23c3ae19cf39fcdd729f3f899f3df44b619bea7e17b",
-            "b3bcbd59e3ebbc3b5ecc7289d8ed6780c282158598c00af265622b2ee6485e2b",
-            "f55278bbd173d865d196e9f08452c9df44f3412f466bc8906d86a4f5a0e4edfa",
-            "db3d98c97cfb274f58de6efc1739357371bcb8d006e02ff2857ef8d3605a9c06"
-        ]
-    },
-    "INDICATOR_SUSPICIOUS_EXE_References_CryptoWallets": {
-        "missing": [
-            "537a987d9bfe60b24a9bef0a9214f64202e91ea5fe14b1c3063317387f595bf7",
-            "6fa0ea46cdf13cc71d9a164d0291f481d3947ec4f35f2cbf7b5c4a51ae3b0aed",
-            "ea33954741d44c9f46ab6f40fed29acd2833b9fdcc33b3990fab573522f2e446",
-            "22e20fbd8e95ac7b3a77b815e1a438e545354adb5a1bd5a90220a9c17b4008db",
-            "cbf4e042e45bf47e1070d666b8078444303b423ecb62fe98ee9a11c905b4fd16",
-            "d024f69697324942a47f367e129b439f27d181b0cc49b7fc8a6ca2cd40d483ce",
-            "041e371767c385910437ce2584a00b4c62a371f9b18b487af393e1a4e7514d52"
-        ]
-    },
-    "INDICATOR_SUSPICIOUS_EXE_SandboxUserNames": {
-        "missing": [
-            "537a987d9bfe60b24a9bef0a9214f64202e91ea5fe14b1c3063317387f595bf7",
-            "7de04563a9107d3c53effc75e3fe1dc9a2a59a4aa3a46d4b02522d84001dab08"
-        ],
-        "extra": [
-            "6e0164b94476119d7ba53adeca4ae7f7cd7a96d1c90d95ca7880003ace4462aa",
-            "91caa1fe289cdd8500399b3dcb07a5417223126a8cfd6833ece052acaaeb27f7",
-            "a1cde243e77d9d4c8e5585097400e53a2fe915f0bfc27368d2ea1ee197b2fabb",
-            "c864545bd61ac07a3dae55fa930149f2e58a1a4fc2ccba28bf011b7eb5a6172d",
-            "a6ee06d8b84765979b3dbaab058e4934043e08a4b251efd7ecb9a5fcbea95e75",
-            "36bc478b1e6cfcdfd8906ac5caf156cc1c6a3663a46f5cbf89193ff8ea794bf0",
-            "50f7e5fad8c4fe72d36d7e004616e458aabacc74f8a806ce608121f63fda7e5d",
-            "041e371767c385910437ce2584a00b4c62a371f9b18b487af393e1a4e7514d52"
-        ]
-    },
-    "INDICATOR_SUSPICIOUS_Binary_References_Browsers": {
-        "missing": [
-            "91caa1fe289cdd8500399b3dcb07a5417223126a8cfd6833ece052acaaeb27f7",
-            "c864545bd61ac07a3dae55fa930149f2e58a1a4fc2ccba28bf011b7eb5a6172d",
-            "a6ee06d8b84765979b3dbaab058e4934043e08a4b251efd7ecb9a5fcbea95e75",
-            "f61a7fa3ca28133a6fcefa0e04b0de4dc1e4020a87388b4b3a315dc8dc18194e"
-        ]
-    },
-    "INDICATOR_SUSPICIOUS_GENRansomware": {
-        "missing": [
-            "13ccf6c512823f7d30f14d06fd50e00bce8dd03ca331dd5c5d9fee64c340c92d",
-            "30efa81a5d0d9bf04a00b4e30823c2f0c7bd6461383acf0195d857edf2162543",
-            "cf582215a37617a76b80490a80f71cf31324ce354eaf88a54d995e734503fa40",
-            "c864545bd61ac07a3dae55fa930149f2e58a1a4fc2ccba28bf011b7eb5a6172d",
-            "5eae13527d4e39059025c3e56dad966cf67476fe7830090e40c14d0a4046adf0",
-            "a6ee06d8b84765979b3dbaab058e4934043e08a4b251efd7ecb9a5fcbea95e75",
-            "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc",
-            "30a8cf3e6863030c762b468bf48d679f3dd053a80793770443938fa18de89617",
-            "10f9ad4e9f6e0dc1793be80203b258f8c5114d01cb17307c1b2fdcca37d4edf9",
-            "d1dcf4c2165f3cf5729ba76e1ee80f4709d8e7eca7a6c29ceffc5fc6b09660fe",
-            "ef7bac23b920c86b72c70ff6eb23504ab472e0c7d6a7c28461fd8fa846e1a4ae",
-            "0e70c1fc058416b2eaeee6a3a48611622423db5b35e8503bd8e2ecc8cac1404d",
-            "028facff67136de55fe200177a190da625c8e1713b4e7d95bf5fc5412a5afffc"
-        ]
-    },
-    "INDICATOR_SUSPICOUS_EXE_References_VEEAM": {
-        "missing": [
-            "5bc9478d90533ebccf09c7204999853bae36db997b230e2809090c7827c8ced0"
-        ]
-    },
-    "INDICATOR_SUSPICIOUS_EXE_SandboxHookingDLL": {
-        "missing": [
-            "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c",
-            "38c381e1f0d8db27082d5809b70fc73d5c7137e266bc22b4301dd4bbd5e79637",
-            "b3de3f9309b2f320738772353eb724a0782a1fc2c912483c036c303389307e2e",
-            "7de04563a9107d3c53effc75e3fe1dc9a2a59a4aa3a46d4b02522d84001dab08",
-            "682e2204557a05cddbaddef019cbc2eda6eaa50007f20851eadb9a33c35c458d"
-        ]
-    },
-    "INDICATOR_SUSPICIOUS_EXE_References_Confidential_Data_Store": {
-        "missing": [
-            "54a813d8f2aab7d1e76d8577784ccd9350c025e52f656fee6a228d39dfbac926"
-        ]
-    },
-    "INDICATOR_SUSPICIOUS_References_SecTools": {
-        "missing": [
-            "4a59b5fad3d1870845b6f589e7da0777b4b5b71f6bdb4baf374bba56c84cf51d",
-            "d3c9a4541f5ffab522695055a082f9dfe250fcaee5cfe46a9d52581c6169b5ac",
-            "7634559c1f31d02170001101a08597f37d49f99dbb6a9846739b8c50d12d6553",
-            "041e371767c385910437ce2584a00b4c62a371f9b18b487af393e1a4e7514d52"
-        ]
-    },
-    "INDICATOR_SUSPICIOUS_EXE_Anti_OldCopyPaste": {
-        "missing": [
-            "38c381e1f0d8db27082d5809b70fc73d5c7137e266bc22b4301dd4bbd5e79637"
-        ]
-    },
-    "INDICATOR_SUSPICIOUS_EXE_UACBypass_EventViewer": {
-        "missing": [
-            "dfb49254d96bcff901131cfa03aef8a19fc91a22b62e0e058b7446010486feba"
-        ]
-    },
-    "INDICATOR_SUSPICIOUS_ClearWinLogs": {
-        "missing": [
-            "91caa1fe289cdd8500399b3dcb07a5417223126a8cfd6833ece052acaaeb27f7"
-        ]
-    },
-    "INDICATOR_SUSPICIOUS_EXE_RegKeyComb_DisableWinDefender": {
-        "missing": [
-            "a6ee06d8b84765979b3dbaab058e4934043e08a4b251efd7ecb9a5fcbea95e75",
-            "d2517353de2908d3f97471d8d2e90f713d893ea473372a67ede2eb633047b0b6",
-            "0cd33e6b180862072a00a0c2f897afa754df071bcec3d13e581c41a5c27a3102",
-            "5c2e9604ddf63e732a674d9672a4ba20f44891a83e10f44f1d4d764f8c59ea63"
-        ]
-    },
-    "INDICATOR_SUSPICIOUS_Sandbox_Evasion_FilesComb": {
-        "missing": [
-            "91caa1fe289cdd8500399b3dcb07a5417223126a8cfd6833ece052acaaeb27f7",
-            "22c7c6cb3a12ee1302df54fa8ee5c6714f42cb1a1b837ed3285c713f4e17cb84"
-        ]
-    },
-    "INDICATOR_SUSPICIOUS_EXE_Discord_Regex": {
-        "missing": [
-            "91caa1fe289cdd8500399b3dcb07a5417223126a8cfd6833ece052acaaeb27f7"
-        ]
-    },
-    "INDICATOR_SUSPICIOUS_EXE_SandboxComputerNames": {
-        "missing": [
-            "7de04563a9107d3c53effc75e3fe1dc9a2a59a4aa3a46d4b02522d84001dab08"
-        ]
-    },
-    "INDICATOR_SUSPICIOUS_EXE_References_PasswordManagers": {
-        "missing": [
-            "e3834a2cca58589cd5ae7b74554bdeb7b034c3e9c20a242bda50630c085b7b08"
-        ]
-    },
-    "suspicious_obfuscation_using_String_fromCharCode": {
-        "missing": [
-            "6d5fe2cac56f6e735461f2b6e8bf0e2b53feace3c17838cdba1ac3c848825353",
-            "ef7bac23b920c86b72c70ff6eb23504ab472e0c7d6a7c28461fd8fa846e1a4ae",
-            "041e371767c385910437ce2584a00b4c62a371f9b18b487af393e1a4e7514d52"
+            "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc"
         ]
     },
     "suspicious_javascript_object": {
         "missing": [
-            "447026e24c84a7d35a413788c7ab176092c75086121c7719eed1ef30139e0faf",
-            "9cb9a17497041396107b27642fdba1b1dfcca4aff2f90f88d24a60ba3b575fa6",
-            "1ceaa4b6735e54755f3d4ccc633936a96d120d6a18726c81f5caec4063418ed3",
-            "b7d873dd66639b5bd9c7d2979c8dfbedf019ca0bc312004aaa89fe50d7622489",
-            "91caa1fe289cdd8500399b3dcb07a5417223126a8cfd6833ece052acaaeb27f7",
-            "5b9b9411b9be588798a2f48bd06bec40b0a49269f4b3e20e73d2764a5fededa0",
-            "c900719c0b010d052df2f7e6c7a0cff6f629ef64e2516697f80a9b72ff35d383",
-            "de85b3fd3d127bec734bcffde9733e0cd9d17197203ce2a1fc696f28d3e0af96",
-            "a1cde243e77d9d4c8e5585097400e53a2fe915f0bfc27368d2ea1ee197b2fabb",
-            "c864545bd61ac07a3dae55fa930149f2e58a1a4fc2ccba28bf011b7eb5a6172d",
-            "e0f37b772074acd08e74d9cb1d349afcfec7a93d7e922eefd43ee0501ddd78cf",
-            "bc3e7c9378af55ad1000c721319b723e58543c1cb9d7aa6be2868a171fa89689",
-            "a6ee06d8b84765979b3dbaab058e4934043e08a4b251efd7ecb9a5fcbea95e75",
-            "a3b16246222b284d054201022ad62d16cf73c51dd52753d4ce4e5d94cdb3f0de",
-            "521a125f557bea10a6440ae4cede378e712590d6642ea63ac6c3119dd2b9f8a6",
             "6533922b30c15b5c1f747bc3c85d4c9a4d67a227f9dd461adb7529415cfee709",
-            "cb83e5cb264161c28de76a44d0edb450745e773d24bec5869d85f69633e44dcf",
-            "ec89bdc75275d6375628750c3c73a7bb318c04517f4cc3cd5c4cdb0ad09483c3",
-            "3b1599cbab9a8fb1ab302e40bacfb10bfac1f71d4830e732a9ee5fee7d98f9c8",
-            "6d5fe2cac56f6e735461f2b6e8bf0e2b53feace3c17838cdba1ac3c848825353",
-            "50f7e5fad8c4fe72d36d7e004616e458aabacc74f8a806ce608121f63fda7e5d",
-            "71f2a48766458fef9475ce7de7f1ebd270a4ddc5f3c0ced1c32f30b13ebfeaa2",
-            "9fe15c38e56acc99401c37a308ea648cf89901ba31148805e1fff5a73b19bc94",
-            "e250d9a5fade99941f016c90c54c7ce6d2208072d52af09cbdcd080599f373d5",
-            "22e20fbd8e95ac7b3a77b815e1a438e545354adb5a1bd5a90220a9c17b4008db",
-            "ef7bac23b920c86b72c70ff6eb23504ab472e0c7d6a7c28461fd8fa846e1a4ae",
+            "c864545bd61ac07a3dae55fa930149f2e58a1a4fc2ccba28bf011b7eb5a6172d",
             "0e70c1fc058416b2eaeee6a3a48611622423db5b35e8503bd8e2ecc8cac1404d",
-            "1dbfa42c271e51d48de2bbc445f8a6e3c7c38cdc9b724d927bf4b46b02a08447",
+            "22e20fbd8e95ac7b3a77b815e1a438e545354adb5a1bd5a90220a9c17b4008db",
             "180b1e84b0690ca21aab31bfc50e1a276a7161603f2118802dc0fa353fde10f9",
-            "10f8162a780d95006b866fca225276cfff93084ed72ab5517c4aaef65e4be54d",
+            "a6ee06d8b84765979b3dbaab058e4934043e08a4b251efd7ecb9a5fcbea95e75",
+            "e250d9a5fade99941f016c90c54c7ce6d2208072d52af09cbdcd080599f373d5",
+            "cb83e5cb264161c28de76a44d0edb450745e773d24bec5869d85f69633e44dcf",
+            "9fe15c38e56acc99401c37a308ea648cf89901ba31148805e1fff5a73b19bc94",
+            "de85b3fd3d127bec734bcffde9733e0cd9d17197203ce2a1fc696f28d3e0af96",
+            "a3b16246222b284d054201022ad62d16cf73c51dd52753d4ce4e5d94cdb3f0de",
             "041e371767c385910437ce2584a00b4c62a371f9b18b487af393e1a4e7514d52",
-            "e678899d7ea9702184167b56655f91a69f8a0bdc9df65612762252c053c2cd7c"
-        ]
-    },
-    "suspicious_obfuscation_toString": {
-        "missing": [
-            "32519b85c0b422e4656de6e6c41878e95fd95026267daab4215ee59c107d6c77",
+            "3b1599cbab9a8fb1ab302e40bacfb10bfac1f71d4830e732a9ee5fee7d98f9c8",
+            "bc3e7c9378af55ad1000c721319b723e58543c1cb9d7aa6be2868a171fa89689",
+            "e678899d7ea9702184167b56655f91a69f8a0bdc9df65612762252c053c2cd7c",
+            "b7d873dd66639b5bd9c7d2979c8dfbedf019ca0bc312004aaa89fe50d7622489",
+            "71f2a48766458fef9475ce7de7f1ebd270a4ddc5f3c0ced1c32f30b13ebfeaa2",
+            "10f8162a780d95006b866fca225276cfff93084ed72ab5517c4aaef65e4be54d",
             "447026e24c84a7d35a413788c7ab176092c75086121c7719eed1ef30139e0faf",
-            "f3867e04c9eb21a5f4ce032b2cac51931e85c77e9aeed756bfb3163d5458069f",
-            "ef7bac23b920c86b72c70ff6eb23504ab472e0c7d6a7c28461fd8fa846e1a4ae",
-            "e75ac1710a3835a54aeeb349ae6d5078a4a79fad4c8458844c8fc447413a279e",
-            "f2bc373ee9715d1d912b833393cf2eff89e9906133b2ff393a3a6f226e5279b0"
-        ]
-    },
-    "suspicious_obfuscation_using_String_replace": {
-        "missing": [
-            "447026e24c84a7d35a413788c7ab176092c75086121c7719eed1ef30139e0faf",
-            "4635f8b00cb662ea935e90643cba438447a4bd0d9063d17138de49e7031db273",
-            "e75ac1710a3835a54aeeb349ae6d5078a4a79fad4c8458844c8fc447413a279e"
-        ]
-    },
-    "suspicious_obfuscation_getAnnots_access_blocks": {
-        "missing": [
-            "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c",
+            "6d5fe2cac56f6e735461f2b6e8bf0e2b53feace3c17838cdba1ac3c848825353",
+            "9cb9a17497041396107b27642fdba1b1dfcca4aff2f90f88d24a60ba3b575fa6",
+            "50f7e5fad8c4fe72d36d7e004616e458aabacc74f8a806ce608121f63fda7e5d",
             "1ceaa4b6735e54755f3d4ccc633936a96d120d6a18726c81f5caec4063418ed3",
-            "38c381e1f0d8db27082d5809b70fc73d5c7137e266bc22b4301dd4bbd5e79637",
+            "521a125f557bea10a6440ae4cede378e712590d6642ea63ac6c3119dd2b9f8a6",
+            "1dbfa42c271e51d48de2bbc445f8a6e3c7c38cdc9b724d927bf4b46b02a08447",
+            "c900719c0b010d052df2f7e6c7a0cff6f629ef64e2516697f80a9b72ff35d383",
+            "e0f37b772074acd08e74d9cb1d349afcfec7a93d7e922eefd43ee0501ddd78cf",
+            "5b9b9411b9be588798a2f48bd06bec40b0a49269f4b3e20e73d2764a5fededa0",
+            "ef7bac23b920c86b72c70ff6eb23504ab472e0c7d6a7c28461fd8fa846e1a4ae",
             "91caa1fe289cdd8500399b3dcb07a5417223126a8cfd6833ece052acaaeb27f7",
-            "6d5fe2cac56f6e735461f2b6e8bf0e2b53feace3c17838cdba1ac3c848825353"
+            "a1cde243e77d9d4c8e5585097400e53a2fe915f0bfc27368d2ea1ee197b2fabb",
+            "ec89bdc75275d6375628750c3c73a7bb318c04517f4cc3cd5c4cdb0ad09483c3"
+        ]
+    },
+    "suspicious_obfuscation_using_String_fromCharCode": {
+        "missing": [
+            "041e371767c385910437ce2584a00b4c62a371f9b18b487af393e1a4e7514d52",
+            "6d5fe2cac56f6e735461f2b6e8bf0e2b53feace3c17838cdba1ac3c848825353",
+            "ef7bac23b920c86b72c70ff6eb23504ab472e0c7d6a7c28461fd8fa846e1a4ae"
         ]
     },
     "suspicious_obfuscation_using_app_setTimeOut_to_eval_code": {
         "missing": [
-            "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c",
-            "1ceaa4b6735e54755f3d4ccc633936a96d120d6a18726c81f5caec4063418ed3",
             "38c381e1f0d8db27082d5809b70fc73d5c7137e266bc22b4301dd4bbd5e79637",
-            "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779",
-            "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
-            "041e371767c385910437ce2584a00b4c62a371f9b18b487af393e1a4e7514d52"
-        ]
-    },
-    "suspicious_string__shellcode_": {
-        "missing": [
+            "041e371767c385910437ce2584a00b4c62a371f9b18b487af393e1a4e7514d52",
             "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c",
-            "38c381e1f0d8db27082d5809b70fc73d5c7137e266bc22b4301dd4bbd5e79637"
-        ]
-    },
-    "suspicious_javascript_addToolButton": {
-        "missing": [
+            "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779",
             "1ceaa4b6735e54755f3d4ccc633936a96d120d6a18726c81f5caec4063418ed3",
-            "ef7bac23b920c86b72c70ff6eb23504ab472e0c7d6a7c28461fd8fa846e1a4ae"
-        ]
-    },
-    "suspicious_string_nopblock": {
-        "missing": [
-            "e47f3baa180f2050da0e158492bf2fced4858a633c3dff69944f87d7ce27cd57"
+            "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638"
         ]
     },
     "pdf_exploit_fontfile_SING_table_overflow_CVE_2010_2883_generic": {
@@ -1629,9 +1586,47 @@
             "8edfc3e256a50e8a000ee8a969dabf2c4b3f5f898132023ff7e07f27fd08e006"
         ]
     },
-    "HKTL_LazyCat_LogEraser": {
-        "extra": [
-            "12454a323dec0a56a23cd5215bb335d7842c85bbf38e3bd696c9237e26454388"
+    "suspicious_obfuscation_getAnnots_access_blocks": {
+        "missing": [
+            "38c381e1f0d8db27082d5809b70fc73d5c7137e266bc22b4301dd4bbd5e79637",
+            "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c",
+            "6d5fe2cac56f6e735461f2b6e8bf0e2b53feace3c17838cdba1ac3c848825353",
+            "1ceaa4b6735e54755f3d4ccc633936a96d120d6a18726c81f5caec4063418ed3",
+            "91caa1fe289cdd8500399b3dcb07a5417223126a8cfd6833ece052acaaeb27f7"
+        ]
+    },
+    "suspicious_obfuscation_toString": {
+        "missing": [
+            "f2bc373ee9715d1d912b833393cf2eff89e9906133b2ff393a3a6f226e5279b0",
+            "f3867e04c9eb21a5f4ce032b2cac51931e85c77e9aeed756bfb3163d5458069f",
+            "32519b85c0b422e4656de6e6c41878e95fd95026267daab4215ee59c107d6c77",
+            "e75ac1710a3835a54aeeb349ae6d5078a4a79fad4c8458844c8fc447413a279e",
+            "447026e24c84a7d35a413788c7ab176092c75086121c7719eed1ef30139e0faf",
+            "ef7bac23b920c86b72c70ff6eb23504ab472e0c7d6a7c28461fd8fa846e1a4ae"
+        ]
+    },
+    "suspicious_obfuscation_using_String_replace": {
+        "missing": [
+            "e75ac1710a3835a54aeeb349ae6d5078a4a79fad4c8458844c8fc447413a279e",
+            "447026e24c84a7d35a413788c7ab176092c75086121c7719eed1ef30139e0faf",
+            "4635f8b00cb662ea935e90643cba438447a4bd0d9063d17138de49e7031db273"
+        ]
+    },
+    "suspicious_string__shellcode_": {
+        "missing": [
+            "38c381e1f0d8db27082d5809b70fc73d5c7137e266bc22b4301dd4bbd5e79637",
+            "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c"
+        ]
+    },
+    "suspicious_string_nopblock": {
+        "missing": [
+            "e47f3baa180f2050da0e158492bf2fced4858a633c3dff69944f87d7ce27cd57"
+        ]
+    },
+    "suspicious_javascript_addToolButton": {
+        "missing": [
+            "1ceaa4b6735e54755f3d4ccc633936a96d120d6a18726c81f5caec4063418ed3",
+            "ef7bac23b920c86b72c70ff6eb23504ab472e0c7d6a7c28461fd8fa846e1a4ae"
         ]
     },
     "HKTL_PowerKatz_Feb19_1": {
@@ -1639,25 +1634,9 @@
             "12454a323dec0a56a23cd5215bb335d7842c85bbf38e3bd696c9237e26454388"
         ]
     },
-    "SystemBC_cleartext_Config": {
+    "HKTL_LazyCat_LogEraser": {
         "extra": [
-            "de4e3ff7f7da5d5561e384585a9d0cb66f2c51ea324c184848d125d8792bf666"
-        ]
-    },
-    "IceID_Bank_trojan": {
-        "extra": [
-            "fad505c3257c3b30e5b0cc3243355d00573497b13216d928fc134d1d1f5bd4ab",
-            "77a53280fd609c5594c6f78453ca8468dc4d0305c87293655b85a50f88681792",
-            "d53a7df671c51cfcbe6526e499e50664d129e9c80dfd44dde860bae39542c4e1",
-            "d6d55a8fbd1c603719fe611e572e2431512e7063c44896f705524dab66234d45",
-            "5b875ecf0b7f67a4429aeaa841eddf8e6b58771e16dbdb43ad6918aa7a5b582d",
-            "daa41f52309815eff99483c87788bfb56b8576f15eaad42cd5b06bb3cf0cccde"
-        ]
-    },
-    "Mimikatz_Strings": {
-        "extra": [
-            "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c",
-            "91caa1fe289cdd8500399b3dcb07a5417223126a8cfd6833ece052acaaeb27f7"
+            "12454a323dec0a56a23cd5215bb335d7842c85bbf38e3bd696c9237e26454388"
         ]
     },
     "INDICATOR_SUSPICIOUS_EXE_SandboxProductID": {
@@ -1668,6 +1647,27 @@
     "INDICATOR_SUSPICIOUS_EXE_WindDefender_AntiEmaulation": {
         "extra": [
             "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c"
+        ]
+    },
+    "IceID_Bank_trojan": {
+        "extra": [
+            "d6d55a8fbd1c603719fe611e572e2431512e7063c44896f705524dab66234d45",
+            "5b875ecf0b7f67a4429aeaa841eddf8e6b58771e16dbdb43ad6918aa7a5b582d",
+            "fad505c3257c3b30e5b0cc3243355d00573497b13216d928fc134d1d1f5bd4ab",
+            "daa41f52309815eff99483c87788bfb56b8576f15eaad42cd5b06bb3cf0cccde",
+            "77a53280fd609c5594c6f78453ca8468dc4d0305c87293655b85a50f88681792",
+            "d53a7df671c51cfcbe6526e499e50664d129e9c80dfd44dde860bae39542c4e1"
+        ]
+    },
+    "SystemBC_cleartext_Config": {
+        "extra": [
+            "de4e3ff7f7da5d5561e384585a9d0cb66f2c51ea324c184848d125d8792bf666"
+        ]
+    },
+    "Mimikatz_Strings": {
+        "extra": [
+            "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c",
+            "91caa1fe289cdd8500399b3dcb07a5417223126a8cfd6833ece052acaaeb27f7"
         ]
     }
 }
