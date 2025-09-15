@@ -279,7 +279,7 @@ rule Njrat_1 : hardened limited
 		( all of ( $s* ) and any of ( $v* ) ) or ( uint16( 0 ) == 0x5a4d and 4 of ( $x* ) )
 }
 
-rule njrat : rat hardened
+rule njrat : rat refined hardened
 {
 	meta:
 		rule_group = "implant"
@@ -315,9 +315,14 @@ rule njrat : rat hardened
 		$cnc_traffic_0 = {7C 00 27 00 7C 00 27 00 7C}
 		$rights_0 = {6e 00 65 00 74 00 73 00 68 00 20 00 66 00 69 00 72 00 65 00 77 00 61 00 6c 00 6c 00 20 00 61 00 64 00 64 00 20 00 61 00 6c 00 6c 00 6f 00 77 00 65 00 64 00 70 00 72 00 6f 00 67 00 72 00 61 00 6d 00 20 00 22 00}
 		$rights_1 = {6e 00 65 00 74 00 73 00 68 00 20 00 66 00 69 00 72 00 65 00 77 00 61 00 6c 00 6c 00 20 00 64 00 65 00 6c 00 65 00 74 00 65 00 20 00 61 00 6c 00 6c 00 6f 00 77 00 65 00 64 00 70 00 72 00 6f 00 67 00 72 00 61 00 6d 00 20 00 22 00}
+		$overlap0 = {53 74 61 72 74 44 44 6f 73}
+		$overlap1 = {53 74 6f 70 44 44 6f 73}
+		$overlap2 = {58 57 6f 72 6d}
+		$overlap3 = {58 63 68 61 74}
+		$overlap4 = {58 4c 6f 67 67 65 72}
 
 	condition:
-		( all of ( $cnc_traffic_* ) ) and ( all of ( $rights_* ) )
+		( all of ( $cnc_traffic_* ) ) and ( all of ( $rights_* ) ) and not ( any of ( $overlap* ) )
 }
 
 rule Windows_Trojan_Njrat_30f3c220_1 : hardened limited

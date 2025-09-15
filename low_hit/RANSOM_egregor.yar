@@ -1,5 +1,5 @@
-import "pe"
 import "hash"
+import "pe"
 
 rule ransom_egregor : hardened limited
 {
