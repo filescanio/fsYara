@@ -1,5 +1,5 @@
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_zloader_bot : hardened
 {
@@ -379,8 +379,8 @@ rule api_hashes_zloader_bot : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_xor_rol9 : hardened
 {
@@ -760,8 +760,8 @@ rule api_hashes_xor_rol9 : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_tonepipeshell : hardened
 {
@@ -1141,8 +1141,8 @@ rule api_hashes_tonepipeshell : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_tonepipeshell_feb_2025 : hardened
 {
@@ -1522,8 +1522,8 @@ rule api_hashes_tonepipeshell_feb_2025 : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_tonepipeshell_alt : hardened
 {
@@ -1903,8 +1903,8 @@ rule api_hashes_tonepipeshell_alt : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_smokeloader_rol8_xor : hardened
 {
@@ -2284,8 +2284,8 @@ rule api_hashes_smokeloader_rol8_xor : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_shr2_shl5_xor_init_c4d5a97a_stealbit : hardened
 {
@@ -2665,8 +2665,8 @@ rule api_hashes_shr2_shl5_xor_init_c4d5a97a_stealbit : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_sdbm_65599_x64 : hardened
 {
@@ -3046,8 +3046,8 @@ rule api_hashes_sdbm_65599_x64 : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_ror13_add_negative_seed : hardened
 {
@@ -3427,8 +3427,8 @@ rule api_hashes_ror13_add_negative_seed : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_ror8_add_xor_ab832e83 : hardened
 {
@@ -3808,8 +3808,8 @@ rule api_hashes_ror8_add_xor_ab832e83 : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_permutations_e8c77835 : hardened
 {
@@ -4189,8 +4189,8 @@ rule api_hashes_permutations_e8c77835 : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_permutations_82f63b78 : hardened
 {
@@ -4570,8 +4570,8 @@ rule api_hashes_permutations_82f63b78 : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_paradise_murmurhash3 : hardened
 {
@@ -4951,8 +4951,8 @@ rule api_hashes_paradise_murmurhash3 : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_or23_xor_rol17 : hardened
 {
@@ -5332,8 +5332,8 @@ rule api_hashes_or23_xor_rol17 : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_or21_xor_rol11 : hardened
 {
@@ -5713,8 +5713,8 @@ rule api_hashes_or21_xor_rol11 : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_or20_xor_rol19 : hardened
 {
@@ -6094,8 +6094,8 @@ rule api_hashes_or20_xor_rol19 : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_mythic_unknown : hardened
 {
@@ -6475,8 +6475,8 @@ rule api_hashes_mythic_unknown : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_mult3_add_init_9C : hardened
 {
@@ -6851,8 +6851,8 @@ rule api_hashes_mult3_add_init_9C : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_mul21_add_seed_8952 : hardened
 {
@@ -7232,8 +7232,8 @@ rule api_hashes_mul21_add_seed_8952 : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_mul7_add : hardened
 {
@@ -7610,8 +7610,8 @@ rule api_hashes_mul7_add : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_mamon_hash : hardened
 {
@@ -7991,8 +7991,8 @@ rule api_hashes_mamon_hash : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_lumma_fnv1a : hardened
 {
@@ -8372,8 +8372,8 @@ rule api_hashes_lumma_fnv1a : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_lokibot : hardened
 {
@@ -8753,8 +8753,8 @@ rule api_hashes_lokibot : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_lockbit4_0225 : hardened
 {
@@ -9134,8 +9134,8 @@ rule api_hashes_lockbit4_0225 : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_guloader_3C389ABC : hardened
 {
@@ -9515,8 +9515,8 @@ rule api_hashes_guloader_3C389ABC : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_fnv1a_64 : hardened
 {
@@ -9896,8 +9896,8 @@ rule api_hashes_fnv1a_64 : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_fnv1a : hardened
 {
@@ -10277,8 +10277,8 @@ rule api_hashes_fnv1a : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_fnv1 : hardened
 {
@@ -10658,8 +10658,8 @@ rule api_hashes_fnv1 : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_fnv1_64 : hardened
 {
@@ -11039,8 +11039,8 @@ rule api_hashes_fnv1_64 : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_emotet : hardened
 {
@@ -11420,8 +11420,8 @@ rule api_hashes_emotet : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_emotet_mul_65599_xor_19ad760 : hardened
 {
@@ -11801,8 +11801,8 @@ rule api_hashes_emotet_mul_65599_xor_19ad760 : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_djb2_vohuk_ransomware : hardened
 {
@@ -12182,8 +12182,8 @@ rule api_hashes_djb2_vohuk_ransomware : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_djb2_uppercase : hardened
 {
@@ -12563,8 +12563,8 @@ rule api_hashes_djb2_uppercase : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_djb2_nokoyawa : hardened
 {
@@ -12944,8 +12944,8 @@ rule api_hashes_djb2_nokoyawa : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_deedrat : hardened
 {
@@ -13325,8 +13325,8 @@ rule api_hashes_deedrat : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_deedrat_export_name : hardened
 {
@@ -13706,8 +13706,8 @@ rule api_hashes_deedrat_export_name : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_d0nut : hardened
 {
@@ -14087,8 +14087,8 @@ rule api_hashes_d0nut : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_crypto_ror13_add_10 : hardened
 {
@@ -14468,8 +14468,8 @@ rule api_hashes_crypto_ror13_add_10 : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_crc64_ecma_182 : hardened
 {
@@ -14849,8 +14849,8 @@ rule api_hashes_crc64_ecma_182 : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_crc32_mpeg_2 : hardened
 {
@@ -15230,8 +15230,8 @@ rule api_hashes_crc32_mpeg_2 : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_conti : hardened
 {
@@ -15611,8 +15611,8 @@ rule api_hashes_conti : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_conti_mm3 : hardened
 {
@@ -15992,8 +15992,8 @@ rule api_hashes_conti_mm3 : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_conti_e9ff0077 : hardened
 {
@@ -16373,8 +16373,8 @@ rule api_hashes_conti_e9ff0077 : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_conti_b801fcda : hardened
 {
@@ -16754,8 +16754,8 @@ rule api_hashes_conti_b801fcda : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_conti_5b2d : hardened
 {
@@ -17135,8 +17135,8 @@ rule api_hashes_conti_5b2d : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_brc4_joaat : hardened
 {
@@ -17516,8 +17516,8 @@ rule api_hashes_brc4_joaat : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_blister2 : hardened
 {
@@ -17897,8 +17897,8 @@ rule api_hashes_blister2 : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_babbleloader : hardened
 {
@@ -18278,8 +18278,8 @@ rule api_hashes_babbleloader : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_babbleloader_0125 : hardened
 {
@@ -18659,8 +18659,8 @@ rule api_hashes_babbleloader_0125 : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_alder32_666 : hardened
 {
@@ -19040,8 +19040,8 @@ rule api_hashes_alder32_666 : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_add_hiword_add_lowword : hardened
 {
@@ -19421,8 +19421,8 @@ rule api_hashes_add_hiword_add_lowword : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_add_65599 : hardened
 {
@@ -19802,8 +19802,8 @@ rule api_hashes_add_65599 : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_ror7AddHash32 : hardened
 {
@@ -20183,8 +20183,8 @@ rule api_hashes_ror7AddHash32 : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_ror9AddHash32 : hardened
 {
@@ -20564,8 +20564,8 @@ rule api_hashes_ror9AddHash32 : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_ror11AddHash32 : hardened
 {
@@ -20945,8 +20945,8 @@ rule api_hashes_ror11AddHash32 : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_ror13AddHash32 : hardened
 {
@@ -21326,8 +21326,8 @@ rule api_hashes_ror13AddHash32 : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_ror13AddHash32AddDll : hardened
 {
@@ -21707,8 +21707,8 @@ rule api_hashes_ror13AddHash32AddDll : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_ror13AddHash32DllSimple : hardened
 {
@@ -22088,8 +22088,8 @@ rule api_hashes_ror13AddHash32DllSimple : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_ror13AddHash32Sub20h : hardened
 {
@@ -22469,8 +22469,8 @@ rule api_hashes_ror13AddHash32Sub20h : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_ror13AddHash32Sub1 : hardened
 {
@@ -22850,8 +22850,8 @@ rule api_hashes_ror13AddHash32Sub1 : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_addRor4WithNullHash32 : hardened
 {
@@ -23231,8 +23231,8 @@ rule api_hashes_addRor4WithNullHash32 : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_addRor13Hash32 : hardened
 {
@@ -23612,8 +23612,8 @@ rule api_hashes_addRor13Hash32 : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_addRor13HashOncemore32 : hardened
 {
@@ -23993,8 +23993,8 @@ rule api_hashes_addRor13HashOncemore32 : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_rol3XorEax : hardened
 {
@@ -24374,8 +24374,8 @@ rule api_hashes_rol3XorEax : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_rol3XorHash32 : hardened
 {
@@ -24752,8 +24752,8 @@ rule api_hashes_rol3XorHash32 : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_rol5AddHash32 : hardened
 {
@@ -25133,8 +25133,8 @@ rule api_hashes_rol5AddHash32 : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_addRol5HashOncemore32 : hardened
 {
@@ -25514,8 +25514,8 @@ rule api_hashes_addRol5HashOncemore32 : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_rol7AddHash32 : hardened
 {
@@ -25895,8 +25895,8 @@ rule api_hashes_rol7AddHash32 : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_rol7AddXor2Hash32 : hardened
 {
@@ -26276,8 +26276,8 @@ rule api_hashes_rol7AddXor2Hash32 : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_rol7XorHash32 : hardened
 {
@@ -26657,8 +26657,8 @@ rule api_hashes_rol7XorHash32 : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_rol5XorHash32 : hardened
 {
@@ -27038,8 +27038,8 @@ rule api_hashes_rol5XorHash32 : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_rol8Xor0xB0D4D06Hash32 : hardened
 {
@@ -27419,8 +27419,8 @@ rule api_hashes_rol8Xor0xB0D4D06Hash32 : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_chAddRol8Hash32 : hardened
 {
@@ -27800,8 +27800,8 @@ rule api_hashes_chAddRol8Hash32 : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_rol9AddHash32 : hardened
 {
@@ -28181,8 +28181,8 @@ rule api_hashes_rol9AddHash32 : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_rol9XorHash32 : hardened
 {
@@ -28562,8 +28562,8 @@ rule api_hashes_rol9XorHash32 : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_shl7Shr19XorHash32 : hardened
 {
@@ -28943,8 +28943,8 @@ rule api_hashes_shl7Shr19XorHash32 : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_shl7SubHash32DoublePulser : hardened
 {
@@ -29324,8 +29324,8 @@ rule api_hashes_shl7SubHash32DoublePulser : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_sll1AddHash32 : hardened
 {
@@ -29684,8 +29684,8 @@ rule api_hashes_sll1AddHash32 : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_shr2Shl5XorHash32 : hardened
 {
@@ -30065,8 +30065,8 @@ rule api_hashes_shr2Shl5XorHash32 : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_xorShr8Hash32 : hardened
 {
@@ -30446,8 +30446,8 @@ rule api_hashes_xorShr8Hash32 : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_imul83hAdd : hardened
 {
@@ -30827,8 +30827,8 @@ rule api_hashes_imul83hAdd : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_imul21hAddHash32 : hardened
 {
@@ -31208,8 +31208,8 @@ rule api_hashes_imul21hAddHash32 : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_poisonIvyHash : hardened
 {
@@ -31589,8 +31589,8 @@ rule api_hashes_poisonIvyHash : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_crc32 : hardened
 {
@@ -31970,8 +31970,8 @@ rule api_hashes_crc32 : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_mult21AddHash32 : hardened
 {
@@ -32351,8 +32351,8 @@ rule api_hashes_mult21AddHash32 : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_add1505Shl5Hash32 : hardened
 {
@@ -32732,8 +32732,8 @@ rule api_hashes_add1505Shl5Hash32 : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_dualaccModFFF1Hash : hardened
 {
@@ -33113,8 +33113,8 @@ rule api_hashes_dualaccModFFF1Hash : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_hash_Carbanak : hardened
 {
@@ -33494,8 +33494,8 @@ rule api_hashes_hash_Carbanak : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_fnv1Xor67f : hardened
 {
@@ -33875,8 +33875,8 @@ rule api_hashes_fnv1Xor67f : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . characteristics & pe.SECTION_MEM_EXECUTE != 0 or pe.sections [ i ] . characteristics & pe.SECTION_CNT_CODE != 0 ) and ( math.entropy ( pe.sections [ i ] . raw_data_offset , pe.sections [ i ] . raw_data_size ) <= 7 ) and ( for 10 of them : ( $ in ( pe.sections [ i ] . raw_data_offset .. pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size ) ) ) )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule api_hashes_bzip2_crc32 : hardened
 {

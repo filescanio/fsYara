@@ -14,6 +14,6 @@ rule Cerberus : RAT memory hardened limited
 		$generic = {63 65 72 62 65 72 75 73}
 
 	condition:
-		any of them
+		2 of them
 }
 
