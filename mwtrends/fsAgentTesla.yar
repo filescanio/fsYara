@@ -415,45 +415,6 @@ rule Windows_Trojan_AgentTesla_ebf431a8 : hardened
 		4 of them
 }
 
-rule Win32_Trojan_AgentTesla : hardened
-{
-	meta:
-		description = "Identifies AgentTesla samples."
-		author = "Netskope Threat Labs"
-		ruleset = "Win32_Trojan_AgentTesla.yar"
-		repository = "netskopeoss/NetskopeThreatLabsIOCs"
-		source_url = "https://github.com/netskopeoss/NetskopeThreatLabsIOCs/blob/52c780db6106d0c0e8deb04653e036cdd4408e56/Malware/AgentTesla/Yara/Win32_Trojan_AgentTesla.yar"
-		license = "MIT License"
-		score = 75
-
-	strings:
-		$bin00 = {23 42 6c 6f 62}
-		$bin01 = {23 47 55 49 44}
-		$bin02 = {23 53 74 72 69 6e 67 73}
-		$str00 = {67 65 74 5f 41 63 63 6f 75 6e 74 43 72 65 64 65 6e 74 69 61 6c}
-		$str01 = {67 65 74 5f 61 63 63 6f 75 6e 74 4e 61 6d 65}
-		$str02 = {67 65 74 5f 41 64 64 72 65 73 73}
-		$str03 = {67 65 74 5f 41 6c 74 4b 65 79 44 6f 77 6e}
-		$str04 = {67 65 74 5f 41 73 73 65 6d 62 6c 79}
-		$str05 = {67 65 74 5f 41 74 74 61 63 68 6d 65 6e 74 73}
-		$str06 = {67 65 74 5f 43 6c 69 70 62 6f 61 72 64}
-		$str07 = {67 65 74 5f 43 6f 6d 70 75 74 65 72}
-		$str08 = {67 65 74 5f 43 6f 6d 70 75 74 65 72 4e 61 6d 65}
-		$str09 = {67 65 74 5f 43 6f 6e 6e 65 63 74 65 64}
-		$str10 = {67 65 74 5f 45 78 65 63 75 74 61 62 6c 65 50 61 74 68}
-		$str11 = {67 65 74 5f 48 6f 73 74}
-		$str12 = {67 65 74 5f 4b 65 79}
-		$str13 = {67 65 74 5f 4b 65 79 62 6f 61 72 64}
-		$str14 = {67 65 74 5f 50 72 6f 63 65 73 73 4e 61 6d 65}
-		$str15 = {73 65 74 5f 55 73 65 72 41 67 65 6e 74}
-		$str16 = {73 65 74 5f 55 73 65 72 4e 61 6d 65}
-		$str17 = {73 65 74 5f 49 73 42 6f 64 79 48 74 6d 6c}
-		$str18 = {73 65 74 5f 49 56}
-
-	condition:
-		uint16( 0 ) == 0x5a4d and all of ( $bin* ) and 10 of ( $str* )
-}
-
 rule agenttesla_smtp_variant : hardened
 {
 	meta:
@@ -651,6 +612,6 @@ rule fsAgentTesla : hardened
 		score = 75
 
 	condition:
-		AgentTesla or AgentTeslaV2 or AgentTeslaV3 or AgentTeslaXor or AgentTeslaV4 or AgentTeslaV4JIT or AgentTeslaV5 or Windows_Trojan_AgentTesla_d3ac2b2f or Windows_Trojan_AgentTesla_e577e17e or Windows_Trojan_AgentTesla_f2a90d14 or Windows_Trojan_AgentTesla_a2d69e48 or Windows_Trojan_AgentTesla_ebf431a8 or Win32_Trojan_AgentTesla or agenttesla_smtp_variant or AgentTeslaV3_1 or Agenttesla_type1 or Agenttesla_type2 or Windows_Trojan_AgentTesla_d3ac2b2f_1
+		AgentTesla or AgentTeslaV2 or AgentTeslaV3 or AgentTeslaXor or AgentTeslaV4 or AgentTeslaV4JIT or AgentTeslaV5 or Windows_Trojan_AgentTesla_d3ac2b2f or Windows_Trojan_AgentTesla_e577e17e or Windows_Trojan_AgentTesla_f2a90d14 or Windows_Trojan_AgentTesla_a2d69e48 or Windows_Trojan_AgentTesla_ebf431a8 or agenttesla_smtp_variant or AgentTeslaV3_1 or Agenttesla_type1 or Agenttesla_type2 or Windows_Trojan_AgentTesla_d3ac2b2f_1
 }
 

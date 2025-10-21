@@ -100,9 +100,6 @@
     "Windows_Trojan_AgentTesla_ebf431a8": [
         "hardened"
     ],
-    "Win32_Trojan_AgentTesla": [
-        "hardened"
-    ],
     "agenttesla_smtp_variant": [
         "hardened"
     ],
@@ -622,15 +619,8 @@
     "fsLumma": [
         "hardened"
     ],
-    "Njrat": [
-        "RAT",
-        "hardened"
-    ],
     "njrat1": [
         "RAT",
-        "hardened"
-    ],
-    "win_exe_njRAT": [
         "hardened"
     ],
     "njRat": [

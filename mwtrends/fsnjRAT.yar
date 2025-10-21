@@ -1,37 +1,3 @@
-rule Njrat : RAT hardened
-{
-	meta:
-		description = "Njrat"
-		author = "botherder https://github.com/botherder"
-		ruleset = "RAT_Njrat.yar"
-		repository = "Yara-Rules/rules"
-		source_url = "https://github.com/Yara-Rules/rules/blob/0f93570194a80d2f2032869055808b0ddcdfb360/malware/RAT_Njrat.yar"
-		license = "GNU General Public License v2.0"
-		score = 75
-
-	strings:
-		$string1 = /(F)romBase64String/
-		$string2 = /(B)ase64String/
-		$string3 = /(C)onnected/ wide ascii
-		$string4 = /(R)eceive/
-		$string5 = /(S)end/ wide ascii
-		$string6 = /(D)ownloadData/ wide ascii
-		$string7 = /(D)eleteSubKey/ wide ascii
-		$string8 = /(g)et_MachineName/
-		$string9 = /(g)et_UserName/
-		$string10 = /(g)et_LastWriteTime/
-		$string11 = /(G)etVolumeInformation/
-		$string12 = /(O)SFullName/ wide ascii
-		$string13 = /(n)etsh firewall/ wide
-		$string14 = /(c)md\.exe \/k ping 0 & del/ wide
-		$string15 = /(c)md\.exe \/c ping 127\.0\.0\.1 & del/ wide
-		$string16 = /(c)md\.exe \/c ping 0 -n 2 & del/ wide
-		$string17 = {7C 00 27 00 7C 00 27 00 7C}
-
-	condition:
-		10 of them
-}
-
 rule njrat1 : RAT hardened
 {
 	meta:
@@ -56,56 +22,6 @@ rule njrat1 : RAT hardened
 
 	condition:
 		1 of ( $a* ) and 1 of ( $b* ) and 1 of ( $c* )
-}
-
-rule win_exe_njRAT : hardened
-{
-	meta:
-		author = "info@fidelissecurity.com"
-		descripion = "njRAT - Remote Access Trojan"
-		comment = "Variants have also been observed obfuscated with .NET Reactor"
-		filetype = "pe"
-		date = "2013-07-15"
-		version = "1.0"
-		hash1 = "92ee1fb5df21d8cfafa2b02b6a25bd3b"
-		hash2 = "3576d40ce18bb0349f9dfa42b8911c3a"
-		hash3 = "24cc5b811a7f9591e7f2cb9a818be104"
-		hash4 = "3ad5fded9d7fdf1c2f6102f4874b2d52"
-		hash5 = "a98b4c99f64315aac9dd992593830f35"
-		hash6 = "5fcb5282da1a2a0f053051c8da1686ef"
-		hash7 = "a669c0da6309a930af16381b18ba2f9d"
-		hash8 = "79dce17498e1997264346b162b09bde8"
-		hash9 = "fc96a7e27b1d3dab715b2732d5c86f80"
-		ref1 = "http://bit.ly/19tlf4s"
-		ref2 = "http://www.fidelissecurity.com/threatadvisory"
-		ref3 = "http://www.threatgeek.com/2013/06/fidelis-threat-advisory-1009-njratuncovered.html"
-		ref4 = "http://threatgeek.typepad.com/files/fta-1009---njrat-uncovered.pdf"
-		ruleset = "RAT_Njrat.yar"
-		repository = "Yara-Rules/rules"
-		source_url = "https://github.com/Yara-Rules/rules/blob/0f93570194a80d2f2032869055808b0ddcdfb360/malware/RAT_Njrat.yar"
-		license = "GNU General Public License v2.0"
-		score = 75
-
-	strings:
-		$magic = {4d 5a}
-		$string_setA_1 = {46 72 6f 6d 42 61 73 65 36 34 53 74 72 69 6e 67}
-		$string_setA_2 = {42 61 73 65 36 34 53 74 72 69 6e 67}
-		$string_setA_3 = {((43 6f 6e 6e 65 63 74 65 64) | (43 00 6f 00 6e 00 6e 00 65 00 63 00 74 00 65 00 64 00))}
-		$string_setA_4 = {52 65 63 65 69 76 65}
-		$string_setA_5 = {((44 65 6c 65 74 65 53 75 62 4b 65 79) | (44 00 65 00 6c 00 65 00 74 00 65 00 53 00 75 00 62 00 4b 00 65 00 79 00))}
-		$string_setA_6 = {67 65 74 5f 4d 61 63 68 69 6e 65 4e 61 6d 65}
-		$string_setA_7 = {67 65 74 5f 55 73 65 72 4e 61 6d 65}
-		$string_setA_8 = {67 65 74 5f 4c 61 73 74 57 72 69 74 65 54 69 6d 65}
-		$string_setA_9 = {47 65 74 56 6f 6c 75 6d 65 49 6e 66 6f 72 6d 61 74 69 6f 6e}
-		$string_setB_1 = {((4f 53 46 75 6c 6c 4e 61 6d 65) | (4f 00 53 00 46 00 75 00 6c 00 6c 00 4e 00 61 00 6d 00 65 00))}
-		$string_setB_2 = {((53 65 6e 64) | (53 00 65 00 6e 00 64 00))}
-		$string_setB_3 = {((43 6f 6e 6e 65 63 74 65 64) | (43 00 6f 00 6e 00 6e 00 65 00 63 00 74 00 65 00 64 00))}
-		$string_setB_4 = {((44 6f 77 6e 6c 6f 61 64 44 61 74 61) | (44 00 6f 00 77 00 6e 00 6c 00 6f 00 61 00 64 00 44 00 61 00 74 00 61 00))}
-		$string_setB_5 = {6e 00 65 00 74 00 73 00 68 00 20 00 66 00 69 00 72 00 65 00 77 00 61 00 6c 00 6c 00}
-		$string_setB_6 = {63 00 6d 00 64 00 2e 00 65 00 78 00 65 00 20 00 2f 00 6b 00 20 00 70 00 69 00 6e 00 67 00 20 00 30 00 20 00 26 00 20 00 64 00 65 00 6c 00}
-
-	condition:
-		($magic at 0 ) and ( all of ( $string_setA* ) or all of ( $string_setB* ) )
 }
 
 rule njRat : hardened
@@ -393,6 +309,6 @@ rule fsnjRAT : hardened
 		score = 75
 
 	condition:
-		Njrat or njrat1 or win_exe_njRAT or njRat or Windows_Trojan_Njrat_30f3c220 or Windows_Trojan_Njrat_eb2698d2 or malware_Njrat_strings or njRat_1 or Njrat_1 or njrat or Windows_Trojan_Njrat_30f3c220_1 or win_njrat
+		njrat1 or njRat or Windows_Trojan_Njrat_30f3c220 or Windows_Trojan_Njrat_eb2698d2 or malware_Njrat_strings or njRat_1 or Njrat_1 or njrat or Windows_Trojan_Njrat_30f3c220_1 or win_njrat
 }
 

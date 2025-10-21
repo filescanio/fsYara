@@ -2896,6 +2896,8 @@ rule WEBSHELL_CSHARP_Generic : hardened loosened limited
 		(( any of ( $tagasp_long* ) or any of ( $tagasp_classid* ) or ( $tagasp_short1 and $tagasp_short2 in ( filesize - 100 .. filesize ) ) or ( $tagasp_short2 and ( $tagasp_short1 in ( 0 .. 1000 ) or $tagasp_short1 in ( filesize - 1000 .. filesize ) ) ) ) and not ( ( any of ( $perl* ) or $php1 at 0 or $php2 at 0 ) or ( ( #jsp1 + #jsp2 + #jsp3 ) > 0 and ( #jsp4 + #jsp5 + #jsp6 + #jsp7 ) > 0 ) ) ) and filesize < 300KB and ( $input_http or all of ( $input_form* ) ) and all of ( $exec_proc* ) and any of ( $exec_shell* )
 }
 
+import "pe"
+
 rule WEBSHELL_ASP_Runtime_Compile : FILE hardened loosened limited
 {
 	meta:
@@ -2954,7 +2956,7 @@ rule WEBSHELL_ASP_Runtime_Compile : FILE hardened loosened limited
 		$sus_refl2 = {((53 68 61 72 50 79) | (53 00 68 00 61 00 72 00 50 00 79 00))}
 
 	condition:
-		(( filesize < 50KB and any of ( $sus_refl* ) ) or filesize < 10KB ) and ( any of ( $asp_input* ) or ( $asp_xml_http and any of ( $asp_xml_method* ) ) or ( any of ( $asp_form* ) and any of ( $asp_text* ) and $asp_asp ) ) and not any of ( $rc_fp* ) and ( ( all of ( $payload_reflection* ) and any of ( $payload_load_reflection* ) ) or ( all of ( $payload_compile* ) and any of ( $payload_invoke* ) ) or all of ( $payload_xamlreader* ) or all of ( $payload_powershell* ) )
+		not pe.is_pe and ( ( filesize < 50KB and any of ( $sus_refl* ) ) or filesize < 10KB ) and ( any of ( $asp_input* ) or ( $asp_xml_http and any of ( $asp_xml_method* ) ) or ( any of ( $asp_form* ) and any of ( $asp_text* ) and $asp_asp ) ) and not any of ( $rc_fp* ) and ( ( all of ( $payload_reflection* ) and any of ( $payload_load_reflection* ) ) or ( all of ( $payload_compile* ) and any of ( $payload_invoke* ) ) or all of ( $payload_xamlreader* ) or all of ( $payload_powershell* ) )
 }
 
 rule WEBSHELL_ASP_SQL : hardened loosened limited
