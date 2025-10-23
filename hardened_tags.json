@@ -26240,6 +26240,9 @@
     "bitmap_dotnet_packer": [
         "hardened"
     ],
+    "DotNet_ControlFlow_Obfuscation": [
+        "hardened"
+    ],
     "MAL_QBot_HTML_Smuggling_Indicators_Oct22_1": [
         "refined",
         "hardened"
