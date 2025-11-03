@@ -20185,6 +20185,10 @@
     "VULN_PUA_GIGABYTE_Driver_Jul22_1": [
         "hardened"
     ],
+    "DragonForce": [
+        "hardened",
+        "limited"
+    ],
     "elknot_xor": [
         "malware",
         "hardened"
