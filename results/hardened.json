@@ -1139,13 +1139,6 @@
         "1ceaa4b6735e54755f3d4ccc633936a96d120d6a18726c81f5caec4063418ed3",
         "91caa1fe289cdd8500399b3dcb07a5417223126a8cfd6833ece052acaaeb27f7"
     ],
-    "WEBSHELL_ProxyShell_Exploitation_Nov21_1": [
-        "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
-        "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
-    ],
-    "WEBSHELL_ASPX_ProxyShell_Aug21_2": [
-        "5cf6e0d629dee00a9ac6ab1e4e9d5e6e418e63c068579751a360960e5586e605"
-    ],
     "HvS_APT27_HyperBro_Stage3": [
         "20999ffb10d43fa421e03f2900759f8ca98ce0216b3dd9c09179a47fec29a6e2"
     ],
@@ -1163,9 +1156,6 @@
     ],
     "SNOWGLOBE_Babar_Malware": [
         "c72a055b677cd9e5e2b2dcbba520425d023d906e6ee609b79c643d9034938ebf"
-    ],
-    "CN_Honker_Webshell_ASPX_aspx": [
-        "447026e24c84a7d35a413788c7ab176092c75086121c7719eed1ef30139e0faf"
     ],
     "crime_ole_loadswf_cve_2018_4878": [
         "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
@@ -1265,9 +1255,6 @@
         "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
         "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
     ],
-    "Txt_aspx": [
-        "447026e24c84a7d35a413788c7ab176092c75086121c7719eed1ef30139e0faf"
-    ],
     "blackenergy3_installer": [
         "bc062acda428f55782710f9c4f2df88c26dfbc004b94b479459f8572b1219444"
     ],
@@ -1323,9 +1310,6 @@
     "Armitage_OSX": [
         "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
         "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f"
-    ],
-    "webshell_ChinaChopper_aspx": [
-        "5cf6e0d629dee00a9ac6ab1e4e9d5e6e418e63c068579751a360960e5586e605"
     ],
     "HKTL_NATBypass_Dec22_1": [
         "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
@@ -1419,9 +1403,6 @@
         "12454a323dec0a56a23cd5215bb335d7842c85bbf38e3bd696c9237e26454388",
         "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
         "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
-    ],
-    "APT_WebShell_Tiny_1": [
-        "e3d7b7884ccf12a5cc36d144a645b27febefc7a24c99589e96e88c62e2028423"
     ],
     "SafeNetStrings": [
         "38c381e1f0d8db27082d5809b70fc73d5c7137e266bc22b4301dd4bbd5e79637",
@@ -1687,10 +1668,6 @@
         "cb3306aecb05fccaac51a036f361991745a4ef90d8d9ec713d783c88605ea556",
         "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f"
     ],
-    "WEBSHELL_Z_WebShell_1": [
-        "2bedcddc4f47394606dcc97d05ed2d0200327939a62fc1415cc80ae6bc61bf62",
-        "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f"
-    ],
     "Batch_Powershell_Invoke_Inveigh": [
         "0a6b1b29496d4514f6485e78680ec4cd0296ef4d21862d8bf363900a4f8e3fd2",
         "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f"
@@ -1733,10 +1710,6 @@
         "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
         "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779",
         "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f"
-    ],
-    "WEBSHELL_APT_PHP_DEWMODE_UNC2546_Feb21_1": [
-        "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
-        "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
     ],
     "PP_CN_APT_ZeroT_3": [
         "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
@@ -2706,14 +2679,6 @@
         "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
         "43284073fdbdac03123a9b710cc898c40cabc4f14e339b296829d62eed75cd67"
     ],
-    "EXPL_POC_SpringCore_0day_Indicators_Mar22_1": [
-        "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
-        "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779",
-        "bc3e7c9378af55ad1000c721319b723e58543c1cb9d7aa6be2868a171fa89689"
-    ],
-    "WEBSHELL_JSP_Nov21_1": [
-        "068d1b3813489e41116867729504c40019ff2b1fe32aab4716d429780e666324"
-    ],
     "WinPayloads_Payload": [
         "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
     ],
@@ -3245,9 +3210,6 @@
         "6e0164b94476119d7ba53adeca4ae7f7cd7a96d1c90d95ca7880003ace4462aa",
         "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f",
         "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc"
-    ],
-    "php_in_image": [
-        "12f719a8533b4cb5df224b61ca8c5915e8c8b1038047e7e89283f0c4547fd035"
     ],
     "Impacket_Tools_Generic_1": [
         "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
@@ -4186,12 +4148,6 @@
     "Whirlpool": [
         "c900719c0b010d052df2f7e6c7a0cff6f629ef64e2516697f80a9b72ff35d383"
     ],
-    "Backdoor_WebShell_asp": [
-        "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
-        "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779",
-        "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f",
-        "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc"
-    ],
     "Base64_Embedded_Files": [
         "71f2a48766458fef9475ce7de7f1ebd270a4ddc5f3c0ced1c32f30b13ebfeaa2",
         "7b2c4995806c90eb7d4b164766909a336bfd1f10d9da69a7e21f7ab0d19fbdba",
@@ -4641,6 +4597,70 @@
     "Dendroid": [
         "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f"
     ],
+    "WEBSHELL_PHP_OBFUSC_Encoded": [
+        "be9521bed1b46f5c7e87dd810c197b79c19b3d2090e3536cbab2705e1e4bc312"
+    ],
+    "WEBSHELL_PHP_Dynamic_Big": [
+        "be9521bed1b46f5c7e87dd810c197b79c19b3d2090e3536cbab2705e1e4bc312",
+        "71f2a48766458fef9475ce7de7f1ebd270a4ddc5f3c0ced1c32f30b13ebfeaa2",
+        "04940f1d8d4e881302b399c17500e35dc6a8e64a937e2a760dc3863ca8238274",
+        "ad8d9843069272d29240310d715b571b53a4729cb6cd9d2ac0b94df78395ec4e",
+        "ec89bdc75275d6375628750c3c73a7bb318c04517f4cc3cd5c4cdb0ad09483c3",
+        "1cb3338c9e9e21985e413e80e01dd53c97bb871ca0801d179906df017d8dc58d",
+        "f1375cf097b3f28247762147f8ee3755e0ce26e24fbf8a785fe4e5b42c1fed05",
+        "20d850a17927c5a4c1a961dbf745688da4372b4950f7795dcdb2eb0812ae0092",
+        "cb304e2dd8c91db6d97a9fa5c861ff0a9be93f2af53bf1e06d0a2c85bee9c082",
+        "a5f8ed43c4073f649492b9629857788fdff10f1af36f699322552c3a06da21ba"
+    ],
+    "WEBSHELL_PHP_Encoded_Big": [
+        "be9521bed1b46f5c7e87dd810c197b79c19b3d2090e3536cbab2705e1e4bc312"
+    ],
+    "WEBSHELL_PHP_Generic": [
+        "71f2a48766458fef9475ce7de7f1ebd270a4ddc5f3c0ced1c32f30b13ebfeaa2",
+        "de85b3fd3d127bec734bcffde9733e0cd9d17197203ce2a1fc696f28d3e0af96",
+        "04940f1d8d4e881302b399c17500e35dc6a8e64a937e2a760dc3863ca8238274",
+        "e3d7b7884ccf12a5cc36d144a645b27febefc7a24c99589e96e88c62e2028423",
+        "426ae4cfacc597706bbc0f540ae234843e916987c828ec69ae7df4d8c912464d",
+        "ad8d9843069272d29240310d715b571b53a4729cb6cd9d2ac0b94df78395ec4e",
+        "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
+        "ec89bdc75275d6375628750c3c73a7bb318c04517f4cc3cd5c4cdb0ad09483c3",
+        "f1375cf097b3f28247762147f8ee3755e0ce26e24fbf8a785fe4e5b42c1fed05",
+        "20d850a17927c5a4c1a961dbf745688da4372b4950f7795dcdb2eb0812ae0092",
+        "a5f8ed43c4073f649492b9629857788fdff10f1af36f699322552c3a06da21ba"
+    ],
+    "WEBSHELL_PHP_Base64_Encoded_Payloads": [
+        "71f2a48766458fef9475ce7de7f1ebd270a4ddc5f3c0ced1c32f30b13ebfeaa2",
+        "04940f1d8d4e881302b399c17500e35dc6a8e64a937e2a760dc3863ca8238274",
+        "ad8d9843069272d29240310d715b571b53a4729cb6cd9d2ac0b94df78395ec4e",
+        "a5f8ed43c4073f649492b9629857788fdff10f1af36f699322552c3a06da21ba"
+    ],
+    "WEBSHELL_PHP_Generic_Eval": [
+        "71f2a48766458fef9475ce7de7f1ebd270a4ddc5f3c0ced1c32f30b13ebfeaa2",
+        "04940f1d8d4e881302b399c17500e35dc6a8e64a937e2a760dc3863ca8238274",
+        "e3d7b7884ccf12a5cc36d144a645b27febefc7a24c99589e96e88c62e2028423",
+        "ad8d9843069272d29240310d715b571b53a4729cb6cd9d2ac0b94df78395ec4e",
+        "a5f8ed43c4073f649492b9629857788fdff10f1af36f699322552c3a06da21ba"
+    ],
+    "WEBSHELL_Generic_OS_Strings": [
+        "71f2a48766458fef9475ce7de7f1ebd270a4ddc5f3c0ced1c32f30b13ebfeaa2"
+    ],
+    "APT_Webshell_SUPERNOVA_1": [
+        "c15abaf51e78ca56c0376522d699c978217bf041a3bd3c71d09193efa5717c71"
+    ],
+    "APT_Webshell_SUPERNOVA_2": [
+        "c15abaf51e78ca56c0376522d699c978217bf041a3bd3c71d09193efa5717c71"
+    ],
+    "WEBSHELL_PHP_OBFUSC_Encoded_Mixed_Dec_And_Hex": [
+        "7990b892b12dff29dad65700b688ccbaa33812bb262114b72427d9328049f7a2",
+        "cc48e801023bed160d67a2e2b5c8cd5a22eaf2c9138b33add493321176614a75",
+        "5493ae7f5439b08a570a1d435e6356cbb3b4f8c700a69e0baa6f8703a7f4aef4"
+    ],
+    "WEBSHELL_PHP_OBFUSC_Fopo": [
+        "7990b892b12dff29dad65700b688ccbaa33812bb262114b72427d9328049f7a2"
+    ],
+    "WEBSHELL_PHP_Dynamic": [
+        "df4db4fc17ae3683a4c05503f9b4f95f1af24f402d2f21c4b348a728ff169881"
+    ],
     "webshell_caidao_shell_guo": [
         "1ceaa4b6735e54755f3d4ccc633936a96d120d6a18726c81f5caec4063418ed3",
         "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
@@ -4652,6 +4672,12 @@
         "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
         "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779",
         "91caa1fe289cdd8500399b3dcb07a5417223126a8cfd6833ece052acaaeb27f7",
+        "f1375cf097b3f28247762147f8ee3755e0ce26e24fbf8a785fe4e5b42c1fed05"
+    ],
+    "WEBSHELL_PHP_By_String_Known_Webshell": [
+        "de85b3fd3d127bec734bcffde9733e0cd9d17197203ce2a1fc696f28d3e0af96",
+        "426ae4cfacc597706bbc0f540ae234843e916987c828ec69ae7df4d8c912464d",
+        "ec89bdc75275d6375628750c3c73a7bb318c04517f4cc3cd5c4cdb0ad09483c3",
         "f1375cf097b3f28247762147f8ee3755e0ce26e24fbf8a785fe4e5b42c1fed05"
     ],
     "webshell_PHP_r57142": [
@@ -4690,6 +4716,16 @@
         "f1375cf097b3f28247762147f8ee3755e0ce26e24fbf8a785fe4e5b42c1fed05",
         "a5f8ed43c4073f649492b9629857788fdff10f1af36f699322552c3a06da21ba"
     ],
+    "WEBSHELL_PHP_Magic_Method": [
+        "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c",
+        "ad8d9843069272d29240310d715b571b53a4729cb6cd9d2ac0b94df78395ec4e",
+        "bc3e7c9378af55ad1000c721319b723e58543c1cb9d7aa6be2868a171fa89689"
+    ],
+    "WEBSHELL_PHP_Function_Via_Get": [
+        "04940f1d8d4e881302b399c17500e35dc6a8e64a937e2a760dc3863ca8238274",
+        "ad8d9843069272d29240310d715b571b53a4729cb6cd9d2ac0b94df78395ec4e",
+        "a5f8ed43c4073f649492b9629857788fdff10f1af36f699322552c3a06da21ba"
+    ],
     "shells_PHP_wso": [
         "04940f1d8d4e881302b399c17500e35dc6a8e64a937e2a760dc3863ca8238274",
         "ad8d9843069272d29240310d715b571b53a4729cb6cd9d2ac0b94df78395ec4e",
@@ -4697,6 +4733,24 @@
         "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779",
         "f1375cf097b3f28247762147f8ee3755e0ce26e24fbf8a785fe4e5b42c1fed05",
         "a5f8ed43c4073f649492b9629857788fdff10f1af36f699322552c3a06da21ba"
+    ],
+    "WEBSHELL_ASP_Nano": [
+        "e5a46b04921fc39762952b29ae2048b7d18a3418e57faff395505138a0590b7e"
+    ],
+    "WEBSHELL_ASP_Generic_Tiny": [
+        "e5a46b04921fc39762952b29ae2048b7d18a3418e57faff395505138a0590b7e"
+    ],
+    "WEBSHELL_ASP_Generic": [
+        "e5a46b04921fc39762952b29ae2048b7d18a3418e57faff395505138a0590b7e",
+        "4635f8b00cb662ea935e90643cba438447a4bd0d9063d17138de49e7031db273",
+        "21234262eb8be8c3022ce6f0a0dc09de2a3fbaa0c741f84c4e6308ab3de040dc",
+        "447026e24c84a7d35a413788c7ab176092c75086121c7719eed1ef30139e0faf"
+    ],
+    "APT_WebShell_Tiny_1": [
+        "e3d7b7884ccf12a5cc36d144a645b27febefc7a24c99589e96e88c62e2028423"
+    ],
+    "WEBSHELL_HAFNIUM_CISA_10328929_01": [
+        "ea1a6496003eaf5b020d855d14757757c788049b2e2c800d806c4eb371f9567b"
     ],
     "r57shell_php_php": [
         "7b2c4995806c90eb7d4b164766909a336bfd1f10d9da69a7e21f7ab0d19fbdba",
@@ -4709,6 +4763,33 @@
         "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
         "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779",
         "f1375cf097b3f28247762147f8ee3755e0ce26e24fbf8a785fe4e5b42c1fed05"
+    ],
+    "EXPL_POC_SpringCore_0day_Indicators_Mar22_1": [
+        "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
+        "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779",
+        "bc3e7c9378af55ad1000c721319b723e58543c1cb9d7aa6be2868a171fa89689"
+    ],
+    "WEBSHELL_ProxyShell_Exploitation_Nov21_1": [
+        "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
+        "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
+    ],
+    "WEBSHELL_APT_PHP_DEWMODE_UNC2546_Feb21_1": [
+        "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
+        "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
+    ],
+    "WEBSHELL_ASPX_FileExplorer_Mar21_1": [
+        "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
+        "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
+    ],
+    "WEBSHELL_ASPX_Chopper_Like_Mar21_1": [
+        "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
+        "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
+    ],
+    "Backdoor_WebShell_asp": [
+        "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
+        "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779",
+        "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f",
+        "dc2bbc56fee3eddea067eed03e33a126881bea9829714d7b36d95e11746813cc"
     ],
     "webshell_h4ntu_shell_powered_by_tsoi_": [
         "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
@@ -7545,6 +7626,41 @@
         "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779",
         "f1375cf097b3f28247762147f8ee3755e0ce26e24fbf8a785fe4e5b42c1fed05"
     ],
+    "WEBSHELL_PHP_Strings_SUSP": [
+        "ec89bdc75275d6375628750c3c73a7bb318c04517f4cc3cd5c4cdb0ad09483c3"
+    ],
+    "WEBSHELL_ASP_Scan_Writable": [
+        "4635f8b00cb662ea935e90643cba438447a4bd0d9063d17138de49e7031db273"
+    ],
+    "WEBSHELL_ASP_By_String": [
+        "ad8683ab5f350b8ab2116c0d258551d63d674c1c68b07934c042d67d212edbed",
+        "f3867e04c9eb21a5f4ce032b2cac51931e85c77e9aeed756bfb3163d5458069f",
+        "5b9b9411b9be588798a2f48bd06bec40b0a49269f4b3e20e73d2764a5fededa0"
+    ],
+    "WEBSHELL_JSP_By_String": [
+        "ad8683ab5f350b8ab2116c0d258551d63d674c1c68b07934c042d67d212edbed"
+    ],
+    "php_in_image": [
+        "12f719a8533b4cb5df224b61ca8c5915e8c8b1038047e7e89283f0c4547fd035"
+    ],
+    "WEBSHELL_In_Image": [
+        "12f719a8533b4cb5df224b61ca8c5915e8c8b1038047e7e89283f0c4547fd035"
+    ],
+    "fopo_webshell": [
+        "f1375cf097b3f28247762147f8ee3755e0ce26e24fbf8a785fe4e5b42c1fed05"
+    ],
+    "WEBSHELL_PHP_Generic_Callback": [
+        "f1375cf097b3f28247762147f8ee3755e0ce26e24fbf8a785fe4e5b42c1fed05",
+        "e04174bc574f2d30090e1f7d4148b5ca9ef89976f43b9748fb3c700027b006aa"
+    ],
+    "WEBSHELL_PHP_Gzinflated": [
+        "f1375cf097b3f28247762147f8ee3755e0ce26e24fbf8a785fe4e5b42c1fed05",
+        "8d96710b01b9eb3b4cf9d5b01ed53d7084a2808322f3456d4038ca2978022e16"
+    ],
+    "webshell_php_by_string_obfuscation": [
+        "f1375cf097b3f28247762147f8ee3755e0ce26e24fbf8a785fe4e5b42c1fed05",
+        "a5f8ed43c4073f649492b9629857788fdff10f1af36f699322552c3a06da21ba"
+    ],
     "Webshell_27_9_c66_c99": [
         "f1375cf097b3f28247762147f8ee3755e0ce26e24fbf8a785fe4e5b42c1fed05"
     ],
@@ -7572,6 +7688,50 @@
     ],
     "Webshell_acid_FaTaLisTiCz_Fx_fx_p0isoN_sh3ll_x0rg_byp4ss_256": [
         "f1375cf097b3f28247762147f8ee3755e0ce26e24fbf8a785fe4e5b42c1fed05"
+    ],
+    "WEBSHELL_JSP_Nov21_1": [
+        "068d1b3813489e41116867729504c40019ff2b1fe32aab4716d429780e666324"
+    ],
+    "WEBSHELL_JSP_Generic": [
+        "068d1b3813489e41116867729504c40019ff2b1fe32aab4716d429780e666324",
+        "79f8f5905bcb486badd63cd43f2efc770c951117dacccb8961c947069f377213"
+    ],
+    "WEBSHELL_JSP_Generic_Encoded_Shell": [
+        "068d1b3813489e41116867729504c40019ff2b1fe32aab4716d429780e666324"
+    ],
+    "WEBSHELL_JSP_Input_Upload_Write": [
+        "068d1b3813489e41116867729504c40019ff2b1fe32aab4716d429780e666324"
+    ],
+    "WEBSHELL_Z_WebShell_1": [
+        "2bedcddc4f47394606dcc97d05ed2d0200327939a62fc1415cc80ae6bc61bf62",
+        "081095110c49030a69b6fa61b3507262d46667a1823aa22bd1710617fb33fe7f"
+    ],
+    "CN_Honker_Webshell": [
+        "3c096962f3f447b1a0d136c730f0d979faafb01f22eddedccfc801bc167e0925"
+    ],
+    "WEBSHELL_ASPX_ProxyShell_Aug21_2": [
+        "5cf6e0d629dee00a9ac6ab1e4e9d5e6e418e63c068579751a360960e5586e605"
+    ],
+    "webshell_ChinaChopper_aspx": [
+        "5cf6e0d629dee00a9ac6ab1e4e9d5e6e418e63c068579751a360960e5586e605"
+    ],
+    "WEBSHELL_PHP_OBFUSC_Str_Replace": [
+        "5493ae7f5439b08a570a1d435e6356cbb3b4f8c700a69e0baa6f8703a7f4aef4"
+    ],
+    "WEBSHELL_PHP_OBFUSC_3": [
+        "cb304e2dd8c91db6d97a9fa5c861ff0a9be93f2af53bf1e06d0a2c85bee9c082"
+    ],
+    "WEBSHELL_ASP_Generic_Registry_Reader": [
+        "447026e24c84a7d35a413788c7ab176092c75086121c7719eed1ef30139e0faf"
+    ],
+    "CN_Honker_Webshell_ASPX_aspx": [
+        "447026e24c84a7d35a413788c7ab176092c75086121c7719eed1ef30139e0faf"
+    ],
+    "Txt_aspx": [
+        "447026e24c84a7d35a413788c7ab176092c75086121c7719eed1ef30139e0faf"
+    ],
+    "WEBSHELL_PHP_OBFUSC": [
+        "5b9b9411b9be588798a2f48bd06bec40b0a49269f4b3e20e73d2764a5fededa0"
     ],
     "SocGholish_JS_22_02_2022": [
         "c1a316a71d7eecfb7abd36a5b108ba261011cc184a15bdaae28ba9816bc4ce65"
@@ -7744,9 +7904,6 @@
     "md5_6bf4910b01aa4f296e590b75a3d25642": [
         "f1375cf097b3f28247762147f8ee3755e0ce26e24fbf8a785fe4e5b42c1fed05"
     ],
-    "fopo_webshell": [
-        "f1375cf097b3f28247762147f8ee3755e0ce26e24fbf8a785fe4e5b42c1fed05"
-    ],
     "spam_mailer": [
         "f1375cf097b3f28247762147f8ee3755e0ce26e24fbf8a785fe4e5b42c1fed05"
     ],
@@ -7866,132 +8023,6 @@
     "JavaScript_Run_Suspicious": [
         "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
         "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
-    ],
-    "WEBSHELL_PHP_OBFUSC_Encoded": [
-        "be9521bed1b46f5c7e87dd810c197b79c19b3d2090e3536cbab2705e1e4bc312"
-    ],
-    "WEBSHELL_PHP_Dynamic_Big": [
-        "be9521bed1b46f5c7e87dd810c197b79c19b3d2090e3536cbab2705e1e4bc312",
-        "71f2a48766458fef9475ce7de7f1ebd270a4ddc5f3c0ced1c32f30b13ebfeaa2",
-        "04940f1d8d4e881302b399c17500e35dc6a8e64a937e2a760dc3863ca8238274",
-        "ad8d9843069272d29240310d715b571b53a4729cb6cd9d2ac0b94df78395ec4e",
-        "ec89bdc75275d6375628750c3c73a7bb318c04517f4cc3cd5c4cdb0ad09483c3",
-        "1cb3338c9e9e21985e413e80e01dd53c97bb871ca0801d179906df017d8dc58d",
-        "f1375cf097b3f28247762147f8ee3755e0ce26e24fbf8a785fe4e5b42c1fed05",
-        "20d850a17927c5a4c1a961dbf745688da4372b4950f7795dcdb2eb0812ae0092",
-        "cb304e2dd8c91db6d97a9fa5c861ff0a9be93f2af53bf1e06d0a2c85bee9c082",
-        "a5f8ed43c4073f649492b9629857788fdff10f1af36f699322552c3a06da21ba"
-    ],
-    "WEBSHELL_PHP_Encoded_Big": [
-        "be9521bed1b46f5c7e87dd810c197b79c19b3d2090e3536cbab2705e1e4bc312"
-    ],
-    "WEBSHELL_PHP_Generic": [
-        "71f2a48766458fef9475ce7de7f1ebd270a4ddc5f3c0ced1c32f30b13ebfeaa2",
-        "04940f1d8d4e881302b399c17500e35dc6a8e64a937e2a760dc3863ca8238274",
-        "e3d7b7884ccf12a5cc36d144a645b27febefc7a24c99589e96e88c62e2028423",
-        "426ae4cfacc597706bbc0f540ae234843e916987c828ec69ae7df4d8c912464d",
-        "ad8d9843069272d29240310d715b571b53a4729cb6cd9d2ac0b94df78395ec4e",
-        "ec89bdc75275d6375628750c3c73a7bb318c04517f4cc3cd5c4cdb0ad09483c3",
-        "f1375cf097b3f28247762147f8ee3755e0ce26e24fbf8a785fe4e5b42c1fed05",
-        "20d850a17927c5a4c1a961dbf745688da4372b4950f7795dcdb2eb0812ae0092",
-        "a5f8ed43c4073f649492b9629857788fdff10f1af36f699322552c3a06da21ba"
-    ],
-    "WEBSHELL_PHP_Base64_Encoded_Payloads": [
-        "71f2a48766458fef9475ce7de7f1ebd270a4ddc5f3c0ced1c32f30b13ebfeaa2",
-        "04940f1d8d4e881302b399c17500e35dc6a8e64a937e2a760dc3863ca8238274",
-        "ad8d9843069272d29240310d715b571b53a4729cb6cd9d2ac0b94df78395ec4e",
-        "a5f8ed43c4073f649492b9629857788fdff10f1af36f699322552c3a06da21ba"
-    ],
-    "WEBSHELL_PHP_Generic_Eval": [
-        "71f2a48766458fef9475ce7de7f1ebd270a4ddc5f3c0ced1c32f30b13ebfeaa2",
-        "04940f1d8d4e881302b399c17500e35dc6a8e64a937e2a760dc3863ca8238274",
-        "e3d7b7884ccf12a5cc36d144a645b27febefc7a24c99589e96e88c62e2028423",
-        "ad8d9843069272d29240310d715b571b53a4729cb6cd9d2ac0b94df78395ec4e",
-        "a5f8ed43c4073f649492b9629857788fdff10f1af36f699322552c3a06da21ba"
-    ],
-    "WEBSHELL_Generic_OS_Strings": [
-        "71f2a48766458fef9475ce7de7f1ebd270a4ddc5f3c0ced1c32f30b13ebfeaa2"
-    ],
-    "WEBSHELL_PHP_OBFUSC_Encoded_Mixed_Dec_And_Hex": [
-        "7990b892b12dff29dad65700b688ccbaa33812bb262114b72427d9328049f7a2",
-        "cc48e801023bed160d67a2e2b5c8cd5a22eaf2c9138b33add493321176614a75",
-        "5493ae7f5439b08a570a1d435e6356cbb3b4f8c700a69e0baa6f8703a7f4aef4"
-    ],
-    "WEBSHELL_PHP_OBFUSC_Fopo": [
-        "7990b892b12dff29dad65700b688ccbaa33812bb262114b72427d9328049f7a2"
-    ],
-    "WEBSHELL_PHP_Dynamic": [
-        "df4db4fc17ae3683a4c05503f9b4f95f1af24f402d2f21c4b348a728ff169881"
-    ],
-    "WEBSHELL_PHP_By_String_Known_Webshell": [
-        "de85b3fd3d127bec734bcffde9733e0cd9d17197203ce2a1fc696f28d3e0af96",
-        "426ae4cfacc597706bbc0f540ae234843e916987c828ec69ae7df4d8c912464d",
-        "ec89bdc75275d6375628750c3c73a7bb318c04517f4cc3cd5c4cdb0ad09483c3",
-        "f1375cf097b3f28247762147f8ee3755e0ce26e24fbf8a785fe4e5b42c1fed05"
-    ],
-    "WEBSHELL_PHP_Function_Via_Get": [
-        "04940f1d8d4e881302b399c17500e35dc6a8e64a937e2a760dc3863ca8238274",
-        "ad8d9843069272d29240310d715b571b53a4729cb6cd9d2ac0b94df78395ec4e",
-        "a5f8ed43c4073f649492b9629857788fdff10f1af36f699322552c3a06da21ba"
-    ],
-    "WEBSHELL_ASP_Nano": [
-        "e5a46b04921fc39762952b29ae2048b7d18a3418e57faff395505138a0590b7e"
-    ],
-    "WEBSHELL_ASP_Generic_Tiny": [
-        "e5a46b04921fc39762952b29ae2048b7d18a3418e57faff395505138a0590b7e"
-    ],
-    "WEBSHELL_ASP_Generic": [
-        "e5a46b04921fc39762952b29ae2048b7d18a3418e57faff395505138a0590b7e",
-        "4635f8b00cb662ea935e90643cba438447a4bd0d9063d17138de49e7031db273",
-        "21234262eb8be8c3022ce6f0a0dc09de2a3fbaa0c741f84c4e6308ab3de040dc",
-        "447026e24c84a7d35a413788c7ab176092c75086121c7719eed1ef30139e0faf"
-    ],
-    "WEBSHELL_PHP_Strings_SUSP": [
-        "ec89bdc75275d6375628750c3c73a7bb318c04517f4cc3cd5c4cdb0ad09483c3"
-    ],
-    "WEBSHELL_ASP_Scan_Writable": [
-        "4635f8b00cb662ea935e90643cba438447a4bd0d9063d17138de49e7031db273"
-    ],
-    "WEBSHELL_ASP_By_String": [
-        "ad8683ab5f350b8ab2116c0d258551d63d674c1c68b07934c042d67d212edbed",
-        "f3867e04c9eb21a5f4ce032b2cac51931e85c77e9aeed756bfb3163d5458069f",
-        "5b9b9411b9be588798a2f48bd06bec40b0a49269f4b3e20e73d2764a5fededa0"
-    ],
-    "WEBSHELL_JSP_By_String": [
-        "ad8683ab5f350b8ab2116c0d258551d63d674c1c68b07934c042d67d212edbed"
-    ],
-    "WEBSHELL_In_Image": [
-        "12f719a8533b4cb5df224b61ca8c5915e8c8b1038047e7e89283f0c4547fd035"
-    ],
-    "WEBSHELL_PHP_Generic_Callback": [
-        "f1375cf097b3f28247762147f8ee3755e0ce26e24fbf8a785fe4e5b42c1fed05",
-        "e04174bc574f2d30090e1f7d4148b5ca9ef89976f43b9748fb3c700027b006aa"
-    ],
-    "WEBSHELL_PHP_Gzinflated": [
-        "f1375cf097b3f28247762147f8ee3755e0ce26e24fbf8a785fe4e5b42c1fed05",
-        "8d96710b01b9eb3b4cf9d5b01ed53d7084a2808322f3456d4038ca2978022e16"
-    ],
-    "WEBSHELL_JSP_Generic": [
-        "068d1b3813489e41116867729504c40019ff2b1fe32aab4716d429780e666324",
-        "79f8f5905bcb486badd63cd43f2efc770c951117dacccb8961c947069f377213"
-    ],
-    "WEBSHELL_JSP_Generic_Encoded_Shell": [
-        "068d1b3813489e41116867729504c40019ff2b1fe32aab4716d429780e666324"
-    ],
-    "WEBSHELL_JSP_Input_Upload_Write": [
-        "068d1b3813489e41116867729504c40019ff2b1fe32aab4716d429780e666324"
-    ],
-    "WEBSHELL_PHP_OBFUSC_Str_Replace": [
-        "5493ae7f5439b08a570a1d435e6356cbb3b4f8c700a69e0baa6f8703a7f4aef4"
-    ],
-    "WEBSHELL_PHP_OBFUSC_3": [
-        "cb304e2dd8c91db6d97a9fa5c861ff0a9be93f2af53bf1e06d0a2c85bee9c082"
-    ],
-    "WEBSHELL_ASP_Generic_Registry_Reader": [
-        "447026e24c84a7d35a413788c7ab176092c75086121c7719eed1ef30139e0faf"
-    ],
-    "WEBSHELL_PHP_OBFUSC": [
-        "5b9b9411b9be588798a2f48bd06bec40b0a49269f4b3e20e73d2764a5fededa0"
     ],
     "SUSP_LNX_Linux_Malware_Indicators_Aug20_1": [
         "b524208d71610befadf9e6e85f6c1986802af4f74a55c9c268a71da56ac4ffab"
@@ -9138,12 +9169,6 @@
     "DragonFly_APT_Sep17_2": [
         "178348c14324bc0a3e57559a01a6ae6aa0cb4013aabbe324b51f906dcf5d537e"
     ],
-    "APT_Webshell_SUPERNOVA_1": [
-        "c15abaf51e78ca56c0376522d699c978217bf041a3bd3c71d09193efa5717c71"
-    ],
-    "APT_Webshell_SUPERNOVA_2": [
-        "c15abaf51e78ca56c0376522d699c978217bf041a3bd3c71d09193efa5717c71"
-    ],
     "APT_Backdoor_SUNBURST_1": [
         "a3c341fdeeaa3c8d1462042aef68f99c75c5c301bab46b0d6973db1fc905918c",
         "cc479cc4830e4196ed11edc0fe7c57b59427ef42e8735e73571730a5e9aa009f",
@@ -9557,9 +9582,6 @@
     ],
     "CN_Honker_smsniff_smsniff": [
         "d6831d36184ae91aae56a7fb7c91d7f75339429fbe5a1a0df8985d4884dcc217"
-    ],
-    "CN_Honker_Webshell": [
-        "3c096962f3f447b1a0d136c730f0d979faafb01f22eddedccfc801bc167e0925"
     ],
     "CN_Honker_HASH_PwDump7": [
         "b20f667c2539954744ddcb7f1d673c2a6dc0c4a934df45a3cca15a203a661c88"
@@ -13534,6 +13556,7 @@
         "eebb47c48137f331e9e7e203763300c343a3643f88c60318667b5d525c40a058",
         "dcbbae5a1c61dbbbb7dcd6dc5dd1eb1169f5329958d38b58c3fd9384081c9b78",
         "c44bb3cdee68d40920b9e36f80b9a3361520f17d6e470a56bd08f8c5b9054b10",
+        "733a251bd213bc32e8286eee258329fb88d009fa009e01086778337f0e8be4c7",
         "c428f134055a6a1512b85606161996ced840006cbb928ced380265d399449689",
         "cd48acb618e7e4f17984031ffaa54594de60956961a72f5e1bf76d4f6dd57b18",
         "205aa1007e97a58ecb6e9f9a143ed7d337de98864d566d8f6967a9496beff815",
@@ -14630,9 +14653,6 @@
         "0888ca367d882709d10712f6d8eefc5945ff067467e832f59e0071a86ae96555",
         "5262cb9791df50fafcb2fbd5f93226050b51efe400c2924eecba97b7ce437481"
     ],
-    "pe_signature_expires_soon": [
-        "733a251bd213bc32e8286eee258329fb88d009fa009e01086778337f0e8be4c7"
-    ],
     "pe_reversed_base64d_pe": [
         "da278262d49c4244551f832f08605e950c70b8ed6e61efd3cf2c7036af37a35e",
         "57e85409564bed14d33d2ae2663b2bc64f99588c83b208f9091eceaf87097c1b",
@@ -14807,9 +14827,6 @@
     "APT_MAL_ASP_DLL_HAFNIUM_Mar21_1": [
         "ea1a6496003eaf5b020d855d14757757c788049b2e2c800d806c4eb371f9567b"
     ],
-    "WEBSHELL_HAFNIUM_CISA_10328929_01": [
-        "ea1a6496003eaf5b020d855d14757757c788049b2e2c800d806c4eb371f9567b"
-    ],
     "HKTL_PS1_PowerCat_Mar21": [
         "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
         "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
@@ -14818,14 +14835,6 @@
         "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
         "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779",
         "c864545bd61ac07a3dae55fa930149f2e58a1a4fc2ccba28bf011b7eb5a6172d"
-    ],
-    "WEBSHELL_ASPX_FileExplorer_Mar21_1": [
-        "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
-        "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
-    ],
-    "WEBSHELL_ASPX_Chopper_Like_Mar21_1": [
-        "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",
-        "12c80092e7df5c4cf295eadeb12a713bd791372dad2e3677f04a1676fb2b9779"
     ],
     "FIN7_Backdoor_Aug17": [
         "f5fd086328223ca9bc3e5ebe3dc1f6f3e8a8bc4c9113627e397bd782abe36638",

@@ -67,47 +67,6 @@ rule PAS_TOOL_PHP_WEB_KIT_mod : hardened
 		uint32( 0 ) == 0x68703f3c and $php at 0 and ( filesize > 10KB and filesize < 30KB ) and #cookie == 2 and #isset == 3 and all of them
 }
 
-rule WebShell_PHP_Web_Kit_v3 : hardened
-{
-	meta:
-		description = "Detects PAS Tool PHP Web Kit"
-		reference = "https://github.com/wordfence/grizzly"
-		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
-		author = "Florian Roth (Nextron Systems)"
-		date = "2016/01/01"
-		id = "dc5fa2c9-3e1e-594d-be4f-141e1f4915f1"
-
-	strings:
-		$php = {3c 3f 70 68 70 20 24}
-		$php2 = {40 61 73 73 65 72 74 28 62 61 73 65 36 34 5f 64 65 63 6f 64 65 28 24 5f 52 45 51 55 45 53 54 5b}
-		$s1 = {28 73 74 72 5f 72 65 70 6c 61 63 65 28 22 5c 6e 22 2c 20 27 27 2c 20 27}
-		$s2 = {28 73 74 72 72 65 76 28 24}
-		$s3 = {64 65 27 2e 27 63 6f 64 65 27 3b}
-
-	condition:
-		(( uint32( 0 ) == 0x68703f3c and $php at 0 ) or $php2 ) and filesize > 8KB and filesize < 100KB and all of ( $s* )
-}
-
-rule WebShell_PHP_Web_Kit_v4 : hardened
-{
-	meta:
-		description = "Detects PAS Tool PHP Web Kit"
-		reference = "https://github.com/wordfence/grizzly"
-		license = "Detection Rule License 1.1 https://github.com/Neo23x0/signature-base/blob/master/LICENSE"
-		author = "Florian Roth (Nextron Systems)"
-		date = "2016/01/01"
-		id = "a5f915cd-b9c5-5cd3-b0a2-c15f6124737a"
-
-	strings:
-		$php = {3c 3f 70 68 70 20 24}
-		$s1 = {28 53 74 52 5f 52 65 70 6c 41 63 45 28 22 5c 6e 22 2c 27 27 2c}
-		$s2 = {3b 69 66 28 50 48 50 5f 56 45 52 53 49 4f 4e 3c 27 35 27 29 7b}
-		$s3 = {3d 53 75 42 73 74 72 5f 72 65 50 6c 41 43 65 28}
-
-	condition:
-		uint32( 0 ) == 0x68703f3c and $php at 0 and filesize > 8KB and filesize < 100KB and 2 of ( $s* )
-}
-
 rule APT_APT29_wellmess_dotnet_unique_strings : hardened
 {
 	meta:

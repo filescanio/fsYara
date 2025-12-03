@@ -1,5 +1,5 @@
-import "time"
 import "pe"
+import "time"
 
 rule pe_timestamp_in_future : hardened
 {
@@ -155,8 +155,8 @@ rule pe_code_section_and_no_executable : hardened
 		pe.is_pe and for any section in pe.sections : ( section.characteristics & pe.SECTION_CNT_CODE != 0 and section.characteristics & pe.SECTION_MEM_EXECUTE == 0 )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule pe_high_ntrpy_section : hardened
 {
@@ -295,8 +295,8 @@ rule pe_dynamic_injection_imports : hardened
 		pe.is_pe and #injection_api > 3 and pe.imports ( /kernel32.dll/i , /(VirtualProtect(Ex)?|VirtualAlloc(Ex(Numa)?)?|ResumeThread|SetThreadContext|FindResourceA|LockResource|LoadResource)/i ) == 0 and pe.imports ( /ntdll.dll/i , /(Ldr(AccessResource|FindResource_U)|Nt(ResumeThread|AllocateVirtualMemory|MapViewOfSection|ProtectVirtualMemory))/i ) == 0
 }
 
-import "time"
 import "pe"
+import "time"
 
 rule pe_signature_expired : hardened
 {
@@ -307,8 +307,8 @@ rule pe_signature_expired : hardened
 		pe.is_pe and for any signature in pe.signatures : ( signature.not_after < time.now ( ) )
 }
 
-import "time"
 import "pe"
+import "time"
 
 rule pe_signature_expires_soon : hardened
 {
@@ -319,8 +319,8 @@ rule pe_signature_expires_soon : hardened
 		pe.is_pe and for any signature in pe.signatures : ( not signature.not_after < time.now ( ) and signature.not_after < time.now ( ) + 86400 * 15 )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule pe_high_ntrpy_resource_no_image : hardened
 {
@@ -344,8 +344,8 @@ rule pe_large_overlay : hardened
 		pe.is_pe and pe.overlay.size > 20480
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule pe_high_ntrpy_overlay : hardened
 {

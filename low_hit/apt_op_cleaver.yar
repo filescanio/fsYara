@@ -71,24 +71,6 @@ rule OPCLEAVER_NetC : hardened
 		all of them
 }
 
-rule OPCLEAVER_ShellCreator2 : hardened
-{
-	meta:
-		description = "Shell Creator used by attackers in Operation Cleaver to create ASPX web shells"
-		reference = "http://cylance.com/assets/Cleaver/Cylance_Operation_Cleaver_Report.pdf"
-		date = "2014/12/02"
-		author = "Cylance Inc."
-		score = 70
-		id = "b62336c3-39e5-55f8-98df-6c2a2cb0764a"
-
-	strings:
-		$s1 = {53 68 65 6c 6c 43 72 65 61 74 6f 72 32 2e 50 72 6f 70 65 72 74 69 65 73}
-		$s2 = {73 65 74 5f 49 56}
-
-	condition:
-		all of them
-}
-
 rule OPCLEAVER_SmartCopy2 : hardened
 {
 	meta:

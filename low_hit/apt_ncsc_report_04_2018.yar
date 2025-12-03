@@ -186,24 +186,3 @@ rule RDP_Brute_Strings : hardened
 		4 of them
 }
 
-rule WEBSHELL_Z_WebShell_1 : hardened
-{
-	meta:
-		author = "NCSC"
-		description = "Detects Z Webshell from NCSC report"
-		reference = "https://www.ncsc.gov.uk/alerts/hostile-state-actors-compromising-uk-organisations-focus-engineering-and-industrial-control"
-		date = "2018/04/06"
-		old_rule_name = "Z_WebShell"
-		hash = "ace12552f3a980f1eed4cadb02afe1bfb851cafc8e58fb130e1329719a07dbf0"
-		id = "f4b50760-bd3a-5e1f-bf32-50f16a42c381"
-
-	strings:
-		$ = {((5a 5f 50 6f 73 74 42 61 63 6b 4a 53) | (5a 00 5f 00 50 00 6f 00 73 00 74 00 42 00 61 00 63 00 6b 00 4a 00 53 00))}
-		$ = {((7a 5f 66 69 6c 65 5f 64 6f 77 6e 6c 6f 61 64) | (7a 00 5f 00 66 00 69 00 6c 00 65 00 5f 00 64 00 6f 00 77 00 6e 00 6c 00 6f 00 61 00 64 00))}
-		$ = {((7a 5f 57 65 62 53 68 65 6c 6c) | (7a 00 5f 00 57 00 65 00 62 00 53 00 68 00 65 00 6c 00 6c 00))}
-		$ = {((31 33 36 37 39 34 38 63 37 38 35 39 64 36 35 33 33 32 32 36 30 34 32 35 34 39 32 32 38 32 32 38) | (31 00 33 00 36 00 37 00 39 00 34 00 38 00 63 00 37 00 38 00 35 00 39 00 64 00 36 00 35 00 33 00 33 00 32 00 32 00 36 00 30 00 34 00 32 00 35 00 34 00 39 00 32 00 32 00 38 00 32 00 32 00 38 00))}
-
-	condition:
-		3 of them
-}
-

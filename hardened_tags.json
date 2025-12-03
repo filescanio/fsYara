@@ -1556,27 +1556,7 @@
         "SCRIPT",
         "hardened"
     ],
-    "WEBSHELL_ASPX_ProxyShell_Aug21_2": [
-        "hardened",
-        "limited"
-    ],
-    "WEBSHELL_ASPX_ProxyShell_Aug21_3": [
-        "hardened",
-        "limited"
-    ],
-    "WEBSHELL_ASPX_ProxyShell_Sep21_1": [
-        "hardened"
-    ],
     "APT_IIS_Config_ProxyShell_Artifacts": [
-        "hardened"
-    ],
-    "WEBSHELL_ASPX_ProxyShell_Exploitation_Aug21_1": [
-        "hardened"
-    ],
-    "WEBSHELL_ASPX_ProxyShell_Aug15": [
-        "hardened"
-    ],
-    "WEBSHELL_Mailbox_Export_PST_ProxyShell_Aug26": [
         "hardened"
     ],
     "SUSP_IIS_Config_ProxyShell_Artifacts": [
@@ -1588,9 +1568,6 @@
     "SUSP_ASPX_PossibleDropperArtifact_Aug21": [
         "hardened",
         "limited"
-    ],
-    "WEBSHELL_ProxyShell_Exploitation_Nov21_1": [
-        "hardened"
     ],
     "COZY_FANCY_BEAR_Hunt": [
         "hardened",
@@ -1625,258 +1602,6 @@
         "hardened"
     ],
     "SNOWGLOBE_Babar_Malware": [
-        "hardened",
-        "limited"
-    ],
-    "CN_Honker_Webshell_PHP_php5": [
-        "hardened"
-    ],
-    "CN_Honker_Webshell_test3693": [
-        "hardened",
-        "limited"
-    ],
-    "CN_Honker_Webshell_mycode12": [
-        "hardened",
-        "limited"
-    ],
-    "CN_Honker_Webshell_offlibrary": [
-        "hardened"
-    ],
-    "CN_Honker_Webshell_cfm_xl": [
-        "hardened",
-        "limited"
-    ],
-    "CN_Honker_Webshell_PHP_linux": [
-        "hardened",
-        "limited"
-    ],
-    "CN_Honker_Webshell_Interception3389_get": [
-        "hardened",
-        "limited"
-    ],
-    "CN_Honker_Webshell_nc_1": [
-        "hardened",
-        "limited"
-    ],
-    "CN_Honker_Webshell_PHP_BlackSky": [
-        "hardened",
-        "limited"
-    ],
-    "CN_Honker_Webshell_ASP_asp3": [
-        "hardened",
-        "limited"
-    ],
-    "CN_Honker_Webshell_ASPX_sniff": [
-        "hardened",
-        "limited"
-    ],
-    "CN_Honker_Webshell_udf_udf": [
-        "hardened",
-        "limited"
-    ],
-    "CN_Honker_Webshell_JSP_jsp": [
-        "hardened",
-        "limited"
-    ],
-    "CN_Honker_Webshell_T00ls_Lpk_Sethc_v4_mail": [
-        "hardened",
-        "limited"
-    ],
-    "CN_Honker_Webshell_phpwebbackup": [
-        "hardened",
-        "limited"
-    ],
-    "CN_Honker_Webshell_dz_phpcms_phpbb": [
-        "hardened",
-        "limited"
-    ],
-    "CN_Honker_Webshell_picloaked_1": [
-        "hardened",
-        "limited"
-    ],
-    "CN_Honker_Webshell_assembly": [
-        "hardened",
-        "limited"
-    ],
-    "CN_Honker_Webshell_PHP_php8": [
-        "hardened",
-        "limited"
-    ],
-    "CN_Honker_Webshell_Tuoku_script_xx": [
-        "hardened",
-        "limited"
-    ],
-    "CN_Honker_Webshell_JSPMSSQL": [
-        "hardened",
-        "limited"
-    ],
-    "CN_Honker_Webshell_Injection_Transit_jmPost": [
-        "hardened",
-        "limited"
-    ],
-    "CN_Honker_Webshell_ASP_web_asp": [
-        "hardened",
-        "limited"
-    ],
-    "CN_Honker_Webshell_wshell_asp": [
-        "hardened",
-        "limited"
-    ],
-    "CN_Honker_Webshell_ASP_asp404": [
-        "hardened",
-        "limited"
-    ],
-    "CN_Honker_Webshell_Serv_U_asp": [
-        "hardened"
-    ],
-    "CN_Honker_Webshell_cfm_list": [
-        "hardened",
-        "limited"
-    ],
-    "CN_Honker_Webshell_PHP_php2": [
-        "hardened",
-        "limited"
-    ],
-    "CN_Honker_Webshell_Tuoku_script_oracle": [
-        "hardened",
-        "limited"
-    ],
-    "CN_Honker_Webshell_ASPX_aspx4": [
-        "hardened",
-        "limited"
-    ],
-    "CN_Honker_Webshell_ASPX_aspx": [
-        "hardened"
-    ],
-    "CN_Honker_Webshell_su7_x_9_x": [
-        "hardened"
-    ],
-    "CN_Honker_Webshell_cfmShell": [
-        "hardened",
-        "limited"
-    ],
-    "CN_Honker_Webshell_ASP_asp4": [
-        "hardened",
-        "limited"
-    ],
-    "CN_Honker_Webshell_Serv_U_2_admin_by_lake2": [
-        "hardened",
-        "limited"
-    ],
-    "CN_Honker_Webshell_PHP_php3": [
-        "hardened",
-        "limited"
-    ],
-    "CN_Honker_Webshell_Serv_U_by_Goldsun": [
-        "hardened",
-        "limited"
-    ],
-    "CN_Honker_Webshell_PHP_php10": [
-        "hardened"
-    ],
-    "CN_Honker_Webshell_Serv_U_servu": [
-        "hardened",
-        "limited"
-    ],
-    "CN_Honker_Webshell_portRecall_jsp2": [
-        "hardened",
-        "limited"
-    ],
-    "CN_Honker_Webshell_ASPX_aspx2": [
-        "hardened",
-        "limited"
-    ],
-    "CN_Honker_Webshell_ASP_hy2006a": [
-        "hardened",
-        "limited"
-    ],
-    "CN_Honker_Webshell_PHP_php1": [
-        "hardened",
-        "limited"
-    ],
-    "CN_Honker_Webshell_jspshell2": [
-        "hardened",
-        "limited"
-    ],
-    "CN_Honker_Webshell_Tuoku_script_mysql": [
-        "hardened",
-        "limited"
-    ],
-    "CN_Honker_Webshell_PHP_php9": [
-        "hardened"
-    ],
-    "CN_Honker_Webshell_portRecall_jsp": [
-        "hardened"
-    ],
-    "CN_Honker_Webshell_ASPX_aspx3": [
-        "hardened"
-    ],
-    "CN_Honker_Webshell_ASPX_shell_shell": [
-        "hardened",
-        "limited"
-    ],
-    "CN_Honker_Webshell__php1_php7_php9": [
-        "hardened",
-        "limited"
-    ],
-    "CN_Honker_Webshell__Serv_U_by_Goldsun_asp3_Serv_U_asp": [
-        "hardened",
-        "limited"
-    ],
-    "CN_Honker_Webshell__asp4_asp4_MSSQL__MSSQL_": [
-        "hardened",
-        "limited"
-    ],
-    "CN_Honker_Webshell__Injection_jmCook_jmPost_ManualInjection": [
-        "hardened",
-        "limited"
-    ],
-    "CN_Honker_Webshell_cmfshell": [
-        "hardened",
-        "limited"
-    ],
-    "CN_Honker_Webshell_PHP_php4": [
-        "hardened"
-    ],
-    "CN_Honker_Webshell_Linux_2_6_Exploit": [
-        "hardened",
-        "limited"
-    ],
-    "CN_Honker_Webshell_ASP_asp2": [
-        "hardened",
-        "limited"
-    ],
-    "CN_Honker_Webshell_FTP_MYSQL_MSSQL_SSH": [
-        "hardened",
-        "limited"
-    ],
-    "CN_Honker_Webshell_ASP_shell": [
-        "hardened",
-        "limited"
-    ],
-    "CN_Honker_Webshell_PHP_php7": [
-        "hardened"
-    ],
-    "CN_Honker_Webshell_ASP_rootkit": [
-        "hardened",
-        "limited"
-    ],
-    "CN_Honker_Webshell_jspshell": [
-        "hardened"
-    ],
-    "CN_Honker_Webshell_Serv_U_serv_u": [
-        "hardened",
-        "limited"
-    ],
-    "CN_Honker_Webshell_WebShell": [
-        "hardened",
-        "limited"
-    ],
-    "CN_Honker_Webshell_Tuoku_script_mssql_2": [
-        "hardened",
-        "limited"
-    ],
-    "CN_Honker_Webshell_ASP_asp1": [
         "hardened",
         "limited"
     ],
@@ -2305,160 +2030,6 @@
     "LOG_TeamViewer_Connect_Russian_Keyboard_Layout": [
         "hardened"
     ],
-    "Tools_cmd": [
-        "hardened",
-        "limited"
-    ],
-    "trigger_drop": [
-        "hardened",
-        "limited"
-    ],
-    "InjectionParameters": [
-        "hardened",
-        "limited"
-    ],
-    "users_list": [
-        "hardened",
-        "limited"
-    ],
-    "trigger_modify": [
-        "hardened",
-        "limited"
-    ],
-    "Customize": [
-        "hardened"
-    ],
-    "oracle_data": [
-        "hardened",
-        "limited"
-    ],
-    "reDuhServers_reDuh": [
-        "hardened",
-        "limited"
-    ],
-    "item_old": [
-        "hardened",
-        "limited"
-    ],
-    "Tools_2014": [
-        "hardened",
-        "limited"
-    ],
-    "reDuhServers_reDuh_2": [
-        "hardened",
-        "limited"
-    ],
-    "Customize_2": [
-        "hardened",
-        "limited"
-    ],
-    "ChinaChopper_one": [
-        "hardened"
-    ],
-    "CN_Tools_old": [
-        "hardened",
-        "limited"
-    ],
-    "item_301": [
-        "hardened",
-        "limited"
-    ],
-    "CN_Tools_item": [
-        "hardened",
-        "limited"
-    ],
-    "f3_diy": [
-        "hardened",
-        "limited"
-    ],
-    "ChinaChopper_temp": [
-        "hardened",
-        "limited"
-    ],
-    "Tools_2015": [
-        "hardened",
-        "limited"
-    ],
-    "ChinaChopper_temp_2": [
-        "hardened"
-    ],
-    "templatr": [
-        "hardened"
-    ],
-    "reDuhServers_reDuh_3": [
-        "hardened",
-        "limited"
-    ],
-    "ChinaChopper_temp_3": [
-        "hardened"
-    ],
-    "Shell_Asp": [
-        "hardened",
-        "limited"
-    ],
-    "Txt_aspxtag": [
-        "hardened",
-        "limited"
-    ],
-    "Txt_php": [
-        "hardened",
-        "limited"
-    ],
-    "Txt_aspx1": [
-        "hardened",
-        "limited"
-    ],
-    "Txt_shell": [
-        "hardened",
-        "limited"
-    ],
-    "Txt_asp": [
-        "hardened",
-        "limited"
-    ],
-    "Txt_asp1": [
-        "hardened",
-        "limited"
-    ],
-    "Txt_php_2": [
-        "hardened",
-        "limited"
-    ],
-    "Txt_ftp": [
-        "hardened",
-        "limited"
-    ],
-    "Txt_lcx": [
-        "hardened",
-        "limited"
-    ],
-    "Txt_jspcmd": [
-        "hardened",
-        "limited"
-    ],
-    "Txt_jsp": [
-        "hardened",
-        "limited"
-    ],
-    "Txt_aspxlcx": [
-        "hardened"
-    ],
-    "Txt_xiao": [
-        "hardened",
-        "limited"
-    ],
-    "Txt_aspx": [
-        "hardened",
-        "limited"
-    ],
-    "Txt_Sql": [
-        "hardened",
-        "limited"
-    ],
-    "Txt_hello": [
-        "hardened",
-        "limited"
-    ],
     "blackenergy3_installer": [
         "hardened"
     ],
@@ -2567,9 +2138,6 @@
     "OPCLEAVER_NetC": [
         "hardened"
     ],
-    "OPCLEAVER_ShellCreator2": [
-        "hardened"
-    ],
     "OPCLEAVER_SmartCopy2": [
         "hardened"
     ],
@@ -2664,12 +2232,6 @@
     "Armitage_OSX": [
         "hardened",
         "limited"
-    ],
-    "webshell_ChinaChopper_aspx": [
-        "hardened"
-    ],
-    "webshell_ChinaChopper_php": [
-        "hardened"
     ],
     "HKTL_NATBypass_Dec22_1": [
         "T1090",
@@ -2943,27 +2505,6 @@
         "hardened",
         "limited"
     ],
-    "APT_WebShell_Tiny_1": [
-        "hardened"
-    ],
-    "APT_WebShell_AUS_Tiny_2": [
-        "hardened"
-    ],
-    "APT_WebShell_AUS_JScript_3": [
-        "hardened"
-    ],
-    "APT_WebShell_AUS_4": [
-        "hardened",
-        "limited"
-    ],
-    "APT_Script_AUS_4": [
-        "hardened",
-        "limited"
-    ],
-    "APT_WebShell_AUS_5": [
-        "hardened",
-        "limited"
-    ],
     "HKTL_LazyCat_LogEraser": [
         "hardened",
         "loosened",
@@ -3135,18 +2676,6 @@
     "APT_MAL_CN_Wocao_info_vbs": [
         "hardened"
     ],
-    "APT_MAL_CN_Wocao_webshell_console_jsp": [
-        "hardened"
-    ],
-    "APT_MAL_CN_Wocao_webshell_index_jsp": [
-        "hardened"
-    ],
-    "APT_MAL_CN_Wocao_webshell_ver_jsp": [
-        "hardened"
-    ],
-    "APT_MAL_CN_Wocao_webshell_webinfo": [
-        "hardened"
-    ],
     "Win_PrivEsc_gp3finder_v4_0": [
         "hardened",
         "limited"
@@ -3225,18 +2754,6 @@
     "KINS_DLL_zeus": [
         "hardened",
         "limited"
-    ],
-    "WEBSHELL_PAS_webshell": [
-        "hardened"
-    ],
-    "WEBSHELL_PAS_webshell_ZIPArchiveFile": [
-        "hardened"
-    ],
-    "WEBSHELL_PAS_webshell_PerlNetworkScript": [
-        "hardened"
-    ],
-    "WEBSHELL_PAS_webshell_SQLDumpFile": [
-        "hardened"
     ],
     "APT_MAL_Sandworm_Exaramel_Configuration_Key": [
         "hardened"
@@ -3480,12 +2997,6 @@
         "limited"
     ],
     "PAS_TOOL_PHP_WEB_KIT_mod": [
-        "hardened"
-    ],
-    "WebShell_PHP_Web_Kit_v3": [
-        "hardened"
-    ],
-    "WebShell_PHP_Web_Kit_v4": [
         "hardened"
     ],
     "APT_APT29_wellmess_dotnet_unique_strings": [
@@ -3860,9 +3371,6 @@
     "RDP_Brute_Strings": [
         "hardened"
     ],
-    "WEBSHELL_Z_WebShell_1": [
-        "hardened"
-    ],
     "APT_MAL_WinntiLinux_Dropper_AzazelFork_May19": [
         "azazel_fork",
         "hardened"
@@ -3937,9 +3445,6 @@
     "APT_Sandworm_User_May20_1": [
         "hardened"
     ],
-    "APT_WEBSHELL_PHP_Sandworm_May20_1": [
-        "hardened"
-    ],
     "APT_SH_Sandworm_Shell_Script_May20_1": [
         "hardened",
         "limited"
@@ -3976,10 +3481,6 @@
         "Favorite",
         "Family",
         "hardened"
-    ],
-    "WEBSHELL_APT_PHP_DEWMODE_UNC2546_Feb21_1": [
-        "hardened",
-        "limited"
     ],
     "PP_CN_APT_ZeroT_1": [
         "hardened",
@@ -9719,15 +9220,6 @@
     "Ransom_LockerGoga_Mar19_1": [
         "hardened"
     ],
-    "WEBSHELL_JSP_Nov21_1": [
-        "hardened"
-    ],
-    "EXPL_POC_SpringCore_0day_Indicators_Mar22_1": [
-        "hardened"
-    ],
-    "EXPL_POC_SpringCore_0day_Webshell_Mar22_1": [
-        "hardened"
-    ],
     "WinPayloads_PowerShell": [
         "hardened",
         "limited"
@@ -10192,9 +9684,6 @@
     ],
     "TROJAN_Notepad_shell_crew": [
         "Trojan",
-        "hardened"
-    ],
-    "ChinaChopper_Generic": [
         "hardened"
     ],
     "EnigmaPacker_Rare": [
@@ -11232,10 +10721,6 @@
         "hardened",
         "limited"
     ],
-    "IronPanda_Webshell_JSP": [
-        "hardened",
-        "limited"
-    ],
     "IronPanda_Malware_Htran": [
         "hardened",
         "limited"
@@ -11258,9 +10743,6 @@
         "limited"
     ],
     "MoneroAddress": [
-        "hardened"
-    ],
-    "php_in_image": [
         "hardened"
     ],
     "Impacket_Tools_tracer": [
@@ -12393,10 +11875,6 @@
     "Base58": [
         "hardened"
     ],
-    "Backdoor_WebShell_asp": [
-        "ASPXSpy",
-        "hardened"
-    ],
     "Base64_Embedded_Files": [
         "hardened"
     ],
@@ -13191,6 +12669,511 @@
     ],
     "SlemBunk": [
         "android",
+        "hardened"
+    ],
+    "APT_WebShell_Tiny_1": [
+        "hardened"
+    ],
+    "APT_WebShell_AUS_Tiny_2": [
+        "hardened"
+    ],
+    "APT_WebShell_AUS_JScript_3": [
+        "hardened"
+    ],
+    "APT_WebShell_AUS_4": [
+        "hardened",
+        "limited"
+    ],
+    "APT_WebShell_AUS_5": [
+        "hardened",
+        "limited"
+    ],
+    "WEBSHELL_PAS_webshell": [
+        "hardened"
+    ],
+    "WEBSHELL_PAS_webshell_ZIPArchiveFile": [
+        "hardened"
+    ],
+    "WEBSHELL_PAS_webshell_PerlNetworkScript": [
+        "hardened"
+    ],
+    "WEBSHELL_PAS_webshell_SQLDumpFile": [
+        "hardened"
+    ],
+    "WebShell_PHP_Web_Kit_v3": [
+        "hardened"
+    ],
+    "WebShell_PHP_Web_Kit_v4": [
+        "hardened"
+    ],
+    "WEBSHELL_JSP_Nov21_1": [
+        "hardened"
+    ],
+    "EXPL_POC_SpringCore_0day_Indicators_Mar22_1": [
+        "hardened"
+    ],
+    "EXPL_POC_SpringCore_0day_Webshell_Mar22_1": [
+        "hardened"
+    ],
+    "WEBSHELL_ASPX_ProxyShell_Aug21_2": [
+        "hardened",
+        "limited"
+    ],
+    "WEBSHELL_ASPX_ProxyShell_Aug21_3": [
+        "hardened",
+        "limited"
+    ],
+    "WEBSHELL_ASPX_ProxyShell_Sep21_1": [
+        "hardened"
+    ],
+    "WEBSHELL_ASPX_ProxyShell_Exploitation_Aug21_1": [
+        "hardened"
+    ],
+    "WEBSHELL_ASPX_ProxyShell_Aug15": [
+        "hardened"
+    ],
+    "WEBSHELL_Mailbox_Export_PST_ProxyShell_Aug26": [
+        "hardened"
+    ],
+    "WEBSHELL_ProxyShell_Exploitation_Nov21_1": [
+        "hardened"
+    ],
+    "ChinaChopper_Generic": [
+        "hardened"
+    ],
+    "APT_MAL_CN_Wocao_webshell_console_jsp": [
+        "hardened"
+    ],
+    "APT_MAL_CN_Wocao_webshell_index_jsp": [
+        "hardened"
+    ],
+    "APT_MAL_CN_Wocao_webshell_ver_jsp": [
+        "hardened"
+    ],
+    "APT_MAL_CN_Wocao_webshell_webinfo": [
+        "hardened"
+    ],
+    "WEBSHELL_Z_WebShell_1": [
+        "hardened"
+    ],
+    "WEBSHELL_APT_PHP_DEWMODE_UNC2546_Feb21_1": [
+        "hardened",
+        "limited"
+    ],
+    "webshell_ChinaChopper_aspx": [
+        "hardened"
+    ],
+    "webshell_ChinaChopper_php": [
+        "hardened"
+    ],
+    "APT_WEBSHELL_PHP_Sandworm_May20_1": [
+        "hardened"
+    ],
+    "fopo_webshell": [
+        "hardened"
+    ],
+    "WEBSHELL_ASP_Embedded_Mar21_1": [
+        "hardened",
+        "limited"
+    ],
+    "APT_WEBSHELL_HAFNIUM_SecChecker_Mar21_1": [
+        "hardened",
+        "limited"
+    ],
+    "APT_WEBSHELL_HAFNIUM_Chopper_WebShell": [
+        "APT",
+        "Hafnium",
+        "WebShell",
+        "hardened",
+        "limited"
+    ],
+    "APT_WEBSHELL_Tiny_WebShell": [
+        "APT",
+        "Hafnium",
+        "WebShell",
+        "hardened"
+    ],
+    "WEBSHELL_ASPX_SimpleSeeSharp": [
+        "Webshell",
+        "Unclassified",
+        "hardened"
+    ],
+    "WEBSHELL_ASPX_reGeorgTunnel": [
+        "Webshell",
+        "Commodity",
+        "hardened"
+    ],
+    "WEBSHELL_ASPX_SportsBall": [
+        "hardened"
+    ],
+    "WEBSHELL_CVE_2021_27065_Webshells": [
+        "hardened",
+        "limited"
+    ],
+    "WEBSHELL_Compiled_Webshell_Mar2021_1": [
+        "hardened",
+        "loosened",
+        "limited"
+    ],
+    "WEBSHELL_HAFNIUM_CISA_10328929_01": [
+        "trojan",
+        "webshell",
+        "exploit",
+        "CVE_2021_27065",
+        "hardened"
+    ],
+    "WEBSHELL_HAFNIUM_CISA_10328929_02": [
+        "trojan",
+        "webshell",
+        "exploit",
+        "CVE_2021_27065",
+        "hardened"
+    ],
+    "WEBSHELL_ASPX_FileExplorer_Mar21_1": [
+        "hardened"
+    ],
+    "WEBSHELL_ASPX_Chopper_Like_Mar21_1": [
+        "hardened"
+    ],
+    "APT_Webshell_SUPERNOVA_1": [
+        "hardened",
+        "limited"
+    ],
+    "APT_Webshell_SUPERNOVA_2": [
+        "hardened",
+        "limited"
+    ],
+    "CN_Honker_Webshell": [
+        "hardened",
+        "limited"
+    ],
+    "CN_Honker_GetWebShell": [
+        "hardened",
+        "limited"
+    ],
+    "CN_Honker_Tuoku_script_oracle_2": [
+        "hardened",
+        "limited"
+    ],
+    "CN_Honker_net_packet_capt": [
+        "hardened",
+        "limited"
+    ],
+    "Webshell_Caterpillar_ASPX": [
+        "hardened",
+        "limited"
+    ],
+    "INDICATOR_TOOL_OwlProxy": [
+        "hardened",
+        "limited"
+    ],
+    "IronPanda_Webshell_JSP": [
+        "hardened",
+        "limited"
+    ],
+    "Backdoor_WebShell_asp": [
+        "ASPXSpy",
+        "hardened"
+    ],
+    "OPCLEAVER_ShellCreator2": [
+        "hardened"
+    ],
+    "php_in_image": [
+        "hardened"
+    ],
+    "WEBSHELL_PHP_Generic": [
+        "hardened",
+        "loosened",
+        "limited"
+    ],
+    "WEBSHELL_PHP_Generic_Callback": [
+        "hardened",
+        "loosened",
+        "limited"
+    ],
+    "WEBSHELL_PHP_Base64_Encoded_Payloads": [
+        "FILE",
+        "hardened",
+        "loosened",
+        "limited"
+    ],
+    "WEBSHELL_PHP_Unknown_1": [
+        "hardened"
+    ],
+    "WEBSHELL_PHP_Generic_Eval": [
+        "hardened"
+    ],
+    "WEBSHELL_PHP_Double_Eval_Tiny": [
+        "hardened",
+        "loosened",
+        "limited"
+    ],
+    "WEBSHELL_PHP_OBFUSC": [
+        "hardened",
+        "loosened",
+        "limited"
+    ],
+    "WEBSHELL_PHP_OBFUSC_Encoded": [
+        "hardened",
+        "limited"
+    ],
+    "WEBSHELL_PHP_OBFUSC_Encoded_Mixed_Dec_And_Hex": [
+        "hardened",
+        "limited"
+    ],
+    "WEBSHELL_PHP_OBFUSC_Tiny": [
+        "hardened",
+        "limited"
+    ],
+    "WEBSHELL_PHP_OBFUSC_Str_Replace": [
+        "hardened",
+        "loosened",
+        "limited"
+    ],
+    "WEBSHELL_PHP_OBFUSC_Fopo": [
+        "hardened",
+        "limited"
+    ],
+    "WEBSHELL_PHP_Gzinflated": [
+        "hardened",
+        "limited"
+    ],
+    "WEBSHELL_PHP_OBFUSC_3": [
+        "hardened",
+        "loosened",
+        "limited"
+    ],
+    "WEBSHELL_PHP_Includer_Eval": [
+        "hardened",
+        "loosened",
+        "limited"
+    ],
+    "WEBSHELL_PHP_Includer_Tiny": [
+        "hardened",
+        "limited"
+    ],
+    "WEBSHELL_PHP_Dynamic": [
+        "hardened",
+        "limited"
+    ],
+    "WEBSHELL_PHP_Dynamic_Big": [
+        "hardened",
+        "loosened",
+        "limited"
+    ],
+    "WEBSHELL_PHP_Encoded_Big": [
+        "hardened",
+        "limited"
+    ],
+    "WEBSHELL_PHP_Generic_Backticks": [
+        "hardened",
+        "limited"
+    ],
+    "WEBSHELL_PHP_Generic_Backticks_OBFUSC": [
+        "hardened",
+        "limited"
+    ],
+    "WEBSHELL_PHP_By_String_Known_Webshell": [
+        "hardened",
+        "loosened",
+        "limited"
+    ],
+    "WEBSHELL_PHP_Strings_SUSP": [
+        "hardened",
+        "limited"
+    ],
+    "WEBSHELL_PHP_In_Htaccess": [
+        "hardened"
+    ],
+    "WEBSHELL_PHP_Function_Via_Get": [
+        "hardened"
+    ],
+    "WEBSHELL_PHP_Writer": [
+        "hardened",
+        "loosened",
+        "limited"
+    ],
+    "WEBSHELL_ASP_Writer": [
+        "hardened",
+        "loosened",
+        "limited"
+    ],
+    "WEBSHELL_ASP_OBFUSC": [
+        "hardened",
+        "loosened",
+        "limited"
+    ],
+    "WEBSHELL_ASP_Nano": [
+        "hardened",
+        "loosened",
+        "limited"
+    ],
+    "WEBSHELL_ASP_Encoded": [
+        "hardened",
+        "loosened",
+        "limited"
+    ],
+    "WEBSHELL_ASP_Encoded_AspCoding": [
+        "hardened",
+        "loosened",
+        "limited"
+    ],
+    "WEBSHELL_ASP_By_String": [
+        "hardened",
+        "loosened",
+        "limited"
+    ],
+    "WEBSHELL_ASP_Sniffer": [
+        "hardened",
+        "loosened",
+        "limited"
+    ],
+    "WEBSHELL_ASP_Generic_Tiny": [
+        "hardened",
+        "loosened",
+        "limited"
+    ],
+    "WEBSHELL_ASP_Generic": [
+        "FILE",
+        "hardened",
+        "loosened",
+        "limited"
+    ],
+    "WEBSHELL_ASP_Generic_Registry_Reader": [
+        "hardened",
+        "loosened",
+        "limited"
+    ],
+    "WEBSHELL_ASPX_Regeorg_CSHARP": [
+        "hardened",
+        "loosened",
+        "limited"
+    ],
+    "WEBSHELL_CSHARP_Generic": [
+        "hardened",
+        "loosened",
+        "limited"
+    ],
+    "WEBSHELL_ASP_Runtime_Compile": [
+        "FILE",
+        "hardened",
+        "loosened",
+        "limited"
+    ],
+    "WEBSHELL_ASP_SQL": [
+        "hardened",
+        "loosened",
+        "limited"
+    ],
+    "WEBSHELL_ASP_Scan_Writable": [
+        "hardened",
+        "loosened",
+        "limited"
+    ],
+    "WEBSHELL_JSP_ReGeorg": [
+        "hardened",
+        "loosened",
+        "limited"
+    ],
+    "WEBSHELL_JSP_HTTP_Proxy": [
+        "hardened",
+        "loosened",
+        "limited"
+    ],
+    "WEBSHELL_JSP_Writer_Nano": [
+        "hardened",
+        "loosened",
+        "limited"
+    ],
+    "WEBSHELL_JSP_Generic_Tiny": [
+        "hardened",
+        "loosened",
+        "limited"
+    ],
+    "WEBSHELL_JSP_Generic": [
+        "hardened",
+        "loosened",
+        "limited"
+    ],
+    "WEBSHELL_JSP_Generic_Base64": [
+        "hardened",
+        "limited"
+    ],
+    "WEBSHELL_JSP_Generic_ProcessBuilder": [
+        "hardened",
+        "loosened",
+        "limited"
+    ],
+    "WEBSHELL_JSP_Generic_Reflection": [
+        "hardened",
+        "loosened",
+        "limited"
+    ],
+    "WEBSHELL_JSP_Generic_Encoded_Shell": [
+        "hardened"
+    ],
+    "WEBSHELL_JSP_NetSpy": [
+        "hardened",
+        "loosened",
+        "limited"
+    ],
+    "WEBSHELL_JSP_By_String": [
+        "hardened",
+        "loosened",
+        "limited"
+    ],
+    "WEBSHELL_JSP_Input_Upload_Write": [
+        "hardened",
+        "loosened",
+        "limited"
+    ],
+    "WEBSHELL_Generic_OS_Strings": [
+        "FILE",
+        "hardened",
+        "loosened",
+        "limited"
+    ],
+    "WEBSHELL_In_Image": [
+        "hardened",
+        "loosened",
+        "limited"
+    ],
+    "WEBSHELL_Mixed_OBFUSC": [
+        "hardened"
+    ],
+    "WEBSHELL_Cookie_Post_Obfuscation": [
+        "hardened"
+    ],
+    "webshell_php_by_string_obfuscation": [
+        "hardened",
+        "limited"
+    ],
+    "webshell_case_anomly": [
+        "hardened",
+        "loosened",
+        "limited"
+    ],
+    "WEBSHELL_PHP_HEX_ENCODE": [
+        "hardened",
+        "limited"
+    ],
+    "WEBSHELL_PHP_Generic_Closure_Invoke": [
+        "hardened",
+        "limited"
+    ],
+    "WEBSHELL_PHP_OBFUSC_CUSTOM": [
+        "hardened",
+        "limited"
+    ],
+    "WEBSHELL_PHP_Magic_Method": [
+        "hardened",
+        "limited"
+    ],
+    "WEBSHELL_PHP_Permission_Modification_Generic": [
+        "hardened",
+        "limited"
+    ],
+    "WEBSHELL_PHP_DEC_ENCODE_GENERIC": [
         "hardened"
     ],
     "Weevely_Webshell": [
@@ -15034,6 +15017,412 @@
     "Webshell_zehir": [
         "hardened"
     ],
+    "CN_Honker_Webshell_PHP_php5": [
+        "hardened"
+    ],
+    "CN_Honker_Webshell_test3693": [
+        "hardened",
+        "limited"
+    ],
+    "CN_Honker_Webshell_mycode12": [
+        "hardened",
+        "limited"
+    ],
+    "CN_Honker_Webshell_offlibrary": [
+        "hardened"
+    ],
+    "CN_Honker_Webshell_cfm_xl": [
+        "hardened",
+        "limited"
+    ],
+    "CN_Honker_Webshell_PHP_linux": [
+        "hardened",
+        "limited"
+    ],
+    "CN_Honker_Webshell_Interception3389_get": [
+        "hardened",
+        "limited"
+    ],
+    "CN_Honker_Webshell_nc_1": [
+        "hardened",
+        "limited"
+    ],
+    "CN_Honker_Webshell_PHP_BlackSky": [
+        "hardened",
+        "limited"
+    ],
+    "CN_Honker_Webshell_ASP_asp3": [
+        "hardened",
+        "limited"
+    ],
+    "CN_Honker_Webshell_ASPX_sniff": [
+        "hardened",
+        "limited"
+    ],
+    "CN_Honker_Webshell_udf_udf": [
+        "hardened",
+        "limited"
+    ],
+    "CN_Honker_Webshell_JSP_jsp": [
+        "hardened",
+        "limited"
+    ],
+    "CN_Honker_Webshell_T00ls_Lpk_Sethc_v4_mail": [
+        "hardened",
+        "limited"
+    ],
+    "CN_Honker_Webshell_phpwebbackup": [
+        "hardened",
+        "limited"
+    ],
+    "CN_Honker_Webshell_dz_phpcms_phpbb": [
+        "hardened",
+        "limited"
+    ],
+    "CN_Honker_Webshell_picloaked_1": [
+        "hardened",
+        "limited"
+    ],
+    "CN_Honker_Webshell_assembly": [
+        "hardened",
+        "limited"
+    ],
+    "CN_Honker_Webshell_PHP_php8": [
+        "hardened",
+        "limited"
+    ],
+    "CN_Honker_Webshell_Tuoku_script_xx": [
+        "hardened",
+        "limited"
+    ],
+    "CN_Honker_Webshell_JSPMSSQL": [
+        "hardened",
+        "limited"
+    ],
+    "CN_Honker_Webshell_Injection_Transit_jmPost": [
+        "hardened",
+        "limited"
+    ],
+    "CN_Honker_Webshell_ASP_web_asp": [
+        "hardened",
+        "limited"
+    ],
+    "CN_Honker_Webshell_wshell_asp": [
+        "hardened",
+        "limited"
+    ],
+    "CN_Honker_Webshell_ASP_asp404": [
+        "hardened",
+        "limited"
+    ],
+    "CN_Honker_Webshell_Serv_U_asp": [
+        "hardened"
+    ],
+    "CN_Honker_Webshell_cfm_list": [
+        "hardened",
+        "limited"
+    ],
+    "CN_Honker_Webshell_PHP_php2": [
+        "hardened",
+        "limited"
+    ],
+    "CN_Honker_Webshell_Tuoku_script_oracle": [
+        "hardened",
+        "limited"
+    ],
+    "CN_Honker_Webshell_ASPX_aspx4": [
+        "hardened",
+        "limited"
+    ],
+    "CN_Honker_Webshell_ASPX_aspx": [
+        "hardened"
+    ],
+    "CN_Honker_Webshell_su7_x_9_x": [
+        "hardened"
+    ],
+    "CN_Honker_Webshell_cfmShell": [
+        "hardened",
+        "limited"
+    ],
+    "CN_Honker_Webshell_ASP_asp4": [
+        "hardened",
+        "limited"
+    ],
+    "CN_Honker_Webshell_Serv_U_2_admin_by_lake2": [
+        "hardened",
+        "limited"
+    ],
+    "CN_Honker_Webshell_PHP_php3": [
+        "hardened",
+        "limited"
+    ],
+    "CN_Honker_Webshell_Serv_U_by_Goldsun": [
+        "hardened",
+        "limited"
+    ],
+    "CN_Honker_Webshell_PHP_php10": [
+        "hardened"
+    ],
+    "CN_Honker_Webshell_Serv_U_servu": [
+        "hardened",
+        "limited"
+    ],
+    "CN_Honker_Webshell_portRecall_jsp2": [
+        "hardened",
+        "limited"
+    ],
+    "CN_Honker_Webshell_ASPX_aspx2": [
+        "hardened",
+        "limited"
+    ],
+    "CN_Honker_Webshell_ASP_hy2006a": [
+        "hardened",
+        "limited"
+    ],
+    "CN_Honker_Webshell_PHP_php1": [
+        "hardened",
+        "limited"
+    ],
+    "CN_Honker_Webshell_jspshell2": [
+        "hardened",
+        "limited"
+    ],
+    "CN_Honker_Webshell_Tuoku_script_mysql": [
+        "hardened",
+        "limited"
+    ],
+    "CN_Honker_Webshell_PHP_php9": [
+        "hardened"
+    ],
+    "CN_Honker_Webshell_portRecall_jsp": [
+        "hardened"
+    ],
+    "CN_Honker_Webshell_ASPX_aspx3": [
+        "hardened"
+    ],
+    "CN_Honker_Webshell_ASPX_shell_shell": [
+        "hardened",
+        "limited"
+    ],
+    "CN_Honker_Webshell__php1_php7_php9": [
+        "hardened",
+        "limited"
+    ],
+    "CN_Honker_Webshell__Serv_U_by_Goldsun_asp3_Serv_U_asp": [
+        "hardened",
+        "limited"
+    ],
+    "CN_Honker_Webshell__asp4_asp4_MSSQL__MSSQL_": [
+        "hardened",
+        "limited"
+    ],
+    "CN_Honker_Webshell__Injection_jmCook_jmPost_ManualInjection": [
+        "hardened",
+        "limited"
+    ],
+    "CN_Honker_Webshell_cmfshell": [
+        "hardened",
+        "limited"
+    ],
+    "CN_Honker_Webshell_PHP_php4": [
+        "hardened"
+    ],
+    "CN_Honker_Webshell_Linux_2_6_Exploit": [
+        "hardened",
+        "limited"
+    ],
+    "CN_Honker_Webshell_ASP_asp2": [
+        "hardened",
+        "limited"
+    ],
+    "CN_Honker_Webshell_FTP_MYSQL_MSSQL_SSH": [
+        "hardened",
+        "limited"
+    ],
+    "CN_Honker_Webshell_ASP_shell": [
+        "hardened",
+        "limited"
+    ],
+    "CN_Honker_Webshell_PHP_php7": [
+        "hardened"
+    ],
+    "CN_Honker_Webshell_ASP_rootkit": [
+        "hardened",
+        "limited"
+    ],
+    "CN_Honker_Webshell_jspshell": [
+        "hardened"
+    ],
+    "CN_Honker_Webshell_Serv_U_serv_u": [
+        "hardened",
+        "limited"
+    ],
+    "CN_Honker_Webshell_WebShell": [
+        "hardened",
+        "limited"
+    ],
+    "CN_Honker_Webshell_Tuoku_script_mssql_2": [
+        "hardened",
+        "limited"
+    ],
+    "CN_Honker_Webshell_ASP_asp1": [
+        "hardened",
+        "limited"
+    ],
+    "Tools_cmd": [
+        "hardened",
+        "limited"
+    ],
+    "trigger_drop": [
+        "hardened",
+        "limited"
+    ],
+    "InjectionParameters": [
+        "hardened",
+        "limited"
+    ],
+    "users_list": [
+        "hardened",
+        "limited"
+    ],
+    "trigger_modify": [
+        "hardened",
+        "limited"
+    ],
+    "Customize": [
+        "hardened"
+    ],
+    "oracle_data": [
+        "hardened",
+        "limited"
+    ],
+    "reDuhServers_reDuh": [
+        "hardened",
+        "limited"
+    ],
+    "item_old": [
+        "hardened",
+        "limited"
+    ],
+    "Tools_2014": [
+        "hardened",
+        "limited"
+    ],
+    "reDuhServers_reDuh_2": [
+        "hardened",
+        "limited"
+    ],
+    "Customize_2": [
+        "hardened",
+        "limited"
+    ],
+    "ChinaChopper_one": [
+        "hardened"
+    ],
+    "CN_Tools_old": [
+        "hardened",
+        "limited"
+    ],
+    "item_301": [
+        "hardened",
+        "limited"
+    ],
+    "CN_Tools_item": [
+        "hardened",
+        "limited"
+    ],
+    "f3_diy": [
+        "hardened",
+        "limited"
+    ],
+    "ChinaChopper_temp": [
+        "hardened",
+        "limited"
+    ],
+    "Tools_2015": [
+        "hardened",
+        "limited"
+    ],
+    "ChinaChopper_temp_2": [
+        "hardened"
+    ],
+    "templatr": [
+        "hardened"
+    ],
+    "reDuhServers_reDuh_3": [
+        "hardened",
+        "limited"
+    ],
+    "ChinaChopper_temp_3": [
+        "hardened"
+    ],
+    "Shell_Asp": [
+        "hardened",
+        "limited"
+    ],
+    "Txt_aspxtag": [
+        "hardened",
+        "limited"
+    ],
+    "Txt_php": [
+        "hardened",
+        "limited"
+    ],
+    "Txt_aspx1": [
+        "hardened",
+        "limited"
+    ],
+    "Txt_shell": [
+        "hardened",
+        "limited"
+    ],
+    "Txt_asp": [
+        "hardened",
+        "limited"
+    ],
+    "Txt_asp1": [
+        "hardened",
+        "limited"
+    ],
+    "Txt_php_2": [
+        "hardened",
+        "limited"
+    ],
+    "Txt_ftp": [
+        "hardened",
+        "limited"
+    ],
+    "Txt_lcx": [
+        "hardened",
+        "limited"
+    ],
+    "Txt_jspcmd": [
+        "hardened",
+        "limited"
+    ],
+    "Txt_jsp": [
+        "hardened",
+        "limited"
+    ],
+    "Txt_aspxlcx": [
+        "hardened"
+    ],
+    "Txt_xiao": [
+        "hardened",
+        "limited"
+    ],
+    "Txt_aspx": [
+        "hardened",
+        "limited"
+    ],
+    "Txt_Sql": [
+        "hardened",
+        "limited"
+    ],
+    "Txt_hello": [
+        "hardened",
+        "limited"
+    ],
     "MAL_ZIP_SocGholish_Mar21_1": [
         "zip",
         "js",
@@ -15260,9 +15649,6 @@
     "md5_6bf4910b01aa4f296e590b75a3d25642": [
         "hardened"
     ],
-    "fopo_webshell": [
-        "hardened"
-    ],
     "eval_post": [
         "hardened"
     ],
@@ -15453,269 +15839,6 @@
         "limited"
     ],
     "DetectSuspiciousPythonCode": [
-        "hardened"
-    ],
-    "WEBSHELL_PHP_Generic": [
-        "hardened",
-        "loosened",
-        "limited"
-    ],
-    "WEBSHELL_PHP_Generic_Callback": [
-        "hardened",
-        "loosened",
-        "limited"
-    ],
-    "WEBSHELL_PHP_Base64_Encoded_Payloads": [
-        "FILE",
-        "hardened",
-        "loosened",
-        "limited"
-    ],
-    "WEBSHELL_PHP_Unknown_1": [
-        "hardened"
-    ],
-    "WEBSHELL_PHP_Generic_Eval": [
-        "hardened"
-    ],
-    "WEBSHELL_PHP_Double_Eval_Tiny": [
-        "hardened",
-        "loosened",
-        "limited"
-    ],
-    "WEBSHELL_PHP_OBFUSC": [
-        "hardened",
-        "loosened",
-        "limited"
-    ],
-    "WEBSHELL_PHP_OBFUSC_Encoded": [
-        "hardened",
-        "limited"
-    ],
-    "WEBSHELL_PHP_OBFUSC_Encoded_Mixed_Dec_And_Hex": [
-        "hardened",
-        "limited"
-    ],
-    "WEBSHELL_PHP_OBFUSC_Tiny": [
-        "hardened",
-        "limited"
-    ],
-    "WEBSHELL_PHP_OBFUSC_Str_Replace": [
-        "hardened",
-        "loosened",
-        "limited"
-    ],
-    "WEBSHELL_PHP_OBFUSC_Fopo": [
-        "hardened",
-        "limited"
-    ],
-    "WEBSHELL_PHP_Gzinflated": [
-        "hardened",
-        "limited"
-    ],
-    "WEBSHELL_PHP_OBFUSC_3": [
-        "hardened",
-        "loosened",
-        "limited"
-    ],
-    "WEBSHELL_PHP_Includer_Eval": [
-        "hardened",
-        "loosened",
-        "limited"
-    ],
-    "WEBSHELL_PHP_Includer_Tiny": [
-        "hardened",
-        "limited"
-    ],
-    "WEBSHELL_PHP_Dynamic": [
-        "hardened",
-        "limited"
-    ],
-    "WEBSHELL_PHP_Dynamic_Big": [
-        "hardened",
-        "loosened",
-        "limited"
-    ],
-    "WEBSHELL_PHP_Encoded_Big": [
-        "hardened",
-        "limited"
-    ],
-    "WEBSHELL_PHP_Generic_Backticks": [
-        "hardened",
-        "limited"
-    ],
-    "WEBSHELL_PHP_Generic_Backticks_OBFUSC": [
-        "hardened",
-        "limited"
-    ],
-    "WEBSHELL_PHP_By_String_Known_Webshell": [
-        "hardened",
-        "loosened",
-        "limited"
-    ],
-    "WEBSHELL_PHP_Strings_SUSP": [
-        "hardened",
-        "limited"
-    ],
-    "WEBSHELL_PHP_In_Htaccess": [
-        "hardened"
-    ],
-    "WEBSHELL_PHP_Function_Via_Get": [
-        "hardened"
-    ],
-    "WEBSHELL_PHP_Writer": [
-        "hardened",
-        "loosened",
-        "limited"
-    ],
-    "WEBSHELL_ASP_Writer": [
-        "hardened",
-        "loosened",
-        "limited"
-    ],
-    "WEBSHELL_ASP_OBFUSC": [
-        "hardened",
-        "loosened",
-        "limited"
-    ],
-    "WEBSHELL_ASP_Nano": [
-        "hardened",
-        "loosened",
-        "limited"
-    ],
-    "WEBSHELL_ASP_Encoded": [
-        "hardened",
-        "loosened",
-        "limited"
-    ],
-    "WEBSHELL_ASP_Encoded_AspCoding": [
-        "hardened",
-        "loosened",
-        "limited"
-    ],
-    "WEBSHELL_ASP_By_String": [
-        "hardened",
-        "loosened",
-        "limited"
-    ],
-    "WEBSHELL_ASP_Sniffer": [
-        "hardened",
-        "loosened",
-        "limited"
-    ],
-    "WEBSHELL_ASP_Generic_Tiny": [
-        "hardened",
-        "loosened",
-        "limited"
-    ],
-    "WEBSHELL_ASP_Generic": [
-        "FILE",
-        "hardened",
-        "loosened",
-        "limited"
-    ],
-    "WEBSHELL_ASP_Generic_Registry_Reader": [
-        "hardened",
-        "loosened",
-        "limited"
-    ],
-    "WEBSHELL_ASPX_Regeorg_CSHARP": [
-        "hardened",
-        "loosened",
-        "limited"
-    ],
-    "WEBSHELL_CSHARP_Generic": [
-        "hardened",
-        "loosened",
-        "limited"
-    ],
-    "WEBSHELL_ASP_Runtime_Compile": [
-        "FILE",
-        "hardened",
-        "loosened",
-        "limited"
-    ],
-    "WEBSHELL_ASP_SQL": [
-        "hardened",
-        "loosened",
-        "limited"
-    ],
-    "WEBSHELL_ASP_Scan_Writable": [
-        "hardened",
-        "loosened",
-        "limited"
-    ],
-    "WEBSHELL_JSP_ReGeorg": [
-        "hardened",
-        "loosened",
-        "limited"
-    ],
-    "WEBSHELL_JSP_HTTP_Proxy": [
-        "hardened",
-        "loosened",
-        "limited"
-    ],
-    "WEBSHELL_JSP_Writer_Nano": [
-        "hardened",
-        "loosened",
-        "limited"
-    ],
-    "WEBSHELL_JSP_Generic_Tiny": [
-        "hardened",
-        "loosened",
-        "limited"
-    ],
-    "WEBSHELL_JSP_Generic": [
-        "hardened",
-        "loosened",
-        "limited"
-    ],
-    "WEBSHELL_JSP_Generic_Base64": [
-        "hardened",
-        "limited"
-    ],
-    "WEBSHELL_JSP_Generic_ProcessBuilder": [
-        "hardened",
-        "loosened",
-        "limited"
-    ],
-    "WEBSHELL_JSP_Generic_Reflection": [
-        "hardened",
-        "loosened",
-        "limited"
-    ],
-    "WEBSHELL_JSP_Generic_Encoded_Shell": [
-        "hardened"
-    ],
-    "WEBSHELL_JSP_NetSpy": [
-        "hardened",
-        "loosened",
-        "limited"
-    ],
-    "WEBSHELL_JSP_By_String": [
-        "hardened",
-        "loosened",
-        "limited"
-    ],
-    "WEBSHELL_JSP_Input_Upload_Write": [
-        "hardened",
-        "loosened",
-        "limited"
-    ],
-    "WEBSHELL_Generic_OS_Strings": [
-        "FILE",
-        "hardened",
-        "loosened",
-        "limited"
-    ],
-    "WEBSHELL_In_Image": [
-        "hardened",
-        "loosened",
-        "limited"
-    ],
-    "WEBSHELL_Mixed_OBFUSC": [
-        "hardened"
-    ],
-    "WEBSHELL_Cookie_Post_Obfuscation": [
         "hardened"
     ],
     "SUSP_LNX_Linux_Malware_Indicators_Aug20_1": [
@@ -18529,14 +18652,6 @@
     "APT_Backdoor_SUNBURST_2": [
         "hardened"
     ],
-    "APT_Webshell_SUPERNOVA_1": [
-        "hardened",
-        "limited"
-    ],
-    "APT_Webshell_SUPERNOVA_2": [
-        "hardened",
-        "limited"
-    ],
     "APT_HackTool_PS1_COSMICGALE_1": [
         "hardened",
         "limited"
@@ -19396,10 +19511,6 @@
     "INDICATOR_TOOL_Sliver": [
         "hardened"
     ],
-    "INDICATOR_TOOL_OwlProxy": [
-        "hardened",
-        "limited"
-    ],
     "INDICATOR_TOOL_Backstab": [
         "hardened",
         "limited"
@@ -19747,10 +19858,6 @@
         "hardened",
         "limited"
     ],
-    "CN_Honker_Webshell": [
-        "hardened",
-        "limited"
-    ],
     "CN_Honker_AspxClient": [
         "hardened",
         "limited"
@@ -19840,10 +19947,6 @@
         "limited"
     ],
     "CN_Honker_Arp_EMP_v1_0": [
-        "hardened",
-        "limited"
-    ],
-    "CN_Honker_GetWebShell": [
         "hardened",
         "limited"
     ],
@@ -20040,14 +20143,6 @@
         "limited"
     ],
     "CN_Honker_GetHashes_2": [
-        "hardened",
-        "limited"
-    ],
-    "CN_Honker_Tuoku_script_oracle_2": [
-        "hardened",
-        "limited"
-    ],
-    "CN_Honker_net_packet_capt": [
         "hardened",
         "limited"
     ],
@@ -20559,10 +20654,6 @@
         "limited"
     ],
     "Explosive_UA": [
-        "hardened",
-        "limited"
-    ],
-    "Webshell_Caterpillar_ASPX": [
         "hardened",
         "limited"
     ],
@@ -25751,31 +25842,10 @@
         "DDoS",
         "hardened"
     ],
-    "WEBSHELL_ASP_Embedded_Mar21_1": [
-        "hardened",
-        "limited"
-    ],
-    "APT_WEBSHELL_HAFNIUM_SecChecker_Mar21_1": [
-        "hardened",
-        "limited"
-    ],
     "APT_HAFNIUM_Forensic_Artefacts_Mar21_1": [
         "hardened",
         "loosened",
         "limited"
-    ],
-    "APT_WEBSHELL_HAFNIUM_Chopper_WebShell": [
-        "APT",
-        "Hafnium",
-        "WebShell",
-        "hardened",
-        "limited"
-    ],
-    "APT_WEBSHELL_Tiny_WebShell": [
-        "APT",
-        "Hafnium",
-        "WebShell",
-        "hardened"
     ],
     "HKTL_PS1_PowerCat_Mar21": [
         "hardened",
@@ -25783,23 +25853,6 @@
     ],
     "HKTL_Nishang_PS1_Invoke_PowerShellTcpOneLine": [
         "hardened"
-    ],
-    "WEBSHELL_ASPX_SimpleSeeSharp": [
-        "Webshell",
-        "Unclassified",
-        "hardened"
-    ],
-    "WEBSHELL_ASPX_reGeorgTunnel": [
-        "Webshell",
-        "Commodity",
-        "hardened"
-    ],
-    "WEBSHELL_ASPX_SportsBall": [
-        "hardened"
-    ],
-    "WEBSHELL_CVE_2021_27065_Webshells": [
-        "hardened",
-        "limited"
     ],
     "APT_MAL_ASPX_HAFNIUM_Chopper_Mar21_3": [
         "hardened"
@@ -25816,34 +25869,9 @@
         "hardened",
         "limited"
     ],
-    "WEBSHELL_Compiled_Webshell_Mar2021_1": [
-        "hardened",
-        "loosened",
-        "limited"
-    ],
     "APT_MAL_ASP_DLL_HAFNIUM_Mar21_1": [
         "hardened",
         "limited"
-    ],
-    "WEBSHELL_HAFNIUM_CISA_10328929_01": [
-        "trojan",
-        "webshell",
-        "exploit",
-        "CVE_2021_27065",
-        "hardened"
-    ],
-    "WEBSHELL_HAFNIUM_CISA_10328929_02": [
-        "trojan",
-        "webshell",
-        "exploit",
-        "CVE_2021_27065",
-        "hardened"
-    ],
-    "WEBSHELL_ASPX_FileExplorer_Mar21_1": [
-        "hardened"
-    ],
-    "WEBSHELL_ASPX_Chopper_Like_Mar21_1": [
-        "hardened"
     ],
     "MAL_RANSOM_COVID19_Apr20_1": [
         "hardened"

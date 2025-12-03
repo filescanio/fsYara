@@ -91,25 +91,6 @@ rule APT_Sandworm_User_May20_1 : hardened
 		filesize < 4KB and all of them
 }
 
-rule APT_WEBSHELL_PHP_Sandworm_May20_1 : hardened
-{
-	meta:
-		description = "Detects GIF header PHP webshell used by Sandworm on compromised machines"
-		author = "Florian Roth (Nextron Systems)"
-		reference = "https://media.defense.gov/2020/May/28/2002306626/-1/-1/0/CSA%20Sandworm%20Actors%20Exploiting%20Vulnerability%20in%20Exim%20Transfer%20Agent%2020200528.pdf"
-		date = "2020-05-28"
-		hash1 = "dc074464e50502459038ac127b50b8c68ed52817a61c2f97f0add33447c8f730"
-		hash2 = "538d713cb47a6b5ec6a3416404e0fc1ebcbc219a127315529f519f936420c80e"
-		id = "b9ec02c2-fa83-5f21-95cf-3528047b2d01"
-
-	strings:
-		$h1 = {47 49 46 38 39 61 20 3c 3f 70 68 70 20 24}
-		$s1 = {73 74 72 5f 72 65 70 6c 61 63 65 28}
-
-	condition:
-		filesize < 10KB and $h1 at 0 and $s1
-}
-
 rule APT_SH_Sandworm_Shell_Script_May20_1 : hardened limited
 {
 	meta:

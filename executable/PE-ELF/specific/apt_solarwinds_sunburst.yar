@@ -78,53 +78,6 @@ rule APT_Backdoor_SUNBURST_2 : hardened
 		($a and $b and $c and $d and $e and $f and $h and $i ) or ( $j and $k and $l and $m and $n and $o and $p and $q and $r and $s and ( $aa or $ab ) ) or ( $t and $u and $v and $w and $x and $y and $z and ( $aa or $ab ) ) or ( $ac and $ad and $ae and $af and $ag and $ah and ( $am or $an ) ) or ( $ai and $aj and $ak and $al and ( $am or $an ) )
 }
 
-import "pe"
-
-rule APT_Webshell_SUPERNOVA_1 : hardened limited
-{
-	meta:
-		author = "FireEye"
-		description = "SUPERNOVA is a .NET web shell backdoor masquerading as a legitimate SolarWinds web service handler. SUPERNOVA inspects and responds to HTTP requests with the appropriate HTTP query strings, Cookies, and/or HTML form values (e.g. named codes, class, method, and args). This rule is looking for specific strings and attributes related to SUPERNOVA."
-		reference = "https://www.fireeye.com/blog/threat-research/2020/12/evasive-attacker-leverages-solarwinds-supply-chain-compromises-with-sunburst-backdoor.html"
-		date = "2020-12-14"
-		score = 85
-		id = "73a27fa2-a846-5f4b-8182-064ac06c71a8"
-
-	strings:
-		$compile1 = {43 6f 6d 70 69 6c 65 41 73 73 65 6d 62 6c 79 46 72 6f 6d 53 6f 75 72 63 65}
-		$compile2 = {43 72 65 61 74 65 43 6f 6d 70 69 6c 65 72}
-		$context = {50 72 6f 63 65 73 73 52 65 71 75 65 73 74}
-		$httpmodule = {49 48 74 74 70 48 61 6e 64 6c 65 72}
-		$string1 = {63 6c 61 7a 7a}
-		$string2 = {2f 00 2f 00 4e 00 65 00 74 00 50 00 65 00 72 00 66 00 4d 00 6f 00 6e 00 2f 00 2f 00 69 00 6d 00 61 00 67 00 65 00 73 00 2f 00 2f 00 4e 00 6f 00 4c 00 6f 00 67 00 6f 00 2e 00 67 00 69 00 66 00}
-		$string3 = {((53 6f 6c 61 72 57 69 6e 64 73) | (53 00 6f 00 6c 00 61 00 72 00 57 00 69 00 6e 00 64 00 73 00))}
-
-	condition:
-		uint16( 0 ) == 0x5a4d and uint32( uint32( 0x3C ) ) == 0x00004550 and filesize < 10KB and pe.imports ( "mscoree.dll" , "_CorDllMain" ) and $httpmodule and $context and all of ( $compile* ) and all of ( $string* )
-}
-
-rule APT_Webshell_SUPERNOVA_2 : hardened limited
-{
-	meta:
-		author = "FireEye"
-		description = "This rule is looking for specific strings related to SUPERNOVA. SUPERNOVA is a .NET web shell backdoor masquerading as a legitimate SolarWinds web service handler. SUPERNOVA inspects and responds to HTTP requests with the appropriate HTTP query strings, Cookies, and/or HTML form values (e.g. named codes, class, method, and args)."
-		reference = "https://www.fireeye.com/blog/threat-research/2020/12/evasive-attacker-leverages-solarwinds-supply-chain-compromises-with-sunburst-backdoor.html"
-		date = "2020-12-14"
-		score = 85
-		id = "c39bf9ba-fd62-5619-92b6-1633375ef197"
-
-	strings:
-		$dynamic = {44 79 6e 61 6d 69 63 52 75 6e}
-		$solar = {53 6f 6c 61 72 77 69 6e 64 73}
-		$string1 = {63 6f 64 65 73}
-		$string2 = {63 6c 61 7a 7a}
-		$string3 = {6d 65 74 68 6f 64}
-		$string4 = {61 72 67 73}
-
-	condition:
-		uint16( 0 ) == 0x5a4d and uint32( uint32( 0x3C ) ) == 0x00004550 and filesize < 10KB and 3 of ( $string* ) and $dynamic and $solar
-}
-
 rule APT_HackTool_PS1_COSMICGALE_1 : hardened limited
 {
 	meta:

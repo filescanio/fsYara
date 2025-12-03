@@ -437,25 +437,9 @@
             "c864545bd61ac07a3dae55fa930149f2e58a1a4fc2ccba28bf011b7eb5a6172d"
         ]
     },
-    "Suspicious_PowerShell_WebDownload_1": {
+    "webshell_php_by_string_obfuscation": {
         "missing": [
-            "041e371767c385910437ce2584a00b4c62a371f9b18b487af393e1a4e7514d52",
-            "abe852af3f7e360e9a5aff4a4ff67ac5e23dfd8b6fe06e28ac3d0ac2fba20214"
-        ]
-    },
-    "PowerShell_in_Word_Doc": {
-        "missing": [
-            "62b96f7ff4146f33146f2c134e2bfe2ad3bc2df63f1276c9eb6ad1af5952940e"
-        ]
-    },
-    "PowerShell_Susp_Parameter_Combo": {
-        "missing": [
-            "f666ce7cd0fcb4bf2718c9fb6edcbd825bedae8fd57374931c82a7866975f37d"
-        ]
-    },
-    "SUSP_OBFUSC_PowerShell_True_Jun20_1": {
-        "missing": [
-            "acdebbac5f3410f66167748961b4bd9e70d37eef92c3e71ba3a769077b7f979b"
+            "be9521bed1b46f5c7e87dd810c197b79c19b3d2090e3536cbab2705e1e4bc312"
         ]
     },
     "WEBSHELL_ASP_Generic": {
@@ -477,6 +461,39 @@
         "missing": [
             "4635f8b00cb662ea935e90643cba438447a4bd0d9063d17138de49e7031db273",
             "447026e24c84a7d35a413788c7ab176092c75086121c7719eed1ef30139e0faf"
+        ]
+    },
+    "webshell_case_anomly": {
+        "missing": [
+            "4635f8b00cb662ea935e90643cba438447a4bd0d9063d17138de49e7031db273",
+            "20d850a17927c5a4c1a961dbf745688da4372b4950f7795dcdb2eb0812ae0092",
+            "735c6463295010f220737b19af4d316f9076afd10ed60814c5ce7934904efa99"
+        ]
+    },
+    "WEBSHELL_PHP_HEX_ENCODE": {
+        "missing": [
+            "e04174bc574f2d30090e1f7d4148b5ca9ef89976f43b9748fb3c700027b006aa"
+        ]
+    },
+    "Suspicious_PowerShell_WebDownload_1": {
+        "missing": [
+            "041e371767c385910437ce2584a00b4c62a371f9b18b487af393e1a4e7514d52",
+            "abe852af3f7e360e9a5aff4a4ff67ac5e23dfd8b6fe06e28ac3d0ac2fba20214"
+        ]
+    },
+    "PowerShell_in_Word_Doc": {
+        "missing": [
+            "62b96f7ff4146f33146f2c134e2bfe2ad3bc2df63f1276c9eb6ad1af5952940e"
+        ]
+    },
+    "PowerShell_Susp_Parameter_Combo": {
+        "missing": [
+            "f666ce7cd0fcb4bf2718c9fb6edcbd825bedae8fd57374931c82a7866975f37d"
+        ]
+    },
+    "SUSP_OBFUSC_PowerShell_True_Jun20_1": {
+        "missing": [
+            "acdebbac5f3410f66167748961b4bd9e70d37eef92c3e71ba3a769077b7f979b"
         ]
     },
     "OpCloudHopper_Malware_5": {

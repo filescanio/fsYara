@@ -387,24 +387,6 @@ rule IronPanda_Malware1 : hardened limited
 		uint16( 0 ) == 0x5a4d and filesize < 300KB and all of them
 }
 
-rule IronPanda_Webshell_JSP : hardened limited
-{
-	meta:
-		description = "Iron Panda Malware JSP"
-		author = "Florian Roth"
-		reference = "https://goo.gl/E4qia9"
-		date = "2015-09-16"
-		hash = "3be95477e1d9f3877b4355cff3fbcdd3589bb7f6349fd4ba6451e1e9d32b7fa6"
-
-	strings:
-		$s1 = {42 69 6e 5f 45 78 65 63 53 71 6c 28 22 65 78 65 63 20 6d 61 73 74 65 72 2e 2e 78 70 5f 63 6d 64 73 68 65 6c 6c 27 62 63 70 20 5c 5c 22 73 65 6c 65 63 74 20 73 61 66 69 6c 65 20 66 72 6f 6d 20 22 20 2b 20 64 62 20 2b 20 22 2e 2e 62 69 6e 5f 74 65 6d 70 5c 5c 22 20 71 75 65 72 79 6f 75 74 20 5c 5c 22 22 20 2b 20 42 69 6e 5f 54 65 78 74 42 6f 78 5f 53 61 76 65 50}
-		$s2 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 74 63 2e 54 65 78 74 3d 22 3c 61 20 68 72 65 66 3d 5c 5c 22 6a 61 76 61 73 63 72 69 70 74 3a 42 69 6e 5f 50 6f 73 74 42 61 63 6b 28 27 7a 63 67 5f 43 6c 6f 73 65 50 4d 27 2c 27 22 2b 42 69 6e 5f 54 6f 42 61 73 65 36 34 28 64 65 2e 4b 65 79 2e 54 6f 53 74 72 69 6e 67 28 29 29 2b 22 27 29 5c 5c 22 3e 43 6c 6f 73 65 3c 2f 61 3e 22 3b (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
-		$s3 = {(bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff) 42 69 6e 5f 45 78 65 63 53 71 6c 28 22 49 46 20 4f 42 4a 45 43 54 5f 49 44 28 27 62 69 6e 5f 74 65 6d 70 27 29 49 53 20 4e 4f 54 20 4e 55 4c 4c 20 44 52 4f 50 20 54 41 42 4c 45 20 62 69 6e 5f 74 65 6d 70 22 29 3b (bf | a1 | 21 | 22 | 23 | 24 | 25 | 26 | 27 | 28 | 29 | 2a | 2b | 2c | 2d | 2e | 2f | 3a | 3b | 3c | 3d | 3e | 3f | 40 | 5b | 5c | 5d | 5e | 5f | 60 | 7b | 7c | 7d | 7e | 20 | 09 | 0a | 0d | 0b | 0c | 00 | ff)}
-
-	condition:
-		filesize < 330KB and 1 of them
-}
-
 rule IronPanda_Malware_Htran : hardened limited
 {
 	meta:
