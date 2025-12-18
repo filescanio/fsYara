@@ -154,27 +154,6 @@ rule win_amadey_auto : hardened
 		7 of them and filesize < 529408
 }
 
-rule win_amadey_bytecodes_oct_2023 : hardened
-{
-	meta:
-		author = "Matthew @ Embee_Research"
-		created = "2023/10/15"
-		description = "Detects bytecodes present in Amadey Bot malware"
-		sha256 = "4165190e60ad5abd437c7768174b12748d391b8b97c874b5bdf8d025c5e17f43"
-		ruleset = "win_amadey_bytecodes_oct_2023.yar"
-		repository = "embee-research/Yara-detection-rules"
-		source_url = "https://github.com/embee-research/Yara-detection-rules/blob/ac56d6f6fd2a30c8cb6e5c0455d6519210a8b0f4/Rules/win_amadey_bytecodes_oct_2023.yar"
-		score = 75
-
-	strings:
-		$s1 = {8b ?? fc 83 c1 23 2b c2 83 c0 fc 83 f8 1f 77}
-		$s2 = {80 ?? ?? ?? 3d 75 }
-		$s3 = {8b c1 c1 f8 10 88 ?? ?? 8b c1 c1 f8 08}
-
-	condition:
-		$s1 and $s2 and $s3
-}
-
 rule fsAmadey : hardened
 {
 	meta:
@@ -183,6 +162,6 @@ rule fsAmadey : hardened
 		score = 75
 
 	condition:
-		Amadey or Windows_Trojan_Amadey_7abb059b or Windows_Trojan_Amadey_c4df8d4a or win_amadey_a9f4 or win_amadey_auto or win_amadey_bytecodes_oct_2023
+		Amadey or Windows_Trojan_Amadey_7abb059b or Windows_Trojan_Amadey_c4df8d4a or win_amadey_a9f4 or win_amadey_auto
 }
 

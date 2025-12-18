@@ -1,5 +1,5 @@
-import "pe"
 import "time"
+import "pe"
 
 rule pe_timestamp_in_future : hardened
 {
@@ -295,8 +295,8 @@ rule pe_dynamic_injection_imports : hardened
 		pe.is_pe and #injection_api > 3 and pe.imports ( /kernel32.dll/i , /(VirtualProtect(Ex)?|VirtualAlloc(Ex(Numa)?)?|ResumeThread|SetThreadContext|FindResourceA|LockResource|LoadResource)/i ) == 0 and pe.imports ( /ntdll.dll/i , /(Ldr(AccessResource|FindResource_U)|Nt(ResumeThread|AllocateVirtualMemory|MapViewOfSection|ProtectVirtualMemory))/i ) == 0
 }
 
-import "pe"
 import "time"
+import "pe"
 
 rule pe_signature_expired : hardened
 {
@@ -307,8 +307,8 @@ rule pe_signature_expired : hardened
 		pe.is_pe and for any signature in pe.signatures : ( signature.not_after < time.now ( ) )
 }
 
-import "pe"
 import "time"
+import "pe"
 
 rule pe_signature_expires_soon : hardened
 {

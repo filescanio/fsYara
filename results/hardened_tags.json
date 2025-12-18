@@ -697,9 +697,6 @@
     "win_amadey_auto": [
         "hardened"
     ],
-    "win_amadey_bytecodes_oct_2023": [
-        "hardened"
-    ],
     "fsAmadey": [
         "hardened"
     ],
