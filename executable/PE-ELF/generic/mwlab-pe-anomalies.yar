@@ -155,8 +155,8 @@ rule pe_code_section_and_no_executable : hardened
 		pe.is_pe and for any section in pe.sections : ( section.characteristics & pe.SECTION_CNT_CODE != 0 and section.characteristics & pe.SECTION_MEM_EXECUTE == 0 )
 }
 
-import "pe"
 import "math"
+import "pe"
 
 rule pe_high_ntrpy_section : hardened
 {
@@ -319,8 +319,8 @@ rule pe_signature_expires_soon : hardened
 		pe.is_pe and for any signature in pe.signatures : ( not signature.not_after < time.now ( ) and signature.not_after < time.now ( ) + 86400 * 15 )
 }
 
-import "pe"
 import "math"
+import "pe"
 
 rule pe_high_ntrpy_resource_no_image : hardened
 {
@@ -344,8 +344,8 @@ rule pe_large_overlay : hardened
 		pe.is_pe and pe.overlay.size > 20480
 }
 
-import "pe"
 import "math"
+import "pe"
 
 rule pe_high_ntrpy_overlay : hardened
 {

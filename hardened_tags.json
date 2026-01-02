@@ -20988,6 +20988,9 @@
         "hardened",
         "limited"
     ],
+    "santastealer_telegram": [
+        "hardened"
+    ],
     "APT_ArtraDownloader2_Aug19_1": [
         "hardened"
     ],
