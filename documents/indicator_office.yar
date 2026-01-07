@@ -182,9 +182,9 @@ rule INDICATOR_RTF_EXPLOIT_CVE_2017_8759_1 : hardened limited
 rule INDICATOR_RTF_EXPLOIT_CVE_2017_8759_2 : hardened limited
 {
 	meta:
-		description = "detects CVE-2017-8759 weaponized RTF documents."
+		description = "detects potentially CVE-2017-8759 weaponized RTF documents."
 		author = "ditekSHen"
-		score = 80
+		score = 60
 
 	strings:
 		$clsid1 = { 88 d9 6a 0c f1 92 11 d4 a6 5f 00 40 96 32 51 e5 }
@@ -205,7 +205,7 @@ rule INDICATOR_RTF_EXPLOIT_CVE_2017_8759_2 : hardened limited
 		$soap1 = {63 37 62 30 61 62 65 63 31 39 37 66 64 32 31 31 39 37 38 65 30 30 30 30 66 38 37 35 37 65}
 
 	condition:
-		uint32( 0 ) == 0x74725c7b and 1 of ( $clsid* ) and 1 of ( $ole* ) and ( 2 of ( $obj* ) or 1 of ( $soap* ) )
+		uint32( 0 ) == 0x74725c7b and 1 of ( $clsid* ) and 1 of ( $ole* ) and ( 3 of ( $obj* ) or 1 of ( $soap* ) )
 }
 
 rule INDICATOR_RTF_Exploit_Scripting : hardened limited
