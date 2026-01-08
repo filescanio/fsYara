@@ -23738,9 +23738,6 @@
     "pe_code_section_and_no_executable": [
         "hardened"
     ],
-    "pe_high_ntrpy_section": [
-        "hardened"
-    ],
     "pe_overlapping_sections": [
         "hardened"
     ],

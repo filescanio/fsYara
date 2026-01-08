@@ -1,5 +1,5 @@
-import "time"
 import "pe"
+import "time"
 
 rule pe_timestamp_in_future : hardened
 {
@@ -35,8 +35,8 @@ rule pe_unusual_entrypoint_section : hardened
 		pe.is_pe and pe.entry_point != 0 and not pe.is_dll ( ) and not ( pe.entry_point >= pe.sections [ 0 ] . raw_data_offset and pe.entry_point < pe.sections [ 0 ] . raw_data_offset + pe.sections [ 0 ] . raw_data_size )
 }
 
-import "dotnet"
 import "pe"
+import "dotnet"
 
 rule pe_characteristics_dll_but_not_dll : hardened
 {
@@ -48,8 +48,8 @@ rule pe_characteristics_dll_but_not_dll : hardened
 		not dotnet.is_dotnet and pe.is_pe and pe.characteristics & pe.DLL and pe.number_of_exports == 0 and for any section in pe.sections : ( section.name == ".text" or section.name == ".code" )
 }
 
-import "dotnet"
 import "pe"
+import "dotnet"
 
 rule pe_number_of_sections_uncommon : hardened
 {
@@ -155,19 +155,6 @@ rule pe_code_section_and_no_executable : hardened
 		pe.is_pe and for any section in pe.sections : ( section.characteristics & pe.SECTION_CNT_CODE != 0 and section.characteristics & pe.SECTION_MEM_EXECUTE == 0 )
 }
 
-import "math"
-import "pe"
-
-rule pe_high_ntrpy_section : hardened
-{
-	meta:
-		description = "PE file with section ntrpy higher than 7"
-		score = 50
-
-	condition:
-		pe.is_pe and for any section in pe.sections : ( math.entropy ( section.raw_data_offset , section.raw_data_size ) >= 7 )
-}
-
 import "pe"
 
 rule pe_overlapping_sections : hardened
@@ -180,8 +167,8 @@ rule pe_overlapping_sections : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_sections - 1 ) : ( for any j in ( i + 1 .. pe.number_of_sections - 1 ) : ( ( pe.sections [ i ] . virtual_address != 0 and pe.sections [ j ] . virtual_address != 0 and pe.sections [ i ] . virtual_address + pe.sections [ i ] . virtual_size > pe.sections [ j ] . virtual_address ) or ( pe.sections [ i ] . raw_data_offset != 0 and pe.sections [ j ] . raw_data_offset != 0 and pe.sections [ i ] . raw_data_offset + pe.sections [ i ] . raw_data_size > pe.sections [ j ] . raw_data_offset ) ) )
 }
 
-import "dotnet"
 import "pe"
+import "dotnet"
 
 rule pe_no_import_table : hardened
 {
@@ -192,8 +179,8 @@ rule pe_no_import_table : hardened
 		not dotnet.is_dotnet and pe.is_pe and not pe.is_dll ( ) and ( pe.number_of_rva_and_sizes <= pe.IMAGE_DIRECTORY_ENTRY_IMPORT or pe.data_directories [ pe.IMAGE_DIRECTORY_ENTRY_IMPORT ] . virtual_address == 0 or pe.data_directories [ pe.IMAGE_DIRECTORY_ENTRY_IMPORT ] . size == 0 )
 }
 
-import "dotnet"
 import "pe"
+import "dotnet"
 
 rule pe_zero_imports : hardened
 {
@@ -204,8 +191,8 @@ rule pe_zero_imports : hardened
 		not dotnet.is_dotnet and pe.is_pe and not pe.is_dll ( ) and pe.number_of_imported_functions == 0
 }
 
-import "dotnet"
 import "pe"
+import "dotnet"
 
 rule pe_very_low_imports : hardened
 {
@@ -227,8 +214,8 @@ rule pe_imports_by_ordinal : hardened
 		pe.is_pe and for any i in ( 0 .. pe.number_of_imports - 1 ) : ( for any function in pe.import_details [ i ] . functions : ( function.name == "" and function.ordinal != 0 ) )
 }
 
-import "dotnet"
 import "pe"
+import "dotnet"
 
 rule pe_gui_and_no_window_apis : hardened
 {
@@ -295,8 +282,8 @@ rule pe_dynamic_injection_imports : hardened
 		pe.is_pe and #injection_api > 3 and pe.imports ( /kernel32.dll/i , /(VirtualProtect(Ex)?|VirtualAlloc(Ex(Numa)?)?|ResumeThread|SetThreadContext|FindResourceA|LockResource|LoadResource)/i ) == 0 and pe.imports ( /ntdll.dll/i , /(Ldr(AccessResource|FindResource_U)|Nt(ResumeThread|AllocateVirtualMemory|MapViewOfSection|ProtectVirtualMemory))/i ) == 0
 }
 
-import "time"
 import "pe"
+import "time"
 
 rule pe_signature_expired : hardened
 {
@@ -307,8 +294,8 @@ rule pe_signature_expired : hardened
 		pe.is_pe and for any signature in pe.signatures : ( signature.not_after < time.now ( ) )
 }
 
-import "time"
 import "pe"
+import "time"
 
 rule pe_signature_expires_soon : hardened
 {
@@ -319,8 +306,8 @@ rule pe_signature_expires_soon : hardened
 		pe.is_pe and for any signature in pe.signatures : ( not signature.not_after < time.now ( ) and signature.not_after < time.now ( ) + 86400 * 15 )
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule pe_high_ntrpy_resource_no_image : hardened
 {
@@ -344,8 +331,8 @@ rule pe_large_overlay : hardened
 		pe.is_pe and pe.overlay.size > 20480
 }
 
-import "math"
 import "pe"
+import "math"
 
 rule pe_high_ntrpy_overlay : hardened
 {
