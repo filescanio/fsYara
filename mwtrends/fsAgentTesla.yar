@@ -110,25 +110,6 @@ rule AgentTeslaV3 : hardened limited
 		( uint16( 0 ) == 0x5a4d and ( 8 of ( $s* ) or ( 6 of ( $s* ) and 4 of ( $g* ) ) ) ) or ( 2 of ( $m* ) )
 }
 
-rule AgentTeslaXor : hardened
-{
-	meta:
-		author = "kevoreilly"
-		description = "AgentTesla xor-based config decoding"
-		cape_type = "AgentTesla Payload"
-		ruleset = "AgentTesla.yar"
-		repository = "kevoreilly/CAPEv2"
-		source_url = "https://github.com/kevoreilly/CAPEv2/blob/9c8d6da44b595f8140a5cd76edd8101f6812c3b0/data/yara/CAPE/AgentTesla.yar"
-		license = "Other"
-		score = 75
-
-	strings:
-		$decode = {06 91 06 61 20 [4] 61 D2 9C 06 17 58 0A 06 7E [4] 8E 69 FE 04 2D ?? 2A}
-
-	condition:
-		uint16( 0 ) == 0x5A4D and any of them
-}
-
 rule AgentTeslaV4 : hardened
 {
 	meta:
@@ -612,6 +593,6 @@ rule fsAgentTesla : hardened
 		score = 75
 
 	condition:
-		AgentTesla or AgentTeslaV2 or AgentTeslaV3 or AgentTeslaXor or AgentTeslaV4 or AgentTeslaV4JIT or AgentTeslaV5 or Windows_Trojan_AgentTesla_d3ac2b2f or Windows_Trojan_AgentTesla_e577e17e or Windows_Trojan_AgentTesla_f2a90d14 or Windows_Trojan_AgentTesla_a2d69e48 or Windows_Trojan_AgentTesla_ebf431a8 or agenttesla_smtp_variant or AgentTeslaV3_1 or Agenttesla_type1 or Agenttesla_type2 or Windows_Trojan_AgentTesla_d3ac2b2f_1
+		AgentTesla or AgentTeslaV2 or AgentTeslaV3 or AgentTeslaV4 or AgentTeslaV4JIT or AgentTeslaV5 or Windows_Trojan_AgentTesla_d3ac2b2f or Windows_Trojan_AgentTesla_e577e17e or Windows_Trojan_AgentTesla_f2a90d14 or Windows_Trojan_AgentTesla_a2d69e48 or Windows_Trojan_AgentTesla_ebf431a8 or agenttesla_smtp_variant or AgentTeslaV3_1 or Agenttesla_type1 or Agenttesla_type2 or Windows_Trojan_AgentTesla_d3ac2b2f_1
 }
 
