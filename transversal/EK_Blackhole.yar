@@ -1,12 +1,3 @@
-rule blackhole_basic : EK hardened
-{
-	strings:
-		$a = /\.php\?.*?\:[a-zA-Z0-9\:]{6,}?\&.*?\&/
-
-	condition:
-		$a
-}
-
 rule blackhole2_css : EK hardened
 {
 	meta:
