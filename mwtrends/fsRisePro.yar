@@ -1,7 +1,7 @@
 rule RisePro : hardened
 {
 	meta:
-		author = "kevoreilly"
+		author = "kevoreilly modified by OPSWAT"
 		cape_options = "bp0=$c2+15,action0=string:edx,bp1=$c2+41,action1=string:ecx,count=1"
 		hash = "1b69a1dd5961241b926605f0a015fa17149c3b2759fb077a30a22d4ddcc273f6"
 		ruleset = "RisePro.yar"
@@ -16,7 +16,7 @@ rule RisePro : hardened
 		$c2 = {FF 75 30 83 3D [4] 10 BA [4] B9 [4] 0F 43 15 [4] 83 3D [4] 10 0F 43 0D [4] E8 [4] A3}
 
 	condition:
-		uint16( 0 ) == 0x5A4D and any of them
+		uint16( 0 ) == 0x5A4D and $c2 and 1 of ( $decode* )
 }
 
 rule win_risepro_auto : hardened
