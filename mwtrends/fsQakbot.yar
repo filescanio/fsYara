@@ -84,7 +84,7 @@ rule QakBot_OneNote_Loader : hardened limited
 		$i = {73 74 61 72 74 20 2f 6d 69 6e}
 
 	condition:
-		$x and ( ( 3 of ( $a , $b , $c , $d , $e ) ) or ( ( $f or $f2 ) and $g ) or $tok1 or ( #h > 15 and $i ) )
+		uint16( 0 ) == 0x5A4D and $x and ( ( 3 of ( $a , $b , $c , $d , $e ) ) or ( ( $f or $f2 ) and $g ) or $tok1 or ( #h > 15 and $i ) )
 }
 
 rule win_qakbot_auto : hardened
@@ -164,7 +164,7 @@ rule win_qakbot_auto : hardened
 		$sequence_52 = { 8bf0 83c40c 85f6 0f84f8000000 a1???????? }
 
 	condition:
-		7 of them and filesize < 4883456
+		uint16( 0 ) == 0x5A4D and 7 of them and filesize < 4883456
 }
 
 rule win_qakbot_api_hashing_oct_2022 : hardened
@@ -185,7 +185,7 @@ rule win_qakbot_api_hashing_oct_2022 : hardened
 		$qakbot_hashing = {0f b6 04 39 33 f0 8b c6 c1 ee 04 83 e0 0f 33 34 85 ?? ?? ?? ?? 8b c6 c1 ee 04 83 e0 0f 33 34 85 ?? ?? ?? ?? 41 3b ca}
 
 	condition:
-		any of them
+		uint16( 0 ) == 0x5A4D and any of them
 }
 
 rule QakBot : hardened
