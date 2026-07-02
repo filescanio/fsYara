@@ -1,5 +1,5 @@
-import "dotnet"
 import "math"
+import "dotnet"
 
 rule bitmap_dotnet_packer : hardened
 {
