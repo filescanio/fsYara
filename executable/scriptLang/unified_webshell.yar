@@ -1377,9 +1377,16 @@ rule WEBSHELL_PHP_Generic : hardened loosened limited
 		$cmpayload21 = /\bReflectionFunction[\t ]*\([^)]/ nocase wide ascii
 		$fp1 = {23 20 53 6f 6d 65 20 65 78 61 6d 70 6c 65 73 20 66 72 6f 6d 20 6f 62 66 75 73 63 61 74 65 64 20 6d 61 6c 77 61 72 65 3a}
 		$fp2 = {7b 40 73 65 65 20 54 46 69 6c 65 55 70 6c 6f 61 64 7d 20 66 6f 72 20 66 75 72 74 68 65 72 20 64 65 74 61 69 6c 73 2e}
+		$fp_cve1 = {22 67 68 73 61 5f 69 64 22}
+		$fp_cve2 = {22 63 76 65 5f 69 64 22}
+		$fp_cve3 = {22 67 69 74 68 75 62 5f 72 65 76 69 65 77 65 64 5f 61 74 22}
+		$fp_cve4 = {22 76 75 6c 6e 65 72 61 62 6c 65 5f 76 65 72 73 69 6f 6e 5f 72 61 6e 67 65 22}
+		$fp_cve5 = {22 63 77 65 5f 69 64 22}
+		$fp_cve6 = {22 6e 76 64 5f 70 75 62 6c 69 73 68 65 64 5f 61 74 22}
+		$fp_cve7 = {22 66 69 72 73 74 5f 70 61 74 63 68 65 64 5f 76 65 72 73 69 6f 6e 22}
 
 	condition:
-		not ( any of ( $gfp_tiny* ) or 1 of ( $fp* ) ) and ( ( ( $php_short in ( 0 .. 100 ) or $php_short in ( filesize - 1000 .. filesize ) ) and not any of ( $no_* ) ) or any of ( $php_new* ) ) and ( any of ( $inp* ) ) and ( any of ( $cpayload* ) or all of ( $m_cpayload_preg_filter* ) ) and ( ( filesize < 1000 and not any of ( $wfp_tiny* ) ) or ( ( $gif at 0 or ( filesize < 4KB and ( 1 of ( $gen_much_sus* ) or 2 of ( $gen_bit_sus* ) ) ) or ( filesize < 20KB and ( 2 of ( $gen_much_sus* ) or 3 of ( $gen_bit_sus* ) ) ) or ( filesize < 50KB and ( 2 of ( $gen_much_sus* ) or 4 of ( $gen_bit_sus* ) ) ) or ( filesize < 100KB and ( 2 of ( $gen_much_sus* ) or 6 of ( $gen_bit_sus* ) ) ) or ( filesize < 150KB and ( 3 of ( $gen_much_sus* ) or 7 of ( $gen_bit_sus* ) ) ) or ( filesize < 500KB and ( 4 of ( $gen_much_sus* ) or 8 of ( $gen_bit_sus* ) ) ) ) and ( filesize > 5KB or not any of ( $wfp_tiny* ) ) ) or ( filesize < 500KB and ( 4 of ( $cmpayload* ) ) ) or ( filesize < 5000KB and ( 8 of ( $cmpayload* ) ) ) )
+		not ( any of ( $gfp_tiny* ) or 1 of ( $fp* ) or ( ( uint8( 0 ) == 0x5B or uint8( 0 ) == 0x7B ) and 2 of ( $fp_cve* ) ) ) and ( ( ( $php_short in ( 0 .. 100 ) or $php_short in ( filesize - 1000 .. filesize ) ) and not any of ( $no_* ) ) or any of ( $php_new* ) ) and ( any of ( $inp* ) ) and ( any of ( $cpayload* ) or all of ( $m_cpayload_preg_filter* ) ) and ( ( filesize < 1000 and not any of ( $wfp_tiny* ) ) or ( ( $gif at 0 or ( filesize < 4KB and ( 1 of ( $gen_much_sus* ) or 2 of ( $gen_bit_sus* ) ) ) or ( filesize < 20KB and ( 2 of ( $gen_much_sus* ) or 3 of ( $gen_bit_sus* ) ) ) or ( filesize < 50KB and ( 2 of ( $gen_much_sus* ) or 4 of ( $gen_bit_sus* ) ) ) or ( filesize < 100KB and ( 2 of ( $gen_much_sus* ) or 6 of ( $gen_bit_sus* ) ) ) or ( filesize < 150KB and ( 3 of ( $gen_much_sus* ) or 7 of ( $gen_bit_sus* ) ) ) or ( filesize < 500KB and ( 4 of ( $gen_much_sus* ) or 8 of ( $gen_bit_sus* ) ) ) ) and ( filesize > 5KB or not any of ( $wfp_tiny* ) ) ) or ( filesize < 500KB and ( 4 of ( $cmpayload* ) ) ) or ( filesize < 5000KB and ( 8 of ( $cmpayload* ) ) ) )
 }
 
 rule WEBSHELL_PHP_Generic_Callback : hardened loosened limited
