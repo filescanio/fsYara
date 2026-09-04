@@ -1,0 +1,59 @@
+name: Weekly release
+
+# Restores the legacy release process (STI-16213): compiles all rules into
+# master_file.yarc and publishes it as a GitHub release tagged YYYY.MM.DD.
+# Offline/air-gapped sandbox deployments download this asset from the
+# latest release.
+
+on:
+  schedule:
+    # Sundays 16:15 UTC (~18:15 Budapest in summer), matching the
+    # historical release cadence.
+    - cron: '15 16 * * 0'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Compiled .yarc files can only be loaded by the exact YARA version
+      # that produced them, so the version installed here must match the
+      # one shipped with the sandbox product.
+      - name: Install YARA
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y yara
+          echo "YARA_VERSION=$(yarac --version)" >> "$GITHUB_ENV"
+
+      - name: Compile master file
+        run: |
+          find . -type f \( -name '*.yar' -o -name '*.yara' \) | sort > rule_files.txt
+          echo "Compiling $(wc -l < rule_files.txt) rule files with YARA ${YARA_VERSION}"
+          yarac $(cat rule_files.txt) master_file.yarc
+          ls -lh master_file.yarc
+
+      - name: Verify compiled file loads
+        run: yara -C master_file.yarc README.md > /dev/null
+
+      - name: Create release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG=$(date -u +%Y.%m.%d)
+          if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" > /dev/null 2>&1; then
+            echo "Release $TAG already exists, replacing asset"
+            gh release upload "$TAG" master_file.yarc --clobber --repo "$GITHUB_REPOSITORY"
+          else
+            gh release create "$TAG" master_file.yarc \
+              --title "Release $TAG" \
+              --notes "Yara master file (compiled with YARA ${YARA_VERSION})" \
+              --target "$GITHUB_SHA" \
+              --repo "$GITHUB_REPOSITORY"
+          fi
