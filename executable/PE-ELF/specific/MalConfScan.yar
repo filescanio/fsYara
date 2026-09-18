@@ -212,7 +212,7 @@ rule PlugX : hardened
 		$enc4 = { B? 44 44 44 44 }
 
 	condition:
-		$v1 at 0 or ( $v2a and $v2b and $enc1 ) or ( $v2c and $v2b and $enc1 ) or ( $v2d and $v2b and $enc2 ) or ( $v2d and $v2e and $enc2 ) or ( $v2f and $v2g and $enc3 and $enc4 ) or ( $v2h and $v2g and $enc3 and $enc4 )
+		uint16( 0 ) == 0x5A4D and ( $v1 at 0 or ( $v2a and $v2b and $enc1 ) or ( $v2c and $v2b and $enc1 ) or ( $v2d and $v2b and $enc2 ) or ( $v2d and $v2e and $enc2 ) or ( $v2f and $v2g and $enc3 and $enc4 ) or ( $v2h and $v2g and $enc3 and $enc4 ) )
 }
 
 rule Ramnit : hardened
