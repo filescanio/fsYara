@@ -462,7 +462,7 @@ rule vmdetect : hardened limited
 		$virtualbox_mac_1c = {30 38 30 30 32 37}
 
 	condition:
-		any of them
+		3 of them
 }
 
 import "pe"
