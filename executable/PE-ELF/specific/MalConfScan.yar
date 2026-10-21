@@ -176,6 +176,7 @@ rule Datper : hardened
 		author = "JPCERT/CC Incident Response Group"
 		rule_usage = "memory scan"
 		reference = "https://blogs.jpcert.or.jp/en/2017/08/detecting-datper-malware-from-proxy-logs.html"
+		score = 50
 
 	strings:
 		$a1 = { E8 03 00 00 }
@@ -195,6 +196,7 @@ rule PlugX : hardened
 		author = "JPCERT/CC Incident Response Group"
 		rule_usage = "memory scan"
 		reference = "internal research"
+		score = 50
 
 	strings:
 		$v1 = { 47 55 4c 50 00 00 00 00 }

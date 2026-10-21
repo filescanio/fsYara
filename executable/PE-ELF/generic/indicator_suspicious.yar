@@ -128,7 +128,7 @@ rule INDICATOR_SUSPICIOUS_EXE_SandboxHookingDLL : hardened loosened limited
 	meta:
 		description = "Detects binaries and memory artifacts referencing sandbox DLLs typically observed in sandbox evasion"
 		author = "ditekSHen"
-		score = 80
+		score = 60
 
 	strings:
 		$dll1 = {((73 62 69 65 64 6c 6c 2e 64 6c 6c) | (73 00 62 00 69 00 65 00 64 00 6c 00 6c 00 2e 00 64 00 6c 00 6c 00))}
