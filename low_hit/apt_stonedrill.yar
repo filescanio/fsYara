@@ -1,5 +1,5 @@
-import "pe"
 import "math"
+import "pe"
 
 rule susp_file_enumerator_with_encrypted_resource_101 : hardened limited
 {
